@@ -24,21 +24,40 @@ const gameDayConfig = readFileSync(
   'utf8',
 );
 
+const homeThreeOut = readFileSync(
+  new URL('../../components/three-and-out/home-three-and-out.tsx', import.meta.url),
+  'utf8',
+);
+const responsiveRail = readFileSync(
+  new URL('../../components/layout/responsive-rail.tsx', import.meta.url),
+  'utf8',
+);
+const searchPanel = readFileSync(
+  new URL('../../components/search/ai-search-panel.tsx', import.meta.url),
+  'utf8',
+);
+const footerStyles = readFileSync(
+  new URL('../../components/site-footer.module.css', import.meta.url),
+  'utf8',
+);
+
 test('homepage Three and Out uses daily delivery preferences instead of audio', () => {
-  assert.match(homepage, /<ThreeOutDeliveryPreferences \/>/);
+  assert.match(homepage, /<HomeThreeAndOut/);
+  assert.match(homeThreeOut, /<ThreeOutDeliveryPreferences appearance="dark" \/>/);
   assert.doesNotMatch(homepage, /Play Three/);
-  assert.match(deliveryPreferences, /Subscribe to Three & Out/);
+  assert.match(deliveryPreferences, /Get Three & Out delivered daily/);
   assert.match(deliveryPreferences, /label: 'Push'/);
   assert.match(deliveryPreferences, /Icon: BellRing/);
 });
 
 test('homepage Three and Out stays in the desktop right rail', () => {
   assert.match(homepage, /lg:grid-cols-\[minmax\(0,1fr\)_360px\]/);
-  assert.match(homepage, /<aside className="space-y-6 lg:sticky/);
+  assert.match(homepage, /<ResponsiveRail[\s\S]*?className="space-y-6 lg:sticky/);
+  assert.match(responsiveRail, /<aside/);
 });
 
 test('Three and Out ampersands use the accessible bright team accent on dark panels', () => {
-  assert.match(homepage, /<span className="dd-three-out-ampersand">&amp;<\/span>/);
+  assert.match(homeThreeOut, /<span className="dd-three-out-ampersand">&amp;<\/span>/);
   assert.match(
     readFileSync(new URL('../../app/globals.css', import.meta.url), 'utf8'),
     /\.dd-three-out-ampersand\s*\{\s*color:\s*var\(--team-secondary-on-dark\);\s*\}/,
@@ -54,16 +73,20 @@ test('homepage uses the current Film Room feed and no longer renders its trivia 
   assert.match(filmRoom, /export function FilmRoomCard/);
 });
 
-test('search results use canonical content and watch routes and Enter opens the first match', () => {
+test('search retains canonical content/watch links and the shared keyboard-submit form', () => {
   assert.match(homepage, /href: `\/content\/\$\{encodeURIComponent\(item\.id\)\}`/);
   assert.match(homepage, /href: `\/watch\?team=/);
-  assert.match(homepage, /event\.key === 'Enter' && searchResults\[0\]/);
-  assert.match(homepage, /router\.push\(searchResults\[0\]\.href\)/);
+  assert.match(homepage, /<AiSearchPanel/);
+  assert.match(homepage, /quickLinks=\{searchItems\}/);
+  assert.match(searchPanel, /<form[\s\S]*?onSubmit=\{submit\}/);
+  assert.match(searchPanel, /href=\{result.url\}/);
 });
 
 test('mobile menu removes the logged-out spacer and shared footer reserves bottom-nav space', () => {
   assert.match(mobileMenu, /className={user \? 'mt-auto' : ''}/);
-  assert.match(footer, /pb-\[calc\(6rem\+env\(safe-area-inset-bottom\)\)\]/);
+  assert.match(footer, /styles.footer/);
+  assert.match(footerStyles, /env\(safe-area-inset-bottom\)/);
+  assert.match(footerStyles, /var\(--app-bottom-navigation-height, 0px\)/);
   assert.doesNotMatch(footer, /Keep it high and tight/);
 });
 

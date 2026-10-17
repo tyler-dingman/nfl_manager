@@ -1,0 +1,25 @@
+{
+  "scope": "Exploratory OR lookup scan before indexed UNION ALL fix; superseded, not readiness evidence. Same one-day fixture; earlier four completed runs.",
+  "results": {
+    "A-standard": {
+      "rowsRead": 3209146,
+      "rowsWritten": 9562
+    },
+    "A-entropy": {
+      "rowsRead": 3209146,
+      "rowsWritten": 9562
+    },
+    "B-standard": {
+      "rowsRead": 3209146,
+      "rowsWritten": 10136
+    },
+    "B-entropy": {
+      "rowsRead": 3209146,
+      "rowsWritten": 10136
+    },
+    "C-standard": {
+      "rowsRead": 3209146,
+      "rowsWritten": 8414
+    }
+  }
+}

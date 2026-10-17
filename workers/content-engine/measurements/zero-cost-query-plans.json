@@ -1,0 +1,80 @@
+[
+  {
+    "name": "receipt-id-and-dedupe",
+    "sql": "SELECT id,object_hash FROM lean_receipts WHERE strategy=? AND kind=? AND id=? UNION ALL SELECT id,object_hash FROM lean_receipts WHERE strategy=? AND kind=? AND dedupe_key=?",
+    "plan": [
+      {
+        "id": 1,
+        "parent": 0,
+        "notused": 0,
+        "detail": "COMPOUND QUERY"
+      },
+      {
+        "id": 2,
+        "parent": 1,
+        "notused": 0,
+        "detail": "LEFT-MOST SUBQUERY"
+      },
+      {
+        "id": 4,
+        "parent": 2,
+        "notused": 39,
+        "detail": "SEARCH lean_receipts USING PRIMARY KEY (strategy=? AND kind=? AND id=?)"
+      },
+      {
+        "id": 17,
+        "parent": 1,
+        "notused": 0,
+        "detail": "UNION ALL"
+      },
+      {
+        "id": 20,
+        "parent": 17,
+        "notused": 39,
+        "detail": "SEARCH lean_receipts USING INDEX sqlite_autoindex_lean_receipts_2 (strategy=? AND kind=? AND dedupe_key=?)"
+      }
+    ]
+  },
+  {
+    "name": "team-identity-update",
+    "sql": "DELETE FROM lean_teams WHERE strategy=? AND kind=? AND id=?",
+    "plan": [
+      {
+        "id": 3,
+        "parent": 0,
+        "notused": 54,
+        "detail": "SEARCH lean_teams USING COVERING INDEX lean_teams_identity (strategy=? AND kind=? AND id=?)"
+      }
+    ]
+  },
+  {
+    "name": "feed-seek",
+    "sql": "SELECT h.* FROM lean_teams t JOIN lean_heads h ON h.strategy=t.strategy AND h.kind=t.kind AND h.id=t.id WHERE t.strategy=? AND t.team_id=? AND t.kind=? AND (t.published_at,t.id)<(?,?) ORDER BY t.published_at DESC,t.id DESC LIMIT ?",
+    "plan": [
+      {
+        "id": 7,
+        "parent": 0,
+        "notused": 47,
+        "detail": "SEARCH t USING PRIMARY KEY (strategy=? AND team_id=? AND kind=? AND (published_at,id)<(?,?))"
+      },
+      {
+        "id": 30,
+        "parent": 0,
+        "notused": 45,
+        "detail": "SEARCH h USING PRIMARY KEY (strategy=? AND kind=? AND id=?)"
+      }
+    ]
+  },
+  {
+    "name": "hot-retirement",
+    "sql": "SELECT * FROM lean_versions WHERE strategy=? AND published_at<? AND inline_json IS NOT NULL ORDER BY published_at,kind,id,revision LIMIT ?",
+    "plan": [
+      {
+        "id": 7,
+        "parent": 0,
+        "notused": 50,
+        "detail": "SEARCH lean_versions USING INDEX lean_hot_due (strategy=? AND published_at<?)"
+      }
+    ]
+  }
+]

@@ -1,0 +1,1205 @@
+{
+  "scope": "Measured local editorial repositories plus explicit launch estimates. Free-tier Cloudflare component cost only; retained PostgreSQL/Node/model/email/odds/CI costs unknown. No whole-product $0 certification.",
+  "checkedDate": "2026-10-16",
+  "quotas": {
+    "d1DatabaseBytes": 500000000,
+    "d1AccountBytes": 5000000000,
+    "d1ReadsPerDay": 5000000,
+    "d1WritesPerDay": 100000,
+    "d1DatabaseCount": 10,
+    "workerRequestsPerDay": 100000,
+    "workerCpuMsPerInvocation": 10,
+    "d1QueriesPerInvocation": 50,
+    "r2StorageBytes": 10000000000,
+    "r2ClassAPer30Days": 1000000,
+    "r2ClassBPer30Days": 10000000,
+    "cronCount": 5
+  },
+  "budgets": {
+    "d1DatabaseBytes": 400000000,
+    "d1AccountBytes": 4000000000,
+    "d1ReadsPerDay": 4000000,
+    "d1WritesPerDay": 80000,
+    "d1DatabaseCount": 8,
+    "workerRequestsPerDay": 80000,
+    "workerCpuMsPerInvocation": 8,
+    "d1QueriesPerInvocation": 40,
+    "r2StorageBytes": 8000000000,
+    "r2ClassAPer30Days": 800000,
+    "r2ClassBPer30Days": 8000000,
+    "cronCount": 4
+  },
+  "assumptions": {
+    "safetyMargin": 0.2,
+    "operationMultiplier": 1.2,
+    "pageMultiplier": 1.2,
+    "additionalPrivateR2Copies": 1,
+    "retainedFullDatabaseSnapshots": 8,
+    "databaseBackupChunkBytes": 512000,
+    "activeAndControlRowsForExport": 20000,
+    "activeQueueAndLegacyControlBytes": 20000000,
+    "migrationScratchBytes": 10000000,
+    "sourcePollsPerDay": 1040,
+    "sourceCheckpointWritesPerPoll": 3,
+    "sourceCheckpointReadsPerPoll": 4,
+    "deliveryChecksPerDay": 288,
+    "newsSchedulerRunsPerDay": 8,
+    "searchReconciliationsPerDay": 1,
+    "oddsRefreshesPerWeek": 3,
+    "oddsRefreshRequestsPerRun": 100,
+    "apiRequestsPerDau": 28,
+    "publicParlayApiRequestsPerDau": 8,
+    "ssrNavigationRequestsPerDau": 6,
+    "staticAssetRequestsPerDau": 200,
+    "registeredUsersPerDau": 5,
+    "minimumRetainedRegisteredUsers": 100,
+    "optedInSubscriberShare": 0.5,
+    "publicEditorialRequestsPerDau": 12,
+    "privateApiRequestsPerDau": 6,
+    "searchRequestsPerDau": 2,
+    "anonymousPublicRequestShare": 0.4,
+    "anonymousHitRatesByDau": {
+      "100": 0.25,
+      "1000": 0.6,
+      "5000": 0.8
+    },
+    "r2ObjectsPerPublicMiss": 11,
+    "searchCacheHitRate": 0.25,
+    "searchRowsExaminedPerMiss": 200,
+    "privateOriginRowReadsPerDau": 60,
+    "privateOriginRowWritesPerDau": 4,
+    "estimatedCpuMsPerWorkerRequest": 8,
+    "peakFractionOfDailyTraffic": 0.2,
+    "peakWindowSeconds": 600
+  },
+  "alternatives": {
+    "A-standard": {
+      "strategy": "A",
+      "retentionDays": 0,
+      "dailyD1Reads": 1949974,
+      "dailyD1Writes": 67709,
+      "backgroundRequests": 7984,
+      "dailyR2PrimaryWrites": 3244,
+      "dailyR2Writes": 7117,
+      "dailyR2ReadsBenchmarkConservative": 22933,
+      "r2ClassAPer30Days": 256212,
+      "r2BackgroundClassBPer30Days": 825600,
+      "horizons": {
+        "30": {
+          "d1Bytes": 54408064,
+          "payloadR2Bytes": 241811928,
+          "inventoryBackupR2Bytes": 522317415,
+          "r2Bytes": 764129343,
+          "dailyFullInventoryExportRows": 148010,
+          "dailyBackupObjectWrites": 108,
+          "dailyBackupCheckpointWrites": 56
+        },
+        "90": {
+          "d1Bytes": 102183808,
+          "payloadR2Bytes": 725435784,
+          "inventoryBackupR2Bytes": 980964557,
+          "r2Bytes": 1706400341,
+          "dailyFullInventoryExportRows": 404030,
+          "dailyBackupObjectWrites": 201,
+          "dailyBackupCheckpointWrites": 104
+        },
+        "180": {
+          "d1Bytes": 173847424,
+          "payloadR2Bytes": 1450871568,
+          "inventoryBackupR2Bytes": 1668935271,
+          "r2Bytes": 3119806839,
+          "dailyFullInventoryExportRows": 788060,
+          "dailyBackupObjectWrites": 341,
+          "dailyBackupCheckpointWrites": 172
+        },
+        "365": {
+          "d1Bytes": 321155968,
+          "payloadR2Bytes": 2942045124,
+          "inventoryBackupR2Bytes": 3083097293,
+          "r2Bytes": 6025142417,
+          "dailyFullInventoryExportRows": 1577455,
+          "dailyBackupObjectWrites": 629,
+          "dailyBackupCheckpointWrites": 316
+        },
+        "730": {
+          "d1Bytes": 611791744,
+          "payloadR2Bytes": 5884090248,
+          "inventoryBackupR2Bytes": 5873200743,
+          "r2Bytes": 11757290991,
+          "dailyFullInventoryExportRows": 3134910,
+          "dailyBackupObjectWrites": 1196,
+          "dailyBackupCheckpointWrites": 600
+        },
+        "1095": {
+          "d1Bytes": 902427520,
+          "payloadR2Bytes": 8826135372,
+          "inventoryBackupR2Bytes": 8663304192,
+          "r2Bytes": 17489439564,
+          "dailyFullInventoryExportRows": 4692365,
+          "dailyBackupObjectWrites": 1764,
+          "dailyBackupCheckpointWrites": 884
+        }
+      },
+      "workerCpu": "UNVERIFIED; only Node coordinator CPU measured",
+      "supportsIndexedHistory": true,
+      "costIfWithinFreeLimits": 0
+    },
+    "A-entropy": {
+      "strategy": "A",
+      "retentionDays": 0,
+      "dailyD1Reads": 1949974,
+      "dailyD1Writes": 67709,
+      "backgroundRequests": 7984,
+      "dailyR2PrimaryWrites": 3244,
+      "dailyR2Writes": 7117,
+      "dailyR2ReadsBenchmarkConservative": 22933,
+      "r2ClassAPer30Days": 256212,
+      "r2BackgroundClassBPer30Days": 825600,
+      "horizons": {
+        "30": {
+          "d1Bytes": 54408064,
+          "payloadR2Bytes": 241811928,
+          "inventoryBackupR2Bytes": 522317415,
+          "r2Bytes": 764129343,
+          "dailyFullInventoryExportRows": 148010,
+          "dailyBackupObjectWrites": 108,
+          "dailyBackupCheckpointWrites": 56
+        },
+        "90": {
+          "d1Bytes": 102183808,
+          "payloadR2Bytes": 725435784,
+          "inventoryBackupR2Bytes": 980964557,
+          "r2Bytes": 1706400341,
+          "dailyFullInventoryExportRows": 404030,
+          "dailyBackupObjectWrites": 201,
+          "dailyBackupCheckpointWrites": 104
+        },
+        "180": {
+          "d1Bytes": 173847424,
+          "payloadR2Bytes": 1450871568,
+          "inventoryBackupR2Bytes": 1668935271,
+          "r2Bytes": 3119806839,
+          "dailyFullInventoryExportRows": 788060,
+          "dailyBackupObjectWrites": 341,
+          "dailyBackupCheckpointWrites": 172
+        },
+        "365": {
+          "d1Bytes": 321155968,
+          "payloadR2Bytes": 2942045124,
+          "inventoryBackupR2Bytes": 3083097293,
+          "r2Bytes": 6025142417,
+          "dailyFullInventoryExportRows": 1577455,
+          "dailyBackupObjectWrites": 629,
+          "dailyBackupCheckpointWrites": 316
+        },
+        "730": {
+          "d1Bytes": 611791744,
+          "payloadR2Bytes": 5884090248,
+          "inventoryBackupR2Bytes": 5873200743,
+          "r2Bytes": 11757290991,
+          "dailyFullInventoryExportRows": 3134910,
+          "dailyBackupObjectWrites": 1196,
+          "dailyBackupCheckpointWrites": 600
+        },
+        "1095": {
+          "d1Bytes": 902427520,
+          "payloadR2Bytes": 8826135372,
+          "inventoryBackupR2Bytes": 8663304192,
+          "r2Bytes": 17489439564,
+          "dailyFullInventoryExportRows": 4692365,
+          "dailyBackupObjectWrites": 1764,
+          "dailyBackupCheckpointWrites": 884
+        }
+      },
+      "workerCpu": "UNVERIFIED; only Node coordinator CPU measured",
+      "supportsIndexedHistory": true,
+      "costIfWithinFreeLimits": 0
+    },
+    "B-standard-7d": {
+      "strategy": "B",
+      "retentionDays": 7,
+      "dailyD1Reads": 1951353,
+      "dailyD1Writes": 69312,
+      "backgroundRequests": 8439,
+      "dailyR2PrimaryWrites": 3244,
+      "dailyR2Writes": 7496,
+      "dailyR2ReadsBenchmarkConservative": 24422,
+      "r2ClassAPer30Days": 269856,
+      "r2BackgroundClassBPer30Days": 879210,
+      "horizons": {
+        "30": {
+          "d1Bytes": 88804634,
+          "payloadR2Bytes": 241811928,
+          "inventoryBackupR2Bytes": 852524487,
+          "r2Bytes": 1094336415,
+          "dailyFullInventoryExportRows": 148010,
+          "dailyBackupObjectWrites": 175,
+          "dailyBackupCheckpointWrites": 88
+        },
+        "90": {
+          "d1Bytes": 165186842,
+          "payloadR2Bytes": 725435784,
+          "inventoryBackupR2Bytes": 1585793684,
+          "r2Bytes": 2311229468,
+          "dailyFullInventoryExportRows": 404030,
+          "dailyBackupObjectWrites": 324,
+          "dailyBackupCheckpointWrites": 164
+        },
+        "180": {
+          "d1Bytes": 279760154,
+          "payloadR2Bytes": 1450871568,
+          "inventoryBackupR2Bytes": 2685697479,
+          "r2Bytes": 4136569047,
+          "dailyFullInventoryExportRows": 788060,
+          "dailyBackupObjectWrites": 548,
+          "dailyBackupCheckpointWrites": 276
+        },
+        "365": {
+          "d1Bytes": 515271962,
+          "payloadR2Bytes": 2942045124,
+          "inventoryBackupR2Bytes": 4946610836,
+          "r2Bytes": 7888655960,
+          "dailyFullInventoryExportRows": 1577455,
+          "dailyBackupObjectWrites": 1008,
+          "dailyBackupCheckpointWrites": 504
+        },
+        "730": {
+          "d1Bytes": 979930394,
+          "payloadR2Bytes": 5884090248,
+          "inventoryBackupR2Bytes": 9407331783,
+          "r2Bytes": 15291422031,
+          "dailyFullInventoryExportRows": 3134910,
+          "dailyBackupObjectWrites": 1915,
+          "dailyBackupCheckpointWrites": 960
+        },
+        "1095": {
+          "d1Bytes": 1444588826,
+          "payloadR2Bytes": 8826135372,
+          "inventoryBackupR2Bytes": 13868052730,
+          "r2Bytes": 22694188102,
+          "dailyFullInventoryExportRows": 4692365,
+          "dailyBackupObjectWrites": 2823,
+          "dailyBackupCheckpointWrites": 1412
+        }
+      },
+      "workerCpu": "UNVERIFIED; only Node coordinator CPU measured",
+      "supportsIndexedHistory": true,
+      "costIfWithinFreeLimits": 0
+    },
+    "B-standard-14d": {
+      "strategy": "B",
+      "retentionDays": 14,
+      "dailyD1Reads": 1951353,
+      "dailyD1Writes": 69336,
+      "backgroundRequests": 8486,
+      "dailyR2PrimaryWrites": 3244,
+      "dailyR2Writes": 7535,
+      "dailyR2ReadsBenchmarkConservative": 24461,
+      "r2ClassAPer30Days": 271260,
+      "r2BackgroundClassBPer30Days": 880620,
+      "horizons": {
+        "30": {
+          "d1Bytes": 108897972,
+          "payloadR2Bytes": 241811928,
+          "inventoryBackupR2Bytes": 1045420532,
+          "r2Bytes": 1287232460,
+          "dailyFullInventoryExportRows": 148010,
+          "dailyBackupObjectWrites": 214,
+          "dailyBackupCheckpointWrites": 108
+        },
+        "90": {
+          "d1Bytes": 185280180,
+          "payloadR2Bytes": 725435784,
+          "inventoryBackupR2Bytes": 1778689728,
+          "r2Bytes": 2504125512,
+          "dailyFullInventoryExportRows": 404030,
+          "dailyBackupObjectWrites": 363,
+          "dailyBackupCheckpointWrites": 184
+        },
+        "180": {
+          "d1Bytes": 299853492,
+          "payloadR2Bytes": 1450871568,
+          "inventoryBackupR2Bytes": 2878593524,
+          "r2Bytes": 4329465092,
+          "dailyFullInventoryExportRows": 788060,
+          "dailyBackupObjectWrites": 587,
+          "dailyBackupCheckpointWrites": 296
+        },
+        "365": {
+          "d1Bytes": 535365300,
+          "payloadR2Bytes": 2942045124,
+          "inventoryBackupR2Bytes": 5139506880,
+          "r2Bytes": 8081552004,
+          "dailyFullInventoryExportRows": 1577455,
+          "dailyBackupObjectWrites": 1047,
+          "dailyBackupCheckpointWrites": 524
+        },
+        "730": {
+          "d1Bytes": 1000023732,
+          "payloadR2Bytes": 5884090248,
+          "inventoryBackupR2Bytes": 9600227828,
+          "r2Bytes": 15484318076,
+          "dailyFullInventoryExportRows": 3134910,
+          "dailyBackupObjectWrites": 1955,
+          "dailyBackupCheckpointWrites": 980
+        },
+        "1095": {
+          "d1Bytes": 1464682164,
+          "payloadR2Bytes": 8826135372,
+          "inventoryBackupR2Bytes": 14060948775,
+          "r2Bytes": 22887084147,
+          "dailyFullInventoryExportRows": 4692365,
+          "dailyBackupObjectWrites": 2862,
+          "dailyBackupCheckpointWrites": 1432
+        }
+      },
+      "workerCpu": "UNVERIFIED; only Node coordinator CPU measured",
+      "supportsIndexedHistory": true,
+      "costIfWithinFreeLimits": 0
+    },
+    "B-standard-30d": {
+      "strategy": "B",
+      "retentionDays": 30,
+      "dailyD1Reads": 1951353,
+      "dailyD1Writes": 69394,
+      "backgroundRequests": 8594,
+      "dailyR2PrimaryWrites": 3244,
+      "dailyR2Writes": 7625,
+      "dailyR2ReadsBenchmarkConservative": 24551,
+      "r2ClassAPer30Days": 274500,
+      "r2BackgroundClassBPer30Days": 883860,
+      "horizons": {
+        "30": {
+          "d1Bytes": 154825600,
+          "payloadR2Bytes": 241811928,
+          "inventoryBackupR2Bytes": 1486325760,
+          "r2Bytes": 1728137688,
+          "dailyFullInventoryExportRows": 148010,
+          "dailyBackupObjectWrites": 304,
+          "dailyBackupCheckpointWrites": 152
+        },
+        "90": {
+          "d1Bytes": 231207808,
+          "payloadR2Bytes": 725435784,
+          "inventoryBackupR2Bytes": 2219594957,
+          "r2Bytes": 2945030741,
+          "dailyFullInventoryExportRows": 404030,
+          "dailyBackupObjectWrites": 453,
+          "dailyBackupCheckpointWrites": 228
+        },
+        "180": {
+          "d1Bytes": 345781120,
+          "payloadR2Bytes": 1450871568,
+          "inventoryBackupR2Bytes": 3319498752,
+          "r2Bytes": 4770370320,
+          "dailyFullInventoryExportRows": 788060,
+          "dailyBackupObjectWrites": 677,
+          "dailyBackupCheckpointWrites": 340
+        },
+        "365": {
+          "d1Bytes": 581292928,
+          "payloadR2Bytes": 2942045124,
+          "inventoryBackupR2Bytes": 5580412109,
+          "r2Bytes": 8522457233,
+          "dailyFullInventoryExportRows": 1577455,
+          "dailyBackupObjectWrites": 1137,
+          "dailyBackupCheckpointWrites": 572
+        },
+        "730": {
+          "d1Bytes": 1045951360,
+          "payloadR2Bytes": 5884090248,
+          "inventoryBackupR2Bytes": 10041133056,
+          "r2Bytes": 15925223304,
+          "dailyFullInventoryExportRows": 3134910,
+          "dailyBackupObjectWrites": 2044,
+          "dailyBackupCheckpointWrites": 1024
+        },
+        "1095": {
+          "d1Bytes": 1510609792,
+          "payloadR2Bytes": 8826135372,
+          "inventoryBackupR2Bytes": 14501854004,
+          "r2Bytes": 23327989376,
+          "dailyFullInventoryExportRows": 4692365,
+          "dailyBackupObjectWrites": 2952,
+          "dailyBackupCheckpointWrites": 1476
+        }
+      },
+      "workerCpu": "UNVERIFIED; only Node coordinator CPU measured",
+      "supportsIndexedHistory": true,
+      "costIfWithinFreeLimits": 0
+    },
+    "B-entropy-7d": {
+      "strategy": "B",
+      "retentionDays": 7,
+      "dailyD1Reads": 1951353,
+      "dailyD1Writes": 69312,
+      "backgroundRequests": 8439,
+      "dailyR2PrimaryWrites": 3244,
+      "dailyR2Writes": 7496,
+      "dailyR2ReadsBenchmarkConservative": 24422,
+      "r2ClassAPer30Days": 269856,
+      "r2BackgroundClassBPer30Days": 879210,
+      "horizons": {
+        "30": {
+          "d1Bytes": 88804634,
+          "payloadR2Bytes": 241811928,
+          "inventoryBackupR2Bytes": 852524487,
+          "r2Bytes": 1094336415,
+          "dailyFullInventoryExportRows": 148010,
+          "dailyBackupObjectWrites": 175,
+          "dailyBackupCheckpointWrites": 88
+        },
+        "90": {
+          "d1Bytes": 165186842,
+          "payloadR2Bytes": 725435784,
+          "inventoryBackupR2Bytes": 1585793684,
+          "r2Bytes": 2311229468,
+          "dailyFullInventoryExportRows": 404030,
+          "dailyBackupObjectWrites": 324,
+          "dailyBackupCheckpointWrites": 164
+        },
+        "180": {
+          "d1Bytes": 279760154,
+          "payloadR2Bytes": 1450871568,
+          "inventoryBackupR2Bytes": 2685697479,
+          "r2Bytes": 4136569047,
+          "dailyFullInventoryExportRows": 788060,
+          "dailyBackupObjectWrites": 548,
+          "dailyBackupCheckpointWrites": 276
+        },
+        "365": {
+          "d1Bytes": 515271962,
+          "payloadR2Bytes": 2942045124,
+          "inventoryBackupR2Bytes": 4946610836,
+          "r2Bytes": 7888655960,
+          "dailyFullInventoryExportRows": 1577455,
+          "dailyBackupObjectWrites": 1008,
+          "dailyBackupCheckpointWrites": 504
+        },
+        "730": {
+          "d1Bytes": 979930394,
+          "payloadR2Bytes": 5884090248,
+          "inventoryBackupR2Bytes": 9407331783,
+          "r2Bytes": 15291422031,
+          "dailyFullInventoryExportRows": 3134910,
+          "dailyBackupObjectWrites": 1915,
+          "dailyBackupCheckpointWrites": 960
+        },
+        "1095": {
+          "d1Bytes": 1444588826,
+          "payloadR2Bytes": 8826135372,
+          "inventoryBackupR2Bytes": 13868052730,
+          "r2Bytes": 22694188102,
+          "dailyFullInventoryExportRows": 4692365,
+          "dailyBackupObjectWrites": 2823,
+          "dailyBackupCheckpointWrites": 1412
+        }
+      },
+      "workerCpu": "UNVERIFIED; only Node coordinator CPU measured",
+      "supportsIndexedHistory": true,
+      "costIfWithinFreeLimits": 0
+    },
+    "B-entropy-14d": {
+      "strategy": "B",
+      "retentionDays": 14,
+      "dailyD1Reads": 1951353,
+      "dailyD1Writes": 69336,
+      "backgroundRequests": 8486,
+      "dailyR2PrimaryWrites": 3244,
+      "dailyR2Writes": 7535,
+      "dailyR2ReadsBenchmarkConservative": 24461,
+      "r2ClassAPer30Days": 271260,
+      "r2BackgroundClassBPer30Days": 880620,
+      "horizons": {
+        "30": {
+          "d1Bytes": 108897972,
+          "payloadR2Bytes": 241811928,
+          "inventoryBackupR2Bytes": 1045420532,
+          "r2Bytes": 1287232460,
+          "dailyFullInventoryExportRows": 148010,
+          "dailyBackupObjectWrites": 214,
+          "dailyBackupCheckpointWrites": 108
+        },
+        "90": {
+          "d1Bytes": 185280180,
+          "payloadR2Bytes": 725435784,
+          "inventoryBackupR2Bytes": 1778689728,
+          "r2Bytes": 2504125512,
+          "dailyFullInventoryExportRows": 404030,
+          "dailyBackupObjectWrites": 363,
+          "dailyBackupCheckpointWrites": 184
+        },
+        "180": {
+          "d1Bytes": 299853492,
+          "payloadR2Bytes": 1450871568,
+          "inventoryBackupR2Bytes": 2878593524,
+          "r2Bytes": 4329465092,
+          "dailyFullInventoryExportRows": 788060,
+          "dailyBackupObjectWrites": 587,
+          "dailyBackupCheckpointWrites": 296
+        },
+        "365": {
+          "d1Bytes": 535365300,
+          "payloadR2Bytes": 2942045124,
+          "inventoryBackupR2Bytes": 5139506880,
+          "r2Bytes": 8081552004,
+          "dailyFullInventoryExportRows": 1577455,
+          "dailyBackupObjectWrites": 1047,
+          "dailyBackupCheckpointWrites": 524
+        },
+        "730": {
+          "d1Bytes": 1000023732,
+          "payloadR2Bytes": 5884090248,
+          "inventoryBackupR2Bytes": 9600227828,
+          "r2Bytes": 15484318076,
+          "dailyFullInventoryExportRows": 3134910,
+          "dailyBackupObjectWrites": 1955,
+          "dailyBackupCheckpointWrites": 980
+        },
+        "1095": {
+          "d1Bytes": 1464682164,
+          "payloadR2Bytes": 8826135372,
+          "inventoryBackupR2Bytes": 14060948775,
+          "r2Bytes": 22887084147,
+          "dailyFullInventoryExportRows": 4692365,
+          "dailyBackupObjectWrites": 2862,
+          "dailyBackupCheckpointWrites": 1432
+        }
+      },
+      "workerCpu": "UNVERIFIED; only Node coordinator CPU measured",
+      "supportsIndexedHistory": true,
+      "costIfWithinFreeLimits": 0
+    },
+    "B-entropy-30d": {
+      "strategy": "B",
+      "retentionDays": 30,
+      "dailyD1Reads": 1951353,
+      "dailyD1Writes": 69394,
+      "backgroundRequests": 8594,
+      "dailyR2PrimaryWrites": 3244,
+      "dailyR2Writes": 7625,
+      "dailyR2ReadsBenchmarkConservative": 24551,
+      "r2ClassAPer30Days": 274500,
+      "r2BackgroundClassBPer30Days": 883860,
+      "horizons": {
+        "30": {
+          "d1Bytes": 154825600,
+          "payloadR2Bytes": 241811928,
+          "inventoryBackupR2Bytes": 1486325760,
+          "r2Bytes": 1728137688,
+          "dailyFullInventoryExportRows": 148010,
+          "dailyBackupObjectWrites": 304,
+          "dailyBackupCheckpointWrites": 152
+        },
+        "90": {
+          "d1Bytes": 231207808,
+          "payloadR2Bytes": 725435784,
+          "inventoryBackupR2Bytes": 2219594957,
+          "r2Bytes": 2945030741,
+          "dailyFullInventoryExportRows": 404030,
+          "dailyBackupObjectWrites": 453,
+          "dailyBackupCheckpointWrites": 228
+        },
+        "180": {
+          "d1Bytes": 345781120,
+          "payloadR2Bytes": 1450871568,
+          "inventoryBackupR2Bytes": 3319498752,
+          "r2Bytes": 4770370320,
+          "dailyFullInventoryExportRows": 788060,
+          "dailyBackupObjectWrites": 677,
+          "dailyBackupCheckpointWrites": 340
+        },
+        "365": {
+          "d1Bytes": 581292928,
+          "payloadR2Bytes": 2942045124,
+          "inventoryBackupR2Bytes": 5580412109,
+          "r2Bytes": 8522457233,
+          "dailyFullInventoryExportRows": 1577455,
+          "dailyBackupObjectWrites": 1137,
+          "dailyBackupCheckpointWrites": 572
+        },
+        "730": {
+          "d1Bytes": 1045951360,
+          "payloadR2Bytes": 5884090248,
+          "inventoryBackupR2Bytes": 10041133056,
+          "r2Bytes": 15925223304,
+          "dailyFullInventoryExportRows": 3134910,
+          "dailyBackupObjectWrites": 2044,
+          "dailyBackupCheckpointWrites": 1024
+        },
+        "1095": {
+          "d1Bytes": 1510609792,
+          "payloadR2Bytes": 8826135372,
+          "inventoryBackupR2Bytes": 14501854004,
+          "r2Bytes": 23327989376,
+          "dailyFullInventoryExportRows": 4692365,
+          "dailyBackupObjectWrites": 2952,
+          "dailyBackupCheckpointWrites": 1476
+        }
+      },
+      "workerCpu": "UNVERIFIED; only Node coordinator CPU measured",
+      "supportsIndexedHistory": true,
+      "costIfWithinFreeLimits": 0
+    },
+    "C-standard": {
+      "strategy": "C",
+      "retentionDays": 0,
+      "dailyD1Reads": 1698562,
+      "dailyD1Writes": 66274,
+      "backgroundRequests": 7870,
+      "dailyR2PrimaryWrites": 3244,
+      "dailyR2Writes": 7022,
+      "dailyR2ReadsBenchmarkConservative": 22858,
+      "r2ClassAPer30Days": 252792,
+      "r2BackgroundClassBPer30Days": 822900,
+      "horizons": {
+        "30": {
+          "d1Bytes": 50426752,
+          "payloadR2Bytes": 241811928,
+          "inventoryBackupR2Bytes": 484096820,
+          "r2Bytes": 725908748,
+          "dailyFullInventoryExportRows": 130790,
+          "dailyBackupObjectWrites": 100,
+          "dailyBackupCheckpointWrites": 52
+        },
+        "90": {
+          "d1Bytes": 90239872,
+          "payloadR2Bytes": 725435784,
+          "inventoryBackupR2Bytes": 866302772,
+          "r2Bytes": 1591738556,
+          "dailyFullInventoryExportRows": 352370,
+          "dailyBackupObjectWrites": 178,
+          "dailyBackupCheckpointWrites": 92
+        },
+        "180": {
+          "d1Bytes": 149959552,
+          "payloadR2Bytes": 1450871568,
+          "inventoryBackupR2Bytes": 1439611700,
+          "r2Bytes": 2890483268,
+          "dailyFullInventoryExportRows": 684740,
+          "dailyBackupObjectWrites": 294,
+          "dailyBackupCheckpointWrites": 148
+        },
+        "365": {
+          "d1Bytes": 272716672,
+          "payloadR2Bytes": 2942045124,
+          "inventoryBackupR2Bytes": 2618080052,
+          "r2Bytes": 5560125176,
+          "dailyFullInventoryExportRows": 1367945,
+          "dailyBackupObjectWrites": 534,
+          "dailyBackupCheckpointWrites": 268
+        },
+        "730": {
+          "d1Bytes": 514913152,
+          "payloadR2Bytes": 5884090248,
+          "inventoryBackupR2Bytes": 4943166260,
+          "r2Bytes": 10827256508,
+          "dailyFullInventoryExportRows": 2715890,
+          "dailyBackupObjectWrites": 1007,
+          "dailyBackupCheckpointWrites": 504
+        },
+        "1095": {
+          "d1Bytes": 757109632,
+          "payloadR2Bytes": 8826135372,
+          "inventoryBackupR2Bytes": 7268252468,
+          "r2Bytes": 16094387840,
+          "dailyFullInventoryExportRows": 4063835,
+          "dailyBackupObjectWrites": 1480,
+          "dailyBackupCheckpointWrites": 740
+        }
+      },
+      "workerCpu": "UNVERIFIED; only Node coordinator CPU measured",
+      "supportsIndexedHistory": false,
+      "costIfWithinFreeLimits": 0
+    },
+    "C-entropy": {
+      "strategy": "C",
+      "retentionDays": 0,
+      "dailyD1Reads": 1698562,
+      "dailyD1Writes": 66274,
+      "backgroundRequests": 7870,
+      "dailyR2PrimaryWrites": 3244,
+      "dailyR2Writes": 7022,
+      "dailyR2ReadsBenchmarkConservative": 22858,
+      "r2ClassAPer30Days": 252792,
+      "r2BackgroundClassBPer30Days": 822900,
+      "horizons": {
+        "30": {
+          "d1Bytes": 50426752,
+          "payloadR2Bytes": 241811928,
+          "inventoryBackupR2Bytes": 484096820,
+          "r2Bytes": 725908748,
+          "dailyFullInventoryExportRows": 130790,
+          "dailyBackupObjectWrites": 100,
+          "dailyBackupCheckpointWrites": 52
+        },
+        "90": {
+          "d1Bytes": 90239872,
+          "payloadR2Bytes": 725435784,
+          "inventoryBackupR2Bytes": 866302772,
+          "r2Bytes": 1591738556,
+          "dailyFullInventoryExportRows": 352370,
+          "dailyBackupObjectWrites": 178,
+          "dailyBackupCheckpointWrites": 92
+        },
+        "180": {
+          "d1Bytes": 149959552,
+          "payloadR2Bytes": 1450871568,
+          "inventoryBackupR2Bytes": 1439611700,
+          "r2Bytes": 2890483268,
+          "dailyFullInventoryExportRows": 684740,
+          "dailyBackupObjectWrites": 294,
+          "dailyBackupCheckpointWrites": 148
+        },
+        "365": {
+          "d1Bytes": 272716672,
+          "payloadR2Bytes": 2942045124,
+          "inventoryBackupR2Bytes": 2618080052,
+          "r2Bytes": 5560125176,
+          "dailyFullInventoryExportRows": 1367945,
+          "dailyBackupObjectWrites": 534,
+          "dailyBackupCheckpointWrites": 268
+        },
+        "730": {
+          "d1Bytes": 514913152,
+          "payloadR2Bytes": 5884090248,
+          "inventoryBackupR2Bytes": 4943166260,
+          "r2Bytes": 10827256508,
+          "dailyFullInventoryExportRows": 2715890,
+          "dailyBackupObjectWrites": 1007,
+          "dailyBackupCheckpointWrites": 504
+        },
+        "1095": {
+          "d1Bytes": 757109632,
+          "payloadR2Bytes": 8826135372,
+          "inventoryBackupR2Bytes": 7268252468,
+          "r2Bytes": 16094387840,
+          "dailyFullInventoryExportRows": 4063835,
+          "dailyBackupObjectWrites": 1480,
+          "dailyBackupCheckpointWrites": 740
+        }
+      },
+      "workerCpu": "UNVERIFIED; only Node coordinator CPU measured",
+      "supportsIndexedHistory": false,
+      "costIfWithinFreeLimits": 0
+    }
+  },
+  "traffic": {
+    "0": {
+      "dau": 0,
+      "workerRequestsPerDay": 7984,
+      "estimatedWorkerCpuMsPerDay": 63872,
+      "workerCpuPerRequest": "UNVERIFIED; 8ms is planning budget, not a measured runtime result",
+      "d1ReadsPerDay": 1949974,
+      "d1WritesPerDay": 67709,
+      "r2ReadsPerDay": 27520,
+      "r2ClassBPer30Days": 825600,
+      "r2ClassAPer30Days": 256212,
+      "r2WritesPerDay": 7117,
+      "storage": {
+        "30": {
+          "d1Bytes": 54408064,
+          "payloadR2Bytes": 241811928,
+          "inventoryBackupR2Bytes": 522317415,
+          "r2Bytes": 764129343,
+          "dailyFullInventoryExportRows": 148010,
+          "dailyBackupObjectWrites": 108,
+          "dailyBackupCheckpointWrites": 56
+        },
+        "90": {
+          "d1Bytes": 102183808,
+          "payloadR2Bytes": 725435784,
+          "inventoryBackupR2Bytes": 980964557,
+          "r2Bytes": 1706400341,
+          "dailyFullInventoryExportRows": 404030,
+          "dailyBackupObjectWrites": 201,
+          "dailyBackupCheckpointWrites": 104
+        },
+        "180": {
+          "d1Bytes": 173847424,
+          "payloadR2Bytes": 1450871568,
+          "inventoryBackupR2Bytes": 1668935271,
+          "r2Bytes": 3119806839,
+          "dailyFullInventoryExportRows": 788060,
+          "dailyBackupObjectWrites": 341,
+          "dailyBackupCheckpointWrites": 172
+        },
+        "365": {
+          "d1Bytes": 321155968,
+          "payloadR2Bytes": 2942045124,
+          "inventoryBackupR2Bytes": 3083097293,
+          "r2Bytes": 6025142417,
+          "dailyFullInventoryExportRows": 1577455,
+          "dailyBackupObjectWrites": 629,
+          "dailyBackupCheckpointWrites": 316
+        },
+        "730": {
+          "d1Bytes": 611791744,
+          "payloadR2Bytes": 5884090248,
+          "inventoryBackupR2Bytes": 5873200743,
+          "r2Bytes": 11757290991,
+          "dailyFullInventoryExportRows": 3134910,
+          "dailyBackupObjectWrites": 1196,
+          "dailyBackupCheckpointWrites": 600
+        },
+        "1095": {
+          "d1Bytes": 902427520,
+          "payloadR2Bytes": 8826135372,
+          "inventoryBackupR2Bytes": 8663304192,
+          "r2Bytes": 17489439564,
+          "dailyFullInventoryExportRows": 4692365,
+          "dailyBackupObjectWrites": 1764,
+          "dailyBackupCheckpointWrites": 884
+        }
+      },
+      "backgroundRequests": 7984,
+      "apiRequestsPerDay": 0,
+      "ssrNavigationRequestsPerDay": 0,
+      "staticAssetRequestsPerDay": 0,
+      "retainedRegisteredUsers": 100,
+      "deliveryPgRowTouchesPlanningEstimate": 57600,
+      "searchRequestsPerDay": 0,
+      "searchOriginRequestsPerDay": 0,
+      "searchPgRowsReadEstimate": 0,
+      "privatePgRowsReadEstimate": 0,
+      "privatePgRowsWrittenEstimate": 0,
+      "parlayApiRequestsPerDay": 0,
+      "priorMeasuredParlayFullEventEgressSensitivityPerMonth": 0,
+      "priorFo1RosterEgressSensitivityPerMonth": 0,
+      "retainedNeonPollingCuHoursPerMonth": 180,
+      "retainedNeonFreeStatus": "FAIL for nominal 5-minute all-day DB polling at default 0.25 CU; not a current account usage measurement",
+      "peakWorkerRps": 2.6613333333333338,
+      "peakUserD1RowsPerSecond": 649.9913333333334,
+      "cacheHitRateEstimate": 0,
+      "r2ObjectsPerPublicMiss": 11,
+      "full20ObjectMissMonthlyR2ClassB": 825600,
+      "zeroCacheMonthlyR2ClassB": 825600,
+      "zeroCacheDailyD1Reads": 1949974,
+      "cloudflareComponentMonthlyCost": "$0 estimated, CPU/integration unverified",
+      "within20PercentBudgets": true,
+      "withinHardNumericalLimitsExcludingCpu": true,
+      "wholeProductMonthlyCost": "UNKNOWN; existing backend/DB/model/email/CI/provider costs not certified"
+    },
+    "100": {
+      "dau": 100,
+      "workerRequestsPerDay": 12064,
+      "estimatedWorkerCpuMsPerDay": 96512,
+      "workerCpuPerRequest": "UNVERIFIED; 8ms is planning budget, not a measured runtime result",
+      "d1ReadsPerDay": 1988854,
+      "d1WritesPerDay": 67709,
+      "r2ReadsPerDay": 41776,
+      "r2ClassBPer30Days": 1253280,
+      "r2ClassAPer30Days": 256212,
+      "r2WritesPerDay": 7117,
+      "storage": {
+        "30": {
+          "d1Bytes": 54408064,
+          "payloadR2Bytes": 241811928,
+          "inventoryBackupR2Bytes": 522317415,
+          "r2Bytes": 764129343,
+          "dailyFullInventoryExportRows": 148010,
+          "dailyBackupObjectWrites": 108,
+          "dailyBackupCheckpointWrites": 56
+        },
+        "90": {
+          "d1Bytes": 102183808,
+          "payloadR2Bytes": 725435784,
+          "inventoryBackupR2Bytes": 980964557,
+          "r2Bytes": 1706400341,
+          "dailyFullInventoryExportRows": 404030,
+          "dailyBackupObjectWrites": 201,
+          "dailyBackupCheckpointWrites": 104
+        },
+        "180": {
+          "d1Bytes": 173847424,
+          "payloadR2Bytes": 1450871568,
+          "inventoryBackupR2Bytes": 1668935271,
+          "r2Bytes": 3119806839,
+          "dailyFullInventoryExportRows": 788060,
+          "dailyBackupObjectWrites": 341,
+          "dailyBackupCheckpointWrites": 172
+        },
+        "365": {
+          "d1Bytes": 321155968,
+          "payloadR2Bytes": 2942045124,
+          "inventoryBackupR2Bytes": 3083097293,
+          "r2Bytes": 6025142417,
+          "dailyFullInventoryExportRows": 1577455,
+          "dailyBackupObjectWrites": 629,
+          "dailyBackupCheckpointWrites": 316
+        },
+        "730": {
+          "d1Bytes": 611791744,
+          "payloadR2Bytes": 5884090248,
+          "inventoryBackupR2Bytes": 5873200743,
+          "r2Bytes": 11757290991,
+          "dailyFullInventoryExportRows": 3134910,
+          "dailyBackupObjectWrites": 1196,
+          "dailyBackupCheckpointWrites": 600
+        },
+        "1095": {
+          "d1Bytes": 902427520,
+          "payloadR2Bytes": 8826135372,
+          "inventoryBackupR2Bytes": 8663304192,
+          "r2Bytes": 17489439564,
+          "dailyFullInventoryExportRows": 4692365,
+          "dailyBackupObjectWrites": 1764,
+          "dailyBackupCheckpointWrites": 884
+        }
+      },
+      "backgroundRequests": 7984,
+      "apiRequestsPerDay": 2800,
+      "ssrNavigationRequestsPerDay": 600,
+      "staticAssetRequestsPerDay": 20000,
+      "retainedRegisteredUsers": 500,
+      "deliveryPgRowTouchesPlanningEstimate": 288000,
+      "searchRequestsPerDay": 200,
+      "searchOriginRequestsPerDay": 150,
+      "searchPgRowsReadEstimate": 30000,
+      "privatePgRowsReadEstimate": 6000,
+      "privatePgRowsWrittenEstimate": 400,
+      "parlayApiRequestsPerDay": 800,
+      "priorMeasuredParlayFullEventEgressSensitivityPerMonth": 10506691200,
+      "priorFo1RosterEgressSensitivityPerMonth": 1386000000,
+      "retainedNeonPollingCuHoursPerMonth": 180,
+      "retainedNeonFreeStatus": "FAIL for nominal 5-minute all-day DB polling at default 0.25 CU; not a current account usage measurement",
+      "peakWorkerRps": 4.021333333333334,
+      "peakUserD1RowsPerSecond": 662.9513333333334,
+      "cacheHitRateEstimate": 0.1,
+      "r2ObjectsPerPublicMiss": 11,
+      "full20ObjectMissMonthlyR2ClassB": 1603200,
+      "zeroCacheMonthlyR2ClassB": 1300800,
+      "zeroCacheDailyD1Reads": 1993174,
+      "cloudflareComponentMonthlyCost": "$0 estimated, CPU/integration unverified",
+      "within20PercentBudgets": true,
+      "withinHardNumericalLimitsExcludingCpu": true,
+      "wholeProductMonthlyCost": "UNKNOWN; existing backend/DB/model/email/CI/provider costs not certified"
+    },
+    "1000": {
+      "dau": 1000,
+      "workerRequestsPerDay": 48784,
+      "estimatedWorkerCpuMsPerDay": 390272,
+      "workerCpuPerRequest": "UNVERIFIED; 8ms is planning budget, not a measured runtime result",
+      "d1ReadsPerDay": 2278294,
+      "d1WritesPerDay": 67709,
+      "r2ReadsPerDay": 147904,
+      "r2ClassBPer30Days": 4437120,
+      "r2ClassAPer30Days": 256212,
+      "r2WritesPerDay": 7117,
+      "storage": {
+        "30": {
+          "d1Bytes": 54408064,
+          "payloadR2Bytes": 241811928,
+          "inventoryBackupR2Bytes": 522317415,
+          "r2Bytes": 764129343,
+          "dailyFullInventoryExportRows": 148010,
+          "dailyBackupObjectWrites": 108,
+          "dailyBackupCheckpointWrites": 56
+        },
+        "90": {
+          "d1Bytes": 102183808,
+          "payloadR2Bytes": 725435784,
+          "inventoryBackupR2Bytes": 980964557,
+          "r2Bytes": 1706400341,
+          "dailyFullInventoryExportRows": 404030,
+          "dailyBackupObjectWrites": 201,
+          "dailyBackupCheckpointWrites": 104
+        },
+        "180": {
+          "d1Bytes": 173847424,
+          "payloadR2Bytes": 1450871568,
+          "inventoryBackupR2Bytes": 1668935271,
+          "r2Bytes": 3119806839,
+          "dailyFullInventoryExportRows": 788060,
+          "dailyBackupObjectWrites": 341,
+          "dailyBackupCheckpointWrites": 172
+        },
+        "365": {
+          "d1Bytes": 321155968,
+          "payloadR2Bytes": 2942045124,
+          "inventoryBackupR2Bytes": 3083097293,
+          "r2Bytes": 6025142417,
+          "dailyFullInventoryExportRows": 1577455,
+          "dailyBackupObjectWrites": 629,
+          "dailyBackupCheckpointWrites": 316
+        },
+        "730": {
+          "d1Bytes": 611791744,
+          "payloadR2Bytes": 5884090248,
+          "inventoryBackupR2Bytes": 5873200743,
+          "r2Bytes": 11757290991,
+          "dailyFullInventoryExportRows": 3134910,
+          "dailyBackupObjectWrites": 1196,
+          "dailyBackupCheckpointWrites": 600
+        },
+        "1095": {
+          "d1Bytes": 902427520,
+          "payloadR2Bytes": 8826135372,
+          "inventoryBackupR2Bytes": 8663304192,
+          "r2Bytes": 17489439564,
+          "dailyFullInventoryExportRows": 4692365,
+          "dailyBackupObjectWrites": 1764,
+          "dailyBackupCheckpointWrites": 884
+        }
+      },
+      "backgroundRequests": 7984,
+      "apiRequestsPerDay": 28000,
+      "ssrNavigationRequestsPerDay": 6000,
+      "staticAssetRequestsPerDay": 200000,
+      "retainedRegisteredUsers": 5000,
+      "deliveryPgRowTouchesPlanningEstimate": 2880000,
+      "searchRequestsPerDay": 2000,
+      "searchOriginRequestsPerDay": 1500,
+      "searchPgRowsReadEstimate": 300000,
+      "privatePgRowsReadEstimate": 60000,
+      "privatePgRowsWrittenEstimate": 4000,
+      "parlayApiRequestsPerDay": 8000,
+      "priorMeasuredParlayFullEventEgressSensitivityPerMonth": 105066912000,
+      "priorFo1RosterEgressSensitivityPerMonth": 13860000000,
+      "retainedNeonPollingCuHoursPerMonth": 180,
+      "retainedNeonFreeStatus": "FAIL for nominal 5-minute all-day DB polling at default 0.25 CU; not a current account usage measurement",
+      "peakWorkerRps": 16.261333333333337,
+      "peakUserD1RowsPerSecond": 759.4313333333334,
+      "cacheHitRateEstimate": 0.24,
+      "r2ObjectsPerPublicMiss": 11,
+      "full20ObjectMissMonthlyR2ClassB": 7392000,
+      "zeroCacheMonthlyR2ClassB": 5577600,
+      "zeroCacheDailyD1Reads": 2381974,
+      "cloudflareComponentMonthlyCost": "$0 estimated, CPU/integration unverified",
+      "within20PercentBudgets": true,
+      "withinHardNumericalLimitsExcludingCpu": true,
+      "wholeProductMonthlyCost": "UNKNOWN; existing backend/DB/model/email/CI/provider costs not certified"
+    },
+    "5000": {
+      "dau": 5000,
+      "workerRequestsPerDay": 211984,
+      "estimatedWorkerCpuMsPerDay": 1695872,
+      "workerCpuPerRequest": "UNVERIFIED; 8ms is planning budget, not a measured runtime result",
+      "d1ReadsPerDay": 3418774,
+      "d1WritesPerDay": 67709,
+      "r2ReadsPerDay": 566080,
+      "r2ClassBPer30Days": 16982400,
+      "r2ClassAPer30Days": 256212,
+      "r2WritesPerDay": 7117,
+      "storage": {
+        "30": {
+          "d1Bytes": 54408064,
+          "payloadR2Bytes": 241811928,
+          "inventoryBackupR2Bytes": 522317415,
+          "r2Bytes": 764129343,
+          "dailyFullInventoryExportRows": 148010,
+          "dailyBackupObjectWrites": 108,
+          "dailyBackupCheckpointWrites": 56
+        },
+        "90": {
+          "d1Bytes": 102183808,
+          "payloadR2Bytes": 725435784,
+          "inventoryBackupR2Bytes": 980964557,
+          "r2Bytes": 1706400341,
+          "dailyFullInventoryExportRows": 404030,
+          "dailyBackupObjectWrites": 201,
+          "dailyBackupCheckpointWrites": 104
+        },
+        "180": {
+          "d1Bytes": 173847424,
+          "payloadR2Bytes": 1450871568,
+          "inventoryBackupR2Bytes": 1668935271,
+          "r2Bytes": 3119806839,
+          "dailyFullInventoryExportRows": 788060,
+          "dailyBackupObjectWrites": 341,
+          "dailyBackupCheckpointWrites": 172
+        },
+        "365": {
+          "d1Bytes": 321155968,
+          "payloadR2Bytes": 2942045124,
+          "inventoryBackupR2Bytes": 3083097293,
+          "r2Bytes": 6025142417,
+          "dailyFullInventoryExportRows": 1577455,
+          "dailyBackupObjectWrites": 629,
+          "dailyBackupCheckpointWrites": 316
+        },
+        "730": {
+          "d1Bytes": 611791744,
+          "payloadR2Bytes": 5884090248,
+          "inventoryBackupR2Bytes": 5873200743,
+          "r2Bytes": 11757290991,
+          "dailyFullInventoryExportRows": 3134910,
+          "dailyBackupObjectWrites": 1196,
+          "dailyBackupCheckpointWrites": 600
+        },
+        "1095": {
+          "d1Bytes": 902427520,
+          "payloadR2Bytes": 8826135372,
+          "inventoryBackupR2Bytes": 8663304192,
+          "r2Bytes": 17489439564,
+          "dailyFullInventoryExportRows": 4692365,
+          "dailyBackupObjectWrites": 1764,
+          "dailyBackupCheckpointWrites": 884
+        }
+      },
+      "backgroundRequests": 7984,
+      "apiRequestsPerDay": 140000,
+      "ssrNavigationRequestsPerDay": 30000,
+      "staticAssetRequestsPerDay": 1000000,
+      "retainedRegisteredUsers": 25000,
+      "deliveryPgRowTouchesPlanningEstimate": 14400000,
+      "searchRequestsPerDay": 10000,
+      "searchOriginRequestsPerDay": 7500,
+      "searchPgRowsReadEstimate": 1500000,
+      "privatePgRowsReadEstimate": 300000,
+      "privatePgRowsWrittenEstimate": 20000,
+      "parlayApiRequestsPerDay": 40000,
+      "priorMeasuredParlayFullEventEgressSensitivityPerMonth": 525334560000,
+      "priorFo1RosterEgressSensitivityPerMonth": 69300000000,
+      "retainedNeonPollingCuHoursPerMonth": 180,
+      "retainedNeonFreeStatus": "FAIL for nominal 5-minute all-day DB polling at default 0.25 CU; not a current account usage measurement",
+      "peakWorkerRps": 70.66133333333333,
+      "peakUserD1RowsPerSecond": 1139.5913333333335,
+      "cacheHitRateEstimate": 0.32000000000000006,
+      "r2ObjectsPerPublicMiss": 11,
+      "full20ObjectMissMonthlyR2ClassB": 30201600,
+      "zeroCacheMonthlyR2ClassB": 24585600,
+      "zeroCacheDailyD1Reads": 4109974,
+      "cloudflareComponentMonthlyCost": "Free plan not serviceable; no paid usage authorized",
+      "within20PercentBudgets": false,
+      "withinHardNumericalLimitsExcludingCpu": false,
+      "wholeProductMonthlyCost": "UNKNOWN; existing backend/DB/model/email/CI/provider costs not certified"
+    }
+  },
+  "maximumEstimatedEditorialDauWithSafety": 1765,
+  "maximumEstimatedEditorialDauAt20ObjectsPerMiss": 1092,
+  "maximumQualifiedWholeProductDau": 0,
+  "selected": "A — lean D1 metadata + immutable self-describing R2 documents; retain existing transactional and search systems pending cost qualification",
+  "readiness": "CONDITIONAL",
+  "retainedInfrastructure": {
+    "neon": {
+      "officialFreeCuHours": 100,
+      "safeCuHours": 80,
+      "officialStorageBytes": 1000000000,
+      "safeStorageBytes": 800000000,
+      "officialTransferBytes": 5000000000,
+      "safeTransferBytes": 4000000000,
+      "defaultCu": 0.25,
+      "suspendMinutes": 5,
+      "existingDeliveryCallsPer30Days": 8640,
+      "nominalContinuousPollingCuHours": 180,
+      "status": "Current nominal all-day five-minute DB polling fails Free compute even at zero DAU. Actual plan/usage uninspected.",
+      "source": "https://neon.com/pricing"
+    },
+    "priorPocReferences": {
+      "integrationAudit": "c785bbc5",
+      "frontOffice": "afe79c90",
+      "nextDueScheduler": "0dd422d5",
+      "parlayCadence": "50190c9d superseded by current user instruction: 3 times/week"
+    },
+    "commercialNodeHosting": "Vercel Hobby is non-commercial/personal; eligible hosting and existing native Node dependencies are unresolved. No plan was activated."
+  },
+  "notes": [
+    "No official 350MB limit; 400MB is the 20% reserve budget under the actual 500MB per-database cap.",
+    "All numerical estimates reserve retry/peak operations; high-frequency application traffic does not increase content-ingestion writes.",
+    "R2 totals include an second verified full copy in a separate private store; not provider-independent disaster isolation and 20% storage reserve, not just compressed payload estimates.",
+    "Full daily metadata export is conservatively charged as a row read per retained record; backup orchestration is a planning requirement, not a production implementation.",
+    "Queue storage has a 20MB active/control reserve conditional on safe terminal handoff. The current original queue is not automatically retired by the new repository.",
+    "PostgreSQL/model service quotas, search index physical growth, email delivery and auth CPU/Node compatibility remain blockers, not zero-cost assumptions."
+  ]
+}

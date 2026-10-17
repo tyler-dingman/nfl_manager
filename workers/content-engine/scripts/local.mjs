@@ -2,7 +2,7 @@ import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 const root = fileURLToPath(new URL('../', import.meta.url));
 const mode = process.argv[2];
-if (process.argv.length !== 3 || !['dev', 'migrate', 'build'].includes(mode))
+if (process.argv.length !== 3 || !['dev', 'migrate', 'build', 'build-lean'].includes(mode))
   throw Error('Only dev, migrate and build are supported. No forwarded flags or remote commands.');
 const args =
   mode === 'dev'
@@ -17,7 +17,16 @@ const args =
           '--persist-to',
           '.local/state',
         ]
-      : ['deploy', '--dry-run', '--outdir', 'dist'];
+      : mode === 'build-lean'
+        ? [
+            'deploy',
+            '--dry-run',
+            '--config',
+            'wrangler.zero-cost.toml',
+            '--outdir',
+            'dist/zero-cost',
+          ]
+        : ['deploy', '--dry-run', '--outdir', 'dist'];
 const env = {
   PATH: process.env.PATH,
   HOME: process.env.HOME,

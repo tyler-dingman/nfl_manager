@@ -6,14 +6,22 @@ import { join } from 'node:path';
 import { EditorialDatabase } from '../src/database';
 import { EditorialRepository } from '../src/repository';
 import { EditorialJobs } from '../src/jobs';
-export async function harness(persistent = false, compact = true, maxMigration = 999) {
+export async function harness(
+  persistent = false,
+  compact = true,
+  maxMigration = 999,
+  workerScript?: string,
+) {
   const directory = await mkdtemp(join(tmpdir(), 'dd-editorial-synthetic-'));
   const options = {
     name: 'editorial-local-test',
     modules: true,
-    script: 'export default {fetch(){return new Response("No content API",{status:404})}}',
+    script:
+      workerScript ??
+      'export default {fetch(){return new Response("No content API",{status:404})}}',
+    bindings: { CONTENT_ENV: 'local', LOCAL_INGEST_TOKEN: 'synthetic-loopback-token-only' },
     compatibilityDate: '2026-01-01',
-    r2Buckets: ['EDITORIAL_ARCHIVE'],
+    r2Buckets: ['EDITORIAL_ARCHIVE', 'EDITORIAL_BACKUP'],
     d1Databases: { EDITORIAL_DB: 'editorial-synthetic-only' },
     resourcePersistencePath: persistent ? directory : undefined,
     telemetry: { enabled: false },

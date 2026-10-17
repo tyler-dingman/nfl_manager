@@ -1,0 +1,6 @@
+A-standard {"ownedGrowthBytes":651264,"rowsWritten":10310,"r2Bytes":3331335}
+A-entropy {"ownedGrowthBytes":651264,"rowsWritten":10310,"r2Bytes":3331335}
+B-standard {"ownedGrowthBytes":3440640,"rowsWritten":10884,"r2Bytes":3331335}
+B-entropy {"ownedGrowthBytes":3440640,"rowsWritten":10884,"r2Bytes":3331335}
+C-standard {"ownedGrowthBytes":540672,"rowsWritten":9162,"r2Bytes":3331335}
+C-entropy {"ownedGrowthBytes":540672,"rowsWritten":9162,"r2Bytes":3331335}

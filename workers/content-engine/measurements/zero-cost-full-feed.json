@@ -1,0 +1,47 @@
+{
+  "scope": "Selected A with two real local R2 buckets. Twenty full ~8KB article payloads per feed. Four concurrent object reads maximum. Ten samples each; host CPU excludes workerd and is not production Worker CPU. Includes one 490KB source roundtrip; no application API/browser integration.",
+  "primaryWrites": 21,
+  "backupWrites": 21,
+  "results": {
+    "article": {
+      "samples": 10,
+      "medianMs": 22.50622949999979,
+      "maxMs": 27.142250000000786,
+      "hostCpuMsPerSample": 15.8376,
+      "rowsRead": 20,
+      "r2Reads": 10
+    },
+    "homeFullPayload": {
+      "samples": 10,
+      "medianMs": 138.98389549999956,
+      "maxMs": 222.06062500000007,
+      "hostCpuMsPerSample": 115.7549,
+      "rowsRead": 410,
+      "r2Reads": 200
+    },
+    "teamFullPayload": {
+      "samples": 10,
+      "medianMs": 120.57356249999975,
+      "maxMs": 160.06337499999972,
+      "hostCpuMsPerSample": 99.0977,
+      "rowsRead": 400,
+      "r2Reads": 200
+    },
+    "historical": {
+      "samples": 10,
+      "medianMs": 18.918040999999903,
+      "maxMs": 21.717333000000508,
+      "hostCpuMsPerSample": 14.6094,
+      "rowsRead": 20,
+      "r2Reads": 10
+    },
+    "historicalMetadataSearch": {
+      "samples": 10,
+      "medianMs": 5.997749999999996,
+      "maxMs": 14.69354199999998,
+      "hostCpuMsPerSample": 4.1794,
+      "rowsRead": 200,
+      "r2Reads": 0
+    }
+  }
+}

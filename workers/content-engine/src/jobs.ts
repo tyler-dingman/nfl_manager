@@ -7,7 +7,10 @@ export class EditorialJobs {
   constructor(
     readonly db: EditorialDatabase,
     compact = true,
+    readonly terminalReceipts?: 'A' | 'B' | 'C',
   ) {
+    if (terminalReceipts && !['A', 'B', 'C'].includes(terminalReceipts))
+      throw Error('Invalid receipt strategy');
     this.payloads = new PayloadStore(db, compact);
   }
   async enqueue(job: JobInput) {
@@ -17,6 +20,19 @@ export class EditorialJobs {
     if (job.teamId !== undefined) teamId(job.teamId);
     const max = job.maxAttempts ?? 5;
     if (!Number.isInteger(max) || max < 1 || max > 10) throw Error('Invalid attempt budget');
+    if (this.terminalReceipts) {
+      const [receipt] = await this.db.query<{ id: string; dedupe_key: string }>(
+        'job.lean-receipt',
+        "SELECT id,dedupe_key FROM lean_receipts WHERE strategy=? AND kind='job' AND id=? UNION ALL SELECT id,dedupe_key FROM lean_receipts WHERE strategy=? AND kind='job' AND dedupe_key=?",
+        [this.terminalReceipts, job.id, this.terminalReceipts, job.idempotencyKey],
+        false,
+      );
+      if (receipt) {
+        if (receipt.id === job.id && receipt.dedupe_key !== job.idempotencyKey)
+          throw Error('Job ID already archived');
+        return;
+      }
+    }
     const [archived] = await this.db.query<{ id: string; dedupe_key: string }>(
       'job.cold-receipt',
       "SELECT id,dedupe_key FROM archive_records WHERE kind='job' AND dedupe_key=? UNION ALL SELECT id,dedupe_key FROM archive_records WHERE kind='job' AND id=?",
@@ -34,7 +50,7 @@ export class EditorialJobs {
         [token, job.ownerEpoch],
       ),
       this.db.statement(
-        `INSERT INTO ingestion_jobs(id,job_type,idempotency_key,status,source_id,candidate_id,team_id,available_at,max_attempts,owner_epoch,payload_json,created_at,updated_at) SELECT ?,?,?,'PENDING',?,?,?,?,?,?,?,?,? WHERE ?=(SELECT version FROM content_control WHERE key='writer_epoch') AND NOT EXISTS(SELECT 1 FROM archive_records WHERE kind='job' AND dedupe_key=?) AND NOT EXISTS(SELECT 1 FROM archive_records WHERE kind='job' AND id=?) ON CONFLICT(idempotency_key) DO NOTHING`,
+        `INSERT INTO ingestion_jobs(id,job_type,idempotency_key,status,source_id,candidate_id,team_id,available_at,max_attempts,owner_epoch,payload_json,created_at,updated_at) SELECT ?,?,?,'PENDING',?,?,?,?,?,?,?,?,? WHERE ?=(SELECT version FROM content_control WHERE key='writer_epoch') AND NOT EXISTS(SELECT 1 FROM archive_records WHERE kind='job' AND dedupe_key=?) AND NOT EXISTS(SELECT 1 FROM archive_records WHERE kind='job' AND id=?) ${this.terminalReceipts ? "AND NOT EXISTS(SELECT 1 FROM lean_receipts WHERE strategy=? AND kind='job' AND id=?) AND NOT EXISTS(SELECT 1 FROM lean_receipts WHERE strategy=? AND kind='job' AND dedupe_key=?)" : ''} ON CONFLICT(idempotency_key) DO NOTHING`,
         [
           job.id,
           job.jobType,
@@ -51,6 +67,9 @@ export class EditorialJobs {
           job.ownerEpoch,
           job.idempotencyKey,
           job.id,
+          ...(this.terminalReceipts
+            ? [this.terminalReceipts, job.id, this.terminalReceipts, job.idempotencyKey]
+            : []),
         ],
       ),
       this.db.unguard(token),

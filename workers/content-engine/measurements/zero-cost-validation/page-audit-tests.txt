@@ -1,0 +1,9 @@
+
+> @down-distance/content-engine-poc@0.0.0 test:pages
+> python3 test/sqlite-pages-test.py
+
+..
+----------------------------------------------------------------------
+Ran 2 tests in 0.090s
+
+OK

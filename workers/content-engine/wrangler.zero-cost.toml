@@ -1,0 +1,34 @@
+name = "down-distance-lean-editorial-local-poc"
+main = "src/lean-local-worker.ts"
+tsconfig = "tsconfig.json"
+compatibility_date = "2026-01-01"
+workers_dev = false
+preview_urls = false
+send_metrics = false
+
+[vars]
+CONTENT_ENV = "local"
+CONTENT_NETWORK_ENABLED = "false"
+LOCAL_INGEST_TOKEN = "synthetic-loopback-token-only"
+
+[[d1_databases]]
+binding = "EDITORIAL_DB"
+database_name = "editorial-local-poc"
+# Deliberate sentinel: no Cloudflare account or remote resource is configured.
+database_id = "00000000-0000-0000-0000-000000000000"
+migrations_dir = "migrations"
+remote = false
+
+[dependencies_instrumentation]
+enabled = false
+
+# Local emulator only. No account bucket is created or exposed.
+[[r2_buckets]]
+binding = "EDITORIAL_ARCHIVE"
+bucket_name = "editorial-archive-local-poc"
+remote = false
+
+[[r2_buckets]]
+binding = "EDITORIAL_BACKUP"
+bucket_name = "editorial-backup-local-poc"
+remote = false

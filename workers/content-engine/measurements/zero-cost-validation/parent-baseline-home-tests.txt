@@ -1,0 +1,3889 @@
+TAP version 13
+# Subtest: homepage Three and Out uses daily delivery preferences instead of audio
+not ok 1 - homepage Three and Out uses daily delivery preferences instead of audio
+  ---
+  duration_ms: 3.965916
+  location: '/private/tmp/down-distance-d1-r2-storage-optimized/src/features/home/homepage-cleanup.test.ts:2:2206'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /<ThreeOutDeliveryPreferences \/>/. Input:
+
+    "'use client';\n" +
+      '\n' +
+      "import { lockDocumentScroll } from '@/lib/document-scroll-lock';\n" +
+      "import { ResponsiveRail } from '@/components/layout/responsive-rail';\n" +
+      "import Link from 'next/link';\n" +
+      "import { useRouter, useSearchParams } from 'next/navigation';\n" +
+      "import { useCallback, useEffect, useMemo, useState } from 'react';\n" +
+      'import {\n' +
+      '  ArrowRight,\n' +
+      '  BarChart3,\n' +
+      '  Clock3,\n' +
+      '  Flame,\n' +
+      '  Radio,\n' +
+      '  Shield,\n' +
+      '  Sparkles,\n' +
+      '  Users,\n' +
+      '  X,\n' +
+      '  Zap,\n' +
+      "} from 'lucide-react';\n" +
+      'import {\n' +
+      '  DdMessagesIcon as MessageCircle,\n' +
+      '  DdSearchIcon as Search,\n' +
+      "} from '@/components/ui/football-icons';\n" +
+      '\n' +
+      "import { FiveWideLogo } from '@/components/branding/fivewide-logo';\n" +
+      "import LoginButton from '@/components/auth/login-button';\n" +
+      "import TeamThemeProvider from '@/components/team-theme-provider';\n" +
+      "import type { TeamBriefing } from '@/features/content/types';\n" +
+      "import { recordBriefingConsumed } from '@/features/content/consumption';\n" +
+      "import { readFanTeamPreference, saveFanTeamPreference } from '@/features/team/fan-team-preference';\n" +
+      "import { getOffseasonManagerRoute } from '@/features/team/offseason-manager-route';\n" +
+      "import { useTeamStore, type Team } from '@/features/team/team-store';\n" +
+      "import { useAuthUser } from '@/features/auth/auth-session';\n" +
+      "import CatchUpCallout from '@/components/catch-up/catch-up-callout';\n" +
+      "import { FilmRoomCard } from '@/components/film-room/film-room-grid';\n" +
+      "import FilmRoomVideoModal from '@/components/film-room/film-room-video-modal';\n" +
+      "import PlaybookHero from '@/components/home/playbook-hero';\n" +
+      "import GameDayHomepageHero from '@/components/home/game-day-homepage-hero';\n" +
+      "import HuddleStoryCard from '@/components/huddle/huddle-story-card';\n" +
+      "import { BeatBannerAd } from '@/components/beat/beat-banner-ad';\n" +
+      "import PrimaryNavigation from '@/components/primary-navigation';\n" +
+      "import MobileSiteMenu from '@/components/mobile-site-menu';\n" +
+      "import { SiteHeaderLogo, SiteHeaderShell } from '@/components/site-header-shell';\n" +
+      "import AiSearchPanel from '@/components/search/ai-search-panel';\n" +
+      "import { gameDayHeroAsset } from '@/config/game-day-hero';\n" +
+      "import type { HomepageGame } from '@/features/game-day/homepage-game';\n" +
+      "import NotificationCenter from '@/components/notifications/notification-center';\n" +
+      "import type { FilmRoomResponse, FilmRoomVideo } from '@/features/film-room/types';\n" +
+      "import { HomeThreeAndOut } from '@/components/three-and-out/home-three-and-out';\n" +
+      '\n' +
+      'const fallbackWireItems = [\n' +
+      "  { time: '11:42 AM', text: 'Team announces a roster move ahead of today’s practice.' },\n" +
+      "  { time: '10:18 AM', text: 'Injury report brings encouraging news at a key position.' },\n" +
+      "  { time: '9:05 AM', text: 'New comments clarify the plan for the starting lineup.' },\n" +
+      "  { time: 'Yesterday', text: 'League transaction wire confirms a depth signing.' },\n" +
+      '];\n' +
+      '\n' +
+      'function TeamGateway({\n' +
+      '  teams,\n' +
+      '  onSelect,\n' +
+      '  onClose,\n' +
+      '}: {\n' +
+      '  teams: Team[];\n' +
+      '  onSelect: (team: Team) => void;\n' +
+      '  onClose: () => void;\n' +
+      '}) {\n' +
+      '  return (\n' +
+      '    <TeamThemeProvider>\n' +
+      '      <div className="relative min-h-[calc(100vh-var(--site-header-height))] bg-[#F4D9B7] px-4 pb-12 pt-8 text-[#00172B] sm:px-6 sm:pt-12">\n' +
+      '        <button\n' +
+      '          type="button"\n' +
+      '          onClick={onClose}\n' +
+      '          className="absolute right-5 top-5 z-10 flex h-11 w-11 items-center justify-center rounded-full border border-[#00172B]/15 bg-white/50 text-[#00172B] transition hover:bg-white/80"\n' +
+      '          aria-label="Close team selection"\n' +
+      '        >\n' +
+      '          <X className="h-5 w-5" />\n' +
+      '        </button>\n' +
+      '        <div className="mx-auto flex max-w-6xl flex-col items-center">\n' +
+      '          <FiveWideLogo\n' +
+      '            generic\n' +
+      '            size={132}\n' +
+      '            containerClassName="h-auto w-full max-w-[300px] overflow-visible rounded-none border-0 bg-transparent p-0 shadow-none ring-0 sm:max-w-[360px]"\n' +
+      '            priority\n' +
+      '          />\n' +
+      '          <p className="mt-5 text-sm font-black uppercase tracking-[0.32em] text-[#FF3D38]">\n' +
+      '            Keep it high and tight\n' +
+      '          </p>\n' +
+      '          <h1 className="mt-10 text-center text-4xl font-black tracking-tight sm:text-5xl">\n' +
+      '            Pick your team. Enter your football world.\n' +
+      '          </h1>\n' +
+      '          <p className="mt-4 max-w-2xl text-center text-base leading-7 text-[#00172B]/65">\n' +
+      '            Your news, videos, roster moves, fan conversations, and front-office tools begin with\n' +
+      '            one choice.\n' +
+      '          </p>\n' +
+      '          <div className="mt-10 grid w-full grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8">\n' +
+      '            {teams.map((team) => (\n' +
+      '              <button\n' +
+      '                type="button"\n' +
+      '                key={team.id}\n' +
+      '                onClick={() => onSelect(team)}\n' +
+      '                className="group flex min-h-32 flex-col items-center justify-center rounded-2xl border border-[#00172B]/10 bg-white/55 p-3 text-center transition hover:-translate-y-1 hover:border-[#FF3D38]/50 hover:bg-white/85 hover:shadow-md"\n' +
+      '              >\n' +
+      '                <span\n' +
+      '                  className="flex h-16 w-16 items-center justify-center rounded-xl border p-2 shadow-sm transition group-hover:scale-105"\n' +
+      '                  style={{\n' +
+      '                    backgroundColor: `color-mix(in srgb, ${team.color_primary} 12%, white)`,\n' +
+      '                    borderColor: `color-mix(in srgb, ${team.color_secondary} 55%, transparent)`,\n' +
+      '                  }}\n' +
+      '                >\n' +
+      '                  {/* eslint-disable-next-line @next/next/no-img-element */}\n' +
+      '                  <img src={team.logo_url} alt="" className="h-full w-full object-contain" />\n' +
+      '                </span>\n' +
+      '                <span className="mt-3 text-xs font-bold leading-4 text-[#00172B]/75 group-hover:text-[#00172B]">\n' +
+      '                  {team.name}\n' +
+      '                </span>\n' +
+      '              </button>\n' +
+      '            ))}\n' +
+      '          </div>\n' +
+      '        </div>\n' +
+      '      </div>\n' +
+      '    </TeamThemeProvider>\n' +
+      '  );\n' +
+      '}\n' +
+      '\n' +
+      'export default function DownDistanceHome() {\n' +
+      '  const router = useRouter();\n' +
+      '  const searchParams = useSearchParams();\n' +
+      '  const teams = useTeamStore((state) => state.teams);\n' +
+      '  const selectedTeamId = useTeamStore((state) => state.selectedTeamId);\n' +
+      '  const setSelectedTeamId = useTeamStore((state) => state.setSelectedTeamId);\n' +
+      '  const [isTeamMenuOpen, setIsTeamMenuOpen] = useState(false);\n' +
+      '  useEffect(() => {\n' +
+      "    if (searchParams?.get('team-select') !== '1') return;\n" +
+      '    setIsTeamMenuOpen(true);\n' +
+      '    const params = new URLSearchParams(searchParams.toString());\n' +
+      "    params.delete('team-select');\n" +
+      "    router.replace(params.size ? `/?${params}` : '/', { scroll: false });\n" +
+      '  }, [router, searchParams]);\n' +
+      '  const [isSearchOpen, setIsSearchOpen] = useState(false);\n' +
+      '  useEffect(() => {\n' +
+      '    if (!isSearchOpen) return;\n' +
+      '    const previousFocus = document.activeElement as HTMLElement | null;\n' +
+      '    const releaseScroll = lockDocumentScroll();\n' +
+      '    document\n' +
+      `      .querySelector<HTMLInputElement>('[aria-label="Search Down & Distance"] input')\n` +
+      '      ?.focus();\n' +
+      '    const handleKey = (event: KeyboardEvent) => {\n' +
+      "      if (event.key === 'Escape') setIsSearchOpen(false);\n" +
+      "      if (event.key !== 'Tab') return;\n" +
+      `      const dialog = document.querySelector('[aria-label="Search Down & Distance"]');\n` +
+      '      const nodes = Array.from(\n' +
+      "        dialog?.querySelectorAll<HTMLElement>('input, select, button:not(:disabled), a[href]') ??\n" +
+      '          [],\n' +
+      '      ).filter((e) => e.getClientRects().length);\n' +
+      '      const first = nodes[0],\n' +
+      '        last = nodes[nodes.length - 1];\n' +
+      '      if (event.shiftKey && document.activeElement === first) {\n' +
+      '        event.preventDefault();\n' +
+      '        last?.focus();\n' +
+      '      } else if (!event.shiftKey && document.activeElement === last) {\n' +
+      '        event.preventDefault();\n' +
+      '        first?.focus();\n' +
+      '      }\n' +
+      '    };\n' +
+      "    window.addEventListener('keydown', handleKey);\n" +
+      '    return () => {\n' +
+      '      releaseScroll();\n' +
+      '      previousFocus?.focus();\n' +
+      "      window.removeEventListener('keydown', handleKey);\n" +
+      '    };\n' +
+      '  }, [isSearchOpen]);\n' +
+      '\n' +
+      "  const [searchQuery, setSearchQuery] = useState('');\n" +
+      "  const [aiSearchQuery, setAiSearchQuery] = useState('');\n" +
+      '  const [hasSelectedTeam, setHasSelectedTeam] = useState(false);\n' +
+      '  const [briefings, setBriefings] = useState<TeamBriefing[]>([]);\n' +
+      '  const [wireEntries, setWireEntries] = useState<\n' +
+      '    Array<{ id: string; headline: string; occurredAt: string }>\n' +
+      '  >([]);\n' +
+      '  const [homepageGame, setHomepageGame] = useState<HomepageGame | null>(null);\n' +
+      '  const [filmRoomData, setFilmRoomData] = useState<FilmRoomResponse | null>(null);\n' +
+      '  const [filmRoomLoading, setFilmRoomLoading] = useState(false);\n' +
+      '  const [selectedVideo, setSelectedVideo] = useState<FilmRoomVideo | null>(null);\n' +
+      '  const [videoTrigger, setVideoTrigger] = useState<HTMLButtonElement | null>(null);\n' +
+      '  const { user } = useAuthUser();\n' +
+      '  const [personalization, setPersonalization] = useState<{\n' +
+      '    primaryTeam?: { teamId?: string } | null;\n' +
+      '    savedContent?: Array<{ id: string }>;\n' +
+      '  } | null>(null);\n' +
+      '\n' +
+      '  const openBriefing = useCallback(\n' +
+      '    (briefing: TeamBriefing) => {\n' +
+      '      if (user) void recordBriefingConsumed(briefing);\n' +
+      '    },\n' +
+      '    [user],\n' +
+      '  );\n' +
+      '\n' +
+      '  const selectedTeam = useMemo(\n' +
+      '    () => teams.find((team) => team.id === selectedTeamId),\n' +
+      '    [selectedTeamId, teams],\n' +
+      '  );\n' +
+      '  const activeTeam = hasSelectedTeam ? selectedTeam : undefined;\n' +
+      "  const teamName = activeTeam?.name ?? 'NFL';\n" +
+      "  const teamAbbr = activeTeam?.abbr ?? 'NFL';\n" +
+      "  const teamRouteSuffix = activeTeam ? `?team=${activeTeam.abbr}` : '';\n" +
+      '\n' +
+      '  useEffect(() => {\n' +
+      '    const params = new URLSearchParams(window.location.search);\n' +
+      "    if (params.get('search') === '1') setIsSearchOpen(true);\n" +
+      '  }, []);\n' +
+      '\n' +
+      '  useEffect(() => {\n' +
+      '    const savedTeamAbbr = readFanTeamPreference();\n' +
+      '    if (!savedTeamAbbr) return;\n' +
+      '    const savedTeam = teams.find((team) => team.abbr === savedTeamAbbr);\n' +
+      '    if (!savedTeam) return;\n' +
+      '    setSelectedTeamId(savedTeam.id);\n' +
+      '    setHasSelectedTeam(true);\n' +
+      '  }, [setSelectedTeamId, teams]);\n' +
+      '\n' +
+      '  useEffect(() => {\n' +
+      '    const controller = new AbortController();\n' +
+      '    setBriefings([]);\n' +
+      '    const loadBriefings = async () => {\n' +
+      '      try {\n' +
+      "        if (teamAbbr === 'NFL') return;\n" +
+      '        const response = await fetch(`/api/content/homepage?team=${encodeURIComponent(teamAbbr)}`, {\n' +
+      '          signal: controller.signal,\n' +
+      '        });\n' +
+      '        if (!response.ok) return;\n' +
+      '        const payload '... 19757 more characters
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: |-
+    'use client';
+
+    import { lockDocumentScroll } from '@/lib/document-scroll-lock';
+    import { ResponsiveRail } from '@/components/layout/responsive-rail';
+    import Link from 'next/link';
+    import { useRouter, useSearchParams } from 'next/navigation';
+    import { useCallback, useEffect, useMemo, useState } from 'react';
+    import {
+      ArrowRight,
+      BarChart3,
+      Clock3,
+      Flame,
+      Radio,
+      Shield,
+      Sparkles,
+      Users,
+      X,
+      Zap,
+    } from 'lucide-react';
+    import {
+      DdMessagesIcon as MessageCircle,
+      DdSearchIcon as Search,
+    } from '@/components/ui/football-icons';
+
+    import { FiveWideLogo } from '@/components/branding/fivewide-logo';
+    import LoginButton from '@/components/auth/login-button';
+    import TeamThemeProvider from '@/components/team-theme-provider';
+    import type { TeamBriefing } from '@/features/content/types';
+    import { recordBriefingConsumed } from '@/features/content/consumption';
+    import { readFanTeamPreference, saveFanTeamPreference } from '@/features/team/fan-team-preference';
+    import { getOffseasonManagerRoute } from '@/features/team/offseason-manager-route';
+    import { useTeamStore, type Team } from '@/features/team/team-store';
+    import { useAuthUser } from '@/features/auth/auth-session';
+    import CatchUpCallout from '@/components/catch-up/catch-up-callout';
+    import { FilmRoomCard } from '@/components/film-room/film-room-grid';
+    import FilmRoomVideoModal from '@/components/film-room/film-room-video-modal';
+    import PlaybookHero from '@/components/home/playbook-hero';
+    import GameDayHomepageHero from '@/components/home/game-day-homepage-hero';
+    import HuddleStoryCard from '@/components/huddle/huddle-story-card';
+    import { BeatBannerAd } from '@/components/beat/beat-banner-ad';
+    import PrimaryNavigation from '@/components/primary-navigation';
+    import MobileSiteMenu from '@/components/mobile-site-menu';
+    import { SiteHeaderLogo, SiteHeaderShell } from '@/components/site-header-shell';
+    import AiSearchPanel from '@/components/search/ai-search-panel';
+    import { gameDayHeroAsset } from '@/config/game-day-hero';
+    import type { HomepageGame } from '@/features/game-day/homepage-game';
+    import NotificationCenter from '@/components/notifications/notification-center';
+    import type { FilmRoomResponse, FilmRoomVideo } from '@/features/film-room/types';
+    import { HomeThreeAndOut } from '@/components/three-and-out/home-three-and-out';
+
+    const fallbackWireItems = [
+      { time: '11:42 AM', text: 'Team announces a roster move ahead of today’s practice.' },
+      { time: '10:18 AM', text: 'Injury report brings encouraging news at a key position.' },
+      { time: '9:05 AM', text: 'New comments clarify the plan for the starting lineup.' },
+      { time: 'Yesterday', text: 'League transaction wire confirms a depth signing.' },
+    ];
+
+    function TeamGateway({
+      teams,
+      onSelect,
+      onClose,
+    }: {
+      teams: Team[];
+      onSelect: (team: Team) => void;
+      onClose: () => void;
+    }) {
+      return (
+        <TeamThemeProvider>
+          <div className="relative min-h-[calc(100vh-var(--site-header-height))] bg-[#F4D9B7] px-4 pb-12 pt-8 text-[#00172B] sm:px-6 sm:pt-12">
+            <button
+              type="button"
+              onClick={onClose}
+              className="absolute right-5 top-5 z-10 flex h-11 w-11 items-center justify-center rounded-full border border-[#00172B]/15 bg-white/50 text-[#00172B] transition hover:bg-white/80"
+              aria-label="Close team selection"
+            >
+              <X className="h-5 w-5" />
+            </button>
+            <div className="mx-auto flex max-w-6xl flex-col items-center">
+              <FiveWideLogo
+                generic
+                size={132}
+                containerClassName="h-auto w-full max-w-[300px] overflow-visible rounded-none border-0 bg-transparent p-0 shadow-none ring-0 sm:max-w-[360px]"
+                priority
+              />
+              <p className="mt-5 text-sm font-black uppercase tracking-[0.32em] text-[#FF3D38]">
+                Keep it high and tight
+              </p>
+              <h1 className="mt-10 text-center text-4xl font-black tracking-tight sm:text-5xl">
+                Pick your team. Enter your football world.
+              </h1>
+              <p className="mt-4 max-w-2xl text-center text-base leading-7 text-[#00172B]/65">
+                Your news, videos, roster moves, fan conversations, and front-office tools begin with
+                one choice.
+              </p>
+              <div className="mt-10 grid w-full grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8">
+                {teams.map((team) => (
+                  <button
+                    type="button"
+                    key={team.id}
+                    onClick={() => onSelect(team)}
+                    className="group flex min-h-32 flex-col items-center justify-center rounded-2xl border border-[#00172B]/10 bg-white/55 p-3 text-center transition hover:-translate-y-1 hover:border-[#FF3D38]/50 hover:bg-white/85 hover:shadow-md"
+                  >
+                    <span
+                      className="flex h-16 w-16 items-center justify-center rounded-xl border p-2 shadow-sm transition group-hover:scale-105"
+                      style={{
+                        backgroundColor: `color-mix(in srgb, ${team.color_primary} 12%, white)`,
+                        borderColor: `color-mix(in srgb, ${team.color_secondary} 55%, transparent)`,
+                      }}
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={team.logo_url} alt="" className="h-full w-full object-contain" />
+                    </span>
+                    <span className="mt-3 text-xs font-bold leading-4 text-[#00172B]/75 group-hover:text-[#00172B]">
+                      {team.name}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </TeamThemeProvider>
+      );
+    }
+
+    export default function DownDistanceHome() {
+      const router = useRouter();
+      const searchParams = useSearchParams();
+      const teams = useTeamStore((state) => state.teams);
+      const selectedTeamId = useTeamStore((state) => state.selectedTeamId);
+      const setSelectedTeamId = useTeamStore((state) => state.setSelectedTeamId);
+      const [isTeamMenuOpen, setIsTeamMenuOpen] = useState(false);
+      useEffect(() => {
+        if (searchParams?.get('team-select') !== '1') return;
+        setIsTeamMenuOpen(true);
+        const params = new URLSearchParams(searchParams.toString());
+        params.delete('team-select');
+        router.replace(params.size ? `/?${params}` : '/', { scroll: false });
+      }, [router, searchParams]);
+      const [isSearchOpen, setIsSearchOpen] = useState(false);
+      useEffect(() => {
+        if (!isSearchOpen) return;
+        const previousFocus = document.activeElement as HTMLElement | null;
+        const releaseScroll = lockDocumentScroll();
+        document
+          .querySelector<HTMLInputElement>('[aria-label="Search Down & Distance"] input')
+          ?.focus();
+        const handleKey = (event: KeyboardEvent) => {
+          if (event.key === 'Escape') setIsSearchOpen(false);
+          if (event.key !== 'Tab') return;
+          const dialog = document.querySelector('[aria-label="Search Down & Distance"]');
+          const nodes = Array.from(
+            dialog?.querySelectorAll<HTMLElement>('input, select, button:not(:disabled), a[href]') ??
+              [],
+          ).filter((e) => e.getClientRects().length);
+          const first = nodes[0],
+            last = nodes[nodes.length - 1];
+          if (event.shiftKey && document.activeElement === first) {
+            event.preventDefault();
+            last?.focus();
+          } else if (!event.shiftKey && document.activeElement === last) {
+            event.preventDefault();
+            first?.focus();
+          }
+        };
+        window.addEventListener('keydown', handleKey);
+        return () => {
+          releaseScroll();
+          previousFocus?.focus();
+          window.removeEventListener('keydown', handleKey);
+        };
+      }, [isSearchOpen]);
+
+      const [searchQuery, setSearchQuery] = useState('');
+      const [aiSearchQuery, setAiSearchQuery] = useState('');
+      const [hasSelectedTeam, setHasSelectedTeam] = useState(false);
+      const [briefings, setBriefings] = useState<TeamBriefing[]>([]);
+      const [wireEntries, setWireEntries] = useState<
+        Array<{ id: string; headline: string; occurredAt: string }>
+      >([]);
+      const [homepageGame, setHomepageGame] = useState<HomepageGame | null>(null);
+      const [filmRoomData, setFilmRoomData] = useState<FilmRoomResponse | null>(null);
+      const [filmRoomLoading, setFilmRoomLoading] = useState(false);
+      const [selectedVideo, setSelectedVideo] = useState<FilmRoomVideo | null>(null);
+      const [videoTrigger, setVideoTrigger] = useState<HTMLButtonElement | null>(null);
+      const { user } = useAuthUser();
+      const [personalization, setPersonalization] = useState<{
+        primaryTeam?: { teamId?: string } | null;
+        savedContent?: Array<{ id: string }>;
+      } | null>(null);
+
+      const openBriefing = useCallback(
+        (briefing: TeamBriefing) => {
+          if (user) void recordBriefingConsumed(briefing);
+        },
+        [user],
+      );
+
+      const selectedTeam = useMemo(
+        () => teams.find((team) => team.id === selectedTeamId),
+        [selectedTeamId, teams],
+      );
+      const activeTeam = hasSelectedTeam ? selectedTeam : undefined;
+      const teamName = activeTeam?.name ?? 'NFL';
+      const teamAbbr = activeTeam?.abbr ?? 'NFL';
+      const teamRouteSuffix = activeTeam ? `?team=${activeTeam.abbr}` : '';
+
+      useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('search') === '1') setIsSearchOpen(true);
+      }, []);
+
+      useEffect(() => {
+        const savedTeamAbbr = readFanTeamPreference();
+        if (!savedTeamAbbr) return;
+        const savedTeam = teams.find((team) => team.abbr === savedTeamAbbr);
+        if (!savedTeam) return;
+        setSelectedTeamId(savedTeam.id);
+        setHasSelectedTeam(true);
+      }, [setSelectedTeamId, teams]);
+
+      useEffect(() => {
+        const controller = new AbortController();
+        setBriefings([]);
+        const loadBriefings = async () => {
+          try {
+            if (teamAbbr === 'NFL') return;
+            const response = await fetch(`/api/content/homepage?team=${encodeURIComponent(teamAbbr)}`, {
+              signal: controller.signal,
+            });
+            if (!response.ok) return;
+            const payload = (await response.json()) as {
+              huddle?: TeamBriefing[];
+              wire?: Array<{ id: string; headline: string; occurredAt: string }>;
+            };
+            setBriefings((payload.huddle ?? []).slice(0, 4));
+            setWireEntries(payload.wire ?? []);
+          } catch (error) {
+            if (!(error instanceof DOMException && error.name === 'AbortError')) {
+              console.error('[huddle] failed to load briefings', error);
+            }
+          }
+        };
+        void loadBriefings();
+        return () => controller.abort();
+      }, [teamAbbr]);
+
+      useEffect(() => {
+        const controller = new AbortController();
+        setFilmRoomData(null);
+        setFilmRoomLoading(teamAbbr !== 'NFL');
+        if (teamAbbr === 'NFL') return () => controller.abort();
+        void fetch(`/api/film-room?team=${encodeURIComponent(teamAbbr)}`, {
+          signal: controller.signal,
+        })
+          .then(async (response) => {
+            if (!response.ok) throw new Error(`Film Room request failed: ${response.status}`);
+            setFilmRoomData((await response.json()) as FilmRoomResponse);
+          })
+          .catch((error: unknown) => {
+            if (!(error instanceof DOMException && error.name === 'AbortError')) {
+              setFilmRoomData({
+                teamId: teamAbbr,
+                videos: [],
+                unavailableVideoIds: [],
+                configured: true,
+                message: 'Film Room is temporarily unavailable. Please try again soon.',
+              });
+            }
+          })
+          .finally(() => {
+            if (!controller.signal.aborted) setFilmRoomLoading(false);
+          });
+        return () => controller.abort();
+      }, [teamAbbr]);
+
+      useEffect(() => {
+        const controller = new AbortController();
+        setHomepageGame(null);
+        if (!activeTeam || !gameDayHeroAsset(activeTeam.abbr)) return () => controller.abort();
+        const params = new URLSearchParams({ team: activeTeam.abbr });
+        if (process.env.NODE_ENV !== 'production') {
+          const pageParams = new URLSearchParams(window.location.search);
+          if (pageParams.get('gameday') === '1') params.set('gameday', '1');
+          const previewAt = pageParams.get('gamedayAt');
+          if (previewAt) params.set('gamedayAt', previewAt);
+        }
+        void fetch(`/api/game-day/homepage?${params}`, {
+          cache: 'no-store',
+          signal: controller.signal,
+        })
+          .then((response) => (response.ok ? response.json() : null))
+          .then((payload: { game?: HomepageGame | null } | null) =>
+            setHomepageGame(payload?.game ?? null),
+          )
+          .catch((error) => {
+            if (!(error instanceof DOMException && error.name === 'AbortError')) {
+              console.error('[game-day-hero] failed to load game', error);
+            }
+          });
+        return () => controller.abort();
+      }, [activeTeam]);
+
+      useEffect(() => {
+        if (!user) {
+          setPersonalization(null);
+          return;
+        }
+        void fetch('/api/user/home', { cache: 'no-store' })
+          .then((response) => (response.ok ? response.json() : null))
+          .then((body: { personalization?: typeof personalization } | null) => {
+            const nextPersonalization = body?.personalization ?? null;
+            setPersonalization(nextPersonalization);
+            const primaryTeamId = nextPersonalization?.primaryTeam?.teamId;
+            const primaryTeam = teams.find((team) => team.abbr === primaryTeamId);
+            if (primaryTeam) {
+              setSelectedTeamId(primaryTeam.id);
+              setHasSelectedTeam(true);
+              void saveFanTeamPreference(primaryTeam.abbr);
+            }
+          });
+      }, [setSelectedTeamId, teams, user]);
+
+      const huddleCards = useMemo(
+        () =>
+          briefings.map((briefing) => ({
+            id: briefing.id,
+            label: briefing.category,
+            title: briefing.headline,
+            summary: briefing.summary,
+            briefing,
+          })),
+        [briefings],
+      );
+      const displayedWireItems = wireEntries.length
+        ? wireEntries.map((entry) => ({
+            id: entry.id,
+            time: new Date(entry.occurredAt).toLocaleTimeString([], {
+              hour: 'numeric',
+              minute: '2-digit',
+            }),
+            text: entry.headline,
+          }))
+        : fallbackWireItems.map((item) => ({ ...item, id: null }));
+      const latestFilmRoomVideos = useMemo(
+        () =>
+          [...(filmRoomData?.videos ?? [])]
+            .sort(
+              (left, right) =>
+                new Date(right.publishedAt ?? right.addedAt).getTime() -
+                new Date(left.publishedAt ?? left.addedAt).getTime(),
+            )
+            .slice(0, 3),
+        [filmRoomData?.videos],
+      );
+      const searchItems = useMemo(
+        () => [
+          ...huddleCards.map((item) => ({
+            category: 'The Beat',
+            title: item.title,
+            description: item.summary,
+            href: `/content/${encodeURIComponent(item.id)}`,
+          })),
+          ...latestFilmRoomVideos.map((item) => ({
+            category: 'Film Room',
+            title: item.title,
+            description: `${item.channel.name} · ${item.duration}`,
+            href: `/watch?team=${encodeURIComponent(teamAbbr)}&video=${encodeURIComponent(item.id)}`,
+          })),
+          ...displayedWireItems.map((item) => ({
+            category: 'The Wire',
+            title: item.text,
+            description: item.time,
+            href: item.id ? `/content/${encodeURIComponent(item.id)}` : '/wire',
+          })),
+          {
+            category: 'Fan Discussion',
+            title: 'Is the biggest position battle already decided?',
+            description: `Trending conversation among ${teamName} fans`,
+            href: '#fan-discussion',
+          },
+          {
+            category: 'Front Office',
+            title: `${teamName} depth chart, cap outlook, transactions, and draft capital`,
+            description: 'Roster and team-building information',
+            href: getOffseasonManagerRoute('', activeTeam?.abbr),
+          },
+        ],
+        [activeTeam?.abbr, displayedWireItems, huddleCards, latestFilmRoomVideos, teamAbbr, teamName],
+      );
+
+      return (
+        <TeamThemeProvider team={activeTeam}>
+          <div className="min-h-screen bg-[#f7f4ee] text-[#00172B]">
+            {isTeamMenuOpen ? (
+              <div className="fixed inset-x-0 bottom-0 top-[var(--site-header-height)] z-50 overflow-y-auto">
+                <TeamGateway
+                  teams={teams}
+                  onClose={() => setIsTeamMenuOpen(false)}
+                  onSelect={(team) => {
+                    setSelectedTeamId(team.id);
+                    saveFanTeamPreference(team.abbr);
+                    setHasSelectedTeam(true);
+                    setIsTeamMenuOpen(false);
+                  }}
+                />
+              </div>
+            ) : null}
+            {isSearchOpen ? (
+              <div
+                className="mobile-search-overlay fixed inset-x-0 bottom-0 top-[var(--site-header-height)] z-50 flex items-start justify-center overflow-hidden bg-slate-950/75 px-4 py-4 backdrop-blur-sm sm:py-8"
+                role="dialog"
+                aria-modal="true"
+                aria-label="Search Down & Distance"
+                onMouseDown={(event) => {
+                  if (event.currentTarget === event.target) setIsSearchOpen(false);
+                }}
+              >
+                <AiSearchPanel
+                  variant="overlay"
+                  teamId={activeTeam?.abbr ?? ''}
+                  teamName={teamName}
+                  teamCity={activeTeam?.city ?? teamName}
+                  primaryColor={activeTeam?.color_primary ?? '#00172b'}
+                  nickname={activeTeam?.name.split(/\s+/).at(-1) ?? 'NFL'}
+                  query={searchQuery}
+                  onQueryChange={setSearchQuery}
+                  onClose={() => setIsSearchOpen(false)}
+                  quickLinks={searchItems}
+                />
+              </div>
+            ) : null}
+            <SiteHeaderShell tone={activeTeam ? 'team' : 'merch'}>
+              <SiteHeaderLogo teamAbbr={activeTeam?.abbr} generic={!activeTeam} />
+              <PrimaryNavigation teamAbbr={activeTeam?.abbr} active="huddle" showMobile={false} />
+              <div className="ml-auto flex min-w-0 items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setIsSearchOpen(true)}
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-current/20 text-[var(--team-on-dark)] hover:bg-white/10"
+                  aria-label="Search"
+                >
+                  <Search className="h-4 w-4" />
+                </button>
+                <NotificationCenter teamAbbr={activeTeam?.abbr} />
+                <span className="hidden lg:block">
+                  <LoginButton teamAbbr={activeTeam?.abbr} />
+                </span>
+                <MobileSiteMenu teamAbbr={activeTeam?.abbr} active="huddle" />
+              </div>
+            </SiteHeaderShell>
+
+            {activeTeam ? (
+              <><GameDayHomepageHero team={activeTeam} game={homepageGame} /><Link href={`/huddle?team=${activeTeam.abbr}${homepageGame?`&game=${homepageGame.id}`:''}`} style={{display:'block',padding:16}}>Join your team in The Huddle →</Link></>
+            ) : (
+              <PlaybookHero />
+            )}
+
+            {user && activeTeam ? <CatchUpCallout teamId={activeTeam.abbr} /> : null}
+
+            {activeTeam ? (
+              <div className="mx-auto max-w-[1440px] px-4 pt-8 sm:px-6 lg:px-8">
+                <AiSearchPanel
+                  teamId={activeTeam.abbr}
+                  teamName={activeTeam.name}
+                  teamCity={activeTeam.city ?? activeTeam.name}
+                  primaryColor={activeTeam.color_primary}
+                  nickname={activeTeam.name.split(/\s+/).at(-1) ?? activeTeam.name}
+                  query={aiSearchQuery}
+                  onQueryChange={setAiSearchQuery}
+                />
+              </div>
+            ) : null}
+
+            <main className="mx-auto max-w-[1440px] px-4 py-8 sm:px-6 lg:px-8">
+              <section id="huddle" className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
+                <div>
+                  <div className="mb-4 flex items-end justify-between gap-4">
+                    <div>
+                      <div className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.24em] text-[var(--team-primary-text)]">
+                        <Sparkles className="h-4 w-4" /> The Beat
+                      </div>
+                      <h2 className="mt-2 text-2xl font-black tracking-tight sm:text-3xl">
+                        What {teamName} fans need to know
+                      </h2>
+                    </div>
+                    <Link
+                      href={`/the-beat${teamRouteSuffix}`}
+                      className="hidden text-sm font-bold text-[var(--team-primary-text)] sm:block"
+                    >
+                      See the whole field →
+                    </Link>
+                  </div>
+                  <div className="grid items-stretch gap-4 md:grid-cols-2 xl:grid-cols-3">
+                    {huddleCards.slice(0, 3).map((item, index) => (
+                      <HuddleStoryCard
+                        key={item.id}
+                        id={item.id}
+                        teamId={teamAbbr}
+                        appearance="beat"
+                        graphicDecision={item.briefing.graphicDecision}
+                        headline={item.title}
+                        summary={item.summary}
+                        category={item.label}
+                        status={item.briefing.status}
+                        sourceCount={item.briefing.sourceCount}
+                        updatedAt={item.briefing.updatedAt}
+                        materialUpdateCount={item.briefing.materialUpdateCount}
+                        hotReadUntil={item.briefing.hotReadUntil}
+                        firstReportedBy={item.briefing.firstReportedBy}
+                        sources={item.briefing.sources}
+                        lead={index === 0}
+                        onOpen={() => openBriefing(item.briefing)}
+                      />
+                    ))}
+                    <BeatBannerAd />
+                    {!huddleCards.length ? (
+                      <div className="rounded-2xl border border-dashed border-[#00172B]/15 bg-white/55 p-8 text-sm font-semibold text-[#40556b] md:col-span-2 xl:col-span-3">
+                        No verified Beat stories are ready for {teamName} yet.
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
+                <ResponsiveRail
+                  stackAt={1023}
+                  className="space-y-6 lg:sticky lg:top-[calc(var(--site-header-height)+1.5rem)] lg:self-start"
+                >
+                  <HomeThreeAndOut
+                    teamAbbr={teamAbbr}
+                    stories={huddleCards}
+                    onOpen={(id) => {
+                      const story = huddleCards.find((item) => item.id === id);
+                      if (story) openBriefing(story.briefing);
+                    }}
+                  />
+                  <section
+                    id="wire"
+                    className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
+                  >
+                    <div className="flex items-center justify-between">
+                      <h3 className="flex items-center gap-2 text-lg font-black">
+                        <Radio className="h-4 w-4 text-red-600" /> The Wire
+                      </h3>
+                      <span className="flex items-center gap-1 text-[10px] font-black uppercase tracking-wider text-red-600">
+                        <span className="h-2 w-2 animate-pulse rounded-full bg-red-600" /> Live
+                      </span>
+                    </div>
+                    <div className="mt-4 divide-y divide-slate-100">
+                      {displayedWireItems.map((item) => (
+                        <div key={`${item.time}-${item.text}`} className="py-4 first:pt-1">
+                          <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                            {item.time}
+                          </p>
+                          <p className="mt-1 text-sm font-semibold leading-5">{item.text}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+                </ResponsiveRail>
+              </section>
+
+              <section id="watch" className="mt-10 rounded-3xl bg-slate-950 p-6 text-white sm:p-8">
+                <div className="mb-6 flex items-end justify-between">
+                  <div>
+                    <p className="text-xs font-black uppercase tracking-[0.24em] text-[var(--team-secondary-on-dark)]">
+                      Film Room
+                    </p>
+                    <h2 className="mt-2 text-2xl font-black">Worth your time today</h2>
+                  </div>
+                  <Link href={`/watch${teamRouteSuffix}`} className="text-sm font-bold text-white/60">
+                    Browse all →
+                  </Link>
+                </div>
+                <div className="grid gap-4 md:grid-cols-3">
+                  {latestFilmRoomVideos.map((video, index) => (
+                    <FilmRoomCard
+                      key={video.id}
+                      video={video}
+                      sequence={index + 1}
+                      onPlay={(nextVideo, trigger) => {
+                        setVideoTrigger(trigger);
+                        setSelectedVideo(nextVideo);
+                      }}
+                    />
+                  ))}
+                  {filmRoomLoading
+                    ? Array.from({ length: 3 }, (_, index) => (
+                        <div key={index} className="overflow-hidden rounded-xl bg-white">
+                          <div className="aspect-video animate-pulse bg-slate-700" />
+                          <div className="space-y-3 p-5">
+                            <div className="h-5 animate-pulse rounded bg-slate-200" />
+                            <div className="h-5 w-3/4 animate-pulse rounded bg-slate-200" />
+                          </div>
+                        </div>
+                      ))
+                    : null}
+                  {!filmRoomLoading && !latestFilmRoomVideos.length ? (
+                    <p className="rounded-2xl border border-dashed border-white/20 p-6 text-sm font-semibold text-white/70 md:col-span-3">
+                      {filmRoomData?.message ?? `No curated ${teamName} videos are available yet.`}
+                    </p>
+                  ) : null}
+                </div>
+              </section>
+
+              <section className="mt-10 grid gap-6 lg:grid-cols-2">
+                <div
+                  id="fan-discussion"
+                  className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8"
+                >
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.22em] text-orange-600">
+                        <Flame className="h-4 w-4" /> Fan discussion
+                      </p>
+                      <h2 className="mt-2 text-2xl font-black">Fans are talking about...</h2>
+                    </div>
+                    <MessageCircle className="h-7 w-7 text-slate-300" />
+                  </div>
+                  <div className="mt-7 rounded-2xl bg-slate-50 p-5">
+                    <h3 className="text-xl font-black">
+                      Is the biggest position battle already decided?
+                    </h3>
+                    <div className="mt-3 flex items-center gap-4 text-xs font-bold text-slate-500">
+                      <span className="flex items-center gap-1">
+                        <MessageCircle className="h-3.5 w-3.5" /> 2,100 comments
+                      </span>
+                      <span className="flex items-center gap-1 text-orange-600">
+                        <Flame className="h-3.5 w-3.5" /> Trending
+                      </span>
+                    </div>
+                    <p className="mt-5 border-l-4 border-[var(--secondary)] pl-4 text-sm leading-6 text-slate-600">
+                      The conversation shifted after three straight positive practice reports. Fans are
+                      increasingly convinced the competition has a clear leader.
+                    </p>
+                    <button className="mt-5 text-sm font-black text-[var(--team-primary-text)]">
+                      Open the original discussion →
+                    </button>
+                  </div>
+                </div>
+                <div
+                  id="front-office"
+                  className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8"
+                >
+                  <p className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.22em] text-[var(--team-primary-text)]">
+                    <Shield className="h-4 w-4" /> Front Office
+                  </p>
+                  <h2 className="mt-2 text-2xl font-black">Build the complete picture</h2>
+                  <div className="mt-7 grid grid-cols-2 gap-3">
+                    {[
+                      { icon: Users, label: 'Depth chart', value: '53 players' },
+                      { icon: BarChart3, label: 'Cap outlook', value: '$40.8M space' },
+                      { icon: Clock3, label: 'Transactions', value: '4 this week' },
+                      { icon: Shield, label: 'Draft capital', value: '8 selections' },
+                    ].map((item) => (
+                      <button
+                        key={item.label}
+                        className="rounded-2xl border border-slate-200 p-4 text-left transition hover:border-[var(--primary)] hover:bg-slate-50"
+                      >
+                        <item.icon className="h-5 w-5 text-[var(--team-primary-text)]" />
+                        <span className="mt-4 block text-xs font-bold text-slate-500">
+                          {item.label}
+                        </span>
+                        <span className="mt-1 block font-black">{item.value}</span>
+                      </button>
+                    ))}
+                  </div>
+                  <Link
+                    href={getOffseasonManagerRoute('', activeTeam?.abbr)}
+                    className="mt-5 flex w-full items-center justify-between rounded-2xl bg-[var(--dark)] p-4 font-black text-[var(--team-on-dark)]"
+                  >
+                    <span>Take control in Front Office</span>
+                    <ArrowRight className="h-5 w-5" />
+                  </Link>
+                </div>
+              </section>
+            </main>
+
+            {selectedVideo ? (
+              <FilmRoomVideoModal
+                video={selectedVideo}
+                teamAbbr={teamAbbr}
+                onClose={() => setSelectedVideo(null)}
+                returnFocusTo={videoTrigger}
+              />
+            ) : null}
+          </div>
+        </TeamThemeProvider>
+      );
+    }
+
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/down-distance-d1-r2-storage-optimized/src/features/home/homepage-cleanup.test.ts:28:10)
+    Test.runInAsyncScope (node:async_hooks:211:14)
+    Test.run (node:internal/test_runner/test:979:25)
+    Test.start (node:internal/test_runner/test:877:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:296:17)
+  ...
+# Subtest: homepage Three and Out stays in the desktop right rail
+not ok 2 - homepage Three and Out stays in the desktop right rail
+  ---
+  duration_ms: 1.796542
+  location: '/private/tmp/down-distance-d1-r2-storage-optimized/src/features/home/homepage-cleanup.test.ts:2:2654'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /<aside className="space-y-6 lg:sticky/. Input:
+
+    "'use client';\n" +
+      '\n' +
+      "import { lockDocumentScroll } from '@/lib/document-scroll-lock';\n" +
+      "import { ResponsiveRail } from '@/components/layout/responsive-rail';\n" +
+      "import Link from 'next/link';\n" +
+      "import { useRouter, useSearchParams } from 'next/navigation';\n" +
+      "import { useCallback, useEffect, useMemo, useState } from 'react';\n" +
+      'import {\n' +
+      '  ArrowRight,\n' +
+      '  BarChart3,\n' +
+      '  Clock3,\n' +
+      '  Flame,\n' +
+      '  Radio,\n' +
+      '  Shield,\n' +
+      '  Sparkles,\n' +
+      '  Users,\n' +
+      '  X,\n' +
+      '  Zap,\n' +
+      "} from 'lucide-react';\n" +
+      'import {\n' +
+      '  DdMessagesIcon as MessageCircle,\n' +
+      '  DdSearchIcon as Search,\n' +
+      "} from '@/components/ui/football-icons';\n" +
+      '\n' +
+      "import { FiveWideLogo } from '@/components/branding/fivewide-logo';\n" +
+      "import LoginButton from '@/components/auth/login-button';\n" +
+      "import TeamThemeProvider from '@/components/team-theme-provider';\n" +
+      "import type { TeamBriefing } from '@/features/content/types';\n" +
+      "import { recordBriefingConsumed } from '@/features/content/consumption';\n" +
+      "import { readFanTeamPreference, saveFanTeamPreference } from '@/features/team/fan-team-preference';\n" +
+      "import { getOffseasonManagerRoute } from '@/features/team/offseason-manager-route';\n" +
+      "import { useTeamStore, type Team } from '@/features/team/team-store';\n" +
+      "import { useAuthUser } from '@/features/auth/auth-session';\n" +
+      "import CatchUpCallout from '@/components/catch-up/catch-up-callout';\n" +
+      "import { FilmRoomCard } from '@/components/film-room/film-room-grid';\n" +
+      "import FilmRoomVideoModal from '@/components/film-room/film-room-video-modal';\n" +
+      "import PlaybookHero from '@/components/home/playbook-hero';\n" +
+      "import GameDayHomepageHero from '@/components/home/game-day-homepage-hero';\n" +
+      "import HuddleStoryCard from '@/components/huddle/huddle-story-card';\n" +
+      "import { BeatBannerAd } from '@/components/beat/beat-banner-ad';\n" +
+      "import PrimaryNavigation from '@/components/primary-navigation';\n" +
+      "import MobileSiteMenu from '@/components/mobile-site-menu';\n" +
+      "import { SiteHeaderLogo, SiteHeaderShell } from '@/components/site-header-shell';\n" +
+      "import AiSearchPanel from '@/components/search/ai-search-panel';\n" +
+      "import { gameDayHeroAsset } from '@/config/game-day-hero';\n" +
+      "import type { HomepageGame } from '@/features/game-day/homepage-game';\n" +
+      "import NotificationCenter from '@/components/notifications/notification-center';\n" +
+      "import type { FilmRoomResponse, FilmRoomVideo } from '@/features/film-room/types';\n" +
+      "import { HomeThreeAndOut } from '@/components/three-and-out/home-three-and-out';\n" +
+      '\n' +
+      'const fallbackWireItems = [\n' +
+      "  { time: '11:42 AM', text: 'Team announces a roster move ahead of today’s practice.' },\n" +
+      "  { time: '10:18 AM', text: 'Injury report brings encouraging news at a key position.' },\n" +
+      "  { time: '9:05 AM', text: 'New comments clarify the plan for the starting lineup.' },\n" +
+      "  { time: 'Yesterday', text: 'League transaction wire confirms a depth signing.' },\n" +
+      '];\n' +
+      '\n' +
+      'function TeamGateway({\n' +
+      '  teams,\n' +
+      '  onSelect,\n' +
+      '  onClose,\n' +
+      '}: {\n' +
+      '  teams: Team[];\n' +
+      '  onSelect: (team: Team) => void;\n' +
+      '  onClose: () => void;\n' +
+      '}) {\n' +
+      '  return (\n' +
+      '    <TeamThemeProvider>\n' +
+      '      <div className="relative min-h-[calc(100vh-var(--site-header-height))] bg-[#F4D9B7] px-4 pb-12 pt-8 text-[#00172B] sm:px-6 sm:pt-12">\n' +
+      '        <button\n' +
+      '          type="button"\n' +
+      '          onClick={onClose}\n' +
+      '          className="absolute right-5 top-5 z-10 flex h-11 w-11 items-center justify-center rounded-full border border-[#00172B]/15 bg-white/50 text-[#00172B] transition hover:bg-white/80"\n' +
+      '          aria-label="Close team selection"\n' +
+      '        >\n' +
+      '          <X className="h-5 w-5" />\n' +
+      '        </button>\n' +
+      '        <div className="mx-auto flex max-w-6xl flex-col items-center">\n' +
+      '          <FiveWideLogo\n' +
+      '            generic\n' +
+      '            size={132}\n' +
+      '            containerClassName="h-auto w-full max-w-[300px] overflow-visible rounded-none border-0 bg-transparent p-0 shadow-none ring-0 sm:max-w-[360px]"\n' +
+      '            priority\n' +
+      '          />\n' +
+      '          <p className="mt-5 text-sm font-black uppercase tracking-[0.32em] text-[#FF3D38]">\n' +
+      '            Keep it high and tight\n' +
+      '          </p>\n' +
+      '          <h1 className="mt-10 text-center text-4xl font-black tracking-tight sm:text-5xl">\n' +
+      '            Pick your team. Enter your football world.\n' +
+      '          </h1>\n' +
+      '          <p className="mt-4 max-w-2xl text-center text-base leading-7 text-[#00172B]/65">\n' +
+      '            Your news, videos, roster moves, fan conversations, and front-office tools begin with\n' +
+      '            one choice.\n' +
+      '          </p>\n' +
+      '          <div className="mt-10 grid w-full grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8">\n' +
+      '            {teams.map((team) => (\n' +
+      '              <button\n' +
+      '                type="button"\n' +
+      '                key={team.id}\n' +
+      '                onClick={() => onSelect(team)}\n' +
+      '                className="group flex min-h-32 flex-col items-center justify-center rounded-2xl border border-[#00172B]/10 bg-white/55 p-3 text-center transition hover:-translate-y-1 hover:border-[#FF3D38]/50 hover:bg-white/85 hover:shadow-md"\n' +
+      '              >\n' +
+      '                <span\n' +
+      '                  className="flex h-16 w-16 items-center justify-center rounded-xl border p-2 shadow-sm transition group-hover:scale-105"\n' +
+      '                  style={{\n' +
+      '                    backgroundColor: `color-mix(in srgb, ${team.color_primary} 12%, white)`,\n' +
+      '                    borderColor: `color-mix(in srgb, ${team.color_secondary} 55%, transparent)`,\n' +
+      '                  }}\n' +
+      '                >\n' +
+      '                  {/* eslint-disable-next-line @next/next/no-img-element */}\n' +
+      '                  <img src={team.logo_url} alt="" className="h-full w-full object-contain" />\n' +
+      '                </span>\n' +
+      '                <span className="mt-3 text-xs font-bold leading-4 text-[#00172B]/75 group-hover:text-[#00172B]">\n' +
+      '                  {team.name}\n' +
+      '                </span>\n' +
+      '              </button>\n' +
+      '            ))}\n' +
+      '          </div>\n' +
+      '        </div>\n' +
+      '      </div>\n' +
+      '    </TeamThemeProvider>\n' +
+      '  );\n' +
+      '}\n' +
+      '\n' +
+      'export default function DownDistanceHome() {\n' +
+      '  const router = useRouter();\n' +
+      '  const searchParams = useSearchParams();\n' +
+      '  const teams = useTeamStore((state) => state.teams);\n' +
+      '  const selectedTeamId = useTeamStore((state) => state.selectedTeamId);\n' +
+      '  const setSelectedTeamId = useTeamStore((state) => state.setSelectedTeamId);\n' +
+      '  const [isTeamMenuOpen, setIsTeamMenuOpen] = useState(false);\n' +
+      '  useEffect(() => {\n' +
+      "    if (searchParams?.get('team-select') !== '1') return;\n" +
+      '    setIsTeamMenuOpen(true);\n' +
+      '    const params = new URLSearchParams(searchParams.toString());\n' +
+      "    params.delete('team-select');\n" +
+      "    router.replace(params.size ? `/?${params}` : '/', { scroll: false });\n" +
+      '  }, [router, searchParams]);\n' +
+      '  const [isSearchOpen, setIsSearchOpen] = useState(false);\n' +
+      '  useEffect(() => {\n' +
+      '    if (!isSearchOpen) return;\n' +
+      '    const previousFocus = document.activeElement as HTMLElement | null;\n' +
+      '    const releaseScroll = lockDocumentScroll();\n' +
+      '    document\n' +
+      `      .querySelector<HTMLInputElement>('[aria-label="Search Down & Distance"] input')\n` +
+      '      ?.focus();\n' +
+      '    const handleKey = (event: KeyboardEvent) => {\n' +
+      "      if (event.key === 'Escape') setIsSearchOpen(false);\n" +
+      "      if (event.key !== 'Tab') return;\n" +
+      `      const dialog = document.querySelector('[aria-label="Search Down & Distance"]');\n` +
+      '      const nodes = Array.from(\n' +
+      "        dialog?.querySelectorAll<HTMLElement>('input, select, button:not(:disabled), a[href]') ??\n" +
+      '          [],\n' +
+      '      ).filter((e) => e.getClientRects().length);\n' +
+      '      const first = nodes[0],\n' +
+      '        last = nodes[nodes.length - 1];\n' +
+      '      if (event.shiftKey && document.activeElement === first) {\n' +
+      '        event.preventDefault();\n' +
+      '        last?.focus();\n' +
+      '      } else if (!event.shiftKey && document.activeElement === last) {\n' +
+      '        event.preventDefault();\n' +
+      '        first?.focus();\n' +
+      '      }\n' +
+      '    };\n' +
+      "    window.addEventListener('keydown', handleKey);\n" +
+      '    return () => {\n' +
+      '      releaseScroll();\n' +
+      '      previousFocus?.focus();\n' +
+      "      window.removeEventListener('keydown', handleKey);\n" +
+      '    };\n' +
+      '  }, [isSearchOpen]);\n' +
+      '\n' +
+      "  const [searchQuery, setSearchQuery] = useState('');\n" +
+      "  const [aiSearchQuery, setAiSearchQuery] = useState('');\n" +
+      '  const [hasSelectedTeam, setHasSelectedTeam] = useState(false);\n' +
+      '  const [briefings, setBriefings] = useState<TeamBriefing[]>([]);\n' +
+      '  const [wireEntries, setWireEntries] = useState<\n' +
+      '    Array<{ id: string; headline: string; occurredAt: string }>\n' +
+      '  >([]);\n' +
+      '  const [homepageGame, setHomepageGame] = useState<HomepageGame | null>(null);\n' +
+      '  const [filmRoomData, setFilmRoomData] = useState<FilmRoomResponse | null>(null);\n' +
+      '  const [filmRoomLoading, setFilmRoomLoading] = useState(false);\n' +
+      '  const [selectedVideo, setSelectedVideo] = useState<FilmRoomVideo | null>(null);\n' +
+      '  const [videoTrigger, setVideoTrigger] = useState<HTMLButtonElement | null>(null);\n' +
+      '  const { user } = useAuthUser();\n' +
+      '  const [personalization, setPersonalization] = useState<{\n' +
+      '    primaryTeam?: { teamId?: string } | null;\n' +
+      '    savedContent?: Array<{ id: string }>;\n' +
+      '  } | null>(null);\n' +
+      '\n' +
+      '  const openBriefing = useCallback(\n' +
+      '    (briefing: TeamBriefing) => {\n' +
+      '      if (user) void recordBriefingConsumed(briefing);\n' +
+      '    },\n' +
+      '    [user],\n' +
+      '  );\n' +
+      '\n' +
+      '  const selectedTeam = useMemo(\n' +
+      '    () => teams.find((team) => team.id === selectedTeamId),\n' +
+      '    [selectedTeamId, teams],\n' +
+      '  );\n' +
+      '  const activeTeam = hasSelectedTeam ? selectedTeam : undefined;\n' +
+      "  const teamName = activeTeam?.name ?? 'NFL';\n" +
+      "  const teamAbbr = activeTeam?.abbr ?? 'NFL';\n" +
+      "  const teamRouteSuffix = activeTeam ? `?team=${activeTeam.abbr}` : '';\n" +
+      '\n' +
+      '  useEffect(() => {\n' +
+      '    const params = new URLSearchParams(window.location.search);\n' +
+      "    if (params.get('search') === '1') setIsSearchOpen(true);\n" +
+      '  }, []);\n' +
+      '\n' +
+      '  useEffect(() => {\n' +
+      '    const savedTeamAbbr = readFanTeamPreference();\n' +
+      '    if (!savedTeamAbbr) return;\n' +
+      '    const savedTeam = teams.find((team) => team.abbr === savedTeamAbbr);\n' +
+      '    if (!savedTeam) return;\n' +
+      '    setSelectedTeamId(savedTeam.id);\n' +
+      '    setHasSelectedTeam(true);\n' +
+      '  }, [setSelectedTeamId, teams]);\n' +
+      '\n' +
+      '  useEffect(() => {\n' +
+      '    const controller = new AbortController();\n' +
+      '    setBriefings([]);\n' +
+      '    const loadBriefings = async () => {\n' +
+      '      try {\n' +
+      "        if (teamAbbr === 'NFL') return;\n" +
+      '        const response = await fetch(`/api/content/homepage?team=${encodeURIComponent(teamAbbr)}`, {\n' +
+      '          signal: controller.signal,\n' +
+      '        });\n' +
+      '        if (!response.ok) return;\n' +
+      '        const payload '... 19757 more characters
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: |-
+    'use client';
+
+    import { lockDocumentScroll } from '@/lib/document-scroll-lock';
+    import { ResponsiveRail } from '@/components/layout/responsive-rail';
+    import Link from 'next/link';
+    import { useRouter, useSearchParams } from 'next/navigation';
+    import { useCallback, useEffect, useMemo, useState } from 'react';
+    import {
+      ArrowRight,
+      BarChart3,
+      Clock3,
+      Flame,
+      Radio,
+      Shield,
+      Sparkles,
+      Users,
+      X,
+      Zap,
+    } from 'lucide-react';
+    import {
+      DdMessagesIcon as MessageCircle,
+      DdSearchIcon as Search,
+    } from '@/components/ui/football-icons';
+
+    import { FiveWideLogo } from '@/components/branding/fivewide-logo';
+    import LoginButton from '@/components/auth/login-button';
+    import TeamThemeProvider from '@/components/team-theme-provider';
+    import type { TeamBriefing } from '@/features/content/types';
+    import { recordBriefingConsumed } from '@/features/content/consumption';
+    import { readFanTeamPreference, saveFanTeamPreference } from '@/features/team/fan-team-preference';
+    import { getOffseasonManagerRoute } from '@/features/team/offseason-manager-route';
+    import { useTeamStore, type Team } from '@/features/team/team-store';
+    import { useAuthUser } from '@/features/auth/auth-session';
+    import CatchUpCallout from '@/components/catch-up/catch-up-callout';
+    import { FilmRoomCard } from '@/components/film-room/film-room-grid';
+    import FilmRoomVideoModal from '@/components/film-room/film-room-video-modal';
+    import PlaybookHero from '@/components/home/playbook-hero';
+    import GameDayHomepageHero from '@/components/home/game-day-homepage-hero';
+    import HuddleStoryCard from '@/components/huddle/huddle-story-card';
+    import { BeatBannerAd } from '@/components/beat/beat-banner-ad';
+    import PrimaryNavigation from '@/components/primary-navigation';
+    import MobileSiteMenu from '@/components/mobile-site-menu';
+    import { SiteHeaderLogo, SiteHeaderShell } from '@/components/site-header-shell';
+    import AiSearchPanel from '@/components/search/ai-search-panel';
+    import { gameDayHeroAsset } from '@/config/game-day-hero';
+    import type { HomepageGame } from '@/features/game-day/homepage-game';
+    import NotificationCenter from '@/components/notifications/notification-center';
+    import type { FilmRoomResponse, FilmRoomVideo } from '@/features/film-room/types';
+    import { HomeThreeAndOut } from '@/components/three-and-out/home-three-and-out';
+
+    const fallbackWireItems = [
+      { time: '11:42 AM', text: 'Team announces a roster move ahead of today’s practice.' },
+      { time: '10:18 AM', text: 'Injury report brings encouraging news at a key position.' },
+      { time: '9:05 AM', text: 'New comments clarify the plan for the starting lineup.' },
+      { time: 'Yesterday', text: 'League transaction wire confirms a depth signing.' },
+    ];
+
+    function TeamGateway({
+      teams,
+      onSelect,
+      onClose,
+    }: {
+      teams: Team[];
+      onSelect: (team: Team) => void;
+      onClose: () => void;
+    }) {
+      return (
+        <TeamThemeProvider>
+          <div className="relative min-h-[calc(100vh-var(--site-header-height))] bg-[#F4D9B7] px-4 pb-12 pt-8 text-[#00172B] sm:px-6 sm:pt-12">
+            <button
+              type="button"
+              onClick={onClose}
+              className="absolute right-5 top-5 z-10 flex h-11 w-11 items-center justify-center rounded-full border border-[#00172B]/15 bg-white/50 text-[#00172B] transition hover:bg-white/80"
+              aria-label="Close team selection"
+            >
+              <X className="h-5 w-5" />
+            </button>
+            <div className="mx-auto flex max-w-6xl flex-col items-center">
+              <FiveWideLogo
+                generic
+                size={132}
+                containerClassName="h-auto w-full max-w-[300px] overflow-visible rounded-none border-0 bg-transparent p-0 shadow-none ring-0 sm:max-w-[360px]"
+                priority
+              />
+              <p className="mt-5 text-sm font-black uppercase tracking-[0.32em] text-[#FF3D38]">
+                Keep it high and tight
+              </p>
+              <h1 className="mt-10 text-center text-4xl font-black tracking-tight sm:text-5xl">
+                Pick your team. Enter your football world.
+              </h1>
+              <p className="mt-4 max-w-2xl text-center text-base leading-7 text-[#00172B]/65">
+                Your news, videos, roster moves, fan conversations, and front-office tools begin with
+                one choice.
+              </p>
+              <div className="mt-10 grid w-full grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8">
+                {teams.map((team) => (
+                  <button
+                    type="button"
+                    key={team.id}
+                    onClick={() => onSelect(team)}
+                    className="group flex min-h-32 flex-col items-center justify-center rounded-2xl border border-[#00172B]/10 bg-white/55 p-3 text-center transition hover:-translate-y-1 hover:border-[#FF3D38]/50 hover:bg-white/85 hover:shadow-md"
+                  >
+                    <span
+                      className="flex h-16 w-16 items-center justify-center rounded-xl border p-2 shadow-sm transition group-hover:scale-105"
+                      style={{
+                        backgroundColor: `color-mix(in srgb, ${team.color_primary} 12%, white)`,
+                        borderColor: `color-mix(in srgb, ${team.color_secondary} 55%, transparent)`,
+                      }}
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={team.logo_url} alt="" className="h-full w-full object-contain" />
+                    </span>
+                    <span className="mt-3 text-xs font-bold leading-4 text-[#00172B]/75 group-hover:text-[#00172B]">
+                      {team.name}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </TeamThemeProvider>
+      );
+    }
+
+    export default function DownDistanceHome() {
+      const router = useRouter();
+      const searchParams = useSearchParams();
+      const teams = useTeamStore((state) => state.teams);
+      const selectedTeamId = useTeamStore((state) => state.selectedTeamId);
+      const setSelectedTeamId = useTeamStore((state) => state.setSelectedTeamId);
+      const [isTeamMenuOpen, setIsTeamMenuOpen] = useState(false);
+      useEffect(() => {
+        if (searchParams?.get('team-select') !== '1') return;
+        setIsTeamMenuOpen(true);
+        const params = new URLSearchParams(searchParams.toString());
+        params.delete('team-select');
+        router.replace(params.size ? `/?${params}` : '/', { scroll: false });
+      }, [router, searchParams]);
+      const [isSearchOpen, setIsSearchOpen] = useState(false);
+      useEffect(() => {
+        if (!isSearchOpen) return;
+        const previousFocus = document.activeElement as HTMLElement | null;
+        const releaseScroll = lockDocumentScroll();
+        document
+          .querySelector<HTMLInputElement>('[aria-label="Search Down & Distance"] input')
+          ?.focus();
+        const handleKey = (event: KeyboardEvent) => {
+          if (event.key === 'Escape') setIsSearchOpen(false);
+          if (event.key !== 'Tab') return;
+          const dialog = document.querySelector('[aria-label="Search Down & Distance"]');
+          const nodes = Array.from(
+            dialog?.querySelectorAll<HTMLElement>('input, select, button:not(:disabled), a[href]') ??
+              [],
+          ).filter((e) => e.getClientRects().length);
+          const first = nodes[0],
+            last = nodes[nodes.length - 1];
+          if (event.shiftKey && document.activeElement === first) {
+            event.preventDefault();
+            last?.focus();
+          } else if (!event.shiftKey && document.activeElement === last) {
+            event.preventDefault();
+            first?.focus();
+          }
+        };
+        window.addEventListener('keydown', handleKey);
+        return () => {
+          releaseScroll();
+          previousFocus?.focus();
+          window.removeEventListener('keydown', handleKey);
+        };
+      }, [isSearchOpen]);
+
+      const [searchQuery, setSearchQuery] = useState('');
+      const [aiSearchQuery, setAiSearchQuery] = useState('');
+      const [hasSelectedTeam, setHasSelectedTeam] = useState(false);
+      const [briefings, setBriefings] = useState<TeamBriefing[]>([]);
+      const [wireEntries, setWireEntries] = useState<
+        Array<{ id: string; headline: string; occurredAt: string }>
+      >([]);
+      const [homepageGame, setHomepageGame] = useState<HomepageGame | null>(null);
+      const [filmRoomData, setFilmRoomData] = useState<FilmRoomResponse | null>(null);
+      const [filmRoomLoading, setFilmRoomLoading] = useState(false);
+      const [selectedVideo, setSelectedVideo] = useState<FilmRoomVideo | null>(null);
+      const [videoTrigger, setVideoTrigger] = useState<HTMLButtonElement | null>(null);
+      const { user } = useAuthUser();
+      const [personalization, setPersonalization] = useState<{
+        primaryTeam?: { teamId?: string } | null;
+        savedContent?: Array<{ id: string }>;
+      } | null>(null);
+
+      const openBriefing = useCallback(
+        (briefing: TeamBriefing) => {
+          if (user) void recordBriefingConsumed(briefing);
+        },
+        [user],
+      );
+
+      const selectedTeam = useMemo(
+        () => teams.find((team) => team.id === selectedTeamId),
+        [selectedTeamId, teams],
+      );
+      const activeTeam = hasSelectedTeam ? selectedTeam : undefined;
+      const teamName = activeTeam?.name ?? 'NFL';
+      const teamAbbr = activeTeam?.abbr ?? 'NFL';
+      const teamRouteSuffix = activeTeam ? `?team=${activeTeam.abbr}` : '';
+
+      useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('search') === '1') setIsSearchOpen(true);
+      }, []);
+
+      useEffect(() => {
+        const savedTeamAbbr = readFanTeamPreference();
+        if (!savedTeamAbbr) return;
+        const savedTeam = teams.find((team) => team.abbr === savedTeamAbbr);
+        if (!savedTeam) return;
+        setSelectedTeamId(savedTeam.id);
+        setHasSelectedTeam(true);
+      }, [setSelectedTeamId, teams]);
+
+      useEffect(() => {
+        const controller = new AbortController();
+        setBriefings([]);
+        const loadBriefings = async () => {
+          try {
+            if (teamAbbr === 'NFL') return;
+            const response = await fetch(`/api/content/homepage?team=${encodeURIComponent(teamAbbr)}`, {
+              signal: controller.signal,
+            });
+            if (!response.ok) return;
+            const payload = (await response.json()) as {
+              huddle?: TeamBriefing[];
+              wire?: Array<{ id: string; headline: string; occurredAt: string }>;
+            };
+            setBriefings((payload.huddle ?? []).slice(0, 4));
+            setWireEntries(payload.wire ?? []);
+          } catch (error) {
+            if (!(error instanceof DOMException && error.name === 'AbortError')) {
+              console.error('[huddle] failed to load briefings', error);
+            }
+          }
+        };
+        void loadBriefings();
+        return () => controller.abort();
+      }, [teamAbbr]);
+
+      useEffect(() => {
+        const controller = new AbortController();
+        setFilmRoomData(null);
+        setFilmRoomLoading(teamAbbr !== 'NFL');
+        if (teamAbbr === 'NFL') return () => controller.abort();
+        void fetch(`/api/film-room?team=${encodeURIComponent(teamAbbr)}`, {
+          signal: controller.signal,
+        })
+          .then(async (response) => {
+            if (!response.ok) throw new Error(`Film Room request failed: ${response.status}`);
+            setFilmRoomData((await response.json()) as FilmRoomResponse);
+          })
+          .catch((error: unknown) => {
+            if (!(error instanceof DOMException && error.name === 'AbortError')) {
+              setFilmRoomData({
+                teamId: teamAbbr,
+                videos: [],
+                unavailableVideoIds: [],
+                configured: true,
+                message: 'Film Room is temporarily unavailable. Please try again soon.',
+              });
+            }
+          })
+          .finally(() => {
+            if (!controller.signal.aborted) setFilmRoomLoading(false);
+          });
+        return () => controller.abort();
+      }, [teamAbbr]);
+
+      useEffect(() => {
+        const controller = new AbortController();
+        setHomepageGame(null);
+        if (!activeTeam || !gameDayHeroAsset(activeTeam.abbr)) return () => controller.abort();
+        const params = new URLSearchParams({ team: activeTeam.abbr });
+        if (process.env.NODE_ENV !== 'production') {
+          const pageParams = new URLSearchParams(window.location.search);
+          if (pageParams.get('gameday') === '1') params.set('gameday', '1');
+          const previewAt = pageParams.get('gamedayAt');
+          if (previewAt) params.set('gamedayAt', previewAt);
+        }
+        void fetch(`/api/game-day/homepage?${params}`, {
+          cache: 'no-store',
+          signal: controller.signal,
+        })
+          .then((response) => (response.ok ? response.json() : null))
+          .then((payload: { game?: HomepageGame | null } | null) =>
+            setHomepageGame(payload?.game ?? null),
+          )
+          .catch((error) => {
+            if (!(error instanceof DOMException && error.name === 'AbortError')) {
+              console.error('[game-day-hero] failed to load game', error);
+            }
+          });
+        return () => controller.abort();
+      }, [activeTeam]);
+
+      useEffect(() => {
+        if (!user) {
+          setPersonalization(null);
+          return;
+        }
+        void fetch('/api/user/home', { cache: 'no-store' })
+          .then((response) => (response.ok ? response.json() : null))
+          .then((body: { personalization?: typeof personalization } | null) => {
+            const nextPersonalization = body?.personalization ?? null;
+            setPersonalization(nextPersonalization);
+            const primaryTeamId = nextPersonalization?.primaryTeam?.teamId;
+            const primaryTeam = teams.find((team) => team.abbr === primaryTeamId);
+            if (primaryTeam) {
+              setSelectedTeamId(primaryTeam.id);
+              setHasSelectedTeam(true);
+              void saveFanTeamPreference(primaryTeam.abbr);
+            }
+          });
+      }, [setSelectedTeamId, teams, user]);
+
+      const huddleCards = useMemo(
+        () =>
+          briefings.map((briefing) => ({
+            id: briefing.id,
+            label: briefing.category,
+            title: briefing.headline,
+            summary: briefing.summary,
+            briefing,
+          })),
+        [briefings],
+      );
+      const displayedWireItems = wireEntries.length
+        ? wireEntries.map((entry) => ({
+            id: entry.id,
+            time: new Date(entry.occurredAt).toLocaleTimeString([], {
+              hour: 'numeric',
+              minute: '2-digit',
+            }),
+            text: entry.headline,
+          }))
+        : fallbackWireItems.map((item) => ({ ...item, id: null }));
+      const latestFilmRoomVideos = useMemo(
+        () =>
+          [...(filmRoomData?.videos ?? [])]
+            .sort(
+              (left, right) =>
+                new Date(right.publishedAt ?? right.addedAt).getTime() -
+                new Date(left.publishedAt ?? left.addedAt).getTime(),
+            )
+            .slice(0, 3),
+        [filmRoomData?.videos],
+      );
+      const searchItems = useMemo(
+        () => [
+          ...huddleCards.map((item) => ({
+            category: 'The Beat',
+            title: item.title,
+            description: item.summary,
+            href: `/content/${encodeURIComponent(item.id)}`,
+          })),
+          ...latestFilmRoomVideos.map((item) => ({
+            category: 'Film Room',
+            title: item.title,
+            description: `${item.channel.name} · ${item.duration}`,
+            href: `/watch?team=${encodeURIComponent(teamAbbr)}&video=${encodeURIComponent(item.id)}`,
+          })),
+          ...displayedWireItems.map((item) => ({
+            category: 'The Wire',
+            title: item.text,
+            description: item.time,
+            href: item.id ? `/content/${encodeURIComponent(item.id)}` : '/wire',
+          })),
+          {
+            category: 'Fan Discussion',
+            title: 'Is the biggest position battle already decided?',
+            description: `Trending conversation among ${teamName} fans`,
+            href: '#fan-discussion',
+          },
+          {
+            category: 'Front Office',
+            title: `${teamName} depth chart, cap outlook, transactions, and draft capital`,
+            description: 'Roster and team-building information',
+            href: getOffseasonManagerRoute('', activeTeam?.abbr),
+          },
+        ],
+        [activeTeam?.abbr, displayedWireItems, huddleCards, latestFilmRoomVideos, teamAbbr, teamName],
+      );
+
+      return (
+        <TeamThemeProvider team={activeTeam}>
+          <div className="min-h-screen bg-[#f7f4ee] text-[#00172B]">
+            {isTeamMenuOpen ? (
+              <div className="fixed inset-x-0 bottom-0 top-[var(--site-header-height)] z-50 overflow-y-auto">
+                <TeamGateway
+                  teams={teams}
+                  onClose={() => setIsTeamMenuOpen(false)}
+                  onSelect={(team) => {
+                    setSelectedTeamId(team.id);
+                    saveFanTeamPreference(team.abbr);
+                    setHasSelectedTeam(true);
+                    setIsTeamMenuOpen(false);
+                  }}
+                />
+              </div>
+            ) : null}
+            {isSearchOpen ? (
+              <div
+                className="mobile-search-overlay fixed inset-x-0 bottom-0 top-[var(--site-header-height)] z-50 flex items-start justify-center overflow-hidden bg-slate-950/75 px-4 py-4 backdrop-blur-sm sm:py-8"
+                role="dialog"
+                aria-modal="true"
+                aria-label="Search Down & Distance"
+                onMouseDown={(event) => {
+                  if (event.currentTarget === event.target) setIsSearchOpen(false);
+                }}
+              >
+                <AiSearchPanel
+                  variant="overlay"
+                  teamId={activeTeam?.abbr ?? ''}
+                  teamName={teamName}
+                  teamCity={activeTeam?.city ?? teamName}
+                  primaryColor={activeTeam?.color_primary ?? '#00172b'}
+                  nickname={activeTeam?.name.split(/\s+/).at(-1) ?? 'NFL'}
+                  query={searchQuery}
+                  onQueryChange={setSearchQuery}
+                  onClose={() => setIsSearchOpen(false)}
+                  quickLinks={searchItems}
+                />
+              </div>
+            ) : null}
+            <SiteHeaderShell tone={activeTeam ? 'team' : 'merch'}>
+              <SiteHeaderLogo teamAbbr={activeTeam?.abbr} generic={!activeTeam} />
+              <PrimaryNavigation teamAbbr={activeTeam?.abbr} active="huddle" showMobile={false} />
+              <div className="ml-auto flex min-w-0 items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setIsSearchOpen(true)}
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-current/20 text-[var(--team-on-dark)] hover:bg-white/10"
+                  aria-label="Search"
+                >
+                  <Search className="h-4 w-4" />
+                </button>
+                <NotificationCenter teamAbbr={activeTeam?.abbr} />
+                <span className="hidden lg:block">
+                  <LoginButton teamAbbr={activeTeam?.abbr} />
+                </span>
+                <MobileSiteMenu teamAbbr={activeTeam?.abbr} active="huddle" />
+              </div>
+            </SiteHeaderShell>
+
+            {activeTeam ? (
+              <><GameDayHomepageHero team={activeTeam} game={homepageGame} /><Link href={`/huddle?team=${activeTeam.abbr}${homepageGame?`&game=${homepageGame.id}`:''}`} style={{display:'block',padding:16}}>Join your team in The Huddle →</Link></>
+            ) : (
+              <PlaybookHero />
+            )}
+
+            {user && activeTeam ? <CatchUpCallout teamId={activeTeam.abbr} /> : null}
+
+            {activeTeam ? (
+              <div className="mx-auto max-w-[1440px] px-4 pt-8 sm:px-6 lg:px-8">
+                <AiSearchPanel
+                  teamId={activeTeam.abbr}
+                  teamName={activeTeam.name}
+                  teamCity={activeTeam.city ?? activeTeam.name}
+                  primaryColor={activeTeam.color_primary}
+                  nickname={activeTeam.name.split(/\s+/).at(-1) ?? activeTeam.name}
+                  query={aiSearchQuery}
+                  onQueryChange={setAiSearchQuery}
+                />
+              </div>
+            ) : null}
+
+            <main className="mx-auto max-w-[1440px] px-4 py-8 sm:px-6 lg:px-8">
+              <section id="huddle" className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
+                <div>
+                  <div className="mb-4 flex items-end justify-between gap-4">
+                    <div>
+                      <div className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.24em] text-[var(--team-primary-text)]">
+                        <Sparkles className="h-4 w-4" /> The Beat
+                      </div>
+                      <h2 className="mt-2 text-2xl font-black tracking-tight sm:text-3xl">
+                        What {teamName} fans need to know
+                      </h2>
+                    </div>
+                    <Link
+                      href={`/the-beat${teamRouteSuffix}`}
+                      className="hidden text-sm font-bold text-[var(--team-primary-text)] sm:block"
+                    >
+                      See the whole field →
+                    </Link>
+                  </div>
+                  <div className="grid items-stretch gap-4 md:grid-cols-2 xl:grid-cols-3">
+                    {huddleCards.slice(0, 3).map((item, index) => (
+                      <HuddleStoryCard
+                        key={item.id}
+                        id={item.id}
+                        teamId={teamAbbr}
+                        appearance="beat"
+                        graphicDecision={item.briefing.graphicDecision}
+                        headline={item.title}
+                        summary={item.summary}
+                        category={item.label}
+                        status={item.briefing.status}
+                        sourceCount={item.briefing.sourceCount}
+                        updatedAt={item.briefing.updatedAt}
+                        materialUpdateCount={item.briefing.materialUpdateCount}
+                        hotReadUntil={item.briefing.hotReadUntil}
+                        firstReportedBy={item.briefing.firstReportedBy}
+                        sources={item.briefing.sources}
+                        lead={index === 0}
+                        onOpen={() => openBriefing(item.briefing)}
+                      />
+                    ))}
+                    <BeatBannerAd />
+                    {!huddleCards.length ? (
+                      <div className="rounded-2xl border border-dashed border-[#00172B]/15 bg-white/55 p-8 text-sm font-semibold text-[#40556b] md:col-span-2 xl:col-span-3">
+                        No verified Beat stories are ready for {teamName} yet.
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
+                <ResponsiveRail
+                  stackAt={1023}
+                  className="space-y-6 lg:sticky lg:top-[calc(var(--site-header-height)+1.5rem)] lg:self-start"
+                >
+                  <HomeThreeAndOut
+                    teamAbbr={teamAbbr}
+                    stories={huddleCards}
+                    onOpen={(id) => {
+                      const story = huddleCards.find((item) => item.id === id);
+                      if (story) openBriefing(story.briefing);
+                    }}
+                  />
+                  <section
+                    id="wire"
+                    className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
+                  >
+                    <div className="flex items-center justify-between">
+                      <h3 className="flex items-center gap-2 text-lg font-black">
+                        <Radio className="h-4 w-4 text-red-600" /> The Wire
+                      </h3>
+                      <span className="flex items-center gap-1 text-[10px] font-black uppercase tracking-wider text-red-600">
+                        <span className="h-2 w-2 animate-pulse rounded-full bg-red-600" /> Live
+                      </span>
+                    </div>
+                    <div className="mt-4 divide-y divide-slate-100">
+                      {displayedWireItems.map((item) => (
+                        <div key={`${item.time}-${item.text}`} className="py-4 first:pt-1">
+                          <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                            {item.time}
+                          </p>
+                          <p className="mt-1 text-sm font-semibold leading-5">{item.text}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+                </ResponsiveRail>
+              </section>
+
+              <section id="watch" className="mt-10 rounded-3xl bg-slate-950 p-6 text-white sm:p-8">
+                <div className="mb-6 flex items-end justify-between">
+                  <div>
+                    <p className="text-xs font-black uppercase tracking-[0.24em] text-[var(--team-secondary-on-dark)]">
+                      Film Room
+                    </p>
+                    <h2 className="mt-2 text-2xl font-black">Worth your time today</h2>
+                  </div>
+                  <Link href={`/watch${teamRouteSuffix}`} className="text-sm font-bold text-white/60">
+                    Browse all →
+                  </Link>
+                </div>
+                <div className="grid gap-4 md:grid-cols-3">
+                  {latestFilmRoomVideos.map((video, index) => (
+                    <FilmRoomCard
+                      key={video.id}
+                      video={video}
+                      sequence={index + 1}
+                      onPlay={(nextVideo, trigger) => {
+                        setVideoTrigger(trigger);
+                        setSelectedVideo(nextVideo);
+                      }}
+                    />
+                  ))}
+                  {filmRoomLoading
+                    ? Array.from({ length: 3 }, (_, index) => (
+                        <div key={index} className="overflow-hidden rounded-xl bg-white">
+                          <div className="aspect-video animate-pulse bg-slate-700" />
+                          <div className="space-y-3 p-5">
+                            <div className="h-5 animate-pulse rounded bg-slate-200" />
+                            <div className="h-5 w-3/4 animate-pulse rounded bg-slate-200" />
+                          </div>
+                        </div>
+                      ))
+                    : null}
+                  {!filmRoomLoading && !latestFilmRoomVideos.length ? (
+                    <p className="rounded-2xl border border-dashed border-white/20 p-6 text-sm font-semibold text-white/70 md:col-span-3">
+                      {filmRoomData?.message ?? `No curated ${teamName} videos are available yet.`}
+                    </p>
+                  ) : null}
+                </div>
+              </section>
+
+              <section className="mt-10 grid gap-6 lg:grid-cols-2">
+                <div
+                  id="fan-discussion"
+                  className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8"
+                >
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.22em] text-orange-600">
+                        <Flame className="h-4 w-4" /> Fan discussion
+                      </p>
+                      <h2 className="mt-2 text-2xl font-black">Fans are talking about...</h2>
+                    </div>
+                    <MessageCircle className="h-7 w-7 text-slate-300" />
+                  </div>
+                  <div className="mt-7 rounded-2xl bg-slate-50 p-5">
+                    <h3 className="text-xl font-black">
+                      Is the biggest position battle already decided?
+                    </h3>
+                    <div className="mt-3 flex items-center gap-4 text-xs font-bold text-slate-500">
+                      <span className="flex items-center gap-1">
+                        <MessageCircle className="h-3.5 w-3.5" /> 2,100 comments
+                      </span>
+                      <span className="flex items-center gap-1 text-orange-600">
+                        <Flame className="h-3.5 w-3.5" /> Trending
+                      </span>
+                    </div>
+                    <p className="mt-5 border-l-4 border-[var(--secondary)] pl-4 text-sm leading-6 text-slate-600">
+                      The conversation shifted after three straight positive practice reports. Fans are
+                      increasingly convinced the competition has a clear leader.
+                    </p>
+                    <button className="mt-5 text-sm font-black text-[var(--team-primary-text)]">
+                      Open the original discussion →
+                    </button>
+                  </div>
+                </div>
+                <div
+                  id="front-office"
+                  className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8"
+                >
+                  <p className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.22em] text-[var(--team-primary-text)]">
+                    <Shield className="h-4 w-4" /> Front Office
+                  </p>
+                  <h2 className="mt-2 text-2xl font-black">Build the complete picture</h2>
+                  <div className="mt-7 grid grid-cols-2 gap-3">
+                    {[
+                      { icon: Users, label: 'Depth chart', value: '53 players' },
+                      { icon: BarChart3, label: 'Cap outlook', value: '$40.8M space' },
+                      { icon: Clock3, label: 'Transactions', value: '4 this week' },
+                      { icon: Shield, label: 'Draft capital', value: '8 selections' },
+                    ].map((item) => (
+                      <button
+                        key={item.label}
+                        className="rounded-2xl border border-slate-200 p-4 text-left transition hover:border-[var(--primary)] hover:bg-slate-50"
+                      >
+                        <item.icon className="h-5 w-5 text-[var(--team-primary-text)]" />
+                        <span className="mt-4 block text-xs font-bold text-slate-500">
+                          {item.label}
+                        </span>
+                        <span className="mt-1 block font-black">{item.value}</span>
+                      </button>
+                    ))}
+                  </div>
+                  <Link
+                    href={getOffseasonManagerRoute('', activeTeam?.abbr)}
+                    className="mt-5 flex w-full items-center justify-between rounded-2xl bg-[var(--dark)] p-4 font-black text-[var(--team-on-dark)]"
+                  >
+                    <span>Take control in Front Office</span>
+                    <ArrowRight className="h-5 w-5" />
+                  </Link>
+                </div>
+              </section>
+            </main>
+
+            {selectedVideo ? (
+              <FilmRoomVideoModal
+                video={selectedVideo}
+                teamAbbr={teamAbbr}
+                onClose={() => setSelectedVideo(null)}
+                returnFocusTo={videoTrigger}
+              />
+            ) : null}
+          </div>
+        </TeamThemeProvider>
+      );
+    }
+
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/down-distance-d1-r2-storage-optimized/src/features/home/homepage-cleanup.test.ts:37:10)
+    Test.runInAsyncScope (node:async_hooks:211:14)
+    Test.run (node:internal/test_runner/test:979:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:677:18)
+    Test.postRun (node:internal/test_runner/test:1090:19)
+    Test.run (node:internal/test_runner/test:1018:12)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: Three and Out ampersands use the accessible bright team accent on dark panels
+not ok 3 - Three and Out ampersands use the accessible bright team accent on dark panels
+  ---
+  duration_ms: 1.162583
+  location: '/private/tmp/down-distance-d1-r2-storage-optimized/src/features/home/homepage-cleanup.test.ts:2:2904'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /<span className="dd-three-out-ampersand">&amp;<\/span>/. Input:
+
+    "'use client';\n" +
+      '\n' +
+      "import { lockDocumentScroll } from '@/lib/document-scroll-lock';\n" +
+      "import { ResponsiveRail } from '@/components/layout/responsive-rail';\n" +
+      "import Link from 'next/link';\n" +
+      "import { useRouter, useSearchParams } from 'next/navigation';\n" +
+      "import { useCallback, useEffect, useMemo, useState } from 'react';\n" +
+      'import {\n' +
+      '  ArrowRight,\n' +
+      '  BarChart3,\n' +
+      '  Clock3,\n' +
+      '  Flame,\n' +
+      '  Radio,\n' +
+      '  Shield,\n' +
+      '  Sparkles,\n' +
+      '  Users,\n' +
+      '  X,\n' +
+      '  Zap,\n' +
+      "} from 'lucide-react';\n" +
+      'import {\n' +
+      '  DdMessagesIcon as MessageCircle,\n' +
+      '  DdSearchIcon as Search,\n' +
+      "} from '@/components/ui/football-icons';\n" +
+      '\n' +
+      "import { FiveWideLogo } from '@/components/branding/fivewide-logo';\n" +
+      "import LoginButton from '@/components/auth/login-button';\n" +
+      "import TeamThemeProvider from '@/components/team-theme-provider';\n" +
+      "import type { TeamBriefing } from '@/features/content/types';\n" +
+      "import { recordBriefingConsumed } from '@/features/content/consumption';\n" +
+      "import { readFanTeamPreference, saveFanTeamPreference } from '@/features/team/fan-team-preference';\n" +
+      "import { getOffseasonManagerRoute } from '@/features/team/offseason-manager-route';\n" +
+      "import { useTeamStore, type Team } from '@/features/team/team-store';\n" +
+      "import { useAuthUser } from '@/features/auth/auth-session';\n" +
+      "import CatchUpCallout from '@/components/catch-up/catch-up-callout';\n" +
+      "import { FilmRoomCard } from '@/components/film-room/film-room-grid';\n" +
+      "import FilmRoomVideoModal from '@/components/film-room/film-room-video-modal';\n" +
+      "import PlaybookHero from '@/components/home/playbook-hero';\n" +
+      "import GameDayHomepageHero from '@/components/home/game-day-homepage-hero';\n" +
+      "import HuddleStoryCard from '@/components/huddle/huddle-story-card';\n" +
+      "import { BeatBannerAd } from '@/components/beat/beat-banner-ad';\n" +
+      "import PrimaryNavigation from '@/components/primary-navigation';\n" +
+      "import MobileSiteMenu from '@/components/mobile-site-menu';\n" +
+      "import { SiteHeaderLogo, SiteHeaderShell } from '@/components/site-header-shell';\n" +
+      "import AiSearchPanel from '@/components/search/ai-search-panel';\n" +
+      "import { gameDayHeroAsset } from '@/config/game-day-hero';\n" +
+      "import type { HomepageGame } from '@/features/game-day/homepage-game';\n" +
+      "import NotificationCenter from '@/components/notifications/notification-center';\n" +
+      "import type { FilmRoomResponse, FilmRoomVideo } from '@/features/film-room/types';\n" +
+      "import { HomeThreeAndOut } from '@/components/three-and-out/home-three-and-out';\n" +
+      '\n' +
+      'const fallbackWireItems = [\n' +
+      "  { time: '11:42 AM', text: 'Team announces a roster move ahead of today’s practice.' },\n" +
+      "  { time: '10:18 AM', text: 'Injury report brings encouraging news at a key position.' },\n" +
+      "  { time: '9:05 AM', text: 'New comments clarify the plan for the starting lineup.' },\n" +
+      "  { time: 'Yesterday', text: 'League transaction wire confirms a depth signing.' },\n" +
+      '];\n' +
+      '\n' +
+      'function TeamGateway({\n' +
+      '  teams,\n' +
+      '  onSelect,\n' +
+      '  onClose,\n' +
+      '}: {\n' +
+      '  teams: Team[];\n' +
+      '  onSelect: (team: Team) => void;\n' +
+      '  onClose: () => void;\n' +
+      '}) {\n' +
+      '  return (\n' +
+      '    <TeamThemeProvider>\n' +
+      '      <div className="relative min-h-[calc(100vh-var(--site-header-height))] bg-[#F4D9B7] px-4 pb-12 pt-8 text-[#00172B] sm:px-6 sm:pt-12">\n' +
+      '        <button\n' +
+      '          type="button"\n' +
+      '          onClick={onClose}\n' +
+      '          className="absolute right-5 top-5 z-10 flex h-11 w-11 items-center justify-center rounded-full border border-[#00172B]/15 bg-white/50 text-[#00172B] transition hover:bg-white/80"\n' +
+      '          aria-label="Close team selection"\n' +
+      '        >\n' +
+      '          <X className="h-5 w-5" />\n' +
+      '        </button>\n' +
+      '        <div className="mx-auto flex max-w-6xl flex-col items-center">\n' +
+      '          <FiveWideLogo\n' +
+      '            generic\n' +
+      '            size={132}\n' +
+      '            containerClassName="h-auto w-full max-w-[300px] overflow-visible rounded-none border-0 bg-transparent p-0 shadow-none ring-0 sm:max-w-[360px]"\n' +
+      '            priority\n' +
+      '          />\n' +
+      '          <p className="mt-5 text-sm font-black uppercase tracking-[0.32em] text-[#FF3D38]">\n' +
+      '            Keep it high and tight\n' +
+      '          </p>\n' +
+      '          <h1 className="mt-10 text-center text-4xl font-black tracking-tight sm:text-5xl">\n' +
+      '            Pick your team. Enter your football world.\n' +
+      '          </h1>\n' +
+      '          <p className="mt-4 max-w-2xl text-center text-base leading-7 text-[#00172B]/65">\n' +
+      '            Your news, videos, roster moves, fan conversations, and front-office tools begin with\n' +
+      '            one choice.\n' +
+      '          </p>\n' +
+      '          <div className="mt-10 grid w-full grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8">\n' +
+      '            {teams.map((team) => (\n' +
+      '              <button\n' +
+      '                type="button"\n' +
+      '                key={team.id}\n' +
+      '                onClick={() => onSelect(team)}\n' +
+      '                className="group flex min-h-32 flex-col items-center justify-center rounded-2xl border border-[#00172B]/10 bg-white/55 p-3 text-center transition hover:-translate-y-1 hover:border-[#FF3D38]/50 hover:bg-white/85 hover:shadow-md"\n' +
+      '              >\n' +
+      '                <span\n' +
+      '                  className="flex h-16 w-16 items-center justify-center rounded-xl border p-2 shadow-sm transition group-hover:scale-105"\n' +
+      '                  style={{\n' +
+      '                    backgroundColor: `color-mix(in srgb, ${team.color_primary} 12%, white)`,\n' +
+      '                    borderColor: `color-mix(in srgb, ${team.color_secondary} 55%, transparent)`,\n' +
+      '                  }}\n' +
+      '                >\n' +
+      '                  {/* eslint-disable-next-line @next/next/no-img-element */}\n' +
+      '                  <img src={team.logo_url} alt="" className="h-full w-full object-contain" />\n' +
+      '                </span>\n' +
+      '                <span className="mt-3 text-xs font-bold leading-4 text-[#00172B]/75 group-hover:text-[#00172B]">\n' +
+      '                  {team.name}\n' +
+      '                </span>\n' +
+      '              </button>\n' +
+      '            ))}\n' +
+      '          </div>\n' +
+      '        </div>\n' +
+      '      </div>\n' +
+      '    </TeamThemeProvider>\n' +
+      '  );\n' +
+      '}\n' +
+      '\n' +
+      'export default function DownDistanceHome() {\n' +
+      '  const router = useRouter();\n' +
+      '  const searchParams = useSearchParams();\n' +
+      '  const teams = useTeamStore((state) => state.teams);\n' +
+      '  const selectedTeamId = useTeamStore((state) => state.selectedTeamId);\n' +
+      '  const setSelectedTeamId = useTeamStore((state) => state.setSelectedTeamId);\n' +
+      '  const [isTeamMenuOpen, setIsTeamMenuOpen] = useState(false);\n' +
+      '  useEffect(() => {\n' +
+      "    if (searchParams?.get('team-select') !== '1') return;\n" +
+      '    setIsTeamMenuOpen(true);\n' +
+      '    const params = new URLSearchParams(searchParams.toString());\n' +
+      "    params.delete('team-select');\n" +
+      "    router.replace(params.size ? `/?${params}` : '/', { scroll: false });\n" +
+      '  }, [router, searchParams]);\n' +
+      '  const [isSearchOpen, setIsSearchOpen] = useState(false);\n' +
+      '  useEffect(() => {\n' +
+      '    if (!isSearchOpen) return;\n' +
+      '    const previousFocus = document.activeElement as HTMLElement | null;\n' +
+      '    const releaseScroll = lockDocumentScroll();\n' +
+      '    document\n' +
+      `      .querySelector<HTMLInputElement>('[aria-label="Search Down & Distance"] input')\n` +
+      '      ?.focus();\n' +
+      '    const handleKey = (event: KeyboardEvent) => {\n' +
+      "      if (event.key === 'Escape') setIsSearchOpen(false);\n" +
+      "      if (event.key !== 'Tab') return;\n" +
+      `      const dialog = document.querySelector('[aria-label="Search Down & Distance"]');\n` +
+      '      const nodes = Array.from(\n' +
+      "        dialog?.querySelectorAll<HTMLElement>('input, select, button:not(:disabled), a[href]') ??\n" +
+      '          [],\n' +
+      '      ).filter((e) => e.getClientRects().length);\n' +
+      '      const first = nodes[0],\n' +
+      '        last = nodes[nodes.length - 1];\n' +
+      '      if (event.shiftKey && document.activeElement === first) {\n' +
+      '        event.preventDefault();\n' +
+      '        last?.focus();\n' +
+      '      } else if (!event.shiftKey && document.activeElement === last) {\n' +
+      '        event.preventDefault();\n' +
+      '        first?.focus();\n' +
+      '      }\n' +
+      '    };\n' +
+      "    window.addEventListener('keydown', handleKey);\n" +
+      '    return () => {\n' +
+      '      releaseScroll();\n' +
+      '      previousFocus?.focus();\n' +
+      "      window.removeEventListener('keydown', handleKey);\n" +
+      '    };\n' +
+      '  }, [isSearchOpen]);\n' +
+      '\n' +
+      "  const [searchQuery, setSearchQuery] = useState('');\n" +
+      "  const [aiSearchQuery, setAiSearchQuery] = useState('');\n" +
+      '  const [hasSelectedTeam, setHasSelectedTeam] = useState(false);\n' +
+      '  const [briefings, setBriefings] = useState<TeamBriefing[]>([]);\n' +
+      '  const [wireEntries, setWireEntries] = useState<\n' +
+      '    Array<{ id: string; headline: string; occurredAt: string }>\n' +
+      '  >([]);\n' +
+      '  const [homepageGame, setHomepageGame] = useState<HomepageGame | null>(null);\n' +
+      '  const [filmRoomData, setFilmRoomData] = useState<FilmRoomResponse | null>(null);\n' +
+      '  const [filmRoomLoading, setFilmRoomLoading] = useState(false);\n' +
+      '  const [selectedVideo, setSelectedVideo] = useState<FilmRoomVideo | null>(null);\n' +
+      '  const [videoTrigger, setVideoTrigger] = useState<HTMLButtonElement | null>(null);\n' +
+      '  const { user } = useAuthUser();\n' +
+      '  const [personalization, setPersonalization] = useState<{\n' +
+      '    primaryTeam?: { teamId?: string } | null;\n' +
+      '    savedContent?: Array<{ id: string }>;\n' +
+      '  } | null>(null);\n' +
+      '\n' +
+      '  const openBriefing = useCallback(\n' +
+      '    (briefing: TeamBriefing) => {\n' +
+      '      if (user) void recordBriefingConsumed(briefing);\n' +
+      '    },\n' +
+      '    [user],\n' +
+      '  );\n' +
+      '\n' +
+      '  const selectedTeam = useMemo(\n' +
+      '    () => teams.find((team) => team.id === selectedTeamId),\n' +
+      '    [selectedTeamId, teams],\n' +
+      '  );\n' +
+      '  const activeTeam = hasSelectedTeam ? selectedTeam : undefined;\n' +
+      "  const teamName = activeTeam?.name ?? 'NFL';\n" +
+      "  const teamAbbr = activeTeam?.abbr ?? 'NFL';\n" +
+      "  const teamRouteSuffix = activeTeam ? `?team=${activeTeam.abbr}` : '';\n" +
+      '\n' +
+      '  useEffect(() => {\n' +
+      '    const params = new URLSearchParams(window.location.search);\n' +
+      "    if (params.get('search') === '1') setIsSearchOpen(true);\n" +
+      '  }, []);\n' +
+      '\n' +
+      '  useEffect(() => {\n' +
+      '    const savedTeamAbbr = readFanTeamPreference();\n' +
+      '    if (!savedTeamAbbr) return;\n' +
+      '    const savedTeam = teams.find((team) => team.abbr === savedTeamAbbr);\n' +
+      '    if (!savedTeam) return;\n' +
+      '    setSelectedTeamId(savedTeam.id);\n' +
+      '    setHasSelectedTeam(true);\n' +
+      '  }, [setSelectedTeamId, teams]);\n' +
+      '\n' +
+      '  useEffect(() => {\n' +
+      '    const controller = new AbortController();\n' +
+      '    setBriefings([]);\n' +
+      '    const loadBriefings = async () => {\n' +
+      '      try {\n' +
+      "        if (teamAbbr === 'NFL') return;\n" +
+      '        const response = await fetch(`/api/content/homepage?team=${encodeURIComponent(teamAbbr)}`, {\n' +
+      '          signal: controller.signal,\n' +
+      '        });\n' +
+      '        if (!response.ok) return;\n' +
+      '        const payload '... 19757 more characters
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: |-
+    'use client';
+
+    import { lockDocumentScroll } from '@/lib/document-scroll-lock';
+    import { ResponsiveRail } from '@/components/layout/responsive-rail';
+    import Link from 'next/link';
+    import { useRouter, useSearchParams } from 'next/navigation';
+    import { useCallback, useEffect, useMemo, useState } from 'react';
+    import {
+      ArrowRight,
+      BarChart3,
+      Clock3,
+      Flame,
+      Radio,
+      Shield,
+      Sparkles,
+      Users,
+      X,
+      Zap,
+    } from 'lucide-react';
+    import {
+      DdMessagesIcon as MessageCircle,
+      DdSearchIcon as Search,
+    } from '@/components/ui/football-icons';
+
+    import { FiveWideLogo } from '@/components/branding/fivewide-logo';
+    import LoginButton from '@/components/auth/login-button';
+    import TeamThemeProvider from '@/components/team-theme-provider';
+    import type { TeamBriefing } from '@/features/content/types';
+    import { recordBriefingConsumed } from '@/features/content/consumption';
+    import { readFanTeamPreference, saveFanTeamPreference } from '@/features/team/fan-team-preference';
+    import { getOffseasonManagerRoute } from '@/features/team/offseason-manager-route';
+    import { useTeamStore, type Team } from '@/features/team/team-store';
+    import { useAuthUser } from '@/features/auth/auth-session';
+    import CatchUpCallout from '@/components/catch-up/catch-up-callout';
+    import { FilmRoomCard } from '@/components/film-room/film-room-grid';
+    import FilmRoomVideoModal from '@/components/film-room/film-room-video-modal';
+    import PlaybookHero from '@/components/home/playbook-hero';
+    import GameDayHomepageHero from '@/components/home/game-day-homepage-hero';
+    import HuddleStoryCard from '@/components/huddle/huddle-story-card';
+    import { BeatBannerAd } from '@/components/beat/beat-banner-ad';
+    import PrimaryNavigation from '@/components/primary-navigation';
+    import MobileSiteMenu from '@/components/mobile-site-menu';
+    import { SiteHeaderLogo, SiteHeaderShell } from '@/components/site-header-shell';
+    import AiSearchPanel from '@/components/search/ai-search-panel';
+    import { gameDayHeroAsset } from '@/config/game-day-hero';
+    import type { HomepageGame } from '@/features/game-day/homepage-game';
+    import NotificationCenter from '@/components/notifications/notification-center';
+    import type { FilmRoomResponse, FilmRoomVideo } from '@/features/film-room/types';
+    import { HomeThreeAndOut } from '@/components/three-and-out/home-three-and-out';
+
+    const fallbackWireItems = [
+      { time: '11:42 AM', text: 'Team announces a roster move ahead of today’s practice.' },
+      { time: '10:18 AM', text: 'Injury report brings encouraging news at a key position.' },
+      { time: '9:05 AM', text: 'New comments clarify the plan for the starting lineup.' },
+      { time: 'Yesterday', text: 'League transaction wire confirms a depth signing.' },
+    ];
+
+    function TeamGateway({
+      teams,
+      onSelect,
+      onClose,
+    }: {
+      teams: Team[];
+      onSelect: (team: Team) => void;
+      onClose: () => void;
+    }) {
+      return (
+        <TeamThemeProvider>
+          <div className="relative min-h-[calc(100vh-var(--site-header-height))] bg-[#F4D9B7] px-4 pb-12 pt-8 text-[#00172B] sm:px-6 sm:pt-12">
+            <button
+              type="button"
+              onClick={onClose}
+              className="absolute right-5 top-5 z-10 flex h-11 w-11 items-center justify-center rounded-full border border-[#00172B]/15 bg-white/50 text-[#00172B] transition hover:bg-white/80"
+              aria-label="Close team selection"
+            >
+              <X className="h-5 w-5" />
+            </button>
+            <div className="mx-auto flex max-w-6xl flex-col items-center">
+              <FiveWideLogo
+                generic
+                size={132}
+                containerClassName="h-auto w-full max-w-[300px] overflow-visible rounded-none border-0 bg-transparent p-0 shadow-none ring-0 sm:max-w-[360px]"
+                priority
+              />
+              <p className="mt-5 text-sm font-black uppercase tracking-[0.32em] text-[#FF3D38]">
+                Keep it high and tight
+              </p>
+              <h1 className="mt-10 text-center text-4xl font-black tracking-tight sm:text-5xl">
+                Pick your team. Enter your football world.
+              </h1>
+              <p className="mt-4 max-w-2xl text-center text-base leading-7 text-[#00172B]/65">
+                Your news, videos, roster moves, fan conversations, and front-office tools begin with
+                one choice.
+              </p>
+              <div className="mt-10 grid w-full grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8">
+                {teams.map((team) => (
+                  <button
+                    type="button"
+                    key={team.id}
+                    onClick={() => onSelect(team)}
+                    className="group flex min-h-32 flex-col items-center justify-center rounded-2xl border border-[#00172B]/10 bg-white/55 p-3 text-center transition hover:-translate-y-1 hover:border-[#FF3D38]/50 hover:bg-white/85 hover:shadow-md"
+                  >
+                    <span
+                      className="flex h-16 w-16 items-center justify-center rounded-xl border p-2 shadow-sm transition group-hover:scale-105"
+                      style={{
+                        backgroundColor: `color-mix(in srgb, ${team.color_primary} 12%, white)`,
+                        borderColor: `color-mix(in srgb, ${team.color_secondary} 55%, transparent)`,
+                      }}
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={team.logo_url} alt="" className="h-full w-full object-contain" />
+                    </span>
+                    <span className="mt-3 text-xs font-bold leading-4 text-[#00172B]/75 group-hover:text-[#00172B]">
+                      {team.name}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </TeamThemeProvider>
+      );
+    }
+
+    export default function DownDistanceHome() {
+      const router = useRouter();
+      const searchParams = useSearchParams();
+      const teams = useTeamStore((state) => state.teams);
+      const selectedTeamId = useTeamStore((state) => state.selectedTeamId);
+      const setSelectedTeamId = useTeamStore((state) => state.setSelectedTeamId);
+      const [isTeamMenuOpen, setIsTeamMenuOpen] = useState(false);
+      useEffect(() => {
+        if (searchParams?.get('team-select') !== '1') return;
+        setIsTeamMenuOpen(true);
+        const params = new URLSearchParams(searchParams.toString());
+        params.delete('team-select');
+        router.replace(params.size ? `/?${params}` : '/', { scroll: false });
+      }, [router, searchParams]);
+      const [isSearchOpen, setIsSearchOpen] = useState(false);
+      useEffect(() => {
+        if (!isSearchOpen) return;
+        const previousFocus = document.activeElement as HTMLElement | null;
+        const releaseScroll = lockDocumentScroll();
+        document
+          .querySelector<HTMLInputElement>('[aria-label="Search Down & Distance"] input')
+          ?.focus();
+        const handleKey = (event: KeyboardEvent) => {
+          if (event.key === 'Escape') setIsSearchOpen(false);
+          if (event.key !== 'Tab') return;
+          const dialog = document.querySelector('[aria-label="Search Down & Distance"]');
+          const nodes = Array.from(
+            dialog?.querySelectorAll<HTMLElement>('input, select, button:not(:disabled), a[href]') ??
+              [],
+          ).filter((e) => e.getClientRects().length);
+          const first = nodes[0],
+            last = nodes[nodes.length - 1];
+          if (event.shiftKey && document.activeElement === first) {
+            event.preventDefault();
+            last?.focus();
+          } else if (!event.shiftKey && document.activeElement === last) {
+            event.preventDefault();
+            first?.focus();
+          }
+        };
+        window.addEventListener('keydown', handleKey);
+        return () => {
+          releaseScroll();
+          previousFocus?.focus();
+          window.removeEventListener('keydown', handleKey);
+        };
+      }, [isSearchOpen]);
+
+      const [searchQuery, setSearchQuery] = useState('');
+      const [aiSearchQuery, setAiSearchQuery] = useState('');
+      const [hasSelectedTeam, setHasSelectedTeam] = useState(false);
+      const [briefings, setBriefings] = useState<TeamBriefing[]>([]);
+      const [wireEntries, setWireEntries] = useState<
+        Array<{ id: string; headline: string; occurredAt: string }>
+      >([]);
+      const [homepageGame, setHomepageGame] = useState<HomepageGame | null>(null);
+      const [filmRoomData, setFilmRoomData] = useState<FilmRoomResponse | null>(null);
+      const [filmRoomLoading, setFilmRoomLoading] = useState(false);
+      const [selectedVideo, setSelectedVideo] = useState<FilmRoomVideo | null>(null);
+      const [videoTrigger, setVideoTrigger] = useState<HTMLButtonElement | null>(null);
+      const { user } = useAuthUser();
+      const [personalization, setPersonalization] = useState<{
+        primaryTeam?: { teamId?: string } | null;
+        savedContent?: Array<{ id: string }>;
+      } | null>(null);
+
+      const openBriefing = useCallback(
+        (briefing: TeamBriefing) => {
+          if (user) void recordBriefingConsumed(briefing);
+        },
+        [user],
+      );
+
+      const selectedTeam = useMemo(
+        () => teams.find((team) => team.id === selectedTeamId),
+        [selectedTeamId, teams],
+      );
+      const activeTeam = hasSelectedTeam ? selectedTeam : undefined;
+      const teamName = activeTeam?.name ?? 'NFL';
+      const teamAbbr = activeTeam?.abbr ?? 'NFL';
+      const teamRouteSuffix = activeTeam ? `?team=${activeTeam.abbr}` : '';
+
+      useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('search') === '1') setIsSearchOpen(true);
+      }, []);
+
+      useEffect(() => {
+        const savedTeamAbbr = readFanTeamPreference();
+        if (!savedTeamAbbr) return;
+        const savedTeam = teams.find((team) => team.abbr === savedTeamAbbr);
+        if (!savedTeam) return;
+        setSelectedTeamId(savedTeam.id);
+        setHasSelectedTeam(true);
+      }, [setSelectedTeamId, teams]);
+
+      useEffect(() => {
+        const controller = new AbortController();
+        setBriefings([]);
+        const loadBriefings = async () => {
+          try {
+            if (teamAbbr === 'NFL') return;
+            const response = await fetch(`/api/content/homepage?team=${encodeURIComponent(teamAbbr)}`, {
+              signal: controller.signal,
+            });
+            if (!response.ok) return;
+            const payload = (await response.json()) as {
+              huddle?: TeamBriefing[];
+              wire?: Array<{ id: string; headline: string; occurredAt: string }>;
+            };
+            setBriefings((payload.huddle ?? []).slice(0, 4));
+            setWireEntries(payload.wire ?? []);
+          } catch (error) {
+            if (!(error instanceof DOMException && error.name === 'AbortError')) {
+              console.error('[huddle] failed to load briefings', error);
+            }
+          }
+        };
+        void loadBriefings();
+        return () => controller.abort();
+      }, [teamAbbr]);
+
+      useEffect(() => {
+        const controller = new AbortController();
+        setFilmRoomData(null);
+        setFilmRoomLoading(teamAbbr !== 'NFL');
+        if (teamAbbr === 'NFL') return () => controller.abort();
+        void fetch(`/api/film-room?team=${encodeURIComponent(teamAbbr)}`, {
+          signal: controller.signal,
+        })
+          .then(async (response) => {
+            if (!response.ok) throw new Error(`Film Room request failed: ${response.status}`);
+            setFilmRoomData((await response.json()) as FilmRoomResponse);
+          })
+          .catch((error: unknown) => {
+            if (!(error instanceof DOMException && error.name === 'AbortError')) {
+              setFilmRoomData({
+                teamId: teamAbbr,
+                videos: [],
+                unavailableVideoIds: [],
+                configured: true,
+                message: 'Film Room is temporarily unavailable. Please try again soon.',
+              });
+            }
+          })
+          .finally(() => {
+            if (!controller.signal.aborted) setFilmRoomLoading(false);
+          });
+        return () => controller.abort();
+      }, [teamAbbr]);
+
+      useEffect(() => {
+        const controller = new AbortController();
+        setHomepageGame(null);
+        if (!activeTeam || !gameDayHeroAsset(activeTeam.abbr)) return () => controller.abort();
+        const params = new URLSearchParams({ team: activeTeam.abbr });
+        if (process.env.NODE_ENV !== 'production') {
+          const pageParams = new URLSearchParams(window.location.search);
+          if (pageParams.get('gameday') === '1') params.set('gameday', '1');
+          const previewAt = pageParams.get('gamedayAt');
+          if (previewAt) params.set('gamedayAt', previewAt);
+        }
+        void fetch(`/api/game-day/homepage?${params}`, {
+          cache: 'no-store',
+          signal: controller.signal,
+        })
+          .then((response) => (response.ok ? response.json() : null))
+          .then((payload: { game?: HomepageGame | null } | null) =>
+            setHomepageGame(payload?.game ?? null),
+          )
+          .catch((error) => {
+            if (!(error instanceof DOMException && error.name === 'AbortError')) {
+              console.error('[game-day-hero] failed to load game', error);
+            }
+          });
+        return () => controller.abort();
+      }, [activeTeam]);
+
+      useEffect(() => {
+        if (!user) {
+          setPersonalization(null);
+          return;
+        }
+        void fetch('/api/user/home', { cache: 'no-store' })
+          .then((response) => (response.ok ? response.json() : null))
+          .then((body: { personalization?: typeof personalization } | null) => {
+            const nextPersonalization = body?.personalization ?? null;
+            setPersonalization(nextPersonalization);
+            const primaryTeamId = nextPersonalization?.primaryTeam?.teamId;
+            const primaryTeam = teams.find((team) => team.abbr === primaryTeamId);
+            if (primaryTeam) {
+              setSelectedTeamId(primaryTeam.id);
+              setHasSelectedTeam(true);
+              void saveFanTeamPreference(primaryTeam.abbr);
+            }
+          });
+      }, [setSelectedTeamId, teams, user]);
+
+      const huddleCards = useMemo(
+        () =>
+          briefings.map((briefing) => ({
+            id: briefing.id,
+            label: briefing.category,
+            title: briefing.headline,
+            summary: briefing.summary,
+            briefing,
+          })),
+        [briefings],
+      );
+      const displayedWireItems = wireEntries.length
+        ? wireEntries.map((entry) => ({
+            id: entry.id,
+            time: new Date(entry.occurredAt).toLocaleTimeString([], {
+              hour: 'numeric',
+              minute: '2-digit',
+            }),
+            text: entry.headline,
+          }))
+        : fallbackWireItems.map((item) => ({ ...item, id: null }));
+      const latestFilmRoomVideos = useMemo(
+        () =>
+          [...(filmRoomData?.videos ?? [])]
+            .sort(
+              (left, right) =>
+                new Date(right.publishedAt ?? right.addedAt).getTime() -
+                new Date(left.publishedAt ?? left.addedAt).getTime(),
+            )
+            .slice(0, 3),
+        [filmRoomData?.videos],
+      );
+      const searchItems = useMemo(
+        () => [
+          ...huddleCards.map((item) => ({
+            category: 'The Beat',
+            title: item.title,
+            description: item.summary,
+            href: `/content/${encodeURIComponent(item.id)}`,
+          })),
+          ...latestFilmRoomVideos.map((item) => ({
+            category: 'Film Room',
+            title: item.title,
+            description: `${item.channel.name} · ${item.duration}`,
+            href: `/watch?team=${encodeURIComponent(teamAbbr)}&video=${encodeURIComponent(item.id)}`,
+          })),
+          ...displayedWireItems.map((item) => ({
+            category: 'The Wire',
+            title: item.text,
+            description: item.time,
+            href: item.id ? `/content/${encodeURIComponent(item.id)}` : '/wire',
+          })),
+          {
+            category: 'Fan Discussion',
+            title: 'Is the biggest position battle already decided?',
+            description: `Trending conversation among ${teamName} fans`,
+            href: '#fan-discussion',
+          },
+          {
+            category: 'Front Office',
+            title: `${teamName} depth chart, cap outlook, transactions, and draft capital`,
+            description: 'Roster and team-building information',
+            href: getOffseasonManagerRoute('', activeTeam?.abbr),
+          },
+        ],
+        [activeTeam?.abbr, displayedWireItems, huddleCards, latestFilmRoomVideos, teamAbbr, teamName],
+      );
+
+      return (
+        <TeamThemeProvider team={activeTeam}>
+          <div className="min-h-screen bg-[#f7f4ee] text-[#00172B]">
+            {isTeamMenuOpen ? (
+              <div className="fixed inset-x-0 bottom-0 top-[var(--site-header-height)] z-50 overflow-y-auto">
+                <TeamGateway
+                  teams={teams}
+                  onClose={() => setIsTeamMenuOpen(false)}
+                  onSelect={(team) => {
+                    setSelectedTeamId(team.id);
+                    saveFanTeamPreference(team.abbr);
+                    setHasSelectedTeam(true);
+                    setIsTeamMenuOpen(false);
+                  }}
+                />
+              </div>
+            ) : null}
+            {isSearchOpen ? (
+              <div
+                className="mobile-search-overlay fixed inset-x-0 bottom-0 top-[var(--site-header-height)] z-50 flex items-start justify-center overflow-hidden bg-slate-950/75 px-4 py-4 backdrop-blur-sm sm:py-8"
+                role="dialog"
+                aria-modal="true"
+                aria-label="Search Down & Distance"
+                onMouseDown={(event) => {
+                  if (event.currentTarget === event.target) setIsSearchOpen(false);
+                }}
+              >
+                <AiSearchPanel
+                  variant="overlay"
+                  teamId={activeTeam?.abbr ?? ''}
+                  teamName={teamName}
+                  teamCity={activeTeam?.city ?? teamName}
+                  primaryColor={activeTeam?.color_primary ?? '#00172b'}
+                  nickname={activeTeam?.name.split(/\s+/).at(-1) ?? 'NFL'}
+                  query={searchQuery}
+                  onQueryChange={setSearchQuery}
+                  onClose={() => setIsSearchOpen(false)}
+                  quickLinks={searchItems}
+                />
+              </div>
+            ) : null}
+            <SiteHeaderShell tone={activeTeam ? 'team' : 'merch'}>
+              <SiteHeaderLogo teamAbbr={activeTeam?.abbr} generic={!activeTeam} />
+              <PrimaryNavigation teamAbbr={activeTeam?.abbr} active="huddle" showMobile={false} />
+              <div className="ml-auto flex min-w-0 items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setIsSearchOpen(true)}
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-current/20 text-[var(--team-on-dark)] hover:bg-white/10"
+                  aria-label="Search"
+                >
+                  <Search className="h-4 w-4" />
+                </button>
+                <NotificationCenter teamAbbr={activeTeam?.abbr} />
+                <span className="hidden lg:block">
+                  <LoginButton teamAbbr={activeTeam?.abbr} />
+                </span>
+                <MobileSiteMenu teamAbbr={activeTeam?.abbr} active="huddle" />
+              </div>
+            </SiteHeaderShell>
+
+            {activeTeam ? (
+              <><GameDayHomepageHero team={activeTeam} game={homepageGame} /><Link href={`/huddle?team=${activeTeam.abbr}${homepageGame?`&game=${homepageGame.id}`:''}`} style={{display:'block',padding:16}}>Join your team in The Huddle →</Link></>
+            ) : (
+              <PlaybookHero />
+            )}
+
+            {user && activeTeam ? <CatchUpCallout teamId={activeTeam.abbr} /> : null}
+
+            {activeTeam ? (
+              <div className="mx-auto max-w-[1440px] px-4 pt-8 sm:px-6 lg:px-8">
+                <AiSearchPanel
+                  teamId={activeTeam.abbr}
+                  teamName={activeTeam.name}
+                  teamCity={activeTeam.city ?? activeTeam.name}
+                  primaryColor={activeTeam.color_primary}
+                  nickname={activeTeam.name.split(/\s+/).at(-1) ?? activeTeam.name}
+                  query={aiSearchQuery}
+                  onQueryChange={setAiSearchQuery}
+                />
+              </div>
+            ) : null}
+
+            <main className="mx-auto max-w-[1440px] px-4 py-8 sm:px-6 lg:px-8">
+              <section id="huddle" className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
+                <div>
+                  <div className="mb-4 flex items-end justify-between gap-4">
+                    <div>
+                      <div className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.24em] text-[var(--team-primary-text)]">
+                        <Sparkles className="h-4 w-4" /> The Beat
+                      </div>
+                      <h2 className="mt-2 text-2xl font-black tracking-tight sm:text-3xl">
+                        What {teamName} fans need to know
+                      </h2>
+                    </div>
+                    <Link
+                      href={`/the-beat${teamRouteSuffix}`}
+                      className="hidden text-sm font-bold text-[var(--team-primary-text)] sm:block"
+                    >
+                      See the whole field →
+                    </Link>
+                  </div>
+                  <div className="grid items-stretch gap-4 md:grid-cols-2 xl:grid-cols-3">
+                    {huddleCards.slice(0, 3).map((item, index) => (
+                      <HuddleStoryCard
+                        key={item.id}
+                        id={item.id}
+                        teamId={teamAbbr}
+                        appearance="beat"
+                        graphicDecision={item.briefing.graphicDecision}
+                        headline={item.title}
+                        summary={item.summary}
+                        category={item.label}
+                        status={item.briefing.status}
+                        sourceCount={item.briefing.sourceCount}
+                        updatedAt={item.briefing.updatedAt}
+                        materialUpdateCount={item.briefing.materialUpdateCount}
+                        hotReadUntil={item.briefing.hotReadUntil}
+                        firstReportedBy={item.briefing.firstReportedBy}
+                        sources={item.briefing.sources}
+                        lead={index === 0}
+                        onOpen={() => openBriefing(item.briefing)}
+                      />
+                    ))}
+                    <BeatBannerAd />
+                    {!huddleCards.length ? (
+                      <div className="rounded-2xl border border-dashed border-[#00172B]/15 bg-white/55 p-8 text-sm font-semibold text-[#40556b] md:col-span-2 xl:col-span-3">
+                        No verified Beat stories are ready for {teamName} yet.
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
+                <ResponsiveRail
+                  stackAt={1023}
+                  className="space-y-6 lg:sticky lg:top-[calc(var(--site-header-height)+1.5rem)] lg:self-start"
+                >
+                  <HomeThreeAndOut
+                    teamAbbr={teamAbbr}
+                    stories={huddleCards}
+                    onOpen={(id) => {
+                      const story = huddleCards.find((item) => item.id === id);
+                      if (story) openBriefing(story.briefing);
+                    }}
+                  />
+                  <section
+                    id="wire"
+                    className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
+                  >
+                    <div className="flex items-center justify-between">
+                      <h3 className="flex items-center gap-2 text-lg font-black">
+                        <Radio className="h-4 w-4 text-red-600" /> The Wire
+                      </h3>
+                      <span className="flex items-center gap-1 text-[10px] font-black uppercase tracking-wider text-red-600">
+                        <span className="h-2 w-2 animate-pulse rounded-full bg-red-600" /> Live
+                      </span>
+                    </div>
+                    <div className="mt-4 divide-y divide-slate-100">
+                      {displayedWireItems.map((item) => (
+                        <div key={`${item.time}-${item.text}`} className="py-4 first:pt-1">
+                          <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                            {item.time}
+                          </p>
+                          <p className="mt-1 text-sm font-semibold leading-5">{item.text}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+                </ResponsiveRail>
+              </section>
+
+              <section id="watch" className="mt-10 rounded-3xl bg-slate-950 p-6 text-white sm:p-8">
+                <div className="mb-6 flex items-end justify-between">
+                  <div>
+                    <p className="text-xs font-black uppercase tracking-[0.24em] text-[var(--team-secondary-on-dark)]">
+                      Film Room
+                    </p>
+                    <h2 className="mt-2 text-2xl font-black">Worth your time today</h2>
+                  </div>
+                  <Link href={`/watch${teamRouteSuffix}`} className="text-sm font-bold text-white/60">
+                    Browse all →
+                  </Link>
+                </div>
+                <div className="grid gap-4 md:grid-cols-3">
+                  {latestFilmRoomVideos.map((video, index) => (
+                    <FilmRoomCard
+                      key={video.id}
+                      video={video}
+                      sequence={index + 1}
+                      onPlay={(nextVideo, trigger) => {
+                        setVideoTrigger(trigger);
+                        setSelectedVideo(nextVideo);
+                      }}
+                    />
+                  ))}
+                  {filmRoomLoading
+                    ? Array.from({ length: 3 }, (_, index) => (
+                        <div key={index} className="overflow-hidden rounded-xl bg-white">
+                          <div className="aspect-video animate-pulse bg-slate-700" />
+                          <div className="space-y-3 p-5">
+                            <div className="h-5 animate-pulse rounded bg-slate-200" />
+                            <div className="h-5 w-3/4 animate-pulse rounded bg-slate-200" />
+                          </div>
+                        </div>
+                      ))
+                    : null}
+                  {!filmRoomLoading && !latestFilmRoomVideos.length ? (
+                    <p className="rounded-2xl border border-dashed border-white/20 p-6 text-sm font-semibold text-white/70 md:col-span-3">
+                      {filmRoomData?.message ?? `No curated ${teamName} videos are available yet.`}
+                    </p>
+                  ) : null}
+                </div>
+              </section>
+
+              <section className="mt-10 grid gap-6 lg:grid-cols-2">
+                <div
+                  id="fan-discussion"
+                  className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8"
+                >
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.22em] text-orange-600">
+                        <Flame className="h-4 w-4" /> Fan discussion
+                      </p>
+                      <h2 className="mt-2 text-2xl font-black">Fans are talking about...</h2>
+                    </div>
+                    <MessageCircle className="h-7 w-7 text-slate-300" />
+                  </div>
+                  <div className="mt-7 rounded-2xl bg-slate-50 p-5">
+                    <h3 className="text-xl font-black">
+                      Is the biggest position battle already decided?
+                    </h3>
+                    <div className="mt-3 flex items-center gap-4 text-xs font-bold text-slate-500">
+                      <span className="flex items-center gap-1">
+                        <MessageCircle className="h-3.5 w-3.5" /> 2,100 comments
+                      </span>
+                      <span className="flex items-center gap-1 text-orange-600">
+                        <Flame className="h-3.5 w-3.5" /> Trending
+                      </span>
+                    </div>
+                    <p className="mt-5 border-l-4 border-[var(--secondary)] pl-4 text-sm leading-6 text-slate-600">
+                      The conversation shifted after three straight positive practice reports. Fans are
+                      increasingly convinced the competition has a clear leader.
+                    </p>
+                    <button className="mt-5 text-sm font-black text-[var(--team-primary-text)]">
+                      Open the original discussion →
+                    </button>
+                  </div>
+                </div>
+                <div
+                  id="front-office"
+                  className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8"
+                >
+                  <p className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.22em] text-[var(--team-primary-text)]">
+                    <Shield className="h-4 w-4" /> Front Office
+                  </p>
+                  <h2 className="mt-2 text-2xl font-black">Build the complete picture</h2>
+                  <div className="mt-7 grid grid-cols-2 gap-3">
+                    {[
+                      { icon: Users, label: 'Depth chart', value: '53 players' },
+                      { icon: BarChart3, label: 'Cap outlook', value: '$40.8M space' },
+                      { icon: Clock3, label: 'Transactions', value: '4 this week' },
+                      { icon: Shield, label: 'Draft capital', value: '8 selections' },
+                    ].map((item) => (
+                      <button
+                        key={item.label}
+                        className="rounded-2xl border border-slate-200 p-4 text-left transition hover:border-[var(--primary)] hover:bg-slate-50"
+                      >
+                        <item.icon className="h-5 w-5 text-[var(--team-primary-text)]" />
+                        <span className="mt-4 block text-xs font-bold text-slate-500">
+                          {item.label}
+                        </span>
+                        <span className="mt-1 block font-black">{item.value}</span>
+                      </button>
+                    ))}
+                  </div>
+                  <Link
+                    href={getOffseasonManagerRoute('', activeTeam?.abbr)}
+                    className="mt-5 flex w-full items-center justify-between rounded-2xl bg-[var(--dark)] p-4 font-black text-[var(--team-on-dark)]"
+                  >
+                    <span>Take control in Front Office</span>
+                    <ArrowRight className="h-5 w-5" />
+                  </Link>
+                </div>
+              </section>
+            </main>
+
+            {selectedVideo ? (
+              <FilmRoomVideoModal
+                video={selectedVideo}
+                teamAbbr={teamAbbr}
+                onClose={() => setSelectedVideo(null)}
+                returnFocusTo={videoTrigger}
+              />
+            ) : null}
+          </div>
+        </TeamThemeProvider>
+      );
+    }
+
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/down-distance-d1-r2-storage-optimized/src/features/home/homepage-cleanup.test.ts:41:10)
+    Test.runInAsyncScope (node:async_hooks:211:14)
+    Test.run (node:internal/test_runner/test:979:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:677:18)
+    Test.postRun (node:internal/test_runner/test:1090:19)
+    Test.run (node:internal/test_runner/test:1018:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:677:7)
+  ...
+# Subtest: homepage uses the current Film Room feed and no longer renders its trivia widget
+ok 4 - homepage uses the current Film Room feed and no longer renders its trivia widget
+  ---
+  duration_ms: 0.337916
+  ...
+# Subtest: search results use canonical content and watch routes and Enter opens the first match
+not ok 5 - search results use canonical content and watch routes and Enter opens the first match
+  ---
+  duration_ms: 1.050292
+  location: '/private/tmp/down-distance-d1-r2-storage-optimized/src/features/home/homepage-cleanup.test.ts:2:3901'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /event\.key === 'Enter' && searchResults\[0\]/. Input:
+
+    "'use client';\n" +
+      '\n' +
+      "import { lockDocumentScroll } from '@/lib/document-scroll-lock';\n" +
+      "import { ResponsiveRail } from '@/components/layout/responsive-rail';\n" +
+      "import Link from 'next/link';\n" +
+      "import { useRouter, useSearchParams } from 'next/navigation';\n" +
+      "import { useCallback, useEffect, useMemo, useState } from 'react';\n" +
+      'import {\n' +
+      '  ArrowRight,\n' +
+      '  BarChart3,\n' +
+      '  Clock3,\n' +
+      '  Flame,\n' +
+      '  Radio,\n' +
+      '  Shield,\n' +
+      '  Sparkles,\n' +
+      '  Users,\n' +
+      '  X,\n' +
+      '  Zap,\n' +
+      "} from 'lucide-react';\n" +
+      'import {\n' +
+      '  DdMessagesIcon as MessageCircle,\n' +
+      '  DdSearchIcon as Search,\n' +
+      "} from '@/components/ui/football-icons';\n" +
+      '\n' +
+      "import { FiveWideLogo } from '@/components/branding/fivewide-logo';\n" +
+      "import LoginButton from '@/components/auth/login-button';\n" +
+      "import TeamThemeProvider from '@/components/team-theme-provider';\n" +
+      "import type { TeamBriefing } from '@/features/content/types';\n" +
+      "import { recordBriefingConsumed } from '@/features/content/consumption';\n" +
+      "import { readFanTeamPreference, saveFanTeamPreference } from '@/features/team/fan-team-preference';\n" +
+      "import { getOffseasonManagerRoute } from '@/features/team/offseason-manager-route';\n" +
+      "import { useTeamStore, type Team } from '@/features/team/team-store';\n" +
+      "import { useAuthUser } from '@/features/auth/auth-session';\n" +
+      "import CatchUpCallout from '@/components/catch-up/catch-up-callout';\n" +
+      "import { FilmRoomCard } from '@/components/film-room/film-room-grid';\n" +
+      "import FilmRoomVideoModal from '@/components/film-room/film-room-video-modal';\n" +
+      "import PlaybookHero from '@/components/home/playbook-hero';\n" +
+      "import GameDayHomepageHero from '@/components/home/game-day-homepage-hero';\n" +
+      "import HuddleStoryCard from '@/components/huddle/huddle-story-card';\n" +
+      "import { BeatBannerAd } from '@/components/beat/beat-banner-ad';\n" +
+      "import PrimaryNavigation from '@/components/primary-navigation';\n" +
+      "import MobileSiteMenu from '@/components/mobile-site-menu';\n" +
+      "import { SiteHeaderLogo, SiteHeaderShell } from '@/components/site-header-shell';\n" +
+      "import AiSearchPanel from '@/components/search/ai-search-panel';\n" +
+      "import { gameDayHeroAsset } from '@/config/game-day-hero';\n" +
+      "import type { HomepageGame } from '@/features/game-day/homepage-game';\n" +
+      "import NotificationCenter from '@/components/notifications/notification-center';\n" +
+      "import type { FilmRoomResponse, FilmRoomVideo } from '@/features/film-room/types';\n" +
+      "import { HomeThreeAndOut } from '@/components/three-and-out/home-three-and-out';\n" +
+      '\n' +
+      'const fallbackWireItems = [\n' +
+      "  { time: '11:42 AM', text: 'Team announces a roster move ahead of today’s practice.' },\n" +
+      "  { time: '10:18 AM', text: 'Injury report brings encouraging news at a key position.' },\n" +
+      "  { time: '9:05 AM', text: 'New comments clarify the plan for the starting lineup.' },\n" +
+      "  { time: 'Yesterday', text: 'League transaction wire confirms a depth signing.' },\n" +
+      '];\n' +
+      '\n' +
+      'function TeamGateway({\n' +
+      '  teams,\n' +
+      '  onSelect,\n' +
+      '  onClose,\n' +
+      '}: {\n' +
+      '  teams: Team[];\n' +
+      '  onSelect: (team: Team) => void;\n' +
+      '  onClose: () => void;\n' +
+      '}) {\n' +
+      '  return (\n' +
+      '    <TeamThemeProvider>\n' +
+      '      <div className="relative min-h-[calc(100vh-var(--site-header-height))] bg-[#F4D9B7] px-4 pb-12 pt-8 text-[#00172B] sm:px-6 sm:pt-12">\n' +
+      '        <button\n' +
+      '          type="button"\n' +
+      '          onClick={onClose}\n' +
+      '          className="absolute right-5 top-5 z-10 flex h-11 w-11 items-center justify-center rounded-full border border-[#00172B]/15 bg-white/50 text-[#00172B] transition hover:bg-white/80"\n' +
+      '          aria-label="Close team selection"\n' +
+      '        >\n' +
+      '          <X className="h-5 w-5" />\n' +
+      '        </button>\n' +
+      '        <div className="mx-auto flex max-w-6xl flex-col items-center">\n' +
+      '          <FiveWideLogo\n' +
+      '            generic\n' +
+      '            size={132}\n' +
+      '            containerClassName="h-auto w-full max-w-[300px] overflow-visible rounded-none border-0 bg-transparent p-0 shadow-none ring-0 sm:max-w-[360px]"\n' +
+      '            priority\n' +
+      '          />\n' +
+      '          <p className="mt-5 text-sm font-black uppercase tracking-[0.32em] text-[#FF3D38]">\n' +
+      '            Keep it high and tight\n' +
+      '          </p>\n' +
+      '          <h1 className="mt-10 text-center text-4xl font-black tracking-tight sm:text-5xl">\n' +
+      '            Pick your team. Enter your football world.\n' +
+      '          </h1>\n' +
+      '          <p className="mt-4 max-w-2xl text-center text-base leading-7 text-[#00172B]/65">\n' +
+      '            Your news, videos, roster moves, fan conversations, and front-office tools begin with\n' +
+      '            one choice.\n' +
+      '          </p>\n' +
+      '          <div className="mt-10 grid w-full grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8">\n' +
+      '            {teams.map((team) => (\n' +
+      '              <button\n' +
+      '                type="button"\n' +
+      '                key={team.id}\n' +
+      '                onClick={() => onSelect(team)}\n' +
+      '                className="group flex min-h-32 flex-col items-center justify-center rounded-2xl border border-[#00172B]/10 bg-white/55 p-3 text-center transition hover:-translate-y-1 hover:border-[#FF3D38]/50 hover:bg-white/85 hover:shadow-md"\n' +
+      '              >\n' +
+      '                <span\n' +
+      '                  className="flex h-16 w-16 items-center justify-center rounded-xl border p-2 shadow-sm transition group-hover:scale-105"\n' +
+      '                  style={{\n' +
+      '                    backgroundColor: `color-mix(in srgb, ${team.color_primary} 12%, white)`,\n' +
+      '                    borderColor: `color-mix(in srgb, ${team.color_secondary} 55%, transparent)`,\n' +
+      '                  }}\n' +
+      '                >\n' +
+      '                  {/* eslint-disable-next-line @next/next/no-img-element */}\n' +
+      '                  <img src={team.logo_url} alt="" className="h-full w-full object-contain" />\n' +
+      '                </span>\n' +
+      '                <span className="mt-3 text-xs font-bold leading-4 text-[#00172B]/75 group-hover:text-[#00172B]">\n' +
+      '                  {team.name}\n' +
+      '                </span>\n' +
+      '              </button>\n' +
+      '            ))}\n' +
+      '          </div>\n' +
+      '        </div>\n' +
+      '      </div>\n' +
+      '    </TeamThemeProvider>\n' +
+      '  );\n' +
+      '}\n' +
+      '\n' +
+      'export default function DownDistanceHome() {\n' +
+      '  const router = useRouter();\n' +
+      '  const searchParams = useSearchParams();\n' +
+      '  const teams = useTeamStore((state) => state.teams);\n' +
+      '  const selectedTeamId = useTeamStore((state) => state.selectedTeamId);\n' +
+      '  const setSelectedTeamId = useTeamStore((state) => state.setSelectedTeamId);\n' +
+      '  const [isTeamMenuOpen, setIsTeamMenuOpen] = useState(false);\n' +
+      '  useEffect(() => {\n' +
+      "    if (searchParams?.get('team-select') !== '1') return;\n" +
+      '    setIsTeamMenuOpen(true);\n' +
+      '    const params = new URLSearchParams(searchParams.toString());\n' +
+      "    params.delete('team-select');\n" +
+      "    router.replace(params.size ? `/?${params}` : '/', { scroll: false });\n" +
+      '  }, [router, searchParams]);\n' +
+      '  const [isSearchOpen, setIsSearchOpen] = useState(false);\n' +
+      '  useEffect(() => {\n' +
+      '    if (!isSearchOpen) return;\n' +
+      '    const previousFocus = document.activeElement as HTMLElement | null;\n' +
+      '    const releaseScroll = lockDocumentScroll();\n' +
+      '    document\n' +
+      `      .querySelector<HTMLInputElement>('[aria-label="Search Down & Distance"] input')\n` +
+      '      ?.focus();\n' +
+      '    const handleKey = (event: KeyboardEvent) => {\n' +
+      "      if (event.key === 'Escape') setIsSearchOpen(false);\n" +
+      "      if (event.key !== 'Tab') return;\n" +
+      `      const dialog = document.querySelector('[aria-label="Search Down & Distance"]');\n` +
+      '      const nodes = Array.from(\n' +
+      "        dialog?.querySelectorAll<HTMLElement>('input, select, button:not(:disabled), a[href]') ??\n" +
+      '          [],\n' +
+      '      ).filter((e) => e.getClientRects().length);\n' +
+      '      const first = nodes[0],\n' +
+      '        last = nodes[nodes.length - 1];\n' +
+      '      if (event.shiftKey && document.activeElement === first) {\n' +
+      '        event.preventDefault();\n' +
+      '        last?.focus();\n' +
+      '      } else if (!event.shiftKey && document.activeElement === last) {\n' +
+      '        event.preventDefault();\n' +
+      '        first?.focus();\n' +
+      '      }\n' +
+      '    };\n' +
+      "    window.addEventListener('keydown', handleKey);\n" +
+      '    return () => {\n' +
+      '      releaseScroll();\n' +
+      '      previousFocus?.focus();\n' +
+      "      window.removeEventListener('keydown', handleKey);\n" +
+      '    };\n' +
+      '  }, [isSearchOpen]);\n' +
+      '\n' +
+      "  const [searchQuery, setSearchQuery] = useState('');\n" +
+      "  const [aiSearchQuery, setAiSearchQuery] = useState('');\n" +
+      '  const [hasSelectedTeam, setHasSelectedTeam] = useState(false);\n' +
+      '  const [briefings, setBriefings] = useState<TeamBriefing[]>([]);\n' +
+      '  const [wireEntries, setWireEntries] = useState<\n' +
+      '    Array<{ id: string; headline: string; occurredAt: string }>\n' +
+      '  >([]);\n' +
+      '  const [homepageGame, setHomepageGame] = useState<HomepageGame | null>(null);\n' +
+      '  const [filmRoomData, setFilmRoomData] = useState<FilmRoomResponse | null>(null);\n' +
+      '  const [filmRoomLoading, setFilmRoomLoading] = useState(false);\n' +
+      '  const [selectedVideo, setSelectedVideo] = useState<FilmRoomVideo | null>(null);\n' +
+      '  const [videoTrigger, setVideoTrigger] = useState<HTMLButtonElement | null>(null);\n' +
+      '  const { user } = useAuthUser();\n' +
+      '  const [personalization, setPersonalization] = useState<{\n' +
+      '    primaryTeam?: { teamId?: string } | null;\n' +
+      '    savedContent?: Array<{ id: string }>;\n' +
+      '  } | null>(null);\n' +
+      '\n' +
+      '  const openBriefing = useCallback(\n' +
+      '    (briefing: TeamBriefing) => {\n' +
+      '      if (user) void recordBriefingConsumed(briefing);\n' +
+      '    },\n' +
+      '    [user],\n' +
+      '  );\n' +
+      '\n' +
+      '  const selectedTeam = useMemo(\n' +
+      '    () => teams.find((team) => team.id === selectedTeamId),\n' +
+      '    [selectedTeamId, teams],\n' +
+      '  );\n' +
+      '  const activeTeam = hasSelectedTeam ? selectedTeam : undefined;\n' +
+      "  const teamName = activeTeam?.name ?? 'NFL';\n" +
+      "  const teamAbbr = activeTeam?.abbr ?? 'NFL';\n" +
+      "  const teamRouteSuffix = activeTeam ? `?team=${activeTeam.abbr}` : '';\n" +
+      '\n' +
+      '  useEffect(() => {\n' +
+      '    const params = new URLSearchParams(window.location.search);\n' +
+      "    if (params.get('search') === '1') setIsSearchOpen(true);\n" +
+      '  }, []);\n' +
+      '\n' +
+      '  useEffect(() => {\n' +
+      '    const savedTeamAbbr = readFanTeamPreference();\n' +
+      '    if (!savedTeamAbbr) return;\n' +
+      '    const savedTeam = teams.find((team) => team.abbr === savedTeamAbbr);\n' +
+      '    if (!savedTeam) return;\n' +
+      '    setSelectedTeamId(savedTeam.id);\n' +
+      '    setHasSelectedTeam(true);\n' +
+      '  }, [setSelectedTeamId, teams]);\n' +
+      '\n' +
+      '  useEffect(() => {\n' +
+      '    const controller = new AbortController();\n' +
+      '    setBriefings([]);\n' +
+      '    const loadBriefings = async () => {\n' +
+      '      try {\n' +
+      "        if (teamAbbr === 'NFL') return;\n" +
+      '        const response = await fetch(`/api/content/homepage?team=${encodeURIComponent(teamAbbr)}`, {\n' +
+      '          signal: controller.signal,\n' +
+      '        });\n' +
+      '        if (!response.ok) return;\n' +
+      '        const payload '... 19757 more characters
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: |-
+    'use client';
+
+    import { lockDocumentScroll } from '@/lib/document-scroll-lock';
+    import { ResponsiveRail } from '@/components/layout/responsive-rail';
+    import Link from 'next/link';
+    import { useRouter, useSearchParams } from 'next/navigation';
+    import { useCallback, useEffect, useMemo, useState } from 'react';
+    import {
+      ArrowRight,
+      BarChart3,
+      Clock3,
+      Flame,
+      Radio,
+      Shield,
+      Sparkles,
+      Users,
+      X,
+      Zap,
+    } from 'lucide-react';
+    import {
+      DdMessagesIcon as MessageCircle,
+      DdSearchIcon as Search,
+    } from '@/components/ui/football-icons';
+
+    import { FiveWideLogo } from '@/components/branding/fivewide-logo';
+    import LoginButton from '@/components/auth/login-button';
+    import TeamThemeProvider from '@/components/team-theme-provider';
+    import type { TeamBriefing } from '@/features/content/types';
+    import { recordBriefingConsumed } from '@/features/content/consumption';
+    import { readFanTeamPreference, saveFanTeamPreference } from '@/features/team/fan-team-preference';
+    import { getOffseasonManagerRoute } from '@/features/team/offseason-manager-route';
+    import { useTeamStore, type Team } from '@/features/team/team-store';
+    import { useAuthUser } from '@/features/auth/auth-session';
+    import CatchUpCallout from '@/components/catch-up/catch-up-callout';
+    import { FilmRoomCard } from '@/components/film-room/film-room-grid';
+    import FilmRoomVideoModal from '@/components/film-room/film-room-video-modal';
+    import PlaybookHero from '@/components/home/playbook-hero';
+    import GameDayHomepageHero from '@/components/home/game-day-homepage-hero';
+    import HuddleStoryCard from '@/components/huddle/huddle-story-card';
+    import { BeatBannerAd } from '@/components/beat/beat-banner-ad';
+    import PrimaryNavigation from '@/components/primary-navigation';
+    import MobileSiteMenu from '@/components/mobile-site-menu';
+    import { SiteHeaderLogo, SiteHeaderShell } from '@/components/site-header-shell';
+    import AiSearchPanel from '@/components/search/ai-search-panel';
+    import { gameDayHeroAsset } from '@/config/game-day-hero';
+    import type { HomepageGame } from '@/features/game-day/homepage-game';
+    import NotificationCenter from '@/components/notifications/notification-center';
+    import type { FilmRoomResponse, FilmRoomVideo } from '@/features/film-room/types';
+    import { HomeThreeAndOut } from '@/components/three-and-out/home-three-and-out';
+
+    const fallbackWireItems = [
+      { time: '11:42 AM', text: 'Team announces a roster move ahead of today’s practice.' },
+      { time: '10:18 AM', text: 'Injury report brings encouraging news at a key position.' },
+      { time: '9:05 AM', text: 'New comments clarify the plan for the starting lineup.' },
+      { time: 'Yesterday', text: 'League transaction wire confirms a depth signing.' },
+    ];
+
+    function TeamGateway({
+      teams,
+      onSelect,
+      onClose,
+    }: {
+      teams: Team[];
+      onSelect: (team: Team) => void;
+      onClose: () => void;
+    }) {
+      return (
+        <TeamThemeProvider>
+          <div className="relative min-h-[calc(100vh-var(--site-header-height))] bg-[#F4D9B7] px-4 pb-12 pt-8 text-[#00172B] sm:px-6 sm:pt-12">
+            <button
+              type="button"
+              onClick={onClose}
+              className="absolute right-5 top-5 z-10 flex h-11 w-11 items-center justify-center rounded-full border border-[#00172B]/15 bg-white/50 text-[#00172B] transition hover:bg-white/80"
+              aria-label="Close team selection"
+            >
+              <X className="h-5 w-5" />
+            </button>
+            <div className="mx-auto flex max-w-6xl flex-col items-center">
+              <FiveWideLogo
+                generic
+                size={132}
+                containerClassName="h-auto w-full max-w-[300px] overflow-visible rounded-none border-0 bg-transparent p-0 shadow-none ring-0 sm:max-w-[360px]"
+                priority
+              />
+              <p className="mt-5 text-sm font-black uppercase tracking-[0.32em] text-[#FF3D38]">
+                Keep it high and tight
+              </p>
+              <h1 className="mt-10 text-center text-4xl font-black tracking-tight sm:text-5xl">
+                Pick your team. Enter your football world.
+              </h1>
+              <p className="mt-4 max-w-2xl text-center text-base leading-7 text-[#00172B]/65">
+                Your news, videos, roster moves, fan conversations, and front-office tools begin with
+                one choice.
+              </p>
+              <div className="mt-10 grid w-full grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8">
+                {teams.map((team) => (
+                  <button
+                    type="button"
+                    key={team.id}
+                    onClick={() => onSelect(team)}
+                    className="group flex min-h-32 flex-col items-center justify-center rounded-2xl border border-[#00172B]/10 bg-white/55 p-3 text-center transition hover:-translate-y-1 hover:border-[#FF3D38]/50 hover:bg-white/85 hover:shadow-md"
+                  >
+                    <span
+                      className="flex h-16 w-16 items-center justify-center rounded-xl border p-2 shadow-sm transition group-hover:scale-105"
+                      style={{
+                        backgroundColor: `color-mix(in srgb, ${team.color_primary} 12%, white)`,
+                        borderColor: `color-mix(in srgb, ${team.color_secondary} 55%, transparent)`,
+                      }}
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={team.logo_url} alt="" className="h-full w-full object-contain" />
+                    </span>
+                    <span className="mt-3 text-xs font-bold leading-4 text-[#00172B]/75 group-hover:text-[#00172B]">
+                      {team.name}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </TeamThemeProvider>
+      );
+    }
+
+    export default function DownDistanceHome() {
+      const router = useRouter();
+      const searchParams = useSearchParams();
+      const teams = useTeamStore((state) => state.teams);
+      const selectedTeamId = useTeamStore((state) => state.selectedTeamId);
+      const setSelectedTeamId = useTeamStore((state) => state.setSelectedTeamId);
+      const [isTeamMenuOpen, setIsTeamMenuOpen] = useState(false);
+      useEffect(() => {
+        if (searchParams?.get('team-select') !== '1') return;
+        setIsTeamMenuOpen(true);
+        const params = new URLSearchParams(searchParams.toString());
+        params.delete('team-select');
+        router.replace(params.size ? `/?${params}` : '/', { scroll: false });
+      }, [router, searchParams]);
+      const [isSearchOpen, setIsSearchOpen] = useState(false);
+      useEffect(() => {
+        if (!isSearchOpen) return;
+        const previousFocus = document.activeElement as HTMLElement | null;
+        const releaseScroll = lockDocumentScroll();
+        document
+          .querySelector<HTMLInputElement>('[aria-label="Search Down & Distance"] input')
+          ?.focus();
+        const handleKey = (event: KeyboardEvent) => {
+          if (event.key === 'Escape') setIsSearchOpen(false);
+          if (event.key !== 'Tab') return;
+          const dialog = document.querySelector('[aria-label="Search Down & Distance"]');
+          const nodes = Array.from(
+            dialog?.querySelectorAll<HTMLElement>('input, select, button:not(:disabled), a[href]') ??
+              [],
+          ).filter((e) => e.getClientRects().length);
+          const first = nodes[0],
+            last = nodes[nodes.length - 1];
+          if (event.shiftKey && document.activeElement === first) {
+            event.preventDefault();
+            last?.focus();
+          } else if (!event.shiftKey && document.activeElement === last) {
+            event.preventDefault();
+            first?.focus();
+          }
+        };
+        window.addEventListener('keydown', handleKey);
+        return () => {
+          releaseScroll();
+          previousFocus?.focus();
+          window.removeEventListener('keydown', handleKey);
+        };
+      }, [isSearchOpen]);
+
+      const [searchQuery, setSearchQuery] = useState('');
+      const [aiSearchQuery, setAiSearchQuery] = useState('');
+      const [hasSelectedTeam, setHasSelectedTeam] = useState(false);
+      const [briefings, setBriefings] = useState<TeamBriefing[]>([]);
+      const [wireEntries, setWireEntries] = useState<
+        Array<{ id: string; headline: string; occurredAt: string }>
+      >([]);
+      const [homepageGame, setHomepageGame] = useState<HomepageGame | null>(null);
+      const [filmRoomData, setFilmRoomData] = useState<FilmRoomResponse | null>(null);
+      const [filmRoomLoading, setFilmRoomLoading] = useState(false);
+      const [selectedVideo, setSelectedVideo] = useState<FilmRoomVideo | null>(null);
+      const [videoTrigger, setVideoTrigger] = useState<HTMLButtonElement | null>(null);
+      const { user } = useAuthUser();
+      const [personalization, setPersonalization] = useState<{
+        primaryTeam?: { teamId?: string } | null;
+        savedContent?: Array<{ id: string }>;
+      } | null>(null);
+
+      const openBriefing = useCallback(
+        (briefing: TeamBriefing) => {
+          if (user) void recordBriefingConsumed(briefing);
+        },
+        [user],
+      );
+
+      const selectedTeam = useMemo(
+        () => teams.find((team) => team.id === selectedTeamId),
+        [selectedTeamId, teams],
+      );
+      const activeTeam = hasSelectedTeam ? selectedTeam : undefined;
+      const teamName = activeTeam?.name ?? 'NFL';
+      const teamAbbr = activeTeam?.abbr ?? 'NFL';
+      const teamRouteSuffix = activeTeam ? `?team=${activeTeam.abbr}` : '';
+
+      useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('search') === '1') setIsSearchOpen(true);
+      }, []);
+
+      useEffect(() => {
+        const savedTeamAbbr = readFanTeamPreference();
+        if (!savedTeamAbbr) return;
+        const savedTeam = teams.find((team) => team.abbr === savedTeamAbbr);
+        if (!savedTeam) return;
+        setSelectedTeamId(savedTeam.id);
+        setHasSelectedTeam(true);
+      }, [setSelectedTeamId, teams]);
+
+      useEffect(() => {
+        const controller = new AbortController();
+        setBriefings([]);
+        const loadBriefings = async () => {
+          try {
+            if (teamAbbr === 'NFL') return;
+            const response = await fetch(`/api/content/homepage?team=${encodeURIComponent(teamAbbr)}`, {
+              signal: controller.signal,
+            });
+            if (!response.ok) return;
+            const payload = (await response.json()) as {
+              huddle?: TeamBriefing[];
+              wire?: Array<{ id: string; headline: string; occurredAt: string }>;
+            };
+            setBriefings((payload.huddle ?? []).slice(0, 4));
+            setWireEntries(payload.wire ?? []);
+          } catch (error) {
+            if (!(error instanceof DOMException && error.name === 'AbortError')) {
+              console.error('[huddle] failed to load briefings', error);
+            }
+          }
+        };
+        void loadBriefings();
+        return () => controller.abort();
+      }, [teamAbbr]);
+
+      useEffect(() => {
+        const controller = new AbortController();
+        setFilmRoomData(null);
+        setFilmRoomLoading(teamAbbr !== 'NFL');
+        if (teamAbbr === 'NFL') return () => controller.abort();
+        void fetch(`/api/film-room?team=${encodeURIComponent(teamAbbr)}`, {
+          signal: controller.signal,
+        })
+          .then(async (response) => {
+            if (!response.ok) throw new Error(`Film Room request failed: ${response.status}`);
+            setFilmRoomData((await response.json()) as FilmRoomResponse);
+          })
+          .catch((error: unknown) => {
+            if (!(error instanceof DOMException && error.name === 'AbortError')) {
+              setFilmRoomData({
+                teamId: teamAbbr,
+                videos: [],
+                unavailableVideoIds: [],
+                configured: true,
+                message: 'Film Room is temporarily unavailable. Please try again soon.',
+              });
+            }
+          })
+          .finally(() => {
+            if (!controller.signal.aborted) setFilmRoomLoading(false);
+          });
+        return () => controller.abort();
+      }, [teamAbbr]);
+
+      useEffect(() => {
+        const controller = new AbortController();
+        setHomepageGame(null);
+        if (!activeTeam || !gameDayHeroAsset(activeTeam.abbr)) return () => controller.abort();
+        const params = new URLSearchParams({ team: activeTeam.abbr });
+        if (process.env.NODE_ENV !== 'production') {
+          const pageParams = new URLSearchParams(window.location.search);
+          if (pageParams.get('gameday') === '1') params.set('gameday', '1');
+          const previewAt = pageParams.get('gamedayAt');
+          if (previewAt) params.set('gamedayAt', previewAt);
+        }
+        void fetch(`/api/game-day/homepage?${params}`, {
+          cache: 'no-store',
+          signal: controller.signal,
+        })
+          .then((response) => (response.ok ? response.json() : null))
+          .then((payload: { game?: HomepageGame | null } | null) =>
+            setHomepageGame(payload?.game ?? null),
+          )
+          .catch((error) => {
+            if (!(error instanceof DOMException && error.name === 'AbortError')) {
+              console.error('[game-day-hero] failed to load game', error);
+            }
+          });
+        return () => controller.abort();
+      }, [activeTeam]);
+
+      useEffect(() => {
+        if (!user) {
+          setPersonalization(null);
+          return;
+        }
+        void fetch('/api/user/home', { cache: 'no-store' })
+          .then((response) => (response.ok ? response.json() : null))
+          .then((body: { personalization?: typeof personalization } | null) => {
+            const nextPersonalization = body?.personalization ?? null;
+            setPersonalization(nextPersonalization);
+            const primaryTeamId = nextPersonalization?.primaryTeam?.teamId;
+            const primaryTeam = teams.find((team) => team.abbr === primaryTeamId);
+            if (primaryTeam) {
+              setSelectedTeamId(primaryTeam.id);
+              setHasSelectedTeam(true);
+              void saveFanTeamPreference(primaryTeam.abbr);
+            }
+          });
+      }, [setSelectedTeamId, teams, user]);
+
+      const huddleCards = useMemo(
+        () =>
+          briefings.map((briefing) => ({
+            id: briefing.id,
+            label: briefing.category,
+            title: briefing.headline,
+            summary: briefing.summary,
+            briefing,
+          })),
+        [briefings],
+      );
+      const displayedWireItems = wireEntries.length
+        ? wireEntries.map((entry) => ({
+            id: entry.id,
+            time: new Date(entry.occurredAt).toLocaleTimeString([], {
+              hour: 'numeric',
+              minute: '2-digit',
+            }),
+            text: entry.headline,
+          }))
+        : fallbackWireItems.map((item) => ({ ...item, id: null }));
+      const latestFilmRoomVideos = useMemo(
+        () =>
+          [...(filmRoomData?.videos ?? [])]
+            .sort(
+              (left, right) =>
+                new Date(right.publishedAt ?? right.addedAt).getTime() -
+                new Date(left.publishedAt ?? left.addedAt).getTime(),
+            )
+            .slice(0, 3),
+        [filmRoomData?.videos],
+      );
+      const searchItems = useMemo(
+        () => [
+          ...huddleCards.map((item) => ({
+            category: 'The Beat',
+            title: item.title,
+            description: item.summary,
+            href: `/content/${encodeURIComponent(item.id)}`,
+          })),
+          ...latestFilmRoomVideos.map((item) => ({
+            category: 'Film Room',
+            title: item.title,
+            description: `${item.channel.name} · ${item.duration}`,
+            href: `/watch?team=${encodeURIComponent(teamAbbr)}&video=${encodeURIComponent(item.id)}`,
+          })),
+          ...displayedWireItems.map((item) => ({
+            category: 'The Wire',
+            title: item.text,
+            description: item.time,
+            href: item.id ? `/content/${encodeURIComponent(item.id)}` : '/wire',
+          })),
+          {
+            category: 'Fan Discussion',
+            title: 'Is the biggest position battle already decided?',
+            description: `Trending conversation among ${teamName} fans`,
+            href: '#fan-discussion',
+          },
+          {
+            category: 'Front Office',
+            title: `${teamName} depth chart, cap outlook, transactions, and draft capital`,
+            description: 'Roster and team-building information',
+            href: getOffseasonManagerRoute('', activeTeam?.abbr),
+          },
+        ],
+        [activeTeam?.abbr, displayedWireItems, huddleCards, latestFilmRoomVideos, teamAbbr, teamName],
+      );
+
+      return (
+        <TeamThemeProvider team={activeTeam}>
+          <div className="min-h-screen bg-[#f7f4ee] text-[#00172B]">
+            {isTeamMenuOpen ? (
+              <div className="fixed inset-x-0 bottom-0 top-[var(--site-header-height)] z-50 overflow-y-auto">
+                <TeamGateway
+                  teams={teams}
+                  onClose={() => setIsTeamMenuOpen(false)}
+                  onSelect={(team) => {
+                    setSelectedTeamId(team.id);
+                    saveFanTeamPreference(team.abbr);
+                    setHasSelectedTeam(true);
+                    setIsTeamMenuOpen(false);
+                  }}
+                />
+              </div>
+            ) : null}
+            {isSearchOpen ? (
+              <div
+                className="mobile-search-overlay fixed inset-x-0 bottom-0 top-[var(--site-header-height)] z-50 flex items-start justify-center overflow-hidden bg-slate-950/75 px-4 py-4 backdrop-blur-sm sm:py-8"
+                role="dialog"
+                aria-modal="true"
+                aria-label="Search Down & Distance"
+                onMouseDown={(event) => {
+                  if (event.currentTarget === event.target) setIsSearchOpen(false);
+                }}
+              >
+                <AiSearchPanel
+                  variant="overlay"
+                  teamId={activeTeam?.abbr ?? ''}
+                  teamName={teamName}
+                  teamCity={activeTeam?.city ?? teamName}
+                  primaryColor={activeTeam?.color_primary ?? '#00172b'}
+                  nickname={activeTeam?.name.split(/\s+/).at(-1) ?? 'NFL'}
+                  query={searchQuery}
+                  onQueryChange={setSearchQuery}
+                  onClose={() => setIsSearchOpen(false)}
+                  quickLinks={searchItems}
+                />
+              </div>
+            ) : null}
+            <SiteHeaderShell tone={activeTeam ? 'team' : 'merch'}>
+              <SiteHeaderLogo teamAbbr={activeTeam?.abbr} generic={!activeTeam} />
+              <PrimaryNavigation teamAbbr={activeTeam?.abbr} active="huddle" showMobile={false} />
+              <div className="ml-auto flex min-w-0 items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setIsSearchOpen(true)}
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-current/20 text-[var(--team-on-dark)] hover:bg-white/10"
+                  aria-label="Search"
+                >
+                  <Search className="h-4 w-4" />
+                </button>
+                <NotificationCenter teamAbbr={activeTeam?.abbr} />
+                <span className="hidden lg:block">
+                  <LoginButton teamAbbr={activeTeam?.abbr} />
+                </span>
+                <MobileSiteMenu teamAbbr={activeTeam?.abbr} active="huddle" />
+              </div>
+            </SiteHeaderShell>
+
+            {activeTeam ? (
+              <><GameDayHomepageHero team={activeTeam} game={homepageGame} /><Link href={`/huddle?team=${activeTeam.abbr}${homepageGame?`&game=${homepageGame.id}`:''}`} style={{display:'block',padding:16}}>Join your team in The Huddle →</Link></>
+            ) : (
+              <PlaybookHero />
+            )}
+
+            {user && activeTeam ? <CatchUpCallout teamId={activeTeam.abbr} /> : null}
+
+            {activeTeam ? (
+              <div className="mx-auto max-w-[1440px] px-4 pt-8 sm:px-6 lg:px-8">
+                <AiSearchPanel
+                  teamId={activeTeam.abbr}
+                  teamName={activeTeam.name}
+                  teamCity={activeTeam.city ?? activeTeam.name}
+                  primaryColor={activeTeam.color_primary}
+                  nickname={activeTeam.name.split(/\s+/).at(-1) ?? activeTeam.name}
+                  query={aiSearchQuery}
+                  onQueryChange={setAiSearchQuery}
+                />
+              </div>
+            ) : null}
+
+            <main className="mx-auto max-w-[1440px] px-4 py-8 sm:px-6 lg:px-8">
+              <section id="huddle" className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
+                <div>
+                  <div className="mb-4 flex items-end justify-between gap-4">
+                    <div>
+                      <div className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.24em] text-[var(--team-primary-text)]">
+                        <Sparkles className="h-4 w-4" /> The Beat
+                      </div>
+                      <h2 className="mt-2 text-2xl font-black tracking-tight sm:text-3xl">
+                        What {teamName} fans need to know
+                      </h2>
+                    </div>
+                    <Link
+                      href={`/the-beat${teamRouteSuffix}`}
+                      className="hidden text-sm font-bold text-[var(--team-primary-text)] sm:block"
+                    >
+                      See the whole field →
+                    </Link>
+                  </div>
+                  <div className="grid items-stretch gap-4 md:grid-cols-2 xl:grid-cols-3">
+                    {huddleCards.slice(0, 3).map((item, index) => (
+                      <HuddleStoryCard
+                        key={item.id}
+                        id={item.id}
+                        teamId={teamAbbr}
+                        appearance="beat"
+                        graphicDecision={item.briefing.graphicDecision}
+                        headline={item.title}
+                        summary={item.summary}
+                        category={item.label}
+                        status={item.briefing.status}
+                        sourceCount={item.briefing.sourceCount}
+                        updatedAt={item.briefing.updatedAt}
+                        materialUpdateCount={item.briefing.materialUpdateCount}
+                        hotReadUntil={item.briefing.hotReadUntil}
+                        firstReportedBy={item.briefing.firstReportedBy}
+                        sources={item.briefing.sources}
+                        lead={index === 0}
+                        onOpen={() => openBriefing(item.briefing)}
+                      />
+                    ))}
+                    <BeatBannerAd />
+                    {!huddleCards.length ? (
+                      <div className="rounded-2xl border border-dashed border-[#00172B]/15 bg-white/55 p-8 text-sm font-semibold text-[#40556b] md:col-span-2 xl:col-span-3">
+                        No verified Beat stories are ready for {teamName} yet.
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
+                <ResponsiveRail
+                  stackAt={1023}
+                  className="space-y-6 lg:sticky lg:top-[calc(var(--site-header-height)+1.5rem)] lg:self-start"
+                >
+                  <HomeThreeAndOut
+                    teamAbbr={teamAbbr}
+                    stories={huddleCards}
+                    onOpen={(id) => {
+                      const story = huddleCards.find((item) => item.id === id);
+                      if (story) openBriefing(story.briefing);
+                    }}
+                  />
+                  <section
+                    id="wire"
+                    className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
+                  >
+                    <div className="flex items-center justify-between">
+                      <h3 className="flex items-center gap-2 text-lg font-black">
+                        <Radio className="h-4 w-4 text-red-600" /> The Wire
+                      </h3>
+                      <span className="flex items-center gap-1 text-[10px] font-black uppercase tracking-wider text-red-600">
+                        <span className="h-2 w-2 animate-pulse rounded-full bg-red-600" /> Live
+                      </span>
+                    </div>
+                    <div className="mt-4 divide-y divide-slate-100">
+                      {displayedWireItems.map((item) => (
+                        <div key={`${item.time}-${item.text}`} className="py-4 first:pt-1">
+                          <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                            {item.time}
+                          </p>
+                          <p className="mt-1 text-sm font-semibold leading-5">{item.text}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+                </ResponsiveRail>
+              </section>
+
+              <section id="watch" className="mt-10 rounded-3xl bg-slate-950 p-6 text-white sm:p-8">
+                <div className="mb-6 flex items-end justify-between">
+                  <div>
+                    <p className="text-xs font-black uppercase tracking-[0.24em] text-[var(--team-secondary-on-dark)]">
+                      Film Room
+                    </p>
+                    <h2 className="mt-2 text-2xl font-black">Worth your time today</h2>
+                  </div>
+                  <Link href={`/watch${teamRouteSuffix}`} className="text-sm font-bold text-white/60">
+                    Browse all →
+                  </Link>
+                </div>
+                <div className="grid gap-4 md:grid-cols-3">
+                  {latestFilmRoomVideos.map((video, index) => (
+                    <FilmRoomCard
+                      key={video.id}
+                      video={video}
+                      sequence={index + 1}
+                      onPlay={(nextVideo, trigger) => {
+                        setVideoTrigger(trigger);
+                        setSelectedVideo(nextVideo);
+                      }}
+                    />
+                  ))}
+                  {filmRoomLoading
+                    ? Array.from({ length: 3 }, (_, index) => (
+                        <div key={index} className="overflow-hidden rounded-xl bg-white">
+                          <div className="aspect-video animate-pulse bg-slate-700" />
+                          <div className="space-y-3 p-5">
+                            <div className="h-5 animate-pulse rounded bg-slate-200" />
+                            <div className="h-5 w-3/4 animate-pulse rounded bg-slate-200" />
+                          </div>
+                        </div>
+                      ))
+                    : null}
+                  {!filmRoomLoading && !latestFilmRoomVideos.length ? (
+                    <p className="rounded-2xl border border-dashed border-white/20 p-6 text-sm font-semibold text-white/70 md:col-span-3">
+                      {filmRoomData?.message ?? `No curated ${teamName} videos are available yet.`}
+                    </p>
+                  ) : null}
+                </div>
+              </section>
+
+              <section className="mt-10 grid gap-6 lg:grid-cols-2">
+                <div
+                  id="fan-discussion"
+                  className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8"
+                >
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.22em] text-orange-600">
+                        <Flame className="h-4 w-4" /> Fan discussion
+                      </p>
+                      <h2 className="mt-2 text-2xl font-black">Fans are talking about...</h2>
+                    </div>
+                    <MessageCircle className="h-7 w-7 text-slate-300" />
+                  </div>
+                  <div className="mt-7 rounded-2xl bg-slate-50 p-5">
+                    <h3 className="text-xl font-black">
+                      Is the biggest position battle already decided?
+                    </h3>
+                    <div className="mt-3 flex items-center gap-4 text-xs font-bold text-slate-500">
+                      <span className="flex items-center gap-1">
+                        <MessageCircle className="h-3.5 w-3.5" /> 2,100 comments
+                      </span>
+                      <span className="flex items-center gap-1 text-orange-600">
+                        <Flame className="h-3.5 w-3.5" /> Trending
+                      </span>
+                    </div>
+                    <p className="mt-5 border-l-4 border-[var(--secondary)] pl-4 text-sm leading-6 text-slate-600">
+                      The conversation shifted after three straight positive practice reports. Fans are
+                      increasingly convinced the competition has a clear leader.
+                    </p>
+                    <button className="mt-5 text-sm font-black text-[var(--team-primary-text)]">
+                      Open the original discussion →
+                    </button>
+                  </div>
+                </div>
+                <div
+                  id="front-office"
+                  className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8"
+                >
+                  <p className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.22em] text-[var(--team-primary-text)]">
+                    <Shield className="h-4 w-4" /> Front Office
+                  </p>
+                  <h2 className="mt-2 text-2xl font-black">Build the complete picture</h2>
+                  <div className="mt-7 grid grid-cols-2 gap-3">
+                    {[
+                      { icon: Users, label: 'Depth chart', value: '53 players' },
+                      { icon: BarChart3, label: 'Cap outlook', value: '$40.8M space' },
+                      { icon: Clock3, label: 'Transactions', value: '4 this week' },
+                      { icon: Shield, label: 'Draft capital', value: '8 selections' },
+                    ].map((item) => (
+                      <button
+                        key={item.label}
+                        className="rounded-2xl border border-slate-200 p-4 text-left transition hover:border-[var(--primary)] hover:bg-slate-50"
+                      >
+                        <item.icon className="h-5 w-5 text-[var(--team-primary-text)]" />
+                        <span className="mt-4 block text-xs font-bold text-slate-500">
+                          {item.label}
+                        </span>
+                        <span className="mt-1 block font-black">{item.value}</span>
+                      </button>
+                    ))}
+                  </div>
+                  <Link
+                    href={getOffseasonManagerRoute('', activeTeam?.abbr)}
+                    className="mt-5 flex w-full items-center justify-between rounded-2xl bg-[var(--dark)] p-4 font-black text-[var(--team-on-dark)]"
+                  >
+                    <span>Take control in Front Office</span>
+                    <ArrowRight className="h-5 w-5" />
+                  </Link>
+                </div>
+              </section>
+            </main>
+
+            {selectedVideo ? (
+              <FilmRoomVideoModal
+                video={selectedVideo}
+                teamAbbr={teamAbbr}
+                onClose={() => setSelectedVideo(null)}
+                returnFocusTo={videoTrigger}
+              />
+            ) : null}
+          </div>
+        </TeamThemeProvider>
+      );
+    }
+
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/down-distance-d1-r2-storage-optimized/src/features/home/homepage-cleanup.test.ts:60:10)
+    Test.runInAsyncScope (node:async_hooks:211:14)
+    Test.run (node:internal/test_runner/test:979:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:677:18)
+    Test.postRun (node:internal/test_runner/test:1090:19)
+    Test.run (node:internal/test_runner/test:1018:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:677:7)
+  ...
+# Subtest: mobile menu removes the logged-out spacer and shared footer reserves bottom-nav space
+not ok 6 - mobile menu removes the logged-out spacer and shared footer reserves bottom-nav space
+  ---
+  duration_ms: 0.811166
+  location: '/private/tmp/down-distance-d1-r2-storage-optimized/src/features/home/homepage-cleanup.test.ts:2:4349'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /pb-\[calc\(6rem\+env\(safe-area-inset-bottom\)\)\]/. Input:
+
+    "'use client';\n" +
+      "import Link from 'next/link';\n" +
+      "import { usePathname } from 'next/navigation';\n" +
+      "import { PRIMARY_NAV_ITEMS } from '@/config/primary-navigation';\n" +
+      "import { FOOTER_INFORMATION, footerCopyright } from '../../packages/navigation/footer';\n" +
+      "import styles from './site-footer.module.css';\n" +
+      '\n' +
+      'export default function SiteFooter() {\n' +
+      '  const pathname = usePathname();\n' +
+      "  const hiddenPrefixes = ['/admin', '/login', '/onboarding', '/start', '/preview', '/dev'];\n" +
+      '  if (hiddenPrefixes.some((prefix) => pathname === prefix || pathname?.startsWith(`${prefix}/`)))\n' +
+      '    return null;\n' +
+      '  return (\n' +
+      '    <footer className={`site-footer ${styles.footer}`}>\n' +
+      '      <div className={styles.inner}>\n' +
+      '        <Link href="/" aria-label="Down & Distance home" className={styles.brand}>\n' +
+      '          Down &amp; Distance\n' +
+      '        </Link>\n' +
+      '        <nav aria-label="Explore Down & Distance" className={styles.primary}>\n' +
+      '          {PRIMARY_NAV_ITEMS.map((item) => (\n' +
+      '            <Link key={item.id} href={item.href}>\n' +
+      '              {item.label}\n' +
+      '            </Link>\n' +
+      '          ))}\n' +
+      '        </nav>\n' +
+      '        <div className={styles.information} aria-label="Site information">\n' +
+      '          {FOOTER_INFORMATION.map((label) => (\n' +
+      '            <span key={label}>{label}</span>\n' +
+      '          ))}\n' +
+      '        </div>\n' +
+      '        <small className={styles.copyright}>{footerCopyright(new Date().getFullYear())}</small>\n' +
+      '      </div>\n' +
+      '    </footer>\n' +
+      '  );\n' +
+      '}\n'
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: |-
+    'use client';
+    import Link from 'next/link';
+    import { usePathname } from 'next/navigation';
+    import { PRIMARY_NAV_ITEMS } from '@/config/primary-navigation';
+    import { FOOTER_INFORMATION, footerCopyright } from '../../packages/navigation/footer';
+    import styles from './site-footer.module.css';
+
+    export default function SiteFooter() {
+      const pathname = usePathname();
+      const hiddenPrefixes = ['/admin', '/login', '/onboarding', '/start', '/preview', '/dev'];
+      if (hiddenPrefixes.some((prefix) => pathname === prefix || pathname?.startsWith(`${prefix}/`)))
+        return null;
+      return (
+        <footer className={`site-footer ${styles.footer}`}>
+          <div className={styles.inner}>
+            <Link href="/" aria-label="Down & Distance home" className={styles.brand}>
+              Down &amp; Distance
+            </Link>
+            <nav aria-label="Explore Down & Distance" className={styles.primary}>
+              {PRIMARY_NAV_ITEMS.map((item) => (
+                <Link key={item.id} href={item.href}>
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
+            <div className={styles.information} aria-label="Site information">
+              {FOOTER_INFORMATION.map((label) => (
+                <span key={label}>{label}</span>
+              ))}
+            </div>
+            <small className={styles.copyright}>{footerCopyright(new Date().getFullYear())}</small>
+          </div>
+        </footer>
+      );
+    }
+
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/down-distance-d1-r2-storage-optimized/src/features/home/homepage-cleanup.test.ts:66:10)
+    Test.runInAsyncScope (node:async_hooks:211:14)
+    Test.run (node:internal/test_runner/test:979:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:677:18)
+    Test.postRun (node:internal/test_runner/test:1090:19)
+    Test.run (node:internal/test_runner/test:1018:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:677:7)
+  ...
+# Subtest: all 32 team homepages map to an existing gameday stadium image
+ok 7 - all 32 team homepages map to an existing gameday stadium image
+  ---
+  duration_ms: 2.909917
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 2
+# fail 5
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 820.042333

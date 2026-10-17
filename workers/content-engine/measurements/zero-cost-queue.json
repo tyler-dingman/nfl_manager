@@ -1,0 +1,12 @@
+{
+  "scope": "50 actual existing queue enqueue/claim/complete lifecycles; extrapolated to 1400/day, excludes terminal archival and original domain writes already replaced by lean comparison. No queue behavior changed.",
+  "sampleJobs": 50,
+  "rowsRead": 850,
+  "rowsWritten": 1300,
+  "dailyJobs": 1400,
+  "dailyTerminalDeletionRowsWritten": 5600,
+  "dailyTerminalAdditionalReadAllowance": 2800,
+  "dailyTerminalAdditionalR2ReadAllowance": 2800,
+  "dailyRowsRead": 23800,
+  "dailyRowsWritten": 36400
+}

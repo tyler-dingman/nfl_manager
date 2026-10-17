@@ -1,0 +1,843 @@
+TAP version 13
+# Subtest: accepts only an exact active 72-hour window
+ok 1 - accepts only an exact active 72-hour window
+  ---
+  duration_ms: 0.72475
+  ...
+# Subtest: missing, invalid, and expired windows fail closed with the required message
+ok 2 - missing, invalid, and expired windows fail closed with the required message
+  ---
+  duration_ms: 0.133041
+  ...
+# Subtest: expiration guard occurs before database, source, AI, or generation work
+ok 3 - expiration guard occurs before database, source, AI, or generation work
+  ---
+  duration_ms: 0.639417
+  ...
+# Subtest: Vercel endpoint fails closed unless the trial is scoped to Kansas City
+not ok 4 - Vercel endpoint fails closed unless the trial is scoped to Kansas City
+  ---
+  duration_ms: 3.338
+  location: '/private/tmp/down-distance-d1-r2-storage-optimized/src/server/content-automation/trial.test.ts:2:2461'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /repo\.claimJob\(workerId, teamId\)/. Input:
+
+    "import { hostname } from 'node:os';\n" +
+      "import { findCandidateStory } from '@/features/story-engine/clustering';\n" +
+      'import {\n' +
+      '  nextCheckAfterFailure,\n' +
+      '  nextCheckAfterSuccess,\n' +
+      '  SOURCE_BATCH_SIZE,\n' +
+      '  registeredSourceIntervalSeconds,\n' +
+      "} from '@/features/story-engine/config';\n" +
+      "import { evaluateMaterialChange } from '@/features/story-engine/material-change';\n" +
+      "import { isLikelyEnglishContent, normalizeRawItem } from '@/features/story-engine/normalization';\n" +
+      'import {\n' +
+      '  GroundedDeterministicStorySynthesizer,\n' +
+      '  configuredStorySynthesizer,\n' +
+      '  type StorySynthesizer,\n' +
+      "} from '@/features/story-engine/synthesis';\n" +
+      'import {\n' +
+      '  evaluatePublishingPolicy,\n' +
+      '  publicationStateFor,\n' +
+      "} from '@/features/story-engine/publishing-policy';\n" +
+      "import type { RegisteredSource } from '@/features/story-engine/types';\n" +
+      "import { RssSourceFetcher, YouTubeSourceFetcher, type SourceFetcher } from './fetcher';\n" +
+      "import * as repo from './repository';\n" +
+      "import { getContentAiConfig } from '@/features/content/ai-provider';\n" +
+      'import {\n' +
+      '  maxNewAiStoriesPerTeamPerDay,\n' +
+      '  mayGenerateNewStory,\n' +
+      "} from '@/features/story-engine/generation-policy';\n" +
+      '\n' +
+      'export async function scheduleDueSources(\n' +
+      '  now = new Date(),\n' +
+      '  teamId?: string,\n' +
+      "  group?: 'standard' | 'video',\n" +
+      ') {\n' +
+      '  const sources = await repo.dueSources(now, SOURCE_BATCH_SIZE, teamId, group);\n' +
+      '  let queued = 0;\n' +
+      '  for (const source of sources) {\n' +
+      '    const intervalSeconds = registeredSourceIntervalSeconds(source);\n' +
+      '    const bucket = Math.floor(now.getTime() / (intervalSeconds * 1000));\n' +
+      '    if (\n' +
+      "      await repo.enqueueJob('SOURCE_FETCH', `fetch:${source.id}:${bucket}`, { sourceId: source.id })\n" +
+      '    )\n' +
+      '      queued++;\n' +
+      '  }\n' +
+      '  return { due: sources.length, queued };\n' +
+      '}\n' +
+      '\n' +
+      'export async function processCandidate(candidateId: string, synthesizer?: StorySynthesizer) {\n' +
+      '  synthesizer ??= configuredStorySynthesizer();\n' +
+      '  const candidate = await repo.candidateById(candidateId);\n' +
+      "  if (!candidate || candidate.status !== 'NEW') return { action: 'ignored' };\n" +
+      '  const source = await repo.sourceById(candidate.sourceId);\n' +
+      '  if (!source) throw new Error(`Unknown source ${candidate.sourceId}`);\n' +
+      "  if (source.sourceType === 'YOUTUBE' || source.metadata.platform === 'YOUTUBE') {\n" +
+      '    // Keep the candidate available to Film Room. Completing the processing job without\n' +
+      '    // creating or updating a canonical story isolates video ingestion from The Beat.\n' +
+      "    return { action: 'film-room-only' };\n" +
+      '  }\n' +
+      '  if (!candidate.title || (!candidate.candidateTeams.length && !source.leagueWide)) {\n' +
+      "    await repo.setCandidateStatus(candidateId, 'REJECTED', 'No usable title or team match.');\n" +
+      "    return { action: 'rejected' };\n" +
+      '  }\n' +
+      '  const stories = await repo.recentStories(\n' +
+      '    candidate.candidateTeams,\n' +
+      '    new Date(Date.now() - 72 * 3_600_000),\n' +
+      '  );\n' +
+      '  const match = findCandidateStory(candidate, stories);\n' +
+      '  if (match.ambiguous && source.metadata.publishAll !== true) {\n' +
+      "    await repo.setCandidateStatus(candidateId, 'REVIEW_REQUIRED', match.reason);\n" +
+      "    return { action: 'review', match };\n" +
+      '  }\n' +
+      '  if (!match.storyId || match.ambiguous) {\n' +
+      '    const config = getContentAiConfig();\n' +
+      '    const teamId = candidate.candidateTeams[0] ?? source.teamId;\n' +
+      "    if (config.provider === 'ollama' && teamId) {\n" +
+      '      const publishedToday = await repo.publishedStoryCountToday(teamId);\n' +
+      '      const maximum = maxNewAiStoriesPerTeamPerDay();\n' +
+      '      if (!mayGenerateNewStory({ provider: config.provider, publishedToday, maximum })) {\n' +
+      '        const reason = `Daily local-AI story cap reached for ${teamId}: ${publishedToday}/${maximum}. Candidate and evidence remain stored.`;\n' +
+      "        await repo.setCandidateStatus(candidateId, 'REVIEW_REQUIRED', reason);\n" +
+      "        return { action: 'daily-cap', reason };\n" +
+      '      }\n' +
+      '    }\n' +
+      '    const synth = await synthesizer.synthesize({\n' +
+      '      existingStory: null,\n' +
+      '      evidence: [{ candidate, source }],\n' +
+      '    });\n' +
+      '    const decision = evaluatePublishingPolicy({\n' +
+      '      story: synth,\n' +
+      '      storyType: candidate.storyType,\n' +
+      '      evidence: [{ candidate, source }],\n' +
+      '    });\n' +
+      '    synth.status =\n' +
+      "      synth.status === 'RESOLVED' ? 'RESOLVED' : decision.breaking ? 'BREAKING' : 'DEVELOPING';\n" +
+      '    const id = await repo.createStory(\n' +
+      '      candidate,\n' +
+      '      source,\n' +
+      '      synth,\n' +
+      '      publicationStateFor(decision),\n' +
+      "      'NEW_FACT',\n" +
+      '      decision,\n' +
+      '    );\n' +
+      "    return { action: 'created', storyId: id };\n" +
+      '  }\n' +
+      '  const story = await repo.storyById(match.storyId);\n' +
+      "  if (!story) throw new Error('Matched story disappeared.');\n" +
+      "  const official = source.sourceType === 'OFFICIAL_TEAM' || source.sourceType === 'NFL_OFFICIAL';\n" +
+      '  const change = evaluateMaterialChange(story, candidate, official);\n' +
+      '  if (!change.material) {\n' +
+      '    const evidence = [...(await repo.evidenceForStory(story.id)), { candidate, source }];\n' +
+      '    const synth = await synthesizer.synthesize({ existingStory: story, evidence });\n' +
+      '    // A confirming source must be allowed to promote a pending factual story. Preserve the\n' +
+      '    // canonical wording for a non-material confirmation rather than copying the latest headline.\n' +
+      '    synth.headline = story.headline;\n' +
+      '    synth.summary = story.summary;\n' +
+      '    synth.whatHappened = story.whatHappened;\n' +
+      '    const decision = evaluatePublishingPolicy({\n' +
+      '      story: synth,\n' +
+      '      storyType: story.storyType,\n' +
+      '      evidence,\n' +
+      '      clusterConfidence: match.confidence,\n' +
+      '      override: await repo.activePublishingOverride(story.id),\n' +
+      '    });\n' +
+      '    const promotes =\n' +
+      "      story.publicationState !== 'AUTO_PUBLISHED' && decision.action === 'AUTO_PUBLISH';\n" +
+      '    await repo.attachEvidence(\n' +
+      '      story,\n' +
+      '      candidate,\n' +
+      '      source,\n' +
+      '      promotes ? synth : null,\n' +
+      '      promotes ? publicationStateFor(decision) : null,\n' +
+      "      promotes ? 'SOURCE_CONFIRMATION' : 'TRIVIAL',\n" +
+      '      promotes ? decision : undefined,\n' +
+      '      match.reason,\n' +
+      '    );\n' +
+      "    return { action: promotes ? 'published' : 'corroborated', storyId: story.id };\n" +
+      '  }\n' +
+      '  const evidence = [...(await repo.evidenceForStory(story.id)), { candidate, source }];\n' +
+      '  const synth = await synthesizer.synthesize({ existingStory: story, evidence });\n' +
+      '  const decision = evaluatePublishingPolicy({\n' +
+      '    story: synth,\n' +
+      '    storyType: candidate.storyType,\n' +
+      '    evidence,\n' +
+      '    override: await repo.activePublishingOverride(story.id),\n' +
+      '  });\n' +
+      '  synth.status =\n' +
+      "    synth.status === 'RESOLVED'\n" +
+      "      ? 'RESOLVED'\n" +
+      '      : decision.breaking\n' +
+      "        ? 'BREAKING'\n" +
+      "        : synth.status === 'BREAKING'\n" +
+      "          ? 'DEVELOPING'\n" +
+      '          : synth.status;\n' +
+      '  await repo.attachEvidence(\n' +
+      '    story,\n' +
+      '    candidate,\n' +
+      '    source,\n' +
+      '    synth,\n' +
+      '    publicationStateFor(decision),\n' +
+      '    change.changeType,\n' +
+      '    decision,\n' +
+      '    match.reason,\n' +
+      '  );\n' +
+      "  return { action: 'updated', storyId: story.id, change: change.changeType };\n" +
+      '}\n' +
+      '\n' +
+      'export async function processSource(\n' +
+      '  source: RegisteredSource,\n' +
+      "  fetcher: SourceFetcher = source.metadata.platform === 'YOUTUBE'\n" +
+      '    ? new YouTubeSourceFetcher()\n' +
+      '    : new RssSourceFetcher(),\n' +
+      '  options: { publishedSince?: Date; teamId?: string } = {},\n' +
+      ') {\n' +
+      '  const started = Date.now();\n' +
+      '  try {\n' +
+      '    const result = await fetcher.fetch(source);\n' +
+      '    let inserted = 0;\n' +
+      "    // Film Room needs the channel's latest uploads even when none were published today.\n" +
+      '    // Playlist polling is already bounded; candidate IDs deduplicate subsequent polls.\n' +
+      "    const videoOnly = source.sourceType === 'YOUTUBE' || source.metadata.platform === 'YOUTUBE';\n" +
+      '    const eligibleItems =\n' +
+      '      options.publishedSince && !videoOnly\n' +
+      '        ? result.items.filter(\n' +
+      '            (item) => new Date(item.publishedAt).getTime() >= options.publishedSince!.getTime(),\n' +
+      '          )\n' +
+      '        : result.items;\n' +
+      '    for (const raw of eligibleItems) {\n' +
+      '      // Full-page text can contain bilingual navigation or unrelated modules. The headline and\n' +
+      '      // feed excerpt are the authored story copy and are the reliable language signal.\n' +
+      '      if (!isLikelyEnglishContent(`${raw.title} ${raw.excerpt}`)) continue;\n' +
+      '      const candidate = normalizeRawItem(raw, source);\n' +
+      '      if (options.teamId && !candidate.candidateTeams.includes(options.teamId)) continue;\n' +
+      '      const id = await repo.saveCandidate(candidate);\n' +
+      '      if (id) {\n' +
+      '        inserted++;\n' +
+      '        if (!videoOnly) {\n' +
+      "          await repo.enqueueJob('CANDIDATE_PROCESS', `candidate:${id}`, { candidateId: id });\n" +
+      '        }\n' +
+      '      }\n' +
+      '    }\n' +
+      '    await repo.markSourceSuccess(\n' +
+      '      source,\n' +
+      '      result.etag,\n' +
+      '      result.lastModified,\n' +
+      '      nextCheckAfterSuccess(registeredSourceIntervalSeconds(source)),\n' +
+      '      Date.now() - started,\n' +
+      '      result.items.length\n' +
+      '        ? new Date(Math.max(...result.items.map((item) => new Date(item.publishedAt).getTime())))\n' +
+      '        : null,\n' +
+      '    );\n' +
+      '    return {\n' +
+      '      fetched: result.items.length,\n' +
+      '      eligible: eligibleItems.length,\n' +
+      '      inserted,\n' +
+      '      notModified: result.notModified,\n' +
+      '    };\n' +
+      '  } catch (error) {\n' +
+      '    await repo.markSourceFailure(\n' +
+      '      source,\n' +
+      '      error instanceof Error ? error.message : String(error),\n' +
+      '      nextCheckAfterFailure(registeredSourceIntervalSeconds(source), source.failureCount + 1),\n' +
+      '      Date.now() - started,\n' +
+      '    );\n' +
+      '    throw error;\n' +
+      '  }\n' +
+      '}\n' +
+      '\n' +
+      'export async function workOne(\n' +
+      '  workerId = `${hostname()}:${process.pid}`,\n' +
+      '  teamId?: string,\n' +
+      '  synthesizer?: StorySynthesizer,\n' +
+      '  publishedSince?: Date,\n' +
+      "  group?: 'standard' | 'video',\n" +
+      ') {\n' +
+      '  const job = await repo.claimJob(workerId, teamId, group);\n' +
+      '  if (!job) return null;\n' +
+      '  try {\n' +
+      '    let result;\n' +
+      "    if (job.job_type === 'SOURCE_FETCH') {\n" +
+      '      const source = await repo.sourceById(job.payload.sourceId);\n' +
+      "      if (!source) throw new Error('Source not found.');\n" +
+      '      result = await processSource(source, undefined, { teamId, publishedSince });\n' +
+      '    } else result = await processCandidate(job.payload.candidateId, synthesizer);\n' +
+      '    await repo.finishJob(job.id);\n' +
+      '    return { jobId: job.id, type: job.job_type, result };\n' +
+      '  } catch (error) {\n' +
+      '    await repo.failJob(\n' +
+      '      job.id,\n' +
+      '      error instanceof Error ? error.message : String(error),\n' +
+      '      Math.min(3600, 30 * 2 ** job.attempts),\n' +
+      '    );\n' +
+      '    throw error;\n' +
+      '  }\n' +
+      '}\n' +
+      '\n' +
+      'export async function drainJobs(\n' +
+      '  max = 100,\n' +
+      '  teamId?: string,\n' +
+      '  continueOnError = false,\n' +
+      '  synthesizer?: StorySynthesizer,\n' +
+      '  publishedSince?: Date,\n' +
+      '  maxGenerated?: number,\n' +
+      '  group?: '... 2360 more characters
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: |-
+    import { hostname } from 'node:os';
+    import { findCandidateStory } from '@/features/story-engine/clustering';
+    import {
+      nextCheckAfterFailure,
+      nextCheckAfterSuccess,
+      SOURCE_BATCH_SIZE,
+      registeredSourceIntervalSeconds,
+    } from '@/features/story-engine/config';
+    import { evaluateMaterialChange } from '@/features/story-engine/material-change';
+    import { isLikelyEnglishContent, normalizeRawItem } from '@/features/story-engine/normalization';
+    import {
+      GroundedDeterministicStorySynthesizer,
+      configuredStorySynthesizer,
+      type StorySynthesizer,
+    } from '@/features/story-engine/synthesis';
+    import {
+      evaluatePublishingPolicy,
+      publicationStateFor,
+    } from '@/features/story-engine/publishing-policy';
+    import type { RegisteredSource } from '@/features/story-engine/types';
+    import { RssSourceFetcher, YouTubeSourceFetcher, type SourceFetcher } from './fetcher';
+    import * as repo from './repository';
+    import { getContentAiConfig } from '@/features/content/ai-provider';
+    import {
+      maxNewAiStoriesPerTeamPerDay,
+      mayGenerateNewStory,
+    } from '@/features/story-engine/generation-policy';
+
+    export async function scheduleDueSources(
+      now = new Date(),
+      teamId?: string,
+      group?: 'standard' | 'video',
+    ) {
+      const sources = await repo.dueSources(now, SOURCE_BATCH_SIZE, teamId, group);
+      let queued = 0;
+      for (const source of sources) {
+        const intervalSeconds = registeredSourceIntervalSeconds(source);
+        const bucket = Math.floor(now.getTime() / (intervalSeconds * 1000));
+        if (
+          await repo.enqueueJob('SOURCE_FETCH', `fetch:${source.id}:${bucket}`, { sourceId: source.id })
+        )
+          queued++;
+      }
+      return { due: sources.length, queued };
+    }
+
+    export async function processCandidate(candidateId: string, synthesizer?: StorySynthesizer) {
+      synthesizer ??= configuredStorySynthesizer();
+      const candidate = await repo.candidateById(candidateId);
+      if (!candidate || candidate.status !== 'NEW') return { action: 'ignored' };
+      const source = await repo.sourceById(candidate.sourceId);
+      if (!source) throw new Error(`Unknown source ${candidate.sourceId}`);
+      if (source.sourceType === 'YOUTUBE' || source.metadata.platform === 'YOUTUBE') {
+        // Keep the candidate available to Film Room. Completing the processing job without
+        // creating or updating a canonical story isolates video ingestion from The Beat.
+        return { action: 'film-room-only' };
+      }
+      if (!candidate.title || (!candidate.candidateTeams.length && !source.leagueWide)) {
+        await repo.setCandidateStatus(candidateId, 'REJECTED', 'No usable title or team match.');
+        return { action: 'rejected' };
+      }
+      const stories = await repo.recentStories(
+        candidate.candidateTeams,
+        new Date(Date.now() - 72 * 3_600_000),
+      );
+      const match = findCandidateStory(candidate, stories);
+      if (match.ambiguous && source.metadata.publishAll !== true) {
+        await repo.setCandidateStatus(candidateId, 'REVIEW_REQUIRED', match.reason);
+        return { action: 'review', match };
+      }
+      if (!match.storyId || match.ambiguous) {
+        const config = getContentAiConfig();
+        const teamId = candidate.candidateTeams[0] ?? source.teamId;
+        if (config.provider === 'ollama' && teamId) {
+          const publishedToday = await repo.publishedStoryCountToday(teamId);
+          const maximum = maxNewAiStoriesPerTeamPerDay();
+          if (!mayGenerateNewStory({ provider: config.provider, publishedToday, maximum })) {
+            const reason = `Daily local-AI story cap reached for ${teamId}: ${publishedToday}/${maximum}. Candidate and evidence remain stored.`;
+            await repo.setCandidateStatus(candidateId, 'REVIEW_REQUIRED', reason);
+            return { action: 'daily-cap', reason };
+          }
+        }
+        const synth = await synthesizer.synthesize({
+          existingStory: null,
+          evidence: [{ candidate, source }],
+        });
+        const decision = evaluatePublishingPolicy({
+          story: synth,
+          storyType: candidate.storyType,
+          evidence: [{ candidate, source }],
+        });
+        synth.status =
+          synth.status === 'RESOLVED' ? 'RESOLVED' : decision.breaking ? 'BREAKING' : 'DEVELOPING';
+        const id = await repo.createStory(
+          candidate,
+          source,
+          synth,
+          publicationStateFor(decision),
+          'NEW_FACT',
+          decision,
+        );
+        return { action: 'created', storyId: id };
+      }
+      const story = await repo.storyById(match.storyId);
+      if (!story) throw new Error('Matched story disappeared.');
+      const official = source.sourceType === 'OFFICIAL_TEAM' || source.sourceType === 'NFL_OFFICIAL';
+      const change = evaluateMaterialChange(story, candidate, official);
+      if (!change.material) {
+        const evidence = [...(await repo.evidenceForStory(story.id)), { candidate, source }];
+        const synth = await synthesizer.synthesize({ existingStory: story, evidence });
+        // A confirming source must be allowed to promote a pending factual story. Preserve the
+        // canonical wording for a non-material confirmation rather than copying the latest headline.
+        synth.headline = story.headline;
+        synth.summary = story.summary;
+        synth.whatHappened = story.whatHappened;
+        const decision = evaluatePublishingPolicy({
+          story: synth,
+          storyType: story.storyType,
+          evidence,
+          clusterConfidence: match.confidence,
+          override: await repo.activePublishingOverride(story.id),
+        });
+        const promotes =
+          story.publicationState !== 'AUTO_PUBLISHED' && decision.action === 'AUTO_PUBLISH';
+        await repo.attachEvidence(
+          story,
+          candidate,
+          source,
+          promotes ? synth : null,
+          promotes ? publicationStateFor(decision) : null,
+          promotes ? 'SOURCE_CONFIRMATION' : 'TRIVIAL',
+          promotes ? decision : undefined,
+          match.reason,
+        );
+        return { action: promotes ? 'published' : 'corroborated', storyId: story.id };
+      }
+      const evidence = [...(await repo.evidenceForStory(story.id)), { candidate, source }];
+      const synth = await synthesizer.synthesize({ existingStory: story, evidence });
+      const decision = evaluatePublishingPolicy({
+        story: synth,
+        storyType: candidate.storyType,
+        evidence,
+        override: await repo.activePublishingOverride(story.id),
+      });
+      synth.status =
+        synth.status === 'RESOLVED'
+          ? 'RESOLVED'
+          : decision.breaking
+            ? 'BREAKING'
+            : synth.status === 'BREAKING'
+              ? 'DEVELOPING'
+              : synth.status;
+      await repo.attachEvidence(
+        story,
+        candidate,
+        source,
+        synth,
+        publicationStateFor(decision),
+        change.changeType,
+        decision,
+        match.reason,
+      );
+      return { action: 'updated', storyId: story.id, change: change.changeType };
+    }
+
+    export async function processSource(
+      source: RegisteredSource,
+      fetcher: SourceFetcher = source.metadata.platform === 'YOUTUBE'
+        ? new YouTubeSourceFetcher()
+        : new RssSourceFetcher(),
+      options: { publishedSince?: Date; teamId?: string } = {},
+    ) {
+      const started = Date.now();
+      try {
+        const result = await fetcher.fetch(source);
+        let inserted = 0;
+        // Film Room needs the channel's latest uploads even when none were published today.
+        // Playlist polling is already bounded; candidate IDs deduplicate subsequent polls.
+        const videoOnly = source.sourceType === 'YOUTUBE' || source.metadata.platform === 'YOUTUBE';
+        const eligibleItems =
+          options.publishedSince && !videoOnly
+            ? result.items.filter(
+                (item) => new Date(item.publishedAt).getTime() >= options.publishedSince!.getTime(),
+              )
+            : result.items;
+        for (const raw of eligibleItems) {
+          // Full-page text can contain bilingual navigation or unrelated modules. The headline and
+          // feed excerpt are the authored story copy and are the reliable language signal.
+          if (!isLikelyEnglishContent(`${raw.title} ${raw.excerpt}`)) continue;
+          const candidate = normalizeRawItem(raw, source);
+          if (options.teamId && !candidate.candidateTeams.includes(options.teamId)) continue;
+          const id = await repo.saveCandidate(candidate);
+          if (id) {
+            inserted++;
+            if (!videoOnly) {
+              await repo.enqueueJob('CANDIDATE_PROCESS', `candidate:${id}`, { candidateId: id });
+            }
+          }
+        }
+        await repo.markSourceSuccess(
+          source,
+          result.etag,
+          result.lastModified,
+          nextCheckAfterSuccess(registeredSourceIntervalSeconds(source)),
+          Date.now() - started,
+          result.items.length
+            ? new Date(Math.max(...result.items.map((item) => new Date(item.publishedAt).getTime())))
+            : null,
+        );
+        return {
+          fetched: result.items.length,
+          eligible: eligibleItems.length,
+          inserted,
+          notModified: result.notModified,
+        };
+      } catch (error) {
+        await repo.markSourceFailure(
+          source,
+          error instanceof Error ? error.message : String(error),
+          nextCheckAfterFailure(registeredSourceIntervalSeconds(source), source.failureCount + 1),
+          Date.now() - started,
+        );
+        throw error;
+      }
+    }
+
+    export async function workOne(
+      workerId = `${hostname()}:${process.pid}`,
+      teamId?: string,
+      synthesizer?: StorySynthesizer,
+      publishedSince?: Date,
+      group?: 'standard' | 'video',
+    ) {
+      const job = await repo.claimJob(workerId, teamId, group);
+      if (!job) return null;
+      try {
+        let result;
+        if (job.job_type === 'SOURCE_FETCH') {
+          const source = await repo.sourceById(job.payload.sourceId);
+          if (!source) throw new Error('Source not found.');
+          result = await processSource(source, undefined, { teamId, publishedSince });
+        } else result = await processCandidate(job.payload.candidateId, synthesizer);
+        await repo.finishJob(job.id);
+        return { jobId: job.id, type: job.job_type, result };
+      } catch (error) {
+        await repo.failJob(
+          job.id,
+          error instanceof Error ? error.message : String(error),
+          Math.min(3600, 30 * 2 ** job.attempts),
+        );
+        throw error;
+      }
+    }
+
+    export async function drainJobs(
+      max = 100,
+      teamId?: string,
+      continueOnError = false,
+      synthesizer?: StorySynthesizer,
+      publishedSince?: Date,
+      maxGenerated?: number,
+      group?: 'standard' | 'video',
+    ) {
+      const results: any[] = [];
+      let generated = 0;
+      for (let i = 0; i < max; i++) {
+        try {
+          const result = await workOne(undefined, teamId, synthesizer, publishedSince, group);
+          if (!result) break;
+          results.push(result);
+          if (['created', 'updated', 'published'].includes(String((result as any).result?.action))) {
+            generated++;
+            if (maxGenerated && generated >= maxGenerated) break;
+          }
+        } catch (error) {
+          if (!continueOnError) throw error;
+          results.push({
+            type: 'error',
+            error: error instanceof Error ? error.message : String(error),
+          });
+        }
+      }
+      return results;
+    }
+
+    export async function replayRecentStories(teamId: string, hours: number) {
+      const since = new Date(Date.now() - hours * 3_600_000);
+      const storyIds = await repo.storyIdsWithEvidenceSince(teamId, since);
+      const results: Array<{ storyId: string; action: string; reason: string }> = [];
+      for (const storyId of storyIds) {
+        const story = await repo.storyById(storyId);
+        if (!story || ['AUTO_PUBLISHED', 'PUBLISHED'].includes(story.publicationState)) continue;
+        const evidence = await repo.evidenceForStory(storyId);
+        const tierThreeOnly = evidence.every(({ source }) => source.pollingTier === 'C');
+        const explicitlyTeamRelevant = evidence.some(
+          ({ candidate, source }) =>
+            candidate.candidateTeams.includes(teamId) || source.teamId === teamId,
+        );
+        if (tierThreeOnly && !explicitlyTeamRelevant) {
+          results.push({
+            storyId,
+            action: 'held',
+            reason: `Tier 3 item is not explicitly ${teamId}-relevant.`,
+          });
+          continue;
+        }
+        const synth = await new GroundedDeterministicStorySynthesizer().synthesize({
+          existingStory: story,
+          evidence,
+        });
+        const decision = evaluatePublishingPolicy({
+          story: synth,
+          storyType: story.storyType,
+          evidence,
+          override: await repo.activePublishingOverride(story.id),
+        });
+        if (decision.action !== 'AUTO_PUBLISH') {
+          results.push({ storyId, action: 'held', reason: decision.reason });
+          continue;
+        }
+        synth.status = decision.breaking ? 'BREAKING' : synth.status;
+        await repo.promoteExistingStory(story, synth, decision);
+        results.push({ storyId, action: 'published', reason: decision.reason });
+      }
+      return results;
+    }
+
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/down-distance-d1-r2-storage-optimized/src/server/content-automation/trial.test.ts:68:10)
+    Test.runInAsyncScope (node:async_hooks:211:14)
+    Test.run (node:internal/test_runner/test:979:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:677:18)
+    Test.postRun (node:internal/test_runner/test:1090:19)
+    Test.run (node:internal/test_runner/test:1018:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:677:7)
+  ...
+# Subtest: trial repository initializes its isolated run ledger before reading or recording usage
+ok 5 - trial repository initializes its isolated run ledger before reading or recording usage
+  ---
+  duration_ms: 0.327959
+  ...
+# Subtest: hard generation and expenditure budgets stop work
+ok 6 - hard generation and expenditure budgets stop work
+  ---
+  duration_ms: 0.125541
+  ...
+# Subtest: workflows use isolated schedules and guard curl behind the window result
+not ok 7 - workflows use isolated schedules and guard curl behind the window result
+  ---
+  duration_ms: 0.855667
+  location: '/private/tmp/down-distance-d1-r2-storage-optimized/src/server/content-automation/trial.test.ts:2:5074'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /cron: ['"]\*\/30 \* \* \* \*['"]/. Input:
+
+    'name: Content automation trial - standard sources\n' +
+      '\n' +
+      'on:\n' +
+      '  workflow_dispatch:\n' +
+      '    inputs:\n' +
+      '      temporary_override:\n' +
+      '        description: Authorized one-run expiration override\n' +
+      '        type: boolean\n' +
+      '        default: false\n' +
+      '\n' +
+      'concurrency:\n' +
+      '  group: content-automation-three-day-trial\n' +
+      '  cancel-in-progress: false\n' +
+      '\n' +
+      'permissions:\n' +
+      '  actions: write\n' +
+      '\n' +
+      'jobs:\n' +
+      '  poll-standard:\n' +
+      '    runs-on: ubuntu-latest\n' +
+      '    timeout-minutes: 10\n' +
+      '    steps:\n' +
+      '      - name: Enforce fixed three-day window before contacting Vercel\n' +
+      '        id: window\n' +
+      '        env:\n' +
+      '          STARTS_AT: ${{ vars.CONTENT_AUTOMATION_STARTS_AT }}\n' +
+      '          EXPIRES_AT: ${{ vars.CONTENT_AUTOMATION_EXPIRES_AT }}\n' +
+      '          TEAM_ID: ${{ vars.CONTENT_AUTOMATION_TEAM_ID }}\n' +
+      "          TEMPORARY_OVERRIDE: ${{ inputs.temporary_override || 'false' }}\n" +
+      '          OVERRIDE_SECRET: ${{ secrets.CONTENT_AUTOMATION_ADMIN_OVERRIDE_SECRET }}\n' +
+      '          GH_TOKEN: ${{ github.token }}\n' +
+      '        run: |\n' +
+      '          set -euo pipefail\n' +
+      '          if [[ "$TEMPORARY_OVERRIDE" == "true" && -n "$OVERRIDE_SECRET" ]]; then\n' +
+      '            echo "run=true" >> "$GITHUB_OUTPUT"\n' +
+      '            echo "override=true" >> "$GITHUB_OUTPUT"\n' +
+      '            exit 0\n' +
+      '          fi\n' +
+      '          start_epoch=$(date -u -d "$STARTS_AT" +%s 2>/dev/null || true)\n' +
+      '          expires_epoch=$(date -u -d "$EXPIRES_AT" +%s 2>/dev/null || true)\n' +
+      '          now_epoch=$(date -u +%s)\n' +
+      '          if [[ -z "$start_epoch" || -z "$expires_epoch" || $((expires_epoch-start_epoch)) -ne 259200 || "$now_epoch" -ge "$expires_epoch" ]]; then\n' +
+      '            echo "Three-day content automation test has expired"\n' +
+      '            gh api --method PUT "repos/$GITHUB_REPOSITORY/actions/workflows/content-automation-standard-trial.yml/disable" || true\n' +
+      '            echo "run=false" >> "$GITHUB_OUTPUT"\n' +
+      '            exit 0\n' +
+      '          fi\n' +
+      '          if [[ "$TEAM_ID" != "KC" ]]; then\n' +
+      '            echo "Kansas City-only content automation scope is missing or invalid"\n' +
+      '            echo "run=false" >> "$GITHUB_OUTPUT"\n' +
+      '            exit 0\n' +
+      '          fi\n' +
+      '          if [[ "$now_epoch" -lt "$start_epoch" ]]; then\n' +
+      '            echo "Three-day content automation test has not started"\n' +
+      '            echo "run=false" >> "$GITHUB_OUTPUT"\n' +
+      '            exit 0\n' +
+      '          fi\n' +
+      '          echo "run=true" >> "$GITHUB_OUTPUT"\n' +
+      '          echo "override=false" >> "$GITHUB_OUTPUT"\n' +
+      '\n' +
+      '      - name: Poll standard sources\n' +
+      "        if: steps.window.outputs.run == 'true'\n" +
+      '        env:\n' +
+      '          BASE_URL: ${{ vars.CONTENT_AUTOMATION_BASE_URL }}\n' +
+      '          TEAM_ID: ${{ vars.CONTENT_AUTOMATION_TEAM_ID }}\n' +
+      '          AUTOMATION_SECRET: ${{ secrets.CONTENT_AUTOMATION_SECRET }}\n' +
+      '          OVERRIDE_SECRET: ${{ secrets.CONTENT_AUTOMATION_ADMIN_OVERRIDE_SECRET }}\n' +
+      '          USE_OVERRIDE: ${{ steps.window.outputs.override }}\n' +
+      '        run: |\n' +
+      '          set -euo pipefail\n' +
+      '          test -n "$BASE_URL" && test -n "$AUTOMATION_SECRET"\n' +
+      '          args=(-sS -X POST -H "Authorization: Bearer $AUTOMATION_SECRET")\n' +
+      '          if [[ "$USE_OVERRIDE" == "true" ]]; then\n' +
+      '            args+=(-H "x-content-automation-manual: true" -H "x-content-automation-override: $OVERRIDE_SECRET")\n' +
+      '          fi\n' +
+      '          response=$(curl "${args[@]}" "$BASE_URL/api/automation/content?group=standard&team=$TEAM_ID")\n' +
+      '          echo "$response"\n' +
+      `          echo '### Content automation result' >> "$GITHUB_STEP_SUMMARY"\n` +
+      '          echo \'```json\' >> "$GITHUB_STEP_SUMMARY"\n' +
+      '          echo "$response" >> "$GITHUB_STEP_SUMMARY"\n' +
+      '          echo \'```\' >> "$GITHUB_STEP_SUMMARY"\n' +
+      `          description=$(echo "$response" | jq -r 'if .ok == true then ["due=" + ((.scheduled.due // 0)|tostring), "queued=" + ((.scheduled.queued // 0)|tostring), "jobs=" + ((.jobs // 0)|tostring), "generated=" + ((.generated // 0)|tostring), "failed=" + ((.failedJobs // 0)|tostring), "reasons=" + ((.failedJobReasons // [])|join(",")), "stop=" + (.stoppedBy // "none")] | join(" ") else "error=" + (.error // "unknown application error") end')\n` +
+      `          state=$(echo "$response" | jq -r 'if .ok == true then "success" else "failure" end')\n` +
+      '          echo "::notice title=Content automation result::$description"\n' +
+      '          test "$state" = success\n'
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: |-
+    name: Content automation trial - standard sources
+
+    on:
+      workflow_dispatch:
+        inputs:
+          temporary_override:
+            description: Authorized one-run expiration override
+            type: boolean
+            default: false
+
+    concurrency:
+      group: content-automation-three-day-trial
+      cancel-in-progress: false
+
+    permissions:
+      actions: write
+
+    jobs:
+      poll-standard:
+        runs-on: ubuntu-latest
+        timeout-minutes: 10
+        steps:
+          - name: Enforce fixed three-day window before contacting Vercel
+            id: window
+            env:
+              STARTS_AT: ${{ vars.CONTENT_AUTOMATION_STARTS_AT }}
+              EXPIRES_AT: ${{ vars.CONTENT_AUTOMATION_EXPIRES_AT }}
+              TEAM_ID: ${{ vars.CONTENT_AUTOMATION_TEAM_ID }}
+              TEMPORARY_OVERRIDE: ${{ inputs.temporary_override || 'false' }}
+              OVERRIDE_SECRET: ${{ secrets.CONTENT_AUTOMATION_ADMIN_OVERRIDE_SECRET }}
+              GH_TOKEN: ${{ github.token }}
+            run: |
+              set -euo pipefail
+              if [[ "$TEMPORARY_OVERRIDE" == "true" && -n "$OVERRIDE_SECRET" ]]; then
+                echo "run=true" >> "$GITHUB_OUTPUT"
+                echo "override=true" >> "$GITHUB_OUTPUT"
+                exit 0
+              fi
+              start_epoch=$(date -u -d "$STARTS_AT" +%s 2>/dev/null || true)
+              expires_epoch=$(date -u -d "$EXPIRES_AT" +%s 2>/dev/null || true)
+              now_epoch=$(date -u +%s)
+              if [[ -z "$start_epoch" || -z "$expires_epoch" || $((expires_epoch-start_epoch)) -ne 259200 || "$now_epoch" -ge "$expires_epoch" ]]; then
+                echo "Three-day content automation test has expired"
+                gh api --method PUT "repos/$GITHUB_REPOSITORY/actions/workflows/content-automation-standard-trial.yml/disable" || true
+                echo "run=false" >> "$GITHUB_OUTPUT"
+                exit 0
+              fi
+              if [[ "$TEAM_ID" != "KC" ]]; then
+                echo "Kansas City-only content automation scope is missing or invalid"
+                echo "run=false" >> "$GITHUB_OUTPUT"
+                exit 0
+              fi
+              if [[ "$now_epoch" -lt "$start_epoch" ]]; then
+                echo "Three-day content automation test has not started"
+                echo "run=false" >> "$GITHUB_OUTPUT"
+                exit 0
+              fi
+              echo "run=true" >> "$GITHUB_OUTPUT"
+              echo "override=false" >> "$GITHUB_OUTPUT"
+
+          - name: Poll standard sources
+            if: steps.window.outputs.run == 'true'
+            env:
+              BASE_URL: ${{ vars.CONTENT_AUTOMATION_BASE_URL }}
+              TEAM_ID: ${{ vars.CONTENT_AUTOMATION_TEAM_ID }}
+              AUTOMATION_SECRET: ${{ secrets.CONTENT_AUTOMATION_SECRET }}
+              OVERRIDE_SECRET: ${{ secrets.CONTENT_AUTOMATION_ADMIN_OVERRIDE_SECRET }}
+              USE_OVERRIDE: ${{ steps.window.outputs.override }}
+            run: |
+              set -euo pipefail
+              test -n "$BASE_URL" && test -n "$AUTOMATION_SECRET"
+              args=(-sS -X POST -H "Authorization: Bearer $AUTOMATION_SECRET")
+              if [[ "$USE_OVERRIDE" == "true" ]]; then
+                args+=(-H "x-content-automation-manual: true" -H "x-content-automation-override: $OVERRIDE_SECRET")
+              fi
+              response=$(curl "${args[@]}" "$BASE_URL/api/automation/content?group=standard&team=$TEAM_ID")
+              echo "$response"
+              echo '### Content automation result' >> "$GITHUB_STEP_SUMMARY"
+              echo '```json' >> "$GITHUB_STEP_SUMMARY"
+              echo "$response" >> "$GITHUB_STEP_SUMMARY"
+              echo '```' >> "$GITHUB_STEP_SUMMARY"
+              description=$(echo "$response" | jq -r 'if .ok == true then ["due=" + ((.scheduled.due // 0)|tostring), "queued=" + ((.scheduled.queued // 0)|tostring), "jobs=" + ((.jobs // 0)|tostring), "generated=" + ((.generated // 0)|tostring), "failed=" + ((.failedJobs // 0)|tostring), "reasons=" + ((.failedJobReasons // [])|join(",")), "stop=" + (.stoppedBy // "none")] | join(" ") else "error=" + (.error // "unknown application error") end')
+              state=$(echo "$response" | jq -r 'if .ok == true then "success" else "failure" end')
+              echo "::notice title=Content automation result::$description"
+              test "$state" = success
+
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/down-distance-d1-r2-storage-optimized/src/server/content-automation/trial.test.ts:110:10)
+    Test.runInAsyncScope (node:async_hooks:211:14)
+    Test.run (node:internal/test_runner/test:979:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:677:18)
+    Test.postRun (node:internal/test_runner/test:1090:19)
+    Test.run (node:internal/test_runner/test:1018:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:677:7)
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 5
+# fail 2
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 301.446958

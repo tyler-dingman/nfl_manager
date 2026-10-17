@@ -1,0 +1,6 @@
+
+> @down-distance/content-engine-poc@0.0.0 format:check
+> prettier --check src test scripts measurements *.json *.md
+
+Checking formatting...
+All matched files use Prettier code style!

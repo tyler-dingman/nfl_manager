@@ -1,0 +1,1046 @@
+
+> @down-distance/content-engine-poc@0.0.0 test:zero-cost-application
+> node scripts/zero-cost-application-tests.mjs
+
+TAP version 13
+# Subtest: grading duplicate market IDs applies each result once and preserves saved prices
+ok 1 - grading duplicate market IDs applies each result once and preserves saved prices
+  ---
+  duration_ms: 4.695083
+  ...
+# Subtest: missing result preserves the saved snapshot
+ok 2 - missing result preserves the saved snapshot
+  ---
+  duration_ms: 0.233542
+  ...
+# Subtest: refresh rejects changed prices, lines, lower research scores, and locked games
+ok 3 - refresh rejects changed prices, lines, lower research scores, and locked games
+  ---
+  duration_ms: 1.095042
+  ...
+# Subtest: refresh returns the fresh market only while its game is upcoming
+ok 4 - refresh returns the fresh market only while its game is upcoming
+  ---
+  duration_ms: 0.216541
+  ...
+# Subtest: Three & Out still authenticates before handling actions
+ok 5 - Three & Out still authenticates before handling actions
+  ---
+  duration_ms: 32.504417
+  ...
+# Subtest: all supported content families have shared page configuration
+ok 6 - all supported content families have shared page configuration
+  ---
+  duration_ms: 4.224625
+  ...
+# Subtest: a stable generated content ID resolves directly
+ok 7 - a stable generated content ID resolves directly
+  ---
+  duration_ms: 0.782333
+  ...
+# Subtest: content cards use canonical links and no modal controls
+ok 8 - content cards use canonical links and no modal controls
+  ---
+  duration_ms: 1.115334
+  ...
+# Subtest: page includes canonical SEO, structured data, attribution, ads, and mobile-safe media
+ok 9 - page includes canonical SEO, structured data, attribution, ads, and mobile-safe media
+  ---
+  duration_ms: 0.997625
+  ...
+# Subtest: public canonical lookup excludes draft and holding content
+ok 10 - public canonical lookup excludes draft and holding content
+  ---
+  duration_ms: 0.296375
+  ...
+# Subtest: legacy story query redirects and content page emits one pageview component
+ok 11 - legacy story query redirects and content page emits one pageview component
+  ---
+  duration_ms: 0.427959
+  ...
+# Subtest: The Beat uses one 20-item page-size constant and parses invalid pages safely
+ok 12 - The Beat uses one 20-item page-size constant and parses invalid pages safely
+  ---
+  duration_ms: 0.834
+  ...
+# Subtest: offset pages have 20 items, stable order, correct totals, and no overlap
+ok 13 - offset pages have 20 items, stable order, correct totals, and no overlap
+  ---
+  duration_ms: 18.404542
+  ...
+# Subtest: desktop page numbers use ellipses rather than dozens of controls
+ok 14 - desktop page numbers use ellipses rather than dozens of controls
+  ---
+  duration_ms: 0.262042
+  ...
+# Subtest: API and UI preserve URL state, reset changed filters, and expose accessible controls
+ok 15 - API and UI preserve URL state, reset changed filters, and expose accessible controls
+  ---
+  duration_ms: 2.525959
+  ...
+# Subtest: homepage Three and Out uses daily delivery preferences instead of audio
+ok 16 - homepage Three and Out uses daily delivery preferences instead of audio
+  ---
+  duration_ms: 1.142917
+  ...
+# Subtest: homepage Three and Out stays in the desktop right rail
+ok 17 - homepage Three and Out stays in the desktop right rail
+  ---
+  duration_ms: 0.406875
+  ...
+# Subtest: Three and Out ampersands use the accessible bright team accent on dark panels
+ok 18 - Three and Out ampersands use the accessible bright team accent on dark panels
+  ---
+  duration_ms: 1.219042
+  ...
+# Subtest: homepage uses the current Film Room feed and no longer renders its trivia widget
+ok 19 - homepage uses the current Film Room feed and no longer renders its trivia widget
+  ---
+  duration_ms: 0.211333
+  ...
+# Subtest: search retains canonical content/watch links and the shared keyboard-submit form
+ok 20 - search retains canonical content/watch links and the shared keyboard-submit form
+  ---
+  duration_ms: 0.25025
+  ...
+# Subtest: mobile menu removes the logged-out spacer and shared footer reserves bottom-nav space
+ok 21 - mobile menu removes the logged-out spacer and shared footer reserves bottom-nav space
+  ---
+  duration_ms: 0.134875
+  ...
+# Subtest: all 32 team homepages map to an existing gameday stadium image
+ok 22 - all 32 team homepages map to an existing gameday stadium image
+  ---
+  duration_ms: 2.006042
+  ...
+# Subtest: one homepage hero renders standard and gameday content states
+ok 23 - one homepage hero renders standard and gameday content states
+  ---
+  duration_ms: 1.271916
+  ...
+# Subtest: standard copy and dynamic team metadata are preserved
+ok 24 - standard copy and dynamic team metadata are preserved
+  ---
+  duration_ms: 0.339667
+  ...
+# Subtest: both states share the configured image, dimensions, crop, and headline typography
+ok 25 - both states share the configured image, dimensions, crop, and headline typography
+  ---
+  duration_ms: 0.210042
+  ...
+# Subtest: every canonical team has fan copy and unknown teams receive a neutral fallback
+ok 26 - every canonical team has fan copy and unknown teams receive a neutral fallback
+  ---
+  duration_ms: 1.190208
+  ...
+# Subtest: hero description uses canonical team markets
+ok 27 - hero description uses canonical team markets
+  ---
+  duration_ms: 0.724458
+  ...
+# Subtest: same-publisher Tier 2 items merge but count as one independent source
+ok 28 - same-publisher Tier 2 items merge but count as one independent source
+  ---
+  duration_ms: 2.498417
+  ...
+# Subtest: two independent Tier 2 publishers can publish one factual event
+ok 29 - two independent Tier 2 publishers can publish one factual event
+  ---
+  duration_ms: 2.524084
+  ...
+# Subtest: single Tier 1 factual trade and injury can publish immediately
+ok 30 - single Tier 1 factual trade and injury can publish immediately
+  ---
+  duration_ms: 1.733708
+  ...
+# Subtest: corroborated lower-scoring Tier 2 sources clear the tuned threshold
+ok 31 - corroborated lower-scoring Tier 2 sources clear the tuned threshold
+  ---
+  duration_ms: 0.608042
+  ...
+# Subtest: Tier 3 does not count as independent corroboration but can publish in all-tier mode
+ok 32 - Tier 3 does not count as independent corroboration but can publish in all-tier mode
+  ---
+  duration_ms: 0.490875
+  ...
+# Subtest: single Tier 3 concrete factual report publishes in all-tier mode
+ok 33 - single Tier 3 concrete factual report publishes in all-tier mode
+  ---
+  duration_ms: 0.345875
+  ...
+# Subtest: approved editorial source publishes analysis while preserving its source title
+ok 34 - approved editorial source publishes analysis while preserving its source title
+  ---
+  duration_ms: 0.445167
+  ...
+# Subtest: different headlines describing the Diego Pounds trade cluster
+ok 35 - different headlines describing the Diego Pounds trade cluster
+  ---
+  duration_ms: 0.944
+  ...
+# Subtest: same player but different factual event does not merge
+ok 36 - same player but different factual event does not merge
+  ---
+  duration_ms: 1.41825
+  ...
+# Subtest: similar analysis topics do not auto-merge
+ok 37 - similar analysis topics do not auto-merge
+  ---
+  duration_ms: 0.855375
+  ...
+# Subtest: evolving Josh Simmons injury updates cluster
+ok 38 - evolving Josh Simmons injury updates cluster
+  ---
+  duration_ms: 0.240583
+  ...
+# Subtest: materially conflicting reports require review
+ok 39 - materially conflicting reports require review
+  ---
+  duration_ms: 0.445125
+  ...
+# Subtest: misclassified list and reaction coverage does not auto-publish as a factual event
+ok 40 - misclassified list and reaction coverage does not auto-publish as a factual event
+  ---
+  duration_ms: 0.404542
+  ...
+# Subtest: daily local-AI cap defaults to ten per team
+ok 41 - daily local-AI cap defaults to ten per team
+  ---
+  duration_ms: 0.817292
+  ...
+# Subtest: new local-AI stories stop at ten
+ok 42 - new local-AI stories stop at ten
+  ---
+  duration_ms: 0.170541
+  ...
+# Subtest: existing canonical story updates remain allowed after the new-story cap
+ok 43 - existing canonical story updates remain allowed after the new-story cap
+  ---
+  duration_ms: 0.099
+  ...
+# Subtest: invalid caps fail closed
+ok 44 - invalid caps fail closed
+  ---
+  duration_ms: 0.820958
+  ...
+# Subtest: official high-confidence factual story auto-publishes and can break
+ok 45 - official high-confidence factual story auto-publishes and can break
+  ---
+  duration_ms: 2.4965
+  ...
+# Subtest: rumors and conflicts require review
+ok 46 - rumors and conflicts require review
+  ---
+  duration_ms: 0.508292
+  ...
+# Subtest: unsupported content is not published and editor overrides win
+ok 47 - unsupported content is not published and editor overrides win
+  ---
+  duration_ms: 0.200375
+  ...
+# Subtest: named polling tiers and per-source overrides use expected intervals
+ok 48 - named polling tiers and per-source overrides use expected intervals
+  ---
+  duration_ms: 0.767708
+  ...
+# Subtest: scheduling uses interval and bounded exponential backoff
+ok 49 - scheduling uses interval and bounded exponential backoff
+  ---
+  duration_ms: 3.425167
+  ...
+# Subtest: RSS parser and normalizer produce stable candidates
+ok 50 - RSS parser and normalizer produce stable candidates
+  ---
+  duration_ms: 4.878542
+  ...
+# Subtest: language guard rejects Spanish stories before candidate creation
+ok 51 - language guard rejects Spanish stories before candidate creation
+  ---
+  duration_ms: 0.504125
+  ...
+# Subtest: aggregator headlines outrank unrelated team mentions in feed descriptions
+ok 52 - aggregator headlines outrank unrelated team mentions in feed descriptions
+  ---
+  duration_ms: 0.859042
+  ...
+# Subtest: Atom parser preserves CDATA titles and summaries
+ok 53 - Atom parser preserves CDATA titles and summaries
+  ---
+  duration_ms: 2.664875
+  ...
+# Subtest: clustering merges strong matches and flags the ambiguous band
+ok 54 - clustering merges strong matches and flags the ambiguous band
+  ---
+  duration_ms: 1.106834
+  ...
+# Subtest: official resolution is material while repeated wording is not
+ok 55 - official resolution is material while repeated wording is not
+  ---
+  duration_ms: 1.112125
+  ...
+# Subtest: publishability hides drafts and review stories
+ok 56 - publishability hides drafts and review stories
+  ---
+  duration_ms: 0.901125
+  ...
+# Subtest: Huddle excludes Three and Out and favors topic diversity
+ok 57 - Huddle excludes Three and Out and favors topic diversity
+  ---
+  duration_ms: 6.187875
+  ...
+# Subtest: Wire emits one entry per meaningful story version
+ok 58 - Wire emits one entry per meaningful story version
+  ---
+  duration_ms: 27.10775
+  ...
+# Subtest: all 32 teams have official and Locked On candidates
+ok 59 - all 32 teams have official and Locked On candidates
+  ---
+  duration_ms: 1.465667
+  ...
+# Subtest: active sources can never omit canonical channel identity
+ok 60 - active sources can never omit canonical channel identity
+  ---
+  duration_ms: 0.184708
+  ...
+# Subtest: multi-team video requires explicit team evidence
+ok 61 - multi-team video requires explicit team evidence
+  ---
+  duration_ms: 0.472
+  ...
+# Subtest: team source is a prior, not unconditional assignment
+ok 62 - team source is a prior, not unconditional assignment
+  ---
+  duration_ms: 0.172667
+  ...
+# Subtest: YouTube polling uses the low-cost uploads playlist endpoint
+ok 63 - YouTube polling uses the low-cost uploads playlist endpoint
+  ---
+  duration_ms: 36.175625
+  ...
+# Subtest: selects exactly three same-team stories with importance and category diversity
+ok 64 - selects exactly three same-team stories with importance and category diversity
+  ---
+  duration_ms: 10.076584
+  ...
+# Subtest: clusters duplicate and multilingual headlines around the same named event
+ok 65 - clusters duplicate and multilingual headlines around the same named event
+  ---
+  duration_ms: 41.626292
+  ...
+# Subtest: builds a stable archived deep link and respects the local morning default
+ok 66 - builds a stable archived deep link and respects the local morning default
+  ---
+  duration_ms: 26.519125
+  ...
+# Subtest: reserves first down for a completed game inside the postgame window
+ok 67 - reserves first down for a completed game inside the postgame window
+  ---
+  duration_ms: 0.579292
+  ...
+# Subtest: daily delivery follows local time across DST and fractional offsets
+ok 68 - daily delivery follows local time across DST and fractional offsets
+  ---
+  duration_ms: 3.023959
+  ...
+# Subtest: late custom times remain deliverable across a delayed midnight poll
+ok 69 - late custom times remain deliverable across a delayed midnight poll
+  ---
+  duration_ms: 1.034875
+  ...
+# Subtest: ranking weights follow the football-first 35/20/15/10/10/10 model
+ok 70 - ranking weights follow the football-first 35/20/15/10/10/10 model
+  ---
+  duration_ms: 0.812542
+  ...
+# Subtest: breaking news can immediately enter first down
+ok 71 - breaking news can immediately enter first down
+  ---
+  duration_ms: 106.219083
+  ...
+# Subtest: all 32 teams receive exactly three ranked stories and two historical snapshots
+ok 72 - all 32 teams receive exactly three ranked stories and two historical snapshots
+  ---
+  duration_ms: 19.423292
+  ...
+# Subtest: Argon2id hashes and verifies passwords without storing plaintext
+ok 73 - Argon2id hashes and verifies passwords without storing plaintext
+  ---
+  duration_ms: 132.382125
+  ...
+# Subtest: opaque tokens are random and stored as deterministic hashes
+ok 74 - opaque tokens are random and stored as deterministic hashes
+  ---
+  duration_ms: 0.693042
+  ...
+# Subtest: redirect validation rejects absolute and protocol-relative URLs
+ok 75 - redirect validation rejects absolute and protocol-relative URLs
+  ---
+  duration_ms: 0.155541
+  ...
+# Subtest: Google profile picture is normalized into the canonical avatar URL
+ok 76 - Google profile picture is normalized into the canonical avatar URL
+  ---
+  duration_ms: 1.101542
+  ...
+# Subtest: Google profile without a picture has a null canonical avatar URL
+ok 77 - Google profile without a picture has a null canonical avatar URL
+  ---
+  duration_ms: 0.181541
+  ...
+# Subtest: PKCE accepts the RFC 7636 example and rejects a different verifier
+ok 78 - PKCE accepts the RFC 7636 example and rejects a different verifier
+  ---
+  duration_ms: 295.809291
+  ...
+# Subtest: handoff rejects expired, wrong-audience, and wrong-verifier tickets before database use
+ok 79 - handoff rejects expired, wrong-audience, and wrong-verifier tickets before database use
+  ---
+  duration_ms: 46.609333
+  ...
+# Subtest: mobile OAuth state keeps the challenge and client state in the signed cookie
+ok 80 - mobile OAuth state keeps the challenge and client state in the signed cookie
+  ---
+  duration_ms: 10.76775
+  ...
+# Subtest: preview exemption is limited to login bootstraps and signed API access tokens
+ok 81 - preview exemption is limited to login bootstraps and signed API access tokens
+  ---
+  duration_ms: 2.312208
+  ...
+# Subtest: Facebook is enabled only with both required values
+ok 82 - Facebook is enabled only with both required values
+  ---
+  duration_ms: 3.089208
+  ...
+# Subtest: Apple is enabled only with the complete web credential set
+ok 83 - Apple is enabled only with the complete web credential set
+  ---
+  duration_ms: 0.210542
+  ...
+# Subtest: Facebook profiles support normal and missing-email responses safely
+ok 84 - Facebook profiles support normal and missing-email responses safely
+  ---
+  duration_ms: 0.527458
+  ...
+# Subtest: Apple captures first-login data, relay email, and tolerates later sparse responses
+ok 85 - Apple captures first-login data, relay email, and tolerates later sparse responses
+  ---
+  duration_ms: 0.398375
+  ...
+# Subtest: web callbacks reject denial/state failures and identities require explicit safe linking
+ok 86 - web callbacks reject denial/state failures and identities require explicit safe linking
+  ---
+  duration_ms: 1.880834
+  ...
+# Subtest: provider implementations retain minimal scopes and server-side validation
+ok 87 - provider implementations retain minimal scopes and server-side validation
+  ---
+  duration_ms: 0.211667
+  ...
+# Subtest: missing and malformed primary credentials fail closed
+ok 88 - missing and malformed primary credentials fail closed
+  ---
+  duration_ms: 15.947416
+  ...
+# Subtest: only exact current or explicitly configured previous tokens authenticate
+ok 89 - only exact current or explicitly configured previous tokens authenticate
+  ---
+  duration_ms: 1.751
+  ...
+# Subtest: global automation is enabled by default and uses bounded defaults
+ok 90 - global automation is enabled by default and uses bounded defaults
+  ---
+  duration_ms: 2.257
+  ...
+# Subtest: invalid limits cannot remove global generation bounds
+ok 91 - invalid limits cannot remove global generation bounds
+  ---
+  duration_ms: 0.25475
+  ...
+# Subtest: daily limit stops global processing
+ok 92 - daily limit stops global processing
+  ---
+  duration_ms: 0.127333
+  ...
+# Subtest: global endpoint checks authorization and kill switch before database and sources
+ok 93 - global endpoint checks authorization and kill switch before database and sources
+  ---
+  duration_ms: 1.138292
+  ...
+# Subtest: Cloudflare Worker authenticates one global call on the fixed-CST daytime cron
+ok 94 - Cloudflare Worker authenticates one global call on the fixed-CST daytime cron
+  ---
+  duration_ms: 1.643834
+  ...
+# Subtest: migration runner includes the permanent automation ledger
+ok 95 - migration runner includes the permanent automation ledger
+  ---
+  duration_ms: 0.654583
+  ...
+# Subtest: accepts only an exact active 72-hour window
+ok 96 - accepts only an exact active 72-hour window
+  ---
+  duration_ms: 1.4395
+  ...
+# Subtest: missing, invalid, and expired windows fail closed with the required message
+ok 97 - missing, invalid, and expired windows fail closed with the required message
+  ---
+  duration_ms: 0.250833
+  ...
+# Subtest: expiration guard occurs before database, source, AI, or generation work
+ok 98 - expiration guard occurs before database, source, AI, or generation work
+  ---
+  duration_ms: 0.773291
+  ...
+# Subtest: Vercel endpoint fails closed unless the trial is scoped to Kansas City
+ok 99 - Vercel endpoint fails closed unless the trial is scoped to Kansas City
+  ---
+  duration_ms: 2.050458
+  ...
+# Subtest: trial repository initializes its isolated run ledger before reading or recording usage
+ok 100 - trial repository initializes its isolated run ledger before reading or recording usage
+  ---
+  duration_ms: 0.512125
+  ...
+# Subtest: hard generation and expenditure budgets stop work
+ok 101 - hard generation and expenditure budgets stop work
+  ---
+  duration_ms: 0.205625
+  ...
+# Subtest: trial workflows remain manual backups and guard curl behind the window result
+ok 102 - trial workflows remain manual backups and guard curl behind the window result
+  ---
+  duration_ms: 0.6305
+  ...
+# Subtest: Chiefs fan information identifies the canonical game and retains pregame intent after final
+ok 103 - Chiefs fan information identifies the canonical game and retains pregame intent after final
+  ---
+  duration_ms: 144.634
+  ...
+# Subtest: stadium tours are events; unrelated uses of tour are not events
+ok 104 - stadium tours are events; unrelated uses of tour are not events
+  ---
+  duration_ms: 56.64525
+  ...
+# Subtest: Benson profile resolves LT from the article and never invents a number
+ok 105 - Benson profile resolves LT from the article and never invents a number
+  ---
+  duration_ms: 466.955
+  ...
+# Subtest: specific editorial formats override Analysis without game metadata overriding lists
+ok 106 - specific editorial formats override Analysis without game metadata overriding lists
+  ---
+  duration_ms: 39.236917
+  ...
+# Subtest: actual interpretation remains Analysis; ambiguous news is Editorial
+ok 107 - actual interpretation remains Analysis; ambiguous news is Editorial
+  ---
+  duration_ms: 5.756208
+  ...
+# Subtest: player features generalize across teams with unknown fields omitted
+ok 108 - player features generalize across teams with unknown fields omitted
+  ---
+  duration_ms: 79.565375
+  ...
+# Subtest: maps discovered YouTube candidates into the Film Room response contract
+ok 109 - maps discovered YouTube candidates into the Film Room response contract
+  ---
+  duration_ms: 5.87375
+  ...
+# Subtest: categorizes film, podcast, local, official, and creator sources
+ok 110 - categorizes film, podcast, local, official, and creator sources
+  ---
+  duration_ms: 0.349208
+  ...
+# Subtest: rejects malformed YouTube video IDs
+ok 111 - rejects malformed YouTube video IDs
+  ---
+  duration_ms: 0.236583
+  ...
+# Subtest: verified video manifest has unique source and channel IDs
+ok 112 - verified video manifest has unique source and channel IDs
+  ---
+  duration_ms: 1.538458
+  ...
+# Subtest: verified video manifest covers every team with at least one channel
+ok 113 - verified video manifest covers every team with at least one channel
+  ---
+  duration_ms: 0.264084
+  ...
+# Subtest: fallback calendar creates a complete 17-game schedule for all 32 teams
+ok 114 - fallback calendar creates a complete 17-game schedule for all 32 teams
+  ---
+  duration_ms: 7.38
+  ...
+# Subtest: front office event engine creates stable, state-backed events
+ok 115 - front office event engine creates stable, state-backed events
+  ---
+  duration_ms: 4.865375
+  ...
+# Subtest: front office event engine caps non-game alerts while preserving game news
+ok 116 - front office event engine caps non-game alerts while preserving game news
+  ---
+  duration_ms: 1.06725
+  ...
+# Subtest: weekly progression persists re-sign readiness on the referenced player
+ok 117 - weekly progression persists re-sign readiness on the referenced player
+  ---
+  duration_ms: 3.780333
+  ...
+# Subtest: trade deadline alert is anchored to Tuesday after Week 9
+ok 118 - trade deadline alert is anchored to Tuesday after Week 9
+  ---
+  duration_ms: 1.086208
+  ...
+# Subtest: fresh saves and unchanged timelines generate no league news
+ok 119 - fresh saves and unchanged timelines generate no league news
+  ---
+  duration_ms: 0.268334
+  ...
+# Subtest: same simulation in different saves has disjoint event IDs; routine recaps are not breaking
+ok 120 - same simulation in different saves has disjoint event IDs; routine recaps are not breaking
+  ---
+  duration_ms: 0.585292
+  ...
+# Subtest: sparse weeks do not invent news and transaction labels preserve the source facts
+ok 121 - sparse weeks do not invent news and transaction labels preserve the source facts
+  ---
+  duration_ms: 0.469291
+  ...
+# Subtest: all committed transactions persist even when the popup budget is one
+ok 122 - all committed transactions persist even when the popup budget is one
+  ---
+  duration_ms: 0.43375
+  ...
+# Subtest: only rostered expiring players qualify and priority is capped to the top three
+ok 123 - only rostered expiring players qualify and priority is capped to the top three
+  ---
+  duration_ms: 2.195125
+  ...
+# Subtest: readiness timing is deterministic and excludes an already active negotiation
+ok 124 - readiness timing is deterministic and excludes an already active negotiation
+  ---
+  duration_ms: 6.044875
+  ...
+# Subtest: the 2026 pre-Week 1 seed represents every NFL team
+ok 125 - the 2026 pre-Week 1 seed represents every NFL team
+  ---
+  duration_ms: 1.832625
+  ...
+# Subtest: the seed satisfies the league-wide editorial acceptance floor
+ok 126 - the seed satisfies the league-wide editorial acceptance floor
+  ---
+  duration_ms: 11.086292
+  ...
+# Subtest: seed stories are unique, sourced, and do not cross the cutoff
+ok 127 - seed stories are unique, sourced, and do not cross the cutoff
+  ---
+  duration_ms: 24.6155
+  ...
+# Subtest: runtime events preserve provenance and remain idempotent by dedupe key
+ok 128 - runtime events preserve provenance and remain idempotent by dedupe key
+  ---
+  duration_ms: 3.05575
+  ...
+# Subtest: runtime event IDs are stable within a save and unique across saves
+ok 129 - runtime event IDs are stable within a save and unique across saves
+  ---
+  duration_ms: 8.564417
+  ...
+# Subtest: every team receives populated My Team and Around the League views
+ok 130 - every team receives populated My Team and Around the League views
+  ---
+  duration_ms: 1.038333
+  ...
+# Subtest: normalizes proper JSONB objects and legacy JSON-string simulation rows
+ok 131 - normalizes proper JSONB objects and legacy JSON-string simulation rows
+  ---
+  duration_ms: 3.171166
+  ...
+# Subtest: treats malformed legacy simulation state as uninitialized
+ok 132 - treats malformed legacy simulation state as uninitialized
+  ---
+  duration_ms: 0.351833
+  ...
+# WEEKLY NEWS QA [{"week":1,"league":3,"team":1,"total":4},{"week":2,"league":2,"team":1,"total":7},{"week":3,"league":3,"team":1,"total":11},{"week":4,"league":2,"team":0,"total":13},{"week":5,"league":3,"team":1,"total":17},{"week":6,"league":2,"team":1,"total":20},{"week":7,"league":3,"team":1,"total":24},{"week":8,"league":2,"team":0,"total":26},{"week":9,"league":7,"team":1,"total":34},{"week":10,"league":3,"team":0,"total":37},{"week":11,"league":2,"team":1,"total":40},{"week":12,"league":3,"team":0,"total":43},{"week":13,"league":2,"team":1,"total":46},{"week":14,"league":3,"team":0,"total":49},{"week":15,"league":2,"team":1,"total":52},{"week":16,"league":3,"team":0,"total":55},{"week":17,"league":2,"team":1,"total":58}]
+# Subtest: fresh full-league franchise accumulates meaningful news through Week 17, without opening News
+ok 133 - fresh full-league franchise accumulates meaningful news through Week 17, without opening News
+  ---
+  duration_ms: 876.504583
+  ...
+# Subtest: one grouped popup candidate batch preserves all stories and preferences only affect toasts
+ok 134 - one grouped popup candidate batch preserves all stories and preferences only affect toasts
+  ---
+  duration_ms: 0.430667
+  ...
+# Subtest: committed user release, signing, trade and contract retain stable IDs across weeks
+ok 135 - committed user release, signing, trade and contract retain stable IDs across weeks
+  ---
+  duration_ms: 0.476041
+  ...
+# Subtest: injury, return and starter stories require actual saved roster changes
+ok 136 - injury, return and starter stories require actual saved roster changes
+  ---
+  duration_ms: 8.050208
+  ...
+# Subtest: postseason advancement and offseason contract coverage use real saved facts
+ok 137 - postseason advancement and offseason contract coverage use real saved facts
+  ---
+  duration_ms: 4.915416
+  ...
+# Subtest: deadline rumors require an actual expiring veteran on a losing team
+ok 138 - deadline rumors require an actual expiring veteran on a losing team
+  ---
+  duration_ms: 2.685042
+  ...
+# Subtest: all 32 teams resolve a 2026 head coach and QB1 from league rosters
+ok 139 - all 32 teams resolve a 2026 head coach and QB1 from league rosters
+  ---
+  duration_ms: 5.722584
+  ...
+# Subtest: new 2026 Full Experience Week 1 saves receive exactly two ordered messages
+ok 140 - new 2026 Full Experience Week 1 saves receive exactly two ordered messages
+  ---
+  duration_ms: 1.055083
+  ...
+# Subtest: welcome messages stay limited to Full Experience, season 2026, Week 1
+ok 141 - welcome messages stay limited to Full Experience, season 2026, Week 1
+  ---
+  duration_ms: 0.509792
+  ...
+# Subtest: team-scoped notifications exclude other clubs while allowing global notices
+ok 142 - team-scoped notifications exclude other clubs while allowing global notices
+  ---
+  duration_ms: 0.8595
+  ...
+# Subtest: team audience resolution includes matching team followers and intensity rules
+ok 143 - team audience resolution includes matching team followers and intensity rules
+  ---
+  duration_ms: 2.275
+  ...
+# Subtest: quiet hours respect the user timezone and allow breaking overrides
+ok 144 - quiet hours respect the user timezone and allow breaking overrides
+  ---
+  duration_ms: 34.055833
+  ...
+# Subtest: dedupe keys collapse repeated updates from the same story and use a collapse window
+ok 145 - dedupe keys collapse repeated updates from the same story and use a collapse window
+  ---
+  duration_ms: 0.2335
+  ...
+# Subtest: priority is normalized and high-priority stories bypass quiet hours when allowed
+ok 146 - priority is normalized and high-priority stories bypass quiet hours when allowed
+  ---
+  duration_ms: 0.204375
+  ...
+# Subtest: fans out one notification record to multiple browsers and Expo devices
+ok 147 - fans out one notification record to multiple browsers and Expo devices
+  ---
+  duration_ms: 44.022208
+  ...
+# Subtest: browser test is scoped to a subscription belonging to the current user
+ok 148 - browser test is scoped to a subscription belonging to the current user
+  ---
+  duration_ms: 2.168542
+  ...
+# Subtest: global push opt-out suppresses both providers and test delivery
+ok 149 - global push opt-out suppresses both providers and test delivery
+  ---
+  duration_ms: 2.384292
+  ...
+# Subtest: expired browser tokens are deleted; transient failures retained; Expo still delivers
+ok 150 - expired browser tokens are deleted; transient failures retained; Expo still delivers
+  ---
+  duration_ms: 3.420709
+  ...
+# Subtest: accepts browser services and valid keys; blocks arbitrary/internal destinations
+ok 151 - accepts browser services and valid keys; blocks arbitrary/internal destinations
+  ---
+  duration_ms: 9.513125
+  ...
+# Subtest: only permanent expiration responses trigger subscription removal
+ok 152 - only permanent expiration responses trigger subscription removal
+  ---
+  duration_ms: 0.351708
+  ...
+# Subtest: passes VAPID to web-push and sends only notification payload
+ok 153 - passes VAPID to web-push and sends only notification payload
+  ---
+  duration_ms: 17.620583
+  ...
+# Subtest: worker displays push and keeps notification clicks on the app origin
+ok 154 - worker displays push and keeps notification clicks on the app origin
+  ---
+  duration_ms: 6.782417
+  ...
+# Subtest: the same threshold is classified independently for each sportsbook
+ok 155 - the same threshold is classified independently for each sportsbook
+  ---
+  duration_ms: 1.61775
+  ...
+# Subtest: no primary label or main-line number is invented for unverified legacy markets
+ok 156 - no primary label or main-line number is invented for unverified legacy markets
+  ---
+  duration_ms: 0.189292
+  ...
+# Subtest: primary line remains primary regardless of price and supports numeric strings
+ok 157 - primary line remains primary regardless of price and supports numeric strings
+  ---
+  duration_ms: 0.144375
+  ...
+# Subtest: alternate lines remain distinct and use the display threshold without changing provider line
+ok 158 - alternate lines remain distinct and use the display threshold without changing provider line
+  ---
+  duration_ms: 15.787708
+  ...
+# Subtest: a missing FanDuel line does not remove DraftKings
+ok 159 - a missing FanDuel line does not remove DraftKings
+  ---
+  duration_ms: 2.413167
+  ...
+# Subtest: missing deeplinks remain null and player mapping failures are reported
+ok 160 - missing deeplinks remain null and player mapping failures are reported
+  ---
+  duration_ms: 3.093291
+  ...
+# Subtest: duplicate provider odds collapse into one canonical market per period and line
+ok 161 - duplicate provider odds collapse into one canonical market per period and line
+  ---
+  duration_ms: 9.782583
+  ...
+# Subtest: provider stat identifiers map to readable supported market types
+ok 162 - provider stat identifiers map to readable supported market types
+  ---
+  duration_ms: 0.232292
+  ...
+# Subtest: stable provider team id wins over conflicting display metadata
+ok 163 - stable provider team id wins over conflicting display metadata
+  ---
+  duration_ms: 0.156875
+  ...
+# Subtest: unrecognized NFL markets are preserved with raw provider metadata
+ok 164 - unrecognized NFL markets are preserved with raw provider metadata
+  ---
+  duration_ms: 3.558334
+  ...
+# Subtest: odds schema enforces idempotent events, markets, and prices
+ok 165 - odds schema enforces idempotent events, markets, and prices
+  ---
+  duration_ms: 1.879583
+  ...
+# Subtest: started events are locked by repository logic
+ok 166 - started events are locked by repository logic
+  ---
+  duration_ms: 5.703792
+  ...
+# Subtest: derives a missing provider week from the matching scheduled game
+ok 167 - derives a missing provider week from the matching scheduled game
+  ---
+  duration_ms: 1.056167
+  ...
+# Subtest: does not assign a week from an unrelated matchup
+ok 168 - does not assign a week from an unrelated matchup
+  ---
+  duration_ms: 0.142417
+  ...
+# [AI Search] {"intent":"TOTAL","team":"KC","game":"one","betting_source":"stored","result":"found","odds_age_minutes":30,"external_fetch":false}
+# [AI Search] {"intent":"TOTAL","team":"KC","game":"one","betting_source":"stored","result":"found","odds_age_minutes":1470,"external_fetch":false}
+# [AI Search] {"intent":"TOTAL","team":"KC","game":null,"betting_source":"stored","result":"no_data","odds_age_minutes":null,"external_fetch":false}
+# Subtest: deterministic router recognizes factual and editorial intent
+ok 169 - deterministic router recognizes factual and editorial intent
+  ---
+  duration_ms: 5.272959
+  ...
+# Subtest: next game, total, and after-that retain the same resolved game context
+ok 170 - next game, total, and after-that retain the same resolved game context
+  ---
+  duration_ms: 43.851709
+  ...
+# Subtest: missing structured data never falls back to vaguely related articles
+ok 171 - missing structured data never falls back to vaguely related articles
+  ---
+  duration_ms: 1.513625
+  ...
+# Subtest: older stored totals are disclosed; future-dated and null totals are refused
+ok 172 - older stored totals are disclosed; future-dated and null totals are refused
+  ---
+  duration_ms: 1.195167
+  ...
+# Subtest: team switches clear old game references; client facts are never trusted
+ok 173 - team switches clear old game references; client facts are never trusted
+  ---
+  duration_ms: 0.566125
+  ...
+# Subtest: unknown referenced game does not silently select a different betting event
+ok 174 - unknown referenced game does not silently select a different betting event
+  ---
+  duration_ms: 0.811
+  ...
+# Subtest: score zero is preserved and TBD kickoff is not invented
+ok 175 - score zero is preserved and TBD kickoff is not invented
+  ---
+  duration_ms: 0.5015
+  ...
+# Subtest: briefing expands recency gradually, clusters duplicate developments, excludes weak/stale sources
+ok 176 - briefing expands recency gradually, clusters duplicate developments, excludes weak/stale sources
+  ---
+  duration_ms: 1.15825
+  ...
+# Subtest: claim validation rejects fabricated citations, quotes, numbers and named entities
+ok 177 - claim validation rejects fabricated citations, quotes, numbers and named entities
+  ---
+  duration_ms: 1.281667
+  ...
+# Subtest: ambiguous player status does not claim the first matched player is playing
+ok 178 - ambiguous player status does not claim the first matched player is playing
+  ---
+  duration_ms: 1.516583
+  ...
+# Subtest: follow-up team change preserves intent, but never the old game
+ok 179 - follow-up team change preserves intent, but never the old game
+  ---
+  duration_ms: 0.601834
+  ...
+# Subtest: transaction questions use official records before related coverage
+ok 180 - transaction questions use official records before related coverage
+  ---
+  duration_ms: 0.620291
+  ...
+# Subtest: shared team entities do not merge unrelated injuries
+ok 181 - shared team entities do not merge unrelated injuries
+  ---
+  duration_ms: 0.186667
+  ...
+# Subtest: chunkText overlaps long content and preserves the source text order
+ok 182 - chunkText overlaps long content and preserves the source text order
+  ---
+  duration_ms: 1.239417
+  ...
+# Subtest: contentHash is stable and changes with content
+ok 183 - contentHash is stable and changes with content
+  ---
+  duration_ms: 0.273083
+  ...
+# Subtest: reciprocal rank fusion rewards results found by both retrievers
+ok 184 - reciprocal rank fusion rewards results found by both retrievers
+  ---
+  duration_ms: 0.199542
+  ...
+# Subtest: builds a grounded answer with source markers and at most three records
+ok 185 - builds a grounded answer with source markers and at most three records
+  ---
+  duration_ms: 2.124125
+  ...
+# Subtest: answers a schedule question with the relevant source sentence instead of a result dump
+ok 186 - answers a schedule question with the relevant source sentence instead of a result dump
+  ---
+  duration_ms: 0.383917
+  ...
+# Subtest: removes raw links and hashtag dumps from excerpts
+ok 187 - removes raw links and hashtag dumps from excerpts
+  ---
+  duration_ms: 0.225958
+  ...
+# Subtest: returns no answer without supported records
+ok 188 - returns no answer without supported records
+  ---
+  duration_ms: 0.111542
+  ...
+# [AI Search] {"intent":"TOTAL","team":"KC","game":"espn-1","betting_source":"stored","result":"found","odds_age_minutes":360,"external_fetch":false}
+# [AI Search] {"intent":"SPREAD","team":"KC","game":"espn-1","betting_source":"stored","result":"found","odds_age_minutes":360,"external_fetch":false}
+# [AI Search] {"intent":"SPREAD","team":"KC","game":"espn-1","betting_source":"stored","result":"found","odds_age_minutes":360,"external_fetch":false}
+# [AI Search] {"intent":"SPREAD","team":"KC","game":"espn-1","betting_source":"stored","result":"found","odds_age_minutes":360,"external_fetch":false}
+# [AI Search] {"intent":"ODDS","team":"KC","game":"espn-1","betting_source":"stored","result":"found","odds_age_minutes":360,"external_fetch":false}
+# [AI Search] {"intent":"PLAYER_PROPS","team":"KC","game":"espn-1","betting_source":"stored","result":"found","odds_age_minutes":360,"external_fetch":false}
+# [AI Search] {"intent":"PLAYER_PROPS","team":"KC","game":"espn-1","betting_source":"stored","result":"found","odds_age_minutes":360,"external_fetch":false}
+# [AI Search] {"intent":"TOTAL","team":"KC","game":"espn-1","betting_source":"stored","result":"no_data","odds_age_minutes":null,"external_fetch":false}
+# [AI Search] {"intent":"PLAYER_PROPS","team":"KC","game":"espn-1","betting_source":"stored","result":"no_data","odds_age_minutes":null,"external_fetch":false}
+# [AI Search] {"intent":"TOTAL","team":"KC","game":"espn-1","betting_source":"stored","result":"found","odds_age_minutes":360,"external_fetch":false}
+# [AI Search] {"intent":"SPREAD","team":"KC","game":"espn-1","betting_source":"stored","result":"found","odds_age_minutes":360,"external_fetch":false}
+# [AI Search] {"intent":"SPREAD","team":"KC","game":"espn-1","betting_source":"stored","result":"found","odds_age_minutes":360,"external_fetch":false}
+# [AI Search] {"intent":"SPREAD","team":"KC","game":"espn-1","betting_source":"stored","result":"found","odds_age_minutes":360,"external_fetch":false}
+# [AI Search] {"intent":"ODDS","team":"KC","game":"espn-1","betting_source":"stored","result":"found","odds_age_minutes":360,"external_fetch":false}
+# [AI Search] {"intent":"PLAYER_PROPS","team":"KC","game":"espn-1","betting_source":"stored","result":"found","odds_age_minutes":360,"external_fetch":false}
+# [AI Search] {"intent":"PLAYER_PROPS","team":"KC","game":"espn-1","betting_source":"stored","result":"found","odds_age_minutes":360,"external_fetch":false}
+# [AI Search] {"intent":"TOTAL","team":"KC","game":"espn-1","betting_source":"stored","result":"no_data","odds_age_minutes":null,"external_fetch":false}
+# [AI Search] {"intent":"PLAYER_PROPS","team":"KC","game":"espn-1","betting_source":"stored","result":"no_data","odds_age_minutes":null,"external_fetch":false}
+# Subtest: stored-only search handles totals, spread, favored, snapshots and props repeatedly with ZERO provider calls
+ok 189 - stored-only search handles totals, spread, favored, snapshots and props repeatedly with ZERO provider calls
+  ---
+  duration_ms: 51.79375
+  ...
+# Subtest: database reader only SELECTs existing storage and retains selection/price timestamp
+ok 190 - database reader only SELECTs existing storage and retains selection/price timestamp
+  ---
+  duration_ms: 0.825583
+  ...
+# Subtest: betting analysis and player props route before article retrieval
+ok 191 - betting analysis and player props route before article retrieval
+  ---
+  duration_ms: 0.17425
+  ...
+# Subtest: local synthesis requires valid evidence and an affirmative entailment review
+ok 192 - local synthesis requires valid evidence and an affirmative entailment review
+  ---
+  duration_ms: 33.470416
+  ...
+# Subtest: official transaction parser preserves dates, team aliases, and source provenance
+ok 193 - official transaction parser preserves dates, team aliases, and source provenance
+  ---
+  duration_ms: 1.38575
+  ...
+# Subtest: legacy snapshot schema reports actionable migration error before delivery queries
+ok 194 - legacy snapshot schema reports actionable migration error before delivery queries
+  ---
+  duration_ms: 2.061958
+  ...
+# Subtest: briefing_date must be a date, not a timestamp or a column on another table
+ok 195 - briefing_date must be a date, not a timestamp or a column on another table
+  ---
+  duration_ms: 0.24875
+  ...
+# Subtest: Catch Me Up counts only material changes after the previous visit
+ok 196 - Catch Me Up counts only material changes after the previous visit
+  ---
+  duration_ms: 1.452208
+  ...
+# Subtest: a first visit has no Catch Me Up banner
+ok 197 - a first visit has no Catch Me Up banner
+  ---
+  duration_ms: 0.142333
+  ...
+# Subtest: user preference defaults are cross-platform and strongly typed
+ok 198 - user preference defaults are cross-platform and strongly typed
+  ---
+  duration_ms: 1.083292
+  ...
+# Subtest: team identifiers normalize consistently
+ok 199 - team identifiers normalize consistently
+  ---
+  duration_ms: 0.973084
+  ...
+# Subtest: preference validation rejects unsupported values
+ok 200 - preference validation rejects unsupported values
+  ---
+  duration_ms: 11.037458
+  ...
+# Subtest: profile validation accepts minimal data and rejects invalid avatar URLs
+ok 201 - profile validation accepts minimal data and rejects invalid avatar URLs
+  ---
+  duration_ms: 1.372959
+  ...
+# Subtest: preferred team is accepted as a typed user preference
+ok 202 - preferred team is accepted as a typed user preference
+  ---
+  duration_ms: 0.732708
+  ...
+1..202
+# tests 202
+# suites 0
+# pass 202
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 4234.69175
