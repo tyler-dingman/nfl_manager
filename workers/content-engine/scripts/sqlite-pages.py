@@ -62,6 +62,17 @@ def audit_snapshot(path):
     for name,kind,root in roots:
         before=len(owners);visit(root,name)
         objects.append(dict(name=name,type=kind,pages=len(owners)-before,bytes=(len(owners)-before)*page_size))
+    for obj in objects:
+        name=obj['name']
+        quoted='"'+name.replace('"','""')+'"'
+        if obj['type']=='table':
+            obj['rows']=conn.execute('SELECT count(*) FROM '+quoted).fetchone()[0]
+            cols=conn.execute('PRAGMA table_info('+quoted+')').fetchall()
+            expressions=['coalesce(sum(length(CAST("'+c[1].replace('"','""')+'" AS BLOB))),0)' for c in cols]
+            obj['columnBytes']=dict(zip([c[1] for c in cols],conn.execute('SELECT '+','.join(expressions)+' FROM '+quoted).fetchone())) if cols else {}
+        else:
+            obj['table']=conn.execute('SELECT tbl_name FROM sqlite_schema WHERE name=?',(name,)).fetchone()[0]
+            obj['definition']=conn.execute('SELECT sql FROM sqlite_schema WHERE name=?',(name,)).fetchone()[0]
     free_count=conn.execute('pragma freelist_count').fetchone()[0]
     conn.close()
     free_pages=set();trunk=int.from_bytes(data[32:36],'big')

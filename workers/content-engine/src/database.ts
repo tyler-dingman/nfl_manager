@@ -2,6 +2,7 @@ import type { Meter } from './types';
 export class EditorialDatabase {
   readonly measurements: Meter[] = [];
   resolveArchive?: (stored: string) => Promise<string>;
+  resolveBlob?: (hash: string) => Promise<Uint8Array | null>;
   resolveJson?: (stored: string) => Promise<string>;
   constructor(readonly binding: D1Database) {}
   statement(sql: string, values: unknown[] = []): D1PreparedStatement {

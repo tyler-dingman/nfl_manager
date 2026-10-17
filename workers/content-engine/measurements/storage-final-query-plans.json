@@ -1,0 +1,50 @@
+[
+  {
+    "name": "blob-location",
+    "sql": "SELECT p.pack_hash,b.byte_offset,b.encoded_length FROM editorial_blobs b JOIN editorial_blob_packs p ON p.id=b.pack_id WHERE b.hash=?",
+    "plan": [
+      {
+        "id": 3,
+        "parent": 0,
+        "notused": 45,
+        "detail": "SEARCH b USING PRIMARY KEY (hash=?)"
+      },
+      {
+        "id": 9,
+        "parent": 0,
+        "notused": 45,
+        "detail": "SEARCH p USING INTEGER PRIMARY KEY (rowid=?)"
+      }
+    ]
+  },
+  {
+    "name": "pack-selection",
+    "sql": "SELECT b.* FROM editorial_blobs b WHERE b.pack_id IS NULL ORDER BY b.hash LIMIT ?",
+    "plan": [
+      {
+        "id": 6,
+        "parent": 0,
+        "notused": 216,
+        "detail": "SCAN b"
+      }
+    ]
+  },
+  {
+    "name": "source-history",
+    "sql": "SELECT r.candidate_id,r.revision FROM content_candidates c JOIN content_candidate_revisions r ON r.candidate_id=c.id WHERE c.source_id=? AND r.observed_at>=?",
+    "plan": [
+      {
+        "id": 4,
+        "parent": 0,
+        "notused": 54,
+        "detail": "SEARCH c USING COVERING INDEX candidates_source_time (source_id=?)"
+      },
+      {
+        "id": 10,
+        "parent": 0,
+        "notused": 62,
+        "detail": "SEARCH r USING INDEX sqlite_autoindex_content_candidate_revisions_1 (candidate_id=?)"
+      }
+    ]
+  }
+]

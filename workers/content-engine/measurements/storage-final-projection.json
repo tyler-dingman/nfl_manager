@@ -1,0 +1,740 @@
+{
+  "scope": "Measured one-day cohorts; extrapolation, not multi-year load or billing measurement. MB=1000000 bytes. Shards and PostgreSQL are planning models only.",
+  "assumptions": {
+    "hotDays": 30,
+    "recoveryDays": 7,
+    "pageReserve": 0.15,
+    "operationReserve": 0.25,
+    "historyRequestsPerDay": 1000,
+    "requestCacheHitRate": 0.95,
+    "extraShardScratchBytes": 2000000,
+    "shardSkew": 0.25,
+    "postgresStorageMultiplier": 1.5
+  },
+  "results": {
+    "compact": {
+      "dailyOwnedBytes": 999424,
+      "legacyDailyOwnedBytes": 1839104,
+      "recoveryExtraPerCohortBytes": 847872,
+      "initialBytes": 18875520,
+      "rowsReadLowerBound": 623147,
+      "rowsWrittenLowerBound": 97015,
+      "objectsPerHistory": 3,
+      "monthlyClassA": 1350,
+      "monthlyClassB": 159375,
+      "hostCpuMs": 12272.016,
+      "projections": {
+        "30": {
+          "legacyD1Bytes": 82324608,
+          "choices": {
+            "1": {
+              "totalD1Bytes": 82324608,
+              "idealMaxDatabaseBytes": 82324608,
+              "skewedMaxDatabaseBytes": 82324608,
+              "dailyD1ReadsLowerBound": 623147,
+              "dailyD1WritesLowerBound": 97015,
+              "dailyD1ReadsWithWorstCaseSelectionScan": 623147,
+              "r2Bytes": 0,
+              "workerCpu": "UNMEASURED; local host CPU cannot qualify Worker limit",
+              "operationalComplexity": "One relational graph; private object dependency"
+            },
+            "2": {
+              "totalD1Bytes": 84324608,
+              "idealMaxDatabaseBytes": 43162304,
+              "skewedMaxDatabaseBytes": 53452880,
+              "dailyD1ReadsLowerBound": 623147,
+              "dailyD1WritesLowerBound": 97015,
+              "dailyD1ReadsWithWorstCaseSelectionScan": 623147,
+              "r2Bytes": 0,
+              "workerCpu": "UNMEASURED; local host CPU cannot qualify Worker limit",
+              "operationalComplexity": "Unimplemented routing, cross-shard relationships, coordinated backups/restore; account operations unchanged"
+            },
+            "3": {
+              "totalD1Bytes": 86324608,
+              "idealMaxDatabaseBytes": 29441536,
+              "skewedMaxDatabaseBytes": 36301920,
+              "dailyD1ReadsLowerBound": 623147,
+              "dailyD1WritesLowerBound": 97015,
+              "dailyD1ReadsWithWorstCaseSelectionScan": 623147,
+              "r2Bytes": 0,
+              "workerCpu": "UNMEASURED; local host CPU cannot qualify Worker limit",
+              "operationalComplexity": "Unimplemented routing, cross-shard relationships, coordinated backups/restore; account operations unchanged"
+            },
+            "postgresql": {
+              "planningStorageBytes": 41971320,
+              "dailyD1Reads": 0,
+              "dailyD1Writes": 0,
+              "estimatedDatabaseRowsReadAt95PercentCacheHit": 31158,
+              "databaseRowsWritten": 97015,
+              "r2Bytes": 0,
+              "workerCpu": "UNMEASURED; cache miss/origin latency and connection pooling untested",
+              "operationalComplexity": "Hosted provider, cache invalidation, pooling, backups; no free provider selected or provisioned",
+              "freeTierFeasibility": "UNVERIFIED; no universal PostgreSQL free tier"
+            }
+          }
+        },
+        "90": {
+          "legacyD1Bytes": 209222784,
+          "choices": {
+            "1": {
+              "totalD1Bytes": 158110234,
+              "idealMaxDatabaseBytes": 158110234,
+              "skewedMaxDatabaseBytes": 158110234,
+              "dailyD1ReadsLowerBound": 623147,
+              "dailyD1WritesLowerBound": 97015,
+              "dailyD1ReadsWithWorstCaseSelectionScan": 3739380,
+              "r2Bytes": 61014600,
+              "workerCpu": "UNMEASURED; local host CPU cannot qualify Worker limit",
+              "operationalComplexity": "One relational graph; private object dependency"
+            },
+            "2": {
+              "totalD1Bytes": 160110234,
+              "idealMaxDatabaseBytes": 81055117,
+              "skewedMaxDatabaseBytes": 100818897,
+              "dailyD1ReadsLowerBound": 623147,
+              "dailyD1WritesLowerBound": 97015,
+              "dailyD1ReadsWithWorstCaseSelectionScan": 3739380,
+              "r2Bytes": 61014600,
+              "workerCpu": "UNMEASURED; local host CPU cannot qualify Worker limit",
+              "operationalComplexity": "Unimplemented routing, cross-shard relationships, coordinated backups/restore; account operations unchanged"
+            },
+            "3": {
+              "totalD1Bytes": 162110234,
+              "idealMaxDatabaseBytes": 54703412,
+              "skewedMaxDatabaseBytes": 67879265,
+              "dailyD1ReadsLowerBound": 623147,
+              "dailyD1WritesLowerBound": 97015,
+              "dailyD1ReadsWithWorstCaseSelectionScan": 3739380,
+              "r2Bytes": 61014600,
+              "workerCpu": "UNMEASURED; local host CPU cannot qualify Worker limit",
+              "operationalComplexity": "Unimplemented routing, cross-shard relationships, coordinated backups/restore; account operations unchanged"
+            },
+            "postgresql": {
+              "planningStorageBytes": 88162920,
+              "dailyD1Reads": 0,
+              "dailyD1Writes": 0,
+              "estimatedDatabaseRowsReadAt95PercentCacheHit": 31158,
+              "databaseRowsWritten": 97015,
+              "r2Bytes": 61014600,
+              "workerCpu": "UNMEASURED; cache miss/origin latency and connection pooling untested",
+              "operationalComplexity": "Hosted provider, cache invalidation, pooling, backups; no free provider selected or provisioned",
+              "freeTierFeasibility": "UNVERIFIED; no universal PostgreSQL free tier"
+            }
+          }
+        },
+        "180": {
+          "legacyD1Bytes": 399570048,
+          "choices": {
+            "1": {
+              "totalD1Bytes": 261550618,
+              "idealMaxDatabaseBytes": 261550618,
+              "skewedMaxDatabaseBytes": 261550618,
+              "dailyD1ReadsLowerBound": 623147,
+              "dailyD1WritesLowerBound": 97015,
+              "dailyD1ReadsWithWorstCaseSelectionScan": 8492955,
+              "r2Bytes": 152536500,
+              "workerCpu": "UNMEASURED; local host CPU cannot qualify Worker limit",
+              "operationalComplexity": "One relational graph; private object dependency"
+            },
+            "2": {
+              "totalD1Bytes": 263550618,
+              "idealMaxDatabaseBytes": 132775309,
+              "skewedMaxDatabaseBytes": 165469137,
+              "dailyD1ReadsLowerBound": 623147,
+              "dailyD1WritesLowerBound": 97015,
+              "dailyD1ReadsWithWorstCaseSelectionScan": 8492955,
+              "r2Bytes": 152536500,
+              "workerCpu": "UNMEASURED; local host CPU cannot qualify Worker limit",
+              "operationalComplexity": "Unimplemented routing, cross-shard relationships, coordinated backups/restore; account operations unchanged"
+            },
+            "3": {
+              "totalD1Bytes": 265550618,
+              "idealMaxDatabaseBytes": 89183540,
+              "skewedMaxDatabaseBytes": 110979425,
+              "dailyD1ReadsLowerBound": 623147,
+              "dailyD1WritesLowerBound": 97015,
+              "dailyD1ReadsWithWorstCaseSelectionScan": 8492955,
+              "r2Bytes": 152536500,
+              "workerCpu": "UNMEASURED; local host CPU cannot qualify Worker limit",
+              "operationalComplexity": "Unimplemented routing, cross-shard relationships, coordinated backups/restore; account operations unchanged"
+            },
+            "postgresql": {
+              "planningStorageBytes": 157450320,
+              "dailyD1Reads": 0,
+              "dailyD1Writes": 0,
+              "estimatedDatabaseRowsReadAt95PercentCacheHit": 31158,
+              "databaseRowsWritten": 97015,
+              "r2Bytes": 152536500,
+              "workerCpu": "UNMEASURED; cache miss/origin latency and connection pooling untested",
+              "operationalComplexity": "Hosted provider, cache invalidation, pooling, backups; no free provider selected or provisioned",
+              "freeTierFeasibility": "UNVERIFIED; no universal PostgreSQL free tier"
+            }
+          }
+        },
+        "365": {
+          "legacyD1Bytes": 790839424,
+          "choices": {
+            "1": {
+              "totalD1Bytes": 474178074,
+              "idealMaxDatabaseBytes": 474178074,
+              "skewedMaxDatabaseBytes": 474178074,
+              "dailyD1ReadsLowerBound": 623147,
+              "dailyD1WritesLowerBound": 97015,
+              "dailyD1ReadsWithWorstCaseSelectionScan": 18264192,
+              "r2Bytes": 340664850,
+              "workerCpu": "UNMEASURED; local host CPU cannot qualify Worker limit",
+              "operationalComplexity": "One relational graph; private object dependency"
+            },
+            "2": {
+              "totalD1Bytes": 476178074,
+              "idealMaxDatabaseBytes": 239089037,
+              "skewedMaxDatabaseBytes": 298361297,
+              "dailyD1ReadsLowerBound": 623147,
+              "dailyD1WritesLowerBound": 97015,
+              "dailyD1ReadsWithWorstCaseSelectionScan": 18264192,
+              "r2Bytes": 340664850,
+              "workerCpu": "UNMEASURED; local host CPU cannot qualify Worker limit",
+              "operationalComplexity": "Unimplemented routing, cross-shard relationships, coordinated backups/restore; account operations unchanged"
+            },
+            "3": {
+              "totalD1Bytes": 478178074,
+              "idealMaxDatabaseBytes": 160059358,
+              "skewedMaxDatabaseBytes": 199574198,
+              "dailyD1ReadsLowerBound": 623147,
+              "dailyD1WritesLowerBound": 97015,
+              "dailyD1ReadsWithWorstCaseSelectionScan": 18264192,
+              "r2Bytes": 340664850,
+              "workerCpu": "UNMEASURED; local host CPU cannot qualify Worker limit",
+              "operationalComplexity": "Unimplemented routing, cross-shard relationships, coordinated backups/restore; account operations unchanged"
+            },
+            "postgresql": {
+              "planningStorageBytes": 299874420,
+              "dailyD1Reads": 0,
+              "dailyD1Writes": 0,
+              "estimatedDatabaseRowsReadAt95PercentCacheHit": 31158,
+              "databaseRowsWritten": 97015,
+              "r2Bytes": 340664850,
+              "workerCpu": "UNMEASURED; cache miss/origin latency and connection pooling untested",
+              "operationalComplexity": "Hosted provider, cache invalidation, pooling, backups; no free provider selected or provisioned",
+              "freeTierFeasibility": "UNVERIFIED; no universal PostgreSQL free tier"
+            }
+          }
+        },
+        "730": {
+          "legacyD1Bytes": 1562803328,
+          "choices": {
+            "1": {
+              "totalD1Bytes": 893686298,
+              "idealMaxDatabaseBytes": 893686298,
+              "skewedMaxDatabaseBytes": 893686298,
+              "dailyD1ReadsLowerBound": 623147,
+              "dailyD1WritesLowerBound": 97015,
+              "dailyD1ReadsWithWorstCaseSelectionScan": 37542580,
+              "r2Bytes": 711837000,
+              "workerCpu": "UNMEASURED; local host CPU cannot qualify Worker limit",
+              "operationalComplexity": "One relational graph; private object dependency"
+            },
+            "2": {
+              "totalD1Bytes": 895686298,
+              "idealMaxDatabaseBytes": 448843149,
+              "skewedMaxDatabaseBytes": 560553937,
+              "dailyD1ReadsLowerBound": 623147,
+              "dailyD1WritesLowerBound": 97015,
+              "dailyD1ReadsWithWorstCaseSelectionScan": 37542580,
+              "r2Bytes": 711837000,
+              "workerCpu": "UNMEASURED; local host CPU cannot qualify Worker limit",
+              "operationalComplexity": "Unimplemented routing, cross-shard relationships, coordinated backups/restore; account operations unchanged"
+            },
+            "3": {
+              "totalD1Bytes": 897686298,
+              "idealMaxDatabaseBytes": 299895433,
+              "skewedMaxDatabaseBytes": 374369291,
+              "dailyD1ReadsLowerBound": 623147,
+              "dailyD1WritesLowerBound": 97015,
+              "dailyD1ReadsWithWorstCaseSelectionScan": 37542580,
+              "r2Bytes": 711837000,
+              "workerCpu": "UNMEASURED; local host CPU cannot qualify Worker limit",
+              "operationalComplexity": "Unimplemented routing, cross-shard relationships, coordinated backups/restore; account operations unchanged"
+            },
+            "postgresql": {
+              "planningStorageBytes": 580873320,
+              "dailyD1Reads": 0,
+              "dailyD1Writes": 0,
+              "estimatedDatabaseRowsReadAt95PercentCacheHit": 31158,
+              "databaseRowsWritten": 97015,
+              "r2Bytes": 711837000,
+              "workerCpu": "UNMEASURED; cache miss/origin latency and connection pooling untested",
+              "operationalComplexity": "Hosted provider, cache invalidation, pooling, backups; no free provider selected or provisioned",
+              "freeTierFeasibility": "UNVERIFIED; no universal PostgreSQL free tier"
+            }
+          }
+        },
+        "1095": {
+          "legacyD1Bytes": 2334767232,
+          "choices": {
+            "1": {
+              "totalD1Bytes": 1313194522,
+              "idealMaxDatabaseBytes": 1313194522,
+              "skewedMaxDatabaseBytes": 1313194522,
+              "dailyD1ReadsLowerBound": 623147,
+              "dailyD1WritesLowerBound": 97015,
+              "dailyD1ReadsWithWorstCaseSelectionScan": 56820967,
+              "r2Bytes": 1083009150,
+              "workerCpu": "UNMEASURED; local host CPU cannot qualify Worker limit",
+              "operationalComplexity": "One relational graph; private object dependency"
+            },
+            "2": {
+              "totalD1Bytes": 1315194522,
+              "idealMaxDatabaseBytes": 658597261,
+              "skewedMaxDatabaseBytes": 822746577,
+              "dailyD1ReadsLowerBound": 623147,
+              "dailyD1WritesLowerBound": 97015,
+              "dailyD1ReadsWithWorstCaseSelectionScan": 56820967,
+              "r2Bytes": 1083009150,
+              "workerCpu": "UNMEASURED; local host CPU cannot qualify Worker limit",
+              "operationalComplexity": "Unimplemented routing, cross-shard relationships, coordinated backups/restore; account operations unchanged"
+            },
+            "3": {
+              "totalD1Bytes": 1317194522,
+              "idealMaxDatabaseBytes": 439731508,
+              "skewedMaxDatabaseBytes": 549164385,
+              "dailyD1ReadsLowerBound": 623147,
+              "dailyD1WritesLowerBound": 97015,
+              "dailyD1ReadsWithWorstCaseSelectionScan": 56820967,
+              "r2Bytes": 1083009150,
+              "workerCpu": "UNMEASURED; local host CPU cannot qualify Worker limit",
+              "operationalComplexity": "Unimplemented routing, cross-shard relationships, coordinated backups/restore; account operations unchanged"
+            },
+            "postgresql": {
+              "planningStorageBytes": 861872220,
+              "dailyD1Reads": 0,
+              "dailyD1Writes": 0,
+              "estimatedDatabaseRowsReadAt95PercentCacheHit": 31158,
+              "databaseRowsWritten": 97015,
+              "r2Bytes": 1083009150,
+              "workerCpu": "UNMEASURED; cache miss/origin latency and connection pooling untested",
+              "operationalComplexity": "Hosted provider, cache invalidation, pooling, backups; no free provider selected or provisioned",
+              "freeTierFeasibility": "UNVERIFIED; no universal PostgreSQL free tier"
+            }
+          }
+        },
+        "1825": {
+          "legacyD1Bytes": 3878695040,
+          "choices": {
+            "1": {
+              "totalD1Bytes": 2152210970,
+              "idealMaxDatabaseBytes": 2152210970,
+              "skewedMaxDatabaseBytes": 2152210970,
+              "dailyD1ReadsLowerBound": 623147,
+              "dailyD1WritesLowerBound": 97015,
+              "dailyD1ReadsWithWorstCaseSelectionScan": 95377742,
+              "r2Bytes": 1825353450,
+              "workerCpu": "UNMEASURED; local host CPU cannot qualify Worker limit",
+              "operationalComplexity": "One relational graph; private object dependency"
+            },
+            "2": {
+              "totalD1Bytes": 2154210970,
+              "idealMaxDatabaseBytes": 1078105485,
+              "skewedMaxDatabaseBytes": 1347131857,
+              "dailyD1ReadsLowerBound": 623147,
+              "dailyD1WritesLowerBound": 97015,
+              "dailyD1ReadsWithWorstCaseSelectionScan": 95377742,
+              "r2Bytes": 1825353450,
+              "workerCpu": "UNMEASURED; local host CPU cannot qualify Worker limit",
+              "operationalComplexity": "Unimplemented routing, cross-shard relationships, coordinated backups/restore; account operations unchanged"
+            },
+            "3": {
+              "totalD1Bytes": 2156210970,
+              "idealMaxDatabaseBytes": 719403657,
+              "skewedMaxDatabaseBytes": 898754571,
+              "dailyD1ReadsLowerBound": 623147,
+              "dailyD1WritesLowerBound": 97015,
+              "dailyD1ReadsWithWorstCaseSelectionScan": 95377742,
+              "r2Bytes": 1825353450,
+              "workerCpu": "UNMEASURED; local host CPU cannot qualify Worker limit",
+              "operationalComplexity": "Unimplemented routing, cross-shard relationships, coordinated backups/restore; account operations unchanged"
+            },
+            "postgresql": {
+              "planningStorageBytes": 1423870020,
+              "dailyD1Reads": 0,
+              "dailyD1Writes": 0,
+              "estimatedDatabaseRowsReadAt95PercentCacheHit": 31158,
+              "databaseRowsWritten": 97015,
+              "r2Bytes": 1825353450,
+              "workerCpu": "UNMEASURED; cache miss/origin latency and connection pooling untested",
+              "operationalComplexity": "Hosted provider, cache invalidation, pooling, backups; no free provider selected or provisioned",
+              "freeTierFeasibility": "UNVERIFIED; no universal PostgreSQL free tier"
+            }
+          }
+        }
+      },
+      "warnings": [
+        "Selection/reachability scans grow with retained history; one-cohort row counts are lower bounds at later horizons.",
+        "R2 keeps all encoded bytes; hot blob offload after 30 days assumes a separately approved retention/retirement policy. Runtime never evicts originals.",
+        "PostgreSQL multiplier is a planning sensitivity against SQLite logical bytes; it is not a PostgreSQL benchmark."
+      ]
+    },
+    "entropy": {
+      "dailyOwnedBytes": 999424,
+      "legacyDailyOwnedBytes": 3289088,
+      "recoveryExtraPerCohortBytes": 2297856,
+      "initialBytes": 18875520,
+      "rowsReadLowerBound": 634995,
+      "rowsWrittenLowerBound": 102328,
+      "objectsPerHistory": 3,
+      "monthlyClassA": 1350,
+      "monthlyClassB": 159375,
+      "hostCpuMs": 11670.213,
+      "projections": {
+        "30": {
+          "legacyD1Bytes": 132349056,
+          "choices": {
+            "1": {
+              "totalD1Bytes": 132349056,
+              "idealMaxDatabaseBytes": 132349056,
+              "skewedMaxDatabaseBytes": 132349056,
+              "dailyD1ReadsLowerBound": 634995,
+              "dailyD1WritesLowerBound": 102328,
+              "dailyD1ReadsWithWorstCaseSelectionScan": 634995,
+              "r2Bytes": 0,
+              "workerCpu": "UNMEASURED; local host CPU cannot qualify Worker limit",
+              "operationalComplexity": "One relational graph; private object dependency"
+            },
+            "2": {
+              "totalD1Bytes": 134349056,
+              "idealMaxDatabaseBytes": 68174528,
+              "skewedMaxDatabaseBytes": 84718160,
+              "dailyD1ReadsLowerBound": 634995,
+              "dailyD1WritesLowerBound": 102328,
+              "dailyD1ReadsWithWorstCaseSelectionScan": 634995,
+              "r2Bytes": 0,
+              "workerCpu": "UNMEASURED; local host CPU cannot qualify Worker limit",
+              "operationalComplexity": "Unimplemented routing, cross-shard relationships, coordinated backups/restore; account operations unchanged"
+            },
+            "3": {
+              "totalD1Bytes": 136349056,
+              "idealMaxDatabaseBytes": 46116352,
+              "skewedMaxDatabaseBytes": 57145440,
+              "dailyD1ReadsLowerBound": 634995,
+              "dailyD1WritesLowerBound": 102328,
+              "dailyD1ReadsWithWorstCaseSelectionScan": 634995,
+              "r2Bytes": 0,
+              "workerCpu": "UNMEASURED; local host CPU cannot qualify Worker limit",
+              "operationalComplexity": "Unimplemented routing, cross-shard relationships, coordinated backups/restore; account operations unchanged"
+            },
+            "postgresql": {
+              "planningStorageBytes": 41981760,
+              "dailyD1Reads": 0,
+              "dailyD1Writes": 0,
+              "estimatedDatabaseRowsReadAt95PercentCacheHit": 31750,
+              "databaseRowsWritten": 102328,
+              "r2Bytes": 0,
+              "workerCpu": "UNMEASURED; cache miss/origin latency and connection pooling untested",
+              "operationalComplexity": "Hosted provider, cache invalidation, pooling, backups; no free provider selected or provisioned",
+              "freeTierFeasibility": "UNVERIFIED; no universal PostgreSQL free tier"
+            }
+          }
+        },
+        "90": {
+          "legacyD1Bytes": 359296128,
+          "choices": {
+            "1": {
+              "totalD1Bytes": 219807053,
+              "idealMaxDatabaseBytes": 219807053,
+              "skewedMaxDatabaseBytes": 219807053,
+              "dailyD1ReadsLowerBound": 634995,
+              "dailyD1WritesLowerBound": 102328,
+              "dailyD1ReadsWithWorstCaseSelectionScan": 3751228,
+              "r2Bytes": 131042625,
+              "workerCpu": "UNMEASURED; local host CPU cannot qualify Worker limit",
+              "operationalComplexity": "One relational graph; private object dependency"
+            },
+            "2": {
+              "totalD1Bytes": 221807053,
+              "idealMaxDatabaseBytes": 111903527,
+              "skewedMaxDatabaseBytes": 139379409,
+              "dailyD1ReadsLowerBound": 634995,
+              "dailyD1WritesLowerBound": 102328,
+              "dailyD1ReadsWithWorstCaseSelectionScan": 3751228,
+              "r2Bytes": 131042625,
+              "workerCpu": "UNMEASURED; local host CPU cannot qualify Worker limit",
+              "operationalComplexity": "Unimplemented routing, cross-shard relationships, coordinated backups/restore; account operations unchanged"
+            },
+            "3": {
+              "totalD1Bytes": 223807053,
+              "idealMaxDatabaseBytes": 75269018,
+              "skewedMaxDatabaseBytes": 93586273,
+              "dailyD1ReadsLowerBound": 634995,
+              "dailyD1WritesLowerBound": 102328,
+              "dailyD1ReadsWithWorstCaseSelectionScan": 3751228,
+              "r2Bytes": 131042625,
+              "workerCpu": "UNMEASURED; local host CPU cannot qualify Worker limit",
+              "operationalComplexity": "Unimplemented routing, cross-shard relationships, coordinated backups/restore; account operations unchanged"
+            },
+            "postgresql": {
+              "planningStorageBytes": 88194240,
+              "dailyD1Reads": 0,
+              "dailyD1Writes": 0,
+              "estimatedDatabaseRowsReadAt95PercentCacheHit": 31750,
+              "databaseRowsWritten": 102328,
+              "r2Bytes": 131042625,
+              "workerCpu": "UNMEASURED; cache miss/origin latency and connection pooling untested",
+              "operationalComplexity": "Hosted provider, cache invalidation, pooling, backups; no free provider selected or provisioned",
+              "freeTierFeasibility": "UNVERIFIED; no universal PostgreSQL free tier"
+            }
+          }
+        },
+        "180": {
+          "legacyD1Bytes": 699716736,
+          "choices": {
+            "1": {
+              "totalD1Bytes": 323247437,
+              "idealMaxDatabaseBytes": 323247437,
+              "skewedMaxDatabaseBytes": 323247437,
+              "dailyD1ReadsLowerBound": 634995,
+              "dailyD1WritesLowerBound": 102328,
+              "dailyD1ReadsWithWorstCaseSelectionScan": 8504803,
+              "r2Bytes": 327606563,
+              "workerCpu": "UNMEASURED; local host CPU cannot qualify Worker limit",
+              "operationalComplexity": "One relational graph; private object dependency"
+            },
+            "2": {
+              "totalD1Bytes": 325247437,
+              "idealMaxDatabaseBytes": 163623719,
+              "skewedMaxDatabaseBytes": 204029649,
+              "dailyD1ReadsLowerBound": 634995,
+              "dailyD1WritesLowerBound": 102328,
+              "dailyD1ReadsWithWorstCaseSelectionScan": 8504803,
+              "r2Bytes": 327606563,
+              "workerCpu": "UNMEASURED; local host CPU cannot qualify Worker limit",
+              "operationalComplexity": "Unimplemented routing, cross-shard relationships, coordinated backups/restore; account operations unchanged"
+            },
+            "3": {
+              "totalD1Bytes": 327247437,
+              "idealMaxDatabaseBytes": 109749146,
+              "skewedMaxDatabaseBytes": 136686433,
+              "dailyD1ReadsLowerBound": 634995,
+              "dailyD1WritesLowerBound": 102328,
+              "dailyD1ReadsWithWorstCaseSelectionScan": 8504803,
+              "r2Bytes": 327606563,
+              "workerCpu": "UNMEASURED; local host CPU cannot qualify Worker limit",
+              "operationalComplexity": "Unimplemented routing, cross-shard relationships, coordinated backups/restore; account operations unchanged"
+            },
+            "postgresql": {
+              "planningStorageBytes": 157512960,
+              "dailyD1Reads": 0,
+              "dailyD1Writes": 0,
+              "estimatedDatabaseRowsReadAt95PercentCacheHit": 31750,
+              "databaseRowsWritten": 102328,
+              "r2Bytes": 327606563,
+              "workerCpu": "UNMEASURED; cache miss/origin latency and connection pooling untested",
+              "operationalComplexity": "Hosted provider, cache invalidation, pooling, backups; no free provider selected or provisioned",
+              "freeTierFeasibility": "UNVERIFIED; no universal PostgreSQL free tier"
+            }
+          }
+        },
+        "365": {
+          "legacyD1Bytes": 1399470208,
+          "choices": {
+            "1": {
+              "totalD1Bytes": 535874893,
+              "idealMaxDatabaseBytes": 535874893,
+              "skewedMaxDatabaseBytes": 535874893,
+              "dailyD1ReadsLowerBound": 634995,
+              "dailyD1WritesLowerBound": 102328,
+              "dailyD1ReadsWithWorstCaseSelectionScan": 18276040,
+              "r2Bytes": 731654657,
+              "workerCpu": "UNMEASURED; local host CPU cannot qualify Worker limit",
+              "operationalComplexity": "One relational graph; private object dependency"
+            },
+            "2": {
+              "totalD1Bytes": 537874893,
+              "idealMaxDatabaseBytes": 269937447,
+              "skewedMaxDatabaseBytes": 336921809,
+              "dailyD1ReadsLowerBound": 634995,
+              "dailyD1WritesLowerBound": 102328,
+              "dailyD1ReadsWithWorstCaseSelectionScan": 18276040,
+              "r2Bytes": 731654657,
+              "workerCpu": "UNMEASURED; local host CPU cannot qualify Worker limit",
+              "operationalComplexity": "Unimplemented routing, cross-shard relationships, coordinated backups/restore; account operations unchanged"
+            },
+            "3": {
+              "totalD1Bytes": 539874893,
+              "idealMaxDatabaseBytes": 180624965,
+              "skewedMaxDatabaseBytes": 225281206,
+              "dailyD1ReadsLowerBound": 634995,
+              "dailyD1WritesLowerBound": 102328,
+              "dailyD1ReadsWithWorstCaseSelectionScan": 18276040,
+              "r2Bytes": 731654657,
+              "workerCpu": "UNMEASURED; local host CPU cannot qualify Worker limit",
+              "operationalComplexity": "Unimplemented routing, cross-shard relationships, coordinated backups/restore; account operations unchanged"
+            },
+            "postgresql": {
+              "planningStorageBytes": 300001440,
+              "dailyD1Reads": 0,
+              "dailyD1Writes": 0,
+              "estimatedDatabaseRowsReadAt95PercentCacheHit": 31750,
+              "databaseRowsWritten": 102328,
+              "r2Bytes": 731654657,
+              "workerCpu": "UNMEASURED; cache miss/origin latency and connection pooling untested",
+              "operationalComplexity": "Hosted provider, cache invalidation, pooling, backups; no free provider selected or provisioned",
+              "freeTierFeasibility": "UNVERIFIED; no universal PostgreSQL free tier"
+            }
+          }
+        },
+        "730": {
+          "legacyD1Bytes": 2780064896,
+          "choices": {
+            "1": {
+              "totalD1Bytes": 955383117,
+              "idealMaxDatabaseBytes": 955383117,
+              "skewedMaxDatabaseBytes": 955383117,
+              "dailyD1ReadsLowerBound": 634995,
+              "dailyD1WritesLowerBound": 102328,
+              "dailyD1ReadsWithWorstCaseSelectionScan": 37554428,
+              "r2Bytes": 1528830625,
+              "workerCpu": "UNMEASURED; local host CPU cannot qualify Worker limit",
+              "operationalComplexity": "One relational graph; private object dependency"
+            },
+            "2": {
+              "totalD1Bytes": 957383117,
+              "idealMaxDatabaseBytes": 479691559,
+              "skewedMaxDatabaseBytes": 599114449,
+              "dailyD1ReadsLowerBound": 634995,
+              "dailyD1WritesLowerBound": 102328,
+              "dailyD1ReadsWithWorstCaseSelectionScan": 37554428,
+              "r2Bytes": 1528830625,
+              "workerCpu": "UNMEASURED; local host CPU cannot qualify Worker limit",
+              "operationalComplexity": "Unimplemented routing, cross-shard relationships, coordinated backups/restore; account operations unchanged"
+            },
+            "3": {
+              "totalD1Bytes": 959383117,
+              "idealMaxDatabaseBytes": 320461039,
+              "skewedMaxDatabaseBytes": 400076299,
+              "dailyD1ReadsLowerBound": 634995,
+              "dailyD1WritesLowerBound": 102328,
+              "dailyD1ReadsWithWorstCaseSelectionScan": 37554428,
+              "r2Bytes": 1528830625,
+              "workerCpu": "UNMEASURED; local host CPU cannot qualify Worker limit",
+              "operationalComplexity": "Unimplemented routing, cross-shard relationships, coordinated backups/restore; account operations unchanged"
+            },
+            "postgresql": {
+              "planningStorageBytes": 581127360,
+              "dailyD1Reads": 0,
+              "dailyD1Writes": 0,
+              "estimatedDatabaseRowsReadAt95PercentCacheHit": 31750,
+              "databaseRowsWritten": 102328,
+              "r2Bytes": 1528830625,
+              "workerCpu": "UNMEASURED; cache miss/origin latency and connection pooling untested",
+              "operationalComplexity": "Hosted provider, cache invalidation, pooling, backups; no free provider selected or provisioned",
+              "freeTierFeasibility": "UNVERIFIED; no universal PostgreSQL free tier"
+            }
+          }
+        },
+        "1095": {
+          "legacyD1Bytes": 4160659584,
+          "choices": {
+            "1": {
+              "totalD1Bytes": 1374891341,
+              "idealMaxDatabaseBytes": 1374891341,
+              "skewedMaxDatabaseBytes": 1374891341,
+              "dailyD1ReadsLowerBound": 634995,
+              "dailyD1WritesLowerBound": 102328,
+              "dailyD1ReadsWithWorstCaseSelectionScan": 56832815,
+              "r2Bytes": 2326006594,
+              "workerCpu": "UNMEASURED; local host CPU cannot qualify Worker limit",
+              "operationalComplexity": "One relational graph; private object dependency"
+            },
+            "2": {
+              "totalD1Bytes": 1376891341,
+              "idealMaxDatabaseBytes": 689445671,
+              "skewedMaxDatabaseBytes": 861307089,
+              "dailyD1ReadsLowerBound": 634995,
+              "dailyD1WritesLowerBound": 102328,
+              "dailyD1ReadsWithWorstCaseSelectionScan": 56832815,
+              "r2Bytes": 2326006594,
+              "workerCpu": "UNMEASURED; local host CPU cannot qualify Worker limit",
+              "operationalComplexity": "Unimplemented routing, cross-shard relationships, coordinated backups/restore; account operations unchanged"
+            },
+            "3": {
+              "totalD1Bytes": 1378891341,
+              "idealMaxDatabaseBytes": 460297114,
+              "skewedMaxDatabaseBytes": 574871393,
+              "dailyD1ReadsLowerBound": 634995,
+              "dailyD1WritesLowerBound": 102328,
+              "dailyD1ReadsWithWorstCaseSelectionScan": 56832815,
+              "r2Bytes": 2326006594,
+              "workerCpu": "UNMEASURED; local host CPU cannot qualify Worker limit",
+              "operationalComplexity": "Unimplemented routing, cross-shard relationships, coordinated backups/restore; account operations unchanged"
+            },
+            "postgresql": {
+              "planningStorageBytes": 862253280,
+              "dailyD1Reads": 0,
+              "dailyD1Writes": 0,
+              "estimatedDatabaseRowsReadAt95PercentCacheHit": 31750,
+              "databaseRowsWritten": 102328,
+              "r2Bytes": 2326006594,
+              "workerCpu": "UNMEASURED; cache miss/origin latency and connection pooling untested",
+              "operationalComplexity": "Hosted provider, cache invalidation, pooling, backups; no free provider selected or provisioned",
+              "freeTierFeasibility": "UNVERIFIED; no universal PostgreSQL free tier"
+            }
+          }
+        },
+        "1825": {
+          "legacyD1Bytes": 6921848960,
+          "choices": {
+            "1": {
+              "totalD1Bytes": 2213907789,
+              "idealMaxDatabaseBytes": 2213907789,
+              "skewedMaxDatabaseBytes": 2213907789,
+              "dailyD1ReadsLowerBound": 634995,
+              "dailyD1WritesLowerBound": 102328,
+              "dailyD1ReadsWithWorstCaseSelectionScan": 95389590,
+              "r2Bytes": 3920358532,
+              "workerCpu": "UNMEASURED; local host CPU cannot qualify Worker limit",
+              "operationalComplexity": "One relational graph; private object dependency"
+            },
+            "2": {
+              "totalD1Bytes": 2215907789,
+              "idealMaxDatabaseBytes": 1108953895,
+              "skewedMaxDatabaseBytes": 1385692369,
+              "dailyD1ReadsLowerBound": 634995,
+              "dailyD1WritesLowerBound": 102328,
+              "dailyD1ReadsWithWorstCaseSelectionScan": 95389590,
+              "r2Bytes": 3920358532,
+              "workerCpu": "UNMEASURED; local host CPU cannot qualify Worker limit",
+              "operationalComplexity": "Unimplemented routing, cross-shard relationships, coordinated backups/restore; account operations unchanged"
+            },
+            "3": {
+              "totalD1Bytes": 2217907789,
+              "idealMaxDatabaseBytes": 739969263,
+              "skewedMaxDatabaseBytes": 924461579,
+              "dailyD1ReadsLowerBound": 634995,
+              "dailyD1WritesLowerBound": 102328,
+              "dailyD1ReadsWithWorstCaseSelectionScan": 95389590,
+              "r2Bytes": 3920358532,
+              "workerCpu": "UNMEASURED; local host CPU cannot qualify Worker limit",
+              "operationalComplexity": "Unimplemented routing, cross-shard relationships, coordinated backups/restore; account operations unchanged"
+            },
+            "postgresql": {
+              "planningStorageBytes": 1424505120,
+              "dailyD1Reads": 0,
+              "dailyD1Writes": 0,
+              "estimatedDatabaseRowsReadAt95PercentCacheHit": 31750,
+              "databaseRowsWritten": 102328,
+              "r2Bytes": 3920358532,
+              "workerCpu": "UNMEASURED; cache miss/origin latency and connection pooling untested",
+              "operationalComplexity": "Hosted provider, cache invalidation, pooling, backups; no free provider selected or provisioned",
+              "freeTierFeasibility": "UNVERIFIED; no universal PostgreSQL free tier"
+            }
+          }
+        }
+      },
+      "warnings": [
+        "Selection/reachability scans grow with retained history; one-cohort row counts are lower bounds at later horizons.",
+        "R2 keeps all encoded bytes; hot blob offload after 30 days assumes a separately approved retention/retirement policy. Runtime never evicts originals.",
+        "PostgreSQL multiplier is a planning sensitivity against SQLite logical bytes; it is not a PostgreSQL benchmark."
+      ]
+    }
+  }
+}

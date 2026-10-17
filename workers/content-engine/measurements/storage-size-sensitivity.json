@@ -1,0 +1,36 @@
+{
+  "scope": "Worst-valid-source sensitivity, not typical workload. Node gzip byte sizes, not Worker CPU. Excludes trees, stories, editions, backups, retries and recovery; source-only storage lower bound. No assumption that all real sources are this large.",
+  "rawBytesPerCandidate": 490000,
+  "compressedChunkBytesPerCandidate": 320572,
+  "chunksPerCandidate": 120,
+  "projections": {
+    "30": {
+      "sourceOnlyR2BytesAt200NewUniqueCandidatesDaily": 0,
+      "rawSourceBytes": 2940000000
+    },
+    "90": {
+      "sourceOnlyR2BytesAt200NewUniqueCandidatesDaily": 3846864000,
+      "rawSourceBytes": 8820000000
+    },
+    "180": {
+      "sourceOnlyR2BytesAt200NewUniqueCandidatesDaily": 9617160000,
+      "rawSourceBytes": 17640000000
+    },
+    "365": {
+      "sourceOnlyR2BytesAt200NewUniqueCandidatesDaily": 21478324000,
+      "rawSourceBytes": 35770000000
+    },
+    "730": {
+      "sourceOnlyR2BytesAt200NewUniqueCandidatesDaily": 44880080000,
+      "rawSourceBytes": 71540000000
+    },
+    "1095": {
+      "sourceOnlyR2BytesAt200NewUniqueCandidatesDaily": 68281836000,
+      "rawSourceBytes": 107310000000
+    },
+    "1825": {
+      "sourceOnlyR2BytesAt200NewUniqueCandidatesDaily": 115085348000,
+      "rawSourceBytes": 178850000000
+    }
+  }
+}

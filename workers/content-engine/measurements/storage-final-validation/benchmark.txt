@@ -1,0 +1,2 @@
+compact {"before":3002368,"after":3002368,"ownedBefore":2347008,"ownedAfter":1507328,"packs":0}
+entropy {"before":4276224,"after":4276224,"ownedBefore":3796992,"ownedAfter":1507328,"packs":0}

@@ -99,9 +99,11 @@ export class PayloadStore {
       row.byte_length > 2 * 1024 * 1024
     )
       throw Error('Invalid payload size');
-    let stored =
+    let stored: Uint8Array =
       row.body instanceof ArrayBuffer ? new Uint8Array(row.body) : new Uint8Array(row.body);
-    if (row.fragment_count) {
+    const remote = this.db.resolveBlob ? await this.db.resolveBlob(key) : null;
+    if (remote) stored = remote;
+    if (row.fragment_count && !remote) {
       if (
         !Number.isInteger(row.fragment_count) ||
         row.fragment_count < 1 ||
