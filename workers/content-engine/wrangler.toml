@@ -20,3 +20,9 @@ remote = false
 
 [dependencies_instrumentation]
 enabled = false
+
+# Local emulator only. No account bucket is created or exposed.
+[[r2_buckets]]
+binding = "EDITORIAL_ARCHIVE"
+bucket_name = "editorial-archive-local-poc"
+remote = false

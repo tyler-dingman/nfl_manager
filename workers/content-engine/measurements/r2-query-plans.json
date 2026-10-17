@@ -1,0 +1,35 @@
+[
+  {
+    "name": "revision-cas",
+    "plan": [
+      {
+        "id": 5,
+        "parent": 0,
+        "notused": 39,
+        "detail": "SEARCH content_candidate_revisions USING INDEX sqlite_autoindex_content_candidate_revisions_1 (candidate_id=? AND revision=?)"
+      }
+    ]
+  },
+  {
+    "name": "operational-cas",
+    "plan": [
+      {
+        "id": 4,
+        "parent": 0,
+        "notused": 33,
+        "detail": "SEARCH archive_chunks USING INTEGER PRIMARY KEY (rowid=?)"
+      }
+    ]
+  },
+  {
+    "name": "archive-directory",
+    "plan": [
+      {
+        "id": 2,
+        "parent": 0,
+        "notused": 39,
+        "detail": "SEARCH r2_archive_records USING PRIMARY KEY (kind=? AND record_id=? AND revision=?)"
+      }
+    ]
+  }
+]

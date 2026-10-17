@@ -130,11 +130,30 @@ export class PayloadStore {
       throw Error('Editorial payload checksum failed');
     return bytes;
   }
+  /** Test/inspection reachability walk; never removes immutable chunks. */
+  async references(stored: string): Promise<Set<string>> {
+    const envelope = JSON.parse(stored),
+      keys = new Set<string>();
+    if (envelope?.$storage !== MARKER) return keys;
+    keys.add(envelope.root);
+    const tree = JSON.parse(decoder.decode(await this.get(envelope.root)));
+    const walk = (v: any) => {
+      if (v[0] === 't') for (const k of v[2]) keys.add(k);
+      else if (v[0] === 'a') for (const x of v[1]) walk(x);
+      else if (v[0] === 'o') for (const [, x] of v[1]) walk(x);
+    };
+    walk(tree);
+    return keys;
+  }
   async store(value: unknown, force = false): Promise<string> {
     const inline = json(value);
+    const reservedArchive = (value as any)?.$archive === 'dd-private-r2-v1';
     if (
-      !this.enabled ||
-      (!force && encoder.encode(inline).length < 1024 && (value as any)?.$storage !== MARKER)
+      (!this.enabled && !reservedArchive) ||
+      (!force &&
+        encoder.encode(inline).length < 1024 &&
+        (value as any)?.$storage !== MARKER &&
+        !reservedArchive)
     )
       return inline;
     const pack = async (v: unknown): Promise<unknown> => {
@@ -163,6 +182,10 @@ export class PayloadStore {
   }
   async read<T = unknown>(stored: string): Promise<T> {
     const envelope = JSON.parse(stored);
+    if (envelope?.$archive === 'dd-private-r2-v1') {
+      if (!this.db.resolveArchive) throw Error('Private archive reader is required');
+      return JSON.parse(await this.db.resolveArchive(stored)) as T;
+    }
     if (envelope?.$storage !== MARKER) return envelope as T;
     const memo = new Map<string, Uint8Array>();
     const get = async (key: string) => {

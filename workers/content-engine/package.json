@@ -14,7 +14,9 @@
     "qualify": "node --import tsx scripts/project.ts",
     "benchmark:storage": "node --import tsx scripts/storage-benchmark.ts",
     "test:pages": "python3 test/sqlite-pages-test.py",
-    "qualify:storage": "node --import tsx scripts/storage-project.ts"
+    "qualify:storage": "node --import tsx scripts/storage-project.ts",
+    "benchmark:archive": "node --import tsx scripts/r2-archival-benchmark.ts",
+    "qualify:archive": "node --import tsx scripts/r2-project.ts"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "5.20261016.1",

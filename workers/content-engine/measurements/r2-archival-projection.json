@@ -1,0 +1,69 @@
+{
+  "scope": "Extrapolation, not a year-long test. Same prior launch-day cohort; active NEW candidates, pinned evidence, current stories/videos and newest editions stay hot. Thirty-day hot policy, seven-day recovery, fifteen-percent page-growth reserve and twenty-five-percent R2 retry reserve. Freed pages are reusable, not proof of immediate file shrink. Small cohorts and conservative current-record retention can overstate long-term overhead; no deletion of required content assumed.",
+  "results": {
+    "compact": {
+      "dailyBaselineOwnedBytes": 1839104,
+      "measuredArchivalOwnedDelta": 94208,
+      "dailyPostArchiveOwnedBytes": 1933312,
+      "initialBytes": 18867328,
+      "recoveryExtraPerCohortBytes": 172032,
+      "projections": {
+        "30": {
+          "d1ConservativeAllocatedBudgetBytes": 82316416,
+          "r2RetainedBytes": 0,
+          "archivePutsPer30Days": 1537.5
+        },
+        "90": {
+          "d1ConservativeAllocatedBudgetBytes": 217099802,
+          "r2RetainedBytes": 13687350,
+          "archivePutsPer30Days": 1537.5
+        },
+        "180": {
+          "d1ConservativeAllocatedBudgetBytes": 417197594,
+          "r2RetainedBytes": 34218375,
+          "archivePutsPer30Days": 1537.5
+        },
+        "365": {
+          "d1ConservativeAllocatedBudgetBytes": 828509722,
+          "r2RetainedBytes": 76421038,
+          "archivePutsPer30Days": 1537.5
+        }
+      },
+      "d1DailyRowsReadWith25PercentReserve": 610435,
+      "d1DailyRowsWrittenWith25PercentReserve": 96315,
+      "result": "FAIL: 365-day D1 storage target not met"
+    },
+    "entropy": {
+      "dailyBaselineOwnedBytes": 3289088,
+      "measuredArchivalOwnedDelta": -4096,
+      "dailyPostArchiveOwnedBytes": 3284992,
+      "initialBytes": 18859136,
+      "recoveryExtraPerCohortBytes": 270336,
+      "projections": {
+        "30": {
+          "d1ConservativeAllocatedBudgetBytes": 132332672,
+          "r2RetainedBytes": 0,
+          "archivePutsPer30Days": 1537.5
+        },
+        "90": {
+          "d1ConservativeAllocatedBudgetBytes": 361173325,
+          "r2RetainedBytes": 31141275,
+          "archivePutsPer30Days": 1537.5
+        },
+        "180": {
+          "d1ConservativeAllocatedBudgetBytes": 701169997,
+          "r2RetainedBytes": 77853188,
+          "archivePutsPer30Days": 1537.5
+        },
+        "365": {
+          "d1ConservativeAllocatedBudgetBytes": 1400052045,
+          "r2RetainedBytes": 173872119,
+          "archivePutsPer30Days": 1537.5
+        }
+      },
+      "d1DailyRowsReadWith25PercentReserve": 615547,
+      "d1DailyRowsWrittenWith25PercentReserve": 99332,
+      "result": "FAIL: 365-day D1 storage target not met"
+    }
+  }
+}

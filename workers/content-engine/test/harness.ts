@@ -13,6 +13,7 @@ export async function harness(persistent = false, compact = true, maxMigration =
     modules: true,
     script: 'export default {fetch(){return new Response("No content API",{status:404})}}',
     compatibilityDate: '2026-01-01',
+    r2Buckets: ['EDITORIAL_ARCHIVE'],
     d1Databases: { EDITORIAL_DB: 'editorial-synthetic-only' },
     resourcePersistencePath: persistent ? directory : undefined,
     telemetry: { enabled: false },
@@ -36,7 +37,9 @@ export async function harness(persistent = false, compact = true, maxMigration =
       await binding.prepare(statement).run();
   }
   return {
-    mf,
+    get mf() {
+      return mf;
+    },
     binding,
     db,
     repo,

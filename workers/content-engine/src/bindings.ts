@@ -1,5 +1,6 @@
 export interface Env {
   EDITORIAL_DB: D1Database;
+  EDITORIAL_ARCHIVE?: R2Bucket;
   CONTENT_ENV: 'local';
   CONTENT_NETWORK_ENABLED: 'false';
 }

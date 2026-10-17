@@ -50,3 +50,11 @@ Read `D1_STORAGE_OPTIMIZATION_RESULTS.md` before interpreting these measurements
 `PayloadStore` keeps small JSON inline and stores larger values as checksummed immutable references. Trusted readers must use `EditorialDatabase` with `EditorialRepository`, `EditorialJobs` or `ColdRecords` initialized; direct SQL sees physical reference envelopes. `repackRow` explicitly repacks one existing record using compare-and-swap and verifies the roundtrip. It does not run automatically. Additive migrations retain legacy inline JSON and blob rows.
 
 `ColdRecords.compact(kind, cutoff, limit)` explicitly relocates complete terminal jobs, source checks or acknowledged outbox records into compressed packs. It verifies the copy before an atomic guarded move and retains an ID directory and job dedupe receipts. `ColdRecords.get` retrieves hot or cold records. Source-check daily totals supplement, rather than replace, exact history. Active jobs, expired recoverable leases and unacknowledged outbox events remain hot. No compactor, archive uploader or garbage collector is scheduled. Failed editorial writes can leave immutable blobs without references; this POC deliberately does not delete them.
+
+## Private R2 archival experiment
+
+See [D1_R2_ARCHIVAL_POC_RESULTS.md](D1_R2_ARCHIVAL_POC_RESULTS.md) for the measured limits and review decision. This remains local-only; no production bucket, HTTP archive route or automatic retention job is configured.
+
+`npm test` covers the prior repository and archival failure/recovery cases. `npm run benchmark:archive` creates disposable synthetic D1/R2 cohorts, measures physical SQLite allocation and private object bytes, and only there explicitly retires verified redundant copies after the modeled recovery window. `npm run qualify:archive` projects those measurements. These are not deployment or production migration commands.
+
+The optional `EDITORIAL_ARCHIVE` binding initializes transparent retrieval in `createLocalRepository`. Explicit maintenance uses `createLocalArchive`; its archive method creates verified pointers and keeps originals. Runtime code exposes no destructive retirement operation. Never remove the private binding or objects while archive pointers remain; verify and restore first. Cold retrieval errors remain errors, never empty or fabricated historical records.

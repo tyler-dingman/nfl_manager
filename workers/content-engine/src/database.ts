@@ -1,6 +1,7 @@
 import type { Meter } from './types';
 export class EditorialDatabase {
   readonly measurements: Meter[] = [];
+  resolveArchive?: (stored: string) => Promise<string>;
   resolveJson?: (stored: string) => Promise<string>;
   constructor(readonly binding: D1Database) {}
   statement(sql: string, values: unknown[] = []): D1PreparedStatement {
@@ -17,12 +18,16 @@ export class EditorialDatabase {
       durationMs: results.reduce((s, r) => s + (r.meta.duration ?? 0), 0),
     });
   }
-  async query<T>(label: string, sql: string, values: unknown[] = []): Promise<T[]> {
+  async query<T>(label: string, sql: string, values: unknown[] = [], expand = true): Promise<T[]> {
     const result = await this.statement(sql, values).all<T>();
     this.record(label, [result]);
+    if (!expand) return result.results;
     for (const row of result.results as Record<string, unknown>[])
       for (const [key, value] of Object.entries(row)) {
-        if (
+        if (typeof value === 'string' && value.startsWith('{"$archive":"dd-private-r2-v1"')) {
+          if (!this.resolveArchive) throw Error('Private archive reader is required');
+          row[key] = await this.resolveArchive(value);
+        } else if (
           typeof value === 'string' &&
           value.startsWith('{"$storage":"dd-editorial-payload-v1"')
         ) {

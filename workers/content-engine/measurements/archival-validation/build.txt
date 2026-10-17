@@ -1,0 +1,16 @@
+
+> @down-distance/content-engine-poc@0.0.0 build
+> node scripts/local.mjs build
+
+
+ ⛅️ wrangler 4.151.1
+────────────────────
+Total Upload: 49.65 KiB / gzip: 11.99 KiB
+Your Worker has access to the following bindings:
+Binding                                                        Resource                  
+env.EDITORIAL_DB (editorial-local-poc)                         D1 Database               
+env.EDITORIAL_ARCHIVE (editorial-archive-local-poc)            R2 Bucket                 
+env.CONTENT_ENV ("local")                                      Environment Variable      
+env.CONTENT_NETWORK_ENABLED ("false")                          Environment Variable      
+
+--dry-run: exiting now.

@@ -1,0 +1,6 @@
+
+> @down-distance/content-engine-poc@0.0.0 benchmark:archive
+> node --import tsx scripts/r2-archival-benchmark.ts
+
+compact {"before":2981888,"after":2981888,"ownedBefore":2338816,"ownedAfter":2433024,"packs":41}
+entropy {"before":4276224,"after":4276224,"ownedBefore":3780608,"ownedAfter":3776512,"packs":41}
