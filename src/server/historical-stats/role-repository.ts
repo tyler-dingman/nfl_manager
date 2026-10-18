@@ -1,3 +1,10 @@
+import { D1OddsBoard } from '../../../packages/storage/odds-board';
+import {
+  applicationBackend,
+  applicationStorage,
+  applicationPublicCacheScope,
+} from '../persistence/bindings';
+import { ReferenceData } from '../../../packages/storage/reference';
 import { authDb } from '@/server/auth/database';
 import { cachePublicRead } from '@/server/cache/public-read-cache';
 import type { RoleContext, RoleObservation } from '../../../packages/parlay/role-evidence';
@@ -8,6 +15,8 @@ export const getRoleEvidence = cachePublicRead(
     asOf: string,
   ): Promise<Pick<RoleContext, 'observations' | 'coverageAt'>> => {
     if (!teamIds.length) return { observations: [], coverageAt: null };
+    if (applicationBackend() === 'd1')
+      return new ReferenceData(applicationStorage()).roles(teamIds, asOf);
     try {
       const db = authDb();
       const [rows, runs] = await Promise.all([
@@ -31,35 +40,45 @@ export const getRoleEvidence = cachePublicRead(
       throw error;
     }
   },
+  { scope: applicationPublicCacheScope },
 );
 
-export const getTeamResearchPlayerIds = cachePublicRead(async (teamIds: string[]) => {
-  if (!teamIds.length) return [];
-  const rows = await authDb()<
-    { playerId: string }[]
-  >`SELECT DISTINCT player_id AS "playerId" FROM historical_player_games
+export const getTeamResearchPlayerIds = cachePublicRead(
+  async (teamIds: string[]) => {
+    if (!teamIds.length) return [];
+    if (applicationBackend() === 'd1')
+      return new ReferenceData(applicationStorage()).researchPlayers(teamIds);
+    const rows = await authDb()<
+      { playerId: string }[]
+    >`SELECT DISTINCT player_id AS "playerId" FROM historical_player_games
     WHERE team_id=ANY(${teamIds}) AND player_id IS NOT NULL AND position IN ('QB','RB','WR','TE')
       AND season >= extract(year FROM now())::int - 1`;
-  return rows.map((r) => r.playerId);
-});
+    return rows.map((r) => r.playerId);
+  },
+  { scope: applicationPublicCacheScope },
+);
 
 export const getEventPriceHistory = cachePublicRead(
-  async (eventId: string, asOf: string) => authDb()<
-    {
-      playerId: string;
-      marketType: string;
-      side: string;
-      sportsbook: string;
-      line: number;
-      odds: number | null;
-      capturedAt: string;
-    }[]
-  >`SELECT m.player_id AS "playerId",m.market_type AS "marketType",m.side,s.sportsbook,
+  async (eventId: string, asOf: string) =>
+    applicationBackend() === 'd1'
+      ? new D1OddsBoard(applicationStorage()).priceHistory(eventId, asOf)
+      : authDb()<
+          {
+            playerId: string;
+            marketType: string;
+            side: string;
+            sportsbook: string;
+            line: number;
+            odds: number | null;
+            capturedAt: string;
+          }[]
+        >`SELECT m.player_id AS "playerId",m.market_type AS "marketType",m.side,s.sportsbook,
     s.line::float8 AS line,s.odds,s.captured_at::text AS "capturedAt"
     FROM sportsbook_price_snapshots s JOIN bet_markets m ON m.id=s.market_id
     WHERE m.event_id=${eventId} AND m.period='game' AND m.is_alt_line=false AND s.available
       AND s.line IS NOT NULL AND s.captured_at <= ${asOf}::timestamptz
     ORDER BY s.captured_at ASC`,
+  { scope: applicationPublicCacheScope },
 );
 
 export function marketMovement(

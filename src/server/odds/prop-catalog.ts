@@ -1,3 +1,4 @@
+import { applicationPublicCacheScope } from '../persistence/bindings';
 import { progressiveSnapshot } from '@/server/cache/progressive-snapshot';
 import { isAnytimeTD } from '../../../packages/parlay/anytime-td';
 import { queryPropCatalog } from '../../../packages/parlay/prop-catalog';
@@ -16,56 +17,59 @@ type Snapshot = {
   pages: Map<string, string>;
   activeKey: string;
 };
-const getPropCatalog = progressiveSnapshot<Snapshot>(async (publish) => {
-  const events = ((await listLocalOddsEvents()) as unknown as OddsEvent[]).filter(
-    (e) => !e.marketsLocked && Date.parse(e.kickoffAt) > Date.now(),
-  );
-  const markets: HomeMarket[] = [];
-  let loadedEvents = 0;
-  const snapshot = (complete: boolean): Snapshot => ({
-    markets: [...markets],
-    events,
-    progress: { complete, loadedEvents, totalEvents: events.length },
-    pages: new Map(),
-    activeKey: '',
-  });
-  const players = new Map(NFL_LEAGUE_DATA.players.map((p) => [p.id, p]));
-  for (let start = 0; start < events.length; start += start === 0 ? 1 : 3) {
-    await Promise.all(
-      events.slice(start, start + (start === 0 ? 1 : 3)).map(async (event) => {
-        const opponents = {
-          [event.homeTeamId]: event.awayTeamId,
-          [event.awayTeamId]: event.homeTeamId,
-        };
-        const [raw, scored] = await Promise.all([
-          getLocalEventMarkets(event.id),
-          getTrendingProps(event.id, opponents, event.season, event, 'all'),
-        ]);
-        const enrichment = new Map(scored.map((m) => [`${m.id}|${m.sportsbook}`, m]));
-        const rows = (raw as unknown as HomeMarket[])
-          .filter((m) => m.playerId && m.marketType !== 'OTHER')
-          .map((m) => {
-            const player = players.get(m.playerId ?? '');
-            return {
-              ...enrichment.get(`${m.id}|${m.sportsbook}`),
-              ...m,
-              eventId: event.id,
-              line: m.line == null ? null : Number(m.line),
-              odds: m.odds == null ? null : Number(m.odds),
-              playerName: m.playerName ?? player?.name ?? null,
-              teamId: m.teamId ?? player?.teamAbbr ?? null,
-              position: player?.position ?? null,
-              headshotUrl: player?.headshotUrl ?? null,
-            } as HomeMarket;
-          });
-        markets.push(...rows);
-        loadedEvents++;
-        publish(snapshot(false));
-      }),
+const getPropCatalog = progressiveSnapshot<Snapshot>(
+  async (publish) => {
+    const events = ((await listLocalOddsEvents()) as unknown as OddsEvent[]).filter(
+      (e) => !e.marketsLocked && Date.parse(e.kickoffAt) > Date.now(),
     );
-  }
-  return snapshot(true);
-});
+    const markets: HomeMarket[] = [];
+    let loadedEvents = 0;
+    const snapshot = (complete: boolean): Snapshot => ({
+      markets: [...markets],
+      events,
+      progress: { complete, loadedEvents, totalEvents: events.length },
+      pages: new Map(),
+      activeKey: '',
+    });
+    const players = new Map(NFL_LEAGUE_DATA.players.map((p) => [p.id, p]));
+    for (let start = 0; start < events.length; start += start === 0 ? 1 : 3) {
+      await Promise.all(
+        events.slice(start, start + (start === 0 ? 1 : 3)).map(async (event) => {
+          const opponents = {
+            [event.homeTeamId]: event.awayTeamId,
+            [event.awayTeamId]: event.homeTeamId,
+          };
+          const [raw, scored] = await Promise.all([
+            getLocalEventMarkets(event.id),
+            getTrendingProps(event.id, opponents, event.season, event, 'all'),
+          ]);
+          const enrichment = new Map(scored.map((m) => [`${m.id}|${m.sportsbook}`, m]));
+          const rows = (raw as unknown as HomeMarket[])
+            .filter((m) => m.playerId && m.marketType !== 'OTHER')
+            .map((m) => {
+              const player = players.get(m.playerId ?? '');
+              return {
+                ...enrichment.get(`${m.id}|${m.sportsbook}`),
+                ...m,
+                eventId: event.id,
+                line: m.line == null ? null : Number(m.line),
+                odds: m.odds == null ? null : Number(m.odds),
+                playerName: m.playerName ?? player?.name ?? null,
+                teamId: m.teamId ?? player?.teamAbbr ?? null,
+                position: player?.position ?? null,
+                headshotUrl: player?.headshotUrl ?? null,
+              } as HomeMarket;
+            });
+          markets.push(...rows);
+          loadedEvents++;
+          publish(snapshot(false));
+        }),
+      );
+    }
+    return snapshot(true);
+  },
+  { scope: applicationPublicCacheScope },
+);
 
 /** Cache serialized pages, not copies of the full enriched catalog. Private snapshot ownership. */
 export async function getPropCatalogResponse(query: URLSearchParams) {

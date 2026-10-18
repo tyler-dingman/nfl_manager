@@ -1,3 +1,4 @@
+import { answerD1Search } from '@/server/search/d1-answer';
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 
@@ -47,14 +48,18 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Invalid search request.' }, { status: 400 });
   }
   if (applicationBackend() === 'd1') {
-    if (parsed.data.includeAnswer)
-      return NextResponse.json(
-        {
-          error:
-            'Verified generated answers are not yet migrated. Retrieval remains available with includeAnswer=false.',
-        },
-        { status: 503 },
-      );
+    if (parsed.data.includeAnswer) {
+      try {
+        return NextResponse.json(await answerD1Search(parsed.data), {
+          headers: { 'Cache-Control': 'no-store' },
+        });
+      } catch {
+        return NextResponse.json(
+          { error: 'Verified answers are temporarily unavailable.' },
+          { status: 503 },
+        );
+      }
+    }
     try {
       const start = performance.now(),
         rows = await lexicalSearch(

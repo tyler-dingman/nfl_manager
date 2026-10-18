@@ -17,7 +17,8 @@ async function key(secret: string) {
   );
 }
 type Envelope =
-  { schema: 2; iv: string; cipher: string } | { schema: 1; iv: number[]; cipher: number[] };
+  | { schema: 2; iv: string; cipher: string }
+  | { schema: 1; iv: number[]; cipher: number[] };
 const base64 = (bytes: Uint8Array) =>
   btoa(Array.from(bytes, (x) => String.fromCharCode(x)).join(''));
 const unbase64 = (text: string) => Uint8Array.from(atob(text), (c) => c.charCodeAt(0));
@@ -53,6 +54,14 @@ export interface EmailProvider {
 }
 /** Concrete Resend adapter. No SDK, no secondary provider or paid fallback. Enrollment
  * and real deliveries must be verified separately. Tests inject a non-network fetcher. */
+export class EmailRejection extends Error {
+  constructor(
+    readonly status: number,
+    readonly retryAfterMs: number | null,
+  ) {
+    super(`Email provider HTTP ${status}`);
+  }
+}
 export class ResendEmailProvider implements EmailProvider {
   name = 'resend';
   dailyLimit = 100;
@@ -90,6 +99,16 @@ export class ResendEmailProvider implements EmailProvider {
           : {}),
       }),
     });
+    if (response.status === 429) {
+      const value = response.headers.get('retry-after') ?? '60';
+      const delay = /^\d+$/.test(value) ? Number(value) * 1000 : Date.parse(value) - Date.now();
+      throw new EmailRejection(
+        429,
+        Math.min(86400000, Math.max(1000, Number.isFinite(delay) ? delay : 60000)),
+      );
+    }
+    if ([400, 401, 403, 404, 422].includes(response.status))
+      throw new EmailRejection(response.status, null);
     if (!response.ok) throw Error(`Email provider HTTP ${response.status}`);
     const body = (await response.json()) as { id?: string };
     if (!body.id) throw Error('Email provider acknowledgement missing');
@@ -203,11 +222,19 @@ export class MailQueue {
           ),
         ]);
         sent++;
-      } catch {
+      } catch (error) {
+        const rejected = error instanceof EmailRejection;
+        const retry = rejected && error.retryAfterMs !== null && row.attempts < 4;
         await this.s.batch([
           this.s.statement(
-            "UPDATE app_mail SET status='UNCERTAIN',last_error='Delivery not confirmed; reconcile before retry' WHERE id=? AND lease_nonce=?",
-            [row.id, nonce],
+            'UPDATE app_mail SET status=?,next_at=?,last_error=? WHERE id=? AND lease_nonce=?',
+            [
+              retry ? 'READY' : rejected ? 'FAILED' : 'UNCERTAIN',
+              retry ? now + error.retryAfterMs! : now,
+              rejected ? error.message : 'Delivery not confirmed; reconcile before retry',
+              row.id,
+              nonce,
+            ],
           ),
         ]);
       }

@@ -1,3 +1,9 @@
+import {
+  applicationBackend,
+  applicationStorage,
+  applicationPublicCacheScope,
+} from '../persistence/bindings';
+import { ReferenceData } from '../../../packages/storage/reference';
 import { cachePublicRead } from '@/server/cache/public-read-cache';
 import { authDb } from '@/server/auth/database';
 import type { HistoricalPlayerGame, TeamSeasonStrength } from './types';
@@ -6,6 +12,8 @@ const DEFAULT_HISTORICAL_SEASONS = [2024, 2025, 2026];
 
 async function queryPlayerGameLogs(playerIds: string[], seasons = DEFAULT_HISTORICAL_SEASONS) {
   if (!playerIds.length) return [];
+  if (applicationBackend() === 'd1')
+    return new ReferenceData(applicationStorage()).playerGames(playerIds, seasons);
   return authDb()<HistoricalPlayerGame[]>`
     WITH team_schedule AS (
       SELECT game_id, team_id, kickoff_at,
@@ -40,6 +48,8 @@ async function queryPlayerGameLogs(playerIds: string[], seasons = DEFAULT_HISTOR
 }
 
 async function queryTeamSeasonStrength(teamId: string, season: number) {
+  if (applicationBackend() === 'd1')
+    return new ReferenceData(applicationStorage()).strength(teamId, season);
   const rows = await authDb()<TeamSeasonStrength[]>`
     SELECT season,team_id AS "teamId",pass_defense_rank AS "passDefenseRank",
       passing_yards_allowed_per_game::float8 AS "passingYardsAllowedPerGame",
@@ -55,6 +65,8 @@ async function queryOpponentPositionGameLogs(
   position: 'QB' | 'RB' | 'WR' | 'TE',
   seasons = DEFAULT_HISTORICAL_SEASONS,
 ) {
+  if (applicationBackend() === 'd1')
+    return new ReferenceData(applicationStorage()).opponentGames(opponentTeamId, position, seasons);
   return authDb()<HistoricalPlayerGame[]>`
     SELECT pg.game_id AS "gameId", g.game_date::text AS date, pg.season, pg.week,
       pg.season_type AS "seasonType", pg.player_id AS "playerId", pg.provider_player_name AS "playerName",
@@ -70,6 +82,12 @@ async function queryOpponentPositionGameLogs(
 
 // Historical reference data changes during imports, not on every market request.
 // One-minute TTL bounds freshness; warm requests share concurrent database reads.
-export const getPlayerGameLogs = cachePublicRead(queryPlayerGameLogs);
-export const getTeamSeasonStrength = cachePublicRead(queryTeamSeasonStrength);
-export const getOpponentPositionGameLogs = cachePublicRead(queryOpponentPositionGameLogs);
+export const getPlayerGameLogs = cachePublicRead(queryPlayerGameLogs, {
+  scope: applicationPublicCacheScope,
+});
+export const getTeamSeasonStrength = cachePublicRead(queryTeamSeasonStrength, {
+  scope: applicationPublicCacheScope,
+});
+export const getOpponentPositionGameLogs = cachePublicRead(queryOpponentPositionGameLogs, {
+  scope: applicationPublicCacheScope,
+});

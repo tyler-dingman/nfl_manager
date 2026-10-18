@@ -1,0 +1,20 @@
+{
+  "gate": "LOCAL_REVIEW_COMMIT_ONLY",
+  "criticalTestsPassed": true,
+  "suitePasses": 1190,
+  "suiteFailures": 0,
+  "standaloneConditionalSkips": 2,
+  "browserCases": 48,
+  "workerHttpSamples": 58,
+  "workerCapabilityAssertions": 8,
+  "teamVariants": 32,
+  "recoveryUsers": 5000,
+  "recoveryObjects": 2884,
+  "webGzipBytes": 2323783.68,
+  "apiGzipBytes": 818969,
+  "productionReadiness": "BLOCKED",
+  "productionCpu": "UNVERIFIED",
+  "wholeProductMigration": "PARTIAL",
+  "deploymentAuthorized": false,
+  "branch": "poc/zero-cost-production-completion"
+}

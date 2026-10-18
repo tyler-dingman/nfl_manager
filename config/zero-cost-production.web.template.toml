@@ -1,0 +1,45 @@
+name = "down-distance-review-web"
+main = "../workers/web/index.ts"
+compatibility_date = "2026-10-18"
+compatibility_flags = ["nodejs_compat"]
+workers_dev = false
+preview_urls = false
+send_metrics = false
+minify = true
+
+[assets]
+directory = "../.open-next/assets"
+binding = "ASSETS"
+
+[vars]
+APP_DATA_BACKEND = "d1"
+APP_RUNTIME = "cloudflare"
+INFRASTRUCTURE_COST_POLICY = "zero-cost"
+
+[[d1_databases]]
+binding = "APP_DB"
+database_name = "review-placeholder"
+database_id = "00000000-0000-0000-0000-000000000000"
+migrations_dir = "../workers/content-engine/migrations"
+remote = false
+
+[[r2_buckets]]
+binding = "APP_OBJECTS"
+bucket_name = "review-placeholder-objects"
+remote = false
+
+[[r2_buckets]]
+binding = "APP_BACKUP"
+bucket_name = "review-placeholder-backup"
+remote = false
+
+[observability]
+enabled = false
+
+[[services]]
+binding = "API_SERVICE"
+service = "down-distance-review-api"
+
+# No route, custom domain, account ID, real database ID or cron is configured.
+[triggers]
+crons = []

@@ -1,0 +1,4 @@
+CREATE TABLE app_reference_version(id INTEGER PRIMARY KEY CHECK(id=1),version INTEGER NOT NULL);
+CREATE TABLE app_odds_processing(slot TEXT NOT NULL,event_id TEXT NOT NULL,object_hash TEXT NOT NULL,reference_json TEXT NOT NULL,as_of INTEGER NOT NULL,status TEXT NOT NULL CHECK(status IN('READY','RUNNING','DONE','FAILED','SUPERSEDED')),attempts INTEGER NOT NULL DEFAULT 0,lease_nonce TEXT,lease_until INTEGER NOT NULL DEFAULT 0,last_error TEXT,PRIMARY KEY(slot,event_id)) WITHOUT ROWID;
+CREATE INDEX app_odds_processing_due ON app_odds_processing(status,as_of);
+CREATE TABLE app_parlay_scores(event_id TEXT NOT NULL REFERENCES app_sportsbook_events(id),model_version TEXT NOT NULL,context_key TEXT NOT NULL,board_hash TEXT NOT NULL,reference_version INTEGER NOT NULL,object_hash TEXT NOT NULL,computed_at INTEGER NOT NULL,PRIMARY KEY(event_id,model_version,context_key)) WITHOUT ROWID;

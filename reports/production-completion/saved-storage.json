@@ -1,0 +1,16 @@
+{
+  "scope": "MEASURED local synthetic metadata column bytes; excludes pages/indexes and R2 backup cost",
+  "savedRecords": 12,
+  "beforeColumnBytes": 45960,
+  "afterColumnBytes": 792,
+  "r2Reads": 51,
+  "r2Writes": 13,
+  "queryPlan": [
+    {
+      "id": 5,
+      "parent": 0,
+      "notused": 213,
+      "detail": "SCAN app_saved_content USING INDEX app_saved_metadata_pending"
+    }
+  ]
+}

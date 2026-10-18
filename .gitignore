@@ -35,3 +35,8 @@ firebase-debug*.log
 workers/web/dist/
 
 workers/web/dist-minified/
+
+workers/api/dist/
+workers/api/routes.generated.ts
+
+scripts/__pycache__/

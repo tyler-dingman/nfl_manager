@@ -1,3 +1,5 @@
+import { applicationBackend } from '../persistence/bindings';
+import { ownedFranchise } from './d1-context';
 import { restoreDraftSession } from '@/server/api/draft';
 import { createHash } from 'node:crypto';
 import { buildOffseasonHeroContext, heroPerson as person } from './hero-offseason-context';
@@ -84,9 +86,14 @@ export async function ensureWeeklyHero(
       !['signed', 'removed'].includes(p.marketStatus ?? '') &&
       !['signed', 'active'].includes(p.status.toLowerCase()),
   );
-  const offers = await authDb()<
-    Array<{ offer: TradeOfferDTO }>
-  >`SELECT offer_data AS offer FROM front_office_trade_offers WHERE user_id=${userId} AND save_id=${saveId} AND status='pending' AND expires_week >= ${week}`;
+  const offers =
+    applicationBackend() === 'd1'
+      ? Object.values(ownedFranchise(userId, saveId).value.offers).filter(
+          (o) => o.status === 'pending' && o.expiresWeek >= week,
+        )
+      : await authDb()<
+          Array<{ offer: TradeOfferDTO }>
+        >`SELECT offer_data AS offer FROM front_office_trade_offers WHERE user_id=${userId} AND save_id=${saveId} AND status='pending' AND expires_week >= ${week}`;
   const offerCounts = new Map<string, number>();
   offers.forEach(({ offer }) =>
     [offer.incoming, offer.outgoing]

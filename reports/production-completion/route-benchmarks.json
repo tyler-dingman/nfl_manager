@@ -1,0 +1,335 @@
+{
+  "scope": "MEASURED localhost Next HTTP wall time. Not Cloudflare CPU. All response statuses retained, including unavailable paths.",
+  "benchmarks": [
+    {
+      "name": "Homepage",
+      "path": "/",
+      "samples": [
+        {
+          "localHttpWallMs": 27.38666699999976,
+          "status": 200,
+          "cache": "s-maxage=31536000"
+        },
+        {
+          "localHttpWallMs": 12.37762500000008,
+          "status": 200,
+          "cache": "s-maxage=31536000"
+        },
+        {
+          "localHttpWallMs": 15.121124999999665,
+          "status": 200,
+          "cache": "s-maxage=31536000"
+        },
+        {
+          "localHttpWallMs": 10.524792000000161,
+          "status": 200,
+          "cache": "s-maxage=31536000"
+        },
+        {
+          "localHttpWallMs": 8.740917000000081,
+          "status": 200,
+          "cache": "s-maxage=31536000"
+        }
+      ],
+      "workerCpuMs": null,
+      "note": "Responses on partial synthetic PostgreSQL schema; HTTP success does not establish complete feature data"
+    },
+    {
+      "name": "The Beat",
+      "path": "/the-beat?team=kc",
+      "samples": [
+        {
+          "localHttpWallMs": 47.44683299999997,
+          "status": 200,
+          "cache": "private, no-cache, no-store, max-age=0, must-revalidate"
+        },
+        {
+          "localHttpWallMs": 15.828207999999904,
+          "status": 200,
+          "cache": "private, no-cache, no-store, max-age=0, must-revalidate"
+        },
+        {
+          "localHttpWallMs": 14.84875000000011,
+          "status": 200,
+          "cache": "private, no-cache, no-store, max-age=0, must-revalidate"
+        },
+        {
+          "localHttpWallMs": 16.911708999999973,
+          "status": 200,
+          "cache": "private, no-cache, no-store, max-age=0, must-revalidate"
+        },
+        {
+          "localHttpWallMs": 15.389458999999988,
+          "status": 200,
+          "cache": "private, no-cache, no-store, max-age=0, must-revalidate"
+        }
+      ],
+      "workerCpuMs": null,
+      "note": "Responses on partial synthetic PostgreSQL schema; HTTP success does not establish complete feature data"
+    },
+    {
+      "name": "Film Room",
+      "path": "/watch?team=kc",
+      "samples": [
+        {
+          "localHttpWallMs": 13.96374999999989,
+          "status": 200,
+          "cache": "s-maxage=31536000"
+        },
+        {
+          "localHttpWallMs": 5.757542000000285,
+          "status": 200,
+          "cache": "s-maxage=31536000"
+        },
+        {
+          "localHttpWallMs": 4.3943749999998545,
+          "status": 200,
+          "cache": "s-maxage=31536000"
+        },
+        {
+          "localHttpWallMs": 6.563709000000017,
+          "status": 200,
+          "cache": "s-maxage=31536000"
+        },
+        {
+          "localHttpWallMs": 5.010749999999462,
+          "status": 200,
+          "cache": "s-maxage=31536000"
+        }
+      ],
+      "workerCpuMs": null,
+      "note": "Responses on partial synthetic PostgreSQL schema; HTTP success does not establish complete feature data"
+    },
+    {
+      "name": "AI Search",
+      "path": "/api/search",
+      "samples": [
+        {
+          "localHttpWallMs": 13.249124999999367,
+          "status": 200,
+          "cache": "no-store"
+        },
+        {
+          "localHttpWallMs": 4.374499999999898,
+          "status": 200,
+          "cache": "no-store"
+        },
+        {
+          "localHttpWallMs": 7.13012499999968,
+          "status": 200,
+          "cache": "no-store"
+        },
+        {
+          "localHttpWallMs": 3.453167000000576,
+          "status": 200,
+          "cache": "no-store"
+        },
+        {
+          "localHttpWallMs": 3.4004580000000715,
+          "status": 200,
+          "cache": "no-store"
+        }
+      ],
+      "workerCpuMs": null,
+      "note": "Responses on partial synthetic PostgreSQL schema; HTTP success does not establish complete feature data"
+    },
+    {
+      "name": "Front Office",
+      "path": "/front-office",
+      "samples": [
+        {
+          "localHttpWallMs": 9.750250000000051,
+          "status": 200,
+          "cache": "s-maxage=31536000"
+        },
+        {
+          "localHttpWallMs": 5.91045800000029,
+          "status": 200,
+          "cache": "s-maxage=31536000"
+        },
+        {
+          "localHttpWallMs": 7.343083000000661,
+          "status": 200,
+          "cache": "s-maxage=31536000"
+        },
+        {
+          "localHttpWallMs": 5.2708330000004935,
+          "status": 200,
+          "cache": "s-maxage=31536000"
+        },
+        {
+          "localHttpWallMs": 5.560292000000118,
+          "status": 200,
+          "cache": "s-maxage=31536000"
+        }
+      ],
+      "workerCpuMs": null,
+      "note": "Responses on partial synthetic PostgreSQL schema; HTTP success does not establish complete feature data"
+    },
+    {
+      "name": "Parlay Lab",
+      "path": "/parlay-lab",
+      "samples": [
+        {
+          "localHttpWallMs": 9.521291999999448,
+          "status": 200,
+          "cache": "s-maxage=31536000"
+        },
+        {
+          "localHttpWallMs": 6.617374999999811,
+          "status": 200,
+          "cache": "s-maxage=31536000"
+        },
+        {
+          "localHttpWallMs": 5.346290999999837,
+          "status": 200,
+          "cache": "s-maxage=31536000"
+        },
+        {
+          "localHttpWallMs": 7.617167000000336,
+          "status": 200,
+          "cache": "s-maxage=31536000"
+        },
+        {
+          "localHttpWallMs": 7.880291999999827,
+          "status": 200,
+          "cache": "s-maxage=31536000"
+        }
+      ],
+      "workerCpuMs": null,
+      "note": "Responses on partial synthetic PostgreSQL schema; HTTP success does not establish complete feature data"
+    },
+    {
+      "name": "Trending Props",
+      "path": "/api/parlay-lab/props",
+      "samples": [
+        {
+          "localHttpWallMs": 6.270999999999731,
+          "status": 503,
+          "cache": null
+        },
+        {
+          "localHttpWallMs": 3.0716660000007323,
+          "status": 503,
+          "cache": null
+        },
+        {
+          "localHttpWallMs": 3.029125000000022,
+          "status": 503,
+          "cache": null
+        },
+        {
+          "localHttpWallMs": 2.700332999999773,
+          "status": 503,
+          "cache": null
+        },
+        {
+          "localHttpWallMs": 1.895499999999629,
+          "status": 503,
+          "cache": null
+        }
+      ],
+      "workerCpuMs": null,
+      "note": "Responses on partial synthetic PostgreSQL schema; HTTP success does not establish complete feature data"
+    },
+    {
+      "name": "Bet Slip",
+      "path": "/parlay-lab/my-plays",
+      "samples": [
+        {
+          "localHttpWallMs": 9.62854200000038,
+          "status": 200,
+          "cache": "s-maxage=31536000"
+        },
+        {
+          "localHttpWallMs": 5.0997919999999795,
+          "status": 200,
+          "cache": "s-maxage=31536000"
+        },
+        {
+          "localHttpWallMs": 4.789416999999958,
+          "status": 200,
+          "cache": "s-maxage=31536000"
+        },
+        {
+          "localHttpWallMs": 5.284125000000131,
+          "status": 200,
+          "cache": "s-maxage=31536000"
+        },
+        {
+          "localHttpWallMs": 5.217375000000175,
+          "status": 200,
+          "cache": "s-maxage=31536000"
+        }
+      ],
+      "workerCpuMs": null,
+      "note": "Responses on partial synthetic PostgreSQL schema; HTTP success does not establish complete feature data"
+    },
+    {
+      "name": "Authentication",
+      "path": "/api/auth/me",
+      "samples": [
+        {
+          "localHttpWallMs": 2.953167000000576,
+          "status": 200,
+          "cache": null
+        },
+        {
+          "localHttpWallMs": 2.1300419999997757,
+          "status": 200,
+          "cache": null
+        },
+        {
+          "localHttpWallMs": 1.815625000000182,
+          "status": 200,
+          "cache": null
+        },
+        {
+          "localHttpWallMs": 1.9007080000001224,
+          "status": 200,
+          "cache": null
+        },
+        {
+          "localHttpWallMs": 1.9190419999995356,
+          "status": 200,
+          "cache": null
+        }
+      ],
+      "workerCpuMs": null,
+      "note": "Responses on partial synthetic PostgreSQL schema; HTTP success does not establish complete feature data"
+    },
+    {
+      "name": "Editorial ingestion admission",
+      "path": "/api/automation/content",
+      "samples": [
+        {
+          "localHttpWallMs": 2.9482499999994616,
+          "status": 503,
+          "cache": null
+        },
+        {
+          "localHttpWallMs": 2.3355830000000424,
+          "status": 503,
+          "cache": null
+        },
+        {
+          "localHttpWallMs": 2.6796669999994265,
+          "status": 503,
+          "cache": null
+        },
+        {
+          "localHttpWallMs": 1.5625,
+          "status": 503,
+          "cache": null
+        },
+        {
+          "localHttpWallMs": 1.4256670000004306,
+          "status": 503,
+          "cache": null
+        }
+      ],
+      "workerCpuMs": null,
+      "note": "Admission rejection only; no source jobs or provider calls authorized"
+    }
+  ]
+}

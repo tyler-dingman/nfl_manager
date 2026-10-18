@@ -10,6 +10,7 @@ const globals = globalThis as typeof globalThis & { [key: symbol]: unknown };
 export interface ApplicationBindings {
   db: SqlDatabase;
   objects: Objects;
+  cacheNamespace?: string;
   ai?: { run(model: string, input: unknown): Promise<unknown> };
   env?: Record<string, string | undefined>;
 }
@@ -102,4 +103,20 @@ export function applicationStorage() {
     },
   };
   return (local = new Storage(db, objects));
+}
+
+const cacheIds = new WeakMap<object, string>();
+export function applicationPublicCacheScope() {
+  const scoped = context.getStore();
+  if (!scoped)
+    return applicationBackend() === 'd1'
+      ? 'd1:loopback:' + String(process.env.APP_D1_LOCAL_URL)
+      : 'postgres:default';
+  if (scoped.cacheNamespace) return scoped.cacheNamespace;
+  let id = cacheIds.get(scoped.db);
+  if (!id) {
+    id = crypto.randomUUID();
+    cacheIds.set(scoped.db, id);
+  }
+  return applicationBackend() + ':' + id;
 }

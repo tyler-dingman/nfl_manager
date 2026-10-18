@@ -31,30 +31,37 @@ export class D1AuthRepository {
       email.trim().toLowerCase(),
     ]);
   }
+  emailUserPlan(input: { email: string; passwordHash: string; displayName?: string | null }) {
+    const id = crypto.randomUUID(),
+      now = Date.now(),
+      email = input.email.trim().toLowerCase();
+    return {
+      id,
+      statements: [
+        this.s.statement(
+          'INSERT INTO app_users(id,display_name,primary_email,status,created_at,updated_at) VALUES(?,?,?,?,?,?)',
+          [id, input.displayName ?? null, email, 'PENDING', now, now],
+        ),
+        this.s.statement('INSERT INTO app_credentials(user_id,password_hash) VALUES(?,?)', [
+          id,
+          input.passwordHash,
+        ]),
+        this.s.statement(
+          'INSERT INTO app_identities(id,user_id,provider,provider_subject,provider_email,created_at) VALUES(?,?,?,?,?,?)',
+          [crypto.randomUUID(), id, 'EMAIL', email, email, now],
+        ),
+        this.s.statement('INSERT INTO app_settings(user_id,updated_at) VALUES(?,?)', [id, now]),
+      ],
+    };
+  }
   async createEmailUser(input: {
     email: string;
     passwordHash: string;
     displayName?: string | null;
   }) {
-    const id = crypto.randomUUID(),
-      now = Date.now(),
-      email = input.email.trim().toLowerCase();
-    await this.s.batch([
-      this.s.statement(
-        'INSERT INTO app_users(id,display_name,primary_email,status,created_at,updated_at) VALUES(?,?,?,?,?,?)',
-        [id, input.displayName ?? null, email, 'PENDING', now, now],
-      ),
-      this.s.statement('INSERT INTO app_credentials(user_id,password_hash) VALUES(?,?)', [
-        id,
-        input.passwordHash,
-      ]),
-      this.s.statement(
-        'INSERT INTO app_identities(id,user_id,provider,provider_subject,provider_email,created_at) VALUES(?,?,?,?,?,?)',
-        [crypto.randomUUID(), id, 'EMAIL', email, email, now],
-      ),
-      this.s.statement('INSERT INTO app_settings(user_id,updated_at) VALUES(?,?)', [id, now]),
-    ]);
-    return this.findUserById(id);
+    const plan = this.emailUserPlan(input);
+    await this.s.batch(plan.statements);
+    return this.findUserById(plan.id);
   }
   async updateUserProfile(id: string, input: { displayName: string; primaryEmail: string }) {
     await this.s.batch([

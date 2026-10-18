@@ -1,3 +1,5 @@
+import { applicationBackend } from '../persistence/bindings';
+import { ownedFranchise } from './d1-context';
 import { franchiseWorkspace } from './runtime-context';
 import { ensureWeeklyHero } from './hero-story';
 import { persistFrontOfficeEvents, type NewFrontOfficeEvent } from './events-repository';
@@ -25,7 +27,7 @@ export function normalizeFranchiseSimulation(value: unknown): FranchiseSimulatio
   return normalizeFranchiseSimulationState(value);
 }
 
-const mapRow = (row: FrontOfficeSaveRow): FrontOfficeSaveMetadata => {
+const mapRow = (row: Omit<FrontOfficeSaveRow,'simulation'> & {simulation?:unknown}): FrontOfficeSaveMetadata => {
   const simulation = normalizeFranchiseSimulationState(row.simulation, {
     allowLegacyRollover: !franchiseWorkspace.getStore(),
   });
@@ -43,6 +45,7 @@ const mapRow = (row: FrontOfficeSaveRow): FrontOfficeSaveMetadata => {
 };
 
 export async function getFrontOfficeSaveMetadata(userId: string, saveId: string) {
+  if (applicationBackend() === 'd1') return mapRow(ownedFranchise(userId, saveId).value.metadata);
   const rows = await authDb()<FrontOfficeSaveRow[]>`
     SELECT save_id AS "saveId", team_abbr AS "teamAbbr", season,
       selected_path AS "selectedPath", simulation_phase AS "simulationPhase",
@@ -53,6 +56,10 @@ export async function getFrontOfficeSaveMetadata(userId: string, saveId: string)
 }
 
 export async function getLatestFrontOfficeSaveForTeam(userId: string, teamAbbr: string) {
+  if (applicationBackend() === 'd1') {
+    const metadata = ownedFranchise(userId).value.metadata;
+    return metadata.teamAbbr === teamAbbr.toUpperCase() ? mapRow(metadata) : null;
+  }
   const rows = await authDb()<FrontOfficeSaveRow[]>`
     SELECT save_id AS "saveId", team_abbr AS "teamAbbr", season,
       selected_path AS "selectedPath", simulation_phase AS "simulationPhase",
@@ -72,6 +79,17 @@ export async function upsertFrontOfficeSaveMetadata(input: {
   selectedPath?: FrontOfficePath | null;
   simulationPhase?: string | null;
 }) {
+  if (applicationBackend() === 'd1') {
+    const metadata = ownedFranchise(input.userId, input.saveId).value.metadata;
+    metadata.teamAbbr = input.teamAbbr;
+    if (!metadata.simulation) {
+      metadata.season = input.season;
+      metadata.simulationPhase = input.simulationPhase ?? metadata.simulationPhase;
+    }
+    metadata.selectedPath = input.selectedPath ?? metadata.selectedPath;
+    if (input.selectedPath) metadata.initializedAt ??= new Date().toISOString();
+    return mapRow(metadata);
+  }
   const rows = await authDb()<FrontOfficeSaveRow[]>`
     INSERT INTO user_front_office_saves
       (user_id, save_id, team_abbr, season, selected_path, simulation_phase, initialized_at)
@@ -108,6 +126,16 @@ export async function saveFranchiseSimulation(input: {
     input.simulation,
     input.userId,
   );
+  if (applicationBackend() === 'd1') {
+    const current = ownedFranchise(input.userId, input.saveId).value.metadata;
+    if (current.version !== input.expectedVersion) return null;
+    current.simulation = input.simulation;
+    current.simulationPhase = input.simulation.phase;
+    current.season = input.simulation.season;
+    current.version++;
+    await persistFrontOfficeEvents(input.userId, input.events ?? []);
+    return mapRow(current);
+  }
   return authTransaction(async (transaction) => {
     const db = transaction as unknown as ReturnType<typeof authDb>;
     const rows = await db<FrontOfficeSaveRow[]>`

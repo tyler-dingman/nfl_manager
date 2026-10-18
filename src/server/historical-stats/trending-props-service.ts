@@ -1,3 +1,9 @@
+import {
+  applicationBackend,
+  applicationStorage,
+  applicationPublicCacheScope,
+} from '../persistence/bindings';
+import { PrecomputedProps } from '../../../packages/storage/parlay-scores';
 import { isAnytimeTD } from '../../../packages/parlay/anytime-td';
 import { cachePublicRead } from '@/server/cache/public-read-cache';
 import { LAB_SCORE_CONFIG } from '../../../packages/parlay/lab-score-config';
@@ -225,8 +231,27 @@ async function queryTrendingProps(
 const cachedTrendingProps = cachePublicRead(
   (_modelVersion: string, ...args: Parameters<typeof queryTrendingProps>) =>
     queryTrendingProps(...args),
-  { maxEntries: 32 },
+  { maxEntries: 32, scope: applicationPublicCacheScope },
 );
-export function getTrendingProps(...args: Parameters<typeof queryTrendingProps>) {
+export const computeTrendingProps = queryTrendingProps;
+export async function getTrendingProps(...args: Parameters<typeof queryTrendingProps>) {
+  if (applicationBackend() === 'd1') {
+    const stored = await new PrecomputedProps(applicationStorage()).read(
+      args[0],
+      LAB_SCORE_CONFIG.version,
+      args[1] ?? {},
+      args[2],
+      args[3],
+    );
+    if (stored) {
+      const mode = args[4] ?? 'all';
+      return stored.filter(
+        (m: any) =>
+          mode === 'all' ||
+          (mode === 'standard' && (isAnytimeTD(m) || m.lineType === 'main')) ||
+          (mode === 'alternate' && m.lineType === 'alternate' && m.odds != null && m.odds >= -1000),
+      ) as Awaited<ReturnType<typeof queryTrendingProps>>;
+    }
+  }
   return cachedTrendingProps(LAB_SCORE_CONFIG.version, ...args);
 }

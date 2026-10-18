@@ -1,11 +1,16 @@
 /** Bounded, process-local cache for public reference data only. Never use for auth or permissions. */
 export function cachePublicRead<A extends unknown[], T>(
   read: (...args: A) => Promise<T>,
-  { ttlMs = 60_000, maxEntries = 32, now = Date.now } = {},
+  {
+    ttlMs = 60_000,
+    maxEntries = 32,
+    now = Date.now,
+    scope = (): string => '',
+  }: { ttlMs?: number; maxEntries?: number; now?: () => number; scope?: () => string } = {},
 ) {
   const entries = new Map<string, { expires: number; pending: Promise<T> }>();
   return async (...args: A): Promise<T> => {
-    const key = JSON.stringify(args);
+    const key = JSON.stringify([scope(), args]);
     let entry = entries.get(key);
     if (!entry || entry.expires <= now()) {
       if (entries.size >= maxEntries) entries.delete(entries.keys().next().value!);

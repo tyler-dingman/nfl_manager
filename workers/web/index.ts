@@ -12,6 +12,8 @@ import {
 } from '../../packages/storage/instrumentation';
 export default {
   async fetch(request: Request, env: any, ctx: any) {
+    if (new URL(request.url).pathname.startsWith('/api/') && env.API_SERVICE)
+      return env.API_SERVICE.fetch(request);
     const cache = (caches as unknown as { default: Cache }).default;
     const publicKey =
       env.APP_PUBLIC_CACHE_ENABLED === 'true'
@@ -32,6 +34,7 @@ export default {
       {
         db: instrumentDatabase(env.APP_DB as SqlDatabase, metrics),
         objects,
+        cacheNamespace: 'worker:'+String(env.APP_CACHE_VERSION??'default'),
         ai: env.AI,
         env: { ...env, APP_RUNTIME: 'cloudflare' },
       },

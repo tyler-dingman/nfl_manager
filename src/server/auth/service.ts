@@ -1,3 +1,4 @@
+import { createD1EmailSignup } from './d1-mail';
 import { jwtVerify, SignJWT } from 'jose';
 import { secureToken, hashPassword, verifyPassword } from './crypto';
 import { requireAuthConfig } from './config';
@@ -32,13 +33,17 @@ export async function signupWithEmail(input: {
 }) {
   const email = input.email.trim().toLowerCase();
   if (await findUserByEmail(email)) throw new Error('Unable to create account with those details.');
-  const user = await createEmailUser({
-    email,
-    passwordHash: await hashPassword(input.password),
-    displayName: input.displayName,
-  });
-  const verificationToken = secureToken();
-  await createOneTimeToken(user.id, 'EMAIL_VERIFICATION', verificationToken, 24 * 60);
+  const verificationToken = secureToken(),
+    passwordHash = await hashPassword(input.password);
+  const user =
+    applicationBackend() === 'd1'
+      ? await createD1EmailSignup(
+          { email, passwordHash, displayName: input.displayName },
+          verificationToken,
+        )
+      : await createEmailUser({ email, passwordHash, displayName: input.displayName });
+  if (applicationBackend() !== 'd1')
+    await createOneTimeToken(user.id, 'EMAIL_VERIFICATION', verificationToken, 24 * 60);
   return {
     user: toPublicUser(user),
     verificationToken: process.env.NODE_ENV === 'development' ? verificationToken : undefined,

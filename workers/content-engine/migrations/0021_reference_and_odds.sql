@@ -1,0 +1,6 @@
+CREATE TABLE app_reference_packs(namespace TEXT NOT NULL,id TEXT NOT NULL,subject TEXT NOT NULL,season INTEGER NOT NULL,metadata_json TEXT NOT NULL,object_hash TEXT NOT NULL,PRIMARY KEY(namespace,id)) WITHOUT ROWID;
+CREATE INDEX app_reference_subject ON app_reference_packs(namespace,subject,season);
+CREATE TABLE app_sportsbook_events(id TEXT PRIMARY KEY,provider_event_id TEXT NOT NULL UNIQUE,season INTEGER NOT NULL,week INTEGER NOT NULL,home_team_id TEXT NOT NULL,away_team_id TEXT NOT NULL,kickoff_at INTEGER NOT NULL,status TEXT NOT NULL,markets_locked INTEGER NOT NULL DEFAULT 0,final_snapshot_at INTEGER,refreshed_24h_at INTEGER,last_imported_at INTEGER NOT NULL,markets_hash TEXT,as_of INTEGER NOT NULL,version INTEGER NOT NULL DEFAULT 0);
+CREATE INDEX app_sportsbook_kickoff ON app_sportsbook_events(kickoff_at,id);
+CREATE TABLE app_sportsbook_market_ids(event_id TEXT NOT NULL REFERENCES app_sportsbook_events(id),normalized_key TEXT NOT NULL,id TEXT NOT NULL UNIQUE,PRIMARY KEY(event_id,normalized_key)) WITHOUT ROWID;
+CREATE TABLE app_odds_board_history(event_id TEXT NOT NULL REFERENCES app_sportsbook_events(id),as_of INTEGER NOT NULL,object_hash TEXT NOT NULL,PRIMARY KEY(event_id,as_of)) WITHOUT ROWID;

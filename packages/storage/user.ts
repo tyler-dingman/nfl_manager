@@ -175,7 +175,7 @@ export class D1UserRepository {
   async saveContent(id: string, input: any) {
     let raw = JSON.stringify(input.metadata ?? {});
     let hash: string | null = null;
-    if (new TextEncoder().encode(raw).length > 32000) {
+    if (new TextEncoder().encode(raw).length > 512) {
       hash = await this.s.put({
         schema: 1,
         owner: id,

@@ -7,6 +7,7 @@ preview_urls = false
 send_metrics = false
 [vars]
 APP_ODDS_ENABLED = "false"
+APP_ODDS_PROCESSING_ENABLED = "false"
 APP_MAIL_ENABLED = "false"
 APP_MAINTENANCE_ENABLED = "false"
 [triggers]
@@ -27,3 +28,7 @@ bucket_name = "application-backup-local-phase-three"
 remote = false
 [observability]
 enabled = false
+
+[[services]]
+binding = "ODDS_PROCESSOR"
+service = "down-distance-odds-processor-local"

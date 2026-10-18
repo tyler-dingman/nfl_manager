@@ -1,0 +1,1 @@
+CREATE TABLE app_briefing_mail_jobs(id TEXT PRIMARY KEY,object_hash TEXT NOT NULL,after_user TEXT NOT NULL DEFAULT '',status TEXT NOT NULL CHECK(status IN('READY','RUNNING','DONE')),lease_nonce TEXT,lease_until INTEGER NOT NULL DEFAULT 0);

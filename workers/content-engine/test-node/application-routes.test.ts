@@ -245,16 +245,13 @@ test('real Next handlers on D1: email recovery, login/logout, native bearer sess
       ).status,
       200,
     );
-    assert.equal(
-      (
-        await invoke(search, '/api/search', 'POST', {
-          query: 'Mahomes',
-          teamId: 'KC',
-          includeAnswer: true,
-        })
-      ).status,
-      503,
-    );
+    const unavailableAnswer = await invoke(search, '/api/search', 'POST', {
+      query: 'When do the Chiefs play next?', teamId: 'KC', includeAnswer: true,
+    });
+    assert.equal(unavailableAnswer.status, 200);
+    const answer = await unavailableAnswer.json();
+    assert(answer.availability.unavailable.length > 0, 'Missing evidence must be explicit');
+    assert.equal(answer.sources.length, 0, 'No synthetic attribution may be invented');
     assert.equal((await invoke(logout, '/api/auth/logout', 'POST', {}, nextSession)).status, 200);
     assert.equal((await invoke(me, '/api/auth/me', 'GET', undefined, nextSession)).status, 401);
     assert.equal((await s().rows('SELECT id FROM app_users'))[0].id, user.id);

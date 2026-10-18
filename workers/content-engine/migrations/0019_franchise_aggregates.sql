@@ -1,0 +1,5 @@
+-- Additive owner-scoped aggregate heads. R2 is verified before atomic CAS publication.
+CREATE TABLE app_franchise_heads(user_id TEXT NOT NULL REFERENCES app_users(id),save_id TEXT NOT NULL,team_abbr TEXT NOT NULL,season INTEGER NOT NULL,phase TEXT NOT NULL,version INTEGER NOT NULL,object_hash TEXT NOT NULL,created_at INTEGER NOT NULL,updated_at INTEGER NOT NULL,deleted_at INTEGER,PRIMARY KEY(user_id,save_id)) WITHOUT ROWID;
+CREATE INDEX app_franchise_latest ON app_franchise_heads(user_id,team_abbr,updated_at DESC,save_id);
+CREATE TABLE app_franchise_commands(user_id TEXT NOT NULL REFERENCES app_users(id),command_id TEXT NOT NULL,save_id TEXT NOT NULL,request_hash TEXT NOT NULL,object_hash TEXT NOT NULL,version INTEGER NOT NULL,PRIMARY KEY(user_id,command_id),FOREIGN KEY(user_id,save_id) REFERENCES app_franchise_heads(user_id,save_id)) WITHOUT ROWID;
+CREATE TABLE app_franchise_routes(user_id TEXT NOT NULL,kind TEXT NOT NULL,id TEXT NOT NULL,save_id TEXT NOT NULL,PRIMARY KEY(user_id,kind,id),FOREIGN KEY(user_id,save_id) REFERENCES app_franchise_heads(user_id,save_id)) WITHOUT ROWID;

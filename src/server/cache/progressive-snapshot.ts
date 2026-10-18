@@ -1,6 +1,6 @@
 /** Coalesced builds expose initial progress, but never replace a complete snapshot
  * with partial refresh results. Failed/expired builds cannot remain authoritative. */
-export function progressiveSnapshot<T>(
+function createProgressiveSnapshot<T>(
   build: (publish: (value: T) => void) => Promise<T>,
   { freshMs = 60_000, maxAgeMs = 120_000, now = Date.now } = {},
 ) {
@@ -51,5 +51,23 @@ export function progressiveSnapshot<T>(
     if (!running && (!current || now() - current.at >= freshMs) && now() >= retryAt) start();
     if (current) return current.value;
     return first!;
+  };
+}
+
+/** Separate public snapshots for isolated persistence sources. */
+export function progressiveSnapshot<T>(
+  build: (publish: (value: T) => void) => Promise<T>,
+  options: { freshMs?: number; maxAgeMs?: number; now?: () => number; scope?: () => string } = {},
+) {
+  const instances = new Map<string, ReturnType<typeof createProgressiveSnapshot<T>>>();
+  return () => {
+    const key = options.scope?.() ?? '';
+    let read = instances.get(key);
+    if (!read) {
+      if (instances.size >= 8) instances.delete(instances.keys().next().value!);
+      read = createProgressiveSnapshot(build, options);
+      instances.set(key, read);
+    }
+    return read();
   };
 }

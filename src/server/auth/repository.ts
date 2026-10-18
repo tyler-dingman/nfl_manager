@@ -1,8 +1,6 @@
+import { stageAuthToken } from './d1-mail';
 import * as pg from './postgres-repository';
 import { D1AuthRepository } from '../../../packages/storage/auth';
-import { MailQueue } from '../../../packages/storage/mail';
-import { digest, utf8 } from '../../../packages/storage/core';
-import { applicationEnvironment } from '../persistence/bindings';
 import { applicationBackend, applicationStorage } from '../persistence/bindings';
 export const toPublicUser = pg.toPublicUser;
 function dispatch<K extends keyof typeof pg>(name: K): (typeof pg)[K] {
@@ -14,30 +12,11 @@ function dispatch<K extends keyof typeof pg>(name: K): (typeof pg)[K] {
       ['EMAIL_VERIFICATION', 'PASSWORD_RESET'].includes(String(args[1]))
     ) {
       const [userId, type, token, minutes] = args as [string, string, string, number],
-        env = applicationEnvironment(),
         user = await repo.findUserById(userId);
-      if (!user?.primary_email || !env.AUTH_BASE_URL || !env.AUTH_JWT_SECRET)
-        throw Error('Recovery mail configuration is incomplete');
-      const url = new URL('/login', env.AUTH_BASE_URL);
-      if (url.protocol !== 'https:' && !['localhost', '127.0.0.1'].includes(url.hostname))
-        throw Error('Recovery links require HTTPS');
-      url.searchParams.set(type === 'PASSWORD_RESET' ? 'resetToken' : 'verifyToken', token);
-      if (!env.APP_MAIL_ENCRYPTION_KEY) throw Error('Mail encryption key is not configured');
-      const queue = new MailQueue(repo.s, env.APP_MAIL_ENCRYPTION_KEY),
-        hash = await digest(utf8.encode(token));
-      const mail = await queue.stage(userId, 'TRANSACTIONAL', `${type}:${hash}`, {
-        to: user.primary_email,
-        subject:
-          type === 'PASSWORD_RESET'
-            ? 'Reset your Down & Distance password'
-            : 'Verify your Down & Distance email',
-        text: `${type === 'PASSWORD_RESET' ? 'Reset your password' : 'Verify your email'}: ${url.href}`,
-        expiresAt: Date.now() + minutes * 60000,
-      });
-      await repo.s.batch([
-        ...repo.tokenStatements(userId, type, hash, minutes),
-        ...(mail ? [mail] : []),
-      ]);
+      if (!user?.primary_email) throw Error('Recovery user is unavailable');
+      await repo.s.batch(
+        await stageAuthToken(repo, userId, user.primary_email, type, token, minutes),
+      );
       return;
     }
     const method = (repo as unknown as Record<string, Function>)[name];

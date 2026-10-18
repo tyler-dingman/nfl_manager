@@ -1,3 +1,7 @@
+// Module-qualified type aliases avoid adding Workers globals to Next's DOM types.
+type D1Database = import('@cloudflare/workers-types/index.ts').D1Database;
+type D1PreparedStatement = import('@cloudflare/workers-types/index.ts').D1PreparedStatement;
+type D1Result = import('@cloudflare/workers-types/index.ts').D1Result;
 import type { Meter } from './types';
 export class EditorialDatabase {
   readonly measurements: Meter[] = [];

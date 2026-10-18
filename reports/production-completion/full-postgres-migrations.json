@@ -1,0 +1,87 @@
+[
+  {
+    "migration": "001_auth_identity.sql",
+    "exitCode": 0,
+    "error": null
+  },
+  {
+    "migration": "002_user_profiles_and_preferences.sql",
+    "exitCode": 0,
+    "error": null
+  },
+  {
+    "migration": "003_notifications_and_devices.sql",
+    "exitCode": 0,
+    "error": null
+  },
+  {
+    "migration": "004_user_content_state.sql",
+    "exitCode": 0,
+    "error": null
+  },
+  {
+    "migration": "005_security_audit.sql",
+    "exitCode": 0,
+    "error": null
+  },
+  {
+    "migration": "006_remove_player_follows.sql",
+    "exitCode": 0,
+    "error": null
+  },
+  {
+    "migration": "007_trivia.sql",
+    "exitCode": 0,
+    "error": null
+  },
+  {
+    "migration": "008_trivia_gameplay_hardening.sql",
+    "exitCode": 0,
+    "error": null
+  },
+  {
+    "migration": "009_trivia_buddies.sql",
+    "exitCode": 0,
+    "error": null
+  },
+  {
+    "migration": "010_get_caught_up.sql",
+    "exitCode": 0,
+    "error": null
+  },
+  {
+    "migration": "011_move_the_chains_rewards.sql",
+    "exitCode": 0,
+    "error": null
+  },
+  {
+    "migration": "012_source_watcher_story_engine.sql",
+    "exitCode": 0,
+    "error": null
+  },
+  {
+    "migration": "013_story_downstream_projections.sql",
+    "exitCode": 0,
+    "error": null
+  },
+  {
+    "migration": "014_story_automation_policy.sql",
+    "exitCode": 0,
+    "error": null
+  },
+  {
+    "migration": "015_expo_push_delivery.sql",
+    "exitCode": 0,
+    "error": null
+  },
+  {
+    "migration": "016_game_day.sql",
+    "exitCode": 0,
+    "error": null
+  },
+  {
+    "migration": "017_search_documents.sql",
+    "exitCode": 3,
+    "error": "psql:/private/tmp/down-distance-production-completion/db/migrations/017_search_documents.sql:3: ERROR:  could not open extension control file \"/opt/homebrew/share/postgresql@14/extension/vector.control\": No such file or directory\n"
+  }
+]

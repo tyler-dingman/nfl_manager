@@ -31,7 +31,13 @@ function references(snapshot: Table[]) {
   for (const table of snapshot)
     for (const row of table.rows) {
       if (table.name.startsWith('app_'))
-        for (const field of ['object_hash', 'metadata_hash'])
+        for (const field of [
+          'object_hash',
+          'metadata_hash',
+          'markets_hash',
+          'market_ids_hash',
+          'board_hash',
+        ])
           if (typeof row[field] === 'string') keys.add(`application/v1/${row[field]}`);
       if (table.name.startsWith('lean_') && typeof row.object_hash === 'string')
         keys.add(`editorial/lean/v1/${row.object_hash}.json`);
@@ -181,19 +187,38 @@ export async function checkpoint(
       throw Error('Frozen source');
     },
   });
+  const treeTables = new Set([
+    'app_heads',
+    'app_receipts',
+    'app_odds_history',
+    'app_franchise_heads',
+    'app_franchise_commands',
+    'app_sportsbook_events',
+    'app_odds_board_history',
+  ]);
   const applicationHashes = new Set(
     snapshot
-      .filter((t) => ['app_heads', 'app_receipts', 'app_odds_history'].includes(t.name))
-      .flatMap((t) => t.rows.map((r) => String(r.object_hash))),
+      .filter((t) => treeTables.has(t.name))
+      .flatMap((t) =>
+        t.rows.flatMap((row) =>
+          ['object_hash', 'markets_hash', 'market_ids_hash'].flatMap((field) =>
+            typeof row[field] === 'string' ? [String(row[field])] : [],
+          ),
+        ),
+      ),
   );
-  for (const hash of applicationHashes) {
+  const checked = new Set<string>();
+  async function validateGraph(hash: string): Promise<void> {
+    if (checked.has(hash)) return;
+    checked.add(hash);
     const value = await logical.get<any>(hash);
-    if (
-      value?.root &&
-      (value.schema === 2 || (value.schema === 1 && value.kind === 'ODDS_HISTORY'))
-    )
-      await new JsonTree(logical).get(value.root);
+    if (value?.root && [1, 2].includes(value.schema)) {
+      const content = await new JsonTree(logical).get<any>(value.root);
+      if (value.saveId && content?.referenceHash) await logical.get(content.referenceHash);
+    }
+    if (value?.saveId && value?.stateHash) await validateGraph(value.stateHash);
   }
+  for (const hash of applicationHashes) await validateGraph(hash);
   // Detect changes during the copy; the explicit stopped-writers precondition
   // remains necessary, including writes after this comparison.
   if (

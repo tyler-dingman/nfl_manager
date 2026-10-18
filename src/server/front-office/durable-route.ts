@@ -1,3 +1,5 @@
+import { applicationBackend } from '../persistence/bindings';
+import { withD1FranchiseRoute } from './d1-route';
 import { randomUUID } from 'node:crypto';
 import { gzipSync, gunzipSync } from 'node:zlib';
 import { performance } from 'node:perf_hooks';
@@ -41,6 +43,14 @@ function reject(
   throw new Rejected(reply({ ok: false, code, error, ...extra }, status, saveId, version));
 }
 export function withFranchiseRoute(handler: Handler, options: Options = {}): Handler {
+  const d1 = withD1FranchiseRoute(handler, options);
+  const postgres = withPostgresFranchiseRoute(handler, options);
+  return async (...args: any[]) => {
+    if (franchiseWorkspace.getStore()) return handler(...args);
+    return applicationBackend() === 'd1' ? d1(args[0], ...args.slice(1)) : postgres(...args);
+  };
+}
+function withPostgresFranchiseRoute(handler: Handler, options: Options = {}): Handler {
   return async (input: Request, ...args: any[]) => {
     // Compatibility route aliases execute within the same owned transaction/workspace.
     if (franchiseWorkspace.getStore()) return handler(input, ...args);

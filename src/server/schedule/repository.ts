@@ -1,8 +1,11 @@
+import { applicationBackend, applicationStorage } from '../persistence/bindings';
+import { ReferenceData } from '../../../packages/storage/reference';
 import { authDb } from '@/server/auth/database';
 import type { CanonicalGame } from '@/lib/canonical-game';
 
 /** One database read per batch; no provider requests or long-lived stale score cache. */
 export async function listCanonicalGames(seasons: number[]): Promise<CanonicalGame[]> {
+ if(applicationBackend()==='d1')return new ReferenceData(applicationStorage()).games(seasons);
   const rows =
     await authDb()`SELECT id,espn_event_id,season,season_type,week,home_team_id,away_team_id,kickoff_at,kickoff_confirmed,status,home_score,away_score,overtime,venue,broadcast_network FROM historical_games WHERE season=ANY(${seasons}) ORDER BY kickoff_at,id`;
   return rows.map((row) => canonicalGameFromRow(row as GameRow));
@@ -49,6 +52,7 @@ export async function nextCanonicalGame(
   team: string,
   now = new Date(),
 ): Promise<CanonicalGame | null> {
+ if(applicationBackend()==='d1')return new ReferenceData(applicationStorage()).nextGame(team,now);
   const rows =
     await authDb()`SELECT id,espn_event_id,season,season_type,week,home_team_id,away_team_id,kickoff_at,kickoff_confirmed,status,home_score,away_score,overtime,venue,broadcast_network FROM historical_games WHERE (home_team_id=${team} OR away_team_id=${team}) AND status='SCHEDULED' AND kickoff_at>${now.toISOString()} ORDER BY kickoff_at,id LIMIT 1`;
   return rows[0] ? canonicalGameFromRow(rows[0] as GameRow) : null;

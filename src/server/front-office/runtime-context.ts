@@ -13,7 +13,10 @@ export type FranchiseWorkspace = {
   writable: boolean;
   recoveryReferences?: import('./durable-codec').ReferenceBundle;
 };
-export const franchiseWorkspace = new AsyncLocalStorage<FranchiseWorkspace>();
+const workspaceSymbol = Symbol.for('down-distance.franchise-workspace');
+const workspaceGlobals = globalThis as typeof globalThis & { [key: symbol]: unknown };
+export const franchiseWorkspace = (workspaceGlobals[workspaceSymbol] ??=
+  new AsyncLocalStorage<FranchiseWorkspace>()) as AsyncLocalStorage<FranchiseWorkspace>;
 
 export function isolatedMap<K, V>(
   kind: 'saves' | 'trades' | 'teamIndex',

@@ -1,3 +1,9 @@
+import {
+  applicationBackend,
+  applicationStorage,
+  applicationEnvironment,
+} from '../persistence/bindings';
+import { DailyBriefings } from '../../../packages/storage/briefings';
 import { TEAM_LIST } from '@/data/teams';
 import {
   getEditorialOverrides,
@@ -139,7 +145,10 @@ const rowPackage = (
   };
 };
 
-const selectRows = async (teamId: string, briefingDate?: string) => authDb()<SnapshotRow[]>`
+const selectRows = async (teamId: string, briefingDate?: string) =>
+  applicationBackend() === 'd1'
+    ? new DailyBriefings(applicationStorage()).latest(teamId, briefingDate)
+    : authDb()<SnapshotRow[]>`
   SELECT id, team_id AS "teamId", briefing_date AS "briefingDate", generated_at AS "generatedAt",
     published_at AS "publishedAt", source_window_start AS "sourceWindowStart",
     source_window_end AS "sourceWindowEnd", summary_version AS "summaryVersion", items
@@ -153,7 +162,10 @@ export async function getDailyThreeAndOut(teamId: string, briefingDate?: string)
   if (!team) return null;
   const rows = await selectRows(teamId, briefingDate);
   if (!rows[0] || !Array.isArray(rows[0].items) || rows[0].items.length !== 3) return null;
-  const archiveRows = await authDb()<SnapshotRow[]>`
+  const archiveRows =
+    applicationBackend() === 'd1'
+      ? await new DailyBriefings(applicationStorage()).history(teamId, rows[0].id)
+      : await authDb()<SnapshotRow[]>`
     SELECT id, team_id AS "teamId", briefing_date AS "briefingDate", generated_at AS "generatedAt",
       CASE WHEN jsonb_typeof(items)='array' THEN
         (SELECT coalesce(jsonb_agg(jsonb_build_object('id',item->'id','title',item->'title') ORDER BY ordinal),'[]'::jsonb)
@@ -169,8 +181,12 @@ export async function getDailyThreeAndOut(teamId: string, briefingDate?: string)
       teamName: team.name,
       generatedAt: iso(row.generatedAt)!,
       briefingDate: dateOnly(row.briefingDate),
-      storyIds: row.items.map((story) => story.id) as [string, string, string],
-      storyTitles: row.items.map((story) => story.title) as [string, string, string],
+      storyIds: row.items.map((story: { id: string }) => story.id) as [string, string, string],
+      storyTitles: row.items.map((story: { title: string }) => story.title) as [
+        string,
+        string,
+        string,
+      ],
     }));
   return rowPackage(rows[0], team.name, previous);
 }
@@ -187,7 +203,10 @@ export async function generateDailyThreeAndOut(
     const existing = await getDailyThreeAndOut(teamId, briefingDate);
     if (existing) return existing;
   }
-  const previous = await authDb()<{ publishedAt: Date }[]>`
+  const previous =
+    applicationBackend() === 'd1'
+      ? await new DailyBriefings(applicationStorage()).previousPublished(teamId)
+      : await authDb()<{ publishedAt: Date }[]>`
     SELECT published_at AS "publishedAt" FROM three_and_out_snapshots
     WHERE team_id=${teamId} AND status='PUBLISHED' AND published_at IS NOT NULL
     ORDER BY published_at DESC LIMIT 1`;
@@ -216,7 +235,33 @@ export async function generateDailyThreeAndOut(
     return null;
   }
   const id = `daily:${teamId}:${briefingDate}`;
-  await authDb()`INSERT INTO three_and_out_snapshots
+  if (applicationBackend() === 'd1') {
+    await new DailyBriefings(applicationStorage()).publish(
+      {
+        id,
+        teamId,
+        briefingDate,
+        generatedAt: now.toISOString(),
+        publishedAt: now.toISOString(),
+        sourceWindowStart: windowStart.toISOString(),
+        sourceWindowEnd: now.toISOString(),
+        summaryVersion: THREE_AND_OUT_SUMMARY_VERSION,
+        items: selected,
+      },
+      applicationEnvironment().APP_EDITORIAL_EMAIL_ENABLED === 'true'
+        ? {
+            subject: `${team.name} Three & Out — ${briefingDate}`,
+            text: selected
+              .map(
+                (story) =>
+                  `${story.title}\n${story.summary}\nWhy it matters: ${story.whyItMatters}\n${story.sources.map((source) => source.sourceUrl).join('\n')}`,
+              )
+              .join('\n\n'),
+          }
+        : undefined,
+    );
+  } else
+    await authDb()`INSERT INTO three_and_out_snapshots
     (id,team_id,story_ids,story_versions,generated_at,briefing_date,status,source_window_start,
       source_window_end,published_at,items,summary_version,updated_at)
     VALUES(${id},${teamId},${authDb().json(selected.map((story) => story.id))},${authDb().json(selected.map(() => 1))},

@@ -1,0 +1,34 @@
+name = "down-distance-review-scheduler"
+main = "../workers/application/index.ts"
+compatibility_date = "2026-10-18"
+compatibility_flags = ["nodejs_compat"]
+workers_dev = false
+preview_urls = false
+send_metrics = false
+[vars]
+APP_ODDS_ENABLED = "false"
+APP_ODDS_PROCESSING_ENABLED = "false"
+APP_MAIL_ENABLED = "false"
+APP_MAINTENANCE_ENABLED = "false"
+[triggers]
+crons = []
+[[d1_databases]]
+binding = "APP_DB"
+database_name = "review-placeholder"
+database_id = "00000000-0000-0000-0000-000000000000"
+migrations_dir = "../workers/content-engine/migrations"
+remote = false
+[[r2_buckets]]
+binding = "APP_OBJECTS"
+bucket_name = "review-placeholder"
+remote = false
+[[r2_buckets]]
+binding = "APP_BACKUP"
+bucket_name = "review-backup-placeholder"
+remote = false
+[observability]
+enabled = false
+
+[[services]]
+binding = "ODDS_PROCESSOR"
+service = "down-distance-review-odds-processor"

@@ -54,7 +54,7 @@ export async function scheduledApplicationOdds(
     }
     return response;
   };
-  return runScheduledOdds(new EditorialDatabase(s.db as unknown as D1Database), now, async () => {
+  return runScheduledOdds(new EditorialDatabase(s.db as unknown as ConstructorParameters<typeof EditorialDatabase>[0]), now, async () => {
     const client = new SportsGameOddsClient(apiKey, guarded),
       events = await client.getNflEvents({
         startsAfter: now.toISOString(),
@@ -93,6 +93,10 @@ export async function scheduledApplicationOdds(
         completedAt: Date.now(),
       });
     await s.batch([
+      s.statement(
+        "INSERT INTO app_odds_processing(slot,event_id,object_hash,reference_json,as_of,status) SELECT ?,json_extract(value,'$.id'),json_extract(value,'$.hash'),value,?,'READY' FROM json_each(?) WHERE 1 ON CONFLICT DO NOTHING",
+        [slot, now.getTime(), JSON.stringify(objects)],
+      ),
       s.statement(
         "INSERT INTO app_odds_publication(id,slot,object_hash,completed_at,coverage) VALUES('NFL',?,?,?,?) ON CONFLICT(id) DO UPDATE SET slot=excluded.slot,object_hash=excluded.object_hash,completed_at=excluded.completed_at,coverage=excluded.coverage",
         [slot, hash, Date.now(), coverage],
