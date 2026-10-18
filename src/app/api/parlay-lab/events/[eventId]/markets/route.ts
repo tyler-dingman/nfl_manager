@@ -22,7 +22,9 @@ type RouteMarket = {
   [key: string]: unknown;
 };
 
-export async function GET(request: NextRequest, { params }: { params: { eventId: string } }) {
+export async function GET(request: NextRequest, { params: asyncparams }: { params: Promise<{ eventId: string }> }) {
+const params = await asyncparams;
+
   const query = request.nextUrl.searchParams;
   const markets = (await getLocalEventMarkets(params.eventId, {
     marketType: query.get('marketType') ?? query.get('market') ?? undefined,

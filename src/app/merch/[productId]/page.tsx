@@ -5,7 +5,9 @@ import type { MerchProduct } from '@/features/merch/catalog';
 import { commerceProduct } from '@/server/commerce/catalog';
 
 export const dynamic = 'force-dynamic';
-export default async function MerchProductPage({ params }: { params: { productId: string } }) {
+export default async function MerchProductPage({ params: asyncparams }: { params: Promise<{ productId: string }> }) {
+const params = await asyncparams;
+
   const persisted = await commerceProduct(params.productId);
   const product = persisted
     ? ({

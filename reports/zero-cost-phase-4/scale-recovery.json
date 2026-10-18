@@ -1,0 +1,2306 @@
+{
+  "scope": "MEASURED synthetic local workerd, no production CPU",
+  "users": 3000,
+  "savedBets": 3000,
+  "gameVersions": 401,
+  "gameOwners": 101,
+  "gameHistory": {
+    "legacyLogicalBytes": 25875892,
+    "physicalPrimaryBytes": 309402,
+    "ratio": 0.011957153013314478,
+    "r2Reads": 8400,
+    "r2Writes": 1507
+  },
+  "worstLogicalBytes": 2100000,
+  "checkpoint": {
+    "id": "d0e8675a08b979076f36f2e0ea7597e8951736be2b08ef0663de10fe0d906cec",
+    "reusedCheckpoint": false,
+    "reusedChunks": 0,
+    "tables": 74,
+    "rows": 15535,
+    "objects": 1603,
+    "milliseconds": 16129.694457999998
+  },
+  "repeatedCheckpoint": {
+    "id": "d0e8675a08b979076f36f2e0ea7597e8951736be2b08ef0663de10fe0d906cec",
+    "reusedCheckpoint": true,
+    "reusedChunks": 13,
+    "tables": 74,
+    "rows": 15535,
+    "objects": 1603,
+    "milliseconds": 18946.30575
+  },
+  "restore": {
+    "tables": 74,
+    "objects": 1603,
+    "milliseconds": 21275.861124999996,
+    "status": "READY"
+  },
+  "idempotentRestore": {
+    "tables": 74,
+    "objects": 1603,
+    "milliseconds": 10896.406624999989,
+    "status": "READY"
+  },
+  "d1Metrics": {
+    "d1Calls": 1177,
+    "statements": 17005,
+    "rowsRead": 3701,
+    "rowsWritten": 47005
+  },
+  "backupD1Metrics": {
+    "d1Calls": 15,
+    "statements": 375,
+    "rowsRead": 80550,
+    "rowsWritten": 0
+  },
+  "restoreD1Metrics": {
+    "d1Calls": 1352,
+    "statements": 17103,
+    "rowsRead": 77089,
+    "rowsWritten": 46365
+  },
+  "worstObjectOperations": {
+    "reads": 108,
+    "writes": 36
+  },
+  "d1Pages": {
+    "pageSize": 4096,
+    "sqliteBytes": 6021120,
+    "ownedBytes": 6021120,
+    "freelistBytes": 0,
+    "otherBytes": 0,
+    "objects": [
+      {
+        "name": "app_saved_content",
+        "type": "table",
+        "pages": 753,
+        "bytes": 3084288,
+        "rows": 3000,
+        "columnBytes": {
+          "id": 28890,
+          "user_id": 55890,
+          "content_type": 15000,
+          "content_id": 49890,
+          "title": 54000,
+          "href": 0,
+          "image_url": 0,
+          "metadata_json": 2310000,
+          "created_at": 39000,
+          "metadata_hash": 0
+        }
+      },
+      {
+        "name": "app_sessions",
+        "type": "table",
+        "pages": 78,
+        "bytes": 319488,
+        "rows": 3000,
+        "columnBytes": {
+          "id": 34890,
+          "user_id": 55890,
+          "device_id": 0,
+          "refresh_token_hash": 76890,
+          "token_family_id": 31890,
+          "expires_at": 39000,
+          "revoked_at": 0,
+          "replaced_by_session_id": 0,
+          "created_at": 39000,
+          "last_used_at": 39000,
+          "ip_metadata": 0,
+          "user_agent_metadata": 0
+        }
+      },
+      {
+        "name": "app_settings",
+        "type": "table",
+        "pages": 62,
+        "bytes": 253952,
+        "rows": 3000,
+        "columnBytes": {
+          "user_id": 55890,
+          "profile_json": 6000,
+          "preferences_json": 136500,
+          "updated_at": 39000
+        }
+      },
+      {
+        "name": "app_users",
+        "type": "table",
+        "pages": 60,
+        "bytes": 245760,
+        "rows": 3000,
+        "columnBytes": {
+          "id": 55890,
+          "display_name": 0,
+          "first_name": 0,
+          "last_name": 0,
+          "primary_email": 73890,
+          "email_verified": 3000,
+          "avatar_url": 0,
+          "status": 18000,
+          "created_at": 39000,
+          "updated_at": 39000,
+          "last_login_at": 0
+        }
+      },
+      {
+        "name": "app_credentials",
+        "type": "table",
+        "pages": 56,
+        "bytes": 229376,
+        "rows": 3000,
+        "columnBytes": {
+          "user_id": 55890,
+          "password_hash": 132000,
+          "failed_attempts": 3000,
+          "locked_until": 0,
+          "password_changed_at": 0
+        }
+      },
+      {
+        "name": "sqlite_autoindex_app_saved_content_2",
+        "type": "index",
+        "pages": 41,
+        "bytes": 167936,
+        "table": "app_saved_content",
+        "definition": null
+      },
+      {
+        "name": "sqlite_autoindex_app_sessions_2",
+        "type": "index",
+        "pages": 29,
+        "bytes": 118784,
+        "table": "app_sessions",
+        "definition": null
+      },
+      {
+        "name": "sqlite_autoindex_app_users_2",
+        "type": "index",
+        "pages": 28,
+        "bytes": 114688,
+        "table": "app_users",
+        "definition": null
+      },
+      {
+        "name": "sqlite_autoindex_app_users_1",
+        "type": "index",
+        "pages": 22,
+        "bytes": 90112,
+        "table": "app_users",
+        "definition": null
+      },
+      {
+        "name": "sqlite_autoindex_app_credentials_1",
+        "type": "index",
+        "pages": 22,
+        "bytes": 90112,
+        "table": "app_credentials",
+        "definition": null
+      },
+      {
+        "name": "app_session_owner",
+        "type": "index",
+        "pages": 22,
+        "bytes": 90112,
+        "table": "app_sessions",
+        "definition": "CREATE INDEX app_session_owner ON app_sessions(user_id)"
+      },
+      {
+        "name": "sqlite_autoindex_app_settings_1",
+        "type": "index",
+        "pages": 22,
+        "bytes": 90112,
+        "table": "app_settings",
+        "definition": null
+      },
+      {
+        "name": "app_receipts",
+        "type": "table",
+        "pages": 22,
+        "bytes": 90112,
+        "rows": 401,
+        "columnBytes": {
+          "owner_id": 6779,
+          "command_id": 8382,
+          "request_hash": 25664,
+          "kind": 4812,
+          "id": 2770,
+          "revision": 401,
+          "object_hash": 25664
+        }
+      },
+      {
+        "name": "sqlite_autoindex_app_sessions_1",
+        "type": "index",
+        "pages": 17,
+        "bytes": 69632,
+        "table": "app_sessions",
+        "definition": null
+      },
+      {
+        "name": "app_session_family",
+        "type": "index",
+        "pages": 17,
+        "bytes": 69632,
+        "table": "app_sessions",
+        "definition": "CREATE INDEX app_session_family ON app_sessions(token_family_id)"
+      },
+      {
+        "name": "sqlite_autoindex_app_saved_content_1",
+        "type": "index",
+        "pages": 16,
+        "bytes": 65536,
+        "table": "app_saved_content",
+        "definition": null
+      },
+      {
+        "name": "sqlite_schema",
+        "type": "table",
+        "pages": 11,
+        "bytes": 45056,
+        "rows": 206,
+        "columnBytes": {
+          "type": 1030,
+          "name": 4886,
+          "tbl_name": 3304,
+          "rootpage": 515,
+          "sql": 24903
+        }
+      },
+      {
+        "name": "app_heads",
+        "type": "table",
+        "pages": 4,
+        "bytes": 16384,
+        "rows": 101,
+        "columnBytes": {
+          "owner_id": 1709,
+          "kind": 1212,
+          "id": 700,
+          "revision": 101,
+          "object_hash": 6464,
+          "updated_at": 1313
+        }
+      },
+      {
+        "name": "_cf_METADATA",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 1,
+        "columnBytes": {
+          "key": 1,
+          "value": 4
+        }
+      },
+      {
+        "name": "nfl_teams",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 32,
+        "columnBytes": {
+          "id": 89,
+          "abbr": 89
+        }
+      },
+      {
+        "name": "sqlite_autoindex_nfl_teams_1",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "nfl_teams",
+        "definition": null
+      },
+      {
+        "name": "sqlite_autoindex_nfl_teams_2",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "nfl_teams",
+        "definition": null
+      },
+      {
+        "name": "content_sources",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "id": 0,
+          "team_id": 0,
+          "league_wide": 0,
+          "enabled": 0,
+          "platform": 0,
+          "priority": 0,
+          "next_check_at": 0,
+          "last_successful_at": 0,
+          "definition_hash": 0,
+          "record_json": 0
+        }
+      },
+      {
+        "name": "sqlite_autoindex_content_sources_1",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "content_sources",
+        "definition": null
+      },
+      {
+        "name": "sources_due",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "content_sources",
+        "definition": "CREATE INDEX sources_due ON content_sources(enabled,next_check_at,priority DESC,id)"
+      },
+      {
+        "name": "source_teams",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "source_id": 0,
+          "team_id": 0
+        }
+      },
+      {
+        "name": "sqlite_autoindex_source_teams_1",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "source_teams",
+        "definition": null
+      },
+      {
+        "name": "source_teams_team",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "source_teams",
+        "definition": "CREATE INDEX source_teams_team ON source_teams(team_id,source_id)"
+      },
+      {
+        "name": "content_candidates",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "id": 0,
+          "source_id": 0,
+          "external_id": 0,
+          "canonical_url": 0,
+          "fingerprint": 0,
+          "status": 0,
+          "published_at": 0,
+          "discovered_at": 0,
+          "record_json": 0,
+          "revision": 0
+        }
+      },
+      {
+        "name": "sqlite_autoindex_content_candidates_1",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "content_candidates",
+        "definition": null
+      },
+      {
+        "name": "sqlite_autoindex_content_candidates_2",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "content_candidates",
+        "definition": null
+      },
+      {
+        "name": "sqlite_autoindex_content_candidates_3",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "content_candidates",
+        "definition": null
+      },
+      {
+        "name": "sqlite_autoindex_content_candidates_4",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "content_candidates",
+        "definition": null
+      },
+      {
+        "name": "candidates_fingerprint",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "content_candidates",
+        "definition": "CREATE INDEX candidates_fingerprint ON content_candidates(fingerprint)"
+      },
+      {
+        "name": "candidates_source_time",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "content_candidates",
+        "definition": "CREATE INDEX candidates_source_time ON content_candidates(source_id,published_at DESC,id)"
+      },
+      {
+        "name": "candidate_teams",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "candidate_id": 0,
+          "team_id": 0
+        }
+      },
+      {
+        "name": "sqlite_autoindex_candidate_teams_1",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "candidate_teams",
+        "definition": null
+      },
+      {
+        "name": "candidate_teams_team",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "candidate_teams",
+        "definition": "CREATE INDEX candidate_teams_team ON candidate_teams(team_id,candidate_id)"
+      },
+      {
+        "name": "canonical_stories",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "id": 0,
+          "team_id": 0,
+          "story_type": 0,
+          "publication_state": 0,
+          "status": 0,
+          "headline": 0,
+          "summary": 0,
+          "importance_score": 0,
+          "confidence_score": 0,
+          "first_reported_at": 0,
+          "meaningful_update_at": 0,
+          "latest_evidence_at": 0,
+          "hot_read_until": 0,
+          "game_id": 0,
+          "version": 0,
+          "content_hash": 0,
+          "record_json": 0
+        }
+      },
+      {
+        "name": "sqlite_autoindex_canonical_stories_1",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "canonical_stories",
+        "definition": null
+      },
+      {
+        "name": "stories_feed",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "canonical_stories",
+        "definition": "CREATE INDEX stories_feed ON canonical_stories(team_id,publication_state,meaningful_update_at DESC,latest_evidence_at DESC,id DESC)"
+      },
+      {
+        "name": "stories_first_report",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "canonical_stories",
+        "definition": "CREATE INDEX stories_first_report ON canonical_stories(team_id,first_reported_at DESC,id DESC)"
+      },
+      {
+        "name": "stories_importance",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "canonical_stories",
+        "definition": "CREATE INDEX stories_importance ON canonical_stories(team_id,importance_score DESC,meaningful_update_at DESC,id DESC)"
+      },
+      {
+        "name": "story_entities",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "entity_key": 0,
+          "story_id": 0
+        }
+      },
+      {
+        "name": "sqlite_autoindex_story_entities_1",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "story_entities",
+        "definition": null
+      },
+      {
+        "name": "story_evidence",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "id": 0,
+          "story_id": 0,
+          "content_candidate_id": 0,
+          "source_id": 0,
+          "first_seen_at": 0,
+          "record_json": 0,
+          "candidate_revision": 0
+        }
+      },
+      {
+        "name": "sqlite_autoindex_story_evidence_1",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "story_evidence",
+        "definition": null
+      },
+      {
+        "name": "sqlite_autoindex_story_evidence_2",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "story_evidence",
+        "definition": null
+      },
+      {
+        "name": "evidence_story",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "story_evidence",
+        "definition": "CREATE INDEX evidence_story ON story_evidence(story_id,first_seen_at,id)"
+      },
+      {
+        "name": "evidence_candidate",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "story_evidence",
+        "definition": "CREATE INDEX evidence_candidate ON story_evidence(content_candidate_id)"
+      },
+      {
+        "name": "story_versions",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "id": 0,
+          "story_id": 0,
+          "version": 0,
+          "created_at": 0,
+          "record_json": 0
+        }
+      },
+      {
+        "name": "sqlite_autoindex_story_versions_1",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "story_versions",
+        "definition": null
+      },
+      {
+        "name": "sqlite_autoindex_story_versions_2",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "story_versions",
+        "definition": null
+      },
+      {
+        "name": "story_publication_decisions",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "id": 0,
+          "story_id": 0,
+          "story_version": 0,
+          "record_json": 0
+        }
+      },
+      {
+        "name": "sqlite_autoindex_story_publication_decisions_1",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "story_publication_decisions",
+        "definition": null
+      },
+      {
+        "name": "sqlite_autoindex_story_publication_decisions_2",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "story_publication_decisions",
+        "definition": null
+      },
+      {
+        "name": "story_editorial_overrides",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "id": 0,
+          "story_id": 0,
+          "team_id": 0,
+          "surface": 0,
+          "active": 0,
+          "expires_at": 0,
+          "record_json": 0
+        }
+      },
+      {
+        "name": "sqlite_autoindex_story_editorial_overrides_1",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "story_editorial_overrides",
+        "definition": null
+      },
+      {
+        "name": "overrides_active",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "story_editorial_overrides",
+        "definition": "CREATE INDEX overrides_active ON story_editorial_overrides(team_id,surface,active,expires_at)"
+      },
+      {
+        "name": "story_domain_events",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "id": 0,
+          "story_id": 0,
+          "story_version": 0,
+          "event_type": 0,
+          "idempotency_key": 0,
+          "occurred_at": 0,
+          "record_json": 0
+        }
+      },
+      {
+        "name": "sqlite_autoindex_story_domain_events_1",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "story_domain_events",
+        "definition": null
+      },
+      {
+        "name": "sqlite_autoindex_story_domain_events_2",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "story_domain_events",
+        "definition": null
+      },
+      {
+        "name": "editorial_cards",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "id": 0,
+          "story_id": 0,
+          "story_version": 0,
+          "schema_version": 0,
+          "descriptor_json": 0
+        }
+      },
+      {
+        "name": "sqlite_autoindex_editorial_cards_1",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "editorial_cards",
+        "definition": null
+      },
+      {
+        "name": "sqlite_autoindex_editorial_cards_2",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "editorial_cards",
+        "definition": null
+      },
+      {
+        "name": "video_source_registry",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "id": 0,
+          "source_id": 0,
+          "channel_id": 0,
+          "status": 0,
+          "record_json": 0
+        }
+      },
+      {
+        "name": "sqlite_autoindex_video_source_registry_1",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "video_source_registry",
+        "definition": null
+      },
+      {
+        "name": "sqlite_autoindex_video_source_registry_2",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "video_source_registry",
+        "definition": null
+      },
+      {
+        "name": "film_room_videos",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "video_id": 0,
+          "source_id": 0,
+          "published_at": 0,
+          "metadata_checked_at": 0,
+          "availability": 0,
+          "content_hash": 0,
+          "record_json": 0
+        }
+      },
+      {
+        "name": "sqlite_autoindex_film_room_videos_1",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "film_room_videos",
+        "definition": null
+      },
+      {
+        "name": "film_room_video_teams",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "team_id": 0,
+          "video_id": 0
+        }
+      },
+      {
+        "name": "sqlite_autoindex_film_room_video_teams_1",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "film_room_video_teams",
+        "definition": null
+      },
+      {
+        "name": "videos_published",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "film_room_videos",
+        "definition": "CREATE INDEX videos_published ON film_room_videos(published_at DESC,video_id)"
+      },
+      {
+        "name": "three_and_out_snapshots",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "id": 0,
+          "team_id": 0,
+          "briefing_date": 0,
+          "status": 0,
+          "generated_at": 0,
+          "source_fingerprint": 0,
+          "record_json": 0
+        }
+      },
+      {
+        "name": "sqlite_autoindex_three_and_out_snapshots_1",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "three_and_out_snapshots",
+        "definition": null
+      },
+      {
+        "name": "edition_team_date",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "three_and_out_snapshots",
+        "definition": "CREATE UNIQUE INDEX edition_team_date ON three_and_out_snapshots(team_id,briefing_date)\n  WHERE briefing_date IS NOT NULL AND status='PUBLISHED'"
+      },
+      {
+        "name": "editions_archive",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "three_and_out_snapshots",
+        "definition": "CREATE INDEX editions_archive ON three_and_out_snapshots(team_id,briefing_date DESC,id)"
+      },
+      {
+        "name": "public_schedule",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "game_id": 0,
+          "season": 0,
+          "updated_at": 0,
+          "projection_version": 0,
+          "record_json": 0
+        }
+      },
+      {
+        "name": "sqlite_autoindex_public_schedule_1",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "public_schedule",
+        "definition": null
+      },
+      {
+        "name": "ingestion_jobs",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "id": 0,
+          "job_type": 0,
+          "idempotency_key": 0,
+          "status": 0,
+          "source_id": 0,
+          "candidate_id": 0,
+          "team_id": 0,
+          "available_at": 0,
+          "attempts": 0,
+          "max_attempts": 0,
+          "lease_token": 0,
+          "lease_until": 0,
+          "owner_epoch": 0,
+          "payload_json": 0,
+          "last_error_code": 0,
+          "created_at": 0,
+          "updated_at": 0
+        }
+      },
+      {
+        "name": "sqlite_autoindex_ingestion_jobs_1",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "ingestion_jobs",
+        "definition": null
+      },
+      {
+        "name": "sqlite_autoindex_ingestion_jobs_2",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "ingestion_jobs",
+        "definition": null
+      },
+      {
+        "name": "jobs_due",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "ingestion_jobs",
+        "definition": "CREATE INDEX jobs_due ON ingestion_jobs(status,available_at,team_id,id)"
+      },
+      {
+        "name": "jobs_leases",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "ingestion_jobs",
+        "definition": "CREATE INDEX jobs_leases ON ingestion_jobs(status,lease_until)"
+      },
+      {
+        "name": "content_outbox",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "event_id": 0,
+          "aggregate_id": 0,
+          "aggregate_version": 0,
+          "event_type": 0,
+          "payload_json": 0,
+          "available_at": 0,
+          "attempts": 0,
+          "acknowledged_at": 0
+        }
+      },
+      {
+        "name": "sqlite_autoindex_content_outbox_1",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "content_outbox",
+        "definition": null
+      },
+      {
+        "name": "sqlite_autoindex_content_outbox_2",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "content_outbox",
+        "definition": null
+      },
+      {
+        "name": "outbox_due",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "content_outbox",
+        "definition": "CREATE INDEX outbox_due ON content_outbox(acknowledged_at,available_at,event_id)"
+      },
+      {
+        "name": "content_control",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 1,
+        "columnBytes": {
+          "key": 12,
+          "version": 1,
+          "value_json": 11
+        }
+      },
+      {
+        "name": "sqlite_autoindex_content_control_1",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "content_control",
+        "definition": null
+      },
+      {
+        "name": "content_run_log",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "id": 0,
+          "kind": 0,
+          "occurred_at": 0,
+          "record_json": 0
+        }
+      },
+      {
+        "name": "sqlite_autoindex_content_run_log_1",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "content_run_log",
+        "definition": null
+      },
+      {
+        "name": "run_log_time",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "content_run_log",
+        "definition": "CREATE INDEX run_log_time ON content_run_log(kind,occurred_at,id)"
+      },
+      {
+        "name": "observer_run_items",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "run_id": 0,
+          "candidate_id": 0,
+          "record_json": 0
+        }
+      },
+      {
+        "name": "sqlite_autoindex_observer_run_items_1",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "observer_run_items",
+        "definition": null
+      },
+      {
+        "name": "observer_run_events",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "run_id": 0,
+          "story_id": 0,
+          "story_version": 0,
+          "record_json": 0
+        }
+      },
+      {
+        "name": "sqlite_autoindex_observer_run_events_1",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "observer_run_events",
+        "definition": null
+      },
+      {
+        "name": "transaction_assertions",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "token": 0,
+          "value": 0
+        }
+      },
+      {
+        "name": "sqlite_autoindex_transaction_assertions_1",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "transaction_assertions",
+        "definition": null
+      },
+      {
+        "name": "source_checks",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "id": 0,
+          "source_id": 0,
+          "attempted_at": 0,
+          "successful": 0,
+          "record_json": 0
+        }
+      },
+      {
+        "name": "sqlite_autoindex_source_checks_1",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "source_checks",
+        "definition": null
+      },
+      {
+        "name": "checks_source_time",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "source_checks",
+        "definition": "CREATE INDEX checks_source_time ON source_checks(source_id,attempted_at DESC,id)"
+      },
+      {
+        "name": "source_checkpoints",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "source_id": 0,
+          "last_attempt_at": 0,
+          "last_successful_at": 0,
+          "etag": 0,
+          "last_modified": 0,
+          "cursor_json": 0
+        }
+      },
+      {
+        "name": "sqlite_autoindex_source_checkpoints_1",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "source_checkpoints",
+        "definition": null
+      },
+      {
+        "name": "videos_available_time",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "film_room_videos",
+        "definition": "CREATE INDEX videos_available_time ON film_room_videos(availability,published_at DESC,video_id DESC)"
+      },
+      {
+        "name": "editions_published",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "three_and_out_snapshots",
+        "definition": "CREATE INDEX editions_published ON three_and_out_snapshots(team_id,status,generated_at DESC,id DESC)"
+      },
+      {
+        "name": "jobs_claim",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "ingestion_jobs",
+        "definition": "CREATE INDEX jobs_claim ON ingestion_jobs(owner_epoch,status,available_at,id)"
+      },
+      {
+        "name": "jobs_reclaim",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "ingestion_jobs",
+        "definition": "CREATE INDEX jobs_reclaim ON ingestion_jobs(owner_epoch,status,lease_until,id)"
+      },
+      {
+        "name": "content_candidate_revisions",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "candidate_id": 0,
+          "revision": 0,
+          "content_hash": 0,
+          "observed_at": 0,
+          "record_json": 0
+        }
+      },
+      {
+        "name": "sqlite_autoindex_content_candidate_revisions_1",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "content_candidate_revisions",
+        "definition": null
+      },
+      {
+        "name": "story_entities_story",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "story_entities",
+        "definition": "CREATE INDEX story_entities_story ON story_entities(story_id,entity_key)"
+      },
+      {
+        "name": "video_teams_video",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "film_room_video_teams",
+        "definition": "CREATE INDEX video_teams_video ON film_room_video_teams(video_id,team_id)"
+      },
+      {
+        "name": "stories_team_page",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "canonical_stories",
+        "definition": "CREATE INDEX stories_team_page ON canonical_stories(team_id,publication_state,meaningful_update_at DESC,id DESC)"
+      },
+      {
+        "name": "sources_national",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "content_sources",
+        "definition": "CREATE INDEX sources_national ON content_sources(league_wide,id)"
+      },
+      {
+        "name": "jobs_exhausted",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "ingestion_jobs",
+        "definition": "CREATE INDEX jobs_exhausted ON ingestion_jobs(owner_epoch,status,available_at,lease_until,id) WHERE attempts>=max_attempts"
+      },
+      {
+        "name": "editorial_blobs",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "hash": 0,
+          "codec": 0,
+          "byte_length": 0,
+          "body": 0,
+          "fragment_count": 0,
+          "pack_id": 0,
+          "byte_offset": 0,
+          "encoded_length": 0
+        }
+      },
+      {
+        "name": "archive_chunks",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "chunk_id": 0,
+          "kind": 0,
+          "day": 0,
+          "payload_json": 0,
+          "record_count": 0
+        }
+      },
+      {
+        "name": "archive_records",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "kind": 0,
+          "id": 0,
+          "chunk_id": 0,
+          "ordinal": 0,
+          "dedupe_key": 0
+        }
+      },
+      {
+        "name": "sqlite_autoindex_archive_records_2",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "archive_records",
+        "definition": null
+      },
+      {
+        "name": "source_check_daily",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "source_id": 0,
+          "day": 0,
+          "checks": 0,
+          "successes": 0,
+          "first_attempt_at": 0,
+          "last_attempt_at": 0
+        }
+      },
+      {
+        "name": "jobs_archive_ready",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "ingestion_jobs",
+        "definition": "CREATE INDEX jobs_archive_ready ON ingestion_jobs(status,updated_at,id)"
+      },
+      {
+        "name": "checks_archive_ready",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "source_checks",
+        "definition": "CREATE INDEX checks_archive_ready ON source_checks(attempted_at,id)"
+      },
+      {
+        "name": "editorial_blob_fragments",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "hash": 0,
+          "part": 0,
+          "body": 0
+        }
+      },
+      {
+        "name": "r2_archive_manifests",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "id": 0,
+          "object_key": 0,
+          "object_hash": 0,
+          "raw_hash": 0,
+          "codec": 0,
+          "schema_version": 0,
+          "codec_version": 0,
+          "record_count": 0,
+          "object_bytes": 0,
+          "raw_bytes": 0,
+          "state": 0,
+          "created_at": 0,
+          "verified_at": 0,
+          "recovery_until": 0
+        }
+      },
+      {
+        "name": "sqlite_autoindex_r2_archive_manifests_1",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "r2_archive_manifests",
+        "definition": null
+      },
+      {
+        "name": "sqlite_autoindex_r2_archive_manifests_2",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "r2_archive_manifests",
+        "definition": null
+      },
+      {
+        "name": "r2_archive_records",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "kind": 0,
+          "record_id": 0,
+          "revision": 0,
+          "manifest_id": 0,
+          "ordinal": 0,
+          "value_hash": 0,
+          "original_json": 0,
+          "pointer_json": 0
+        }
+      },
+      {
+        "name": "r2_archive_members",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "r2_archive_records",
+        "definition": "CREATE INDEX r2_archive_members ON r2_archive_records(manifest_id,ordinal)"
+      },
+      {
+        "name": "editorial_blob_packs",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "id": 0,
+          "pack_hash": 0
+        }
+      },
+      {
+        "name": "sqlite_autoindex_editorial_blob_packs_1",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "editorial_blob_packs",
+        "definition": null
+      },
+      {
+        "name": "lean_heads",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "strategy": 0,
+          "kind": 0,
+          "id": 0,
+          "revision": 0,
+          "content_hash": 0,
+          "object_hash": 0,
+          "headline": 0,
+          "category": 0,
+          "source_id": 0,
+          "published_at": 0
+        }
+      },
+      {
+        "name": "lean_versions",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "strategy": 0,
+          "kind": 0,
+          "id": 0,
+          "revision": 0,
+          "object_hash": 0,
+          "headline": 0,
+          "category": 0,
+          "source_id": 0,
+          "published_at": 0,
+          "inline_json": 0
+        }
+      },
+      {
+        "name": "lean_history_source",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "lean_versions",
+        "definition": "CREATE INDEX lean_history_source ON lean_versions(strategy,source_id,published_at DESC,kind,id,revision)"
+      },
+      {
+        "name": "lean_teams",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "strategy": 0,
+          "kind": 0,
+          "id": 0,
+          "team_id": 0,
+          "published_at": 0
+        }
+      },
+      {
+        "name": "lean_hot_due",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "lean_versions",
+        "definition": "CREATE INDEX lean_hot_due ON lean_versions(strategy,published_at,kind,id,revision) WHERE inline_json IS NOT NULL"
+      },
+      {
+        "name": "lean_receipts",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "strategy": 0,
+          "kind": 0,
+          "id": 0,
+          "dedupe_key": 0,
+          "object_hash": 0
+        }
+      },
+      {
+        "name": "sqlite_autoindex_lean_receipts_2",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "lean_receipts",
+        "definition": null
+      },
+      {
+        "name": "lean_teams_identity",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "lean_teams",
+        "definition": "CREATE INDEX lean_teams_identity ON lean_teams(strategy,kind,id)"
+      },
+      {
+        "name": "odds_refresh_slots",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "slot": 0,
+          "token": 0,
+          "state": 0,
+          "started_at": 0,
+          "finished_at": 0,
+          "summary_json": 0
+        }
+      },
+      {
+        "name": "app_identities",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "id": 0,
+          "user_id": 0,
+          "provider": 0,
+          "provider_subject": 0,
+          "provider_email": 0,
+          "provider_email_verified": 0,
+          "provider_display_name": 0,
+          "created_at": 0,
+          "last_used_at": 0
+        }
+      },
+      {
+        "name": "sqlite_autoindex_app_identities_1",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "app_identities",
+        "definition": null
+      },
+      {
+        "name": "sqlite_autoindex_app_identities_2",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "app_identities",
+        "definition": null
+      },
+      {
+        "name": "app_identity_owner",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "app_identities",
+        "definition": "CREATE INDEX app_identity_owner ON app_identities(user_id)"
+      },
+      {
+        "name": "app_devices",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "id": 0,
+          "user_id": 0,
+          "name": 0,
+          "last_seen_at": 0
+        }
+      },
+      {
+        "name": "sqlite_autoindex_app_devices_1",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "app_devices",
+        "definition": null
+      },
+      {
+        "name": "app_tokens",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "id": 0,
+          "user_id": 0,
+          "type": 0,
+          "token_hash": 0,
+          "expires_at": 0,
+          "consumed_at": 0,
+          "consume_nonce": 0
+        }
+      },
+      {
+        "name": "sqlite_autoindex_app_tokens_1",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "app_tokens",
+        "definition": null
+      },
+      {
+        "name": "sqlite_autoindex_app_tokens_2",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "app_tokens",
+        "definition": null
+      },
+      {
+        "name": "app_token_owner",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "app_tokens",
+        "definition": "CREATE INDEX app_token_owner ON app_tokens(user_id,type)"
+      },
+      {
+        "name": "app_assertions",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "nonce": 0,
+          "ok": 0
+        }
+      },
+      {
+        "name": "sqlite_autoindex_app_assertions_1",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "app_assertions",
+        "definition": null
+      },
+      {
+        "name": "app_imports",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "source_table": 0,
+          "row_key": 0,
+          "object_hash": 0
+        }
+      },
+      {
+        "name": "app_mail",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "id": 0,
+          "user_id": 0,
+          "purpose": 0,
+          "dedupe_key": 0,
+          "object_hash": 0,
+          "status": 0,
+          "next_at": 0,
+          "lease_nonce": 0,
+          "attempts": 0,
+          "first_attempt_at": 0,
+          "provider_id": 0,
+          "last_error": 0
+        }
+      },
+      {
+        "name": "sqlite_autoindex_app_mail_1",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "app_mail",
+        "definition": null
+      },
+      {
+        "name": "sqlite_autoindex_app_mail_2",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "app_mail",
+        "definition": null
+      },
+      {
+        "name": "app_mail_due",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "app_mail",
+        "definition": "CREATE INDEX app_mail_due ON app_mail(status,next_at)"
+      },
+      {
+        "name": "app_limits",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "bucket": 0,
+          "used": 0
+        }
+      },
+      {
+        "name": "app_subscriptions",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "user_id": 0,
+          "topic": 0,
+          "enabled": 0,
+          "updated_at": 0
+        }
+      },
+      {
+        "name": "app_ai_cache",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "cache_key": 0,
+          "object_hash": 0,
+          "source_version": 0,
+          "expires_at": 0,
+          "lease_nonce": 0,
+          "lease_until": 0
+        }
+      },
+      {
+        "name": "app_search_data",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 2,
+        "columnBytes": {
+          "id": 3,
+          "block": 7
+        }
+      },
+      {
+        "name": "app_search_idx",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "segid": 0,
+          "term": 0,
+          "pgno": 0
+        }
+      },
+      {
+        "name": "app_search_content",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "id": 0,
+          "c0": 0,
+          "c1": 0,
+          "c2": 0,
+          "c3": 0,
+          "c4": 0,
+          "c5": 0
+        }
+      },
+      {
+        "name": "app_search_docsize",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "id": 0,
+          "sz": 0
+        }
+      },
+      {
+        "name": "app_search_config",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 1,
+        "columnBytes": {
+          "k": 7,
+          "v": 1
+        }
+      },
+      {
+        "name": "app_team_follows",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "id": 0,
+          "user_id": 0,
+          "team_id": 0,
+          "is_primary": 0,
+          "notification_level": 0,
+          "created_at": 0
+        }
+      },
+      {
+        "name": "sqlite_autoindex_app_team_follows_1",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "app_team_follows",
+        "definition": null
+      },
+      {
+        "name": "sqlite_autoindex_app_team_follows_2",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "app_team_follows",
+        "definition": null
+      },
+      {
+        "name": "app_one_primary_team",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "app_team_follows",
+        "definition": "CREATE UNIQUE INDEX app_one_primary_team ON app_team_follows(user_id) WHERE is_primary=1"
+      },
+      {
+        "name": "app_odds_publication",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "id": 0,
+          "slot": 0,
+          "object_hash": 0,
+          "completed_at": 0,
+          "coverage": 0
+        }
+      },
+      {
+        "name": "sqlite_autoindex_app_odds_publication_1",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "app_odds_publication",
+        "definition": null
+      },
+      {
+        "name": "app_security_audit",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "id": 0,
+          "user_id": 0,
+          "event_type": 0,
+          "ip_hash": 0,
+          "user_agent_family": 0,
+          "metadata_hash": 0,
+          "created_at": 0
+        }
+      },
+      {
+        "name": "sqlite_autoindex_app_security_audit_1",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "app_security_audit",
+        "definition": null
+      },
+      {
+        "name": "app_security_audit_owner",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "app_security_audit",
+        "definition": "CREATE INDEX app_security_audit_owner ON app_security_audit(user_id,created_at DESC)"
+      },
+      {
+        "name": "app_token_expiry",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "app_tokens",
+        "definition": "CREATE INDEX app_token_expiry ON app_tokens(expires_at,id) WHERE consumed_at IS NOT NULL"
+      },
+      {
+        "name": "app_ai_expiry",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "app_ai_cache",
+        "definition": "CREATE INDEX app_ai_expiry ON app_ai_cache(expires_at,cache_key)"
+      },
+      {
+        "name": "app_history_packs",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "id": 0,
+          "kind": 0,
+          "object_hash": 0,
+          "rows": 0,
+          "created_at": 0
+        }
+      },
+      {
+        "name": "app_application_settings",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "key": 0,
+          "value_json": 0,
+          "version": 0
+        }
+      },
+      {
+        "name": "app_trivia_questions",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "id": 0,
+          "team_id": 0,
+          "question": 0,
+          "answer_a": 0,
+          "answer_b": 0,
+          "answer_c": 0,
+          "answer_d": 0,
+          "correct_answer": 0,
+          "explanation": 0,
+          "category": 0,
+          "verified": 0,
+          "active": 0
+        }
+      },
+      {
+        "name": "sqlite_autoindex_app_trivia_questions_1",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "app_trivia_questions",
+        "definition": null
+      },
+      {
+        "name": "app_trivia_pool",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "app_trivia_questions",
+        "definition": "CREATE INDEX app_trivia_pool ON app_trivia_questions(team_id,active,verified,id)"
+      },
+      {
+        "name": "app_trivia_daily",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "id": 0,
+          "team_id": 0,
+          "question_date": 0,
+          "question_id": 0
+        }
+      },
+      {
+        "name": "sqlite_autoindex_app_trivia_daily_1",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "app_trivia_daily",
+        "definition": null
+      },
+      {
+        "name": "sqlite_autoindex_app_trivia_daily_2",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "app_trivia_daily",
+        "definition": null
+      },
+      {
+        "name": "app_trivia_views",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "user_id": 0,
+          "daily_id": 0,
+          "presented_at": 0
+        }
+      },
+      {
+        "name": "app_trivia_answers",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "id": 0,
+          "user_id": 0,
+          "daily_id": 0,
+          "question_id": 0,
+          "selected_answer": 0,
+          "correct": 0,
+          "response_time_ms": 0,
+          "points_awarded": 0,
+          "answered_at": 0
+        }
+      },
+      {
+        "name": "sqlite_autoindex_app_trivia_answers_1",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "app_trivia_answers",
+        "definition": null
+      },
+      {
+        "name": "sqlite_autoindex_app_trivia_answers_2",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "app_trivia_answers",
+        "definition": null
+      },
+      {
+        "name": "app_trivia_stats",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "user_id": 0,
+          "lifetime_points": 0,
+          "weekly_points": 0,
+          "questions_answered": 0,
+          "correct_answers": 0,
+          "games_played": 0,
+          "current_streak": 0,
+          "best_streak": 0
+        }
+      },
+      {
+        "name": "sqlite_autoindex_app_trivia_stats_1",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "app_trivia_stats",
+        "definition": null
+      },
+      {
+        "name": "app_reward_accounts",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "user_id": 0,
+          "current_drive_yards": 0,
+          "touchdowns": 0,
+          "lifetime_yards": 0,
+          "version": 0
+        }
+      },
+      {
+        "name": "sqlite_autoindex_app_reward_accounts_1",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "app_reward_accounts",
+        "definition": null
+      },
+      {
+        "name": "app_reward_events",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "id": 0,
+          "user_id": 0,
+          "event_type": 0,
+          "yards": 0,
+          "source_type": 0,
+          "source_id": 0,
+          "idempotency_key": 0,
+          "created_at": 0
+        }
+      },
+      {
+        "name": "sqlite_autoindex_app_reward_events_1",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "app_reward_events",
+        "definition": null
+      },
+      {
+        "name": "sqlite_autoindex_app_reward_events_2",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "app_reward_events",
+        "definition": null
+      },
+      {
+        "name": "app_reward_history",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "app_reward_events",
+        "definition": "CREATE INDEX app_reward_history ON app_reward_events(user_id,created_at DESC,id)"
+      },
+      {
+        "name": "app_reward_definitions",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "id": 0,
+          "type": 0,
+          "title": 0,
+          "description": 0,
+          "threshold_yards": 0,
+          "discount_percent": 0,
+          "active": 0
+        }
+      },
+      {
+        "name": "sqlite_autoindex_app_reward_definitions_1",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "app_reward_definitions",
+        "definition": null
+      },
+      {
+        "name": "app_user_rewards",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "id": 0,
+          "user_id": 0,
+          "reward_definition_id": 0,
+          "status": 0,
+          "unlocked_at": 0,
+          "claimed_at": 0,
+          "redeemed_at": 0,
+          "coupon_code": 0
+        }
+      },
+      {
+        "name": "sqlite_autoindex_app_user_rewards_1",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "app_user_rewards",
+        "definition": null
+      },
+      {
+        "name": "sqlite_autoindex_app_user_rewards_2",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "app_user_rewards",
+        "definition": null
+      },
+      {
+        "name": "sqlite_autoindex_app_user_rewards_3",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "app_user_rewards",
+        "definition": null
+      },
+      {
+        "name": "app_reward_notifications",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "id": 0,
+          "user_id": 0,
+          "reward_id": 0,
+          "created_at": 0
+        }
+      },
+      {
+        "name": "sqlite_autoindex_app_reward_notifications_1",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "app_reward_notifications",
+        "definition": null
+      },
+      {
+        "name": "sqlite_autoindex_app_reward_notifications_2",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "app_reward_notifications",
+        "definition": null
+      },
+      {
+        "name": "app_odds_history",
+        "type": "table",
+        "pages": 1,
+        "bytes": 4096,
+        "rows": 0,
+        "columnBytes": {
+          "id": 0,
+          "provider_event_id": 0,
+          "as_of": 0,
+          "object_hash": 0
+        }
+      },
+      {
+        "name": "sqlite_autoindex_app_odds_history_2",
+        "type": "index",
+        "pages": 1,
+        "bytes": 4096,
+        "table": "app_odds_history",
+        "definition": null
+      }
+    ]
+  },
+  "r2": {
+    "source": {
+      "reads": 12087,
+      "writes": 0,
+      "lists": 10,
+      "bytesWritten": 0
+    },
+    "backup": {
+      "reads": 12846,
+      "writes": 1603,
+      "lists": 0,
+      "bytesWritten": 1478224
+    },
+    "target": {
+      "reads": 9663,
+      "writes": 1603,
+      "lists": 0,
+      "bytesWritten": 1478224
+    },
+    "directoryPhysicalBytes": 523133,
+    "directoryWrites": 27
+  },
+  "faults": [
+    "partial-backup",
+    "interrupted-restore"
+  ],
+  "allOriginalUserIdsPreserved": true
+}

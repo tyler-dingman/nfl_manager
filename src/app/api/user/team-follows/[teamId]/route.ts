@@ -3,7 +3,9 @@ import { authError, assertSameOrigin } from '@/server/auth/http';
 import { currentUser } from '@/server/auth/request';
 import { unfollowTeam } from '@/server/user/repository';
 import { teamIdSchema } from '@/server/user/validation';
-export async function DELETE(r: NextRequest, { params }: { params: { teamId: string } }) {
+export async function DELETE(r: NextRequest, { params: asyncparams }: { params: Promise<{ teamId: string }> }) {
+const params = await asyncparams;
+
   try {
     assertSameOrigin(r);
     const u = await currentUser(r);

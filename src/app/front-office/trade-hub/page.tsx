@@ -4,11 +4,13 @@ import { FrontOfficeStrategicHero } from '@/components/front-office/front-office
 import { FrontOfficeSectionNav } from '@/components/front-office/front-office-section-nav';
 import { TradeHubPage } from '@/components/front-office/trade-hub/TradeHubPage';
 
-export default function TradeHubRoute({
-  searchParams,
+export default async function TradeHubRoute({
+  searchParams: asyncsearchParams,
 }: {
-  searchParams?: { context?: string; playerId?: string; partnerTeamAbbr?: string };
+  searchParams?: Promise<{ context?: string; playerId?: string; partnerTeamAbbr?: string }>;
 }) {
+const searchParams = await asyncsearchParams;
+
   const rosterContext = searchParams?.context === 'roster';
   return (
     <AppShell>

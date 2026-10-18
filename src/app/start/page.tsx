@@ -1,10 +1,11 @@
 import { redirect } from 'next/navigation';
 
-export default function StartRedirect({
-  searchParams,
+export default async function StartRedirect({
+  searchParams: pendingSearchParams,
 }: {
-  searchParams?: Record<string, string | string[]>;
+  searchParams?: Promise<Record<string, string | string[]>>;
 }) {
+  const searchParams = await pendingSearchParams;
   const params = new URLSearchParams();
   if (searchParams) {
     Object.entries(searchParams).forEach(([key, value]) => {

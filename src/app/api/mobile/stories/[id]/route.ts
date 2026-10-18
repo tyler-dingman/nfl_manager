@@ -4,7 +4,9 @@ import { getContentDetail } from '@/server/content/content-detail';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET(_request: Request, { params }: { params: { id: string } }) {
+export async function GET(_request: Request, { params: asyncparams }: { params: Promise<{ id: string }> }) {
+const params = await asyncparams;
+
   const story = await getPublicStoryById(params.id);
   if (story)
     return NextResponse.json({

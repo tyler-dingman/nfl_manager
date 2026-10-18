@@ -3,7 +3,9 @@ import { NextResponse } from 'next/server';
 
 import { removeTradeAsset } from '@/server/api/trades';
 
-const handlePOST = async (request: Request, { params }: { params: { id: string } }) => {
+const handlePOST = async (request: Request, { params: asyncparams }: { params: Promise<{ id: string }> }) => {
+const params = await asyncparams;
+
   try {
     const body = (await request.json()) as {
       side?: 'send' | 'receive';

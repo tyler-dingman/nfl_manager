@@ -4,7 +4,9 @@ import { assertSameOrigin, authError } from '@/server/auth/http';
 import { currentUser } from '@/server/auth/request';
 import { getGroupRoomByToken, joinGroupByToken } from '@/server/trivia/social-repository';
 
-export async function GET(request: NextRequest, { params }: { params: { token: string } }) {
+export async function GET(request: NextRequest, { params: asyncparams }: { params: Promise<{ token: string }> }) {
+const params = await asyncparams;
+
   try {
     const user = await currentUser(request);
     if (!user) return authError('Sign in to join this Trivia game.', 401);
@@ -14,7 +16,9 @@ export async function GET(request: NextRequest, { params }: { params: { token: s
   }
 }
 
-export async function POST(request: NextRequest, { params }: { params: { token: string } }) {
+export async function POST(request: NextRequest, { params: asyncparams }: { params: Promise<{ token: string }> }) {
+const params = await asyncparams;
+
   try {
     assertSameOrigin(request);
     const user = await currentUser(request);

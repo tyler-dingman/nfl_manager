@@ -1,0 +1,1106 @@
+   ▲ Next.js 15.5.28
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 8.8s
+   Linting and checking validity of types ...
+
+./src/app/account/[section]/page.tsx
+18:51  Warning: Replace `·params:·asyncparams·}:·{·params:·Promise<{·section:·string·}>·` with `⏎··params:·asyncparams,⏎}:·{⏎··params:·Promise<{·section:·string·}>;⏎`  prettier/prettier
+19:1  Warning: Insert `··`  prettier/prettier
+
+./src/app/api/admin/commerce/inventory/[variantId]/route.ts
+16:29  Warning: Replace `request:·NextRequest,·{·params:·asyncparams·}:·{·params:·Promise<{·variantId:·string·}>·}` with `⏎··request:·NextRequest,⏎··{·params:·asyncparams·}:·{·params:·Promise<{·variantId:·string·}>·},⏎`  prettier/prettier
+17:1  Warning: Insert `··`  prettier/prettier
+
+./src/app/api/admin/commerce/orders/[orderId]/refunds/route.ts
+19:28  Warning: Replace `request:·NextRequest,·{·params:·asyncparams·}:·{·params:·Promise<{·orderId:·string·}>·}` with `⏎··request:·NextRequest,⏎··{·params:·asyncparams·}:·{·params:·Promise<{·orderId:·string·}>·},⏎`  prettier/prettier
+20:1  Warning: Insert `··`  prettier/prettier
+
+./src/app/api/admin/commerce/orders/[orderId]/route.ts
+17:27  Warning: Replace `request:·NextRequest,·{·params:·asyncparams·}:·{·params:·Promise<{·orderId:·string·}>·}` with `⏎··request:·NextRequest,⏎··{·params:·asyncparams·}:·{·params:·Promise<{·orderId:·string·}>·},⏎`  prettier/prettier
+18:1  Warning: Insert `··`  prettier/prettier
+26:29  Warning: Replace `request:·NextRequest,·{·params:·asyncparams·}:·{·params:·Promise<{·orderId:·string·}>·}` with `⏎··request:·NextRequest,⏎··{·params:·asyncparams·}:·{·params:·Promise<{·orderId:·string·}>·},⏎`  prettier/prettier
+27:1  Warning: Insert `··`  prettier/prettier
+
+./src/app/api/admin/commerce/products/[productId]/route.ts
+13:29  Warning: Replace `request:·NextRequest,·{·params:·asyncparams·}:·{·params:·Promise<{·productId:·string·}>·}` with `⏎··request:·NextRequest,⏎··{·params:·asyncparams·}:·{·params:·Promise<{·productId:·string·}>·},⏎`  prettier/prettier
+14:1  Warning: Insert `··`  prettier/prettier
+
+./src/app/api/auth/identities/[identityId]/route.ts
+5:30  Warning: Replace `request:·NextRequest,·{·params:·asyncparams·}:·{·params:·Promise<{·identityId:·string·}>·}` with `⏎··request:·NextRequest,⏎··{·params:·asyncparams·}:·{·params:·Promise<{·identityId:·string·}>·},⏎`  prettier/prettier
+6:1  Warning: Insert `··`  prettier/prettier
+
+./src/app/api/auth/sessions/[sessionId]/route.ts
+5:30  Warning: Replace `request:·NextRequest,·{·params:·asyncparams·}:·{·params:·Promise<{·sessionId:·string·}>·}` with `⏎··request:·NextRequest,⏎··{·params:·asyncparams·}:·{·params:·Promise<{·sessionId:·string·}>·},⏎`  prettier/prettier
+6:1  Warning: Insert `··`  prettier/prettier
+
+./src/app/api/auth/social/[provider]/callback/route.ts
+69:27  Warning: Replace `request:·NextRequest,·{·params:·asyncparams·}:·{·params:·Promise<{·provider:·string·}>·}` with `⏎··request:·NextRequest,⏎··{·params:·asyncparams·}:·{·params:·Promise<{·provider:·string·}>·},⏎`  prettier/prettier
+70:1  Warning: Insert `··`  prettier/prettier
+74:28  Warning: Replace `request:·NextRequest,·{·params:·asyncparams·}:·{·params:·Promise<{·provider:·string·}>·}` with `⏎··request:·NextRequest,⏎··{·params:·asyncparams·}:·{·params:·Promise<{·provider:·string·}>·},⏎`  prettier/prettier
+75:1  Warning: Insert `··`  prettier/prettier
+
+./src/app/api/auth/social/[provider]/exchange/route.ts
+24:28  Warning: Replace `request:·NextRequest,·{·params:·asyncparams·}:·{·params:·Promise<{·provider:·string·}>·}` with `⏎··request:·NextRequest,⏎··{·params:·asyncparams·}:·{·params:·Promise<{·provider:·string·}>·},⏎`  prettier/prettier
+25:1  Warning: Insert `··`  prettier/prettier
+
+./src/app/api/auth/social/[provider]/start/route.ts
+8:27  Warning: Replace `request:·NextRequest,·{·params:·asyncparams·}:·{·params:·Promise<{·provider:·string·}>·}` with `⏎··request:·NextRequest,⏎··{·params:·asyncparams·}:·{·params:·Promise<{·provider:·string·}>·},⏎`  prettier/prettier
+9:1  Warning: Insert `··`  prettier/prettier
+
+./src/app/api/commerce/orders/[orderId]/route.ts
+5:27  Warning: Replace `request:·NextRequest,·{·params:·asyncparams·}:·{·params:·Promise<{·orderId:·string·}>·}` with `⏎··request:·NextRequest,⏎··{·params:·asyncparams·}:·{·params:·Promise<{·orderId:·string·}>·},⏎`  prettier/prettier
+6:1  Warning: Insert `··`  prettier/prettier
+
+./src/app/api/content/huddle/[briefingId]/route.ts
+9:27  Warning: Replace `request:·Request,·{·params:·asyncparams·}:·{·params:·Promise<{·briefingId:·string·}>·}` with `⏎··request:·Request,⏎··{·params:·asyncparams·}:·{·params:·Promise<{·briefingId:·string·}>·},⏎`  prettier/prettier
+10:1  Warning: Insert `··`  prettier/prettier
+
+./src/app/api/crew/activity/[activityId]/comments/route.ts
+7:28  Warning: Replace `request:·NextRequest,·{·params:·asyncparams·}:·{·params:·Promise<{·activityId:·string·}>·}` with `⏎··request:·NextRequest,⏎··{·params:·asyncparams·}:·{·params:·Promise<{·activityId:·string·}>·},⏎`  prettier/prettier
+8:1  Warning: Insert `··`  prettier/prettier
+
+./src/app/api/crew/activity/[activityId]/reactions/route.ts
+6:28  Warning: Replace `request:·NextRequest,·{·params:·asyncparams·}:·{·params:·Promise<{·activityId:·string·}>·}` with `⏎··request:·NextRequest,⏎··{·params:·asyncparams·}:·{·params:·Promise<{·activityId:·string·}>·},⏎`  prettier/prettier
+7:1  Warning: Insert `··`  prettier/prettier
+
+./src/app/api/crew/activity/[activityId]/route.ts
+7:30  Warning: Replace `request:·NextRequest,·{·params:·asyncparams·}:·{·params:·Promise<{·activityId:·string·}>·}` with `⏎··request:·NextRequest,⏎··{·params:·asyncparams·}:·{·params:·Promise<{·activityId:·string·}>·},⏎`  prettier/prettier
+8:1  Warning: Insert `··`  prettier/prettier
+
+./src/app/api/crew/invites/[token]/route.ts
+5:27  Warning: Replace `_:·NextRequest,·{·params:·asyncparams·}:·{·params:·Promise<{·token:·string·}>·}` with `⏎··_:·NextRequest,⏎··{·params:·asyncparams·}:·{·params:·Promise<{·token:·string·}>·},⏎`  prettier/prettier
+6:1  Warning: Insert `··`  prettier/prettier
+11:28  Warning: Replace `request:·NextRequest,·{·params:·asyncparams·}:·{·params:·Promise<{·token:·string·}>·}` with `⏎··request:·NextRequest,⏎··{·params:·asyncparams·}:·{·params:·Promise<{·token:·string·}>·},⏎`  prettier/prettier
+12:1  Warning: Insert `··`  prettier/prettier
+
+./src/app/api/crew/media/[mediaId]/route.ts
+6:27  Warning: Replace `request:·NextRequest,·{·params:·asyncparams·}:·{·params:·Promise<{·mediaId:·string·}>·}` with `⏎··request:·NextRequest,⏎··{·params:·asyncparams·}:·{·params:·Promise<{·mediaId:·string·}>·},⏎`  prettier/prettier
+7:1  Warning: Insert `··`  prettier/prettier
+
+./src/app/api/crew/members/[userId]/route.ts
+7:30  Warning: Replace `request:·NextRequest,·{·params:·asyncparams·}:·{·params:·Promise<{·userId:·string·}>·}` with `⏎··request:·NextRequest,⏎··{·params:·asyncparams·}:·{·params:·Promise<{·userId:·string·}>·},⏎`  prettier/prettier
+8:1  Warning: Insert `··`  prettier/prettier
+
+./src/app/api/game-day/rooms/[roomId]/actions/route.ts
+58:28  Warning: Replace `r:·NextRequest,·{·params:·asyncparams·}:·{·params:·Promise<{·roomId:·string·}>·}` with `⏎··r:·NextRequest,⏎··{·params:·asyncparams·}:·{·params:·Promise<{·roomId:·string·}>·},⏎`  prettier/prettier
+59:1  Warning: Insert `··`  prettier/prettier
+
+./src/app/api/game-day/rooms/[roomId]/route.ts
+5:27  Warning: Replace `r:·NextRequest,·{·params:·asyncparams·}:·{·params:·Promise<{·roomId:·string·}>·}` with `⏎··r:·NextRequest,⏎··{·params:·asyncparams·}:·{·params:·Promise<{·roomId:·string·}>·},⏎`  prettier/prettier
+6:1  Warning: Insert `··`  prettier/prettier
+
+./src/app/api/mobile/players/[playerId]/route.ts
+4:27  Warning: Replace `_:·NextRequest,·{·params:·asyncparams·}:·{·params:·Promise<{·playerId:·string·}>·}` with `⏎··_:·NextRequest,⏎··{·params:·asyncparams·}:·{·params:·Promise<{·playerId:·string·}>·},⏎`  prettier/prettier
+5:1  Warning: Insert `··`  prettier/prettier
+
+./src/app/api/mobile/stories/[id]/route.ts
+7:27  Warning: Replace `_request:·Request,·{·params:·asyncparams·}:·{·params:·Promise<{·id:·string·}>·}` with `⏎··_request:·Request,⏎··{·params:·asyncparams·}:·{·params:·Promise<{·id:·string·}>·},⏎`  prettier/prettier
+8:1  Warning: Insert `··`  prettier/prettier
+
+./src/app/api/parlay-lab/events/[eventId]/markets/route.ts
+25:27  Warning: Replace `request:·NextRequest,·{·params:·asyncparams·}:·{·params:·Promise<{·eventId:·string·}>·}` with `⏎··request:·NextRequest,⏎··{·params:·asyncparams·}:·{·params:·Promise<{·eventId:·string·}>·},⏎`  prettier/prettier
+26:1  Warning: Insert `··`  prettier/prettier
+97:37  Warning: Replace `·?·(playerById.get(market.playerId)?.headshotUrl·??·null)` with `⏎··········?·(playerById.get(market.playerId)?.headshotUrl·??·null)⏎·········`  prettier/prettier
+
+./src/app/api/rewards/[rewardId]/claim/route.ts
+6:28  Warning: Replace `request:·NextRequest,·{·params:·asyncparams·}:·{·params:·Promise<{·rewardId:·string·}>·}` with `⏎··request:·NextRequest,⏎··{·params:·asyncparams·}:·{·params:·Promise<{·rewardId:·string·}>·},⏎`  prettier/prettier
+7:1  Warning: Insert `··`  prettier/prettier
+
+./src/app/api/trades/[id]/add-asset/route.ts
+6:27  Warning: Replace `request:·Request,·{·params:·asyncparams·}:·{·params:·Promise<{·id:·string·}>·}` with `⏎··request:·Request,⏎··{·params:·asyncparams·}:·{·params:·Promise<{·id:·string·}>·},⏎`  prettier/prettier
+7:1  Warning: Insert `··`  prettier/prettier
+
+./src/app/api/trades/[id]/analyze/route.ts
+6:27  Warning: Replace `request:·Request,·{·params:·asyncparams·}:·{·params:·Promise<{·id:·string·}>·}` with `⏎··request:·Request,⏎··{·params:·asyncparams·}:·{·params:·Promise<{·id:·string·}>·},⏎`  prettier/prettier
+7:1  Warning: Insert `··`  prettier/prettier
+
+./src/app/api/trades/[id]/propose/route.ts
+8:27  Warning: Replace `request:·NextRequest,·{·params:·asyncparams·}:·{·params:·Promise<{·id:·string·}>·}` with `⏎··request:·NextRequest,⏎··{·params:·asyncparams·}:·{·params:·Promise<{·id:·string·}>·},⏎`  prettier/prettier
+9:1  Warning: Insert `··`  prettier/prettier
+
+./src/app/api/trades/[id]/remove-asset/route.ts
+6:27  Warning: Replace `request:·Request,·{·params:·asyncparams·}:·{·params:·Promise<{·id:·string·}>·}` with `⏎··request:·Request,⏎··{·params:·asyncparams·}:·{·params:·Promise<{·id:·string·}>·},⏎`  prettier/prettier
+7:1  Warning: Insert `··`  prettier/prettier
+
+./src/app/api/trivia/challenges/[challengeId]/accept/route.ts
+5:28  Warning: Replace `r:·NextRequest,·{·params:·asyncparams·}:·{·params:·Promise<{·challengeId:·string·}>·}` with `⏎··r:·NextRequest,⏎··{·params:·asyncparams·}:·{·params:·Promise<{·challengeId:·string·}>·},⏎`  prettier/prettier
+6:1  Warning: Insert `··`  prettier/prettier
+
+./src/app/api/trivia/events/[eventId]/route.ts
+6:28  Warning: Replace `request:·NextRequest,·{·params:·asyncparams·}:·{·params:·Promise<{·eventId:·string·}>·}` with `⏎··request:·NextRequest,⏎··{·params:·asyncparams·}:·{·params:·Promise<{·eventId:·string·}>·},⏎`  prettier/prettier
+7:1  Warning: Insert `··`  prettier/prettier
+
+./src/app/api/trivia/friends/[userId]/route.ts
+5:29  Warning: Replace `r:·NextRequest,·{·params:·asyncparams·}:·{·params:·Promise<{·userId:·string·}>·}` with `⏎··r:·NextRequest,⏎··{·params:·asyncparams·}:·{·params:·Promise<{·userId:·string·}>·},⏎`  prettier/prettier
+6:1  Warning: Insert `··`  prettier/prettier
+17:30  Warning: Replace `r:·NextRequest,·{·params:·asyncparams·}:·{·params:·Promise<{·userId:·string·}>·}` with `⏎··r:·NextRequest,⏎··{·params:·asyncparams·}:·{·params:·Promise<{·userId:·string·}>·},⏎`  prettier/prettier
+18:1  Warning: Insert `··`  prettier/prettier
+
+./src/app/api/trivia/games/[gameId]/answer/route.ts
+6:28  Warning: Replace `r:·NextRequest,·{·params:·asyncparams·}:·{·params:·Promise<{·gameId:·string·}>·}` with `⏎··r:·NextRequest,⏎··{·params:·asyncparams·}:·{·params:·Promise<{·gameId:·string·}>·},⏎`  prettier/prettier
+7:1  Warning: Insert `··`  prettier/prettier
+
+./src/app/api/trivia/games/[gameId]/rematch/route.ts
+7:28  Warning: Replace `request:·NextRequest,·{·params:·asyncparams·}:·{·params:·Promise<{·gameId:·string·}>·}` with `⏎··request:·NextRequest,⏎··{·params:·asyncparams·}:·{·params:·Promise<{·gameId:·string·}>·},⏎`  prettier/prettier
+8:1  Warning: Insert `··`  prettier/prettier
+
+./src/app/api/trivia/games/[gameId]/route.ts
+5:27  Warning: Replace `r:·NextRequest,·{·params:·asyncparams·}:·{·params:·Promise<{·gameId:·string·}>·}` with `⏎··r:·NextRequest,⏎··{·params:·asyncparams·}:·{·params:·Promise<{·gameId:·string·}>·},⏎`  prettier/prettier
+6:1  Warning: Insert `··`  prettier/prettier
+
+./src/app/api/trivia/groups/[joinCode]/invite/route.ts
+8:28  Warning: Replace `request:·NextRequest,·{·params:·asyncparams·}:·{·params:·Promise<{·joinCode:·string·}>·}` with `⏎··request:·NextRequest,⏎··{·params:·asyncparams·}:·{·params:·Promise<{·joinCode:·string·}>·},⏎`  prettier/prettier
+9:1  Warning: Insert `··`  prettier/prettier
+
+./src/app/api/trivia/groups/[joinCode]/join/route.ts
+5:28  Warning: Replace `r:·NextRequest,·{·params:·asyncparams·}:·{·params:·Promise<{·joinCode:·string·}>·}` with `⏎··r:·NextRequest,⏎··{·params:·asyncparams·}:·{·params:·Promise<{·joinCode:·string·}>·},⏎`  prettier/prettier
+6:1  Warning: Insert `··`  prettier/prettier
+
+./src/app/api/trivia/groups/[joinCode]/route.ts
+7:27  Warning: Replace `request:·NextRequest,·{·params:·asyncparams·}:·{·params:·Promise<{·joinCode:·string·}>·}` with `⏎··request:·NextRequest,⏎··{·params:·asyncparams·}:·{·params:·Promise<{·joinCode:·string·}>·},⏎`  prettier/prettier
+8:1  Warning: Insert `··`  prettier/prettier
+
+./src/app/api/trivia/groups/[joinCode]/start/route.ts
+5:28  Warning: Replace `r:·NextRequest,·{·params:·asyncparams·}:·{·params:·Promise<{·joinCode:·string·}>·}` with `⏎··r:·NextRequest,⏎··{·params:·asyncparams·}:·{·params:·Promise<{·joinCode:·string·}>·},⏎`  prettier/prettier
+6:1  Warning: Insert `··`  prettier/prettier
+
+./src/app/api/trivia/join/[token]/route.ts
+7:27  Warning: Replace `request:·NextRequest,·{·params:·asyncparams·}:·{·params:·Promise<{·token:·string·}>·}` with `⏎··request:·NextRequest,⏎··{·params:·asyncparams·}:·{·params:·Promise<{·token:·string·}>·},⏎`  prettier/prettier
+8:1  Warning: Insert `··`  prettier/prettier
+19:28  Warning: Replace `request:·NextRequest,·{·params:·asyncparams·}:·{·params:·Promise<{·token:·string·}>·}` with `⏎··request:·NextRequest,⏎··{·params:·asyncparams·}:·{·params:·Promise<{·token:·string·}>·},⏎`  prettier/prettier
+20:1  Warning: Insert `··`  prettier/prettier
+
+./src/app/api/user/team-follows/[teamId]/route.ts
+6:30  Warning: Replace `r:·NextRequest,·{·params:·asyncparams·}:·{·params:·Promise<{·teamId:·string·}>·}` with `⏎··r:·NextRequest,⏎··{·params:·asyncparams·}:·{·params:·Promise<{·teamId:·string·}>·},⏎`  prettier/prettier
+7:1  Warning: Insert `··`  prettier/prettier
+
+./src/app/api/user/team-visit/route.ts
+7:9  Warning: Replace `⏎··getTeamVisitState,⏎··updateTeamVisitState,⏎` with `·getTeamVisitState,·updateTeamVisitState·`  prettier/prettier
+
+./src/app/content/[id]/page.tsx
+56:41  Warning: Replace `·params:·asyncparams·}:·{·params:·Promise<{·id:·string·}>·` with `⏎··params:·asyncparams,⏎}:·{⏎··params:·Promise<{·id:·string·}>;⏎`  prettier/prettier
+57:1  Warning: Insert `··`  prettier/prettier
+90:50  Warning: Replace `·params:·asyncparams·}:·{·params:·Promise<{·id:·string·}>·` with `⏎··params:·asyncparams,⏎}:·{⏎··params:·Promise<{·id:·string·}>;⏎`  prettier/prettier
+91:1  Warning: Insert `··`  prettier/prettier
+
+./src/app/crew/invite/[token]/page.tsx
+2:37  Warning: Replace `·params:·asyncparams·}:·{·params:·Promise<{·token:·string·}>·` with `⏎··params:·asyncparams,⏎}:·{⏎··params:·Promise<{·token:·string·}>;⏎`  prettier/prettier
+3:1  Warning: Insert `··`  prettier/prettier
+
+./src/app/dev/parlay-lab-test/page.tsx
+6:15  Warning: Replace `·sportsbook:·string;·odds:·number·|·null;·available:·boolean;·deeplink:·string·|·null;·normalizedKey:·string·` with `⏎··sportsbook:·string;⏎··odds:·number·|·null;⏎··available:·boolean;⏎··deeplink:·string·|·null;⏎··normalizedKey:·string;⏎`  prettier/prettier
+7:16  Warning: Replace `·event:·{·providerEventId:·string;·kickoffAt:·string·};·legs:·Array<{·id:·string;·label:·string;·prices:·Price[]·}>;·note:·string·` with `⏎··event:·{·providerEventId:·string;·kickoffAt:·string·};⏎··legs:·Array<{·id:·string;·label:·string;·prices:·Price[]·}>;⏎··note:·string;⏎`  prettier/prettier
+13:20  Warning: Replace `·fetch('/api/parlay-lab/test-ticket').then(async·(response)·=>·{·const·body·=·await·response.json();·if·(!response.ok)·throw·new·Error(body.error);·return·body;·}).then(setTicket).catch((reason)·=>·setError(reason.message));` with `⏎····fetch('/api/parlay-lab/test-ticket')⏎······.then(async·(response)·=>·{⏎········const·body·=·await·response.json();⏎········if·(!response.ok)·throw·new·Error(body.error);⏎········return·body;⏎······})⏎······.then(setTicket)⏎······.catch((reason)·=>·setError(reason.message));⏎·`  prettier/prettier
+14:10  Warning: Insert `(⏎····`  prettier/prettier
+15:1  Warning: Replace `····<p·className={styles.eyebrow}>Parlay·Lab</p><h1>Parlay·Lab·—·Dev·Test</h1>` with `······<p·className={styles.eyebrow}>Parlay·Lab</p>⏎······<h1>Parlay·Lab·—·Dev·Test</h1>⏎······`  prettier/prettier
+16:1  Warning: Replace `····{error·?·<div·className={styles.notice}>{error}<small>Run·the·migration·and·import·the·2026·test·week·first.</small></div>` with `······{error·?·(⏎········<div·className={styles.notice}>⏎··········{error}⏎··········<small>Run·the·migration·and·import·the·2026·test·week·first.</small>⏎········</div>⏎······)`  prettier/prettier
+17:1  Warning: Insert `··`  prettier/prettier
+18:5  Warning: Replace `{ticket·?·` with `··{ticket·?·(⏎········`  prettier/prettier
+19:1  Warning: Replace `······<p·className={styles.meta}>Provider·event:·{ticket.event.providerEventId}···{new·Date(ticket.event.kickoffAt).toLocaleString()}` with `··········<p·className={styles.meta}>⏎············Provider·event:·{ticket.event.providerEventId}··{'·'}⏎············{new·Date(ticket.event.kickoffAt).toLocaleString()}⏎··········`  prettier/prettier
+20:1  Warning: Replace `······<section·className={styles.legs}>{ticket.legs.map((leg,·index)·=>·<article·key={leg.id}><small>Leg·{index·+·1}</small><h3>{leg.label}</h3><div>{books.map((book)·=>·{·const·price·=·leg.prices.find((item)·=>·item.sportsbook·===·book);·return·<section·key={book}><b>{book·===·'FANDUEL'·?·'FanDuel'·:·'DraftKings'}</b><strong>{price?.available·&&·price.odds·!==·null·?·(price.odds·>·0·?·'+'·:·'')·+·price.odds·:·'Not·available'}</strong>{price?.deeplink·&&·price.available·?·<a·href={price.deeplink}·target="_blank"·rel="noreferrer">Open·in·{book·===·'FANDUEL'·?·'FanDuel'·:·'DraftKings'}</a>·:·<button·disabled>Deeplink·unavailable</button>}</section>;·})}</div></article>)}` with `··········<section·className={styles.legs}>⏎············{ticket.legs.map((leg,·index)·=>·(⏎··············<article·key={leg.id}>⏎················<small>Leg·{index·+·1}</small>⏎················<h3>{leg.label}</h3>⏎················<div>⏎··················{books.map((book)·=>·{⏎····················const·price·=·leg.prices.find((item)·=>·item.sportsbook·===·book);⏎····················return·(⏎······················<section·key={book}>⏎························<b>{book·===·'FANDUEL'·?·'FanDuel'·:·'DraftKings'}</b>⏎························<strong>⏎··························{price?.available·&&·price.odds·!==·null⏎····························?·(price.odds·>·0·?·'+'·:·'')·+·price.odds⏎····························:·'Not·available'}⏎························</strong>⏎························{price?.deeplink·&&·price.available·?·(⏎··························<a·href={price.deeplink}·target="_blank"·rel="noreferrer">⏎····························Open·in·{book·===·'FANDUEL'·?·'FanDuel'·:·'DraftKings'}⏎··························</a>⏎························)·:·(⏎··························<button·disabled>Deeplink·unavailable</button>⏎························)}⏎······················</section>⏎····················);⏎··················})}⏎················</div>⏎··············</article>⏎············))}⏎··········`  prettier/prettier
+21:1  Warning: Replace `······<section·className={styles.compare}><h2>Sportsbook·comparison</h2><table><thead><tr><th>Leg</th>{books.map((book)·=>·<th·key={book}>{book}</th>)}</tr></thead><tbody>{ticket.legs.map((leg)·=>·<tr·key={leg.id}><td>{leg.label}</td>{books.map((book)·=>·{·const·price·=·leg.prices.find((item)·=>·item.sportsbook·===·book);·return·<td·key={book}>{price?.available·&&·price.odds·!==·null·?·(price.odds·>·0·?·'+'·:·'')·+·price.odds·:·'NOT·AVAILABLE'}</td>;·})}</tr>)}</tbody></table><p>{ticket.note}</p>` with `··········<section·className={styles.compare}>⏎············<h2>Sportsbook·comparison</h2>⏎············<table>⏎··············<thead>⏎················<tr>⏎··················<th>Leg</th>⏎··················{books.map((book)·=>·(⏎····················<th·key={book}>{book}</th>⏎··················))}⏎················</tr>⏎··············</thead>⏎··············<tbody>⏎················{ticket.legs.map((leg)·=>·(⏎··················<tr·key={leg.id}>⏎····················<td>{leg.label}</td>⏎····················{books.map((book)·=>·{⏎······················const·price·=·leg.prices.find((item)·=>·item.sportsbook·===·book);⏎······················return·(⏎························<td·key={book}>⏎··························{price?.available·&&·price.odds·!==·null⏎····························?·(price.odds·>·0·?·'+'·:·'')·+·price.odds⏎····························:·'NOT·AVAILABLE'}⏎························</td>⏎······················);⏎····················})}⏎··················</tr>⏎················))}⏎··············</tbody>⏎············</table>⏎············<p>{ticket.note}</p>⏎··········`  prettier/prettier
+22:5  Warning: Replace `</>` with `····</>⏎······)`  prettier/prettier
+23:1  Warning: Replace `··</main>` with `····</main>⏎··)`  prettier/prettier
+
+./src/app/dev-news-visual/page.tsx
+8:37  Warning: Replace `·searchParams:·asyncsearchParams·}:·{·searchParams:·Promise<{·mode?:·string·}>·` with `⏎··searchParams:·asyncsearchParams,⏎}:·{⏎··searchParams:·Promise<{·mode?:·string·}>;⏎`  prettier/prettier
+9:1  Warning: Insert `··`  prettier/prettier
+
+./src/app/draft/prospects/page.tsx
+12:1  Warning: Insert `··`  prettier/prettier
+
+./src/app/experience/page.tsx
+211:6  Warning: React Hook useEffect has a missing dependency: 'phase'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/app/free-agents/page.tsx
+393:23  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./src/app/front-office/draft/[section]/page.tsx
+4:50  Warning: Replace `·params:·asyncparams·}:·{·params:·Promise<{·section:·string·}>·` with `⏎··params:·asyncparams,⏎}:·{⏎··params:·Promise<{·section:·string·}>;⏎`  prettier/prettier
+5:1  Warning: Insert `··`  prettier/prettier
+
+./src/app/front-office/draft/prospects/[prospectId]/page.tsx
+5:47  Warning: Replace `·params:·asyncparams·}:·{·params:·Promise<{·prospectId:·string·}>·` with `⏎··params:·asyncparams,⏎}:·{⏎··params:·Promise<{·prospectId:·string·}>;⏎`  prettier/prettier
+6:1  Warning: Insert `··`  prettier/prettier
+
+./src/app/front-office/trade-hub/[tool]/page.tsx
+5:50  Warning: Replace `·params:·asyncparams·}:·{·params:·Promise<{·tool:·string·}>·` with `⏎··params:·asyncparams,⏎}:·{⏎··params:·Promise<{·tool:·string·}>;⏎`  prettier/prettier
+6:1  Warning: Insert `··`  prettier/prettier
+
+./src/app/front-office/trade-hub/page.tsx
+12:1  Warning: Insert `··`  prettier/prettier
+
+./src/app/front-office/trade-hub/player/[playerId]/page.tsx
+3:48  Warning: Replace `·params:·asyncparams·}:·{·params:·Promise<{·playerId:·string·}>·` with `⏎··params:·asyncparams,⏎}:·{⏎··params:·Promise<{·playerId:·string·}>;⏎`  prettier/prettier
+4:1  Warning: Insert `··`  prettier/prettier
+
+./src/app/huddle/archive/page.tsx
+9:1  Warning: Insert `··`  prettier/prettier
+
+./src/app/merch/[productId]/page.tsx
+8:49  Warning: Replace `·params:·asyncparams·}:·{·params:·Promise<{·productId:·string·}>·` with `⏎··params:·asyncparams,⏎}:·{⏎··params:·Promise<{·productId:·string·}>;⏎`  prettier/prettier
+9:1  Warning: Insert `··`  prettier/prettier
+
+./src/app/orders/[orderId]/page.tsx
+2:42  Warning: Replace `·params:·asyncparams·}:·{·params:·Promise<{·orderId:·string·}>·` with `⏎··params:·asyncparams,⏎}:·{⏎··params:·Promise<{·orderId:·string·}>;⏎`  prettier/prettier
+3:1  Warning: Insert `··`  prettier/prettier
+
+./src/app/parlay-lab/game/[eventId]/markets/page.tsx
+3:48  Warning: Replace `params:·asyncparams}:·{params:Promise<{eventId:string}>` with `⏎··params:·asyncparams,⏎}:·{⏎··params:·Promise<{·eventId:·string·}>;⏎`  prettier/prettier
+4:1  Warning: Insert `··`  prettier/prettier
+5:2  Warning: Replace `return·<Suspense><ParlayLabHome·mode="games"·initialEventId={params.eventId}/></Suspense>;·` with `·return·(⏎····<Suspense>⏎······<ParlayLabHome·mode="games"·initialEventId={params.eventId}·/>⏎····</Suspense>⏎··);⏎`  prettier/prettier
+
+./src/app/parlay-lab/games/page.tsx
+3:33  Warning: Replace `·return·<Suspense><ParlayLabHome·mode="games"·/></Suspense>;·` with `⏎··return·(⏎····<Suspense>⏎······<ParlayLabHome·mode="games"·/>⏎····</Suspense>⏎··);⏎`  prettier/prettier
+
+./src/app/parlay-lab/generator/page.tsx
+3:33  Warning: Replace `·return·<Suspense><ParlayLabHome·mode="generator"·/></Suspense>;·` with `⏎··return·(⏎····<Suspense>⏎······<ParlayLabHome·mode="generator"·/>⏎····</Suspense>⏎··);⏎`  prettier/prettier
+
+./src/app/parlay-lab/players/page.tsx
+3:33  Warning: Replace `·return·<Suspense><ParlayLabHome·mode="players"·/></Suspense>;·` with `⏎··return·(⏎····<Suspense>⏎······<ParlayLabHome·mode="players"·/>⏎····</Suspense>⏎··);⏎`  prettier/prettier
+
+./src/app/parlay-lab/settings/page.tsx
+3:33  Warning: Replace `·return·<Suspense><ParlayLabHome·mode="settings"·/></Suspense>;·` with `⏎··return·(⏎····<Suspense>⏎······<ParlayLabHome·mode="settings"·/>⏎····</Suspense>⏎··);⏎`  prettier/prettier
+
+./src/app/parlay-lab/trends/page.tsx
+3:33  Warning: Replace `·return·<Suspense><ParlayLabHome·mode="trends"·/></Suspense>;·` with `⏎··return·(⏎····<Suspense>⏎······<ParlayLabHome·mode="trends"·/>⏎····</Suspense>⏎··);⏎`  prettier/prettier
+
+./src/app/trivia/join/[token]/page.tsx
+3:47  Warning: Replace `·params:·asyncparams·}:·{·params:·Promise<{·token:·string·}>·` with `⏎··params:·asyncparams,⏎}:·{⏎··params:·Promise<{·token:·string·}>;⏎`  prettier/prettier
+4:1  Warning: Insert `··`  prettier/prettier
+
+./src/components/auth/auth-provider-icon.tsx
+20:14  Warning: Replace `·fill="#4285F4"·d="M21.6·12.23c0-.71-.06-1.4-.18-2.06H12v3.9h5.38a4.6·4.6·0·0·1-2·3.02v2.53h3.24c1.9-1.75·2.98-4.33·2.98-7.39Z"` with `⏎··········fill="#4285F4"⏎··········d="M21.6·12.23c0-.71-.06-1.4-.18-2.06H12v3.9h5.38a4.6·4.6·0·0·1-2·3.02v2.53h3.24c1.9-1.75·2.98-4.33·2.98-7.39Z"⏎·······`  prettier/prettier
+21:14  Warning: Replace `·fill="#34A853"·d="M12·22c2.7·0·4.98-.9·6.63-2.38l-3.24-2.53c-.9.6-2.05.96-3.39.96-2.61·0-4.82-1.76-5.61-4.13H3.04v2.61A10·10·0·0·0·12·22Z"` with `⏎··········fill="#34A853"⏎··········d="M12·22c2.7·0·4.98-.9·6.63-2.38l-3.24-2.53c-.9.6-2.05.96-3.39.96-2.61·0-4.82-1.76-5.61-4.13H3.04v2.61A10·10·0·0·0·12·22Z"⏎·······`  prettier/prettier
+22:14  Warning: Replace `·fill="#FBBC05"·d="M6.39·13.92A6·6·0·0·1·6.08·12c0-.67.11-1.32.31-1.92V7.47H3.04A10·10·0·0·0·2·12c0·1.61.39·3.14·1.04·4.53l3.35-2.61Z"` with `⏎··········fill="#FBBC05"⏎··········d="M6.39·13.92A6·6·0·0·1·6.08·12c0-.67.11-1.32.31-1.92V7.47H3.04A10·10·0·0·0·2·12c0·1.61.39·3.14·1.04·4.53l3.35-2.61Z"⏎·······`  prettier/prettier
+23:14  Warning: Replace `·fill="#EA4335"·d="M12·5.95c1.47·0·2.79.51·3.83·1.5l2.87-2.88A9.64·9.64·0·0·0·12·2a10·10·0·0·0-8.96·5.47l3.35·2.61C7.18·7.71·9.39·5.95·12·5.95Z"` with `⏎··········fill="#EA4335"⏎··········d="M12·5.95c1.47·0·2.79.51·3.83·1.5l2.87-2.88A9.64·9.64·0·0·0·12·2a10·10·0·0·0-8.96·5.47l3.35·2.61C7.18·7.71·9.39·5.95·12·5.95Z"⏎·······`  prettier/prettier
+32:14  Warning: Replace `·fill="#fff"·d="M13.55·21v-8h2.68l.4-3.12h-3.08v-2c0-.9.25-1.52·1.55-1.52h1.65V3.58a22·22·0·0·0-2.41-.13c-2.39·0-4.02·1.46-4.02·4.14v2.29h-2.7V13h2.7v8h3.23Z"` with `⏎··········fill="#fff"⏎··········d="M13.55·21v-8h2.68l.4-3.12h-3.08v-2c0-.9.25-1.52·1.55-1.52h1.65V3.58a22·22·0·0·0-2.41-.13c-2.39·0-4.02·1.46-4.02·4.14v2.29h-2.7V13h2.7v8h3.23Z"⏎·······`  prettier/prettier
+
+./src/components/auth/login-screen.tsx
+44:6  Warning: React Hook useEffect has a missing dependency: 'recovery'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/components/beat/beat-hero.tsx
+47:6  Warning: React Hook useEffect has a missing dependency: 'user'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/components/beat/beat-story-adapter.test.ts
+122:16  Warning: Replace `⏎····adaptBeatStory(story('NFL·Power·Rankings·Week·3')).graphic.family,⏎····'analysis',⏎··` with `adaptBeatStory(story('NFL·Power·Rankings·Week·3')).graphic.family,·'analysis'`  prettier/prettier
+
+./src/components/content/content-page-analytics.tsx
+18:6  Warning: React Hook useEffect has a missing dependency: 'props'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/components/editorial/trade-talk-category.ts
+3:28  Warning: Delete `⏎·`  prettier/prettier
+
+./src/components/front-office/front-office-event-center.tsx
+310:6  Warning: React Hook useEffect has a missing dependency: 'saveId'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/components/front-office/front-office-messages.tsx
+33:15  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./src/components/front-office/news-graphics/LeagueNewsPage.tsx
+70:6  Warning: React Hook useEffect has a missing dependency: 'load'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/components/front-office/story-graphics/StoryArtwork.tsx
+1:1  Warning: Replace `"use·client"` with `'use·client'`  prettier/prettier
+2:38  Warning: Replace `"react"` with `'react'`  prettier/prettier
+5:5  Warning: Replace `"arrow-up"` with `'arrow-up'`  prettier/prettier
+6:5  Warning: Replace `"arrow-down"` with `'arrow-down'`  prettier/prettier
+7:5  Warning: Replace `"bars-ascending"` with `'bars-ascending'`  prettier/prettier
+8:5  Warning: Replace `"bars-descending"` with `'bars-descending'`  prettier/prettier
+9:5  Warning: Replace `"trend-up"` with `'trend-up'`  prettier/prettier
+10:5  Warning: Replace `"trend-down"` with `'trend-down'`  prettier/prettier
+11:5  Warning: Replace `"stopwatch"` with `'stopwatch'`  prettier/prettier
+12:5  Warning: Replace `"medical-cross"` with `'medical-cross'`  prettier/prettier
+13:5  Warning: Replace `"return-arrow"` with `'return-arrow'`  prettier/prettier
+14:5  Warning: Replace `"map-pin"` with `'map-pin'`  prettier/prettier
+15:5  Warning: Replace `"visit-route"` with `'visit-route'`  prettier/prettier
+16:5  Warning: Replace `"clipboard"` with `'clipboard'`  prettier/prettier
+17:5  Warning: Replace `"versus"` with `'versus'`  prettier/prettier
+18:5  Warning: Replace `"declaration-card"` with `'declaration-card'`  prettier/prettier
+19:5  Warning: Replace `"transfer-arrows"` with `'transfer-arrows'`  prettier/prettier
+20:5  Warning: Replace `"trophy"` with `'trophy'`  prettier/prettier
+21:5  Warning: Replace `"milestone-marker"` with `'milestone-marker'`  prettier/prettier
+22:5  Warning: Replace `"draft-card"` with `'draft-card'`  prettier/prettier
+23:5  Warning: Replace `"draft-shield"` with `'draft-shield'`  prettier/prettier
+24:5  Warning: Replace `"puzzle"` with `'puzzle'`  prettier/prettier
+25:5  Warning: Replace `"signal"` with `'signal'`  prettier/prettier
+26:5  Warning: Replace `"target"` with `'target'`  prettier/prettier
+27:5  Warning: Replace `"radar"` with `'radar'`  prettier/prettier
+28:5  Warning: Replace `"football"` with `'football'`  prettier/prettier
+29:5  Warning: Replace `"playbook-marks"` with `'playbook-marks'`  prettier/prettier
+30:5  Warning: Replace `"diagonal-slashes"` with `'diagonal-slashes'`  prettier/prettier
+31:5  Warning: Replace `"accent-rule"` with `'accent-rule'`  prettier/prettier
+32:5  Warning: Replace `"playbook-pattern"` with `'playbook-pattern'`  prettier/prettier
+33:5  Warning: Replace `"measurement-grid"` with `'measurement-grid'`  prettier/prettier
+34:5  Warning: Replace `"etched-texture"` with `'etched-texture'`  prettier/prettier
+35:5  Warning: Replace `"calendar"` with `'calendar'`  prettier/prettier
+36:5  Warning: Replace `"star"` with `'star'`  prettier/prettier
+37:5  Warning: Replace `"checkmark"` with `'checkmark'`  prettier/prettier
+38:5  Warning: Replace `"chevron-right"` with `'chevron-right'`  prettier/prettier
+39:5  Warning: Replace `"arrow-right"` with `'arrow-right'`  prettier/prettier
+40:5  Warning: Replace `"minus"` with `'minus'`  prettier/prettier
+41:5  Warning: Replace `"plus"` with `'plus'`  prettier/prettier
+42:5  Warning: Replace `"status-dot"` with `'status-dot'`  prettier/prettier
+43:5  Warning: Replace `"bookmark"` with `'bookmark'`  prettier/prettier
+44:5  Warning: Replace `"clock"` with `'clock'`  prettier/prettier
+45:5  Warning: Replace `"gauge"` with `'gauge'`  prettier/prettier
+46:5  Warning: Replace `"corner-brackets"` with `'corner-brackets'`  prettier/prettier
+47:5  Warning: Replace `"burst"` with `'burst'`  prettier/prettier
+48:5  Warning: Replace `"handshake"` with `'handshake'`  prettier/prettier
+53:34  Warning: Replace `"id"` with `'id'`  prettier/prettier
+54:37  Warning: Replace `""` with `''`  prettier/prettier
+56:10  Warning: Replace `"arrow-up"` with `'arrow-up'`  prettier/prettier
+58:13  Warning: Replace `⏎··········{...props}⏎··········viewBox="0·0·240·240"⏎··········fill="none"⏎··········aria-hidden="true"⏎··········focusable="false"⏎········` with `·{...props}·viewBox="0·0·240·240"·fill="none"·aria-hidden="true"·focusable="false"`  prettier/prettier
+77:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity=".38"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity=".38"`  prettier/prettier
+105:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity="0"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity="0"`  prettier/prettier
+113:20  Warning: Replace `⏎················d="M120·28·210·117H153V207H87V117H30Z"⏎················fill="#000"⏎················opacity=".65"⏎··············` with `·d="M120·28·210·117H153V207H87V117H30Z"·fill="#000"·opacity=".65"`  prettier/prettier
+142:10  Warning: Replace `"arrow-down"` with `'arrow-down'`  prettier/prettier
+144:13  Warning: Replace `⏎··········{...props}⏎··········viewBox="0·0·240·240"⏎··········fill="none"⏎··········aria-hidden="true"⏎··········focusable="false"⏎········` with `·{...props}·viewBox="0·0·240·240"·fill="none"·aria-hidden="true"·focusable="false"`  prettier/prettier
+163:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity=".38"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity=".38"`  prettier/prettier
+191:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity="0"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity="0"`  prettier/prettier
+200:22  Warning: Replace `⏎··················d="M120·28·210·117H153V207H87V117H30Z"⏎··················fill="#000"⏎··················opacity=".65"⏎················` with `·d="M120·28·210·117H153V207H87V117H30Z"·fill="#000"·opacity=".65"`  prettier/prettier
+223:10  Warning: Replace `"bars-ascending"` with `'bars-ascending'`  prettier/prettier
+225:13  Warning: Replace `⏎··········{...props}⏎··········viewBox="0·0·240·240"⏎··········fill="none"⏎··········aria-hidden="true"⏎··········focusable="false"⏎········` with `·{...props}·viewBox="0·0·240·240"·fill="none"·aria-hidden="true"·focusable="false"`  prettier/prettier
+244:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity=".38"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity=".38"`  prettier/prettier
+272:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity="0"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity="0"`  prettier/prettier
+279:18  Warning: Replace `⏎··············x="24"⏎··············y="175"⏎··············width="40"⏎··············height="46"⏎··············rx="0"⏎··············fill="#000"⏎··············opacity=".35"⏎············` with `·x="24"·y="175"·width="40"·height="46"·rx="0"·fill="#000"·opacity=".35"`  prettier/prettier
+297:18  Warning: Replace `⏎··············x="20"⏎··············y="171"⏎··············width="39"⏎··············height="46"⏎··············rx="0"⏎··············fill={`url(#${uid}-sheen)`}⏎············` with `·x="20"·y="171"·width="39"·height="46"·rx="0"·fill={`url(#${uid}-sheen)`}`  prettier/prettier
+312:18  Warning: Replace `⏎··············x="78"⏎··············y="139"⏎··············width="40"⏎··············height="82"⏎··············rx="0"⏎··············fill="#000"⏎··············opacity=".35"⏎············` with `·x="78"·y="139"·width="40"·height="82"·rx="0"·fill="#000"·opacity=".35"`  prettier/prettier
+330:18  Warning: Replace `⏎··············x="74"⏎··············y="135"⏎··············width="39"⏎··············height="82"⏎··············rx="0"⏎··············fill={`url(#${uid}-sheen)`}⏎············` with `·x="74"·y="135"·width="39"·height="82"·rx="0"·fill={`url(#${uid}-sheen)`}`  prettier/prettier
+345:18  Warning: Replace `⏎··············x="132"⏎··············y="97"⏎··············width="40"⏎··············height="124"⏎··············rx="0"⏎··············fill="#000"⏎··············opacity=".35"⏎············` with `·x="132"·y="97"·width="40"·height="124"·rx="0"·fill="#000"·opacity=".35"`  prettier/prettier
+363:18  Warning: Replace `⏎··············x="128"⏎··············y="93"⏎··············width="39"⏎··············height="124"⏎··············rx="0"⏎··············fill={`url(#${uid}-sheen)`}⏎············` with `·x="128"·y="93"·width="39"·height="124"·rx="0"·fill={`url(#${uid}-sheen)`}`  prettier/prettier
+378:18  Warning: Replace `⏎··············x="186"⏎··············y="50"⏎··············width="40"⏎··············height="171"⏎··············rx="0"⏎··············fill="#000"⏎··············opacity=".35"⏎············` with `·x="186"·y="50"·width="40"·height="171"·rx="0"·fill="#000"·opacity=".35"`  prettier/prettier
+396:18  Warning: Replace `⏎··············x="182"⏎··············y="46"⏎··············width="39"⏎··············height="171"⏎··············rx="0"⏎··············fill={`url(#${uid}-sheen)`}⏎············` with `·x="182"·y="46"·width="39"·height="171"·rx="0"·fill={`url(#${uid}-sheen)`}`  prettier/prettier
+411:18  Warning: Replace `⏎··············d="M13·218h219"⏎··············fill="none"⏎··············stroke="#778792"⏎··············strokeWidth="1"⏎··············opacity=".25"⏎············` with `·d="M13·218h219"·fill="none"·stroke="#778792"·strokeWidth="1"·opacity=".25"`  prettier/prettier
+421:10  Warning: Replace `"bars-descending"` with `'bars-descending'`  prettier/prettier
+423:13  Warning: Replace `⏎··········{...props}⏎··········viewBox="0·0·240·240"⏎··········fill="none"⏎··········aria-hidden="true"⏎··········focusable="false"⏎········` with `·{...props}·viewBox="0·0·240·240"·fill="none"·aria-hidden="true"·focusable="false"`  prettier/prettier
+442:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity=".38"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity=".38"`  prettier/prettier
+470:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity="0"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity="0"`  prettier/prettier
+477:18  Warning: Replace `⏎··············x="24"⏎··············y="50"⏎··············width="40"⏎··············height="171"⏎··············rx="0"⏎··············fill="#000"⏎··············opacity=".35"⏎············` with `·x="24"·y="50"·width="40"·height="171"·rx="0"·fill="#000"·opacity=".35"`  prettier/prettier
+495:18  Warning: Replace `⏎··············x="20"⏎··············y="46"⏎··············width="39"⏎··············height="171"⏎··············rx="0"⏎··············fill={`url(#${uid}-sheen)`}⏎············` with `·x="20"·y="46"·width="39"·height="171"·rx="0"·fill={`url(#${uid}-sheen)`}`  prettier/prettier
+510:18  Warning: Replace `⏎··············x="78"⏎··············y="97"⏎··············width="40"⏎··············height="124"⏎··············rx="0"⏎··············fill="#000"⏎··············opacity=".35"⏎············` with `·x="78"·y="97"·width="40"·height="124"·rx="0"·fill="#000"·opacity=".35"`  prettier/prettier
+528:18  Warning: Replace `⏎··············x="74"⏎··············y="93"⏎··············width="39"⏎··············height="124"⏎··············rx="0"⏎··············fill={`url(#${uid}-sheen)`}⏎············` with `·x="74"·y="93"·width="39"·height="124"·rx="0"·fill={`url(#${uid}-sheen)`}`  prettier/prettier
+543:18  Warning: Replace `⏎··············x="132"⏎··············y="139"⏎··············width="40"⏎··············height="82"⏎··············rx="0"⏎··············fill="#000"⏎··············opacity=".35"⏎············` with `·x="132"·y="139"·width="40"·height="82"·rx="0"·fill="#000"·opacity=".35"`  prettier/prettier
+561:18  Warning: Replace `⏎··············x="128"⏎··············y="135"⏎··············width="39"⏎··············height="82"⏎··············rx="0"⏎··············fill={`url(#${uid}-sheen)`}⏎············` with `·x="128"·y="135"·width="39"·height="82"·rx="0"·fill={`url(#${uid}-sheen)`}`  prettier/prettier
+576:18  Warning: Replace `⏎··············x="186"⏎··············y="175"⏎··············width="40"⏎··············height="46"⏎··············rx="0"⏎··············fill="#000"⏎··············opacity=".35"⏎············` with `·x="186"·y="175"·width="40"·height="46"·rx="0"·fill="#000"·opacity=".35"`  prettier/prettier
+594:18  Warning: Replace `⏎··············x="182"⏎··············y="171"⏎··············width="39"⏎··············height="46"⏎··············rx="0"⏎··············fill={`url(#${uid}-sheen)`}⏎············` with `·x="182"·y="171"·width="39"·height="46"·rx="0"·fill={`url(#${uid}-sheen)`}`  prettier/prettier
+609:18  Warning: Replace `⏎··············d="M13·218h219"⏎··············fill="none"⏎··············stroke="#778792"⏎··············strokeWidth="1"⏎··············opacity=".25"⏎············` with `·d="M13·218h219"·fill="none"·stroke="#778792"·strokeWidth="1"·opacity=".25"`  prettier/prettier
+619:10  Warning: Replace `"trend-up"` with `'trend-up'`  prettier/prettier
+621:13  Warning: Replace `⏎··········{...props}⏎··········viewBox="0·0·240·240"⏎··········fill="none"⏎··········aria-hidden="true"⏎··········focusable="false"⏎········` with `·{...props}·viewBox="0·0·240·240"·fill="none"·aria-hidden="true"·focusable="false"`  prettier/prettier
+640:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity=".38"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity=".38"`  prettier/prettier
+668:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity="0"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity="0"`  prettier/prettier
+804:20  Warning: Replace `⏎················d="M204·28h23v25l-6-9-14-4Z"⏎················fill="#000"⏎················opacity=".65"⏎··············` with `·d="M204·28h23v25l-6-9-14-4Z"·fill="#000"·opacity=".65"`  prettier/prettier
+826:10  Warning: Replace `"trend-down"` with `'trend-down'`  prettier/prettier
+828:13  Warning: Replace `⏎··········{...props}⏎··········viewBox="0·0·240·240"⏎··········fill="none"⏎··········aria-hidden="true"⏎··········focusable="false"⏎········` with `·{...props}·viewBox="0·0·240·240"·fill="none"·aria-hidden="true"·focusable="false"`  prettier/prettier
+847:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity=".38"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity=".38"`  prettier/prettier
+875:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity="0"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity="0"`  prettier/prettier
+1011:20  Warning: Replace `⏎················d="M204·201h23v-25l-6·9-14·4Z"⏎················fill="#000"⏎················opacity=".65"⏎··············` with `·d="M204·201h23v-25l-6·9-14·4Z"·fill="#000"·opacity=".65"`  prettier/prettier
+1033:10  Warning: Replace `"stopwatch"` with `'stopwatch'`  prettier/prettier
+1035:13  Warning: Replace `⏎··········{...props}⏎··········viewBox="0·0·240·240"⏎··········fill="none"⏎··········aria-hidden="true"⏎··········focusable="false"⏎········` with `·{...props}·viewBox="0·0·240·240"·fill="none"·aria-hidden="true"·focusable="false"`  prettier/prettier
+1054:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity=".38"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity=".38"`  prettier/prettier
+1082:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity="0"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity="0"`  prettier/prettier
+1090:20  Warning: Replace `⏎················d="M105·9h30l7·7v14h-14v15h-16V30H98V16Z"⏎················fill="#000"⏎················opacity=".65"⏎··············` with `·d="M105·9h30l7·7v14h-14v15h-16V30H98V16Z"·fill="#000"·opacity=".65"`  prettier/prettier
+1110:20  Warning: Replace `⏎················d="m177·47·12-12·13·13-12·12Z"⏎················fill="#000"⏎················opacity=".65"⏎··············` with `·d="m177·47·12-12·13·13-12·12Z"·fill="#000"·opacity=".65"`  prettier/prettier
+1130:20  Warning: Replace `⏎··············cx="120"⏎··············cy="130"⏎··············r="91"⏎··············fill={`url(#${uid}-metal)`}⏎············` with `·cx="120"·cy="130"·r="91"·fill={`url(#${uid}-metal)`}`  prettier/prettier
+1136:20  Warning: Replace `⏎··············cx="120"⏎··············cy="130"⏎··············r="87"⏎··············fill={`url(#${uid}-sheen)`}⏎············` with `·cx="120"·cy="130"·r="87"·fill={`url(#${uid}-sheen)`}`  prettier/prettier
+1150:20  Warning: Replace `⏎··············cx="120"⏎··············cy="130"⏎··············r="72"⏎··············fill="none"⏎··············stroke="#fff"⏎··············strokeOpacity=".09"⏎············` with `·cx="120"·cy="130"·r="72"·fill="none"·stroke="#fff"·strokeOpacity=".09"`  prettier/prettier
+1579:20  Warning: Replace `⏎················d="M113·132·160·86l-33·55-21·16·9-21Z"⏎················fill="#000"⏎················opacity=".65"⏎··············` with `·d="M113·132·160·86l-33·55-21·16·9-21Z"·fill="#000"·opacity=".65"`  prettier/prettier
+1616:10  Warning: Replace `"medical-cross"` with `'medical-cross'`  prettier/prettier
+1618:13  Warning: Replace `⏎··········{...props}⏎··········viewBox="0·0·240·240"⏎··········fill="none"⏎··········aria-hidden="true"⏎··········focusable="false"⏎········` with `·{...props}·viewBox="0·0·240·240"·fill="none"·aria-hidden="true"·focusable="false"`  prettier/prettier
+1637:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity=".38"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity=".38"`  prettier/prettier
+1665:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity="0"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity="0"`  prettier/prettier
+1673:20  Warning: Replace `⏎················d="M88·26h64v62h62v64h-62v62H88v-62H26V88h62Z"⏎················fill="#000"⏎················opacity=".65"⏎··············` with `·d="M88·26h64v62h62v64h-62v62H88v-62H26V88h62Z"·fill="#000"·opacity=".65"`  prettier/prettier
+1692:18  Warning: Replace `⏎··············d="M96·35h47v61h62v47h-62v62H96v-62H35V96h61Z"⏎··············fill={`url(#${uid}-glass)`}⏎············` with `·d="M96·35h47v61h62v47h-62v62H96v-62H35V96h61Z"·fill={`url(#${uid}-glass)`}`  prettier/prettier
+1699:10  Warning: Replace `"return-arrow"` with `'return-arrow'`  prettier/prettier
+1701:13  Warning: Replace `⏎··········{...props}⏎··········viewBox="0·0·240·240"⏎··········fill="none"⏎··········aria-hidden="true"⏎··········focusable="false"⏎········` with `·{...props}·viewBox="0·0·240·240"·fill="none"·aria-hidden="true"·focusable="false"`  prettier/prettier
+1720:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity=".38"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity=".38"`  prettier/prettier
+1748:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity="0"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity="0"`  prettier/prettier
+1778:10  Warning: Replace `"map-pin"` with `'map-pin'`  prettier/prettier
+1780:13  Warning: Replace `⏎··········{...props}⏎··········viewBox="0·0·240·240"⏎··········fill="none"⏎··········aria-hidden="true"⏎··········focusable="false"⏎········` with `·{...props}·viewBox="0·0·240·240"·fill="none"·aria-hidden="true"·focusable="false"`  prettier/prettier
+1799:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity=".38"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity=".38"`  prettier/prettier
+1827:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity="0"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity="0"`  prettier/prettier
+1873:10  Warning: Replace `"visit-route"` with `'visit-route'`  prettier/prettier
+1875:13  Warning: Replace `⏎··········{...props}⏎··········viewBox="0·0·300·110"⏎··········fill="none"⏎··········aria-hidden="true"⏎··········focusable="false"⏎········` with `·{...props}·viewBox="0·0·300·110"·fill="none"·aria-hidden="true"·focusable="false"`  prettier/prettier
+1894:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity=".38"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity=".38"`  prettier/prettier
+1922:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity="0"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity="0"`  prettier/prettier
+1942:10  Warning: Replace `"clipboard"` with `'clipboard'`  prettier/prettier
+1944:13  Warning: Replace `⏎··········{...props}⏎··········viewBox="0·0·240·240"⏎··········fill="none"⏎··········aria-hidden="true"⏎··········focusable="false"⏎········` with `·{...props}·viewBox="0·0·240·240"·fill="none"·aria-hidden="true"·focusable="false"`  prettier/prettier
+1963:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity=".38"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity=".38"`  prettier/prettier
+1991:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity="0"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity="0"`  prettier/prettier
+1999:20  Warning: Replace `⏎················d="M48·38h144l9·9v172H39V47Z"⏎················fill="#000"⏎················opacity=".65"⏎··············` with `·d="M48·38h144l9·9v172H39V47Z"·fill="#000"·opacity=".65"`  prettier/prettier
+2018:18  Warning: Replace `⏎··············x="50"⏎··············y="49"⏎··············width="140"⏎··············height="158"⏎··············rx="4"⏎··············fill={`url(#${uid}-dark)`}⏎············` with `·x="50"·y="49"·width="140"·height="158"·rx="4"·fill={`url(#${uid}-dark)`}`  prettier/prettier
+2027:20  Warning: Replace `⏎················d="M91·26h15a14·14·0·0·1·28·0h15v32H91Z"⏎················fill="#000"⏎················opacity=".65"⏎··············` with `·d="M91·26h15a14·14·0·0·1·28·0h15v32H91Z"·fill="#000"·opacity=".65"`  prettier/prettier
+2047:18  Warning: Replace `⏎··············x="68"⏎··············y="81"⏎··············width="93"⏎··············height="7"⏎··············rx="0"⏎··············fill={`url(#${uid}-metal)`}⏎············` with `·x="68"·y="81"·width="93"·height="7"·rx="0"·fill={`url(#${uid}-metal)`}`  prettier/prettier
+2055:18  Warning: Replace `⏎··············d="M68·81h93"⏎··············fill="none"⏎··············stroke="#fff"⏎··············strokeWidth="1"⏎··············opacity=".3"⏎············` with `·d="M68·81h93"·fill="none"·stroke="#fff"·strokeWidth="1"·opacity=".3"`  prettier/prettier
+2062:18  Warning: Replace `⏎··············x="68"⏎··············y="110"⏎··············width="93"⏎··············height="7"⏎··············rx="0"⏎··············fill={`url(#${uid}-metal)`}⏎············` with `·x="68"·y="110"·width="93"·height="7"·rx="0"·fill={`url(#${uid}-metal)`}`  prettier/prettier
+2070:18  Warning: Replace `⏎··············d="M68·110h93"⏎··············fill="none"⏎··············stroke="#fff"⏎··············strokeWidth="1"⏎··············opacity=".3"⏎············` with `·d="M68·110h93"·fill="none"·stroke="#fff"·strokeWidth="1"·opacity=".3"`  prettier/prettier
+2077:18  Warning: Replace `⏎··············x="68"⏎··············y="139"⏎··············width="93"⏎··············height="7"⏎··············rx="0"⏎··············fill={`url(#${uid}-metal)`}⏎············` with `·x="68"·y="139"·width="93"·height="7"·rx="0"·fill={`url(#${uid}-metal)`}`  prettier/prettier
+2085:18  Warning: Replace `⏎··············d="M68·139h93"⏎··············fill="none"⏎··············stroke="#fff"⏎··············strokeWidth="1"⏎··············opacity=".3"⏎············` with `·d="M68·139h93"·fill="none"·stroke="#fff"·strokeWidth="1"·opacity=".3"`  prettier/prettier
+2092:18  Warning: Replace `⏎··············x="68"⏎··············y="168"⏎··············width="66"⏎··············height="7"⏎··············rx="0"⏎··············fill={`url(#${uid}-metal)`}⏎············` with `·x="68"·y="168"·width="66"·height="7"·rx="0"·fill={`url(#${uid}-metal)`}`  prettier/prettier
+2100:18  Warning: Replace `⏎··············d="M68·168h66"⏎··············fill="none"⏎··············stroke="#fff"⏎··············strokeWidth="1"⏎··············opacity=".3"⏎············` with `·d="M68·168h66"·fill="none"·stroke="#fff"·strokeWidth="1"·opacity=".3"`  prettier/prettier
+2110:10  Warning: Replace `"versus"` with `'versus'`  prettier/prettier
+2112:13  Warning: Replace `⏎··········{...props}⏎··········viewBox="0·0·240·240"⏎··········fill="none"⏎··········aria-hidden="true"⏎··········focusable="false"⏎········` with `·{...props}·viewBox="0·0·240·240"·fill="none"·aria-hidden="true"·focusable="false"`  prettier/prettier
+2131:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity=".38"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity=".38"`  prettier/prettier
+2159:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity="0"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity="0"`  prettier/prettier
+2167:20  Warning: Replace `⏎················d="M20·63h29l14·86·42-86h31L77·180H43Z"⏎················fill="#000"⏎················opacity=".65"⏎··············` with `·d="M20·63h29l14·86·42-86h31L77·180H43Z"·fill="#000"·opacity=".65"`  prettier/prettier
+2209:10  Warning: Replace `"declaration-card"` with `'declaration-card'`  prettier/prettier
+2211:13  Warning: Replace `⏎··········{...props}⏎··········viewBox="0·0·240·240"⏎··········fill="none"⏎··········aria-hidden="true"⏎··········focusable="false"⏎········` with `·{...props}·viewBox="0·0·240·240"·fill="none"·aria-hidden="true"·focusable="false"`  prettier/prettier
+2230:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity=".38"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity=".38"`  prettier/prettier
+2258:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity="0"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity="0"`  prettier/prettier
+2266:20  Warning: Replace `⏎················d="M48·19h115l24·24v166H48Z"⏎················fill="#000"⏎················opacity=".65"⏎··············` with `·d="M48·19h115l24·24v166H48Z"·fill="#000"·opacity=".65"`  prettier/prettier
+2285:18  Warning: Replace `⏎··············x="56"⏎··············y="29"⏎··············width="120"⏎··············height="170"⏎··············rx="0"⏎··············fill={`url(#${uid}-dark)`}⏎············` with `·x="56"·y="29"·width="120"·height="170"·rx="0"·fill={`url(#${uid}-dark)`}`  prettier/prettier
+2293:18  Warning: Replace `⏎··············d="M159·26v26h20"⏎··············fill="none"⏎··············stroke="#b2c9d8"⏎··············strokeWidth="3"⏎············` with `·d="M159·26v26h20"·fill="none"·stroke="#b2c9d8"·strokeWidth="3"`  prettier/prettier
+2299:18  Warning: Replace `⏎··············x="72"⏎··············y="65"⏎··············width="87"⏎··············height="5"⏎··············rx="0"⏎··············fill={`url(#${uid}-steel)`}⏎············` with `·x="72"·y="65"·width="87"·height="5"·rx="0"·fill={`url(#${uid}-steel)`}`  prettier/prettier
+2307:18  Warning: Replace `⏎··············x="72"⏎··············y="93"⏎··············width="70"⏎··············height="5"⏎··············rx="0"⏎··············fill={`url(#${uid}-steel)`}⏎············` with `·x="72"·y="93"·width="70"·height="5"·rx="0"·fill={`url(#${uid}-steel)`}`  prettier/prettier
+2315:18  Warning: Replace `⏎··············x="72"⏎··············y="121"⏎··············width="83"⏎··············height="5"⏎··············rx="0"⏎··············fill={`url(#${uid}-steel)`}⏎············` with `·x="72"·y="121"·width="83"·height="5"·rx="0"·fill={`url(#${uid}-steel)`}`  prettier/prettier
+2323:18  Warning: Replace `⏎··············x="72"⏎··············y="149"⏎··············width="53"⏎··············height="5"⏎··············rx="0"⏎··············fill={`url(#${uid}-steel)`}⏎············` with `·x="72"·y="149"·width="53"·height="5"·rx="0"·fill={`url(#${uid}-steel)`}`  prettier/prettier
+2332:20  Warning: Replace `⏎··············cx="175"⏎··············cy="173"⏎··············r="39"⏎··············fill={`url(#${uid}-steel)`}⏎············` with `·cx="175"·cy="173"·r="39"·fill={`url(#${uid}-steel)`}`  prettier/prettier
+2338:20  Warning: Replace `⏎··············cx="175"⏎··············cy="173"⏎··············r="36"⏎··············fill={`url(#${uid}-sheen)`}⏎············` with `·cx="175"·cy="173"·r="36"·fill={`url(#${uid}-sheen)`}`  prettier/prettier
+2344:18  Warning: Replace `⏎··············d="m153·172·14·13·25-30·9·8-33·39-23-23Z"⏎··············fill="#10202c"⏎············` with `·d="m153·172·14·13·25-30·9·8-33·39-23-23Z"·fill="#10202c"`  prettier/prettier
+2351:10  Warning: Replace `"transfer-arrows"` with `'transfer-arrows'`  prettier/prettier
+2353:13  Warning: Replace `⏎··········{...props}⏎··········viewBox="0·0·240·240"⏎··········fill="none"⏎··········aria-hidden="true"⏎··········focusable="false"⏎········` with `·{...props}·viewBox="0·0·240·240"·fill="none"·aria-hidden="true"·focusable="false"`  prettier/prettier
+2372:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity=".38"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity=".38"`  prettier/prettier
+2400:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity="0"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity="0"`  prettier/prettier
+2408:20  Warning: Replace `⏎················d="M26·47h133V24l59·43-59·43V85H26Z"⏎················fill="#000"⏎················opacity=".65"⏎··············` with `·d="M26·47h133V24l59·43-59·43V85H26Z"·fill="#000"·opacity=".65"`  prettier/prettier
+2428:20  Warning: Replace `⏎················d="M214·155H81v-25l-59·43·59·43v-23h133Z"⏎················fill="#000"⏎················opacity=".65"⏎··············` with `·d="M214·155H81v-25l-59·43·59·43v-23h133Z"·fill="#000"·opacity=".65"`  prettier/prettier
+2450:10  Warning: Replace `"trophy"` with `'trophy'`  prettier/prettier
+2452:13  Warning: Replace `⏎··········{...props}⏎··········viewBox="0·0·240·240"⏎··········fill="none"⏎··········aria-hidden="true"⏎··········focusable="false"⏎········` with `·{...props}·viewBox="0·0·240·240"·fill="none"·aria-hidden="true"·focusable="false"`  prettier/prettier
+2471:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity=".38"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity=".38"`  prettier/prettier
+2499:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity="0"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity="0"`  prettier/prettier
+2547:10  Warning: Replace `"milestone-marker"` with `'milestone-marker'`  prettier/prettier
+2549:13  Warning: Replace `⏎··········{...props}⏎··········viewBox="0·0·240·240"⏎··········fill="none"⏎··········aria-hidden="true"⏎··········focusable="false"⏎········` with `·{...props}·viewBox="0·0·240·240"·fill="none"·aria-hidden="true"·focusable="false"`  prettier/prettier
+2568:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity=".38"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity=".38"`  prettier/prettier
+2596:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity="0"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity="0"`  prettier/prettier
+2620:20  Warning: Replace `⏎················d="M57·24h147l-36·47·36·47H57Z"⏎················fill="#000"⏎················opacity=".65"⏎··············` with `·d="M57·24h147l-36·47·36·47H57Z"·fill="#000"·opacity=".65"`  prettier/prettier
+2655:20  Warning: Replace `⏎··············cx="174"⏎··············cy="179"⏎··············r="39"⏎··············fill={`url(#${uid}-steel)`}⏎············` with `·cx="174"·cy="179"·r="39"·fill={`url(#${uid}-steel)`}`  prettier/prettier
+2661:20  Warning: Replace `⏎··············cx="174"⏎··············cy="179"⏎··············r="30"⏎··············fill={`url(#${uid}-dark)`}⏎············` with `·cx="174"·cy="179"·r="30"·fill={`url(#${uid}-dark)`}`  prettier/prettier
+2674:10  Warning: Replace `"draft-card"` with `'draft-card'`  prettier/prettier
+2676:13  Warning: Replace `⏎··········{...props}⏎··········viewBox="0·0·240·240"⏎··········fill="none"⏎··········aria-hidden="true"⏎··········focusable="false"⏎········` with `·{...props}·viewBox="0·0·240·240"·fill="none"·aria-hidden="true"·focusable="false"`  prettier/prettier
+2695:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity=".38"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity=".38"`  prettier/prettier
+2723:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity="0"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity="0"`  prettier/prettier
+2746:18  Warning: Replace `⏎··············x="31"⏎··············y="56"⏎··············width="178"⏎··············height="129"⏎··············rx="0"⏎··············fill={`url(#${uid}-dark)`}⏎············` with `·x="31"·y="56"·width="178"·height="129"·rx="0"·fill={`url(#${uid}-dark)`}`  prettier/prettier
+2754:18  Warning: Replace `⏎··············x="31"⏎··············y="56"⏎··············width="178"⏎··············height="29"⏎··············rx="0"⏎··············fill={`url(#${uid}-metal)`}⏎············` with `·x="31"·y="56"·width="178"·height="29"·rx="0"·fill={`url(#${uid}-metal)`}`  prettier/prettier
+2762:18  Warning: Replace `⏎··············x="47"⏎··············y="105"⏎··············width="87"⏎··············height="8"⏎··············rx="0"⏎··············fill={`url(#${uid}-steel)`}⏎············` with `·x="47"·y="105"·width="87"·height="8"·rx="0"·fill={`url(#${uid}-steel)`}`  prettier/prettier
+2770:18  Warning: Replace `⏎··············x="47"⏎··············y="132"⏎··············width="116"⏎··············height="8"⏎··············rx="0"⏎··············fill={`url(#${uid}-steel)`}⏎············` with `·x="47"·y="132"·width="116"·height="8"·rx="0"·fill={`url(#${uid}-steel)`}`  prettier/prettier
+2778:18  Warning: Replace `⏎··············x="47"⏎··············y="159"⏎··············width="65"⏎··············height="6"⏎··············rx="0"⏎··············fill={`url(#${uid}-steel)`}⏎············` with `·x="47"·y="159"·width="65"·height="6"·rx="0"·fill={`url(#${uid}-steel)`}`  prettier/prettier
+2786:18  Warning: Replace `⏎··············x="171"⏎··············y="103"⏎··············width="22"⏎··············height="37"⏎··············rx="0"⏎··············fill={`url(#${uid}-metal)`}⏎············` with `·x="171"·y="103"·width="22"·height="37"·rx="0"·fill={`url(#${uid}-metal)`}`  prettier/prettier
+2797:10  Warning: Replace `"draft-shield"` with `'draft-shield'`  prettier/prettier
+2799:13  Warning: Replace `⏎··········{...props}⏎··········viewBox="0·0·240·240"⏎··········fill="none"⏎··········aria-hidden="true"⏎··········focusable="false"⏎········` with `·{...props}·viewBox="0·0·240·240"·fill="none"·aria-hidden="true"·focusable="false"`  prettier/prettier
+2818:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity=".38"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity=".38"`  prettier/prettier
+2846:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity="0"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity="0"`  prettier/prettier
+2877:18  Warning: Replace `⏎··············x="75"⏎··············y="76"⏎··············width="90"⏎··············height="12"⏎··············rx="0"⏎··············fill={`url(#${uid}-metal)`}⏎············` with `·x="75"·y="76"·width="90"·height="12"·rx="0"·fill={`url(#${uid}-metal)`}`  prettier/prettier
+2885:18  Warning: Replace `⏎··············x="75"⏎··············y="106"⏎··············width="90"⏎··············height="12"⏎··············rx="0"⏎··············fill={`url(#${uid}-metal)`}⏎············` with `·x="75"·y="106"·width="90"·height="12"·rx="0"·fill={`url(#${uid}-metal)`}`  prettier/prettier
+2893:18  Warning: Replace `⏎··············x="90"⏎··············y="136"⏎··············width="60"⏎··············height="12"⏎··············rx="0"⏎··············fill={`url(#${uid}-metal)`}⏎············` with `·x="90"·y="136"·width="60"·height="12"·rx="0"·fill={`url(#${uid}-metal)`}`  prettier/prettier
+2904:10  Warning: Replace `"puzzle"` with `'puzzle'`  prettier/prettier
+2906:13  Warning: Replace `⏎··········{...props}⏎··········viewBox="0·0·240·240"⏎··········fill="none"⏎··········aria-hidden="true"⏎··········focusable="false"⏎········` with `·{...props}·viewBox="0·0·240·240"·fill="none"·aria-hidden="true"·focusable="false"`  prettier/prettier
+2925:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity=".38"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity=".38"`  prettier/prettier
+2953:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity="0"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity="0"`  prettier/prettier
+2983:10  Warning: Replace `"signal"` with `'signal'`  prettier/prettier
+2985:13  Warning: Replace `⏎··········{...props}⏎··········viewBox="0·0·240·240"⏎··········fill="none"⏎··········aria-hidden="true"⏎··········focusable="false"⏎········` with `·{...props}·viewBox="0·0·240·240"·fill="none"·aria-hidden="true"·focusable="false"`  prettier/prettier
+3004:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity=".38"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity=".38"`  prettier/prettier
+3032:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity="0"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity="0"`  prettier/prettier
+3039:20  Warning: Replace `⏎··············cx="120"⏎··············cy="97"⏎··············r="13"⏎··············fill={`url(#${uid}-metal)`}⏎············` with `·cx="120"·cy="97"·r="13"·fill={`url(#${uid}-metal)`}`  prettier/prettier
+3100:10  Warning: Replace `"target"` with `'target'`  prettier/prettier
+3102:13  Warning: Replace `⏎··········{...props}⏎··········viewBox="0·0·240·240"⏎··········fill="none"⏎··········aria-hidden="true"⏎··········focusable="false"⏎········` with `·{...props}·viewBox="0·0·240·240"·fill="none"·aria-hidden="true"·focusable="false"`  prettier/prettier
+3121:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity=".38"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity=".38"`  prettier/prettier
+3149:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity="0"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity="0"`  prettier/prettier
+3156:20  Warning: Replace `⏎··············cx="120"⏎··············cy="120"⏎··············r="102"⏎··············fill={`url(#${uid}-halo)`}⏎············` with `·cx="120"·cy="120"·r="102"·fill={`url(#${uid}-halo)`}`  prettier/prettier
+3195:20  Warning: Replace `⏎··············cx="120"⏎··············cy="120"⏎··············r="9"⏎··············fill={`url(#${uid}-metal)`}⏎············` with `·cx="120"·cy="120"·r="9"·fill={`url(#${uid}-metal)`}`  prettier/prettier
+3210:10  Warning: Replace `"radar"` with `'radar'`  prettier/prettier
+3212:13  Warning: Replace `⏎··········{...props}⏎··········viewBox="0·0·240·240"⏎··········fill="none"⏎··········aria-hidden="true"⏎··········focusable="false"⏎········` with `·{...props}·viewBox="0·0·240·240"·fill="none"·aria-hidden="true"·focusable="false"`  prettier/prettier
+3231:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity=".38"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity=".38"`  prettier/prettier
+3259:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity="0"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity="0"`  prettier/prettier
+3266:20  Warning: Replace `⏎··············cx="120"⏎··············cy="120"⏎··············r="102"⏎··············fill={`url(#${uid}-halo)`}⏎············` with `·cx="120"·cy="120"·r="102"·fill={`url(#${uid}-halo)`}`  prettier/prettier
+3305:18  Warning: Replace `⏎··············d="M120·120V26a94·94·0·0·1·81·47Z"⏎··············fill="currentColor"⏎··············opacity=".2"⏎············` with `·d="M120·120V26a94·94·0·0·1·81·47Z"·fill="currentColor"·opacity=".2"`  prettier/prettier
+3321:10  Warning: Replace `"football"` with `'football'`  prettier/prettier
+3323:13  Warning: Replace `⏎··········{...props}⏎··········viewBox="0·0·240·240"⏎··········fill="none"⏎··········aria-hidden="true"⏎··········focusable="false"⏎········` with `·{...props}·viewBox="0·0·240·240"·fill="none"·aria-hidden="true"·focusable="false"`  prettier/prettier
+3342:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity=".38"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity=".38"`  prettier/prettier
+3370:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity="0"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity="0"`  prettier/prettier
+3397:18  Warning: Replace `⏎··············d="M66·174·174·66"⏎··············fill="none"⏎··············stroke="#d3dce3"⏎··············strokeWidth="6"⏎············` with `·d="M66·174·174·66"·fill="none"·stroke="#d3dce3"·strokeWidth="6"`  prettier/prettier
+3403:18  Warning: Replace `⏎··············d="M78·142·98·162"⏎··············fill="none"⏎··············stroke="#d3dce3"⏎··············strokeWidth="5"⏎············` with `·d="M78·142·98·162"·fill="none"·stroke="#d3dce3"·strokeWidth="5"`  prettier/prettier
+3409:18  Warning: Replace `⏎··············d="M99·121·119·141"⏎··············fill="none"⏎··············stroke="#d3dce3"⏎··············strokeWidth="5"⏎············` with `·d="M99·121·119·141"·fill="none"·stroke="#d3dce3"·strokeWidth="5"`  prettier/prettier
+3415:18  Warning: Replace `⏎··············d="M120·100·140·120"⏎··············fill="none"⏎··············stroke="#d3dce3"⏎··············strokeWidth="5"⏎············` with `·d="M120·100·140·120"·fill="none"·stroke="#d3dce3"·strokeWidth="5"`  prettier/prettier
+3421:18  Warning: Replace `⏎··············d="M141·79·161·99"⏎··············fill="none"⏎··············stroke="#d3dce3"⏎··············strokeWidth="5"⏎············` with `·d="M141·79·161·99"·fill="none"·stroke="#d3dce3"·strokeWidth="5"`  prettier/prettier
+3437:10  Warning: Replace `"playbook-marks"` with `'playbook-marks'`  prettier/prettier
+3439:13  Warning: Replace `⏎··········{...props}⏎··········viewBox="0·0·240·240"⏎··········fill="none"⏎··········aria-hidden="true"⏎··········focusable="false"⏎········` with `·{...props}·viewBox="0·0·240·240"·fill="none"·aria-hidden="true"·focusable="false"`  prettier/prettier
+3458:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity=".38"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity=".38"`  prettier/prettier
+3486:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity="0"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity="0"`  prettier/prettier
+3516:10  Warning: Replace `"diagonal-slashes"` with `'diagonal-slashes'`  prettier/prettier
+3518:13  Warning: Replace `⏎··········{...props}⏎··········viewBox="0·0·320·300"⏎··········fill="none"⏎··········aria-hidden="true"⏎··········focusable="false"⏎········` with `·{...props}·viewBox="0·0·320·300"·fill="none"·aria-hidden="true"·focusable="false"`  prettier/prettier
+3537:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity=".38"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity=".38"`  prettier/prettier
+3565:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity="0"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity="0"`  prettier/prettier
+3572:18  Warning: Replace `⏎··············d="M219-20h86L145·320H59Z"⏎··············fill="currentColor"⏎··············opacity=".07"⏎············` with `·d="M219-20h86L145·320H59Z"·fill="currentColor"·opacity=".07"`  prettier/prettier
+3577:18  Warning: Replace `⏎··············d="M253-20h45L138·320H93Z"⏎··············fill={`url(#${uid}-metal)`}⏎··············opacity=".5"⏎············` with `·d="M253-20h45L138·320H93Z"·fill={`url(#${uid}-metal)`}·opacity=".5"`  prettier/prettier
+3607:10  Warning: Replace `"accent-rule"` with `'accent-rule'`  prettier/prettier
+3609:13  Warning: Replace `⏎··········{...props}⏎··········viewBox="0·0·300·34"⏎··········fill="none"⏎··········aria-hidden="true"⏎··········focusable="false"⏎········` with `·{...props}·viewBox="0·0·300·34"·fill="none"·aria-hidden="true"·focusable="false"`  prettier/prettier
+3628:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity=".38"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity=".38"`  prettier/prettier
+3656:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity="0"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity="0"`  prettier/prettier
+3663:18  Warning: Replace `⏎··············d="M5·23h181l17-18h92v5h-89l-18·18H5Z"⏎··············fill={`url(#${uid}-metal)`}⏎············` with `·d="M5·23h181l17-18h92v5h-89l-18·18H5Z"·fill={`url(#${uid}-metal)`}`  prettier/prettier
+3677:10  Warning: Replace `"playbook-pattern"` with `'playbook-pattern'`  prettier/prettier
+3679:13  Warning: Replace `⏎··········{...props}⏎··········viewBox="0·0·320·240"⏎··········fill="none"⏎··········aria-hidden="true"⏎··········focusable="false"⏎········` with `·{...props}·viewBox="0·0·320·240"·fill="none"·aria-hidden="true"·focusable="false"`  prettier/prettier
+3698:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity=".38"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity=".38"`  prettier/prettier
+3726:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity="0"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity="0"`  prettier/prettier
+3824:10  Warning: Replace `"measurement-grid"` with `'measurement-grid'`  prettier/prettier
+3826:13  Warning: Replace `⏎··········{...props}⏎··········viewBox="0·0·320·240"⏎··········fill="none"⏎··········aria-hidden="true"⏎··········focusable="false"⏎········` with `·{...props}·viewBox="0·0·320·240"·fill="none"·aria-hidden="true"·focusable="false"`  prettier/prettier
+3845:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity=".38"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity=".38"`  prettier/prettier
+3873:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity="0"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity="0"`  prettier/prettier
+3880:18  Warning: Replace `⏎··············d="M0·0v240"⏎··············fill="none"⏎··············stroke="#a8bdc9"⏎··············strokeWidth="0.6"⏎··············opacity=".11"⏎············` with `·d="M0·0v240"·fill="none"·stroke="#a8bdc9"·strokeWidth="0.6"·opacity=".11"`  prettier/prettier
+3887:18  Warning: Replace `⏎··············d="M20·0v240"⏎··············fill="none"⏎··············stroke="#a8bdc9"⏎··············strokeWidth="0.6"⏎··············opacity=".11"⏎············` with `·d="M20·0v240"·fill="none"·stroke="#a8bdc9"·strokeWidth="0.6"·opacity=".11"`  prettier/prettier
+3894:18  Warning: Replace `⏎··············d="M40·0v240"⏎··············fill="none"⏎··············stroke="#a8bdc9"⏎··············strokeWidth="0.6"⏎··············opacity=".11"⏎············` with `·d="M40·0v240"·fill="none"·stroke="#a8bdc9"·strokeWidth="0.6"·opacity=".11"`  prettier/prettier
+3901:18  Warning: Replace `⏎··············d="M60·0v240"⏎··············fill="none"⏎··············stroke="#a8bdc9"⏎··············strokeWidth="0.6"⏎··············opacity=".11"⏎············` with `·d="M60·0v240"·fill="none"·stroke="#a8bdc9"·strokeWidth="0.6"·opacity=".11"`  prettier/prettier
+3908:18  Warning: Replace `⏎··············d="M80·0v240"⏎··············fill="none"⏎··············stroke="#a8bdc9"⏎··············strokeWidth="0.6"⏎··············opacity=".11"⏎············` with `·d="M80·0v240"·fill="none"·stroke="#a8bdc9"·strokeWidth="0.6"·opacity=".11"`  prettier/prettier
+3999:18  Warning: Replace `⏎··············d="M0·0h320"⏎··············fill="none"⏎··············stroke="#a8bdc9"⏎··············strokeWidth="0.6"⏎··············opacity=".11"⏎············` with `·d="M0·0h320"·fill="none"·stroke="#a8bdc9"·strokeWidth="0.6"·opacity=".11"`  prettier/prettier
+4006:18  Warning: Replace `⏎··············d="M0·20h320"⏎··············fill="none"⏎··············stroke="#a8bdc9"⏎··············strokeWidth="0.6"⏎··············opacity=".11"⏎············` with `·d="M0·20h320"·fill="none"·stroke="#a8bdc9"·strokeWidth="0.6"·opacity=".11"`  prettier/prettier
+4013:18  Warning: Replace `⏎··············d="M0·40h320"⏎··············fill="none"⏎··············stroke="#a8bdc9"⏎··············strokeWidth="0.6"⏎··············opacity=".11"⏎············` with `·d="M0·40h320"·fill="none"·stroke="#a8bdc9"·strokeWidth="0.6"·opacity=".11"`  prettier/prettier
+4020:18  Warning: Replace `⏎··············d="M0·60h320"⏎··············fill="none"⏎··············stroke="#a8bdc9"⏎··············strokeWidth="0.6"⏎··············opacity=".11"⏎············` with `·d="M0·60h320"·fill="none"·stroke="#a8bdc9"·strokeWidth="0.6"·opacity=".11"`  prettier/prettier
+4027:18  Warning: Replace `⏎··············d="M0·80h320"⏎··············fill="none"⏎··············stroke="#a8bdc9"⏎··············strokeWidth="0.6"⏎··············opacity=".11"⏎············` with `·d="M0·80h320"·fill="none"·stroke="#a8bdc9"·strokeWidth="0.6"·opacity=".11"`  prettier/prettier
+4177:10  Warning: Replace `"etched-texture"` with `'etched-texture'`  prettier/prettier
+4179:13  Warning: Replace `⏎··········{...props}⏎··········viewBox="0·0·320·240"⏎··········fill="none"⏎··········aria-hidden="true"⏎··········focusable="false"⏎········` with `·{...props}·viewBox="0·0·320·240"·fill="none"·aria-hidden="true"·focusable="false"`  prettier/prettier
+4198:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity=".38"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity=".38"`  prettier/prettier
+4226:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity="0"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity="0"`  prettier/prettier
+4782:10  Warning: Replace `"calendar"` with `'calendar'`  prettier/prettier
+4784:13  Warning: Replace `⏎··········{...props}⏎··········viewBox="0·0·240·240"⏎··········fill="none"⏎··········aria-hidden="true"⏎··········focusable="false"⏎········` with `·{...props}·viewBox="0·0·240·240"·fill="none"·aria-hidden="true"·focusable="false"`  prettier/prettier
+4803:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity=".38"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity=".38"`  prettier/prettier
+4831:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity="0"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity="0"`  prettier/prettier
+4854:18  Warning: Replace `⏎··············x="44"⏎··············y="78"⏎··············width="152"⏎··············height="132"⏎··············rx="0"⏎··············fill={`url(#${uid}-dark)`}⏎············` with `·x="44"·y="78"·width="152"·height="132"·rx="0"·fill={`url(#${uid}-dark)`}`  prettier/prettier
+4862:18  Warning: Replace `⏎··············x="44"⏎··············y="49"⏎··············width="152"⏎··············height="29"⏎··············rx="0"⏎··············fill={`url(#${uid}-metal)`}⏎············` with `·x="44"·y="49"·width="152"·height="29"·rx="0"·fill={`url(#${uid}-metal)`}`  prettier/prettier
+4877:20  Warning: Replace `⏎················d="m72·146·26·26·70-73·15·14-85·89-40-41Z"⏎················fill="#000"⏎················opacity=".65"⏎··············` with `·d="m72·146·26·26·70-73·15·14-85·89-40-41Z"·fill="#000"·opacity=".65"`  prettier/prettier
+4899:10  Warning: Replace `"star"` with `'star'`  prettier/prettier
+4901:13  Warning: Replace `⏎··········{...props}⏎··········viewBox="0·0·240·240"⏎··········fill="none"⏎··········aria-hidden="true"⏎··········focusable="false"⏎········` with `·{...props}·viewBox="0·0·240·240"·fill="none"·aria-hidden="true"·focusable="false"`  prettier/prettier
+4920:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity=".38"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity=".38"`  prettier/prettier
+4948:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity="0"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity="0"`  prettier/prettier
+4978:10  Warning: Replace `"checkmark"` with `'checkmark'`  prettier/prettier
+4980:13  Warning: Replace `⏎··········{...props}⏎··········viewBox="0·0·240·240"⏎··········fill="none"⏎··········aria-hidden="true"⏎··········focusable="false"⏎········` with `·{...props}·viewBox="0·0·240·240"·fill="none"·aria-hidden="true"·focusable="false"`  prettier/prettier
+4999:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity=".38"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity=".38"`  prettier/prettier
+5027:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity="0"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity="0"`  prettier/prettier
+5035:20  Warning: Replace `⏎················d="m30·122·26-26·48·49·81-94·27·24-107·123Z"⏎················fill="#000"⏎················opacity=".65"⏎··············` with `·d="m30·122·26-26·48·49·81-94·27·24-107·123Z"·fill="#000"·opacity=".65"`  prettier/prettier
+5057:10  Warning: Replace `"chevron-right"` with `'chevron-right'`  prettier/prettier
+5059:13  Warning: Replace `⏎··········{...props}⏎··········viewBox="0·0·240·240"⏎··········fill="none"⏎··········aria-hidden="true"⏎··········focusable="false"⏎········` with `·{...props}·viewBox="0·0·240·240"·fill="none"·aria-hidden="true"·focusable="false"`  prettier/prettier
+5078:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity=".38"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity=".38"`  prettier/prettier
+5106:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity="0"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity="0"`  prettier/prettier
+5114:20  Warning: Replace `⏎················d="m75·31·88·89-88·89-23-23·66-66-66-66Z"⏎················fill="#000"⏎················opacity=".65"⏎··············` with `·d="m75·31·88·89-88·89-23-23·66-66-66-66Z"·fill="#000"·opacity=".65"`  prettier/prettier
+5136:10  Warning: Replace `"arrow-right"` with `'arrow-right'`  prettier/prettier
+5138:13  Warning: Replace `⏎··········{...props}⏎··········viewBox="0·0·240·240"⏎··········fill="none"⏎··········aria-hidden="true"⏎··········focusable="false"⏎········` with `·{...props}·viewBox="0·0·240·240"·fill="none"·aria-hidden="true"·focusable="false"`  prettier/prettier
+5157:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity=".38"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity=".38"`  prettier/prettier
+5185:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity="0"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity="0"`  prettier/prettier
+5194:22  Warning: Replace `⏎··················d="M120·28·210·117H153V207H87V117H30Z"⏎··················fill="#000"⏎··················opacity=".65"⏎················` with `·d="M120·28·210·117H153V207H87V117H30Z"·fill="#000"·opacity=".65"`  prettier/prettier
+5217:10  Warning: Replace `"minus"` with `'minus'`  prettier/prettier
+5219:13  Warning: Replace `⏎··········{...props}⏎··········viewBox="0·0·240·240"⏎··········fill="none"⏎··········aria-hidden="true"⏎··········focusable="false"⏎········` with `·{...props}·viewBox="0·0·240·240"·fill="none"·aria-hidden="true"·focusable="false"`  prettier/prettier
+5238:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity=".38"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity=".38"`  prettier/prettier
+5266:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity="0"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity="0"`  prettier/prettier
+5292:10  Warning: Replace `"plus"` with `'plus'`  prettier/prettier
+5294:13  Warning: Replace `⏎··········{...props}⏎··········viewBox="0·0·240·240"⏎··········fill="none"⏎··········aria-hidden="true"⏎··········focusable="false"⏎········` with `·{...props}·viewBox="0·0·240·240"·fill="none"·aria-hidden="true"·focusable="false"`  prettier/prettier
+5313:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity=".38"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity=".38"`  prettier/prettier
+5341:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity="0"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity="0"`  prettier/prettier
+5371:10  Warning: Replace `"status-dot"` with `'status-dot'`  prettier/prettier
+5373:13  Warning: Replace `⏎··········{...props}⏎··········viewBox="0·0·240·240"⏎··········fill="none"⏎··········aria-hidden="true"⏎··········focusable="false"⏎········` with `·{...props}·viewBox="0·0·240·240"·fill="none"·aria-hidden="true"·focusable="false"`  prettier/prettier
+5392:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity=".38"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity=".38"`  prettier/prettier
+5420:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity="0"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity="0"`  prettier/prettier
+5427:20  Warning: Replace `⏎··············cx="120"⏎··············cy="120"⏎··············r="59"⏎··············fill={`url(#${uid}-halo)`}⏎············` with `·cx="120"·cy="120"·r="59"·fill={`url(#${uid}-halo)`}`  prettier/prettier
+5433:20  Warning: Replace `⏎··············cx="120"⏎··············cy="120"⏎··············r="29"⏎··············fill={`url(#${uid}-metal)`}⏎············` with `·cx="120"·cy="120"·r="29"·fill={`url(#${uid}-metal)`}`  prettier/prettier
+5439:20  Warning: Replace `⏎··············cx="120"⏎··············cy="120"⏎··············r="29"⏎··············fill={`url(#${uid}-sheen)`}⏎············` with `·cx="120"·cy="120"·r="29"·fill={`url(#${uid}-sheen)`}`  prettier/prettier
+5448:10  Warning: Replace `"bookmark"` with `'bookmark'`  prettier/prettier
+5450:13  Warning: Replace `⏎··········{...props}⏎··········viewBox="0·0·240·240"⏎··········fill="none"⏎··········aria-hidden="true"⏎··········focusable="false"⏎········` with `·{...props}·viewBox="0·0·240·240"·fill="none"·aria-hidden="true"·focusable="false"`  prettier/prettier
+5469:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity=".38"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity=".38"`  prettier/prettier
+5497:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity="0"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity="0"`  prettier/prettier
+5505:20  Warning: Replace `⏎················d="M58·21h124v200l-62-47-62·47Z"⏎················fill="#000"⏎················opacity=".65"⏎··············` with `·d="M58·21h124v200l-62-47-62·47Z"·fill="#000"·opacity=".65"`  prettier/prettier
+5534:10  Warning: Replace `"clock"` with `'clock'`  prettier/prettier
+5536:13  Warning: Replace `⏎··········{...props}⏎··········viewBox="0·0·240·240"⏎··········fill="none"⏎··········aria-hidden="true"⏎··········focusable="false"⏎········` with `·{...props}·viewBox="0·0·240·240"·fill="none"·aria-hidden="true"·focusable="false"`  prettier/prettier
+5555:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity=".38"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity=".38"`  prettier/prettier
+5583:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity="0"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity="0"`  prettier/prettier
+5590:20  Warning: Replace `⏎··············cx="120"⏎··············cy="120"⏎··············r="96"⏎··············fill={`url(#${uid}-metal)`}⏎············` with `·cx="120"·cy="120"·r="96"·fill={`url(#${uid}-metal)`}`  prettier/prettier
+5596:20  Warning: Replace `⏎··············cx="120"⏎··············cy="120"⏎··············r="86"⏎··············fill={`url(#${uid}-dark)`}⏎············` with `·cx="120"·cy="120"·r="86"·fill={`url(#${uid}-dark)`}`  prettier/prettier
+5602:20  Warning: Replace `⏎··············cx="120"⏎··············cy="120"⏎··············r="78"⏎··············fill="none"⏎··············stroke="#fff"⏎··············strokeOpacity=".1"⏎············` with `·cx="120"·cy="120"·r="78"·fill="none"·stroke="#fff"·strokeOpacity=".1"`  prettier/prettier
+5616:20  Warning: Replace `⏎··············cx="120"⏎··············cy="120"⏎··············r="8"⏎··············fill={`url(#${uid}-metal)`}⏎············` with `·cx="120"·cy="120"·r="8"·fill={`url(#${uid}-metal)`}`  prettier/prettier
+5625:10  Warning: Replace `"gauge"` with `'gauge'`  prettier/prettier
+5627:13  Warning: Replace `⏎··········{...props}⏎··········viewBox="0·0·240·240"⏎··········fill="none"⏎··········aria-hidden="true"⏎··········focusable="false"⏎········` with `·{...props}·viewBox="0·0·240·240"·fill="none"·aria-hidden="true"·focusable="false"`  prettier/prettier
+5646:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity=".38"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity=".38"`  prettier/prettier
+5674:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity="0"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity="0"`  prettier/prettier
+5694:20  Warning: Replace `⏎················d="M111·134·185·65l-55·86Z"⏎················fill="#000"⏎················opacity=".65"⏎··············` with `·d="M111·134·185·65l-55·86Z"·fill="#000"·opacity=".65"`  prettier/prettier
+5713:20  Warning: Replace `⏎··············cx="120"⏎··············cy="140"⏎··············r="14"⏎··············fill={`url(#${uid}-metal)`}⏎············` with `·cx="120"·cy="140"·r="14"·fill={`url(#${uid}-metal)`}`  prettier/prettier
+5722:10  Warning: Replace `"corner-brackets"` with `'corner-brackets'`  prettier/prettier
+5724:13  Warning: Replace `⏎··········{...props}⏎··········viewBox="0·0·240·240"⏎··········fill="none"⏎··········aria-hidden="true"⏎··········focusable="false"⏎········` with `·{...props}·viewBox="0·0·240·240"·fill="none"·aria-hidden="true"·focusable="false"`  prettier/prettier
+5743:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity=".38"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity=".38"`  prettier/prettier
+5771:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity="0"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity="0"`  prettier/prettier
+5787:10  Warning: Replace `"burst"` with `'burst'`  prettier/prettier
+5789:13  Warning: Replace `⏎··········{...props}⏎··········viewBox="0·0·240·240"⏎··········fill="none"⏎··········aria-hidden="true"⏎··········focusable="false"⏎········` with `·{...props}·viewBox="0·0·240·240"·fill="none"·aria-hidden="true"·focusable="false"`  prettier/prettier
+5808:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity=".38"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity=".38"`  prettier/prettier
+5836:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity="0"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity="0"`  prettier/prettier
+5866:10  Warning: Replace `"handshake"` with `'handshake'`  prettier/prettier
+5868:13  Warning: Replace `⏎··········{...props}⏎··········viewBox="0·0·240·240"⏎··········fill="none"⏎··········aria-hidden="true"⏎··········focusable="false"⏎········` with `·{...props}·viewBox="0·0·240·240"·fill="none"·aria-hidden="true"·focusable="false"`  prettier/prettier
+5887:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity=".38"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity=".38"`  prettier/prettier
+5915:22  Warning: Replace `⏎··················offset="1"⏎··················stopColor="currentColor"⏎··················stopOpacity="0"⏎················` with `·offset="1"·stopColor="currentColor"·stopOpacity="0"`  prettier/prettier
+
+./src/components/home/next-game-hero-card.tsx
+61:18  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./src/components/huddle-live/field.tsx
+63:11  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+77:9  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+194:9  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./src/components/huddle-live/gif.tsx
+151:9  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./src/components/huddle-live/huddle.tsx
+52:11  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+73:11  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+269:13  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+370:11  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+443:17  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+477:15  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+626:33  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./src/components/mobile-site-menu.tsx
+176:27  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./src/components/parlay-lab/ParlayLabPage.tsx
+185:6  Warning: React Hook useEffect has a missing dependency: 'initialEventId'. Either include it or remove the dependency array. If 'setEventId' needs the current value of 'initialEventId', you can also switch to useReducer instead of useState and read 'initialEventId' in the reducer.  react-hooks/exhaustive-deps
+353:6  Warning: React Hook useEffect has a missing dependency: 'sections'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/components/parlay-lab/charts/EChart.tsx
+32:6  Warning: React Hook useEffect has a missing dependency: 'option'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/components/parlay-lab/generator-dashboard.tsx
+100:16  Warning: The ref value 'sequence.current' will likely have changed by the time this effect cleanup function runs. If this ref points to a node rendered by React, copy 'sequence.current' to a variable inside the effect, and use that variable in the cleanup function.  react-hooks/exhaustive-deps
+
+./src/components/player-details-modal.tsx
+420:15  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+434:17  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+479:39  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./src/components/trivia/trivia-page.tsx
+122:22  Warning: Replace `launch·?·'w-full'·:·'mx-auto·max-w-[1440px]·px-4·py-7·sm:px-6·lg:px-8·lg:py-10'` with `⏎············launch·?·'w-full'·:·'mx-auto·max-w-[1440px]·px-4·py-7·sm:px-6·lg:px-8·lg:py-10'⏎··········`  prettier/prettier
+
+./src/components/ui/toast.tsx
+86:11  Warning: Replace `(typeof·window·!==·'undefined'·&&·window.location.pathname.startsWith('/front-office')·&&·['starReaction','leagueBuzz'].includes(toast.kind·??·''))·||·toast.kind·===·'progress'` with `⏎········(typeof·window·!==·'undefined'·&&⏎··········window.location.pathname.startsWith('/front-office')·&&⏎··········['starReaction',·'leagueBuzz'].includes(toast.kind·??·''))·||⏎········toast.kind·===·'progress'⏎······`  prettier/prettier
+
+./src/features/catch-up/engine.test.ts
+6:9  Warning: Replace `⏎··buildCatchUpItems,⏎··isCatchUpEligible,⏎··isNewVisit,⏎··snapshotStoryStates,⏎` with `·buildCatchUpItems,·isCatchUpEligible,·isNewVisit,·snapshotStoryStates·`  prettier/prettier
+35:16  Warning: Replace `·?·{·...story,·summary:·`${story.summary}·A·starter·returned·to·practice.`,·fingerprint:·'material-change'·}` with `⏎······?·{⏎··········...story,⏎··········summary:·`${story.summary}·A·starter·returned·to·practice.`,⏎··········fingerprint:·'material-change',⏎········}⏎·····`  prettier/prettier
+94:16  Warning: Replace `compare(before,·after).items.some((item)·=>·item.storyId·===·target.id),·true` with `⏎····compare(before,·after).items.some((item)·=>·item.storyId·===·target.id),⏎····true,⏎··`  prettier/prettier
+107:16  Warning: Replace `compare(kansasCity,·chicago).items.every((item)·=>·item.teamId·===·'KC'),·true` with `⏎····compare(kansasCity,·chicago).items.every((item)·=>·item.teamId·===·'KC'),⏎····true,⏎··`  prettier/prettier
+
+./src/features/team/offseason-manager-route.ts
+1:42  Warning: Replace `⏎··subpath:·string·=·'',⏎··teamAbbr?:·string·|·null,⏎` with `subpath:·string·=·'',·teamAbbr?:·string·|·null`  prettier/prettier
+
+./src/lib/branding/team-logo-colors.ts
+49:50  Warning: Replace `·?·theme.dark` with `⏎····?·theme.dark⏎···`  prettier/prettier
+50:93  Warning: Replace `·?·theme.primary` with `⏎····?·theme.primary⏎···`  prettier/prettier
+
+./src/lib/front-office-restart.test.ts
+7:50  Warning: Insert `⏎····`  prettier/prettier
+8:1  Warning: Replace `····` with `······`  prettier/prettier
+9:5  Warning: Insert `··`  prettier/prettier
+10:1  Warning: Replace `····if·(path·===·'/api/saves/create')` with `······if·(path·===·'/api/saves/create')⏎·······`  prettier/prettier
+11:1  Warning: Insert `··`  prettier/prettier
+12:5  Warning: Insert `··`  prettier/prettier
+13:3  Warning: Replace `},·'KC',·2026` with `··},⏎····'KC',⏎····2026,⏎··`  prettier/prettier
+16:6  Warning: Replace `·path:·'/api/front-office/state',·body:·{·saveId:·'fresh-save',·teamAbbr:·'KC',·season:·2026,·selectedPath:·'full',·simulationPhase:·'week-1'·}` with `⏎······path:·'/api/front-office/state',⏎······body:·{⏎········saveId:·'fresh-save',⏎········teamAbbr:·'KC',⏎········season:·2026,⏎········selectedPath:·'full',⏎········simulationPhase:·'week-1',⏎······},⏎···`  prettier/prettier
+17:6  Warning: Replace `·path:·'/api/front-office/simulate',·body:·{·saveId:·'fresh-save',·action:·'initialize',·target:·'week-1'·}` with `⏎······path:·'/api/front-office/simulate',⏎······body:·{·saveId:·'fresh-save',·action:·'initialize',·target:·'week-1'·},⏎···`  prettier/prettier
+24:24  Warning: Replace `restartFranchiseAtWeekOne(` with `⏎····restartFranchiseAtWeekOne(⏎······`  prettier/prettier
+25:1  Warning: Replace `····` with `········`  prettier/prettier
+26:1  Warning: Insert `····`  prettier/prettier
+27:3  Warning: Replace `},·'KC',·2026),·/Unauthorized/` with `····},⏎······'KC',⏎······2026,⏎····),⏎····/Unauthorized/,⏎··`  prettier/prettier
+
+./src/lib/front-office-trade-window.ts
+1:38  Warning: Delete `⏎·`  prettier/prettier
+
+./src/lib/player-development-trends.test.ts
+6:28  Warning: Replace `length:·8},·(_,·i)·=>·({·id:·String(i),·teamAbbr:·'KC',·position:·'RB',·age:·i·<·3·?·24·:·33,·rating:·85-i,·baselineRating:·99·` with `·length:·8·},·(_,·i)·=>·({⏎··id:·String(i),⏎··teamAbbr:·'KC',⏎··position:·'RB',⏎··age:·i·<·3·?·24·:·33,⏎··rating:·85·-·i,⏎··baselineRating:·99,⏎`  prettier/prettier
+9:44  Warning: Replace `t=>t.direction===1).length,` with `(t)·=>·t.direction·===·1).length,·`  prettier/prettier
+10:43  Warning: Replace `(t=>t.direction===-1).length,` with `((t)·=>·t.direction·===·-1).length,·`  prettier/prettier
+11:43  Warning: Insert `·`  prettier/prettier
+14:18  Warning: Replace `·currentWeek:·2,` with `⏎····currentWeek:·2,⏎···`  prettier/prettier
+15:5  Warning: Replace `{week:1,·played:true,·homeTeam:'KC',·awayTeam:'CHI',·result:{playerStats:[{playerId:'0',rushingYards:100}]}` with `··{⏎········week:·1,⏎········played:·true,⏎········homeTeam:·'KC',⏎········awayTeam:·'CHI',⏎········result:·{·playerStats:·[{·playerId:·'0',·rushingYards:·100·}]·},⏎······`  prettier/prettier
+16:1  Warning: Replace `····{week:2,·played:true,·homeTeam:'KC',·awayTeam:'DAL',·result:{playerStats:[{playerId:'7',rushingYards:75},{playerId:'0',rushingYards:20}]}` with `······{⏎········week:·2,⏎········played:·true,⏎········homeTeam:·'KC',⏎········awayTeam:·'DAL',⏎········result:·{⏎··········playerStats:·[⏎············{·playerId:·'7',·rushingYards:·75·},⏎············{·playerId:·'0',·rushingYards:·20·},⏎··········],⏎········},⏎······`  prettier/prettier
+17:3  Warning: Replace `]` with `··],⏎··`  prettier/prettier
+18:49  Warning: Replace `state,` with `·state,·`  prettier/prettier
+19:43  Warning: Insert `·`  prettier/prettier
+20:43  Warning: Insert `·`  prettier/prettier
+21:43  Warning: Replace `(t=>t.direction===-1).length,` with `((t)·=>·t.direction·===·-1).length,·`  prettier/prettier
+24:18  Warning: Replace `currentWeek:1,games:[{week:1,played:true,homeTeam:'KC',awayTeam:'CHI'}]` with `⏎····currentWeek:·1,⏎····games:·[{·week:·1,·played:·true,·homeTeam:·'KC',·awayTeam:·'CHI'·}],⏎··`  prettier/prettier
+25:49  Warning: Replace `state,` with `·state,·`  prettier/prettier
+26:44  Warning: Replace `t=>t.direction===1).length,` with `(t)·=>·t.direction·===·1).length,·`  prettier/prettier
+27:43  Warning: Insert `·`  prettier/prettier
+
+./src/server/admin/authorization.ts
+8:2  Warning: Insert `⏎`  prettier/prettier
+
+./src/server/auth/http.ts
+11:109  Warning: Replace `origin` with `⏎······origin,⏎····`  prettier/prettier
+
+./src/server/auth/pkce.ts
+3:2  Warning: Insert `⏎`  prettier/prettier
+
+./src/server/auth/providers/google.ts
+41:27  Warning: Delete `⏎·····`  prettier/prettier
+
+./src/server/film-room/video-source-sync.test.ts
+14:25  Warning: Replace `⏎····VERIFIED_VIDEO_SOURCES.flatMap(([teamId])·=>·(teamId·?·[teamId]·:·[])),⏎··` with `VERIFIED_VIDEO_SOURCES.flatMap(([teamId])·=>·(teamId·?·[teamId]·:·[]))`  prettier/prettier
+
+./src/server/historical-stats/player-usage-trend-service.ts
+13:5  Warning: Insert `······`  prettier/prettier
+14:1  Warning: Insert `······`  prettier/prettier
+15:5  Warning: Insert `······`  prettier/prettier
+16:1  Warning: Insert `······`  prettier/prettier
+17:5  Warning: Insert `······`  prettier/prettier
+18:1  Warning: Insert `······`  prettier/prettier
+19:5  Warning: Insert `··`  prettier/prettier
+20:1  Warning: Insert `··`  prettier/prettier
+21:1  Warning: Insert `··`  prettier/prettier
+22:7  Warning: Insert `··`  prettier/prettier
+23:9  Warning: Insert `··`  prettier/prettier
+24:1  Warning: Insert `··`  prettier/prettier
+
+./src/server/security/log.ts
+6:2  Warning: Insert `⏎`  prettier/prettier
+
+./src/server/security/security.test.ts
+17:4  Warning: Insert `⏎`  prettier/prettier
+
+./src/server/user/account-repository.ts
+10:98  Warning: Insert `⏎···`  prettier/prettier
+11:5  Warning: Replace `sql<Array<Record<string,·unknown>>` with `··sql<⏎········Array<Record<string,·unknown>>⏎······`  prettier/prettier
+12:5  Warning: Insert `··`  prettier/prettier
+13:1  Warning: Insert `··`  prettier/prettier
+14:5  Warning: Insert `··`  prettier/prettier
+15:1  Warning: Replace `····` with `······`  prettier/prettier
+16:1  Warning: Replace `····sql<Array<Record<string,·unknown>>` with `······sql<⏎········Array<Record<string,·unknown>>⏎······`  prettier/prettier
+17:5  Warning: Replace `sql<Array<Record<string,·unknown>>` with `··sql<⏎········Array<Record<string,·unknown>>⏎······`  prettier/prettier
+18:3  Warning: Insert `··`  prettier/prettier
+20:11  Warning: Replace `·exportedAt:·new·Date().toISOString(),·profile:·profile[0]·??·null,·preferences,·teamFollows,·savedContent,·predictions,·notifications,·consents` with `⏎····exportedAt:·new·Date().toISOString(),⏎····profile:·profile[0]·??·null,⏎····preferences,⏎····teamFollows,⏎····savedContent,⏎····predictions,⏎····notifications,⏎····consents,⏎·`  prettier/prettier
+29:2  Warning: Insert `⏎`  prettier/prettier
+
+./src/server/user/content-state.ts
+12:15  Warning: Replace `·Number.isFinite(new·Date(story.lastMaterialUpdateAt).getTime())·&&` with `⏎······Number.isFinite(new·Date(story.lastMaterialUpdateAt).getTime())·&&⏎·····`  prettier/prettier
+15:25  Warning: Replace `input.previousVisit·&&·(materiallyUpdated.length·||·input.currentSnapshotId·!==·input.previousVisit.lastSeenSnapshotId)` with `⏎······input.previousVisit·&&⏎······(materiallyUpdated.length·||⏎········input.currentSnapshotId·!==·input.previousVisit.lastSeenSnapshotId),⏎····`  prettier/prettier
+
+./src/types/front-office.ts
+167:31  Warning: Replace `string,·{name:string;team:string;position:string;status:string;rating:number}` with `⏎····string,⏎····{·name:·string;·team:·string;·position:·string;·status:·string;·rating:·number·}⏎··`  prettier/prettier
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/app/api-reference/config/eslint#disabling-rules
+   Collecting page data ...
+   Generating static pages (0/212) ...
+   Generating static pages (53/212)
+   Generating static pages (106/212)
+   Generating static pages (159/212)
+ ✓ Generating static pages (212/212)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                           Size  First Load JS
+┌ ○ /                                              16.6 kB         237 kB
+├ ○ /_not-found                                       1 kB         104 kB
+├ ○ /account                                         171 B         188 kB
+├ ƒ /account/[section]                               171 B         188 kB
+├ ○ /admin/commerce                                5.15 kB         112 kB
+├ ○ /admin/observer                                 2.8 kB         106 kB
+├ ○ /admin/sources                                 2.82 kB         108 kB
+├ ƒ /api/actions/cut-player                          584 B         104 kB
+├ ƒ /api/actions/offer-contract                      584 B         104 kB
+├ ƒ /api/actions/re-sign                             584 B         104 kB
+├ ƒ /api/actions/resign-player                       584 B         104 kB
+├ ƒ /api/admin/commerce                              584 B         104 kB
+├ ƒ /api/admin/commerce/inventory/[variantId]        584 B         104 kB
+├ ƒ /api/admin/commerce/orders/[orderId]             584 B         104 kB
+├ ƒ /api/admin/commerce/orders/[orderId]/refunds     584 B         104 kB
+├ ƒ /api/admin/commerce/products                     584 B         104 kB
+├ ƒ /api/admin/commerce/products/[productId]         584 B         104 kB
+├ ƒ /api/admin/observer                              584 B         104 kB
+├ ƒ /api/admin/source-health                         584 B         104 kB
+├ ƒ /api/admin/sources                               584 B         104 kB
+├ ƒ /api/admin/story-reviews                         584 B         104 kB
+├ ƒ /api/auth/change-password                        584 B         104 kB
+├ ƒ /api/auth/config                                 584 B         104 kB
+├ ƒ /api/auth/forgot-password                        584 B         104 kB
+├ ƒ /api/auth/identities                             584 B         104 kB
+├ ƒ /api/auth/identities/[identityId]                584 B         104 kB
+├ ƒ /api/auth/identities/link                        584 B         104 kB
+├ ƒ /api/auth/login                                  584 B         104 kB
+├ ƒ /api/auth/logout                                 584 B         104 kB
+├ ƒ /api/auth/me                                     584 B         104 kB
+├ ƒ /api/auth/mobile/exchange                        584 B         104 kB
+├ ƒ /api/auth/refresh                                584 B         104 kB
+├ ƒ /api/auth/reset-password                         584 B         104 kB
+├ ƒ /api/auth/sessions                               584 B         104 kB
+├ ƒ /api/auth/sessions/[sessionId]                   584 B         104 kB
+├ ƒ /api/auth/signup                                 584 B         104 kB
+├ ƒ /api/auth/social/[provider]/callback             584 B         104 kB
+├ ƒ /api/auth/social/[provider]/exchange             584 B         104 kB
+├ ƒ /api/auth/social/[provider]/start                584 B         104 kB
+├ ƒ /api/auth/verify-email                           584 B         104 kB
+├ ƒ /api/automation/content                          584 B         104 kB
+├ ƒ /api/automation/content/global                   584 B         104 kB
+├ ƒ /api/automation/email                            584 B         104 kB
+├ ƒ /api/automation/three-and-out                    584 B         104 kB
+├ ƒ /api/catch-up                                    584 B         104 kB
+├ ƒ /api/catch-up/complete                           584 B         104 kB
+├ ƒ /api/commerce/catalog                            584 B         104 kB
+├ ƒ /api/commerce/checkout                           584 B         104 kB
+├ ƒ /api/commerce/orders                             584 B         104 kB
+├ ƒ /api/commerce/orders/[orderId]                   584 B         104 kB
+├ ƒ /api/commerce/quote                              584 B         104 kB
+├ ƒ /api/commerce/stripe/checkout                    584 B         104 kB
+├ ƒ /api/commerce/stripe/retry                       584 B         104 kB
+├ ƒ /api/commerce/stripe/status                      584 B         104 kB
+├ ƒ /api/commerce/stripe/webhook                     584 B         104 kB
+├ ƒ /api/content/homepage                            584 B         104 kB
+├ ƒ /api/content/huddle                              584 B         104 kB
+├ ƒ /api/content/huddle/[briefingId]                 584 B         104 kB
+├ ƒ /api/content/next-game                           584 B         104 kB
+├ ƒ /api/content/wire                                584 B         104 kB
+├ ƒ /api/contracts/expiring                          584 B         104 kB
+├ ƒ /api/crew                                        584 B         104 kB
+├ ƒ /api/crew/activity/[activityId]                  584 B         104 kB
+├ ƒ /api/crew/activity/[activityId]/comments         584 B         104 kB
+├ ƒ /api/crew/activity/[activityId]/reactions        584 B         104 kB
+├ ƒ /api/crew/invites                                584 B         104 kB
+├ ƒ /api/crew/invites/[token]                        584 B         104 kB
+├ ƒ /api/crew/media                                  584 B         104 kB
+├ ƒ /api/crew/media/[mediaId]                        584 B         104 kB
+├ ƒ /api/crew/members/[userId]                       584 B         104 kB
+├ ƒ /api/crew/posts                                  584 B         104 kB
+├ ƒ /api/crew/share                                  584 B         104 kB
+├ ƒ /api/dev/free-agency/validate                    584 B         104 kB
+├ ƒ /api/draft/advance                               584 B         104 kB
+├ ƒ /api/draft/pick                                  584 B         104 kB
+├ ƒ /api/draft/session                               584 B         104 kB
+├ ƒ /api/draft/session/active                        584 B         104 kB
+├ ƒ /api/draft/session/advance                       584 B         104 kB
+├ ƒ /api/draft/session/pause                         584 B         104 kB
+├ ƒ /api/draft/session/pick                          584 B         104 kB
+├ ƒ /api/draft/session/start                         584 B         104 kB
+├ ƒ /api/draft/session/trade                         584 B         104 kB
+├ ƒ /api/draft/trade-hub                             584 B         104 kB
+├ ƒ /api/draft/trade-offers/accept                   584 B         104 kB
+├ ƒ /api/draft/trade-offers/assets                   584 B         104 kB
+├ ƒ /api/draft/trade-offers/evaluate                 584 B         104 kB
+├ ƒ /api/draft/trades/propose                        584 B         104 kB
+├ ƒ /api/draft/trades/quote                          584 B         104 kB
+├ ƒ /api/email/unsubscribe                           584 B         104 kB
+├ ƒ /api/fan-pulse                                   584 B         104 kB
+├ ƒ /api/film-room                                   584 B         104 kB
+├ ƒ /api/franchise/advance-offseason                 584 B         104 kB
+├ ƒ /api/free-agents                                 584 B         104 kB
+├ ƒ /api/free-agents/advance-wave                    584 B         104 kB
+├ ƒ /api/free-agents/sign                            584 B         104 kB
+├ ƒ /api/front-office/calendar                       584 B         104 kB
+├ ƒ /api/front-office/draft-central                  584 B         104 kB
+├ ƒ /api/front-office/events                         584 B         104 kB
+├ ƒ /api/front-office/events/[eventId]               584 B         104 kB
+├ ƒ /api/front-office/events/next                    584 B         104 kB
+├ ƒ /api/front-office/events/resolve                 584 B         104 kB
+├ ƒ /api/front-office/recovery                       584 B         104 kB
+├ ƒ /api/front-office/simulate                       584 B         104 kB
+├ ƒ /api/front-office/state                          584 B         104 kB
+├ ƒ /api/front-office/trade-hub                      584 B         104 kB
+├ ƒ /api/front-office/trade-offers/[offerId]         584 B         104 kB
+├ ƒ /api/game-day/homepage                           584 B         104 kB
+├ ƒ /api/game-day/rooms                              584 B         104 kB
+├ ƒ /api/game-day/rooms/[roomId]                     584 B         104 kB
+├ ƒ /api/game-day/rooms/[roomId]/actions             584 B         104 kB
+├ ƒ /api/huddle                                      584 B         104 kB
+├ ƒ /api/mobile/front-office                         584 B         104 kB
+├ ƒ /api/mobile/merch                                584 B         104 kB
+├ ƒ /api/mobile/players/[playerId]                   584 B         104 kB
+├ ƒ /api/mobile/search                               584 B         104 kB
+├ ƒ /api/mobile/stories/[id]                         584 B         104 kB
+├ ƒ /api/news                                        584 B         104 kB
+├ ƒ /api/parlay-lab/alt-stack                        584 B         104 kB
+├ ƒ /api/parlay-lab/events                           584 B         104 kB
+├ ƒ /api/parlay-lab/events/[eventId]/markets         584 B         104 kB
+├ ƒ /api/parlay-lab/events/[eventId]/player-props    584 B         104 kB
+├ ƒ /api/parlay-lab/fanduel-transfer                 584 B         104 kB
+├ ƒ /api/parlay-lab/freshness                        584 B         104 kB
+├ ƒ /api/parlay-lab/movement                         584 B         104 kB
+├ ƒ /api/parlay-lab/my-plays/grade                   584 B         104 kB
+├ ƒ /api/parlay-lab/players                          584 B         104 kB
+├ ƒ /api/parlay-lab/props                            584 B         104 kB
+├ ƒ /api/parlay-lab/research                         584 B         104 kB
+├ ƒ /api/parlay-lab/sportsbook-transfer              584 B         104 kB
+├ ƒ /api/parlay-lab/test-ticket                      584 B         104 kB
+├ ƒ /api/preview/access                              584 B         104 kB
+├ ƒ /api/push/subscription                           584 B         104 kB
+├ ƒ /api/push/test                                   584 B         104 kB
+├ ƒ /api/push/web-test                               584 B         104 kB
+├ ƒ /api/rewards                                     584 B         104 kB
+├ ƒ /api/rewards/[rewardId]/claim                    584 B         104 kB
+├ ƒ /api/roster                                      584 B         104 kB
+├ ƒ /api/roster/renegotiate                          584 B         104 kB
+├ ƒ /api/saves                                       584 B         104 kB
+├ ƒ /api/saves/create                                584 B         104 kB
+├ ƒ /api/saves/header                                584 B         104 kB
+├ ƒ /api/saves/phase                                 584 B         104 kB
+├ ƒ /api/saves/restore                               584 B         104 kB
+├ ƒ /api/search                                      584 B         104 kB
+├ ƒ /api/search/suggestions                          584 B         104 kB
+├ ƒ /api/search/transcribe                           584 B         104 kB
+├ ƒ /api/source-engine/events                        584 B         104 kB
+├ ƒ /api/teams                                       584 B         104 kB
+├ ƒ /api/three-and-out                               584 B         104 kB
+├ ƒ /api/three-and-out/editorial                     584 B         104 kB
+├ ƒ /api/three-and-out/preferences                   584 B         104 kB
+├ ƒ /api/three-and-out/vote                          584 B         104 kB
+├ ƒ /api/trade-block                                 584 B         104 kB
+├ ƒ /api/trade-offers/accept                         584 B         104 kB
+├ ƒ /api/trade-offers/assets                         584 B         104 kB
+├ ƒ /api/trade-offers/evaluate                       584 B         104 kB
+├ ƒ /api/trade-offers/next                           584 B         104 kB
+├ ƒ /api/trades/[id]/add-asset                       584 B         104 kB
+├ ƒ /api/trades/[id]/analyze                         584 B         104 kB
+├ ƒ /api/trades/[id]/propose                         584 B         104 kB
+├ ƒ /api/trades/[id]/remove-asset                    584 B         104 kB
+├ ƒ /api/trades/create                               584 B         104 kB
+├ ƒ /api/trivia/challenges                           584 B         104 kB
+├ ƒ /api/trivia/challenges/[challengeId]/accept      584 B         104 kB
+├ ƒ /api/trivia/daily                                584 B         104 kB
+├ ƒ /api/trivia/daily/answer                         584 B         104 kB
+├ ƒ /api/trivia/events                               584 B         104 kB
+├ ƒ /api/trivia/events/[eventId]                     584 B         104 kB
+├ ƒ /api/trivia/friends                              584 B         104 kB
+├ ƒ /api/trivia/friends/[userId]                     584 B         104 kB
+├ ƒ /api/trivia/games                                584 B         104 kB
+├ ƒ /api/trivia/games/[gameId]                       584 B         104 kB
+├ ƒ /api/trivia/games/[gameId]/answer                584 B         104 kB
+├ ƒ /api/trivia/games/[gameId]/rematch               584 B         104 kB
+├ ƒ /api/trivia/groups                               584 B         104 kB
+├ ƒ /api/trivia/groups/[joinCode]                    584 B         104 kB
+├ ƒ /api/trivia/groups/[joinCode]/invite             584 B         104 kB
+├ ƒ /api/trivia/groups/[joinCode]/join               584 B         104 kB
+├ ƒ /api/trivia/groups/[joinCode]/start              584 B         104 kB
+├ ƒ /api/trivia/join/[token]                         584 B         104 kB
+├ ƒ /api/trivia/leaderboard                          584 B         104 kB
+├ ƒ /api/trivia/stats                                584 B         104 kB
+├ ƒ /api/user/account/delete                         584 B         104 kB
+├ ƒ /api/user/content-state                          584 B         104 kB
+├ ƒ /api/user/devices                                584 B         104 kB
+├ ƒ /api/user/devices/tokens                         584 B         104 kB
+├ ƒ /api/user/email-change/confirm                   584 B         104 kB
+├ ƒ /api/user/email-change/request                   584 B         104 kB
+├ ƒ /api/user/email-subscriptions                    584 B         104 kB
+├ ƒ /api/user/export                                 584 B         104 kB
+├ ƒ /api/user/home                                   584 B         104 kB
+├ ƒ /api/user/notification-preferences               584 B         104 kB
+├ ƒ /api/user/notifications                          584 B         104 kB
+├ ƒ /api/user/notifications/dev-simulate             584 B         104 kB
+├ ƒ /api/user/notifications/unread-count             584 B         104 kB
+├ ƒ /api/user/onboarding                             584 B         104 kB
+├ ƒ /api/user/predictions                            584 B         104 kB
+├ ƒ /api/user/preferences                            584 B         104 kB
+├ ƒ /api/user/profile                                584 B         104 kB
+├ ƒ /api/user/saved-content                          584 B         104 kB
+├ ƒ /api/user/team-follows                           584 B         104 kB
+├ ƒ /api/user/team-follows/[teamId]                  584 B         104 kB
+├ ƒ /api/user/team-follows/primary                   584 B         104 kB
+├ ƒ /api/user/team-visit                             584 B         104 kB
+├ ○ /apple-icon.png                                    0 B            0 B
+├ ○ /briefings                                       188 B         237 kB
+├ ○ /cap-space                                     2.41 kB         235 kB
+├ ○ /catch-up                                      6.26 kB         176 kB
+├ ƒ /content/[id]                                  7.09 kB         210 kB
+├ ○ /crew                                            35 kB         207 kB
+├ ƒ /crew/invite/[token]                           4.63 kB         122 kB
+├ ○ /dev-hero-visual                               4.71 kB         151 kB
+├ ƒ /dev-news-visual                               6.95 kB         110 kB
+├ ○ /dev-transaction-visual                        8.62 kB         142 kB
+├ ○ /dev/beat-cards                                8.26 kB         156 kB
+├ ○ /dev/front-office-story-graphics                 588 B         104 kB
+├ ○ /dev/huddle-cards                              10.5 kB         164 kB
+├ ○ /dev/parlay-lab-test                            1.2 kB         104 kB
+├ ○ /draft/big-board                               4.88 kB         306 kB
+├ ƒ /draft/prospects                               4.88 kB         306 kB
+├ ○ /draft/room                                      239 B         334 kB
+├ ○ /editorial-visuals                               619 B         104 kB
+├ ○ /experience                                    19.4 kB         256 kB
+├ ○ /free-agents                                   9.95 kB         271 kB
+├ ○ /front-office                                    187 B         237 kB
+├ ○ /front-office/development                      3.79 kB         261 kB
+├ ○ /front-office/draft                            8.63 kB         242 kB
+├ ƒ /front-office/draft/[section]                    189 B         242 kB
+├ ○ /front-office/draft/big-board                  4.88 kB         306 kB
+├ ○ /front-office/draft/history                      189 B         242 kB
+├ ƒ /front-office/draft/prospects                  4.88 kB         306 kB
+├ ƒ /front-office/draft/prospects/[prospectId]     4.88 kB         306 kB
+├ ○ /front-office/draft/room                         239 B         334 kB
+├ ○ /front-office/draft/scouting                   11.1 kB         244 kB
+├ ○ /front-office/draft/team-needs                   189 B         242 kB
+├ ○ /front-office/league/news                        256 B         238 kB
+├ ƒ /front-office/league/news/[storyId]            7.54 kB         241 kB
+├ ○ /front-office/league/schedule                  5.31 kB         238 kB
+├ ○ /front-office/league/standings                 6.54 kB         240 kB
+├ ○ /front-office/messages                         3.07 kB         236 kB
+├ ○ /front-office/ownership                          148 B         141 kB
+├ ○ /front-office/ownership/business                 148 B         141 kB
+├ ○ /front-office/ownership/facilities               148 B         141 kB
+├ ○ /front-office/ownership/fans                     148 B         141 kB
+├ ○ /front-office/ownership/legacy                   148 B         141 kB
+├ ○ /front-office/ownership/report-card              148 B         141 kB
+├ ○ /front-office/ownership/stadium                  148 B         141 kB
+├ ○ /front-office/settings                         6.25 kB         239 kB
+├ ƒ /front-office/trade-hub                        15.2 kB         248 kB
+├ ƒ /front-office/trade-hub/[tool]                 6.26 kB         239 kB
+├ ○ /front-office/trade-hub/new                      234 B         246 kB
+├ ƒ /front-office/trade-hub/player/[playerId]      6.22 kB         239 kB
+├ ○ /game-day                                      8.51 kB         223 kB
+├ ○ /huddle                                          210 B         194 kB
+├ ƒ /huddle/archive                                  692 B         194 kB
+├ ○ /icon.png                                          0 B            0 B
+├ ○ /labs/realtime                                 16.7 kB         147 kB
+├ ○ /league                                        1.16 kB         239 kB
+├ ○ /login                                         7.95 kB         143 kB
+├ ○ /manage-team                                     368 B         104 kB
+├ ○ /manage/trades                                   233 B         246 kB
+├ ○ /merch                                           165 B         182 kB
+├ ƒ /merch/[productId]                             4.19 kB         178 kB
+├ ○ /merch/accessories                               166 B         182 kB
+├ ○ /merch/hats                                      166 B         182 kB
+├ ○ /merch/kids                                      166 B         182 kB
+├ ○ /merch/men                                       166 B         182 kB
+├ ○ /merch/sale                                      166 B         182 kB
+├ ○ /merch/women                                     166 B         182 kB
+├ ○ /offseason-recap                               6.34 kB         239 kB
+├ ○ /offseasonmanager                                166 B         181 kB
+├ ○ /onboarding                                    3.56 kB         137 kB
+├ ○ /orders                                          205 B         175 kB
+├ ƒ /orders/[orderId]                                204 B         175 kB
+├ ○ /parlay-lab                                      187 B         239 kB
+├ ○ /parlay-lab/all-props                            187 B         239 kB
+├ ○ /parlay-lab/alt-stack                          8.23 kB         194 kB
+├ ƒ /parlay-lab/game/[eventId]/markets               186 B         239 kB
+├ ○ /parlay-lab/games                                186 B         239 kB
+├ ○ /parlay-lab/generator                            186 B         239 kB
+├ ○ /parlay-lab/lab-finds                          5.75 kB         190 kB
+├ ○ /parlay-lab/my-plays                           7.89 kB         184 kB
+├ ○ /parlay-lab/players                              187 B         239 kB
+├ ○ /parlay-lab/settings                             186 B         239 kB
+├ ○ /parlay-lab/teams                                187 B         239 kB
+├ ○ /parlay-lab/trends                               187 B         239 kB
+├ ○ /preview                                       5.24 kB         126 kB
+├ ƒ /preview/logout                                  584 B         104 kB
+├ ○ /promos                                        1.19 kB         150 kB
+├ ○ /rewards                                       6.09 kB         178 kB
+├ ƒ /robots.txt                                      584 B         104 kB
+├ ○ /roster                                        16.2 kB         284 kB
+├ ○ /season-recap                                  4.56 kB         238 kB
+├ ○ /sim-season                                      584 B         104 kB
+├ ○ /sitemap.xml                                     584 B         104 kB
+├ ƒ /start                                           584 B         104 kB
+├ ○ /teams                                           166 B         181 kB
+├ ƒ /the-beat                                        188 B         237 kB
+├ ○ /three-and-out                                   188 B         237 kB
+├ ○ /trivia                                        16.2 kB         186 kB
+├ ƒ /trivia/join/[token]                           4.16 kB         174 kB
+├ ○ /watch                                           188 B         237 kB
+└ ○ /wire                                            188 B         237 kB
++ First Load JS shared by all                       103 kB
+  ├ chunks/1255-60d8dc7c8c9309a1.js                46.3 kB
+  ├ chunks/4bd1b696-100b9d70ed4e49c1.js            54.2 kB
+  └ other shared chunks (total)                    2.76 kB
+
+
+ƒ Middleware                                       40.6 kB
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand

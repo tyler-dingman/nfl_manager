@@ -55,7 +55,9 @@ const schema = z.discriminatedUnion('action', [
     ]),
   }),
 ]);
-export async function POST(r: NextRequest, { params }: { params: { roomId: string } }) {
+export async function POST(r: NextRequest, { params: asyncparams }: { params: Promise<{ roomId: string }> }) {
+const params = await asyncparams;
+
   try {
     assertSameOrigin(r);
     const u = await currentUser(r);

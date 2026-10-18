@@ -1,0 +1,14 @@
+
+ ⛅️ wrangler 4.151.1
+────────────────────
+Total Upload: 38.37 KiB / gzip: 10.75 KiB
+Your Worker has access to the following bindings:
+Binding                                                                 Resource
+env.APP_DB (application-local-phase-three)                              D1 Database
+env.APP_OBJECTS (application-local-phase-three)                         R2 Bucket
+env.APP_BACKUP (application-backup-local-phase-three)                   R2 Bucket
+env.APP_ODDS_ENABLED ("false")                                          Environment Variable
+env.APP_MAIL_ENABLED ("false")                                          Environment Variable
+env.APP_MAINTENANCE_ENABLED ("false")                                   Environment Variable
+
+--dry-run: exiting now.

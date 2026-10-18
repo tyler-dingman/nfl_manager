@@ -1,3 +1,5 @@
+import { applicationBackend, applicationStorage } from '../persistence/bindings';
+import { D1Rewards } from '../../../packages/storage/rewards';
 import { activeDayStreak } from '../../../packages/rewards/presentation';
 import { loadCrewRank } from './crew-rank';
 import { randomBytes, randomUUID } from 'node:crypto';
@@ -86,6 +88,7 @@ export function awardYards(input: {
   sourceType: string;
   sourceId: string;
 }) {
+  if (applicationBackend() === 'd1') return new D1Rewards(applicationStorage()).award(input);
   return authDb().begin((tx) => awardYardsInTransaction(tx, input));
 }
 

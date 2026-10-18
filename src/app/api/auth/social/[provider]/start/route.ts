@@ -5,7 +5,9 @@ import { authConfig } from '@/server/auth/config';
 import { getAuthProvider } from '@/server/auth/providers';
 import { validMobileChallenge } from '@/server/auth/mobile-handoff';
 import { currentUser } from '@/server/auth/request';
-export async function GET(request: NextRequest, { params }: { params: { provider: string } }) {
+export async function GET(request: NextRequest, { params: asyncparams }: { params: Promise<{ provider: string }> }) {
+const params = await asyncparams;
+
   try {
     const provider = getAuthProvider(params.provider);
     const next = safeRedirect(request.nextUrl.searchParams.get('next'));

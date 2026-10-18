@@ -1,4 +1,5 @@
 import { digest, objectKey, type Objects } from './core';
+import { encodeObject, decodeObject } from './codec';
 export interface Bucket {
   get(key: string): Promise<{ arrayBuffer(): Promise<ArrayBuffer>; size: number } | null>;
   put(key: string, bytes: Uint8Array, options?: unknown): Promise<unknown>;
@@ -17,7 +18,11 @@ export class PrivateObjects implements Objects {
     if (!value) return null;
     if (value.size > 4_000_000) throw Error('Application object limit');
     const bytes = new Uint8Array(await value.arrayBuffer());
-    return (await digest(bytes)) === key.split('/').at(-1) ? bytes : null;
+    try {
+      return await decodeObject(bytes, key.split('/').at(-1)!);
+    } catch {
+      return null;
+    }
   }
   async get(key: string) {
     if (objectKey(key.split('/').at(-1)!) !== key) throw Error('Invalid application object key');
@@ -32,17 +37,22 @@ export class PrivateObjects implements Objects {
   async putImmutable(key: string, bytes: Uint8Array) {
     if (objectKey(await digest(bytes)) !== key || bytes.length > 4_000_000)
       throw Error('Invalid immutable application object');
+    const encoded = await encodeObject(bytes);
     for (const store of this.backup ? [this.primary, this.backup] : [this.primary]) {
       this.reads++;
       const prior = await store.get(key);
       if (prior) {
-        const raw = new Uint8Array(await prior.arrayBuffer());
+        if (prior.size > 4_000_000) throw Error('Application object limit');
+        const raw = await decodeObject(
+          new Uint8Array(await prior.arrayBuffer()),
+          key.split('/').at(-1)!,
+        );
         if ((await digest(raw)) !== (await digest(bytes)))
           throw Error('Immutable collision or corruption');
       } else {
         this.writes++;
-        this.bytes += bytes.length;
-        await store.put(key, bytes, { onlyIf: { etagDoesNotMatch: '*' } });
+        this.bytes += encoded.length;
+        await store.put(key, encoded, { onlyIf: { etagDoesNotMatch: '*' } });
       }
       const verified = await this.read(store, key);
       if (!verified) throw Error('Immutable verification failed');

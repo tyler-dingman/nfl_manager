@@ -3,7 +3,9 @@ import { z } from 'zod';
 import { assertSameOrigin, authError } from '@/server/auth/http';
 import { currentUser } from '@/server/auth/request';
 import { registerTriviaEvent } from '@/server/trivia/event-repository';
-export async function POST(request: NextRequest, { params }: { params: { eventId: string } }) {
+export async function POST(request: NextRequest, { params: asyncparams }: { params: Promise<{ eventId: string }> }) {
+const params = await asyncparams;
+
   try {
     assertSameOrigin(request);
     const user = await currentUser(request);

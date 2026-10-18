@@ -2,7 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { assertSameOrigin, authError } from '@/server/auth/http';
 import { currentUser } from '@/server/auth/request';
 import { acceptFriend, removeFriend } from '@/server/trivia/social-repository';
-export async function PATCH(r: NextRequest, { params }: { params: { userId: string } }) {
+export async function PATCH(r: NextRequest, { params: asyncparams }: { params: Promise<{ userId: string }> }) {
+const params = await asyncparams;
+
   try {
     assertSameOrigin(r);
     const u = await currentUser(r);
@@ -12,7 +14,9 @@ export async function PATCH(r: NextRequest, { params }: { params: { userId: stri
     return authError((e as Error).message);
   }
 }
-export async function DELETE(r: NextRequest, { params }: { params: { userId: string } }) {
+export async function DELETE(r: NextRequest, { params: asyncparams }: { params: Promise<{ userId: string }> }) {
+const params = await asyncparams;
+
   assertSameOrigin(r);
   const u = await currentUser(r);
   if (!u) return authError('Unauthorized.', 401);

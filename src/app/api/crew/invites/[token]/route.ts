@@ -2,11 +2,15 @@ import { NextRequest, NextResponse } from 'next/server';
 import { authError, assertSameOrigin } from '@/server/auth/http';
 import { currentUser } from '@/server/auth/request';
 import { acceptCrewInvite, inspectCrewInvite } from '@/server/crew/repository';
-export async function GET(_: NextRequest, { params }: { params: { token: string } }) {
+export async function GET(_: NextRequest, { params: asyncparams }: { params: Promise<{ token: string }> }) {
+const params = await asyncparams;
+
   const invite = await inspectCrewInvite(params.token);
   return invite ? NextResponse.json({ invite }) : authError('Invite not found.', 404);
 }
-export async function POST(request: NextRequest, { params }: { params: { token: string } }) {
+export async function POST(request: NextRequest, { params: asyncparams }: { params: Promise<{ token: string }> }) {
+const params = await asyncparams;
+
   try {
     assertSameOrigin(request);
     const user = await currentUser(request);

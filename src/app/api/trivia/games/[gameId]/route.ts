@@ -2,7 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { authError } from '@/server/auth/http';
 import { getTriviaGame, getTriviaLiveState } from '@/server/trivia/game-repository';
 import { triviaPlayer } from '@/server/trivia/guest';
-export async function GET(r: NextRequest, { params }: { params: { gameId: string } }) {
+export async function GET(r: NextRequest, { params: asyncparams }: { params: Promise<{ gameId: string }> }) {
+const params = await asyncparams;
+
   try {
     const player = await triviaPlayer(r);
     if (!player) return authError('Unauthorized.', 401);

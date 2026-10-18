@@ -3,7 +3,9 @@ import { z } from 'zod';
 import { authError, assertSameOrigin } from '@/server/auth/http';
 import { currentUser } from '@/server/auth/request';
 import { reactToActivity } from '@/server/crew/repository';
-export async function POST(request: NextRequest, { params }: { params: { activityId: string } }) {
+export async function POST(request: NextRequest, { params: asyncparams }: { params: Promise<{ activityId: string }> }) {
+const params = await asyncparams;
+
   try {
     assertSameOrigin(request);
     const user = await currentUser(request);

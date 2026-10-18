@@ -1,3 +1,5 @@
+import { decodeObject } from './codec';
+import { JsonTree } from './json-tree';
 export interface Statement {
   bind(...values: unknown[]): Statement;
   all<T = Record<string, unknown>>(): Promise<{
@@ -69,9 +71,14 @@ export class Storage {
     return hash;
   }
   async get<T = unknown>(hash: string): Promise<T> {
-    const bytes = await this.objects.get(objectKey(hash));
-    if (!bytes || (await digest(bytes)) !== hash)
+    const stored = await this.objects.get(objectKey(hash));
+    if (!stored) throw Error('Missing or corrupt application object');
+    let bytes: Uint8Array;
+    try {
+      bytes = await decodeObject(stored, hash);
+    } catch {
       throw Error('Missing or corrupt application object');
+    }
     return JSON.parse(decode.decode(bytes)) as T;
   }
   guard(nonce: string) {
@@ -93,6 +100,7 @@ export class ApplicationDocuments {
     if (!head) return null;
     const envelope = await this.storage.get<{
       schema: number;
+      root?: string;
       owner: string;
       kind: string;
       id: string;
@@ -100,14 +108,18 @@ export class ApplicationDocuments {
       value: T;
     }>(head.object_hash);
     if (
-      envelope.schema !== 1 ||
+      ![1, 2].includes(envelope.schema) ||
       envelope.owner !== owner ||
       envelope.kind !== kind ||
       envelope.id !== id ||
       envelope.revision !== head.revision
     )
       throw Error('Application envelope identity mismatch');
-    return { revision: head.revision, value: envelope.value };
+    const value =
+      envelope.schema === 2
+        ? await new JsonTree(this.storage).get<T>(envelope.root!)
+        : envelope.value;
+    return { revision: head.revision, value };
   }
   async commit(
     owner: string,
@@ -140,12 +152,12 @@ export class ApplicationDocuments {
       return { revision: prior.revision, replayed: true };
     }
     const hash = await this.storage.put({
-        schema: 1,
+        schema: 2,
         owner,
         kind,
         id,
         revision: expected + 1,
-        value,
+        root: await new JsonTree(this.storage).put(value),
       }),
       nonce = crypto.randomUUID();
     const write =

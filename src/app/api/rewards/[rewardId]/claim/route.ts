@@ -3,7 +3,9 @@ import { assertSameOrigin, authError } from '@/server/auth/http';
 import { currentUser } from '@/server/auth/request';
 import { claimReward } from '@/server/rewards/repository';
 
-export async function POST(request: NextRequest, { params }: { params: { rewardId: string } }) {
+export async function POST(request: NextRequest, { params: asyncparams }: { params: Promise<{ rewardId: string }> }) {
+const params = await asyncparams;
+
   const user = await currentUser(request);
   if (!user) return authError('Unauthorized.', 401);
   try {

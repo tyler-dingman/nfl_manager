@@ -3,6 +3,10 @@ import assert from 'node:assert/strict';
 import { harness } from './harness';
 import { Storage, type SqlDatabase } from '../../../packages/storage/core';
 import { PrivateObjects, type Bucket } from '../../../packages/storage/objects';
+import {
+  readPublishedOddsEvent,
+  OddsSnapshotHistory,
+} from '../../../packages/storage/odds-snapshots';
 import { scheduledApplicationOdds } from '../../application/odds';
 import { oddsFreshness, latestScheduledRefresh } from '../../../packages/parlay/freshness';
 test('concrete odds adapter: exactly three weekly slots, dedupe, quota, partial coverage, interruption and stale disclosure', async () => {
@@ -53,7 +57,9 @@ test('concrete odds adapter: exactly three weekly slots, dedupe, quota, partial 
     assert.equal(requests, 1);
     const [head] = await s.rows<any>('SELECT * FROM app_odds_publication'),
       manifest = await s.get<any>(head.object_hash),
-      event = await s.get<any>(manifest.events[0].hash);
+      event = (await readPublishedOddsEvent(s, manifest.events[0])) as any;
+    assert.equal(manifest.schema, 2);
+    assert.equal((await new OddsSnapshotHistory(s).page('original-event')).length, 1);
     assert.equal(head.coverage, 'PARTIAL');
     assert.equal(event.odds.passing.byBookmaker.fanduel.altLines[0].overUnder, 300);
     assert.equal(

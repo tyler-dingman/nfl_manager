@@ -1,0 +1,122 @@
+TAP version 13
+# Subtest: new franchises persist every team; different owners/saves cannot share a team index
+ok 1 - new franchises persist every team; different owners/saves cannot share a team index
+  ---
+  duration_ms: 696.481417
+  ...
+# Subtest: owned command state and receipt commit once; stale and reused commands conflict
+ok 2 - owned command state and receipt commit once; stale and reused commands conflict
+  ---
+  duration_ms: 388.209875
+  ...
+# [front-office:durable] { code: 'STATE_OR_DATABASE_ERROR' }
+# Subtest: database rollback and failed handlers never publish mutated process state
+ok 3 - database rollback and failed handlers never publish mutated process state
+  ---
+  duration_ms: 350.686834
+  ...
+# Subtest: legacy data is blocked and preserved; partial candidate cannot migrate
+ok 4 - legacy data is blocked and preserved; partial candidate cannot migrate
+  ---
+  duration_ms: 33.881
+  ...
+# Subtest: complete explicitly confirmed legacy candidate retains original and migrates atomically
+ok 5 - complete explicitly confirmed legacy candidate retains original and migrates atomically
+  ---
+  duration_ms: 741.202834
+  ...
+# Subtest: transport preserves command identity after ambiguous failure and isolates account switches
+ok 6 - transport preserves command identity after ambiguous failure and isolates account switches
+  ---
+  duration_ms: 0.569416
+  ...
+# Subtest: real cut, free-agent signing and contract routes survive independent request workspaces
+ok 7 - real cut, free-agent signing and contract routes survive independent request workspaces
+  ---
+  duration_ms: 748.799667
+  ...
+# Subtest: trade proposal workspaces and pick ownership persist across create/add/propose requests
+ok 8 - trade proposal workspaces and pick ownership persist across create/add/propose requests
+  ---
+  duration_ms: 698.373
+  ...
+# Subtest: real simulation advances and real draft continuation persist RNG and full results
+ok 9 - real simulation advances and real draft continuation persist RNG and full results
+  ---
+  duration_ms: 8401.412125
+  ...
+# Subtest: forced collection between validation and transaction preserves real draft continuation, RNG and season progression
+ok 10 - forced collection between validation and transaction preserves real draft continuation, RNG and season progression
+  ---
+  duration_ms: 12200.662
+  ...
+# [front-office:durable] { code: '22012' }
+# Subtest: SQL interruption rolls back state, metadata and receipt together
+ok 11 - SQL interruption rolls back state, metadata and receipt together
+  ---
+  duration_ms: 195.580791
+  ...
+# Subtest: successive committed season rollovers retain traded picks and all draft history
+ok 12 - successive committed season rollovers retain traded picks and all draft history
+  ---
+  duration_ms: 658.950458
+  ...
+# FO-1 measured local envelope {"mutable_bytes":279713,"shared_reference_bytes":2090672,"receipt_bytes":220,"full_runtime_bytes":1895695,"create_elapsed_ms":103.78712499999892,"create_sql_statements":11,"create_precommit_ms":103.3,"roster_response_bytes":68406}
+# Subtest: separate database connection recovers state without process Maps and records storage envelope
+ok 13 - separate database connection recovers state without process Maps and records storage envelope
+  ---
+  duration_ms: 494.98525
+  ...
+# Subtest: draft trade acceptance persists ownership and duplicate commands replay once
+ok 14 - draft trade acceptance persists ownership and duplicate commands replay once
+  ---
+  duration_ms: 636.452791
+  ...
+# Subtest: header-only save identity participates in command receipts
+ok 15 - header-only save identity participates in command receipts
+  ---
+  duration_ms: 386.270333
+  ...
+# Subtest: create requires version zero and resume is an owned read without a gameplay version increment
+ok 16 - create requires version zero and resume is an owned read without a gameplay version increment
+  ---
+  duration_ms: 333.009334
+  ...
+# FO-1 private endpoint ownership checks 59
+# Subtest: every private franchise endpoint authenticates and denies another owner
+ok 17 - every private franchise endpoint authenticates and denies another owner
+  ---
+  duration_ms: 260.152583
+  ...
+# [front-office:durable] { code: '23503' }
+# Subtest: deferred COMMIT failure rolls back runtime, version and command receipt
+ok 18 - deferred COMMIT failure rolls back runtime, version and command receipt
+  ---
+  duration_ms: 361.29175
+  ...
+# FO-1 command performance {"records":[{"name":"create","elapsed_ms":101.17933300000004,"received":727,"sent":2161637,"reads":4,"writes":5,"other":2,"queries":11},{"name":"cap-command","elapsed_ms":133.56950000000143,"received":2371525,"sent":2113890,"reads":7,"writes":4,"other":2,"queries":13},{"name":"cap-command","elapsed_ms":134.32837500000096,"received":2323879,"sent":2113913,"reads":7,"writes":4,"other":2,"queries":13},{"name":"cap-command","elapsed_ms":133.82508400000006,"received":2323893,"sent":2113910,"reads":7,"writes":4,"other":2,"queries":13},{"name":"cap-command","elapsed_ms":129.7452919999996,"received":2323893,"sent":2113912,"reads":7,"writes":4,"other":2,"queries":13},{"name":"cap-command","elapsed_ms":143.921957999999,"received":2323892,"sent":2113909,"reads":7,"writes":4,"other":2,"queries":13},{"name":"replay","elapsed_ms":1.0217499999998836,"received":713,"sent":482,"reads":4,"writes":0,"other":2,"queries":6},{"name":"roster","elapsed_ms":61.77166600000055,"received":2323736,"sent":632,"reads":5,"writes":0,"other":2,"queries":7}],"bytes":{"state_json_bytes":232080,"state_datum_bytes":32493},"receipts":{"rows":6,"bytes":503},"beforeAllocation":[{"state_relation_bytes":7528448,"reference_relation_bytes":868352,"receipt_relation_bytes":2007040}],"afterAllocation":[{"state_relation_bytes":7700480,"reference_relation_bytes":868352,"receipt_relation_bytes":2015232}],"roster_json_bytes":68406,"scope":"Warm local direct-route calls; actual loopback PG protocol bytes; committed commands; physical relation allocation includes all synthetic tests. No cloud billing or percentile claim."}
+# Subtest: local performance measures committed commands, replay, reads and retained storage growth
+ok 19 - local performance measures committed commands, replay, reads and retained storage growth
+  ---
+  duration_ms: 841.974791
+  ...
+# FO-1 migration replay preserved synthetic save rows 24
+# Subtest: additive migration replay preserves every existing legacy and migrated franchise
+ok 20 - additive migration replay preserves every existing legacy and migrated franchise
+  ---
+  duration_ms: 57.018792
+  ...
+# Subtest: full owned game checkpoint restores all durable state and command receipts
+ok 21 - full owned game checkpoint restores all durable state and command receipts
+  ---
+  duration_ms: 1084.791958
+  ...
+1..21
+# tests 21
+# suites 0
+# pass 21
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 29880.544208

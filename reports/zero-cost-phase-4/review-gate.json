@@ -1,0 +1,17 @@
+{
+  "gate": "LOCAL_REVIEW_COMMIT_ONLY",
+  "criticalTestsPassed": true,
+  "suitePasses": 1182,
+  "suiteFailures": 0,
+  "standaloneConditionalSkips": 2,
+  "unresolvedConditionalSkips": 0,
+  "browserCases": 48,
+  "workerRouteSamples": 26,
+  "workerCapabilityAssertions": 4,
+  "recoveryUsers": 3000,
+  "productionReadiness": "BLOCKED",
+  "productionCpu": "UNVERIFIED",
+  "wholeProductMigration": "PARTIAL",
+  "deploymentAuthorized": false,
+  "branch": "poc/zero-cost-production-readiness-phase-4"
+}

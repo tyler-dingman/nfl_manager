@@ -1,3 +1,4 @@
+import { OddsSnapshotHistory } from '../../packages/storage/odds-snapshots';
 import { Storage } from '../../packages/storage/core';
 import {
   SportsGameOddsClient,
@@ -63,18 +64,28 @@ export async function scheduledApplicationOdds(
     if (!events.length) throw Error('Empty odds refresh; retain prior publication');
     if (new Set(events.map((e) => e.eventID)).size !== events.length)
       throw Error('Repeated provider event IDs');
-    const objects: { id: string; hash: string }[] = [],
+    const objects: { id: string; hash: string; codec: string; historyId: string }[] = [],
       books = new Set<string>();
     for (const event of events) {
       for (const odd of Object.values(event.odds ?? {}))
         for (const book of Object.keys(odd.byBookmaker ?? {})) books.add(book);
-      objects.push({ id: event.eventID, hash: await s.put(event) });
+      const history = await new OddsSnapshotHistory(s).write(
+        event.eventID,
+        now.toISOString(),
+        event,
+      );
+      objects.push({
+        id: event.eventID,
+        hash: history.hash,
+        codec: 'ODDS_TREE',
+        historyId: history.id,
+      });
     }
     const missing = ['fanduel', 'draftkings', 'betmgm', 'caesars'].filter((b) => !books.has(b)),
       coverage = missing.length ? 'PARTIAL' : 'COMPLETE',
       slot = now.toISOString().slice(0, 10),
       hash = await s.put({
-        schema: 1,
+        schema: 2,
         slot,
         provider: 'SPORTSGAMEODDS',
         events: objects,

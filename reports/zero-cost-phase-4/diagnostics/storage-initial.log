@@ -1,0 +1,70 @@
+TAP version 13
+# Subtest: saved metadata cannot inject another owner private pointer or bypass envelope ownership
+ok 1 - saved metadata cannot inject another owner private pointer or bypass envelope ownership
+  ---
+  duration_ms: 771.105542
+  ...
+# Subtest: D1 identities, settings, sessions, replay detection, ownership and restart
+ok 2 - D1 identities, settings, sessions, replay detection, ownership and restart
+  ---
+  duration_ms: 778.661083
+  ...
+# Subtest: large owned game/slip/trivia/config aggregates commit atomically with R2 and reject stale updates
+ok 3 - large owned game/slip/trivia/config aggregates commit atomically with R2 and reject stale updates
+  ---
+  duration_ms: 5222.221542
+  ...
+# Subtest: mail encryption, dedupe, opt-out, free quota, concurrent workers and ambiguous delivery
+ok 4 - mail encryption, dedupe, opt-out, free quota, concurrent workers and ambiguous delivery
+  ---
+  duration_ms: 4165.310625
+  ...
+# Subtest: approved daily team email is queued once, preserves sources and honors email preferences
+ok 5 - approved daily team email is queued once, preserves sources and honors email preferences
+  ---
+  duration_ms: 703.7995
+  ...
+# Subtest: shared inference is source-versioned, quota-reserved and never invents a fallback; FTS preserves attribution
+ok 6 - shared inference is source-versioned, quota-reserved and never invents a fallback; FTS preserves attribution
+  ---
+  duration_ms: 526.636417
+  ...
+# Subtest: cold cross-store checkpoint restores all logical tables, original IDs and large objects after interruption
+not ok 7 - cold cross-store checkpoint restores all logical tables, original IDs and large objects after interruption
+  ---
+  duration_ms: 3821.081959
+  location: '/private/tmp/down-distance-zero-cost-phase-4/workers/content-engine/test/application-services.test.ts:1:7618'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /Corrupt content-addressed/. Input:
+
+    'Error: Application object integrity failure'
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual:
+  error: 'Application object integrity failure'
+  stack: |-
+    decodeObject (/private/tmp/down-distance-zero-cost-phase-4/packages/storage/codec.ts:32:50)
+    async checkpoint (/private/tmp/down-distance-zero-cost-phase-4/packages/storage/cold-recovery.ts?tsx-commonjs-export-preparse=1:2:5296)
+    async waitForActual (node:assert:875:5)
+    async Function.rejects (node:assert:996:25)
+    async TestContext.<anonymous> (/private/tmp/down-distance-zero-cost-phase-4/workers/content-engine/test/application-services.test.ts:329:5)
+    async Test.run (node:internal/test_runner/test:980:9)
+    async Test.processPendingSubtests (node:internal/test_runner/test:677:7)
+  operator: 'rejects'
+  stack: |-
+    async TestContext.<anonymous> (/private/tmp/down-distance-zero-cost-phase-4/workers/content-engine/test/application-services.test.ts:329:5)
+    async Test.run (node:internal/test_runner/test:980:9)
+    async Test.processPendingSubtests (node:internal/test_runner/test:677:7)
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 6
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 9664.996458

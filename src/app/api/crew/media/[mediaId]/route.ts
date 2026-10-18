@@ -3,7 +3,9 @@ import { currentUser } from '@/server/auth/request';
 import { authError } from '@/server/auth/http';
 import { authDb } from '@/server/auth/database';
 import { z } from 'zod';
-export async function GET(request: NextRequest, { params }: { params: { mediaId: string } }) {
+export async function GET(request: NextRequest, { params: asyncparams }: { params: Promise<{ mediaId: string }> }) {
+const params = await asyncparams;
+
   const user = await currentUser(request);
   if (!user) return authError('Unauthorized.', 401);
   if (!z.string().uuid().safeParse(params.mediaId).success)

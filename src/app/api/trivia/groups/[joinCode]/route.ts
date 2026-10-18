@@ -4,7 +4,9 @@ import { authError } from '@/server/auth/http';
 import { currentUser } from '@/server/auth/request';
 import { getGroupRoom } from '@/server/trivia/social-repository';
 
-export async function GET(request: NextRequest, { params }: { params: { joinCode: string } }) {
+export async function GET(request: NextRequest, { params: asyncparams }: { params: Promise<{ joinCode: string }> }) {
+const params = await asyncparams;
+
   try {
     const user = await currentUser(request);
     if (!user) return authError('Unauthorized.', 401);

@@ -21,7 +21,9 @@ const schema = z
   .refine((input) => requiresPkce(input.authorizationCode, input.codeVerifier), {
     message: 'codeVerifier is required when exchanging an authorization code.',
   });
-export async function POST(request: NextRequest, { params }: { params: { provider: string } }) {
+export async function POST(request: NextRequest, { params: asyncparams }: { params: Promise<{ provider: string }> }) {
+const params = await asyncparams;
+
   try {
     const ip = requestMetadata(request).ip ?? 'unknown';
     if (!checkRateLimit(`social-exchange:${params.provider}:${ip}`, 20, 15 * 60_000))

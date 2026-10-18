@@ -1,7 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { NFL_LEAGUE_DATA } from '@/server/data/nfl-data';
 import { listPublicStories } from '@/server/story-engine/projections';
-export async function GET(_: NextRequest, { params }: { params: { playerId: string } }) {
+export async function GET(_: NextRequest, { params: asyncparams }: { params: Promise<{ playerId: string }> }) {
+const params = await asyncparams;
+
   const player = NFL_LEAGUE_DATA.players.find((item) => item.id === params.playerId);
   if (!player) return NextResponse.json({ error: 'Player not found.' }, { status: 404 });
   const contract =

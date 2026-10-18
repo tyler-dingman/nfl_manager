@@ -21,7 +21,12 @@ export async function importPostgres(s: Storage, source: PostgresExport) {
     typed = 0;
   const definitions: Record<
     string,
-    { target: string; fields: string[]; values: (r: any) => unknown[] }
+    {
+      target: string;
+      fields: string[];
+      values: (r: any) => unknown[];
+      eligible?: (r: any) => boolean;
+    }
   > = {
     users: {
       target: 'app_users',
@@ -180,6 +185,158 @@ export async function importPostgres(s: Storage, source: PostgresExport) {
       ],
     },
   };
+  const direct = (target: string, fields: string[], values?: (r: any) => unknown[]) => ({
+    target,
+    fields,
+    values: values ?? ((r: any) => fields.map((f) => r[f])),
+  });
+  Object.assign(definitions, {
+    trivia_questions: direct(
+      'app_trivia_questions',
+      [
+        'id',
+        'team_id',
+        'question',
+        'answer_a',
+        'answer_b',
+        'answer_c',
+        'answer_d',
+        'correct_answer',
+        'explanation',
+        'category',
+        'verified',
+        'active',
+      ],
+      (r) => [
+        r.id,
+        r.team_id,
+        r.question,
+        r.answer_a,
+        r.answer_b,
+        r.answer_c,
+        r.answer_d,
+        r.correct_answer,
+        r.explanation,
+        r.category,
+        r.verified ? 1 : 0,
+        r.active ? 1 : 0,
+      ],
+    ),
+    trivia_daily_questions: direct('app_trivia_daily', [
+      'id',
+      'team_id',
+      'question_date',
+      'question_id',
+    ]),
+    trivia_daily_views: direct('app_trivia_views', ['user_id', 'daily_id', 'presented_at'], (r) => [
+      r.user_id,
+      r.daily_question_id,
+      stamp(r.presented_at),
+    ]),
+    trivia_answers: {
+      ...direct(
+        'app_trivia_answers',
+        [
+          'id',
+          'user_id',
+          'daily_id',
+          'question_id',
+          'selected_answer',
+          'correct',
+          'response_time_ms',
+          'points_awarded',
+          'answered_at',
+        ],
+        (r) => [
+          r.id,
+          r.user_id,
+          r.daily_question_id,
+          r.question_id,
+          r.selected_answer,
+          r.correct ? 1 : 0,
+          r.response_time_ms,
+          r.points_awarded,
+          stamp(r.answered_at),
+        ],
+      ),
+      eligible: (r: any) => Boolean(r.daily_question_id && r.selected_answer),
+    },
+    trivia_stats: direct('app_trivia_stats', [
+      'user_id',
+      'lifetime_points',
+      'weekly_points',
+      'questions_answered',
+      'correct_answers',
+      'games_played',
+      'current_streak',
+      'best_streak',
+    ]),
+    move_the_chains_accounts: direct('app_reward_accounts', [
+      'user_id',
+      'current_drive_yards',
+      'touchdowns',
+      'lifetime_yards',
+    ]),
+    move_the_chains_events: direct(
+      'app_reward_events',
+      [
+        'id',
+        'user_id',
+        'event_type',
+        'yards',
+        'source_type',
+        'source_id',
+        'idempotency_key',
+        'created_at',
+      ],
+      (r) => [
+        r.id,
+        r.user_id,
+        r.event_type,
+        r.yards,
+        r.source_type,
+        r.source_id,
+        r.idempotency_key,
+        stamp(r.created_at),
+      ],
+    ),
+    reward_definitions: direct(
+      'app_reward_definitions',
+      ['id', 'type', 'title', 'description', 'threshold_yards', 'discount_percent', 'active'],
+      (r) => [
+        r.id,
+        r.type,
+        r.title,
+        r.description ?? '',
+        r.threshold_yards,
+        r.discount_percent,
+        r.active ? 1 : 0,
+      ],
+    ),
+    user_rewards: direct(
+      'app_user_rewards',
+      [
+        'id',
+        'user_id',
+        'reward_definition_id',
+        'status',
+        'unlocked_at',
+        'claimed_at',
+        'redeemed_at',
+        'coupon_code',
+      ],
+      (r) => [
+        r.id,
+        r.user_id,
+        r.reward_definition_id,
+        r.status,
+        stamp(r.unlocked_at),
+        stamp(r.claimed_at),
+        stamp(r.redeemed_at),
+        r.coupon_code,
+      ],
+    ),
+  });
   const originalCount = (await s.rows<{ n: number }>('SELECT count(*) n FROM app_imports'))[0].n;
   // Immutable archive staging can be repeated, but conflicting row keys never
   // overwrite an earlier import. All typed inserts run only into empty targets.
@@ -209,8 +366,9 @@ export async function importPostgres(s: Storage, source: PostgresExport) {
     const table = source.tables.find((t) => t.name === name);
     if (!table) continue;
     for (const raw of table.rows) {
-      const row = JSON.parse(raw),
-        values = definition.values(row).map((v) => (v === undefined ? null : v));
+      const row = JSON.parse(raw);
+      if (definition.eligible && !definition.eligible(row)) continue;
+      const values = definition.values(row).map((v) => (v === undefined ? null : v));
       await s.batch([
         s.statement(
           `INSERT INTO ${definition.target}(${definition.fields.join(',')}) VALUES(${values.map(() => '?').join(',')})`,

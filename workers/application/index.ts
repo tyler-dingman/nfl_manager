@@ -1,6 +1,7 @@
 import { Storage, type SqlDatabase } from '../../packages/storage/core';
 import { PrivateObjects, type Bucket } from '../../packages/storage/objects';
 import { MailQueue, ResendEmailProvider } from '../../packages/storage/mail';
+import { maintainTemporaryData } from '../../packages/storage/lifecycle';
 import { scheduledApplicationOdds } from './odds';
 import { ODDS_REFRESH_CRON } from '../../packages/parlay/freshness';
 interface Env {
@@ -10,6 +11,7 @@ interface Env {
   APP_ODDS_ENABLED?: string;
   SPORTSGAMEODDS_API_KEY?: string;
   APP_MAIL_ENABLED?: string;
+  APP_MAINTENANCE_ENABLED?: string;
   APP_MAIL_ENCRYPTION_KEY?: string;
   RESEND_API_KEY?: string;
   APP_MAIL_FROM?: string;
@@ -20,6 +22,15 @@ export default {
   },
   async scheduled(event: { cron: string; scheduledTime: number }, env: Env) {
     const s = new Storage(env.APP_DB, new PrivateObjects(env.APP_OBJECTS, env.APP_BACKUP));
+    const tick = new Date(event.scheduledTime);
+    if (
+      env.APP_MAINTENANCE_ENABLED === 'true' &&
+      event.cron === '*/30 * * * *' &&
+      tick.getUTCHours() === 0 &&
+      tick.getUTCMinutes() === 0
+    ) {
+      await maintainTemporaryData(s, event.scheduledTime, 15);
+    }
     if (event.cron === ODDS_REFRESH_CRON) {
       if (env.APP_ODDS_ENABLED !== 'true') return;
       await scheduledApplicationOdds(

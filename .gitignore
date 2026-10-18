@@ -33,3 +33,5 @@ firebase-debug*.log
 .open-next/
 .wrangler/
 workers/web/dist/
+
+workers/web/dist-minified/

@@ -6,7 +6,9 @@ import { teamContentEngine } from '@/features/content/content-engine';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET(request: Request, { params }: { params: { briefingId: string } }) {
+export async function GET(request: Request, { params: asyncparams }: { params: Promise<{ briefingId: string }> }) {
+const params = await asyncparams;
+
   const url = new URL(request.url);
   const teamAbbr = (url.searchParams.get('team') ?? 'NFL').toUpperCase();
   const team = TEAM_LIST.find((candidate) => candidate.abbr === teamAbbr);

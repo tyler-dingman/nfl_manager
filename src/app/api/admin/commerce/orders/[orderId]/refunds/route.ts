@@ -16,7 +16,9 @@ const schema = z.object({
   reason: z.enum(['CUSTOMER_REQUEST', 'DAMAGED_ITEM', 'ORDER_CORRECTION', 'OTHER']).optional(),
 });
 
-export async function POST(request: NextRequest, { params }: { params: { orderId: string } }) {
+export async function POST(request: NextRequest, { params: asyncparams }: { params: Promise<{ orderId: string }> }) {
+const params = await asyncparams;
+
   try {
     assertSameOrigin(request);
     const user = await currentUser(request);

@@ -5,7 +5,9 @@ import { NFL_LEAGUE_DATA } from '@/server/data/nfl-data';
 import { createFallbackRegularSeasonSchedule } from '@/server/front-office/calendar';
 import { generateFrontOfficeEvents } from '@/server/front-office/event-engine';
 import { isFrontOfficeNewsNotification } from '@/lib/front-office-news-notifications';
-export default function Page({ searchParams }: { searchParams: { mode?: string } }) {
+export default async function Page({ searchParams: asyncsearchParams }: { searchParams: Promise<{ mode?: string }> }) {
+const searchParams = await asyncsearchParams;
+
   if (process.env.NODE_ENV !== 'development') notFound();
   const teams = NFL_LEAGUE_DATA.teams.map((t) => ({
     abbr: t.abbr,

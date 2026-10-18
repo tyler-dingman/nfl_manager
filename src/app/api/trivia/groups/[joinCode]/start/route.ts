@@ -2,7 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { assertSameOrigin, authError } from '@/server/auth/http';
 import { currentUser } from '@/server/auth/request';
 import { startGroup } from '@/server/trivia/social-repository';
-export async function POST(r: NextRequest, { params }: { params: { joinCode: string } }) {
+export async function POST(r: NextRequest, { params: asyncparams }: { params: Promise<{ joinCode: string }> }) {
+const params = await asyncparams;
+
   try {
     assertSameOrigin(r);
     const u = await currentUser(r);

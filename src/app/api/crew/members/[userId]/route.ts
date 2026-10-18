@@ -4,7 +4,9 @@ import { currentUser } from '@/server/auth/request';
 import { removeCrewMember } from '@/server/crew/repository';
 import { z } from 'zod';
 
-export async function DELETE(request: NextRequest, { params }: { params: { userId: string } }) {
+export async function DELETE(request: NextRequest, { params: asyncparams }: { params: Promise<{ userId: string }> }) {
+const params = await asyncparams;
+
   try {
     assertSameOrigin(request);
     const user = await currentUser(request);

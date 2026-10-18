@@ -10,7 +10,9 @@ const schema = z.object({
   description: z.string().max(2000).optional(),
   basePriceCents: z.number().int().min(0).optional(),
 });
-export async function PATCH(request: NextRequest, { params }: { params: { productId: string } }) {
+export async function PATCH(request: NextRequest, { params: asyncparams }: { params: Promise<{ productId: string }> }) {
+const params = await asyncparams;
+
   try {
     assertSameOrigin(request);
     const user = await currentUser(request);

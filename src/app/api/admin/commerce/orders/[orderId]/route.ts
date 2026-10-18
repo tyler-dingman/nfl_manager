@@ -14,14 +14,18 @@ async function admin(request: NextRequest) {
   const user = await currentUser(request);
   return isAllowedAdminUser(user?.id, process.env.ADMIN_USER_IDS ?? '') ? user : null;
 }
-export async function GET(request: NextRequest, { params }: { params: { orderId: string } }) {
+export async function GET(request: NextRequest, { params: asyncparams }: { params: Promise<{ orderId: string }> }) {
+const params = await asyncparams;
+
   if (!(await admin(request))) return NextResponse.json({ error: 'Not found' }, { status: 404 });
   const order = await adminOrder(params.orderId);
   return order
     ? NextResponse.json({ order })
     : NextResponse.json({ error: 'Not found' }, { status: 404 });
 }
-export async function PATCH(request: NextRequest, { params }: { params: { orderId: string } }) {
+export async function PATCH(request: NextRequest, { params: asyncparams }: { params: Promise<{ orderId: string }> }) {
+const params = await asyncparams;
+
   try {
     assertSameOrigin(request);
     const user = await admin(request);

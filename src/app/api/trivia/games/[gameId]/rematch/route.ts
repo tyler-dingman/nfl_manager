@@ -4,7 +4,9 @@ import { assertSameOrigin, authError } from '@/server/auth/http';
 import { currentUser } from '@/server/auth/request';
 import { createGroupRematch } from '@/server/trivia/social-repository';
 
-export async function POST(request: NextRequest, { params }: { params: { gameId: string } }) {
+export async function POST(request: NextRequest, { params: asyncparams }: { params: Promise<{ gameId: string }> }) {
+const params = await asyncparams;
+
   try {
     assertSameOrigin(request);
     const user = await currentUser(request);

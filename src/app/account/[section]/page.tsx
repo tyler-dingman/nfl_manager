@@ -15,7 +15,9 @@ const sections = new Set<AccountSection>([
   'security',
 ]);
 
-export default function AccountSectionPage({ params }: { params: { section: string } }) {
+export default async function AccountSectionPage({ params: asyncparams }: { params: Promise<{ section: string }> }) {
+const params = await asyncparams;
+
   if (!sections.has(params.section as AccountSection)) notFound();
   return <AccountScreen section={params.section as AccountSection} />;
 }

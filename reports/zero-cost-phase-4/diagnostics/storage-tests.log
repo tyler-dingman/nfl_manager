@@ -1,0 +1,30 @@
+TAP version 13
+# Subtest: gzip remains lossless, bounded, legacy compatible and resistant to tampering
+ok 1 - gzip remains lossless, bounded, legacy compatible and resistant to tampering
+  ---
+  duration_ms: 37.062875
+  ...
+# Subtest: immutable JSON subtrees preserve every revision and literal reference-shaped values
+ok 2 - immutable JSON subtrees preserve every revision and literal reference-shaped values
+  ---
+  duration_ms: 3461.85975
+  ...
+# Subtest: daily trivia, stats and reward history commit atomically under concurrency and ignore supplied answer truth
+ok 3 - daily trivia, stats and reward history commit atomically under concurrency and ignore supplied answer truth
+  ---
+  duration_ms: 746.900291
+  ...
+# Subtest: bounded lifecycle archives consumed expired capabilities and retains active tokens and valuable records
+ok 4 - bounded lifecycle archives consumed expired capabilities and retains active tokens and valuable records
+  ---
+  duration_ms: 641.950459
+  ...
+1..4
+# tests 4
+# suites 0
+# pass 4
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 5451.957375

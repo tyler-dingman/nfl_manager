@@ -2,7 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { currentUser } from '@/server/auth/request';
 import { authError } from '@/server/auth/http';
 import { getRoom } from '@/server/game-day/repository';
-export async function GET(r: NextRequest, { params }: { params: { roomId: string } }) {
+export async function GET(r: NextRequest, { params: asyncparams }: { params: Promise<{ roomId: string }> }) {
+const params = await asyncparams;
+
   try {
     const u = await currentUser(r);
     if (!u) return authError('Unauthorized.', 401);

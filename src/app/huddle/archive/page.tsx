@@ -1,11 +1,13 @@
 import { Suspense } from 'react';
 import Huddle from '@/components/huddle-live/huddle';
 import ArchiveList from '@/components/huddle-live/archive-list';
-export default function HuddleArchive({
-  searchParams,
+export default async function HuddleArchive({
+  searchParams: asyncsearchParams,
 }: {
-  searchParams: { team?: string; date?: string };
+  searchParams: Promise<{ team?: string; date?: string }>;
 }) {
+const searchParams = await asyncsearchParams;
+
   return (
     <Suspense fallback={<p>Opening previous Huddles…</p>}>
       {searchParams.date ? (

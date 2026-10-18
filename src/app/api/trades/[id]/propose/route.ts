@@ -5,7 +5,9 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { proposeTrade } from '@/server/api/trades';
 
-const handlePOST = async (request: NextRequest, { params }: { params: { id: string } }) => {
+const handlePOST = async (request: NextRequest, { params: asyncparams }: { params: Promise<{ id: string }> }) => {
+const params = await asyncparams;
+
   try {
     const body = (await request.json()) as { saveId?: string };
     if (!body.saveId) {

@@ -13,7 +13,9 @@ const schema = z.object({
     .refine((x) => x !== 0),
   reason: z.enum(['New stock', 'Damaged', 'Manual correction', 'Return', 'Sample']),
 });
-export async function PATCH(request: NextRequest, { params }: { params: { variantId: string } }) {
+export async function PATCH(request: NextRequest, { params: asyncparams }: { params: Promise<{ variantId: string }> }) {
+const params = await asyncparams;
+
   try {
     assertSameOrigin(request);
     const user = await currentUser(request);

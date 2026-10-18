@@ -1,4 +1,7 @@
 import { Storage, digest, utf8, decode, type SqlDatabase } from './core';
+import { sealDirectory, unsealDirectory } from './backup-codec';
+import { JsonTree } from './json-tree';
+import { decodeObject } from './codec';
 import { seal, unseal, unsealBytes } from './mail';
 
 export interface SnapshotObjects {
@@ -14,6 +17,7 @@ type Manifest = {
   mode: 'OFFLINE';
   createdAt: number;
   tables: { name: string; sql: string; chunks: string[]; rows: number; hash: string }[];
+  chunkDigests?: Record<string, string>;
   objects: { key: string; hash: string; chunks?: string[] }[];
 };
 const quote = (name: string) => '"' + name.replaceAll('"', '""') + '"';
@@ -79,16 +83,23 @@ export async function checkpoint(
   backupObjects: SnapshotObjects,
   secret: string,
   mode: string,
+  previousId?: string,
 ) {
   requireOffline(mode);
   const start = performance.now(),
     snapshot = await tables(db);
+  const previous = previousId
+    ? await unsealDirectory<Manifest>(await backup.get<any>(previousId), secret)
+    : undefined;
+  if (previous && (previous.schema !== 3 || previous.mode !== 'OFFLINE'))
+    throw Error('Invalid previous checkpoint');
   const manifest: Manifest = {
     schema: 3,
     mode: 'OFFLINE',
     createdAt: Date.now(),
     tables: [],
     objects: [],
+    chunkDigests: {},
   };
   for (const table of snapshot) {
     const chunks: string[] = [];
@@ -96,7 +107,17 @@ export async function checkpoint(
       size = 0;
     const flush = async () => {
       if (chunk.length) {
-        chunks.push(await backup.put(await seal(chunk, secret)));
+        const fingerprint = await digest(utf8.encode(JSON.stringify(chunk)));
+        const prior = previous?.chunkDigests?.[fingerprint];
+        let hash: string;
+        if (prior) {
+          const restored = await unsealDirectory<Row[]>(await backup.get<any>(prior), secret);
+          if (JSON.stringify(restored) !== JSON.stringify(chunk))
+            throw Error('Previous backup chunk mismatch');
+          hash = prior;
+        } else hash = await backup.put(await sealDirectory(chunk, secret));
+        manifest.chunkDigests![fingerprint] = hash;
+        chunks.push(hash);
         chunk = [];
         size = 0;
       }
@@ -131,8 +152,15 @@ export async function checkpoint(
     if (bytes.length > 8_000_000)
       throw Error('Snapshot object exceeds bounded rehearsal ceiling; streaming required');
     const namedHash = key.match(/\/([a-f0-9]{64})(?:\.json|\.pack)?$/)?.[1];
-    if (namedHash && (await digest(bytes)) !== namedHash)
-      throw Error('Corrupt content-addressed source object');
+    if (namedHash && (await digest(bytes)) !== namedHash) {
+      if (key.startsWith('application/v1/')) {
+        try {
+          await decodeObject(bytes, namedHash);
+        } catch {
+          throw Error('Corrupt content-addressed source object');
+        }
+      } else throw Error('Corrupt content-addressed source object');
+    }
     const prior = await backupObjects.get(key);
     if (prior && (await digest(prior)) !== (await digest(bytes)))
       throw Error('Backup immutable object collision');
@@ -141,6 +169,30 @@ export async function checkpoint(
     if (!verified || (await digest(verified)) !== (await digest(bytes)))
       throw Error('Backup object verification failed');
     manifest.objects.push({ key, hash: await digest(bytes) });
+  }
+  // Validate shared tree edges as well as D1 head pointers. A missing child must
+  // prevent checkpoint publication, even when every remaining object hashes.
+  const logical = new Storage(db, {
+    get: async (key) => {
+      const bytes = await source.get(key);
+      return bytes ? decodeObject(bytes, key.split('/').at(-1)!) : null;
+    },
+    putImmutable: async () => {
+      throw Error('Frozen source');
+    },
+  });
+  const applicationHashes = new Set(
+    snapshot
+      .filter((t) => ['app_heads', 'app_receipts', 'app_odds_history'].includes(t.name))
+      .flatMap((t) => t.rows.map((r) => String(r.object_hash))),
+  );
+  for (const hash of applicationHashes) {
+    const value = await logical.get<any>(hash);
+    if (
+      value?.root &&
+      (value.schema === 2 || (value.schema === 1 && value.kind === 'ODDS_HISTORY'))
+    )
+      await new JsonTree(logical).get(value.root);
   }
   // Detect changes during the copy; the explicit stopped-writers precondition
   // remains necessary, including writes after this comparison.
@@ -154,9 +206,17 @@ export async function checkpoint(
     if (!bytes || (await digest(bytes)) !== object.hash)
       throw Error('Source object changed during backup');
   }
-  const id = await backup.put(await seal(manifest, secret));
+  const unchanged =
+    previous &&
+    JSON.stringify(previous.tables) === JSON.stringify(manifest.tables) &&
+    JSON.stringify(previous.objects) === JSON.stringify(manifest.objects);
+  const id = unchanged ? previousId! : await backup.put(await sealDirectory(manifest, secret));
   return {
     id,
+    reusedCheckpoint: Boolean(unchanged),
+    reusedChunks: Object.values(manifest.chunkDigests!).filter((h) =>
+      Object.values(previous?.chunkDigests ?? {}).includes(h),
+    ).length,
     tables: manifest.tables.length,
     rows: manifest.tables.reduce((n, t) => n + t.rows, 0),
     objects: keys.length,
@@ -178,7 +238,7 @@ export async function restore(
 ) {
   requireOffline(mode);
   const start = performance.now(),
-    manifest = await unseal<Manifest>(await backup.get<any>(id), secret);
+    manifest = await unsealDirectory<Manifest>(await backup.get<any>(id), secret);
   if (![1, 2, 3].includes(manifest.schema) || manifest.mode !== 'OFFLINE')
     throw Error('Unknown checkpoint version');
   await db
@@ -246,7 +306,7 @@ export async function restore(
   }
   for (const table of manifest.tables) {
     for (const hash of table.chunks) {
-      const rows = await unseal<Row[]>(await backup.get<any>(hash), secret);
+      const rows = await unsealDirectory<Row[]>(await backup.get<any>(hash), secret);
       for (let i = 0; i < rows.length; i += 40) {
         const chunkId = `${id}:${table.name}:${hash}:${i}`;
         if (

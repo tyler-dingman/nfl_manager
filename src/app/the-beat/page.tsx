@@ -3,11 +3,12 @@ import { redirect } from 'next/navigation';
 
 import TeamContentHub from '@/components/team-content-hub';
 
-export default function TheBeatPage({
-  searchParams,
+export default async function TheBeatPage({
+  searchParams: pendingSearchParams,
 }: {
-  searchParams?: Record<string, string | string[] | undefined>;
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
 }) {
+  const searchParams = await pendingSearchParams;
   const story = typeof searchParams?.story === 'string' ? searchParams.story : null;
   if (story) {
     const passthrough = new URLSearchParams();

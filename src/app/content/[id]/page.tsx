@@ -53,7 +53,9 @@ const youtubeEmbed = (url: string) => {
   }
 };
 
-export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+export async function generateMetadata({ params: asyncparams }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+const params = await asyncparams;
+
   const item = await getContentDetail(decodeURIComponent(params.id));
   if (!item)
     return {
@@ -85,7 +87,9 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
   };
 }
 
-export default async function ContentDetailPage({ params }: { params: { id: string } }) {
+export default async function ContentDetailPage({ params: asyncparams }: { params: Promise<{ id: string }> }) {
+const params = await asyncparams;
+
   const item = await getContentDetail(decodeURIComponent(params.id));
   if (!item) notFound();
   const team = asTeam(item.teamAbbr);

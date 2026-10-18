@@ -3,7 +3,9 @@ import { z } from 'zod';
 import { assertSameOrigin, authError } from '@/server/auth/http';
 import { answerTriviaGameQuestion } from '@/server/trivia/game-repository';
 import { triviaPlayer } from '@/server/trivia/guest';
-export async function POST(r: NextRequest, { params }: { params: { gameId: string } }) {
+export async function POST(r: NextRequest, { params: asyncparams }: { params: Promise<{ gameId: string }> }) {
+const params = await asyncparams;
+
   try {
     assertSameOrigin(r);
     const player = await triviaPlayer(r);

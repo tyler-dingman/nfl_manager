@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import { ArrowLeft, ExternalLink } from 'lucide-react';
 import AppShell from '@/components/app-shell';
 import { FrontOfficeStoryGraphic } from '@/components/front-office/story-graphics/FrontOfficeStoryGraphic';
@@ -17,7 +18,8 @@ import {
 } from '@/lib/front-office-league-news';
 import type { FrontOfficeEvent } from '@/types/front-office';
 
-export default function LeagueNewsStoryPage({ params }: { params: { storyId: string } }) {
+export default function LeagueNewsStoryPage() {
+  const params = useParams<{ storyId: string }>();
   const teamAbbr = useSaveStore((state) => state.teamAbbr);
   const [story, setStory] = useState<LeagueNewsStory | null>(null);
   const [missing, setMissing] = useState(false);

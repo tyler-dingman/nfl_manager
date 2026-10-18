@@ -1,7 +1,9 @@
 import { notFound } from 'next/navigation';
 import { DraftSectionPage } from '@/components/front-office/draft-central/DraftSectionPage';
 const sections = new Set(['team-needs', 'history', 'scouting']);
-export default function DraftSectionRoute({ params }: { params: { section: string } }) {
+export default async function DraftSectionRoute({ params: asyncparams }: { params: Promise<{ section: string }> }) {
+const params = await asyncparams;
+
   if (!sections.has(params.section)) notFound();
   return <DraftSectionPage section={params.section} />;
 }
