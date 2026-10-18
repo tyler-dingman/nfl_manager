@@ -1,0 +1,1 @@
+These are retained intermediate diagnostic runs, including failures and interrupted checks that were subsequently corrected. Use ../validation-summary.json, ../review-gate.json and the final suite/build logs for final qualification. No failed test was deleted or counted as passing.

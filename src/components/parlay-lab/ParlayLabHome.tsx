@@ -22,6 +22,7 @@ import PlayerAvatar from './PlayerAvatar';
 import MyParlayPanel from './MyParlayPanel';
 import styles from './parlay-home.module.css';
 import ResearchWorkspace from './ResearchWorkspace';
+import { OddsFreshness } from './OddsFreshness';
 
 const GameByGameTrendChart = dynamic(() => import('./charts/GameByGameTrendChart'), { ssr: false });
 const OpponentVsPositionChart = dynamic(() => import('./charts/OpponentVsPositionChart'), {
@@ -178,6 +179,7 @@ export function ParlayLabHome({
   const slipEvent = events.find((e) => slip.length > 0 && slip.every((m) => m.eventId === e.id));
   return (
     <DashboardShell team={creatorTeam}>
+      <OddsFreshness />
       <RideTheBusDrawer
         team={creatorTeam}
         marketState={marketState}

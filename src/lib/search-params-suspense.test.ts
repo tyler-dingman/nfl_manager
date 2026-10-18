@@ -8,7 +8,8 @@ test('shared AppShell owns a local Suspense boundary for its search params', () 
     source,
     /function AppShell[\s\S]*?<Suspense fallback={null}>[\s\S]*?<AppShellContent\b[^>]*>/,
   );
-  assert.match(source, /function AppShellContent[\s\S]*?useSearchParams\(\)/);
+  assert.match(source, /function AppShellContent[\s\S]*?usePathname\(\)/);
+  assert.doesNotMatch(source, /useSearchParams\(/);
 });
 
 test('direct route search-param consumers have local boundaries', () => {

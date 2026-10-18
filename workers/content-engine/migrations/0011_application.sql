@@ -1,0 +1,23 @@
+-- Additive application migration. Original PostgreSQL tables remain authoritative unless opted in.
+CREATE TABLE app_users(id TEXT PRIMARY KEY,display_name TEXT,first_name TEXT,last_name TEXT,primary_email TEXT COLLATE NOCASE UNIQUE,email_verified INTEGER NOT NULL DEFAULT 0 CHECK(email_verified IN (0,1)),avatar_url TEXT,status TEXT NOT NULL CHECK(status IN ('ACTIVE','PENDING','SUSPENDED','DELETED')),created_at INTEGER NOT NULL,updated_at INTEGER NOT NULL,last_login_at INTEGER);
+CREATE TABLE app_credentials(user_id TEXT PRIMARY KEY REFERENCES app_users(id),password_hash TEXT NOT NULL,failed_attempts INTEGER NOT NULL DEFAULT 0,locked_until INTEGER,password_changed_at INTEGER);
+CREATE TABLE app_identities(id TEXT PRIMARY KEY,user_id TEXT NOT NULL REFERENCES app_users(id),provider TEXT NOT NULL,provider_subject TEXT NOT NULL,provider_email TEXT,provider_email_verified INTEGER NOT NULL DEFAULT 0,provider_display_name TEXT,created_at INTEGER NOT NULL,last_used_at INTEGER,UNIQUE(provider,provider_subject));
+CREATE INDEX app_identity_owner ON app_identities(user_id);
+CREATE TABLE app_devices(id TEXT PRIMARY KEY,user_id TEXT NOT NULL REFERENCES app_users(id),name TEXT,last_seen_at INTEGER);
+CREATE TABLE app_sessions(id TEXT PRIMARY KEY,user_id TEXT NOT NULL REFERENCES app_users(id),device_id TEXT REFERENCES app_devices(id),refresh_token_hash TEXT NOT NULL UNIQUE,token_family_id TEXT NOT NULL,expires_at INTEGER NOT NULL,revoked_at INTEGER,replaced_by_session_id TEXT,created_at INTEGER NOT NULL,last_used_at INTEGER NOT NULL,ip_metadata TEXT,user_agent_metadata TEXT);
+CREATE INDEX app_session_owner ON app_sessions(user_id);
+CREATE INDEX app_session_family ON app_sessions(token_family_id);
+CREATE TABLE app_tokens(id TEXT PRIMARY KEY,user_id TEXT REFERENCES app_users(id),type TEXT NOT NULL,token_hash TEXT NOT NULL UNIQUE,expires_at INTEGER NOT NULL,consumed_at INTEGER,consume_nonce TEXT);
+CREATE INDEX app_token_owner ON app_tokens(user_id,type);
+CREATE TABLE app_settings(user_id TEXT PRIMARY KEY REFERENCES app_users(id),profile_json TEXT NOT NULL DEFAULT '{}',preferences_json TEXT NOT NULL DEFAULT '{}',updated_at INTEGER NOT NULL);
+CREATE TABLE app_saved_content(id TEXT PRIMARY KEY,user_id TEXT NOT NULL REFERENCES app_users(id),content_type TEXT NOT NULL,content_id TEXT NOT NULL,title TEXT NOT NULL,href TEXT,image_url TEXT,metadata_json TEXT NOT NULL,created_at INTEGER NOT NULL,UNIQUE(user_id,content_type,content_id));
+CREATE TABLE app_assertions(nonce TEXT PRIMARY KEY,ok INTEGER NOT NULL CHECK(ok=1));
+CREATE TABLE app_heads(owner_id TEXT NOT NULL REFERENCES app_users(id),kind TEXT NOT NULL,id TEXT NOT NULL,revision INTEGER NOT NULL,object_hash TEXT NOT NULL,updated_at INTEGER NOT NULL,PRIMARY KEY(owner_id,kind,id)) WITHOUT ROWID;
+CREATE TABLE app_receipts(owner_id TEXT NOT NULL REFERENCES app_users(id),command_id TEXT NOT NULL,request_hash TEXT NOT NULL,kind TEXT NOT NULL,id TEXT NOT NULL,revision INTEGER NOT NULL,object_hash TEXT NOT NULL,PRIMARY KEY(owner_id,command_id)) WITHOUT ROWID;
+CREATE TABLE app_imports(source_table TEXT NOT NULL,row_key TEXT NOT NULL,object_hash TEXT NOT NULL,PRIMARY KEY(source_table,row_key)) WITHOUT ROWID;
+CREATE TABLE app_mail(id TEXT PRIMARY KEY,user_id TEXT REFERENCES app_users(id),purpose TEXT NOT NULL,dedupe_key TEXT NOT NULL UNIQUE,object_hash TEXT NOT NULL,status TEXT NOT NULL CHECK(status IN ('READY','SENDING','SENT','FAILED','UNCERTAIN','SUPPRESSED')),next_at INTEGER NOT NULL,lease_nonce TEXT,attempts INTEGER NOT NULL DEFAULT 0,first_attempt_at INTEGER,provider_id TEXT,last_error TEXT);
+CREATE INDEX app_mail_due ON app_mail(status,next_at);
+CREATE TABLE app_limits(bucket TEXT PRIMARY KEY,used INTEGER NOT NULL CHECK(used>=0)) WITHOUT ROWID;
+CREATE TABLE app_subscriptions(user_id TEXT NOT NULL REFERENCES app_users(id),topic TEXT NOT NULL,enabled INTEGER NOT NULL CHECK(enabled IN (0,1)),updated_at INTEGER NOT NULL,PRIMARY KEY(user_id,topic)) WITHOUT ROWID;
+CREATE TABLE app_ai_cache(cache_key TEXT PRIMARY KEY,object_hash TEXT,source_version TEXT NOT NULL,expires_at INTEGER NOT NULL,lease_nonce TEXT,lease_until INTEGER NOT NULL DEFAULT 0) WITHOUT ROWID;
+CREATE VIRTUAL TABLE app_search USING fts5(id UNINDEXED,team_id UNINDEXED,title,content,source_id UNINDEXED,source_url UNINDEXED,tokenize='unicode61');

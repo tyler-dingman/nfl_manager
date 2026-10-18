@@ -14,7 +14,7 @@ test('every merch department has a dedicated route with metadata', () => {
     assert.match(source, new RegExp(`canonical: '/merch/${slug}'`));
     assert.match(
       shop,
-      new RegExp(`/merch/\\$\\{item\\.toLowerCase\\(\\)\\.replace\\(' ', '-'\\)\\}`),
+      new RegExp(`/merch/\\$\\{label\\.toLowerCase\\(\\)\\.replace\\(' ', '-'\\)\\}`),
     );
   }
 });
@@ -29,7 +29,7 @@ test('catalog filters and sorting are URL-backed and category-driven', () => {
 });
 
 test('homepage is merchandising-led and city discovery links to a shareable catalog URL', () => {
-  assert.match(shop, /New &amp; Trending/i);
+  assert.match(shop, /New & Trending/i);
   assert.match(shop, /Shop by category/);
   assert.match(shop, /Featured drop/);
   assert.match(shop, /Featured gear/);

@@ -8,8 +8,9 @@ import AuthProviderIcon from '@/components/auth/auth-provider-icon';
 import { FiveWideLogo } from '@/components/branding/fivewide-logo';
 import TeamThemeProvider from '@/components/team-theme-provider';
 import { notifyAuthChanged } from '@/features/auth/auth-session';
+import { recoveryLink, passwordError } from '../../../packages/auth/recovery';
 
-type Mode = 'options' | 'email-login' | 'email-signup' | 'forgot';
+type Mode = 'options' | 'email-login' | 'email-signup' | 'forgot' | 'new-password' | 'verify';
 type Config = { email: boolean; providers: { apple: boolean; google: boolean; facebook: boolean } };
 const inputClass =
   'mt-2 h-14 w-full rounded-2xl border border-[#00172B]/15 px-4 text-base font-semibold normal-case tracking-normal outline-none focus:border-[#FF3D38]';
@@ -19,7 +20,10 @@ const providerClass =
 export default function LoginScreen() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [mode, setMode] = useState<Mode>('options');
+  const [recovery, setRecovery] = useState(() =>
+    recoveryLink(searchParams?.get('resetToken'), searchParams?.get('verifyToken')),
+  );
+  const [mode, setMode] = useState<Mode>(recovery?.mode ?? 'options');
   const [config, setConfig] = useState<Config | null>(null);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -32,11 +36,22 @@ export default function LoginScreen() {
   const next = requested?.startsWith('/') && !requested.startsWith('//') ? requested : '/';
 
   useEffect(() => {
+    if (recovery) window.history.replaceState(null, '', '/login');
     void fetch('/api/auth/config')
       .then((response) => response.json())
       .then(setConfig)
       .catch(() => setConfig(null));
   }, []);
+  useEffect(() => {
+    const link = recoveryLink(searchParams?.get('resetToken'), searchParams?.get('verifyToken'));
+    if (link && link.token !== recovery?.token) {
+      setRecovery(link);
+      setMode(link.mode);
+      setError('');
+      setMessage('');
+      window.history.replaceState(null, '', '/login');
+    }
+  }, [searchParams, recovery?.token]);
   const social = (provider: keyof Config['providers']) =>
     window.location.assign(`/api/auth/social/${provider}/start?next=${encodeURIComponent(next)}`);
 
@@ -46,13 +61,43 @@ export default function LoginScreen() {
     setMessage('');
     setBusy(true);
     try {
+      if (mode === 'new-password' || mode === 'verify') {
+        if (!recovery) throw Error('Recovery link is missing. Request a new link.');
+        if (mode === 'new-password') {
+          const error = passwordError(password, confirmPassword);
+          if (error) throw Error(error);
+        }
+        const response = await fetch(
+          mode === 'verify' ? '/api/auth/verify-email' : '/api/auth/reset-password',
+          {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({
+              token: recovery.token,
+              ...(mode === 'new-password' ? { password } : {}),
+            }),
+          },
+        );
+        const body = await response.json();
+        if (!response.ok) throw Error(body.error ?? 'Recovery link is invalid or expired.');
+        setPassword('');
+        setConfirmPassword('');
+        setMode('email-login');
+        setMessage(
+          mode === 'verify'
+            ? 'Email verified. Sign in to continue.'
+            : 'Password updated. Sign in with your new password.',
+        );
+        return;
+      }
       if (mode === 'forgot') {
         const response = await fetch('/api/auth/forgot-password', {
           method: 'POST',
           headers: { 'content-type': 'application/json' },
           body: JSON.stringify({ email }),
         });
-        const body = (await response.json()) as { message?: string };
+        const body = (await response.json()) as { message?: string; error?: string };
+        if (!response.ok) throw Error(body.error ?? 'Recovery is temporarily unavailable.');
         setMessage(body.message ?? 'If an account exists, a reset link will be sent.');
         return;
       }
@@ -124,11 +169,15 @@ export default function LoginScreen() {
                 Down &amp; Distance account
               </p>
               <h2 className="mt-3 text-4xl font-black uppercase tracking-[-0.045em] text-[#00172B]">
-                {mode === 'email-signup'
-                  ? 'Create account.'
-                  : mode === 'forgot'
-                    ? 'Reset access.'
-                    : 'Welcome back.'}
+                {mode === 'new-password'
+                  ? 'New password.'
+                  : mode === 'verify'
+                    ? 'Verify email.'
+                    : mode === 'email-signup'
+                      ? 'Create account.'
+                      : mode === 'forgot'
+                        ? 'Reset access.'
+                        : 'Welcome back.'}
               </h2>
               {mode === 'options' ? (
                 <div className="mt-7 space-y-3">
@@ -168,8 +217,7 @@ export default function LoginScreen() {
                   </button>
                   {config && !config.email ? (
                     <p className="text-center text-xs font-semibold text-amber-700">
-                      Complete the authentication environment setup and database migration to enable
-                      sign-in.
+                      Email sign-in is temporarily unavailable. Please try again later.
                     </p>
                   ) : null}
                 </div>
@@ -186,18 +234,20 @@ export default function LoginScreen() {
                       />
                     </label>
                   ) : null}
-                  <label className="block text-xs font-black uppercase tracking-[0.16em] text-[#00172B]/55">
-                    Email
-                    <input
-                      required
-                      type="email"
-                      value={email}
-                      onChange={(event) => setEmail(event.target.value)}
-                      autoComplete="email"
-                      className={inputClass}
-                    />
-                  </label>
-                  {mode !== 'forgot' ? (
+                  {mode !== 'new-password' && mode !== 'verify' && (
+                    <label className="block text-xs font-black uppercase tracking-[0.16em] text-[#00172B]/55">
+                      Email
+                      <input
+                        required
+                        type="email"
+                        value={email}
+                        onChange={(event) => setEmail(event.target.value)}
+                        autoComplete="email"
+                        className={inputClass}
+                      />
+                    </label>
+                  )}
+                  {mode !== 'forgot' && mode !== 'verify' ? (
                     <label className="block text-xs font-black uppercase tracking-[0.16em] text-[#00172B]/55">
                       Password
                       <input
@@ -211,7 +261,7 @@ export default function LoginScreen() {
                       />
                     </label>
                   ) : null}
-                  {mode === 'email-signup' ? (
+                  {mode === 'email-signup' || mode === 'new-password' ? (
                     <label className="block text-xs font-black uppercase tracking-[0.16em] text-[#00172B]/55">
                       Confirm password
                       <input
@@ -244,11 +294,15 @@ export default function LoginScreen() {
                   >
                     {busy
                       ? 'Working…'
-                      : mode === 'email-signup'
-                        ? 'Create account'
-                        : mode === 'forgot'
-                          ? 'Send reset link'
-                          : 'Sign in'}{' '}
+                      : mode === 'new-password'
+                        ? 'Update password'
+                        : mode === 'verify'
+                          ? 'Verify email'
+                          : mode === 'email-signup'
+                            ? 'Create account'
+                            : mode === 'forgot'
+                              ? 'Send reset link'
+                              : 'Sign in'}{' '}
                     <ArrowRight className="h-4 w-4" />
                   </button>
                   <div className="flex justify-between text-sm font-black text-[#FF3D38]">
@@ -261,7 +315,7 @@ export default function LoginScreen() {
                       </button>
                     ) : null}
                   </div>
-                  {mode !== 'forgot' ? (
+                  {mode === 'email-login' || mode === 'email-signup' ? (
                     <button
                       type="button"
                       onClick={() =>

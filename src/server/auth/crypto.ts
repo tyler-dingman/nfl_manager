@@ -1,12 +1,12 @@
 import { createCipheriv, createDecipheriv, createHash, randomBytes } from 'node:crypto';
-import { hash, verify } from '@node-rs/argon2';
+import { applicationEnvironment } from '../persistence/bindings';
 import { assertAuthSecret } from './secret-policy';
 
 export const secureToken = (bytes = 32) => randomBytes(bytes).toString('base64url');
 export const tokenHash = (token: string) => createHash('sha256').update(token).digest('hex');
 
 function secretKey() {
-  const secret = process.env.AUTH_JWT_SECRET;
+  const secret = applicationEnvironment().AUTH_JWT_SECRET;
   assertAuthSecret(secret);
   return createHash('sha256').update(secret).digest();
 }
@@ -27,6 +27,20 @@ export function decryptSecret(value: string) {
   ]).toString('utf8');
 }
 
-export const hashPassword = (password: string) =>
-  hash(password, { algorithm: 2, memoryCost: 19456, timeCost: 2, parallelism: 1, outputLen: 32 });
-export const verifyPassword = (encoded: string, password: string) => verify(encoded, password);
+async function nativeArgon() {
+  if (applicationEnvironment().APP_RUNTIME === 'cloudflare')
+    throw new Error(
+      'Password hashing is not yet qualified for the Free Worker runtime; use the validated Node auth deployment.',
+    );
+  return await import('./argon-node');
+}
+export const hashPassword = async (password: string) =>
+  (await nativeArgon()).hash(password, {
+    algorithm: 2,
+    memoryCost: 19456,
+    timeCost: 2,
+    parallelism: 1,
+    outputLen: 32,
+  });
+export const verifyPassword = async (encoded: string, password: string) =>
+  (await nativeArgon()).verify(encoded, password);

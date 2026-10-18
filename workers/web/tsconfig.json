@@ -1,0 +1,10 @@
+{
+  "extends": "../content-engine/tsconfig.json",
+  "include": ["index.ts"],
+  "compilerOptions": {
+    "types": [
+      "../content-engine/node_modules/@cloudflare/workers-types",
+      "../content-engine/node_modules/@types/node"
+    ]
+  }
+}

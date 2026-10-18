@@ -1,0 +1,73 @@
+apps/mobile/app/parlay-lab.tsx 104ms
+apps/mobile/app/sign-in.tsx 25ms
+apps/mobile/components/odds-freshness.tsx 2ms
+next-env.d.ts 2ms (unchanged)
+next.config.mjs 11ms
+open-next.config.ts 1ms
+package.json 2ms (unchanged)
+packages/auth/recovery.ts 2ms
+packages/parlay/freshness.ts 3ms
+packages/storage/ai.ts 8ms
+packages/storage/auth.ts 15ms
+packages/storage/cold-recovery.ts 12ms
+packages/storage/core.ts 6ms
+packages/storage/import.ts 10ms
+packages/storage/instrumentation.ts 2ms
+packages/storage/mail.ts 9ms
+packages/storage/objects.ts 3ms
+packages/storage/user.ts 5ms
+scripts/cloudflare-build.mjs 2ms
+scripts/map-postgres-dependencies.mjs 12ms
+scripts/validate-phase-three-browser.mjs 7ms
+src/app/api/auth/login/route.ts 2ms
+src/app/api/automation/email/route.ts 1ms
+src/app/api/email/unsubscribe/route.ts 1ms
+src/app/api/parlay-lab/freshness/route.ts 1ms
+src/app/api/search/route.ts 4ms
+src/app/api/user/email-subscriptions/route.ts 2ms
+src/components/auth/login-screen.tsx 9ms
+src/components/front-office/front-office-event-center.test.ts 1ms (unchanged)
+src/components/parlay-lab/OddsFreshness.tsx 1ms
+src/components/parlay-lab/ParlayLabHome.tsx 39ms
+src/components/transaction-modal.test.ts 3ms (unchanged)
+src/features/content/ai-provider.ts 1ms (unchanged)
+src/features/content/content-engine.ts 7ms
+src/features/content/workers-ai-summarizer.ts 2ms
+src/features/experience/front-office-onboarding-flow.test.ts 1ms
+src/features/merch/merch-information-architecture.test.ts 2ms (unchanged)
+src/features/navigation/mobile-header.test.ts 2ms (unchanged)
+src/features/trivia/four-minute-drill-ui.test.ts 1ms
+src/lib/draft-intelligence.test.ts 3ms (unchanged)
+src/lib/prelaunch.test.ts 3ms
+src/lib/search-params-suspense.test.ts 1ms (unchanged)
+src/lib/team-theme-tokens.test.ts 5ms (unchanged)
+src/lib/trade-offer-evaluator.test.ts 3ms (unchanged)
+src/server/auth/argon-node.ts 0ms
+src/server/auth/argon-worker.ts 1ms
+src/server/auth/config.ts 3ms
+src/server/auth/crypto.ts 2ms
+src/server/auth/database.ts 2ms
+src/server/auth/postgres-repository.ts 10ms (unchanged)
+src/server/auth/repository.ts 3ms
+src/server/auth/service.ts 5ms
+src/server/persistence/bindings.ts 4ms
+src/server/providers/sportsGameOdds.ts 6ms
+src/server/search/database.ts 1ms
+src/server/security/audit.ts 2ms
+src/server/user/content-repository-postgres.ts 7ms (unchanged)
+src/server/user/content-repository.ts 1ms
+src/server/user/repository-postgres.ts 3ms (unchanged)
+src/server/user/repository.ts 1ms
+tests/live-projections.test.ts 7ms
+tests/node-environment.cjs 2ms
+tests/trade-machine-api.test.ts 2ms
+tsconfig.test.json 0ms (unchanged)
+workers/application/index.ts 2ms
+workers/content-engine/scripts/application-import.ts 3ms
+workers/content-engine/src/application-local-worker.ts 2ms
+workers/content-engine/src/application-odds.ts 3ms
+workers/content-engine/test/application-d1.test.ts 4ms
+workers/content-engine/test/application-odds.test.ts 3ms
+workers/content-engine/test/application-routes.test.ts 5ms
+workers/content-engine/test/application-services.test.ts 8ms
+workers/web/index.ts 2ms

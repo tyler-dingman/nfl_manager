@@ -1,0 +1,1772 @@
+  ▲ Next.js 14.2.35
+  - Local:        http://127.0.0.1:49869
+  - Network:      http://127.0.0.1:49869
+
+ ✓ Starting...
+ ✓ Ready in 203ms
+  ▲ Next.js 14.2.35
+  - Local:        http://127.0.0.1:49869
+  - Network:      http://127.0.0.1:49869
+
+ ✓ Starting...
+ ✓ Ready in 121ms
+ ⨯ u: column "expires_at" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at N (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/user/notifications/unread-count/route.js:38:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+ ⨯ u: column "delivery_time" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/user/notifications/unread-count/route.js:15:204) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '134',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+[content-engine] failed to build briefings u: relation "canonical_stories" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at _ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/2069.js:12:30) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '41',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+[homepage] failed to enrich game graphics u: relation "historical_games" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at r (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/2144.js:1:32514) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '171',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+[homepage] failed to enrich game graphics u: relation "historical_games" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at r (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/2144.js:1:32514) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '171',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+ ⨯ u: column "expires_at" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at N (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/user/notifications/unread-count/route.js:38:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+ ⨯ u: relation "three_and_out_snapshots" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at f (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8058.js:1:5887) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '273',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+[film-room] Stored video lookup failed u: relation "content_candidates" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at p (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/film-room/route.js:1:1969) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '473',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+ ⨯ u: column "expires_at" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at N (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/user/notifications/unread-count/route.js:38:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+ ⨯ u: relation "sportsbook_events" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at s (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8570.js:1:6554) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '316',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+ ⨯ u: column "expires_at" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at N (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/user/notifications/unread-count/route.js:38:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+ ⨯ u: column "expires_at" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at N (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/user/notifications/unread-count/route.js:38:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+Crew load failed u: relation "crews" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at E (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/4185.js:1:1271) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '57',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+ ⨯ u: column "expires_at" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at N (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/user/notifications/unread-count/route.js:38:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+ ⨯ u: column "expires_at" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at N (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/user/notifications/unread-count/route.js:38:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+[trivia-events] Unable to load event u: relation "trivia_events" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at s (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/trivia/events/route.js:1:11674) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '282',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+ ⨯ u: column "expires_at" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at N (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/user/notifications/unread-count/route.js:38:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+[trivia-events] Unable to load event u: relation "trivia_events" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at s (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/trivia/events/route.js:1:11674) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '282',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+ ⨯ u: column "expires_at" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at N (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/user/notifications/unread-count/route.js:38:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+ ⨯ u: column "expires_at" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at N (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/user/notifications/unread-count/route.js:38:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+ ⨯ u: column "expires_at" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at N (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/user/notifications/unread-count/route.js:38:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+ ⨯ u: column "delivery_time" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/user/notifications/unread-count/route.js:15:204) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '134',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+[content-engine] failed to build briefings u: relation "canonical_stories" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at _ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/2069.js:12:30) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '41',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+[homepage] failed to enrich game graphics u: relation "historical_games" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at r (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/2144.js:1:32514) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '171',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+ ⨯ u: column "expires_at" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at N (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/user/notifications/unread-count/route.js:38:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+[homepage] failed to enrich game graphics u: relation "historical_games" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at r (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/2144.js:1:32514) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '171',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+ ⨯ u: relation "three_and_out_snapshots" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at f (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8058.js:1:5887) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '273',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+[film-room] Stored video lookup failed u: relation "content_candidates" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at p (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/film-room/route.js:1:1969) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '473',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+ ⨯ u: column "expires_at" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at N (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/user/notifications/unread-count/route.js:38:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+ ⨯ u: relation "sportsbook_events" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at s (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8570.js:1:6554) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '316',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+ ⨯ u: column "expires_at" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at N (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/user/notifications/unread-count/route.js:38:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+ ⨯ u: column "expires_at" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at N (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/user/notifications/unread-count/route.js:38:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+Crew load failed u: relation "crews" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at E (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/4185.js:1:1271) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '57',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+ ⨯ u: column "expires_at" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at N (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/user/notifications/unread-count/route.js:38:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+ ⨯ u: column "expires_at" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at N (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/user/notifications/unread-count/route.js:38:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+[trivia-events] Unable to load event u: relation "trivia_events" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at s (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/trivia/events/route.js:1:11674) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '282',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+ ⨯ u: column "expires_at" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at N (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/user/notifications/unread-count/route.js:38:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+[trivia-events] Unable to load event u: relation "trivia_events" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at s (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/trivia/events/route.js:1:11674) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '282',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+ ⨯ u: column "expires_at" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at N (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/user/notifications/unread-count/route.js:38:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+ ⨯ u: column "expires_at" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at N (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/user/notifications/unread-count/route.js:38:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+ ⨯ u: column "expires_at" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at N (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/user/notifications/unread-count/route.js:38:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+ ⨯ u: column "delivery_time" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/user/notifications/unread-count/route.js:15:204) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '134',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+[content-engine] failed to build briefings u: relation "canonical_stories" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at _ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/2069.js:12:30) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '41',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+[homepage] failed to enrich game graphics u: relation "historical_games" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at r (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/2144.js:1:32514) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '171',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+ ⨯ u: column "expires_at" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at N (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/user/notifications/unread-count/route.js:38:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+ ⨯ u: relation "three_and_out_snapshots" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at f (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8058.js:1:5887) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '273',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+[homepage] failed to enrich game graphics u: relation "historical_games" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at r (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/2144.js:1:32514) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '171',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+[film-room] Stored video lookup failed u: relation "content_candidates" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at p (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/film-room/route.js:1:1969) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '473',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+ ⨯ u: column "expires_at" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at N (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/user/notifications/unread-count/route.js:38:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+ ⨯ u: relation "sportsbook_events" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at s (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8570.js:1:6554) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '316',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+ ⨯ u: column "expires_at" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at N (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/user/notifications/unread-count/route.js:38:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+ ⨯ u: column "expires_at" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at N (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/user/notifications/unread-count/route.js:38:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+Crew load failed u: relation "crews" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at E (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/4185.js:1:1271) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '57',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+ ⨯ u: column "expires_at" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at N (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/user/notifications/unread-count/route.js:38:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+ ⨯ u: column "expires_at" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at N (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/user/notifications/unread-count/route.js:38:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+[trivia-events] Unable to load event u: relation "trivia_events" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at s (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/trivia/events/route.js:1:11674) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '282',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+ ⨯ u: column "expires_at" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at N (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/user/notifications/unread-count/route.js:38:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+[trivia-events] Unable to load event u: relation "trivia_events" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at s (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/trivia/events/route.js:1:11674) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '282',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+ ⨯ u: column "expires_at" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at N (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/user/notifications/unread-count/route.js:38:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+ ⨯ u: column "expires_at" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at N (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/user/notifications/unread-count/route.js:38:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+ ⨯ u: column "expires_at" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at N (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/user/notifications/unread-count/route.js:38:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+ ⨯ u: column "delivery_time" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/user/notifications/unread-count/route.js:15:204) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '134',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+[content-engine] failed to build briefings u: relation "canonical_stories" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at _ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/2069.js:12:30) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '41',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+[homepage] failed to enrich game graphics u: relation "historical_games" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at r (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/2144.js:1:32514) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '171',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+ ⨯ u: column "expires_at" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at N (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/user/notifications/unread-count/route.js:38:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+[homepage] failed to enrich game graphics u: relation "historical_games" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at r (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/2144.js:1:32514) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '171',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+ ⨯ u: relation "three_and_out_snapshots" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at f (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8058.js:1:5887) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '273',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+[film-room] Stored video lookup failed u: relation "content_candidates" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at p (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/film-room/route.js:1:1969) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '473',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+ ⨯ u: column "expires_at" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at N (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/user/notifications/unread-count/route.js:38:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+ ⨯ u: relation "sportsbook_events" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at s (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8570.js:1:6554) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '316',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+ ⨯ u: column "expires_at" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at N (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/user/notifications/unread-count/route.js:38:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+ ⨯ u: column "expires_at" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at N (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/user/notifications/unread-count/route.js:38:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+Crew load failed u: relation "crews" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at E (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/4185.js:1:1271) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '57',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+ ⨯ u: column "expires_at" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at N (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/user/notifications/unread-count/route.js:38:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+ ⨯ u: column "expires_at" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at N (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/user/notifications/unread-count/route.js:38:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+[trivia-events] Unable to load event u: relation "trivia_events" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at s (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/trivia/events/route.js:1:11674) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '282',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+ ⨯ u: column "expires_at" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at N (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/user/notifications/unread-count/route.js:38:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+[trivia-events] Unable to load event u: relation "trivia_events" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at s (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/trivia/events/route.js:1:11674) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '282',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+ ⨯ u: column "expires_at" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at N (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/user/notifications/unread-count/route.js:38:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+ ⨯ u: column "expires_at" does not exist
+    at Y (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:2280)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3235
+    at Socket.e$ (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:4:3240)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TCP.callbackTrampoline (node:internal/async_hooks:130:17)
+    at /private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:704
+    at new c (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:1:746)
+    at n (/private/tmp/down-distance-zero-cost-phase-3/.next/server/chunks/8937.js:21:8477)
+    at N (/private/tmp/down-distance-zero-cost-phase-3/.next/server/app/api/user/notifications/unread-count/route.js:38:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}

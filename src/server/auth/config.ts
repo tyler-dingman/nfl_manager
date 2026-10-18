@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { applicationBackend, applicationEnvironment } from '../persistence/bindings';
 import { assertAuthSecret } from './secret-policy';
 
 const optionalString = z.preprocess(
@@ -25,8 +26,15 @@ const schema = z.object({
   FACEBOOK_APP_SECRET: optionalString,
 });
 
-export const authConfig = schema.parse(process.env);
-export const isAuthDatabaseConfigured = Boolean(authConfig.DATABASE_URL);
+// Resolve request-scoped Worker secrets at access time; never capture one user's
+// bindings in module-global configuration shared with subsequent requests.
+export const authConfig: z.infer<typeof schema> = new Proxy({} as z.infer<typeof schema>, {
+  get: (_target, property) => Reflect.get(schema.parse(applicationEnvironment()), property),
+  ownKeys: () => Reflect.ownKeys(schema.parse(applicationEnvironment())),
+  getOwnPropertyDescriptor: () => ({ enumerable: true, configurable: true }),
+});
+export const isAuthDatabaseConfigured =
+  Boolean(authConfig.DATABASE_URL) || applicationBackend() === 'd1';
 
 export function configuredSocialProviders(config: typeof authConfig = authConfig) {
   return {
@@ -65,15 +73,20 @@ export function validateProductionAuthConfig() {
 }
 
 export function requireAuthConfig() {
-  if (!authConfig.DATABASE_URL) throw new Error('Authentication database is not configured.');
+  if (!authConfig.DATABASE_URL && applicationBackend() !== 'd1')
+    throw new Error('Authentication database is not configured.');
   assertAuthSecret(authConfig.AUTH_JWT_SECRET);
   return authConfig as typeof authConfig & { DATABASE_URL: string; AUTH_JWT_SECRET: string };
 }
 
 export function publicAuthConfig() {
   return {
-    database: Boolean(authConfig.DATABASE_URL),
-    email: Boolean(authConfig.DATABASE_URL && authConfig.AUTH_JWT_SECRET),
+    database: Boolean(authConfig.DATABASE_URL) || applicationBackend() === 'd1',
+    email: Boolean(
+      (authConfig.DATABASE_URL || applicationBackend() === 'd1') &&
+      authConfig.AUTH_JWT_SECRET &&
+      applicationEnvironment().APP_RUNTIME !== 'cloudflare',
+    ),
     providers: configuredSocialProviders(),
   };
 }

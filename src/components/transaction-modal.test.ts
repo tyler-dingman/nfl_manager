@@ -32,7 +32,7 @@ test('uses runtime team tokens and accessible dialog semantics', () => {
   assert.match(css, /var\(--team-secondary\)/);
   assert.match(component, /role="dialog"/);
   assert.match(component, /aria-modal="true"/);
-  assert.match(component, /aria-labelledby=\{titleId\}/);
+  assert.match(component, /aria-labelledby=\{workspaceHero \? undefined : titleId\}/);
   assert.match(component, /aria-label="Close transaction dialog"/);
 });
 
@@ -58,6 +58,6 @@ test('shared player and transaction dialogs render above the sticky site header'
   assert.match(header, /z-\[70\]/);
   assert.match(css, /\.app-modal-layer\s*\{\s*z-index:\s*200;/);
   assert.match(css, /\.txn-backdrop\s*\{[^}]*z-index:\s*200;/s);
-  assert.match(playerDialog, /className="app-modal-layer fixed inset-0/);
+  assert.match(playerDialog, /className=\{`app-modal-layer \$\{styles\.backdrop\}`\}/);
   assert.match(transactionDialog, /className="txn-backdrop"/);
 });

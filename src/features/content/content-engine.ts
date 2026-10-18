@@ -3,6 +3,7 @@ import { DeterministicTopicSummarizer } from './deterministic-summarizer';
 import { MockContentSourceAdapter } from './mock-source-adapter';
 import { OpenAITopicSummarizer } from './openai-summarizer';
 import { OllamaTopicSummarizer } from './ollama-summarizer';
+import { WorkersAITopicSummarizer } from './workers-ai-summarizer';
 import { getContentAiConfig } from './ai-provider';
 import type { ContentSource, ContentSourceAdapter, TeamBriefing, TopicSummarizer } from './types';
 
@@ -32,6 +33,7 @@ const scoreTopic = (sources: ContentSource[]) => {
 
 const selectSummarizer = (): TopicSummarizer => {
   const config = getContentAiConfig();
+  if (config.provider === 'workers-ai') return new WorkersAITopicSummarizer();
   if (config.provider === 'ollama') return new OllamaTopicSummarizer();
   if (config.provider === 'openai') {
     if (!process.env.OPENAI_API_KEY || !process.env.OPENAI_CONTENT_MODEL)
@@ -73,7 +75,7 @@ export class TeamContentEngine {
             generated = await this.summarizer.summarize(summaryInput);
           } catch (error) {
             console.error(`[content-engine] summarizer failed for ${cacheKey}/${topicKey}`, error);
-            if (getContentAiConfig().provider === 'ollama') throw error;
+            if (getContentAiConfig().provider !== 'deterministic') throw error;
             generated = await this.fallbackSummarizer.summarize(summaryInput);
           }
           const selectedIds = new Set(generated.sourceIds);

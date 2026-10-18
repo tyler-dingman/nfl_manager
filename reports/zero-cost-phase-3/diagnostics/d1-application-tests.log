@@ -1,0 +1,58 @@
+TAP version 13
+# Subtest: D1 identities, settings, sessions, replay detection, ownership and restart
+ok 1 - D1 identities, settings, sessions, replay detection, ownership and restart
+  ---
+  duration_ms: 1769.236584
+  ...
+# Subtest: large owned game/slip/trivia/config aggregates commit atomically with R2 and reject stale updates
+ok 2 - large owned game/slip/trivia/config aggregates commit atomically with R2 and reject stale updates
+  ---
+  duration_ms: 1900.59775
+  ...
+# [sportsGameOdds] usage 0/2500 monthly objects; local ceiling 1000
+# [sportsGameOdds] GET /events {
+#   leagueID: 'NFL',
+#   type: 'match',
+#   started: 'false',
+#   oddsPresent: 'true',
+#   bookmakerID: 'fanduel,draftkings,betmgm,caesars',
+#   includeAltLines: 'true',
+#   includeOpposingOdds: 'true',
+#   includeOpenCloseOdds: 'true',
+#   startsAfter: '2026-10-05T15:00:00.000Z',
+#   startsBefore: '2026-10-12T15:00:00.000Z',
+#   limit: '25'
+# }
+# [sportsGameOdds] usage 0/2500 monthly objects; local ceiling 1000
+# [sportsGameOdds] GET /events {
+#   leagueID: 'NFL',
+#   type: 'match',
+#   started: 'false',
+#   oddsPresent: 'true',
+#   bookmakerID: 'fanduel,draftkings,betmgm,caesars',
+#   includeAltLines: 'true',
+#   includeOpposingOdds: 'true',
+#   includeOpenCloseOdds: 'true',
+#   startsAfter: '2026-10-10T15:00:00.000Z',
+#   startsBefore: '2026-10-17T15:00:00.000Z',
+#   limit: '25'
+# }
+# [sportsGameOdds] usage 0/2500 monthly objects; local ceiling 1000
+# [sportsGameOdds] GET /events {
+#   leagueID: 'NFL',
+#   type: 'match',
+#   started: 'false',
+#   oddsPresent: 'true',
+#   bookmakerID: 'fanduel,draftkings,betmgm,caesars',
+#   includeAltLines: 'true',
+#   includeOpposingOdds: 'true',
+#   includeOpenCloseOdds: 'true',
+#   startsAfter: '2026-10-12T15:00:00.000Z',
+#   startsBefore: '2026-10-19T15:00:00.000Z',
+#   limit: '25'
+# }
+# Subtest: concrete odds adapter: exactly three weekly slots, dedupe, quota, partial coverage, interruption and stale disclosure
+ok 3 - concrete odds adapter: exactly three weekly slots, dedupe, quota, partial coverage, interruption and stale disclosure
+  ---
+  duration_ms: 1398.3105
+  ...

@@ -7,7 +7,7 @@ const requestedBookmakers = (
   process.env.SPORTSGAMEODDS_BOOKMAKER_IDS ?? SUPPORTED_BOOKMAKER_IDS.join(',')
 )
   .split(',')
-  .map((id) => id.trim().toLowerCase());
+  .map((id: string) => id.trim().toLowerCase());
 // Keep provider requests aligned with the books presented in Parlay Lab, even
 // if a stale environment value still contains a previously supported book.
 const BOOKMAKER_IDS = SUPPORTED_BOOKMAKER_IDS.filter((id) => requestedBookmakers.includes(id)).join(
@@ -186,7 +186,10 @@ export class SportsGameOddsClient {
     return (await this.request(params)).data ?? [];
   }
 
-  async getNflEvents(input: { startsAfter: string; startsBefore: string }) {
+  async getNflEvents(input: { startsAfter: string; startsBefore: string; pageSize?: number }) {
+    const pageSize = input.pageSize ?? 100;
+    if (!Number.isSafeInteger(pageSize) || pageSize < 1 || pageSize > 100)
+      throw new SportsGameOddsError('Invalid event page size');
     const params = new URLSearchParams({
       leagueID: 'NFL',
       type: 'match',
@@ -198,7 +201,7 @@ export class SportsGameOddsClient {
       includeOpenCloseOdds: 'true',
       startsAfter: input.startsAfter,
       startsBefore: input.startsBefore,
-      limit: '100',
+      limit: String(pageSize),
     });
     const events: SportsGameOddsEvent[] = [];
     let cursor: string | undefined;

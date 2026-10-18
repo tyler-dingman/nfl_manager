@@ -4,19 +4,30 @@ import test from 'node:test';
 // Run against a local dev server with TRADE_TEST_BASE_URL=http://localhost:3000.
 // HTTP is intentional: importing handlers together misses Next's separate route bundles.
 const baseURL = process.env.TRADE_TEST_BASE_URL;
+const session = process.env.TRADE_TEST_SESSION;
 
 test(
   'Trade Machine preserves multiple assets across real API routes',
-  { skip: !baseURL },
+  { skip: !baseURL || !session },
   async () => {
+    if (!['localhost', '127.0.0.1'].includes(new URL(baseURL!).hostname))
+      throw Error('Synthetic trade regression must use localhost');
+    let version = 0;
     async function post(path: string, body: Record<string, unknown>) {
       const response = await fetch(new URL(path, baseURL), {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          cookie: `dd_session=${session}`,
+          'X-Franchise-Version': String(version),
+          'X-Franchise-Command-Id': crypto.randomUUID(),
+        },
         body: JSON.stringify(body),
       });
       const result = await response.json();
       assert.equal(response.ok, true, `${path}: ${JSON.stringify(result)}`);
+      if (response.headers.has('X-Franchise-Version'))
+        version = Number(response.headers.get('X-Franchise-Version'));
       return result;
     }
 

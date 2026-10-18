@@ -101,7 +101,9 @@ test('Apple captures first-login data, relay email, and tolerates later sparse r
 
 test('web callbacks reject denial/state failures and identities require explicit safe linking', () => {
   const callback = readFileSync('src/app/api/auth/social/[provider]/callback/route.ts', 'utf8');
-  const repository = readFileSync('src/server/auth/repository.ts', 'utf8');
+  const repository = readFileSync('src/server/auth/postgres-repository.ts', 'utf8');
+  const d1Repository = readFileSync('packages/storage/auth.ts', 'utf8');
+  assert.match(d1Repository, /Sign in to that account and connect this provider from Security/);
   assert.match(callback, /values\.get\('error'\)/);
   assert.match(
     callback,

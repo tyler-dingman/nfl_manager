@@ -87,7 +87,10 @@ const makePickAsset = (
 
 test('fairness bands map to expected ranges', () => {
   assert.equal(bandFromScore(0.7), 'reject');
-  assert.equal(bandFromScore(0.9), 'low_interest');
+  assert.equal(bandFromScore(0.819), 'reject');
+  assert.equal(bandFromScore(0.82), 'low_interest');
+  assert.equal(bandFromScore(0.899), 'low_interest');
+  assert.equal(bandFromScore(0.9), 'fair');
   assert.equal(bandFromScore(1.0), 'fair');
   assert.equal(bandFromScore(1.14), 'high_interest');
   assert.equal(bandFromScore(1.3), 'smash_accept');
@@ -122,7 +125,7 @@ test('junk bundles do not buy star players easily', () => {
   assert.ok(result.score < 0.82);
 });
 
-test('premium player plus a second keeps elite trade discussions plausible', () => {
+test('a premium player plus one second does not bypass the current elite-player guardrail', () => {
   const incoming: TradeAssetPackage = {
     totalValue: 1220,
     assets: [makePlayerAsset(860, 90, 'WR'), makePickAsset(360, 2026, 2)],
@@ -132,6 +135,6 @@ test('premium player plus a second keeps elite trade discussions plausible', () 
     assets: [makePlayerAsset(1180, 94, 'WR')],
   };
   const result = evaluateTradeForTeam(incoming, outgoing, context, profile);
-  assert.ok(result.score >= 0.82);
-  assert.ok(result.score < 1.21);
+  assert.equal(result.components.premiumGuardrail, 0.344);
+  assert.equal(result.band, 'reject');
 });

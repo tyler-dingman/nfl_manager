@@ -1,4 +1,5 @@
 import type { CatalogProgress } from '../../../packages/parlay/prop-catalog';
+import { OddsFreshness } from '../components/odds-freshness';
 import { usePropMarketNavigation } from '../lib/prop-market-navigation';
 import { PropDiscoveryTable, PropMarketNavigation } from '../components/prop-discovery-table';
 import { formatStatValue } from '../../../packages/parlay/stat-display';
@@ -293,6 +294,7 @@ export default function ParlayLab() {
         contentContainerStyle={s.body}
         refreshControl={<RefreshControl refreshing={loading} onRefresh={load} tintColor="white" />}
       >
+        <OddsFreshness />
         <SectionMenu
           navigation={{ inset: 16, top: true }}
           title="Explore Parlay Lab"

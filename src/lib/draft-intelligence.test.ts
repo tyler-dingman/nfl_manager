@@ -15,7 +15,6 @@ const makePlayer = (
 ): PlayerRowDTO => {
   const { id, firstName, lastName, position, ...rest } = overrides;
   return {
-    ...rest,
     id,
     firstName,
     lastName,
@@ -27,6 +26,7 @@ const makePlayer = (
     contractYearsRemaining: 4,
     capHit: '$0.0M',
     status: 'Available',
+    ...rest,
   };
 };
 

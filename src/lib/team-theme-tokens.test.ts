@@ -86,7 +86,9 @@ test('known selected states use the shared semantic filled-primary contract', ()
     'src/components/notifications/notification-center.tsx',
     'utf8',
   );
-  assert.match(account, /section === id \? 'team-primary-filled'/);
+  const navigation = readFileSync('src/components/auth/profile-navigation.tsx', 'utf8');
+  assert.match(navigation, /activePath === href \? 'team-primary-filled'/);
+  assert.match(navigation, /aria-current=\{activePath === href \? 'page'/);
   assert.match(notifications, /filter === value \? 'team-primary-filled'/);
   assert.doesNotMatch(account, /team-secondary-on-primary/);
   assert.doesNotMatch(notifications, /team-secondary-on-primary/);

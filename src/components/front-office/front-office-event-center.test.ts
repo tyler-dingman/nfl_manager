@@ -22,7 +22,12 @@ test('News drawer uses a compact dark newswire presentation', () => {
 });
 
 test('News classification excludes messages and reserves Breaking for major stories', () => {
-  assert.match(component, /event\.type !== 'welcome_message'/);
-  assert.match(component, /importanceScore \?\? 0\) >= 90/);
+  const classifier = readFileSync('src/lib/front-office-news-notifications.ts', 'utf8');
+  const breaking = readFileSync('src/lib/front-office-league-news.ts', 'utf8');
+  assert.match(component, /const isNewsEvent = isFrontOfficeNewsNotification/);
+  assert.match(classifier, /event\.type !== 'welcome_message'/);
+  assert.match(breaking, /event\.metadata\.isBreaking === true/);
+  assert.match(breaking, /event\.type === 'breaking_news'/);
+  assert.match(breaking, /event\.metadata\.origin !== 'REAL_WORLD_SEED'/);
   assert.match(component, /return categoryFromText\(event\) \?\? 'ROSTER'/);
 });

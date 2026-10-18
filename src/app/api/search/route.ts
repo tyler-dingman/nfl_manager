@@ -8,6 +8,8 @@ import { TEAM_LIST } from '@/data/teams';
 import { checkRateLimit } from '@/server/auth/rate-limit';
 import { hybridSearch } from '@/server/search/retrieval';
 import { fallbackTeamSearch } from '@/server/search/fallback';
+import { applicationBackend, applicationStorage } from '@/server/persistence/bindings';
+import { lexicalSearch } from '../../../../packages/storage/ai';
 
 export const dynamic = 'force-dynamic';
 
@@ -43,6 +45,56 @@ export async function POST(request: Request) {
   const parsed = schema.safeParse(await request.json().catch(() => null));
   if (!parsed.success || !TEAM_LIST.some((team) => team.abbr === parsed.data.teamId)) {
     return NextResponse.json({ error: 'Invalid search request.' }, { status: 400 });
+  }
+  if (applicationBackend() === 'd1') {
+    if (parsed.data.includeAnswer)
+      return NextResponse.json(
+        {
+          error:
+            'Verified generated answers are not yet migrated. Retrieval remains available with includeAnswer=false.',
+        },
+        { status: 503 },
+      );
+    try {
+      const start = performance.now(),
+        rows = await lexicalSearch(
+          applicationStorage(),
+          parsed.data.query,
+          parsed.data.teamId,
+          parsed.data.limit,
+        ),
+        elapsed = performance.now() - start;
+      const results = rows.map((r: any, index: number) => ({
+        id: r.id,
+        teamId: parsed.data.teamId,
+        type: 'other',
+        title: r.title,
+        summary: r.excerpt,
+        url: r.source_url,
+        sourceName: r.source_id,
+        sourceUrl: r.source_url,
+        publishedAt: null,
+        updatedAt: '',
+        image: null,
+        score: 1 / (index + 1),
+        canonicalStoryId: r.id,
+        metadata: { retrieval: 'D1_FTS5', unavailable: ['classification', 'timestamps'] },
+      }));
+      return NextResponse.json(
+        {
+          query: parsed.data.query,
+          results,
+          sources: results.map((r) => ({ id: r.id, title: r.title, url: r.url })),
+          timing: { totalMs: elapsed, lexicalMs: elapsed, vectorMs: null, answerMs: null },
+        },
+        { headers: { 'Cache-Control': 'no-store' } },
+      );
+    } catch {
+      return NextResponse.json(
+        { error: 'Indexed retrieval is temporarily unavailable.' },
+        { status: 503 },
+      );
+    }
   }
   if (parsed.data.includeAnswer) {
     try {

@@ -41,6 +41,10 @@ test('live standings use a read-only server snapshot and retain the current mobi
   assert.match(polling, /trivia_answers/);
 });
 test('mobile prioritizes the question and summary before standings and activity', () => {
-  assert.match(css, /'question'\s+'stats'\s+'leaderboard'\s+'activity'\s+'info'/);
+  assert.match(
+    css,
+    /@media \(max-width: 1000px\)[\s\S]*grid-template-areas: 'question' 'stats' 'activity'/,
+  );
+  assert.match(source, /<ResponsiveRail stackAt=\{1000\}/);
   assert.match(css, /@media \(max-width: 600px\)/);
 });

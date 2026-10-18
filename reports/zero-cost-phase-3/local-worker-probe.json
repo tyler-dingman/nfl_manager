@@ -1,0 +1,198 @@
+{
+  "scope": "MEASURED local workerd with disposable empty D1; no cloud CPU or provider qualification.",
+  "capabilityAssertionsPassed": 2,
+  "results": [
+    {
+      "name": "Homepage",
+      "path": "/",
+      "attempt": "cold",
+      "status": 200,
+      "localWallMs": 98.20570899999984,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Homepage",
+      "path": "/",
+      "attempt": "warm",
+      "status": 200,
+      "localWallMs": 29.641208999999435,
+      "workerCpuMs": null
+    },
+    {
+      "name": "The Beat",
+      "path": "/the-beat?team=kc",
+      "attempt": "cold",
+      "status": 200,
+      "localWallMs": 33.99016699999993,
+      "workerCpuMs": null
+    },
+    {
+      "name": "The Beat",
+      "path": "/the-beat?team=kc",
+      "attempt": "warm",
+      "status": 200,
+      "localWallMs": 26.567250000000058,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Film Room",
+      "path": "/watch?team=kc",
+      "attempt": "cold",
+      "status": 200,
+      "localWallMs": 30.048665999999685,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Film Room",
+      "path": "/watch?team=kc",
+      "attempt": "warm",
+      "status": 200,
+      "localWallMs": 25.470250000000306,
+      "workerCpuMs": null
+    },
+    {
+      "name": "AI Search",
+      "path": "/api/search",
+      "attempt": "cold",
+      "status": 200,
+      "localWallMs": 29.307041999999456,
+      "workerCpuMs": null
+    },
+    {
+      "name": "AI Search",
+      "path": "/api/search",
+      "attempt": "warm",
+      "status": 200,
+      "localWallMs": 4.689499999999498,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Front Office",
+      "path": "/front-office",
+      "attempt": "cold",
+      "status": 200,
+      "localWallMs": 26.311125000000175,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Front Office",
+      "path": "/front-office",
+      "attempt": "warm",
+      "status": 200,
+      "localWallMs": 29.371500000000196,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Parlay Lab",
+      "path": "/parlay-lab",
+      "attempt": "cold",
+      "status": 200,
+      "localWallMs": 31.99474999999984,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Parlay Lab",
+      "path": "/parlay-lab",
+      "attempt": "warm",
+      "status": 200,
+      "localWallMs": 26.32054100000005,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Trending Props",
+      "path": "/api/parlay-lab/props",
+      "attempt": "cold",
+      "status": 503,
+      "localWallMs": 5.219291000000339,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Trending Props",
+      "path": "/api/parlay-lab/props",
+      "attempt": "warm",
+      "status": 503,
+      "localWallMs": 4.303666000000703,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Bet Slip",
+      "path": "/parlay-lab/my-plays",
+      "attempt": "cold",
+      "status": 200,
+      "localWallMs": 30.482375000000502,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Bet Slip",
+      "path": "/parlay-lab/my-plays",
+      "attempt": "warm",
+      "status": 200,
+      "localWallMs": 25.02916599999935,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Authentication",
+      "path": "/api/auth/config",
+      "attempt": "cold",
+      "status": 200,
+      "localWallMs": 2.931666999999834,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Authentication",
+      "path": "/api/auth/config",
+      "attempt": "warm",
+      "status": 200,
+      "localWallMs": 3.743416999999681,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Existing session",
+      "path": "/api/auth/me",
+      "attempt": "cold",
+      "status": 200,
+      "localWallMs": 3.7561670000004597,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Existing session",
+      "path": "/api/auth/me",
+      "attempt": "warm",
+      "status": 200,
+      "localWallMs": 4.141000000000531,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Saved IDs",
+      "path": "/api/user/saved-content",
+      "attempt": "cold",
+      "status": 200,
+      "localWallMs": 6.233333999999559,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Saved IDs",
+      "path": "/api/user/saved-content",
+      "attempt": "warm",
+      "status": 200,
+      "localWallMs": 4.203875000000153,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Editorial ingestion admission",
+      "path": "/api/automation/content",
+      "attempt": "cold",
+      "status": 503,
+      "localWallMs": 5.582582999999431,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Editorial ingestion admission",
+      "path": "/api/automation/content",
+      "attempt": "warm",
+      "status": 503,
+      "localWallMs": 2.7917910000005577,
+      "workerCpuMs": null
+    }
+  ]
+}

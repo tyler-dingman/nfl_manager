@@ -1,0 +1,46 @@
+{
+  "application": {
+    "tests": 1061,
+    "pass": 1059,
+    "fail": 0,
+    "skipped": 2
+  },
+  "d1": {
+    "tests": 88,
+    "pass": 88,
+    "fail": 0,
+    "skipped": 0
+  },
+  "frontOffice": {
+    "tests": 21,
+    "pass": 21,
+    "fail": 0,
+    "skipped": 0
+  },
+  "postgresAuth": {
+    "tests": 2,
+    "pass": 2,
+    "fail": 0,
+    "skipped": 0
+  },
+  "sportsbook": {
+    "tests": 1,
+    "pass": 1,
+    "fail": 0,
+    "skipped": 0
+  },
+  "tradeHttp": {
+    "tests": 1,
+    "pass": 1,
+    "fail": 0,
+    "skipped": 0
+  },
+  "browserCases": 48,
+  "browserErrors": [],
+  "standaloneSkipsRequalified": [
+    "durable PostgreSQL sportsbook reservations",
+    "authenticated versioned Trade Machine HTTP"
+  ],
+  "productionWorkerCpu": "UNVERIFIED",
+  "androidIosDevices": "UNVERIFIED"
+}

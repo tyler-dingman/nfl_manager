@@ -1,0 +1,38 @@
+
+┌─────────────────────────────┐
+│ OpenNext — Cloudflare build │
+└─────────────────────────────┘
+
+App directory: /private/tmp/down-distance-zero-cost-phase-3
+Next.js version : 14.2.35
+@opennextjs/cloudflare version: 1.8.3
+@opennextjs/aws version: 3.7.7
+WARN Skipping Next.js build
+
+┌──────────────────────────────┐
+│ OpenNext — Generating bundle │
+└──────────────────────────────┘
+
+Bundling middleware function...
+Bundling static assets...
+Bundling cache assets...
+Building server function: default...
+Applying code patches: 594.251ms
+# copyPackageTemplateFiles
+[35m⚙️ Bundling the OpenNext server...
+[0m
+▲ [WARNING] The "??" operator here will always return the left operand [suspicious-nullish-coalescing]
+
+    .open-next/server-functions/default/.next/server/app/sitemap.xml/route.js:70:33376:
+      70 │ ...P_ID:aD,FACEBOOK_APP_SECRET:aD}??{},...ts(void 0)}),aZ=new Prox...
+         ╵                                   ~~
+
+  The left operand of the "??" operator here will never be null or undefined, so it will always be returned. This usually indicates a bug in your code:
+
+    .open-next/server-functions/default/.next/server/app/sitemap.xml/route.js:70:33075:
+      70 │ ...ct",shape:{DATABASE_URL:aD,AUTH_BASE_URL:aB(e=>""===e?void 0:e,...
+         ╵              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[35mWorker saved in `.open-next/worker.js` 🚀
+[0m
+OpenNext build complete.

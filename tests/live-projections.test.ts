@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 
 import {
   createSaveState,
+  getTeamTradeAssets,
   getProjectedCapSpaceForTeam,
   getProjectedRosterForTeam,
   getSaveStateResult,
@@ -9,9 +10,34 @@ import {
 import { signFreeAgent } from '@/server/api/players';
 import { addTradeAsset, createTrade, proposeTrade } from '@/server/api/trades';
 
+// Projection tests use controlled synthetic contracts, not the changing live free-agent pool.
+const seededSave = (id: string) => {
+  const state = createSaveState(id, 'GB');
+  state.header.capSpace = 1000;
+  state.teamCaps.GB = 1000;
+  state.teamCaps.DAL = 1000;
+  state.freeAgents = [
+    {
+      ...state.roster[0],
+      id: `fixture-fa-${id}`,
+      firstName: 'Synthetic',
+      lastName: 'Free Agent',
+      status: 'Available',
+      teamAbbr: 'FA',
+      year1CapHit: 1,
+      capHitValue: 1,
+      capHit: '$1.0M',
+      contractYearsRemaining: 0,
+      freeAgentProfile: undefined,
+      marketValue: 1000000,
+    },
+  ];
+  return state;
+};
+
 const testFreeAgentSigningUpdatesCapAndTeam = () => {
   const saveId = `test-sign-${Date.now()}`;
-  const state = createSaveState(saveId, 'GB');
+  const state = seededSave(saveId);
   const freeAgent = state.freeAgents[0];
   assert.ok(freeAgent, 'expected free agent seed');
 
@@ -23,12 +49,15 @@ const testFreeAgentSigningUpdatesCapAndTeam = () => {
   const roster = getProjectedRosterForTeam(state, 'GB');
   assert.ok(roster.some((player) => player.id === freeAgent.id));
   assert.ok(!state.freeAgents.some((player) => player.id === freeAgent.id));
-  assert.equal(state.header.capSpace, Number((capBefore - freeAgent.year1CapHit).toFixed(1)));
+  assert.equal(
+    state.header.capSpace,
+    Number((capBefore - Number(result.data.player.capHit.replace(/[^0-9.]/g, ''))).toFixed(1)),
+  );
 };
 
 const testTradeUpdatesBothTeamsRostersAndCap = () => {
   const saveId = `test-trade-${Date.now()}`;
-  const state = createSaveState(saveId, 'GB');
+  const state = seededSave(saveId);
   const userPlayer = state.roster[0];
 
   const created = createTrade(saveId, 'DAL');
@@ -49,6 +78,8 @@ const testTradeUpdatesBothTeamsRostersAndCap = () => {
     saveId,
   );
 
+  for (const pick of getTeamTradeAssets(state, 'GB').draftPicks)
+    addTradeAsset(created.data.trade.id, { side: 'send', type: 'pick', pickId: pick.id }, saveId);
   const proposed = proposeTrade(created.data.trade.id, saveId);
   assert.equal(proposed.ok, true);
   if (!proposed.ok) return;
@@ -65,7 +96,7 @@ const testTradeUpdatesBothTeamsRostersAndCap = () => {
 
 const testTradeCapViolationValidation = () => {
   const saveId = `test-trade-cap-${Date.now()}`;
-  const state = createSaveState(saveId, 'GB');
+  const state = seededSave(saveId);
   state.teamCaps.GB = 0;
   state.header.capSpace = 0;
 
@@ -92,7 +123,7 @@ const testTradeCapViolationValidation = () => {
 
 const testValueImbalanceDetected = () => {
   const saveId = `test-trade-value-${Date.now()}`;
-  const state = createSaveState(saveId, 'GB');
+  const state = seededSave(saveId);
   const createdAfterSave = createTrade(saveId, 'DAL');
   assert.equal(createdAfterSave.ok, true);
   if (!createdAfterSave.ok) return;
@@ -119,7 +150,7 @@ const testValueImbalanceDetected = () => {
 
 const testReloadPersistsSaveSpecificState = () => {
   const saveId = `test-reload-${Date.now()}`;
-  const state = createSaveState(saveId, 'GB');
+  const state = seededSave(saveId);
   const freeAgent = state.freeAgents[0];
   signFreeAgent(saveId, freeAgent.id);
 
@@ -139,7 +170,7 @@ const testReloadPersistsSaveSpecificState = () => {
 
 const testNoDuplicatePlayersAcrossTeams = () => {
   const saveId = `test-dup-${Date.now()}`;
-  const state = createSaveState(saveId, 'GB');
+  const state = seededSave(saveId);
   const userPlayer = state.roster[0];
 
   const created = createTrade(saveId, 'DAL');

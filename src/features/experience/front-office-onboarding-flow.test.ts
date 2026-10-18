@@ -36,9 +36,12 @@ test('returning to the same team resumes its durable save without clearing progr
     teamSelect,
     /activeSaveId && activeSaveTeam === team\.abbr[\s\S]*?router\.push\([\s\S]*?return;/,
   );
-  assert.match(createRoute, /getLatestFrontOfficeSaveForTeam/);
+  assert.match(createRoute, /withFranchiseRoute\(create, \{ create: true \}\)/);
+  const boundary = readFileSync('src/server/front-office/durable-route.ts', 'utf8');
+  assert.match(boundary, /!body\.fresh && !saveId/);
+  assert.match(boundary, /WHERE user_id=\$\{user\.id\} AND team_abbr=\$\{team\}/);
   assert.match(
-    createRoute,
-    /ensureSaveState\(durable\.saveId, durable\.teamAbbr, durable\.season\)/,
+    boundary,
+    /workspace\.saves\.set\(id, validateRuntime\(recovered\.runtime, id, metadata\.team_abbr\)\)/,
   );
 });

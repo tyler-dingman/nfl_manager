@@ -99,7 +99,7 @@ export async function middleware(request: NextRequest) {
         const session = await fetch(new URL('/api/auth/me', request.url), {
           headers: { cookie: request.headers.get('cookie') ?? '' },
           cache: 'no-store',
-          redirect: 'error',
+          redirect: 'manual',
           signal: AbortSignal.timeout(10000),
         });
         if (session.status !== 401 && !session.ok) throw new Error('Session lookup failed');

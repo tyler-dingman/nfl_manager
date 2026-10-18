@@ -29,3 +29,7 @@ tools/avatar-studio/**/*.pyc
 .vercel
 .env*
 firebase-debug*.log
+
+.open-next/
+.wrangler/
+workers/web/dist/

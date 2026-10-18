@@ -2,6 +2,8 @@ import { jwtVerify, SignJWT } from 'jose';
 import { secureToken, hashPassword, verifyPassword } from './crypto';
 import { requireAuthConfig } from './config';
 import { authTransaction } from './database';
+import { applicationBackend, applicationStorage } from '../persistence/bindings';
+import { D1AuthRepository } from '../../../packages/storage/auth';
 import { databaseContext } from './database-context';
 import {
   changePassword,
@@ -108,6 +110,25 @@ export async function requestPasswordReset(email: string) {
 }
 
 export async function resetPassword(token: string, password: string) {
+  if (applicationBackend() === 'd1') {
+    const repo = new D1AuthRepository(applicationStorage());
+    if (
+      !(
+        await repo.s.rows(
+          "SELECT id FROM app_tokens WHERE token_hash=? AND type='PASSWORD_RESET' AND consumed_at IS NULL AND expires_at>?",
+          [
+            await (
+              await import('../../../packages/storage/core')
+            ).digest(new TextEncoder().encode(token)),
+            Date.now(),
+          ],
+        )
+      ).length
+    )
+      throw Error('This password reset link is invalid or expired.');
+    await repo.resetPassword(token, await hashPassword(password));
+    return;
+  }
   // Reject invalid tokens before expensive hashing. Consumption, password and
   // revocation commit together, including a rollback if hashing or a write fails.
   await authTransaction((db) =>
@@ -121,6 +142,10 @@ export async function resetPassword(token: string, password: string) {
 }
 
 export async function confirmEmail(token: string) {
+  if (applicationBackend() === 'd1') {
+    await new D1AuthRepository(applicationStorage()).confirmEmail(token);
+    return;
+  }
   const consumed = await consumeOneTimeToken(token, 'EMAIL_VERIFICATION');
   if (!consumed) throw new Error('This verification link is invalid or expired.');
   await verifyUserEmail(consumed.user_id);

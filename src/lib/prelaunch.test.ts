@@ -48,21 +48,37 @@ test('protected machine endpoints bypass the gate but protected admin still need
   assert.equal(admin.status, 307);
 });
 
-test('valid preview cookie grants navigation and disabling prelaunch restores normal access', async () => {
+test('preview access and application authentication are independent gates', async () => {
   configure(true);
   const token = await issuePreviewToken();
-  const allowed = await middleware(
+  const previewOnly = await middleware(
     new NextRequest('https://downdistance.com/the-beat', {
       headers: { cookie: `${PREVIEW_COOKIE}=${token}` },
     }),
   );
-  assert.equal(allowed.headers.get('x-middleware-next'), '1');
-  assert.equal(allowed.headers.get('x-robots-tag'), 'noindex, nofollow, noarchive');
-
-  configure(false);
-  const launched = await middleware(new NextRequest('https://downdistance.com/the-beat'));
-  assert.equal(launched.headers.get('x-middleware-next'), '1');
-  assert.equal(launched.headers.get('x-robots-tag'), null);
+  assert.equal(previewOnly.status, 307);
+  assert.match(previewOnly.headers.get('location') ?? '', /\/login\?next=/);
+  const original = globalThis.fetch;
+  globalThis.fetch = async () => Response.json({ ok: true, user: { id: 'synthetic-owner' } });
+  try {
+    const allowed = await middleware(
+      new NextRequest('https://downdistance.com/the-beat', {
+        headers: { cookie: `${PREVIEW_COOKIE}=${token}; dd_session=synthetic-session` },
+      }),
+    );
+    assert.equal(allowed.headers.get('x-middleware-next'), '1');
+    assert.equal(allowed.headers.get('x-robots-tag'), 'noindex, nofollow, noarchive');
+    configure(false);
+    const launched = await middleware(
+      new NextRequest('https://downdistance.com/the-beat', {
+        headers: { cookie: 'dd_session=synthetic-session' },
+      }),
+    );
+    assert.equal(launched.headers.get('x-middleware-next'), '1');
+    assert.equal(launched.headers.get('x-robots-tag'), null);
+  } finally {
+    globalThis.fetch = original;
+  }
 });
 
 test('robots and metadata are conditional and preview page contains no application content', () => {

@@ -1,0 +1,28 @@
+name = "down-distance-application-local-phase-three"
+main = "index.ts"
+compatibility_date = "2026-10-18"
+compatibility_flags = ["nodejs_compat"]
+workers_dev = false
+preview_urls = false
+send_metrics = false
+[vars]
+APP_ODDS_ENABLED = "false"
+APP_MAIL_ENABLED = "false"
+[triggers]
+crons = ["0 15 * * 1,3,6", "*/30 * * * *"]
+[[d1_databases]]
+binding = "APP_DB"
+database_name = "application-local-phase-three"
+database_id = "00000000-0000-0000-0000-000000000000"
+migrations_dir = "../content-engine/migrations"
+remote = false
+[[r2_buckets]]
+binding = "APP_OBJECTS"
+bucket_name = "application-local-phase-three"
+remote = false
+[[r2_buckets]]
+binding = "APP_BACKUP"
+bucket_name = "application-backup-local-phase-three"
+remote = false
+[observability]
+enabled = false

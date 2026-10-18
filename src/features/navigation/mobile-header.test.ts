@@ -24,8 +24,8 @@ test('mobile header order is logo, search, notifications, menu', () => {
 });
 
 test('team and account controls are desktop-only in the header', () => {
-  assert.match(header, /xl:flex/);
-  assert.match(header, /hidden xl:block/);
+  assert.match(header, /hidden lg:block/);
+  assert.match(header, /showMobile=\{false\}/);
   assert.match(menu, /Your team/i);
   assert.match(menu, /Change team/i);
   assert.match(menu, /Account/i);

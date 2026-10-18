@@ -1,6 +1,7 @@
 import { createHash, randomUUID } from 'node:crypto';
 
 import { authDb } from '@/server/auth/database';
+import { applicationBackend, applicationStorage } from '../persistence/bindings';
 
 export type SecurityAuditEvent =
   | 'SIGN_IN'
@@ -29,6 +30,25 @@ export async function recordSecurityEvent(
   input?: { ip?: string | null; userAgent?: string | null; metadata?: Record<string, unknown> },
 ) {
   const metadata = input?.metadata ? JSON.parse(JSON.stringify(input.metadata)) : {};
+  if (applicationBackend() === 'd1') {
+    const s = applicationStorage(),
+      hash = await s.put(metadata);
+    await s.batch([
+      s.statement(
+        'INSERT INTO app_security_audit(id,user_id,event_type,ip_hash,user_agent_family,metadata_hash,created_at) VALUES(?,?,?,?,?,?,?)',
+        [
+          randomUUID(),
+          userId,
+          eventType,
+          hashIp(input?.ip),
+          input?.userAgent?.slice(0, 120) ?? null,
+          hash,
+          Date.now(),
+        ],
+      ),
+    ]);
+    return;
+  }
   await authDb()`
     INSERT INTO security_audit_events (id, user_id, event_type, ip_hash, user_agent_family, metadata)
     VALUES (${randomUUID()}, ${userId}, ${eventType}, ${hashIp(input?.ip)}, ${input?.userAgent?.slice(0, 120) ?? null}, ${authDb().json(metadata)})`;

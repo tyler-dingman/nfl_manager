@@ -8,7 +8,7 @@
     "db:migrate": "node scripts/local.mjs migrate",
     "build": "node scripts/local.mjs build",
     "typecheck": "tsc --noEmit",
-    "test": "node --import tsx --test test/*.test.ts",
+    "test": "node ../../scripts/qualify-phase-three-workers.mjs",
     "benchmark": "node --import tsx scripts/benchmark.ts",
     "format:check": "prettier --check src test scripts measurements *.json *.md",
     "qualify": "node --import tsx scripts/project.ts",

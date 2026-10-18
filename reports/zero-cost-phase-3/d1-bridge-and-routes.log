@@ -1,0 +1,22 @@
+TAP version 13
+# {"event":"SIGN_IN","at":"2026-10-18T21:13:59.260Z","userId":"3e3f23f6-98f0-4e48-b2c9-1e801be02f36","ip":null}
+# {"event":"SIGN_IN","at":"2026-10-18T21:13:59.411Z","userId":"3e3f23f6-98f0-4e48-b2c9-1e801be02f36","ip":null}
+# Subtest: real Next handlers on D1: email recovery, login/logout, native bearer session, preferences and restart
+ok 1 - real Next handlers on D1: email recovery, login/logout, native bearer session, preferences and restart
+  ---
+  duration_ms: 1363.57075
+  ...
+# Subtest: synthetic SQL bridge rejects remote hosts, missing secrets, corrupt objects and oversized streamed bodies
+ok 2 - synthetic SQL bridge rejects remote hosts, missing secrets, corrupt objects and oversized streamed bodies
+  ---
+  duration_ms: 1051.118625
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2206.384

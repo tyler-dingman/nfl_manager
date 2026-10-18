@@ -1,3 +1,4 @@
+import { applicationEnvironment } from '@/server/persistence/bindings';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { assertSameOrigin, authError, setSessionCookie } from '@/server/auth/http';
@@ -7,6 +8,7 @@ import { issueSession, loginWithEmail } from '@/server/auth/service';
 import { getOnboarding } from '@/server/user/repository';
 import { logSecurityEvent } from '@/server/security/log';
 import { recordSecurityEvent } from '@/server/security/audit';
+import { applicationBackend } from '@/server/persistence/bindings';
 
 const schema = z.object({
   email: z.string().email(),
@@ -15,6 +17,8 @@ const schema = z.object({
   deviceId: z.string().uuid().optional(),
 });
 export async function POST(request: NextRequest) {
+  if (applicationEnvironment().APP_RUNTIME === 'cloudflare')
+    return authError('Email password authentication is temporarily unavailable.', 503);
   try {
     assertSameOrigin(request);
     const metadata = requestMetadata(request);
@@ -23,7 +27,8 @@ export async function POST(request: NextRequest) {
     const input = schema.parse(await request.json());
     const user = await loginWithEmail(input.email, input.password);
     logSecurityEvent('SIGN_IN', { userId: user.id, ip: metadata.ip });
-    void recordSecurityEvent(user.id, 'SIGN_IN', metadata).catch(() => undefined);
+    if (applicationBackend() === 'd1') await recordSecurityEvent(user.id, 'SIGN_IN', metadata);
+    else void recordSecurityEvent(user.id, 'SIGN_IN', metadata).catch(() => undefined);
     const session = await issueSession(user.id, { ...metadata, deviceId: input.deviceId });
     const response = NextResponse.json({
       ok: true,

@@ -1,4 +1,4 @@
-export type ContentAiProvider = 'deterministic' | 'ollama' | 'openai';
+export type ContentAiProvider = 'deterministic' | 'ollama' | 'openai' | 'workers-ai';
 
 export type ContentAiConfig = {
   provider: ContentAiProvider;
@@ -14,7 +14,7 @@ export function getContentAiConfig(
     env.CONTENT_SUMMARIZER ??
     'deterministic'
   ).toLowerCase();
-  if (!['deterministic', 'ollama', 'openai'].includes(requested)) {
+  if (!['deterministic', 'ollama', 'openai', 'workers-ai'].includes(requested)) {
     throw new Error(`Unsupported CONTENT_AI_PROVIDER: ${requested}`);
   }
   return {
