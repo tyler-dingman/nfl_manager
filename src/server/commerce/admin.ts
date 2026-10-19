@@ -5,7 +5,7 @@ import { authDb } from '@/server/auth/database';
 import { syncCommerceCatalog } from './catalog';
 import { adminOrders } from './orders';
 export async function commerceAdminData(section: string, search = '', status = 'ALL') {
-  if(applicationBackend()==='d1') return new D1Commerce(applicationStorage()).commerceAdminData(section,search,status);
+  if(applicationBackend()==='d1') return new D1Commerce(applicationStorage('D1_USERS')).commerceAdminData(section,search,status);
 
   await syncCommerceCatalog();
   const sql = authDb();
@@ -54,7 +54,7 @@ export async function adjustInventory(
   delta: number,
   reason: string,
 ) {
-  if(applicationBackend()==='d1') return new D1Commerce(applicationStorage()).adjustInventory(adminUserId,variantId,delta,reason);
+  if(applicationBackend()==='d1') return new D1Commerce(applicationStorage('D1_USERS')).adjustInventory(adminUserId,variantId,delta,reason);
 
   const sql = authDb();
   return sql.begin(async (tx) => {
@@ -70,7 +70,7 @@ export async function updateCommerceProduct(
   productId: string,
   input: { active?: boolean; name?: string; description?: string; basePriceCents?: number },
 ) {
-  if(applicationBackend()==='d1') return new D1Commerce(applicationStorage()).updateCommerceProduct(productId,input);
+  if(applicationBackend()==='d1') return new D1Commerce(applicationStorage('D1_USERS')).updateCommerceProduct(productId,input);
 
   const rows = await authDb()<
     any[]
@@ -93,7 +93,7 @@ export async function createCommerceProduct(
     inventoryOnHand: number;
   },
 ) {
-  if(applicationBackend()==='d1') return new D1Commerce(applicationStorage()).createCommerceProduct(adminUserId,input);
+  if(applicationBackend()==='d1') return new D1Commerce(applicationStorage('D1_USERS')).createCommerceProduct(adminUserId,input);
 
   const sql = authDb();
   return sql.begin(async (tx) => {

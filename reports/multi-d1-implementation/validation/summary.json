@@ -1,0 +1,55 @@
+{
+  "implementation": "PARTIAL",
+  "readyForStaging": false,
+  "readyForProduction": false,
+  "root": {
+    "passed": 1075,
+    "failed": 0,
+    "skipped": 2
+  },
+  "workerFullAttempt": {
+    "passed": 151,
+    "assertionFailures": 0,
+    "cancelled": 1,
+    "exitCode": 1,
+    "timeoutFile": "test-node/historical-lifecycle.test.ts"
+  },
+  "workerIsolatedRetry": {
+    "passed": 3,
+    "failed": 0,
+    "cancelled": 0,
+    "sameTimeoutMs": 120000
+  },
+  "workerCombined": {
+    "passed": 153,
+    "unresolvedFailures": 0,
+    "cleanSingleFullAttempt": false
+  },
+  "automatedCombinedPassed": 1228,
+  "browserSingleD1Rollback": {
+    "passed": 48,
+    "failed": 0,
+    "initialNavigationTimeouts": 1
+  },
+  "browserMultiD1Application": "NOT QUALIFIED",
+  "authMultiD1": {
+    "physicalDatabases": 10,
+    "httpSamples": 20,
+    "maximumSqlStatements": 27,
+    "passed": true,
+    "hostedCpuMs": null
+  },
+  "routingPhysicalD1": {
+    "testsPassed": 2,
+    "teams": 32,
+    "databases": 10
+  },
+  "archiveIntegrity": {
+    "testsPassed": 1,
+    "completeDatabaseRestore": false
+  },
+  "typescript": "PASS",
+  "format": "PASS",
+  "accountAccess": "NOT PERFORMED",
+  "deployment": "NOT PERFORMED"
+}

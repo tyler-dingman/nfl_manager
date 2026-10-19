@@ -6,7 +6,7 @@ export const toPublicUser = pg.toPublicUser;
 function dispatch<K extends keyof typeof pg>(name: K): (typeof pg)[K] {
   return (async (...args: unknown[]) => {
     if (applicationBackend() === 'postgres') return (pg[name] as Function)(...args);
-    const repo = new D1AuthRepository(applicationStorage());
+    const repo = new D1AuthRepository(applicationStorage('D1_USERS'));
     if (
       name === 'createOneTimeToken' &&
       ['EMAIL_VERIFICATION', 'PASSWORD_RESET'].includes(String(args[1]))

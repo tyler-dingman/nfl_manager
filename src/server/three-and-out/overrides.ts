@@ -6,7 +6,7 @@ import {
 import type { EditorialOverride } from '@/features/three-and-out/types';
 export async function loadOverrides(team: string) {
   if (applicationBackend() === 'postgres') return getEditorialOverrides(team);
-  const s = applicationStorage(),
+  const s = applicationStorage('D1_USERS'),
     rows = await s.rows<any>(
       'SELECT object_hash FROM app_editorial_overrides WHERE team_id=? ORDER BY created_at,id',
       [team],
@@ -21,7 +21,7 @@ export async function loadOverrides(team: string) {
 }
 export async function persistOverride(team: string, override: EditorialOverride) {
   if (applicationBackend() === 'postgres') return saveEditorialOverride(team, override);
-  const s = applicationStorage(),
+  const s = applicationStorage('D1_USERS'),
     id = crypto.randomUUID(),
     hash = await s.put({ schema: 1, team, override });
   await s

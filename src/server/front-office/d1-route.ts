@@ -55,7 +55,7 @@ export function withD1FranchiseRoute(
 ) {
   return async (input: Request, ...args: any[]) => {
     const request = input instanceof NextRequest ? input : new NextRequest(input),
-      s = applicationStorage();
+      s = applicationStorage('D1_USERS');
     try {
       const user = await currentUser(request);
       if (!user)

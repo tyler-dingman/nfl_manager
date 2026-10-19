@@ -4,7 +4,7 @@ import { applicationBackend, applicationStorage } from '../persistence/bindings'
 function dispatch<K extends keyof typeof pg>(name: K): (typeof pg)[K] {
   return (async (...args: unknown[]) => {
     if (applicationBackend() === 'postgres') return (pg[name] as Function)(...args);
-    const repo = new D1UserWorkflows(applicationStorage()),
+    const repo = new D1UserWorkflows(applicationStorage('D1_USERS')),
       method = (repo as unknown as Record<string, Function>)[name];
     if (!method) throw Error(`D1 user operation is not migrated: ${name}`);
     return method.apply(repo, args);

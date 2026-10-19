@@ -12,7 +12,7 @@ const params = await asyncparams;
   if (!user) return authError('Unauthorized.', 401);
   if (!z.string().uuid().safeParse(params.mediaId).success)
     return authError('Photo not found.', 404);
-  const rows = applicationBackend()==='d1' ? await new D1Crew(applicationStorage()).getMedia(user.id,params.mediaId).then(r=>r?[r]:[]) : await authDb()<
+  const rows = applicationBackend()==='d1' ? await new D1Crew(applicationStorage('D1_USERS')).getMedia(user.id,params.mediaId).then(r=>r?[r]:[]) : await authDb()<
     Array<{ content: Buffer; mime_type: string }>
   >`SELECT media.content,media.mime_type FROM crew_media media JOIN crew_members m ON m.crew_id=media.crew_id WHERE media.id=${params.mediaId} AND m.user_id=${user.id} AND m.status='ACTIVE' LIMIT 1`;
   if (!rows[0]) return authError('Photo not found.', 404);

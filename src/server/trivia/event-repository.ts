@@ -12,7 +12,7 @@ export async function nextTriviaEvent(
   teamId: string,
   userId?: string,
 ): Promise<ScheduledTriviaEvent | null> {
-  if(applicationBackend()==='d1') return new D1TriviaGames(applicationStorage()).nextTriviaEvent(teamId,userId);
+  if(applicationBackend()==='d1') return new D1TriviaGames(applicationStorage('D1_USERS')).nextTriviaEvent(teamId,userId);
 
   const rows = await authDb()`SELECT e.id,e.team_id,e.starts_at,e.ends_at,e.timezone,e.status,
     (SELECT count(*)::int FROM trivia_event_registrations r WHERE r.event_id=e.id) AS count,
@@ -34,7 +34,7 @@ export async function nextTriviaEvent(
     : null;
 }
 export async function registerTriviaEvent(eventId: string, userId: string, join = false) {
-  if(applicationBackend()==='d1') return new D1TriviaGames(applicationStorage()).registerTriviaEvent(eventId,userId,join);
+  if(applicationBackend()==='d1') return new D1TriviaGames(applicationStorage('D1_USERS')).registerTriviaEvent(eventId,userId,join);
 
   const db = authDb();
   return db.begin(async (tx) => {

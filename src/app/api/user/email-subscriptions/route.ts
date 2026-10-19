@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
     return authError('This staged subscription service requires D1.', 503);
   const user = await currentUser(request);
   if (!user) return authError('Unauthorized.', 401);
-  const s = applicationStorage(),
+  const s = applicationStorage('D1_USERS'),
     [subscription] = await s.rows<{ enabled: number }>(
       'SELECT enabled FROM app_subscriptions WHERE user_id=? AND topic=?',
       [user.id, 'THREE_AND_OUT'],
@@ -42,7 +42,7 @@ export async function PATCH(request: NextRequest) {
     if (typeof body.enabled !== 'boolean') return authError('enabled must be a boolean.');
     const secret = applicationEnvironment().APP_MAIL_ENCRYPTION_KEY;
     if (!secret) return authError('Mail is not configured.', 503);
-    await new MailQueue(applicationStorage(), secret).subscribe(user.id, body.enabled);
+    await new MailQueue(applicationStorage('D1_USERS'), secret).subscribe(user.id, body.enabled);
     return NextResponse.json({ ok: true, enabled: body.enabled });
   } catch {
     return authError('Unable to update email preferences.');

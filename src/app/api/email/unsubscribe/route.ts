@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
     const secret = applicationEnvironment().APP_MAIL_ENCRYPTION_KEY;
     if (applicationBackend() !== 'd1' || !secret)
       return NextResponse.json({ error: 'Email preferences unavailable.' }, { status: 503 });
-    await new MailQueue(applicationStorage(), secret).unsubscribe(
+    await new MailQueue(applicationStorage('D1_USERS'), secret).unsubscribe(
       request.nextUrl.searchParams.get('token') ?? '',
     );
     return NextResponse.json(

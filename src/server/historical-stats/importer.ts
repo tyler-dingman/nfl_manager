@@ -137,7 +137,7 @@ export async function importNflverseHistory(options: Options) {
       dryRun: true,
       strengthRecords: {},
     };
-  if(applicationBackend()==='d1')return new D1HistoryIngestion(applicationStorage()).persistNflverse(options,gamesRaw,playersRaw);
+  if(applicationBackend()==='d1')return new D1HistoryIngestion(applicationStorage('D1_SHARED')).persistNflverse(options,gamesRaw,playersRaw);
   const db = authDb();
   for (const code of new Set(gamesRaw.flatMap((g) => [team(g.home_team), team(g.away_team)])))
     await db`INSERT INTO provider_team_mappings(provider,provider_team_id,team_id) VALUES('NFLVERSE',${code},${code}) ON CONFLICT(provider,provider_team_id) DO UPDATE SET team_id=EXCLUDED.team_id,updated_at=now()`;

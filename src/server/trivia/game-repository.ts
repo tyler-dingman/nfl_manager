@@ -12,7 +12,7 @@ import { awardYardsInTransaction } from '@/server/rewards/repository';
 import { ensureTriviaQuestionPool } from '@/server/trivia/question-pool';
 
 export async function createTriviaGame(userId: string, teamId: string) {
-  if(applicationBackend()==='d1') return new D1TriviaGames(applicationStorage()).createTriviaGame(userId,teamId);
+  if(applicationBackend()==='d1') return new D1TriviaGames(applicationStorage('D1_USERS')).createTriviaGame(userId,teamId);
 
   await ensureTriviaQuestionPool(teamId, DRILL_QUESTION_COUNT);
   const sql = authDb();
@@ -32,10 +32,10 @@ export async function createTriviaGame(userId: string, teamId: string) {
 }
 
 export const getGameStandings = (gameId: string) =>
-  applicationBackend()==='d1' ? new D1TriviaGames(applicationStorage()).getGameStandings(gameId) : authDb()`SELECT p.user_id AS "userId",coalesce(u.display_name,'Football Fan') AS name,u.avatar_url AS "avatarUrl",f.team_id AS "teamId",p.score,p.correct_answers AS "correctAnswers",p.wrong_answers AS "wrongAnswers",p.timeouts,p.response_time_total_ms AS "responseTimeTotalMs",p.best_question_score AS "bestQuestionScore",p.completed_at AS "completedAt",(SELECT rs.rank FROM trivia_rank_snapshots rs WHERE rs.game_id=p.game_id AND rs.user_id=p.user_id ORDER BY rs.question_position DESC LIMIT 1) AS "currentRank",(SELECT rs.rank FROM trivia_rank_snapshots rs WHERE rs.game_id=p.game_id AND rs.user_id=p.user_id ORDER BY rs.question_position DESC OFFSET 1 LIMIT 1) AS "previousRank" FROM trivia_game_participants p JOIN users u ON u.id=p.user_id LEFT JOIN user_team_follows f ON f.user_id=u.id AND f.is_primary=true WHERE p.game_id=${gameId} AND p.participant_status='JOINED' ORDER BY p.score DESC,p.correct_answers DESC,p.response_time_total_ms ASC,u.display_name,u.id`;
+  applicationBackend()==='d1' ? new D1TriviaGames(applicationStorage('D1_USERS')).getGameStandings(gameId) : authDb()`SELECT p.user_id AS "userId",coalesce(u.display_name,'Football Fan') AS name,u.avatar_url AS "avatarUrl",f.team_id AS "teamId",p.score,p.correct_answers AS "correctAnswers",p.wrong_answers AS "wrongAnswers",p.timeouts,p.response_time_total_ms AS "responseTimeTotalMs",p.best_question_score AS "bestQuestionScore",p.completed_at AS "completedAt",(SELECT rs.rank FROM trivia_rank_snapshots rs WHERE rs.game_id=p.game_id AND rs.user_id=p.user_id ORDER BY rs.question_position DESC LIMIT 1) AS "currentRank",(SELECT rs.rank FROM trivia_rank_snapshots rs WHERE rs.game_id=p.game_id AND rs.user_id=p.user_id ORDER BY rs.question_position DESC OFFSET 1 LIMIT 1) AS "previousRank" FROM trivia_game_participants p JOIN users u ON u.id=p.user_id LEFT JOIN user_team_follows f ON f.user_id=u.id AND f.is_primary=true WHERE p.game_id=${gameId} AND p.participant_status='JOINED' ORDER BY p.score DESC,p.correct_answers DESC,p.response_time_total_ms ASC,u.display_name,u.id`;
 
 export async function getTriviaGame(userId: string, gameId: string) {
-  if(applicationBackend()==='d1') return new D1TriviaGames(applicationStorage()).getTriviaGame(userId,gameId);
+  if(applicationBackend()==='d1') return new D1TriviaGames(applicationStorage('D1_USERS')).getTriviaGame(userId,gameId);
 
   const sql = authDb();
   const participants = await sql<
@@ -116,7 +116,7 @@ export async function answerTriviaGameQuestion(
   gameId: string,
   selectedAnswer: TriviaAnswerChoice | null,
 ) {
-  if(applicationBackend()==='d1') return new D1TriviaGames(applicationStorage()).answerTriviaGameQuestion(userId,gameId,selectedAnswer);
+  if(applicationBackend()==='d1') return new D1TriviaGames(applicationStorage('D1_USERS')).answerTriviaGameQuestion(userId,gameId,selectedAnswer);
 
   const sql = authDb();
   return sql.begin(async (tx) => {
@@ -240,7 +240,7 @@ export async function getTriviaLeaderboard(
   period: 'WEEK' | 'ALL_TIME',
   limit = 25,
 ) {
-  if(applicationBackend()==='d1') return new D1TriviaGames(applicationStorage()).getTriviaLeaderboard(scope,teamId,period,limit);
+  if(applicationBackend()==='d1') return new D1TriviaGames(applicationStorage('D1_USERS')).getTriviaLeaderboard(scope,teamId,period,limit);
 
   const points = period === 'WEEK' ? 'weekly_points' : 'lifetime_points';
   const teamJoin =
@@ -256,7 +256,7 @@ export async function getTriviaLeaderboard(
 
 // Read-only polling: unlike getTriviaGame, this never presents the next question.
 export async function getTriviaLiveState(userId: string, gameId: string) {
-  if(applicationBackend()==='d1') return new D1TriviaGames(applicationStorage()).getTriviaLiveState(userId,gameId);
+  if(applicationBackend()==='d1') return new D1TriviaGames(applicationStorage('D1_USERS')).getTriviaLiveState(userId,gameId);
 
   const sql = authDb();
   const members =

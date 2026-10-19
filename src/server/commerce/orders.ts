@@ -50,7 +50,7 @@ export async function quoteCommerceOrder(
   promoCode?: string,
   shippingMethod?: CheckoutInput['shippingMethod'],
 ) {
-  if(applicationBackend()==='d1') return new D1Commerce(applicationStorage()).quoteCommerceOrder(items,promoCode,shippingMethod);
+  if(applicationBackend()==='d1') return new D1Commerce(applicationStorage('D1_USERS')).quoteCommerceOrder(items,promoCode,shippingMethod);
 
   await syncCommerceCatalog();
   const uniqueItems = new Map<string, number>();
@@ -91,7 +91,7 @@ export async function quoteCommerceOrder(
 }
 
 export async function createCommerceOrder(userId: string | null, input: CheckoutInput) {
-  if(applicationBackend()==='d1') return new D1Commerce(applicationStorage()).createCommerceOrder(userId,input);
+  if(applicationBackend()==='d1') return new D1Commerce(applicationStorage('D1_USERS')).createCommerceOrder(userId,input);
 
   await syncCommerceCatalog();
   const sql = authDb();
@@ -173,7 +173,7 @@ export async function createCommerceOrder(userId: string | null, input: Checkout
 }
 
 export async function createStripeCheckout(userId: string | null, input: StripeCheckoutInput) {
-  if(applicationBackend()==='d1') return new D1Commerce(applicationStorage()).createStripeCheckout(userId,input);
+  if(applicationBackend()==='d1') return new D1Commerce(applicationStorage('D1_USERS')).createStripeCheckout(userId,input);
 
   await syncCommerceCatalog();
   const sql = authDb();
@@ -286,7 +286,7 @@ export async function createStripeCheckout(userId: string | null, input: StripeC
 }
 
 export async function prepareStripePaymentRetry(orderId: string, paymentIntentId: string) {
-  if(applicationBackend()==='d1') return new D1Commerce(applicationStorage()).prepareStripePaymentRetry(orderId,paymentIntentId);
+  if(applicationBackend()==='d1') return new D1Commerce(applicationStorage('D1_USERS')).prepareStripePaymentRetry(orderId,paymentIntentId);
 
   const sql = authDb();
   return sql.begin(async (tx) => {
@@ -325,7 +325,7 @@ export async function prepareStripePaymentRetry(orderId: string, paymentIntentId
 }
 
 export async function stripeCheckoutStatus(orderId: string, paymentIntentId: string) {
-  if(applicationBackend()==='d1') return new D1Commerce(applicationStorage()).stripeCheckoutStatus(orderId,paymentIntentId);
+  if(applicationBackend()==='d1') return new D1Commerce(applicationStorage('D1_USERS')).stripeCheckoutStatus(orderId,paymentIntentId);
 
   const [order] = await authDb()<any[]>`
     SELECT id,order_number,total_cents,payment_status
@@ -346,7 +346,7 @@ const orderSelect = `SELECT o.*,
   (SELECT COALESCE(jsonb_agg(jsonb_build_object('id',r.id,'stripeRefundId',r.stripe_refund_id,'amountCents',r.amount_cents,'currency',r.currency,'status',r.status,'reason',r.reason,'createdAt',r.created_at) ORDER BY r.created_at DESC),'[]') FROM commerce_refunds r WHERE r.order_id=o.id) refunds
   FROM commerce_orders o LEFT JOIN commerce_order_items i ON i.order_id=o.id`;
 export async function customerOrders(userId: string) {
-  if(applicationBackend()==='d1') return new D1Commerce(applicationStorage()).customerOrders(userId);
+  if(applicationBackend()==='d1') return new D1Commerce(applicationStorage('D1_USERS')).customerOrders(userId);
 
   const orders = await authDb().unsafe<any[]>(
     `${orderSelect} WHERE o.user_id=$1 GROUP BY o.id ORDER BY o.created_at DESC`,
@@ -355,7 +355,7 @@ export async function customerOrders(userId: string) {
   return orders.map(sanitizeCustomerOrder);
 }
 export async function customerOrder(userId: string, orderId: string) {
-  if(applicationBackend()==='d1') return new D1Commerce(applicationStorage()).customerOrder(userId,orderId);
+  if(applicationBackend()==='d1') return new D1Commerce(applicationStorage('D1_USERS')).customerOrder(userId,orderId);
 
   const order =
     (
@@ -383,7 +383,7 @@ function sanitizeCustomerOrder(order: any) {
   };
 }
 export async function adminOrders(search = '', status = 'ALL') {
-  if(applicationBackend()==='d1') return new D1Commerce(applicationStorage()).adminOrders(search,status);
+  if(applicationBackend()==='d1') return new D1Commerce(applicationStorage('D1_USERS')).adminOrders(search,status);
 
   const sql = authDb();
   return sql<
@@ -392,7 +392,7 @@ export async function adminOrders(search = '', status = 'ALL') {
     WHERE (${status}='ALL' OR o.fulfillment_status=${status}) AND (${search}='' OR o.order_number ILIKE ${`%${search}%`} OR o.email ILIKE ${`%${search}%`} OR concat(o.customer_first_name,' ',o.customer_last_name) ILIKE ${`%${search}%`}) ORDER BY o.created_at DESC LIMIT 200`;
 }
 export async function adminOrder(orderId: string) {
-  if(applicationBackend()==='d1') return new D1Commerce(applicationStorage()).adminOrder(orderId);
+  if(applicationBackend()==='d1') return new D1Commerce(applicationStorage('D1_USERS')).adminOrder(orderId);
 
   return (
     (await authDb().unsafe<any[]>(`${orderSelect} WHERE o.id=$1 GROUP BY o.id`, [orderId]))[0] ??
@@ -410,7 +410,7 @@ export async function transitionOrder(
     internalNote?: string;
   },
 ) {
-  if(applicationBackend()==='d1') return new D1Commerce(applicationStorage()).transitionOrder(adminUserId,orderId,input);
+  if(applicationBackend()==='d1') return new D1Commerce(applicationStorage('D1_USERS')).transitionOrder(adminUserId,orderId,input);
 
   const sql = authDb();
   const order = await adminOrder(orderId);

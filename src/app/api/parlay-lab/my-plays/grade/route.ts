@@ -25,7 +25,7 @@ async function finalGameFor(play: SavedPlay) {
   const event = play.event;
   if (!event) return null;
   if (applicationBackend() === 'd1') {
-    const refs = new ReferenceData(applicationStorage()),
+    const refs = new ReferenceData(applicationStorage('D1_SHARED')),
       season = event.season ?? new Date(event.kickoffAt).getUTCFullYear();
     const games = (await refs.games([season])).filter(
       (g) => g.status === 'FINAL' && g.homeScore != null && g.awayScore != null && g.kickoffAt,
@@ -101,7 +101,7 @@ async function playerResult(gameId: string, playerId: string) {
   if (applicationBackend() === 'd1')
     return (
       (
-        await new ReferenceData(applicationStorage()).values<HistoricalPlayerGame[]>(
+        await new ReferenceData(applicationStorage('D1_SHARED')).values<HistoricalPlayerGame[]>(
           'PLAYER_GAMES',
           'subject=?',
           [playerId],

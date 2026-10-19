@@ -1,4 +1,4 @@
-import { applicationBackend, applicationStorage } from '../persistence/bindings';
+import { applicationBackend, applicationStorage, applicationTeamStorage } from '../persistence/bindings';
 import { PublicEditorial } from '../../../packages/storage/editorial';
 import { normalizeDisplayHeadline } from '@/lib/display-headline';
 import { authDb } from '@/server/auth/database';
@@ -38,7 +38,7 @@ const storyRecord = (r: any): StoryRecord => ({
 });
 export async function listPublicStories(teamId: string, limit = 30): Promise<StoryView[]> {
   if (applicationBackend() === 'd1')
-    return new PublicEditorial(applicationStorage()).list(teamId, limit);
+    return new PublicEditorial(applicationTeamStorage(teamId)).list(teamId, limit);
   const sql = authDb();
   const rows =
     await sql`SELECT s.*,COUNT(e.id)::int AS source_count FROM canonical_stories s LEFT JOIN story_evidence e ON e.story_id=s.id WHERE s.team_id=${teamId} AND s.publication_state IN ('PUBLISHED','AUTO_PUBLISHED') AND s.status<>'HOLDING'
@@ -104,7 +104,7 @@ export type PublicStoryPageOptions = {
 
 export async function listPublicStoryPage(teamId: string, options: PublicStoryPageOptions) {
   if (applicationBackend() === 'd1')
-    return new PublicEditorial(applicationStorage()).page(teamId, options);
+    return new PublicEditorial(applicationTeamStorage(teamId)).page(teamId, options);
   const sql = authDb();
   const pageSize = options.pageSize ?? DEFAULT_BEAT_PAGE_SIZE;
   const requestedPage = Math.max(1, Math.floor(options.page));
@@ -264,7 +264,7 @@ export type WireEntry = {
 };
 export async function listWireEntries(teamId: string, limit = 20): Promise<WireEntry[]> {
   if (applicationBackend() === 'd1')
-    return new PublicEditorial(applicationStorage()).wire(teamId, limit);
+    return new PublicEditorial(applicationTeamStorage(teamId)).wire(teamId, limit);
   const stories = await listPublicStories(teamId, 50),
     byId = new Map(stories.map((s) => [s.id, s]));
   if (!stories.length) return [];

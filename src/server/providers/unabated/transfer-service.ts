@@ -74,7 +74,7 @@ export function quotaReason(
       : null;
 }
 export function createTransferService(inputDb?:ReturnType<typeof authDb>,client=new UnabatedClient()){
- if(!inputDb&&applicationBackend()==='d1'){const d=new D1Transfers(applicationStorage(),client);return{start:d.start.bind(d),poll:d.poll.bind(d),resolve:d.resolve.bind(d)};}
+ if(!inputDb&&applicationBackend()==='d1'){const d=new D1Transfers(applicationStorage('D1_USERS'),client);return{start:d.start.bind(d),poll:d.poll.bind(d),resolve:d.resolve.bind(d)};}
  const db=inputDb??authDb();
   const actor = (user: string) =>
     createHmac('sha256', process.env.AUTH_JWT_SECRET!)

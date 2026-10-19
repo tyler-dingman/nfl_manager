@@ -1,0 +1,91 @@
+# Local-only integration configuration. Application migration is INCOMPLETE; never deploy this file.
+name = "down-distance-multi-d1-local"
+main = "workers/api/dist/worker.mjs"
+compatibility_date = "2026-10-18"
+compatibility_flags = ["nodejs_compat"]
+workers_dev = false
+preview_urls = false
+send_metrics = false
+[vars]
+APP_MULTI_D1 = "true"
+APP_OBJECT_BACKEND = "d1"
+APP_DATA_BACKEND = "d1"
+APP_RUNTIME = "cloudflare"
+INFRASTRUCTURE_COST_POLICY = "zero-cost"
+[triggers]
+crons = []
+[observability]
+enabled = false
+[[services]]
+binding = "PASSWORD_SERVICE"
+service = "down-distance-password-local"
+
+[[d1_databases]]
+binding = "D1_TEAM_1"
+database_name = "dd-multi-synthetic-1"
+database_id = "00000000-0000-0000-0000-000000000001"
+migrations_dir = "workers/multi-d1/migrations/team"
+remote = false
+
+[[d1_databases]]
+binding = "D1_TEAM_2"
+database_name = "dd-multi-synthetic-2"
+database_id = "00000000-0000-0000-0000-000000000002"
+migrations_dir = "workers/multi-d1/migrations/team"
+remote = false
+
+[[d1_databases]]
+binding = "D1_TEAM_3"
+database_name = "dd-multi-synthetic-3"
+database_id = "00000000-0000-0000-0000-000000000003"
+migrations_dir = "workers/multi-d1/migrations/team"
+remote = false
+
+[[d1_databases]]
+binding = "D1_TEAM_4"
+database_name = "dd-multi-synthetic-4"
+database_id = "00000000-0000-0000-0000-000000000004"
+migrations_dir = "workers/multi-d1/migrations/team"
+remote = false
+
+[[d1_databases]]
+binding = "D1_TEAM_5"
+database_name = "dd-multi-synthetic-5"
+database_id = "00000000-0000-0000-0000-000000000005"
+migrations_dir = "workers/multi-d1/migrations/team"
+remote = false
+
+[[d1_databases]]
+binding = "D1_TEAM_6"
+database_name = "dd-multi-synthetic-6"
+database_id = "00000000-0000-0000-0000-000000000006"
+migrations_dir = "workers/multi-d1/migrations/team"
+remote = false
+
+[[d1_databases]]
+binding = "D1_TEAM_7"
+database_name = "dd-multi-synthetic-7"
+database_id = "00000000-0000-0000-0000-000000000007"
+migrations_dir = "workers/multi-d1/migrations/team"
+remote = false
+
+[[d1_databases]]
+binding = "D1_TEAM_8"
+database_name = "dd-multi-synthetic-8"
+database_id = "00000000-0000-0000-0000-000000000008"
+migrations_dir = "workers/multi-d1/migrations/team"
+remote = false
+
+[[d1_databases]]
+binding = "D1_USERS"
+database_name = "dd-multi-synthetic-9"
+database_id = "00000000-0000-0000-0000-000000000009"
+migrations_dir = "workers/multi-d1/migrations/users"
+remote = false
+
+[[d1_databases]]
+binding = "D1_SHARED"
+database_name = "dd-multi-synthetic-10"
+database_id = "00000000-0000-0000-0000-000000000010"
+migrations_dir = "workers/multi-d1/migrations/shared"
+remote = false

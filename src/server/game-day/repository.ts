@@ -16,7 +16,7 @@ const code = () => randomBytes(4).toString('hex').slice(0, 6).toUpperCase();
 const opponent = (team: string) => (team === 'KC' ? 'LV' : team === 'LV' ? 'KC' : 'KC');
 
 export async function createRoom(userId: string, teamId: string) {
-  if(applicationBackend()==='d1') return new D1GameDay(applicationStorage()).createRoom(userId,teamId);
+  if(applicationBackend()==='d1') return new D1GameDay(applicationStorage('D1_USERS')).createRoom(userId,teamId);
 
   const id = randomUUID(),
     inviteToken = randomBytes(24).toString('base64url'),
@@ -50,7 +50,7 @@ export async function createRoom(userId: string, teamId: string) {
   return { id, joinCode, inviteToken };
 }
 export async function joinRoom(userId: string, value: string) {
-  if(applicationBackend()==='d1') return new D1GameDay(applicationStorage()).joinRoom(userId,value);
+  if(applicationBackend()==='d1') return new D1GameDay(applicationStorage('D1_USERS')).joinRoom(userId,value);
 
   const tokenHash = hash(value);
   const rows = await authDb()<
@@ -72,7 +72,7 @@ export async function joinRoom(userId: string, value: string) {
   return { id: rows[0].id };
 }
 export async function activeRoom(userId: string, teamId?: string) {
-  if(applicationBackend()==='d1') return new D1GameDay(applicationStorage()).activeRoom(userId,teamId);
+  if(applicationBackend()==='d1') return new D1GameDay(applicationStorage('D1_USERS')).activeRoom(userId,teamId);
 
   const sql = authDb();
   const rows = teamId
@@ -85,7 +85,7 @@ export async function activeRoom(userId: string, teamId?: string) {
   return rows[0] ? getRoom(userId, rows[0].id) : null;
 }
 export async function getRoom(userId: string, roomId: string): Promise<GameDayRoom> {
-  if(applicationBackend()==='d1') return new D1GameDay(applicationStorage()).getRoom(userId,roomId);
+  if(applicationBackend()==='d1') return new D1GameDay(applicationStorage('D1_USERS')).getRoom(userId,roomId);
 
   const sql = authDb();
   const rooms = await sql<
@@ -140,14 +140,14 @@ export async function addMessage(
   kind = 'MESSAGE',
   payload: Record<string, unknown> = {},
 ) {
-  if(applicationBackend()==='d1') return new D1GameDay(applicationStorage()).addMessage(userId,roomId,body,kind,payload);
+  if(applicationBackend()==='d1') return new D1GameDay(applicationStorage('D1_USERS')).addMessage(userId,roomId,body,kind,payload);
 
   await assertMember(userId, roomId);
   await authDb()`INSERT INTO game_day_activity(id,room_id,kind,user_id,body,payload)VALUES(${randomUUID()},${roomId},${kind},${userId},${body},${authDb().json(payload as any)})`;
   await touch(roomId);
 }
 export async function react(userId: string, roomId: string, activityId: string, reaction: string) {
-  if(applicationBackend()==='d1') return new D1GameDay(applicationStorage()).react(userId,roomId,activityId,reaction);
+  if(applicationBackend()==='d1') return new D1GameDay(applicationStorage('D1_USERS')).react(userId,roomId,activityId,reaction);
 
   await assertMember(userId, roomId);
   await authDb()`INSERT INTO game_day_reactions(activity_id,user_id,reaction)SELECT ${activityId},${userId},${reaction} WHERE EXISTS(SELECT 1 FROM game_day_activity WHERE id=${activityId} AND room_id=${roomId}) ON CONFLICT DO NOTHING`;
@@ -159,7 +159,7 @@ export async function predict(
   prompt: string,
   selection: string,
 ) {
-  if(applicationBackend()==='d1') return new D1GameDay(applicationStorage()).predict(userId,roomId,kind,prompt,selection);
+  if(applicationBackend()==='d1') return new D1GameDay(applicationStorage('D1_USERS')).predict(userId,roomId,kind,prompt,selection);
 
   const room = await getRoom(userId, roomId);
   if (kind === 'PREGAME' && ['LIVE', 'HALFTIME', 'POSTGAME'].includes(room.status))
@@ -168,7 +168,7 @@ export async function predict(
   await authDb()`INSERT INTO game_day_predictions(id,room_id,user_id,kind,prompt,selection,drive_number)VALUES(${randomUUID()},${roomId},${userId},${kind},${prompt},${selection},${drive}) ON CONFLICT(room_id,user_id,kind,prompt,drive_number) DO UPDATE SET selection=EXCLUDED.selection`;
 }
 export async function simulate(userId: string, roomId: string, action: SimulationAction) {
-  if(applicationBackend()==='d1') return new D1GameDay(applicationStorage()).simulate(userId,roomId,action);
+  if(applicationBackend()==='d1') return new D1GameDay(applicationStorage('D1_USERS')).simulate(userId,roomId,action);
 
   if (process.env.NODE_ENV === 'production') throw new Error('Simulation is development-only.');
   const sql = authDb();

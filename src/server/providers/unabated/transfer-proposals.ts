@@ -99,7 +99,7 @@ export function readProposalToken(user: string, book: Sportsbook, token: string)
   }
 }
 export function createProposalService(inputDb?:ReturnType<typeof authDb>){
- if(!inputDb&&applicationBackend()==='d1'){const d=new D1TransferProposals(applicationStorage());return{inspect:d.inspect.bind(d),propose:d.propose.bind(d),approve:d.approve.bind(d)};}
+ if(!inputDb&&applicationBackend()==='d1'){const d=new D1TransferProposals(applicationStorage('D1_USERS'));return{inspect:d.inspect.bind(d),propose:d.propose.bind(d),approve:d.approve.bind(d)};}
  const db=inputDb??authDb();
   async function inspect(user: string, ids: string[], book: Sportsbook, enabled = true) {
     if (!ids.length || ids.length > 20 || new Set(ids).size !== ids.length)

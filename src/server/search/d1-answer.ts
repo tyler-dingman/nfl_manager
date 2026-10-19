@@ -4,7 +4,7 @@ import { validateSynthesis } from './evidence';
 import { SEARCH_INTENTS, type SearchIntent } from '@/features/search/answer-types';
 import type { SearchGame, SearchContext } from '@/features/search/answer-types';
 import { nflSeason, type NewsEvidence } from './answer-data';
-import { applicationStorage, applicationEnvironment, applicationAi } from '../persistence/bindings';
+import { applicationStorage, applicationTeamStorage, applicationEnvironment, applicationAi } from '../persistence/bindings';
 import { ReferenceData } from '../../../packages/storage/reference';
 import { PublicEditorial } from '../../../packages/storage/editorial';
 import { D1OddsBoard } from '../../../packages/storage/odds-board';
@@ -16,7 +16,7 @@ const claim = z.object({
   quotes: z.array(z.string().min(12)).min(1).max(5),
 });
 export function d1AnswerDependencies(): AnswerDependencies {
-  const storage = applicationStorage(),
+  const storage = applicationStorage('D1_SHARED'),
     refs = new ReferenceData(storage);
   const stored = async (namespace: string, team: string, season: number) => {
     const [pack] = await refs.values<any>(namespace, 'subject=? AND season=?', [team, season]);
@@ -89,7 +89,7 @@ export function d1AnswerDependencies(): AnswerDependencies {
     loadStats: (team, season, player) =>
       stored(player ? 'PLAYER_STATS' : 'TEAM_STATS', team, season),
     async loadNews(team, now) {
-      const stories = await new PublicEditorial(storage).list(team, 150);
+      const stories = await new PublicEditorial(applicationTeamStorage(team)).list(team, 150);
       return stories
         .filter((s) => Date.parse(s.lastMeaningfulUpdateAt) >= now.getTime() - 72 * 3600000)
         .flatMap((s) => {

@@ -5,7 +5,7 @@ export type { NotificationCategory } from './repository-postgres';
 function dispatch<K extends keyof typeof pg>(name: K): (typeof pg)[K] {
   return (async (...args: unknown[]) => {
     if (applicationBackend() === 'postgres') return (pg[name] as Function)(...args);
-    const repo = new D1Notifications(applicationStorage());
+    const repo = new D1Notifications(applicationStorage('D1_USERS'));
     const method = (repo as any)[name];
     if (!method) throw Error('D1 notification operation unavailable: ' + name);
     return method.apply(repo, args);

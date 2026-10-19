@@ -210,7 +210,7 @@ export async function createStripeRefund(input: {
   amountCents?: number;
   reason?: string;
 }) {
-  if(applicationBackend()==='d1') return new D1StripeCommerce(applicationStorage()).createStripeRefund(input);
+  if(applicationBackend()==='d1') return new D1StripeCommerce(applicationStorage('D1_USERS')).createStripeRefund(input);
   const sql = authDb();
   const prepared = await sql.begin(async (tx) => {
     await tx`SELECT pg_advisory_xact_lock(hashtext(${input.requestId}))`;
@@ -307,7 +307,7 @@ export type StripeWebhookResult =
   | { result: 'DUPLICATE' | 'IGNORED'; orderNumber: null };
 
 export async function processStripeWebhookEvent(event: Stripe.Event): Promise<StripeWebhookResult> {
-  if(applicationBackend()==='d1') return new D1StripeCommerce(applicationStorage()).processStripeWebhookEvent(event);
+  if(applicationBackend()==='d1') return new D1StripeCommerce(applicationStorage('D1_USERS')).processStripeWebhookEvent(event);
   if (event.type === 'refund.created' || event.type === 'refund.updated')
     return processStripeRefundEvent(event);
   const sql = authDb();

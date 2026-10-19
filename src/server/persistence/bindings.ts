@@ -1,5 +1,10 @@
 import { AsyncLocalStorage } from 'node:async_hooks';
 import {
+  MultiD1,
+  DatabaseOwnershipError,
+  type DatabaseOwner,
+} from '../../../packages/storage/multi-d1';
+import {
   Storage,
   type SqlDatabase,
   type Objects,
@@ -9,6 +14,7 @@ const symbol = Symbol.for('down-distance.application-bindings');
 const globals = globalThis as typeof globalThis & { [key: symbol]: unknown };
 export interface ApplicationBindings {
   db: SqlDatabase;
+  multiD1?: MultiD1;
   objects: Objects;
   cacheNamespace?: string;
   password?: { fetch(request: Request): Promise<Response> };
@@ -22,6 +28,8 @@ export const withApplicationBindings = <T>(bindings: ApplicationBindings, operat
 export function applicationBackend() {
   const value =
     context.getStore()?.env?.APP_DATA_BACKEND ?? process.env.APP_DATA_BACKEND ?? 'postgres';
+  if (context.getStore()?.multiD1 && value !== 'd1')
+    throw new DatabaseOwnershipError('Multi-D1 forbids PostgreSQL fallback');
   if (!['postgres', 'd1'].includes(value)) throw Error('Unsupported APP_DATA_BACKEND');
   return value;
 }
@@ -34,8 +42,12 @@ export function applicationAi() {
   return ai;
 }
 let local: Storage | undefined;
-export function applicationStorage() {
+export function applicationStorage(owner?: DatabaseOwner) {
   const scoped = context.getStore();
+  if (scoped?.multiD1) {
+    if (!owner) throw new DatabaseOwnershipError('Repository must declare its database owner');
+    return scoped.multiD1.storage(owner);
+  }
   if (scoped) return new Storage(scoped.db, scoped.objects);
   if (local) return local;
   const endpoint = process.env.APP_D1_LOCAL_URL,
@@ -133,4 +145,13 @@ export function passwordRuntimeAvailable() {
     (applicationEnvironment().APP_PASSWORD_ENABLED === 'true' &&
       Boolean(context.getStore()?.password))
   );
+}
+
+/** Team identity selects public storage only; callers retain their existing authorization checks. */
+export function applicationTeamStorage(team: string) {
+  const scoped = context.getStore();
+  return scoped?.multiD1 ? scoped.multiD1.team(team) : applicationStorage();
+}
+export function applicationDatabaseRouter() {
+  return context.getStore()?.multiD1;
 }

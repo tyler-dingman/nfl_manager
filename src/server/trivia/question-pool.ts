@@ -11,7 +11,7 @@ const choices = ['A', 'B', 'C', 'D'] as const;
  * the preferred pool whenever they are present.
  */
 export async function ensureTriviaQuestionPool(teamId: string, minimum: number) {
-  if(applicationBackend()==='d1') return new D1TriviaGames(applicationStorage()).ensureTriviaQuestionPool(teamId,minimum);
+  if(applicationBackend()==='d1') return new D1TriviaGames(applicationStorage('D1_USERS')).ensureTriviaQuestionPool(teamId,minimum);
 
   const sql = authDb();
   const normalizedTeamId = teamId.toUpperCase();

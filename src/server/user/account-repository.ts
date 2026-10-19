@@ -10,7 +10,7 @@ import { getPreferences, listTeamFollows } from './repository';
 
 export async function exportUserAccount(userId: string) {
   if (applicationBackend() === 'd1') {
-    const s = applicationStorage();
+    const s = applicationStorage('D1_USERS');
     const [profile] = await s.rows<any>(
       'SELECT id,display_name AS displayName,first_name AS firstName,last_name AS lastName,primary_email AS primaryEmail,email_verified AS emailVerified,avatar_url AS avatarUrl,status,created_at AS createdAt FROM app_users WHERE id=?',
       [userId],
@@ -76,7 +76,7 @@ export async function exportUserAccount(userId: string) {
 }
 
 export async function deleteUserAccount(userId: string) {
-  if(applicationBackend()==='d1')return eraseD1Account(applicationStorage(),userId);
+  if(applicationBackend()==='d1')return eraseD1Account(applicationStorage('D1_USERS'),userId);
   const sql = authDb();
   await sql.begin(async (tx) => {
     await tx`INSERT INTO security_audit_events (id, user_id, event_type, actor_type, metadata) VALUES (${randomUUID()}, ${userId}, 'ACCOUNT_DELETED', 'USER', ${tx.json({ reason: 'user_requested' })})`;

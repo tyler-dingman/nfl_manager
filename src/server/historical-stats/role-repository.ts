@@ -16,7 +16,7 @@ export const getRoleEvidence = cachePublicRead(
   ): Promise<Pick<RoleContext, 'observations' | 'coverageAt'>> => {
     if (!teamIds.length) return { observations: [], coverageAt: null };
     if (applicationBackend() === 'd1')
-      return new ReferenceData(applicationStorage()).roles(teamIds, asOf);
+      return new ReferenceData(applicationStorage('D1_SHARED')).roles(teamIds, asOf);
     try {
       const db = authDb();
       const [rows, runs] = await Promise.all([
@@ -47,7 +47,7 @@ export const getTeamResearchPlayerIds = cachePublicRead(
   async (teamIds: string[]) => {
     if (!teamIds.length) return [];
     if (applicationBackend() === 'd1')
-      return new ReferenceData(applicationStorage()).researchPlayers(teamIds);
+      return new ReferenceData(applicationStorage('D1_SHARED')).researchPlayers(teamIds);
     const rows = await authDb()<
       { playerId: string }[]
     >`SELECT DISTINCT player_id AS "playerId" FROM historical_player_games
@@ -61,7 +61,7 @@ export const getTeamResearchPlayerIds = cachePublicRead(
 export const getEventPriceHistory = cachePublicRead(
   async (eventId: string, asOf: string) =>
     applicationBackend() === 'd1'
-      ? new D1OddsBoard(applicationStorage()).priceHistory(eventId, asOf)
+      ? new D1OddsBoard(applicationStorage('D1_SHARED')).priceHistory(eventId, asOf)
       : authDb()<
           {
             playerId: string;

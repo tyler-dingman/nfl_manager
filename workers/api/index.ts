@@ -1,3 +1,4 @@
+import { MultiD1, DatabaseOwnershipError } from '../../packages/storage/multi-d1';
 import { publicCacheKey, cachePublicResponse } from '../web/public-cache';
 import { NextRequest } from 'next/server';
 import { routes } from './routes.generated';
@@ -15,11 +16,15 @@ import {
 export default {
   async fetch(request: Request, env: any, ctx?: { waitUntil(p: Promise<unknown>): void }) {
     const metrics = requestMetrics(),
-      objects = applicationObjects({ ...env, APP_DB: instrumentDatabase(env.APP_DB, metrics, 50) }),
+      multiD1 = env.APP_MULTI_D1 === 'true' ? new MultiD1(env, metrics) : undefined,
+      objects =
+        multiD1?.users().objects ??
+        applicationObjects({ ...env, APP_DB: instrumentDatabase(env.APP_DB, metrics, 50) }),
       start = performance.now();
     return withApplicationBindings(
       {
-        db: instrumentDatabase(env.APP_DB, metrics, 50),
+        db: multiD1?.users().db ?? instrumentDatabase(env.APP_DB, metrics, 50),
+        multiD1,
         objects,
         ai: env.AI,
         password: env.PASSWORD_SERVICE,
@@ -97,6 +102,7 @@ export default {
               }),
             );
             response =
+              error instanceof DatabaseOwnershipError ||
               error instanceof StorageMaintenanceError ||
               error instanceof StorageCapacityError ||
               error instanceof QueryBudgetError
@@ -138,8 +144,8 @@ export default {
               status: result.status,
               wallMs: performance.now() - start,
               ...metrics,
-              r2Reads: objects.reads,
-              r2Writes: objects.writes,
+              r2Reads: 'reads' in objects ? objects.reads : 0,
+              r2Writes: 'writes' in objects ? objects.writes : 0,
               cpuMs: null,
               cpuSource: 'Cloudflare TraceEvent CPUTimeMs required',
             }),

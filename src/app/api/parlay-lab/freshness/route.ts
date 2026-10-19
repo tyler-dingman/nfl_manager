@@ -26,7 +26,7 @@ export async function GET() {
     coverage = 'UNKNOWN';
   try {
     if (applicationBackend() === 'd1') {
-      const s = applicationStorage();
+      const s = applicationStorage('D1_SHARED');
       const [row] = await s.rows<any>(
         'SELECT min(as_of) AS completedAt FROM app_sportsbook_events WHERE kickoff_at>? AND markets_hash IS NOT NULL',
         [Date.now()],

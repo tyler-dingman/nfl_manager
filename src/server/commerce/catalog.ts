@@ -13,7 +13,7 @@ const description = (type: string) =>
     : 'Built for Sundays, Saturdays, and everything in between.';
 
 export async function syncCommerceCatalog() {
-  if(applicationBackend()==='d1') return new D1Commerce(applicationStorage()).syncCommerceCatalog();
+  if(applicationBackend()==='d1') return new D1Commerce(applicationStorage('D1_USERS')).syncCommerceCatalog();
 
   const sql = authDb();
   // Retain historical order records while removing retired items from sale.
@@ -46,7 +46,7 @@ export async function syncCommerceCatalog() {
 }
 
 export async function commerceCatalog() {
-  if(applicationBackend()==='d1') return new D1Commerce(applicationStorage()).commerceCatalog();
+  if(applicationBackend()==='d1') return new D1Commerce(applicationStorage('D1_USERS')).commerceCatalog();
 
   await syncCommerceCatalog();
   const sql = authDb();
@@ -59,7 +59,7 @@ export async function commerceCatalog() {
 }
 
 export async function commerceProduct(productId: string) {
-  if(applicationBackend()==='d1') return new D1Commerce(applicationStorage()).commerceProduct(productId);
+  if(applicationBackend()==='d1') return new D1Commerce(applicationStorage('D1_USERS')).commerceProduct(productId);
 
   return (
     (await commerceCatalog()).find(

@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
       { status: 503 },
     );
   try {
-    const result = await new MailQueue(applicationStorage(), env.APP_MAIL_ENCRYPTION_KEY).process(
+    const result = await new MailQueue(applicationStorage('D1_USERS'), env.APP_MAIL_ENCRYPTION_KEY).process(
       new ResendEmailProvider(env.RESEND_API_KEY, env.APP_MAIL_FROM),
     );
     return NextResponse.json({ ok: true, ...result }, { status: result.deferred ? 207 : 200 });

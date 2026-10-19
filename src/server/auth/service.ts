@@ -116,7 +116,7 @@ export async function requestPasswordReset(email: string) {
 
 export async function resetPassword(token: string, password: string) {
   if (applicationBackend() === 'd1') {
-    const repo = new D1AuthRepository(applicationStorage());
+    const repo = new D1AuthRepository(applicationStorage('D1_USERS'));
     if (
       !(
         await repo.s.rows(
@@ -148,7 +148,7 @@ export async function resetPassword(token: string, password: string) {
 
 export async function confirmEmail(token: string) {
   if (applicationBackend() === 'd1') {
-    await new D1AuthRepository(applicationStorage()).confirmEmail(token);
+    await new D1AuthRepository(applicationStorage('D1_USERS')).confirmEmail(token);
     return;
   }
   const consumed = await consumeOneTimeToken(token, 'EMAIL_VERIFICATION');

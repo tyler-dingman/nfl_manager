@@ -38,7 +38,7 @@ export async function createD1EmailSignup(
   input: { email: string; passwordHash: string; displayName?: string | null },
   token: string,
 ) {
-  const repo = new D1AuthRepository(applicationStorage()),
+  const repo = new D1AuthRepository(applicationStorage('D1_USERS')),
     plan = repo.emailUserPlan(input),
     mail = await stageAuthToken(repo, plan.id, input.email, 'EMAIL_VERIFICATION', token, 24 * 60);
   await repo.s.batch([...plan.statements, ...mail]);

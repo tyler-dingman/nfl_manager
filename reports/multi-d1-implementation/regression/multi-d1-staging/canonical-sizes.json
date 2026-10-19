@@ -1,0 +1,22 @@
+{
+  "results": [
+    {
+      "scenario": "shared-unchanged-body",
+      "versions": 4,
+      "proseRawBytesPerVersion": 12000,
+      "canonicalEncodedBytesPerArticle": 13651,
+      "canonicalObjects": 9,
+      "allRevisionsVerified": true,
+      "scope": "Actual current D1 canonical commit and readback; independent high-entropy synthetic corrections, not observed seasonal traffic"
+    },
+    {
+      "scenario": "four-independent-bodies",
+      "versions": 4,
+      "proseRawBytesPerVersion": 12000,
+      "canonicalEncodedBytesPerArticle": 41256,
+      "canonicalObjects": 12,
+      "allRevisionsVerified": true,
+      "scope": "Actual current D1 canonical commit and readback; independent high-entropy synthetic corrections, not observed seasonal traffic"
+    }
+  ]
+}

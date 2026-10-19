@@ -110,7 +110,7 @@ export async function upsertPlayerMapping(
 }
 
 export async function listLocalOddsEvents() {
-  if (applicationBackend() === 'd1') return new D1OddsBoard(applicationStorage()).events();
+  if (applicationBackend() === 'd1') return new D1OddsBoard(applicationStorage('D1_SHARED')).events();
   return authDb()`SELECT id, provider_event_id AS "providerEventId", season, week, home_team_id AS "homeTeamId", away_team_id AS "awayTeamId", kickoff_at AS "kickoffAt", status, markets_locked AS "marketsLocked", final_snapshot_at AS "finalSnapshotAt", refreshed_24h_at AS "refreshed24hAt", last_imported_at AS "lastImportedAt" FROM sportsbook_events WHERE kickoff_at > now() ORDER BY kickoff_at`;
 }
 
@@ -125,7 +125,7 @@ async function queryLocalEventMarkets(
   } = {},
 ) {
   if (applicationBackend() === 'd1')
-    return new D1OddsBoard(applicationStorage()).markets(eventId, filters);
+    return new D1OddsBoard(applicationStorage('D1_SHARED')).markets(eventId, filters);
   const db = authDb();
   const rows = await db`
     SELECT m.id, m.market_type AS "marketType", m.stat_id AS "statId", m.entity_id AS "entityId",
@@ -163,7 +163,7 @@ async function queryLocalEventMarkets(
 
 export async function findLocalOddsEvent(homeTeamId: string, awayTeamId: string, season: number) {
   if (applicationBackend() === 'd1')
-    return new D1OddsBoard(applicationStorage()).find(homeTeamId, awayTeamId, season);
+    return new D1OddsBoard(applicationStorage('D1_SHARED')).find(homeTeamId, awayTeamId, season);
   const rows = await authDb()<
     Array<{
       id: string;

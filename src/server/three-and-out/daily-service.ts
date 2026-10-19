@@ -2,6 +2,7 @@ import { loadOverrides } from './overrides';
 import {
   applicationBackend,
   applicationStorage,
+  applicationTeamStorage,
   applicationEnvironment,
 } from '../persistence/bindings';
 import { DailyBriefings } from '../../../packages/storage/briefings';
@@ -148,7 +149,7 @@ const rowPackage = (
 
 const selectRows = async (teamId: string, briefingDate?: string) =>
   applicationBackend() === 'd1'
-    ? new DailyBriefings(applicationStorage()).latest(teamId, briefingDate)
+    ? new DailyBriefings(applicationTeamStorage(teamId)).latest(teamId, briefingDate)
     : authDb()<SnapshotRow[]>`
   SELECT id, team_id AS "teamId", briefing_date AS "briefingDate", generated_at AS "generatedAt",
     published_at AS "publishedAt", source_window_start AS "sourceWindowStart",
@@ -165,7 +166,7 @@ export async function getDailyThreeAndOut(teamId: string, briefingDate?: string)
   if (!rows[0] || !Array.isArray(rows[0].items) || rows[0].items.length !== 3) return null;
   const archiveRows =
     applicationBackend() === 'd1'
-      ? await new DailyBriefings(applicationStorage()).history(teamId, rows[0].id)
+      ? await new DailyBriefings(applicationTeamStorage(teamId)).history(teamId, rows[0].id)
       : await authDb()<SnapshotRow[]>`
     SELECT id, team_id AS "teamId", briefing_date AS "briefingDate", generated_at AS "generatedAt",
       CASE WHEN jsonb_typeof(items)='array' THEN
@@ -206,7 +207,7 @@ export async function generateDailyThreeAndOut(
   }
   const previous =
     applicationBackend() === 'd1'
-      ? await new DailyBriefings(applicationStorage()).previousPublished(teamId)
+      ? await new DailyBriefings(applicationTeamStorage(teamId)).previousPublished(teamId)
       : await authDb()<{ publishedAt: Date }[]>`
     SELECT published_at AS "publishedAt" FROM three_and_out_snapshots
     WHERE team_id=${teamId} AND status='PUBLISHED' AND published_at IS NOT NULL
@@ -237,7 +238,7 @@ export async function generateDailyThreeAndOut(
   }
   const id = `daily:${teamId}:${briefingDate}`;
   if (applicationBackend() === 'd1') {
-    await new DailyBriefings(applicationStorage()).publish(
+    await new DailyBriefings(applicationTeamStorage(teamId)).publish(
       {
         id,
         teamId,
@@ -420,7 +421,7 @@ export async function deliverDueDailyThreeAndOut(now = new Date()) {
 }
 
 async function deliverDueD1Briefings(now:Date){
- const s=applicationStorage(),subscribers=await s.rows<any>(`SELECT u.id AS userId,json_extract(p.preferences_json,'$.preferredTeamId') AS teamId,coalesce(np.delivery_timezone,json_extract(p.profile_json,'$.timezone'),'UTC') AS timezone,coalesce(np.delivery_time,'07:00') AS deliveryTime,json_extract(p.preferences_json,'$.pushEnabled') AS pushEnabled FROM app_users u JOIN app_settings p ON p.user_id=u.id JOIN app_notification_preferences np ON np.user_id=u.id WHERE u.status='ACTIVE' AND np.category='THREE_AND_OUT_DAILY' AND np.channel='IN_APP' AND np.enabled=1 AND json_extract(p.preferences_json,'$.preferredTeamId') IS NOT NULL`),generated=new Set<string>();let sent=0,skipped=0;
+ const s=applicationStorage('D1_USERS'),subscribers=await s.rows<any>(`SELECT u.id AS userId,json_extract(p.preferences_json,'$.preferredTeamId') AS teamId,coalesce(np.delivery_timezone,json_extract(p.profile_json,'$.timezone'),'UTC') AS timezone,coalesce(np.delivery_time,'07:00') AS deliveryTime,json_extract(p.preferences_json,'$.pushEnabled') AS pushEnabled FROM app_users u JOIN app_settings p ON p.user_id=u.id JOIN app_notification_preferences np ON np.user_id=u.id WHERE u.status='ACTIVE' AND np.category='THREE_AND_OUT_DAILY' AND np.channel='IN_APP' AND np.enabled=1 AND json_extract(p.preferences_json,'$.preferredTeamId') IS NOT NULL`),generated=new Set<string>();let sent=0,skipped=0;
  for(const user of subscribers){const date=dailyBriefingDeliveryDate(now,user.timezone,user.deliveryTime);if(!date){skipped++;continue;}const key=user.teamId+':'+date;if(!generated.has(key)){generated.add(key);const rows=await new DailyBriefings(s).latest(user.teamId,date);if(!rows.length)await generateDailyThreeAndOut(user.teamId,{now,briefingDate:date});}
   if(user.pushEnabled===0||!(await s.rows("SELECT 1 FROM app_notification_preferences WHERE user_id=? AND category='THREE_AND_OUT_DAILY' AND channel='PUSH' AND enabled=1",[user.userId])).length){skipped++;continue;}
   const[row]=await new DailyBriefings(s).latest(user.teamId,date);if(!row||row.items.length!==3){skipped++;continue;}

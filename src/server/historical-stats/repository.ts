@@ -13,7 +13,7 @@ const DEFAULT_HISTORICAL_SEASONS = [2024, 2025, 2026];
 async function queryPlayerGameLogs(playerIds: string[], seasons = DEFAULT_HISTORICAL_SEASONS) {
   if (!playerIds.length) return [];
   if (applicationBackend() === 'd1')
-    return new ReferenceData(applicationStorage()).playerGames(playerIds, seasons);
+    return new ReferenceData(applicationStorage('D1_SHARED')).playerGames(playerIds, seasons);
   return authDb()<HistoricalPlayerGame[]>`
     WITH team_schedule AS (
       SELECT game_id, team_id, kickoff_at,
@@ -49,7 +49,7 @@ async function queryPlayerGameLogs(playerIds: string[], seasons = DEFAULT_HISTOR
 
 async function queryTeamSeasonStrength(teamId: string, season: number) {
   if (applicationBackend() === 'd1')
-    return new ReferenceData(applicationStorage()).strength(teamId, season);
+    return new ReferenceData(applicationStorage('D1_SHARED')).strength(teamId, season);
   const rows = await authDb()<TeamSeasonStrength[]>`
     SELECT season,team_id AS "teamId",pass_defense_rank AS "passDefenseRank",
       passing_yards_allowed_per_game::float8 AS "passingYardsAllowedPerGame",
@@ -66,7 +66,7 @@ async function queryOpponentPositionGameLogs(
   seasons = DEFAULT_HISTORICAL_SEASONS,
 ) {
   if (applicationBackend() === 'd1')
-    return new ReferenceData(applicationStorage()).opponentGames(opponentTeamId, position, seasons);
+    return new ReferenceData(applicationStorage('D1_SHARED')).opponentGames(opponentTeamId, position, seasons);
   return authDb()<HistoricalPlayerGame[]>`
     SELECT pg.game_id AS "gameId", g.game_date::text AS date, pg.season, pg.week,
       pg.season_type AS "seasonType", pg.player_id AS "playerId", pg.provider_player_name AS "playerName",

@@ -1,0 +1,162 @@
+{
+  "scope": "MEASURED synthetic local workerd D1; repository-level routing, not complete application qualification",
+  "physicalDatabases": 10,
+  "teams": 32,
+  "restart": true,
+  "schemas": [
+    {
+      "owner": "D1_TEAM_1",
+      "bytes": 348160,
+      "payloadBytes": 0,
+      "retentionBacklog": 0
+    },
+    {
+      "owner": "D1_TEAM_2",
+      "bytes": 348160,
+      "payloadBytes": 0,
+      "retentionBacklog": 0
+    },
+    {
+      "owner": "D1_TEAM_3",
+      "bytes": 348160,
+      "payloadBytes": 0,
+      "retentionBacklog": 0
+    },
+    {
+      "owner": "D1_TEAM_4",
+      "bytes": 348160,
+      "payloadBytes": 0,
+      "retentionBacklog": 0
+    },
+    {
+      "owner": "D1_TEAM_5",
+      "bytes": 348160,
+      "payloadBytes": 0,
+      "retentionBacklog": 0
+    },
+    {
+      "owner": "D1_TEAM_6",
+      "bytes": 348160,
+      "payloadBytes": 0,
+      "retentionBacklog": 0
+    },
+    {
+      "owner": "D1_TEAM_7",
+      "bytes": 348160,
+      "payloadBytes": 0,
+      "retentionBacklog": 0
+    },
+    {
+      "owner": "D1_TEAM_8",
+      "bytes": 348160,
+      "payloadBytes": 0,
+      "retentionBacklog": 0
+    },
+    {
+      "owner": "D1_USERS",
+      "bytes": 1216512,
+      "payloadBytes": 0,
+      "retentionBacklog": 0
+    },
+    {
+      "owner": "D1_SHARED",
+      "bytes": 458752,
+      "payloadBytes": 0,
+      "retentionBacklog": 0
+    }
+  ],
+  "forcedBudgetStatements": 50,
+  "rejectedStatement": 51,
+  "perDatabase": [
+    [
+      "D1_TEAM_1",
+      {
+        "d1Calls": 2,
+        "statements": 5,
+        "rowsRead": 1,
+        "rowsWritten": 0
+      }
+    ],
+    [
+      "D1_TEAM_2",
+      {
+        "d1Calls": 2,
+        "statements": 5,
+        "rowsRead": 1,
+        "rowsWritten": 0
+      }
+    ],
+    [
+      "D1_TEAM_3",
+      {
+        "d1Calls": 2,
+        "statements": 5,
+        "rowsRead": 1,
+        "rowsWritten": 0
+      }
+    ],
+    [
+      "D1_TEAM_4",
+      {
+        "d1Calls": 2,
+        "statements": 5,
+        "rowsRead": 1,
+        "rowsWritten": 0
+      }
+    ],
+    [
+      "D1_TEAM_5",
+      {
+        "d1Calls": 2,
+        "statements": 5,
+        "rowsRead": 1,
+        "rowsWritten": 0
+      }
+    ],
+    [
+      "D1_TEAM_6",
+      {
+        "d1Calls": 2,
+        "statements": 5,
+        "rowsRead": 1,
+        "rowsWritten": 0
+      }
+    ],
+    [
+      "D1_TEAM_7",
+      {
+        "d1Calls": 2,
+        "statements": 5,
+        "rowsRead": 1,
+        "rowsWritten": 0
+      }
+    ],
+    [
+      "D1_TEAM_8",
+      {
+        "d1Calls": 2,
+        "statements": 5,
+        "rowsRead": 1,
+        "rowsWritten": 0
+      }
+    ],
+    [
+      "D1_USERS",
+      {
+        "d1Calls": 2,
+        "statements": 5,
+        "rowsRead": 1,
+        "rowsWritten": 0
+      }
+    ],
+    [
+      "D1_SHARED",
+      {
+        "d1Calls": 2,
+        "statements": 5,
+        "rowsRead": 1,
+        "rowsWritten": 0
+      }
+    ]
+  ]
+}

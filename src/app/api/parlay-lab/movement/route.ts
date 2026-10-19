@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic';
 export async function GET() {
   try {
     if (applicationBackend() === 'd1') {
-      const s = applicationStorage(),
+      const s = applicationStorage('D1_SHARED'),
         board = new D1OddsBoard(s),
         events = (await board.events()).filter((e) => !e.marketsLocked),
         movements: any[] = [];

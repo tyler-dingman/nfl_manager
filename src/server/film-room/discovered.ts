@@ -1,5 +1,5 @@
 import{D1EditorialIngestion}from'../../../packages/storage/editorial-ingestion';
-import { applicationBackend, applicationStorage } from '../persistence/bindings';
+import { applicationBackend, applicationStorage, applicationTeamStorage } from '../persistence/bindings';
 import { ReferenceData } from '../../../packages/storage/reference';
 import { normalizeDisplayHeadline } from '@/lib/display-headline';
 import { unstable_cache } from 'next/cache';
@@ -117,7 +117,7 @@ const cachedDiscoveredVideos = unstable_cache(
 );
 export function loadDiscoveredFilmRoomVideos(teamId: string) {
   if (applicationBackend() === 'd1')
-    return Promise.all([new ReferenceData(applicationStorage()).values<DiscoveredFilmRoomRow[]>('FILM_ROOM_ROWS','subject=?',[teamId.toUpperCase()]),new D1EditorialIngestion(applicationStorage()).filmRoomRows(teamId.toUpperCase())]).then(([packs,live]) => {
+    return Promise.all([new ReferenceData(applicationStorage('D1_SHARED')).values<DiscoveredFilmRoomRow[]>('FILM_ROOM_ROWS','subject=?',[teamId.toUpperCase()]),new D1EditorialIngestion(applicationTeamStorage(teamId.toUpperCase())).filmRoomRows(teamId.toUpperCase())]).then(([packs,live]) => {
         packs.push(live);
         const seen = new Set<string>();
         return packs

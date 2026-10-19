@@ -9,7 +9,7 @@ import { gameStoryHints, resolveStoryGame, type GameStory, type GameResolution }
 
 export async function enrichGameStories<T extends GameStory>(stories: T[], persist = true) {
   if (!stories.length) return [];
-  const d1=applicationBackend()==='d1',s=d1?applicationStorage():null,db=d1?null:authDb();
+  const d1=applicationBackend()==='d1',s=d1?applicationStorage('D1_SHARED'):null,db=d1?null:authDb();
   const ids = stories.map((s) => s.id).filter((id) => /^[\da-f-]{36}$/i.test(id));
   const links = ids.length
     ? d1?await Promise.all(ids.map(async id=>{const story=await new D1EditorialIngestion(s!).storyById(id),[link]=await s!.rows<any>('SELECT game_id,resolution_json FROM app_story_game_links WHERE story_id=?',[id]);return{id,game_id:link?.game_id,game_resolution:link?JSON.parse(link.resolution_json):undefined,first_reported_at:story?new Date(story.firstReportedAt):null};})):await db!`SELECT id,game_id,game_resolution,first_reported_at FROM canonical_stories WHERE id=ANY(${ids}::uuid[])`

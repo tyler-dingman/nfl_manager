@@ -1,0 +1,20 @@
+TAP version 13
+# Subtest: ten physical D1 databases: role schemas, 32-team routing, auth ownership, budget, restart
+ok 1 - ten physical D1 databases: role schemas, 32-team routing, auth ownership, budget, restart
+  ---
+  duration_ms: 12407.88575
+  ...
+# Subtest: capacity warnings preserve real database and account limits
+ok 2 - capacity warnings preserve real database and account limits
+  ---
+  duration_ms: 1.003625
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 14592.786542

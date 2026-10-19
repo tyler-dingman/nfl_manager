@@ -32,19 +32,22 @@ function execute(args) {
   if (r.status !== 0) throw Error(r.stdout + r.stderr);
   return r.stdout;
 }
-const common = [
-  '--local',
-  '--config',
-  process.env.DD_NO_R2 === 'true'
+const multiD1 = process.env.DD_MULTI_D1 === 'true';
+const primaryBinding = multiD1 ? 'D1_USERS' : 'APP_DB';
+const config = multiD1
+  ? 'wrangler.api-multi-d1-local.toml'
+  : process.env.DD_NO_R2 === 'true'
     ? 'wrangler.api-no-billing-local.toml'
-    : 'wrangler.api-local.toml',
-  '--persist-to',
-  directory,
-];
-execute(['d1', 'migrations', 'apply', 'APP_DB', ...common]);
+    : 'wrangler.api-local.toml';
+const common = ['--local', '--config', config, '--persist-to', directory];
+for (const binding of multiD1
+  ? [...Array.from({ length: 8 }, (_, i) => `D1_TEAM_${i + 1}`), 'D1_USERS', 'D1_SHARED']
+  : ['APP_DB'])
+  execute(['d1', 'migrations', 'apply', binding, ...common]);
 const sql = (command) =>
-  JSON.parse(execute(['d1', 'execute', 'APP_DB', ...common, '--command', command, '--json']))[0]
-    .results;
+  JSON.parse(
+    execute(['d1', 'execute', primaryBinding, ...common, '--command', command, '--json']),
+  )[0].results;
 const socket = createServer();
 await new Promise((r) => socket.listen(0, '127.0.0.1', r));
 const port = socket.address().port;
@@ -61,9 +64,7 @@ async function start() {
       'dev',
       '--local',
       '--config',
-      process.env.DD_NO_R2 === 'true'
-        ? 'wrangler.api-no-billing-local.toml'
-        : 'wrangler.api-local.toml',
+      config,
       '--config',
       'workers/password/wrangler.toml',
       '--port',
@@ -202,7 +203,7 @@ try {
   for (const row of sql('SELECT object_hash FROM app_mail')) {
     const file = directory + '/mail-' + row.object_hash;
     let raw;
-    if (process.env.DD_NO_R2 === 'true') {
+    if (process.env.DD_NO_R2 === 'true' || multiD1) {
       const inline = sql(
         `SELECT hex(inline_data) AS hex FROM app_payload_objects WHERE hash='${row.object_hash}'`,
       )[0]?.hex;
@@ -258,7 +259,7 @@ try {
   await start();
   assert.equal((await call('me', undefined, persisted)).status, 200);
   assert.equal(sql('PRAGMA foreign_key_check').length, 0);
-  if (process.env.DD_NO_R2 === 'true') {
+  if (process.env.DD_NO_R2 === 'true' && !multiD1) {
     await stop();
     const { encryptBackup, decryptBackup } = await import('./no-billing-backup.mjs');
     const owner = sql('SELECT id FROM app_users LIMIT 1')[0].id;
@@ -411,6 +412,9 @@ try {
       {
         runtime: 'actual local workerd via Wrangler with static Wasm service binding',
         databaseUrlPresent: false,
+        physicalDatabases: multiD1 ? 10 : 1,
+        authenticationDatabase: primaryBinding,
+        multiDatabaseFullRestoreTested: false,
         d1WorkflowChecks: [
           'Three & Out channel preferences',
           'timezone and delivery-time preservation',

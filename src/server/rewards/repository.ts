@@ -88,12 +88,12 @@ export function awardYards(input: {
   sourceType: string;
   sourceId: string;
 }) {
-  if (applicationBackend() === 'd1') return new D1Rewards(applicationStorage()).award(input);
+  if (applicationBackend() === 'd1') return new D1Rewards(applicationStorage('D1_USERS')).award(input);
   return authDb().begin((tx) => awardYardsInTransaction(tx, input));
 }
 
 export async function getRewardsDashboard(userId: string) {
-  if (applicationBackend() === 'd1') return new D1Rewards(applicationStorage()).dashboard(userId);
+  if (applicationBackend() === 'd1') return new D1Rewards(applicationStorage('D1_USERS')).dashboard(userId);
   const sql = authDb();
   await sql`INSERT INTO move_the_chains_accounts(user_id) VALUES(${userId}) ON CONFLICT(user_id) DO NOTHING`;
   const accounts = await sql<
@@ -150,7 +150,7 @@ export async function getRewardsDashboard(userId: string) {
 
 export async function claimReward(userId: string, rewardDefinitionId: string) {
   if (applicationBackend() === 'd1')
-    return new D1Rewards(applicationStorage()).claim(userId, rewardDefinitionId);
+    return new D1Rewards(applicationStorage('D1_USERS')).claim(userId, rewardDefinitionId);
   return authDb().begin(async (tx) => {
     const rows = await tx<
       Array<{
@@ -181,7 +181,7 @@ export async function claimReward(userId: string, rewardDefinitionId: string) {
 /** Commerce providers call this only after they have confirmed a successful order redemption. */
 export async function confirmCouponRedemption(userId: string, couponCode: string) {
   if (applicationBackend() === 'd1')
-    return new D1Rewards(applicationStorage()).redeem(userId, couponCode);
+    return new D1Rewards(applicationStorage('D1_USERS')).redeem(userId, couponCode);
   const rows = await authDb()<Array<{ id: string }>>`
     UPDATE user_rewards SET status='REDEEMED',redeemed_at=now()
     WHERE user_id=${userId} AND coupon_code=${couponCode} AND status='CLAIMED'

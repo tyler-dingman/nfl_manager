@@ -80,7 +80,7 @@ export async function ingestSchedule(season: number, dryRun = false) {
   for (const t of TEAM_LIST)
     if (regular.filter((g) => g.homeTeam === t.abbr || g.awayTeam === t.abbr).length !== 17)
       throw new Error(`Invalid season coverage for ${t.abbr}`);
-  if(!dryRun&&applicationBackend()==='d1')await new D1HistoryIngestion(applicationStorage()).schedules(games.map(g=>({id:crypto.randomUUID(),providerEventId:g.eventId,season:g.season,seasonType:g.seasonType as 'PRE'|'REG'|'POST',week:g.week,homeTeam:g.homeTeam,awayTeam:g.awayTeam,kickoffAt:g.kickoffAt,kickoffConfirmed:g.kickoffConfirmed,status:g.status as any,homeScore:g.homeScore,awayScore:g.awayScore,overtime:g.overtime,venue:g.venue,broadcastNetwork:g.broadcastNetwork})));
+  if(!dryRun&&applicationBackend()==='d1')await new D1HistoryIngestion(applicationStorage('D1_SHARED')).schedules(games.map(g=>({id:crypto.randomUUID(),providerEventId:g.eventId,season:g.season,seasonType:g.seasonType as 'PRE'|'REG'|'POST',week:g.week,homeTeam:g.homeTeam,awayTeam:g.awayTeam,kickoffAt:g.kickoffAt,kickoffConfirmed:g.kickoffConfirmed,status:g.status as any,homeScore:g.homeScore,awayScore:g.awayScore,overtime:g.overtime,venue:g.venue,broadcastNetwork:g.broadcastNetwork})));
   if (!dryRun&&applicationBackend()!=='d1')
     await authDb().begin(async (tx) => {
       for (const g of games)

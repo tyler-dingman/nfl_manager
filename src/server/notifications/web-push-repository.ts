@@ -6,7 +6,7 @@ import { encryptSecret, tokenHash } from '@/server/auth/crypto';
 import type { WebSubscription } from './web-push';
 
 export async function saveWebSubscription(userId: string, subscription: WebSubscription) {
-  if(applicationBackend()==='d1') return new D1WebPush(applicationStorage()).saveWebSubscription(userId,subscription);
+  if(applicationBackend()==='d1') return new D1WebPush(applicationStorage('D1_USERS')).saveWebSubscription(userId,subscription);
 
   const endpointHash = tokenHash(subscription.endpoint);
   return authDb().begin(async (tx) => {
@@ -26,19 +26,19 @@ export async function saveWebSubscription(userId: string, subscription: WebSubsc
 }
 
 export async function deleteWebSubscription(userId: string, endpointHash: string) {
-  if(applicationBackend()==='d1') return new D1WebPush(applicationStorage()).deleteWebSubscription(userId,endpointHash);
+  if(applicationBackend()==='d1') return new D1WebPush(applicationStorage('D1_USERS')).deleteWebSubscription(userId,endpointHash);
 
   await authDb()`DELETE FROM user_push_tokens WHERE user_id=${userId} AND provider='WEB_PUSH' AND web_endpoint_hash=${endpointHash}`;
 }
 
 export async function deleteWebPushToken(userId: string, id: string) {
-  if(applicationBackend()==='d1') return new D1WebPush(applicationStorage()).deleteWebPushToken(userId,id);
+  if(applicationBackend()==='d1') return new D1WebPush(applicationStorage('D1_USERS')).deleteWebPushToken(userId,id);
 
   await authDb()`DELETE FROM user_push_tokens WHERE user_id=${userId} AND id=${id} AND provider='WEB_PUSH'`;
 }
 
 export async function claimWebPushTest(userId: string) {
-  if(applicationBackend()==='d1') return new D1WebPush(applicationStorage()).claimWebPushTest(userId);
+  if(applicationBackend()==='d1') return new D1WebPush(applicationStorage('D1_USERS')).claimWebPushTest(userId);
 
   const rows =
     await authDb()`INSERT INTO web_push_test_limits(user_id,attempted_at) VALUES(${userId},now())

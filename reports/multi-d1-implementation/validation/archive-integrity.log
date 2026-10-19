@@ -1,0 +1,15 @@
+TAP version 13
+# Subtest: encrypted ten-shard archive rejects incomplete, corrupted and mixed maintenance windows
+ok 1 - encrypted ten-shard archive rejects incomplete, corrupted and mixed maintenance windows
+  ---
+  duration_ms: 44.575542
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 702.345708

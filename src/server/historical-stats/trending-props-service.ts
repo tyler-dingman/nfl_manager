@@ -236,7 +236,7 @@ const cachedTrendingProps = cachePublicRead(
 export const computeTrendingProps = queryTrendingProps;
 export async function getTrendingProps(...args: Parameters<typeof queryTrendingProps>) {
   if (applicationBackend() === 'd1') {
-    const stored = await new PrecomputedProps(applicationStorage()).read(
+    const stored = await new PrecomputedProps(applicationStorage('D1_SHARED')).read(
       args[0],
       LAB_SCORE_CONFIG.version,
       args[1] ?? {},

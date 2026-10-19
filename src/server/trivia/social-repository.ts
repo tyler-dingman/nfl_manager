@@ -27,24 +27,24 @@ async function createSharedGame(
   });
 }
 export async function searchUsers(userId: string, query: string) {
-  if(applicationBackend()==='d1') return new D1TriviaGames(applicationStorage()).searchUsers(userId,query);
+  if(applicationBackend()==='d1') return new D1TriviaGames(applicationStorage('D1_USERS')).searchUsers(userId,query);
 
   return authDb()`SELECT id,display_name AS "displayName",avatar_url AS "avatarUrl" FROM users WHERE id<>${userId} AND status='ACTIVE' AND display_name ILIKE ${`%${query}%`} ORDER BY display_name LIMIT 20`;
 }
 export async function listFriends(userId: string) {
-  if(applicationBackend()==='d1') return new D1TriviaGames(applicationStorage()).listFriends(userId);
+  if(applicationBackend()==='d1') return new D1TriviaGames(applicationStorage('D1_USERS')).listFriends(userId);
 
   return authDb()`SELECT f.requester_user_id AS "requesterUserId",f.addressee_user_id AS "addresseeUserId",f.status,f.created_at AS "createdAt",f.accepted_at AS "acceptedAt",u.id AS "userId",u.display_name AS "displayName" FROM trivia_friendships f JOIN users u ON u.id=CASE WHEN f.requester_user_id=${userId} THEN f.addressee_user_id ELSE f.requester_user_id END WHERE f.requester_user_id=${userId} OR f.addressee_user_id=${userId} ORDER BY f.created_at DESC`;
 }
 export async function requestFriend(userId: string, otherId: string) {
-  if(applicationBackend()==='d1') return new D1TriviaGames(applicationStorage()).requestFriend(userId,otherId);
+  if(applicationBackend()==='d1') return new D1TriviaGames(applicationStorage('D1_USERS')).requestFriend(userId,otherId);
 
   if (userId === otherId) throw new Error('You cannot add yourself.');
   await authDb()`INSERT INTO trivia_friendships(requester_user_id,addressee_user_id,status)VALUES(${userId},${otherId},'PENDING') ON CONFLICT DO NOTHING`;
   return listFriends(userId);
 }
 export async function acceptFriend(userId: string, otherId: string) {
-  if(applicationBackend()==='d1') return new D1TriviaGames(applicationStorage()).acceptFriend(userId,otherId);
+  if(applicationBackend()==='d1') return new D1TriviaGames(applicationStorage('D1_USERS')).acceptFriend(userId,otherId);
 
   const rows = await authDb()<
     Array<{ requester_user_id: string }>
@@ -53,7 +53,7 @@ export async function acceptFriend(userId: string, otherId: string) {
   return listFriends(userId);
 }
 export async function removeFriend(userId: string, otherId: string) {
-  if(applicationBackend()==='d1') return new D1TriviaGames(applicationStorage()).removeFriend(userId,otherId);
+  if(applicationBackend()==='d1') return new D1TriviaGames(applicationStorage('D1_USERS')).removeFriend(userId,otherId);
 
   await authDb()`DELETE FROM trivia_friendships WHERE (requester_user_id=${userId} AND addressee_user_id=${otherId}) OR (requester_user_id=${otherId} AND addressee_user_id=${userId})`;
 }
@@ -63,7 +63,7 @@ export async function createChallenge(
   teamId: string,
   _count: 5 | 10,
 ) {
-  if(applicationBackend()==='d1') return new D1TriviaGames(applicationStorage()).createChallenge(userId,challengedId,teamId,_count);
+  if(applicationBackend()==='d1') return new D1TriviaGames(applicationStorage('D1_USERS')).createChallenge(userId,challengedId,teamId,_count);
 
   const gameId = await createSharedGame(userId, 'FRIEND_CHALLENGE', teamId, 10);
   const id = randomUUID();
@@ -72,9 +72,9 @@ export async function createChallenge(
   return { id, gameId };
 }
 export const listChallenges = (userId: string) =>
-  applicationBackend()==='d1' ? new D1TriviaGames(applicationStorage()).listChallenges(userId) : authDb()`SELECT c.id,c.challenger_user_id AS "challengerUserId",c.challenged_user_id AS "challengedUserId",c.game_id AS "gameId",c.status,c.expires_at AS "expiresAt",g.team_id AS "teamId",g.question_count AS "questionCount" FROM trivia_challenges c JOIN trivia_games g ON g.id=c.game_id WHERE c.challenger_user_id=${userId} OR c.challenged_user_id=${userId} ORDER BY c.created_at DESC`;
+  applicationBackend()==='d1' ? new D1TriviaGames(applicationStorage('D1_USERS')).listChallenges(userId) : authDb()`SELECT c.id,c.challenger_user_id AS "challengerUserId",c.challenged_user_id AS "challengedUserId",c.game_id AS "gameId",c.status,c.expires_at AS "expiresAt",g.team_id AS "teamId",g.question_count AS "questionCount" FROM trivia_challenges c JOIN trivia_games g ON g.id=c.game_id WHERE c.challenger_user_id=${userId} OR c.challenged_user_id=${userId} ORDER BY c.created_at DESC`;
 export async function acceptChallenge(userId: string, id: string) {
-  if(applicationBackend()==='d1') return new D1TriviaGames(applicationStorage()).acceptChallenge(userId,id);
+  if(applicationBackend()==='d1') return new D1TriviaGames(applicationStorage('D1_USERS')).acceptChallenge(userId,id);
 
   const rows = await authDb()<
     Array<{ game_id: string }>
@@ -87,7 +87,7 @@ const joinCode = () => `DND-${String(Math.floor(Math.random() * 10000)).padStart
 const hashToken = (token: string) => createHash('sha256').update(token).digest('hex');
 
 export async function createGroup(userId: string, teamId: string) {
-  if(applicationBackend()==='d1') return new D1TriviaGames(applicationStorage()).createGroup(userId,teamId);
+  if(applicationBackend()==='d1') return new D1TriviaGames(applicationStorage('D1_USERS')).createGroup(userId,teamId);
 
   const gameId = await createSharedGame(userId, 'GROUP', teamId, 10);
   const inviteToken = randomBytes(24).toString('base64url');
@@ -104,13 +104,13 @@ export async function createGroup(userId: string, teamId: string) {
   throw new Error('Unable to create join code.');
 }
 export async function joinGroup(userId: string, code: string) {
-  if(applicationBackend()==='d1') return new D1TriviaGames(applicationStorage()).joinGroup(userId,code);
+  if(applicationBackend()==='d1') return new D1TriviaGames(applicationStorage('D1_USERS')).joinGroup(userId,code);
 
   return joinGroupWhere(userId, 'code', code.toUpperCase());
 }
 
 export async function joinGroupByToken(userId: string, token: string) {
-  if(applicationBackend()==='d1') return new D1TriviaGames(applicationStorage()).joinGroupByToken(userId,token);
+  if(applicationBackend()==='d1') return new D1TriviaGames(applicationStorage('D1_USERS')).joinGroupByToken(userId,token);
 
   return joinGroupWhere(userId, 'token', hashToken(token));
 }
@@ -147,7 +147,7 @@ async function joinGroupWhere(userId: string, kind: 'code' | 'token', value: str
   });
 }
 export async function startGroup(userId: string, code: string) {
-  if(applicationBackend()==='d1') return new D1TriviaGames(applicationStorage()).startGroup(userId,code);
+  if(applicationBackend()==='d1') return new D1TriviaGames(applicationStorage('D1_USERS')).startGroup(userId,code);
 
   const rows = await authDb()<
     Array<{ game_id: string }>
@@ -164,7 +164,7 @@ export async function startGroup(userId: string, code: string) {
 }
 
 export async function getGroupRoom(userId: string, code: string) {
-  if(applicationBackend()==='d1') return new D1TriviaGames(applicationStorage()).getGroupRoom(userId,code);
+  if(applicationBackend()==='d1') return new D1TriviaGames(applicationStorage('D1_USERS')).getGroupRoom(userId,code);
 
   const rows = await authDb()<
     Array<{ gameId: string; joinCode: string; hostUserId: string; status: string }>
@@ -177,7 +177,7 @@ export async function getGroupRoom(userId: string, code: string) {
 }
 
 export async function getGroupRoomByToken(userId: string, token: string) {
-  if(applicationBackend()==='d1') return new D1TriviaGames(applicationStorage()).getGroupRoomByToken(userId,token);
+  if(applicationBackend()==='d1') return new D1TriviaGames(applicationStorage('D1_USERS')).getGroupRoomByToken(userId,token);
 
   const rows = await authDb()<
     Array<{ gameId: string; joinCode: string; hostUserId: string; status: string; teamId: string }>
@@ -190,7 +190,7 @@ export async function getGroupRoomByToken(userId: string, token: string) {
 }
 
 export async function inviteUserToGroup(hostUserId: string, code: string, invitedUserId: string) {
-  if(applicationBackend()==='d1') return new D1TriviaGames(applicationStorage()).inviteUserToGroup(hostUserId,code,invitedUserId);
+  if(applicationBackend()==='d1') return new D1TriviaGames(applicationStorage('D1_USERS')).inviteUserToGroup(hostUserId,code,invitedUserId);
 
   const sql = authDb();
   return sql.begin(async (tx) => {
@@ -209,7 +209,7 @@ export async function inviteUserToGroup(hostUserId: string, code: string, invite
 }
 
 export async function createGroupRematch(hostUserId: string, completedGameId: string) {
-  if(applicationBackend()==='d1') return new D1TriviaGames(applicationStorage()).createGroupRematch(hostUserId,completedGameId);
+  if(applicationBackend()==='d1') return new D1TriviaGames(applicationStorage('D1_USERS')).createGroupRematch(hostUserId,completedGameId);
 
   const games = await authDb()<
     Array<{ teamId: string }>

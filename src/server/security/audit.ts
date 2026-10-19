@@ -31,7 +31,7 @@ export async function recordSecurityEvent(
 ) {
   const metadata = input?.metadata ? JSON.parse(JSON.stringify(input.metadata)) : {};
   if (applicationBackend() === 'd1') {
-    const s = applicationStorage(),
+    const s = applicationStorage('D1_USERS'),
       hash = await s.put(metadata);
     await s.batch([
       s.statement(

@@ -41,7 +41,7 @@ const responseFor = async (user: NonNullable<Awaited<ReturnType<typeof currentUs
   );
   const profiles =
     applicationBackend() === 'd1'
-      ? [await new D1UserRepository(applicationStorage()).getProfile(user.id)]
+      ? [await new D1UserRepository(applicationStorage('D1_USERS')).getProfile(user.id)]
       : await authDb()<
           { timezone: string }[]
         >`SELECT timezone FROM user_profiles WHERE user_id=${user.id}`;
@@ -73,7 +73,7 @@ export async function PUT(request: NextRequest) {
     if (!user) return authError('Unauthorized.', 401);
     const input = schema.parse(await request.json());
     if (applicationBackend() === 'd1') {
-      const storage = applicationStorage();
+      const storage = applicationStorage('D1_USERS');
       await storage.batch([
         ...(
           [
