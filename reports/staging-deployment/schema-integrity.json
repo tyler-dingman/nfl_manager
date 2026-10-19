@@ -1,0 +1,38 @@
+{
+  "measurement": "direct read-only local SQLite; workerd rejects some introspection PRAGMAs",
+  "databases": [
+    {
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "foreignKeyViolations": [],
+      "pageCount": 2,
+      "pageSize": 4096,
+      "tables": 1
+    },
+    {
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "foreignKeyViolations": [],
+      "pageCount": 500,
+      "pageSize": 4096,
+      "tables": 171
+    },
+    {
+      "integrity": [
+        [
+          "ok"
+        ]
+      ],
+      "foreignKeyViolations": [],
+      "pageCount": 2,
+      "pageSize": 4096,
+      "tables": 1
+    }
+  ]
+}

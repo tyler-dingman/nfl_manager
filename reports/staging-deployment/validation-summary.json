@@ -1,0 +1,36 @@
+{
+  "baseline": "5bac5bcb",
+  "remoteAccess": false,
+  "deployed": false,
+  "postgresEnvironmentAbsent": true,
+  "applicationTests": {
+    "passed": 1065,
+    "failed": 0,
+    "skipped": 2,
+    "note": "includes 2 new staging graph tests; skipped PG-only sportsbook fixture and separately run real Trade Machine HTTP contract"
+  },
+  "workerD1Tests": {
+    "passed": 119,
+    "failed": 0
+  },
+  "browserRoutes": {
+    "passed": 48,
+    "failed": 0
+  },
+  "additionalBrowserHTTPContracts": 12,
+  "tradeHTTPRegression": {
+    "passed": 1,
+    "failed": 0
+  },
+  "authentication": "PASS actual local workerd, PHC/reset/concurrency/expiry/restart",
+  "migrationsApplied": 38,
+  "localSchemaBytes": 2048000,
+  "dryRunGzipKiB": {
+    "web": 2338.34,
+    "api": 898.15,
+    "password": 79.42
+  },
+  "hostedCPU": null,
+  "nativeDeviceValidation": false,
+  "performanceHarness": "syntax checked; measurements not executed"
+}

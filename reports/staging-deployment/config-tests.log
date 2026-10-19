@@ -1,0 +1,20 @@
+TAP version 13
+# Subtest: staging graph is private, isolated, cron-free, and provider-free
+ok 1 - staging graph is private, isolated, cron-free, and provider-free
+  ---
+  duration_ms: 1.707959
+  ...
+# Subtest: generator rejects placeholder IDs and unsafe URL input
+ok 2 - generator rejects placeholder IDs and unsafe URL input
+  ---
+  duration_ms: 2.324417
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 67.111042

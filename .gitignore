@@ -41,3 +41,6 @@ workers/api/routes.generated.ts
 
 scripts/__pycache__/
 workers/password/dist/
+
+# Generated machine-specific staging configs (resource IDs and absolute paths)
+.staging/

@@ -1,0 +1,29 @@
+
+ ⛅️ wrangler 4.151.1 (update available 4.151.2)
+───────────────────────────────────────────────
+✨ Read 1923 files from the assets directory /private/tmp/down-distance-staging-preparation/.open-next/assets
+Total Upload: 12160.31 KiB / gzip: 2338.34 KiB
+Your Worker has access to the following bindings:
+Binding                                                                                Resource                  
+env.APP_DB (down-distance-staging-app)                                                 D1 Database               
+env.APP_OBJECTS (down-distance-staging-objects)                                        R2 Bucket                 
+env.APP_BACKUP (down-distance-staging-backups)                                         R2 Bucket                 
+env.API_SERVICE (down-distance-staging-api)                                            Worker                    
+env.ASSETS                                                                             Assets                    
+env.APP_DATA_BACKEND ("d1")                                                            Environment Variable      
+env.APP_RUNTIME ("cloudflare")                                                         Environment Variable      
+env.INFRASTRUCTURE_COST_POLICY ("zero-cost")                                           Environment Variable      
+env.AUTH_BASE_URL ("https://down-distance-staging-web.syn...")                         Environment Variable      
+env.PRELAUNCH_MODE ("false")                                                           Environment Variable      
+env.APP_PASSWORD_ENABLED ("false")                                                     Environment Variable      
+env.APP_SOCIAL_NOTIFICATIONS_ENABLED ("false")                                         Environment Variable      
+env.APP_CONTENT_ENABLED ("false")                                                      Environment Variable      
+env.APP_BRIEFINGS_ENABLED ("false")                                                    Environment Variable      
+env.APP_ODDS_ENABLED ("false")                                                         Environment Variable      
+env.APP_ODDS_PROCESSING_ENABLED ("false")                                              Environment Variable      
+env.APP_MAIL_ENABLED ("false")                                                         Environment Variable      
+env.APP_MAINTENANCE_ENABLED ("false")                                                  Environment Variable      
+env.APP_PUBLIC_CACHE_ENABLED ("false")                                                 Environment Variable      
+env.APP_CACHE_VERSION ("staging-5bac5bcb")                                             Environment Variable      
+
+--dry-run: exiting now.

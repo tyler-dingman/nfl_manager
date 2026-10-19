@@ -2,11 +2,12 @@ import { chromium, request } from '@playwright/test';
 import { spawn, spawnSync } from 'node:child_process';
 import { createServer } from 'node:net';
 import { createWriteStream } from 'node:fs';
-import { writeFile, mkdtemp, rm, readFile } from 'node:fs/promises';
+import { writeFile, mkdtemp, rm, readFile, mkdir } from 'node:fs/promises';
 import { checkD1Products } from './check-d1-product-workflows.mjs';
 import assert from 'node:assert/strict';
 
-const out = 'reports/d1-migration';
+const out = process.env.D1_BROWSER_REPORT_DIR ?? 'reports/d1-migration';
+await mkdir(out, { recursive: true });
 const socket = createServer();
 await new Promise((resolve) => socket.listen(0, '127.0.0.1', resolve));
 const port = socket.address().port;
