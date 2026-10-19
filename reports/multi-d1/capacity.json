@@ -1,0 +1,2798 @@
+{
+  "status": "NO-GO",
+  "scope": "Planning only; approved synthetic size proxies and uniform team load. Not measured physical multi-D1 storage. No cross-database runtime enabled.",
+  "groups": [
+    [
+      "ARI",
+      "LAR",
+      "SF",
+      "SEA"
+    ],
+    [
+      "ATL",
+      "CAR",
+      "NO",
+      "TB"
+    ],
+    [
+      "BAL",
+      "CIN",
+      "CLE",
+      "PIT"
+    ],
+    [
+      "BUF",
+      "MIA",
+      "NE",
+      "NYJ"
+    ],
+    [
+      "CHI",
+      "DET",
+      "GB",
+      "MIN"
+    ],
+    [
+      "DAL",
+      "NYG",
+      "PHI",
+      "WAS"
+    ],
+    [
+      "DEN",
+      "KC",
+      "LAC",
+      "LV"
+    ],
+    [
+      "HOU",
+      "IND",
+      "JAX",
+      "TEN"
+    ]
+  ],
+  "rows": [
+    {
+      "dau": 25,
+      "days": 30,
+      "databasesBytes": {
+        "TEAM_1": 50861151,
+        "TEAM_2": 50861151,
+        "TEAM_3": 50861151,
+        "TEAM_4": 50861151,
+        "TEAM_5": 50861151,
+        "TEAM_6": 50861151,
+        "TEAM_7": 50861151,
+        "TEAM_8": 50861151,
+        "USER": 5905952,
+        "SHARED": 22106639
+      },
+      "accountBytes": 434901799,
+      "allReferencesAccountBytes": 434901799,
+      "allReferencesMaxDatabaseBytes": 50861151,
+      "twoTimesTrafficTeamDatabaseBytes": 98527730,
+      "offlineTwoCopiesDailyFullArchivesBytes": 14441797768,
+      "operations": {
+        "d1ReadsPerDayPlanning": 3891888,
+        "d1WritesPerDayLowerBoundPlanning": 88857,
+        "d1WritesPerDayAmplificationSensitivity": 124931,
+        "workerRequestsPerDay": 9475
+      },
+      "workerCpuMs": null
+    },
+    {
+      "dau": 25,
+      "days": 90,
+      "databasesBytes": {
+        "TEAM_1": 145161863,
+        "TEAM_2": 145161863,
+        "TEAM_3": 145161863,
+        "TEAM_4": 145161863,
+        "TEAM_5": 145161863,
+        "TEAM_6": 145161863,
+        "TEAM_7": 145161863,
+        "TEAM_8": 145161863,
+        "USER": 10837186,
+        "SHARED": 58415046
+      },
+      "accountBytes": 1230547136,
+      "allReferencesAccountBytes": 1238030528,
+      "allReferencesMaxDatabaseBytes": 146097287,
+      "twoTimesTrafficTeamDatabaseBytes": 287129154,
+      "offlineTwoCopiesDailyFullArchivesBytes": 115164810512,
+      "operations": {
+        "d1ReadsPerDayPlanning": 3891888,
+        "d1WritesPerDayLowerBoundPlanning": 88857,
+        "d1WritesPerDayAmplificationSensitivity": 124931,
+        "workerRequestsPerDay": 9475
+      },
+      "workerCpuMs": null
+    },
+    {
+      "dau": 25,
+      "days": 180,
+      "databasesBytes": {
+        "TEAM_1": 160646372,
+        "TEAM_2": 160646372,
+        "TEAM_3": 160646372,
+        "TEAM_4": 160646372,
+        "TEAM_5": 160646372,
+        "TEAM_6": 160646372,
+        "TEAM_7": 160646372,
+        "TEAM_8": 160646372,
+        "USER": 18234039,
+        "SHARED": 112877657
+      },
+      "accountBytes": 1416282672,
+      "allReferencesAccountBytes": 2442737120,
+      "allReferencesMaxDatabaseBytes": 288953178,
+      "twoTimesTrafficTeamDatabaseBytes": 318098172,
+      "offlineTwoCopiesDailyFullArchivesBytes": 353559100860,
+      "operations": {
+        "d1ReadsPerDayPlanning": 3891888,
+        "d1WritesPerDayLowerBoundPlanning": 88857,
+        "d1WritesPerDayAmplificationSensitivity": 124931,
+        "workerRequestsPerDay": 9475
+      },
+      "workerCpuMs": null
+    },
+    {
+      "dau": 25,
+      "days": 365,
+      "databasesBytes": {
+        "TEAM_1": 192460393,
+        "TEAM_2": 192460393,
+        "TEAM_3": 192460393,
+        "TEAM_4": 192460393,
+        "TEAM_5": 192460393,
+        "TEAM_6": 192460393,
+        "TEAM_7": 192460393,
+        "TEAM_8": 192460393,
+        "USER": 33438680,
+        "SHARED": 224828578
+      },
+      "accountBytes": 1797950402,
+      "allReferencesAccountBytes": 4918956466,
+      "allReferencesMaxDatabaseBytes": 582586151,
+      "twoTimesTrafficTeamDatabaseBytes": 381726214,
+      "offlineTwoCopiesDailyFullArchivesBytes": 948556643374,
+      "operations": {
+        "d1ReadsPerDayPlanning": 3891888,
+        "d1WritesPerDayLowerBoundPlanning": 88857,
+        "d1WritesPerDayAmplificationSensitivity": 124931,
+        "workerRequestsPerDay": 9475
+      },
+      "workerCpuMs": null
+    },
+    {
+      "dau": 25,
+      "days": 730,
+      "databasesBytes": {
+        "TEAM_1": 255228273,
+        "TEAM_2": 255228273,
+        "TEAM_3": 255228273,
+        "TEAM_4": 255228273,
+        "TEAM_5": 255228273,
+        "TEAM_6": 255228273,
+        "TEAM_7": 255228273,
+        "TEAM_8": 255228273,
+        "USER": 63437026,
+        "SHARED": 445704719
+      },
+      "accountBytes": 2550967929,
+      "allReferencesAccountBytes": 9804467721,
+      "allReferencesMaxDatabaseBytes": 1161915747,
+      "twoTimesTrafficTeamDatabaseBytes": 507261974,
+      "offlineTwoCopiesDailyFullArchivesBytes": 2536657142166,
+      "operations": {
+        "d1ReadsPerDayPlanning": 3891888,
+        "d1WritesPerDayLowerBoundPlanning": 88857,
+        "d1WritesPerDayAmplificationSensitivity": 124931,
+        "workerRequestsPerDay": 9475
+      },
+      "workerCpuMs": null
+    },
+    {
+      "dau": 50,
+      "days": 30,
+      "databasesBytes": {
+        "TEAM_1": 50861151,
+        "TEAM_2": 50861151,
+        "TEAM_3": 50861151,
+        "TEAM_4": 50861151,
+        "TEAM_5": 50861151,
+        "TEAM_6": 50861151,
+        "TEAM_7": 50861151,
+        "TEAM_8": 50861151,
+        "USER": 8617329,
+        "SHARED": 22106639
+      },
+      "accountBytes": 437613176,
+      "allReferencesAccountBytes": 437613176,
+      "allReferencesMaxDatabaseBytes": 50861151,
+      "twoTimesTrafficTeamDatabaseBytes": 98527730,
+      "offlineTwoCopiesDailyFullArchivesBytes": 14532977510,
+      "operations": {
+        "d1ReadsPerDayPlanning": 3955709,
+        "d1WritesPerDayLowerBoundPlanning": 89548,
+        "d1WritesPerDayAmplificationSensitivity": 125962,
+        "workerRequestsPerDay": 10916
+      },
+      "workerCpuMs": null
+    },
+    {
+      "dau": 50,
+      "days": 90,
+      "databasesBytes": {
+        "TEAM_1": 145165517,
+        "TEAM_2": 145165517,
+        "TEAM_3": 145165517,
+        "TEAM_4": 145165517,
+        "TEAM_5": 145165517,
+        "TEAM_6": 145165517,
+        "TEAM_7": 145165517,
+        "TEAM_8": 145165517,
+        "USER": 18479799,
+        "SHARED": 58415046
+      },
+      "accountBytes": 1238218981,
+      "allReferencesAccountBytes": 1245702373,
+      "allReferencesMaxDatabaseBytes": 146100941,
+      "twoTimesTrafficTeamDatabaseBytes": 287136462,
+      "offlineTwoCopiesDailyFullArchivesBytes": 115883944058,
+      "operations": {
+        "d1ReadsPerDayPlanning": 3955709,
+        "d1WritesPerDayLowerBoundPlanning": 89548,
+        "d1WritesPerDayAmplificationSensitivity": 125962,
+        "workerRequestsPerDay": 10916
+      },
+      "workerCpuMs": null
+    },
+    {
+      "dau": 50,
+      "days": 180,
+      "databasesBytes": {
+        "TEAM_1": 162317358,
+        "TEAM_2": 162317358,
+        "TEAM_3": 162317358,
+        "TEAM_4": 162317358,
+        "TEAM_5": 162317358,
+        "TEAM_6": 162317358,
+        "TEAM_7": 162317358,
+        "TEAM_8": 162317358,
+        "USER": 33273503,
+        "SHARED": 112877657
+      },
+      "accountBytes": 1444690024,
+      "allReferencesAccountBytes": 2457849664,
+      "allReferencesMaxDatabaseBytes": 288962313,
+      "twoTimesTrafficTeamDatabaseBytes": 321440144,
+      "offlineTwoCopiesDailyFullArchivesBytes": 357546097102,
+      "operations": {
+        "d1ReadsPerDayPlanning": 3955709,
+        "d1WritesPerDayLowerBoundPlanning": 89548,
+        "d1WritesPerDayAmplificationSensitivity": 125962,
+        "workerRequestsPerDay": 10916
+      },
+      "workerCpuMs": null
+    },
+    {
+      "dau": 50,
+      "days": 365,
+      "databasesBytes": {
+        "TEAM_1": 197558670,
+        "TEAM_2": 197558670,
+        "TEAM_3": 197558670,
+        "TEAM_4": 197558670,
+        "TEAM_5": 197558670,
+        "TEAM_6": 197558670,
+        "TEAM_7": 197558670,
+        "TEAM_8": 197558670,
+        "USER": 63682786,
+        "SHARED": 224828578
+      },
+      "accountBytes": 1868980724,
+      "allReferencesAccountBytes": 4949363780,
+      "allReferencesMaxDatabaseBytes": 582606552,
+      "twoTimesTrafficTeamDatabaseBytes": 391922768,
+      "offlineTwoCopiesDailyFullArchivesBytes": 970982231516,
+      "operations": {
+        "d1ReadsPerDayPlanning": 3955709,
+        "d1WritesPerDayLowerBoundPlanning": 89548,
+        "d1WritesPerDayAmplificationSensitivity": 125962,
+        "workerRequestsPerDay": 10916
+      },
+      "workerCpuMs": null
+    },
+    {
+      "dau": 50,
+      "days": 730,
+      "databasesBytes": {
+        "TEAM_1": 267088504,
+        "TEAM_2": 267088504,
+        "TEAM_3": 267088504,
+        "TEAM_4": 267088504,
+        "TEAM_5": 267088504,
+        "TEAM_6": 267088504,
+        "TEAM_7": 267088504,
+        "TEAM_8": 267088504,
+        "USER": 123679479,
+        "SHARED": 445704719
+      },
+      "accountBytes": 2706092230,
+      "allReferencesAccountBytes": 9865051214,
+      "allReferencesMaxDatabaseBytes": 1161958377,
+      "twoTimesTrafficTeamDatabaseBytes": 530982436,
+      "offlineTwoCopiesDailyFullArchivesBytes": 2641713263412,
+      "operations": {
+        "d1ReadsPerDayPlanning": 3955709,
+        "d1WritesPerDayLowerBoundPlanning": 89548,
+        "d1WritesPerDayAmplificationSensitivity": 125962,
+        "workerRequestsPerDay": 10916
+      },
+      "workerCpuMs": null
+    },
+    {
+      "dau": 100,
+      "days": 30,
+      "databasesBytes": {
+        "TEAM_1": 50861151,
+        "TEAM_2": 50861151,
+        "TEAM_3": 50861151,
+        "TEAM_4": 50861151,
+        "TEAM_5": 50861151,
+        "TEAM_6": 50861151,
+        "TEAM_7": 50861151,
+        "TEAM_8": 50861151,
+        "USER": 14040083,
+        "SHARED": 22106639
+      },
+      "accountBytes": 443035930,
+      "allReferencesAccountBytes": 443035930,
+      "allReferencesMaxDatabaseBytes": 50861151,
+      "twoTimesTrafficTeamDatabaseBytes": 98527730,
+      "offlineTwoCopiesDailyFullArchivesBytes": 14715336988,
+      "operations": {
+        "d1ReadsPerDayPlanning": 4083352,
+        "d1WritesPerDayLowerBoundPlanning": 90930,
+        "d1WritesPerDayAmplificationSensitivity": 128024,
+        "workerRequestsPerDay": 13798
+      },
+      "workerCpuMs": null
+    },
+    {
+      "dau": 100,
+      "days": 90,
+      "databasesBytes": {
+        "TEAM_1": 145172825,
+        "TEAM_2": 145172825,
+        "TEAM_3": 145172825,
+        "TEAM_4": 145172825,
+        "TEAM_5": 145172825,
+        "TEAM_6": 145172825,
+        "TEAM_7": 145172825,
+        "TEAM_8": 145172825,
+        "USER": 33765023,
+        "SHARED": 58415046
+      },
+      "accountBytes": 1253562669,
+      "allReferencesAccountBytes": 1261046061,
+      "allReferencesMaxDatabaseBytes": 146108249,
+      "twoTimesTrafficTeamDatabaseBytes": 287151078,
+      "offlineTwoCopiesDailyFullArchivesBytes": 117322211116,
+      "operations": {
+        "d1ReadsPerDayPlanning": 4083352,
+        "d1WritesPerDayLowerBoundPlanning": 90930,
+        "d1WritesPerDayAmplificationSensitivity": 128024,
+        "workerRequestsPerDay": 13798
+      },
+      "workerCpuMs": null
+    },
+    {
+      "dau": 100,
+      "days": 180,
+      "databasesBytes": {
+        "TEAM_1": 165659328,
+        "TEAM_2": 165659328,
+        "TEAM_3": 165659328,
+        "TEAM_4": 165659328,
+        "TEAM_5": 165659328,
+        "TEAM_6": 165659328,
+        "TEAM_7": 165659328,
+        "TEAM_8": 165659328,
+        "USER": 63352433,
+        "SHARED": 112877657
+      },
+      "accountBytes": 1501504714,
+      "allReferencesAccountBytes": 2488074754,
+      "allReferencesMaxDatabaseBytes": 288980583,
+      "twoTimesTrafficTeamDatabaseBytes": 328124084,
+      "offlineTwoCopiesDailyFullArchivesBytes": 365520089558,
+      "operations": {
+        "d1ReadsPerDayPlanning": 4083352,
+        "d1WritesPerDayLowerBoundPlanning": 90930,
+        "d1WritesPerDayAmplificationSensitivity": 128024,
+        "workerRequestsPerDay": 13798
+      },
+      "workerCpuMs": null
+    },
+    {
+      "dau": 100,
+      "days": 365,
+      "databasesBytes": {
+        "TEAM_1": 207755224,
+        "TEAM_2": 207755224,
+        "TEAM_3": 207755224,
+        "TEAM_4": 207755224,
+        "TEAM_5": 207755224,
+        "TEAM_6": 207755224,
+        "TEAM_7": 207755224,
+        "TEAM_8": 207755224,
+        "USER": 124170999,
+        "SHARED": 224828578
+      },
+      "accountBytes": 2011041369,
+      "allReferencesAccountBytes": 5010178417,
+      "allReferencesMaxDatabaseBytes": 582647355,
+      "twoTimesTrafficTeamDatabaseBytes": 412315876,
+      "offlineTwoCopiesDailyFullArchivesBytes": 1015833407842,
+      "operations": {
+        "d1ReadsPerDayPlanning": 4083352,
+        "d1WritesPerDayLowerBoundPlanning": 90930,
+        "d1WritesPerDayAmplificationSensitivity": 128024,
+        "workerRequestsPerDay": 13798
+      },
+      "workerCpuMs": null
+    },
+    {
+      "dau": 100,
+      "days": 730,
+      "databasesBytes": {
+        "TEAM_1": 290808967,
+        "TEAM_2": 290808967,
+        "TEAM_3": 290808967,
+        "TEAM_4": 290808967,
+        "TEAM_5": 290808967,
+        "TEAM_6": 290808967,
+        "TEAM_7": 290808967,
+        "TEAM_8": 290808967,
+        "USER": 244164383,
+        "SHARED": 445704719
+      },
+      "accountBytes": 3016340838,
+      "allReferencesAccountBytes": 9986218198,
+      "allReferencesMaxDatabaseBytes": 1162043637,
+      "twoTimesTrafficTeamDatabaseBytes": 578423362,
+      "offlineTwoCopiesDailyFullArchivesBytes": 2851825505934,
+      "operations": {
+        "d1ReadsPerDayPlanning": 4083352,
+        "d1WritesPerDayLowerBoundPlanning": 90930,
+        "d1WritesPerDayAmplificationSensitivity": 128024,
+        "workerRequestsPerDay": 13798
+      },
+      "workerCpuMs": null
+    },
+    {
+      "dau": 250,
+      "days": 30,
+      "databasesBytes": {
+        "TEAM_1": 50861151,
+        "TEAM_2": 50861151,
+        "TEAM_3": 50861151,
+        "TEAM_4": 50861151,
+        "TEAM_5": 50861151,
+        "TEAM_6": 50861151,
+        "TEAM_7": 50861151,
+        "TEAM_8": 50861151,
+        "USER": 30308349,
+        "SHARED": 22106639
+      },
+      "accountBytes": 459304196,
+      "allReferencesAccountBytes": 459304196,
+      "allReferencesMaxDatabaseBytes": 50861151,
+      "twoTimesTrafficTeamDatabaseBytes": 98527730,
+      "offlineTwoCopiesDailyFullArchivesBytes": 15262415452,
+      "operations": {
+        "d1ReadsPerDayPlanning": 4466281,
+        "d1WritesPerDayLowerBoundPlanning": 95076,
+        "d1WritesPerDayAmplificationSensitivity": 134210,
+        "workerRequestsPerDay": 22444
+      },
+      "workerCpuMs": null
+    },
+    {
+      "dau": 250,
+      "days": 90,
+      "databasesBytes": {
+        "TEAM_1": 145194749,
+        "TEAM_2": 145194749,
+        "TEAM_3": 145194749,
+        "TEAM_4": 145194749,
+        "TEAM_5": 145194749,
+        "TEAM_6": 145194749,
+        "TEAM_7": 145194749,
+        "TEAM_8": 145194749,
+        "USER": 79620699,
+        "SHARED": 58415046
+      },
+      "accountBytes": 1299593737,
+      "allReferencesAccountBytes": 1307077129,
+      "allReferencesMaxDatabaseBytes": 146130173,
+      "twoTimesTrafficTeamDatabaseBytes": 287194926,
+      "offlineTwoCopiesDailyFullArchivesBytes": 121637012336,
+      "operations": {
+        "d1ReadsPerDayPlanning": 4466281,
+        "d1WritesPerDayLowerBoundPlanning": 95076,
+        "d1WritesPerDayAmplificationSensitivity": 134210,
+        "workerRequestsPerDay": 22444
+      },
+      "workerCpuMs": null
+    },
+    {
+      "dau": 250,
+      "days": 180,
+      "databasesBytes": {
+        "TEAM_1": 175685239,
+        "TEAM_2": 175685239,
+        "TEAM_3": 175685239,
+        "TEAM_4": 175685239,
+        "TEAM_5": 175685239,
+        "TEAM_6": 175685239,
+        "TEAM_7": 175685239,
+        "TEAM_8": 175685239,
+        "USER": 153589223,
+        "SHARED": 112877657
+      },
+      "accountBytes": 1671948792,
+      "allReferencesAccountBytes": 2578750024,
+      "allReferencesMaxDatabaseBytes": 289035393,
+      "twoTimesTrafficTeamDatabaseBytes": 348175906,
+      "offlineTwoCopiesDailyFullArchivesBytes": 389442067098,
+      "operations": {
+        "d1ReadsPerDayPlanning": 4466281,
+        "d1WritesPerDayLowerBoundPlanning": 95076,
+        "d1WritesPerDayAmplificationSensitivity": 134210,
+        "workerRequestsPerDay": 22444
+      },
+      "workerCpuMs": null
+    },
+    {
+      "dau": 250,
+      "days": 365,
+      "databasesBytes": {
+        "TEAM_1": 238344887,
+        "TEAM_2": 238344887,
+        "TEAM_3": 238344887,
+        "TEAM_4": 238344887,
+        "TEAM_5": 238344887,
+        "TEAM_6": 238344887,
+        "TEAM_7": 238344887,
+        "TEAM_8": 238344887,
+        "USER": 305635636,
+        "SHARED": 224828578
+      },
+      "accountBytes": 2437223310,
+      "allReferencesAccountBytes": 5192622326,
+      "allReferencesMaxDatabaseBytes": 582769764,
+      "twoTimesTrafficTeamDatabaseBytes": 473495202,
+      "offlineTwoCopiesDailyFullArchivesBytes": 1150386937136,
+      "operations": {
+        "d1ReadsPerDayPlanning": 4466281,
+        "d1WritesPerDayLowerBoundPlanning": 95076,
+        "d1WritesPerDayAmplificationSensitivity": 134210,
+        "workerRequestsPerDay": 22444
+      },
+      "workerCpuMs": null
+    },
+    {
+      "dau": 250,
+      "days": 730,
+      "databasesBytes": {
+        "TEAM_1": 361970356,
+        "TEAM_2": 361970356,
+        "TEAM_3": 361970356,
+        "TEAM_4": 361970356,
+        "TEAM_5": 361970356,
+        "TEAM_6": 361970356,
+        "TEAM_7": 361970356,
+        "TEAM_8": 361970356,
+        "USER": 605619099,
+        "SHARED": 445704719
+      },
+      "accountBytes": 3947086666,
+      "allReferencesAccountBytes": 10349719154,
+      "allReferencesMaxDatabaseBytes": 1162299417,
+      "twoTimesTrafficTeamDatabaseBytes": 720746140,
+      "offlineTwoCopiesDailyFullArchivesBytes": 3482162234452,
+      "operations": {
+        "d1ReadsPerDayPlanning": 4466281,
+        "d1WritesPerDayLowerBoundPlanning": 95076,
+        "d1WritesPerDayAmplificationSensitivity": 134210,
+        "workerRequestsPerDay": 22444
+      },
+      "workerCpuMs": null
+    }
+  ],
+  "tableInventory": [
+    {
+      "table": "app_ai_cache",
+      "allocation": "SHARED",
+      "foreignKeys": []
+    },
+    {
+      "table": "app_application_settings",
+      "allocation": "SHARED",
+      "foreignKeys": []
+    },
+    {
+      "table": "app_assertions",
+      "allocation": "LOCAL_INTERNAL",
+      "foreignKeys": []
+    },
+    {
+      "table": "app_briefing_mail_jobs",
+      "allocation": "USER",
+      "foreignKeys": []
+    },
+    {
+      "table": "app_briefing_push_deliveries",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_commerce_counters",
+      "allocation": "SHARED",
+      "foreignKeys": []
+    },
+    {
+      "table": "app_commerce_inventory_adjustments",
+      "allocation": "SHARED",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "admin_user_id",
+          "to": "id"
+        },
+        {
+          "target": "app_commerce_product_variants",
+          "from": "variant_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_commerce_order_items",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_commerce_product_variants",
+          "from": "variant_id",
+          "to": "id"
+        },
+        {
+          "target": "app_commerce_products",
+          "from": "product_id",
+          "to": "id"
+        },
+        {
+          "target": "app_commerce_orders",
+          "from": "order_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_commerce_orders",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_commerce_product_variants",
+      "allocation": "SHARED",
+      "foreignKeys": [
+        {
+          "target": "app_commerce_products",
+          "from": "product_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_commerce_products",
+      "allocation": "SHARED",
+      "foreignKeys": []
+    },
+    {
+      "table": "app_commerce_promo_codes",
+      "allocation": "SHARED",
+      "foreignKeys": []
+    },
+    {
+      "table": "app_commerce_refunds",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "created_by_user_id",
+          "to": "id"
+        },
+        {
+          "target": "app_commerce_orders",
+          "from": "order_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_commerce_stripe_webhook_events",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_commerce_orders",
+          "from": "order_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_consents",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_content_automation_runs",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": []
+    },
+    {
+      "table": "app_credentials",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_crew_activity",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "actor_user_id",
+          "to": "id"
+        },
+        {
+          "target": "app_crews",
+          "from": "crew_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_crew_comments",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        },
+        {
+          "target": "app_crew_activity",
+          "from": "activity_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_crew_invites",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "invitee_user_id",
+          "to": "id"
+        },
+        {
+          "target": "app_users",
+          "from": "inviter_user_id",
+          "to": "id"
+        },
+        {
+          "target": "app_crews",
+          "from": "crew_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_crew_media",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "uploader_user_id",
+          "to": "id"
+        },
+        {
+          "target": "app_crews",
+          "from": "crew_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_crew_members",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        },
+        {
+          "target": "app_crews",
+          "from": "crew_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_crew_reactions",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        },
+        {
+          "target": "app_crew_activity",
+          "from": "activity_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_crew_share_recipients",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        },
+        {
+          "target": "app_crew_shares",
+          "from": "share_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_crew_shares",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "sender_user_id",
+          "to": "id"
+        },
+        {
+          "target": "app_crews",
+          "from": "crew_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_crews",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "owner_user_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_daily_briefings",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": []
+    },
+    {
+      "table": "app_devices",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_editorial_candidates",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": [
+        {
+          "target": "app_editorial_sources",
+          "from": "source_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_editorial_decisions",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": [
+        {
+          "target": "app_editorial_stories",
+          "from": "story_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_editorial_events",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": [
+        {
+          "target": "app_editorial_stories",
+          "from": "story_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_editorial_evidence",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": [
+        {
+          "target": "app_editorial_sources",
+          "from": "source_id",
+          "to": "id"
+        },
+        {
+          "target": "app_editorial_candidates",
+          "from": "candidate_id",
+          "to": "id"
+        },
+        {
+          "target": "app_editorial_stories",
+          "from": "story_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_editorial_jobs",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": []
+    },
+    {
+      "table": "app_editorial_overrides",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_editorial_sources",
+      "allocation": "SHARED",
+      "foreignKeys": []
+    },
+    {
+      "table": "app_editorial_stories",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": []
+    },
+    {
+      "table": "app_editorial_versions",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": [
+        {
+          "target": "app_editorial_stories",
+          "from": "story_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_email_change_requests",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_fan_pulse_reactions",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_franchise_commands",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_franchise_heads",
+          "from": "user_id",
+          "to": "user_id"
+        },
+        {
+          "target": "app_franchise_heads",
+          "from": "save_id",
+          "to": "save_id"
+        },
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_franchise_heads",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_franchise_routes",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_franchise_heads",
+          "from": "user_id",
+          "to": "user_id"
+        },
+        {
+          "target": "app_franchise_heads",
+          "from": "save_id",
+          "to": "save_id"
+        }
+      ]
+    },
+    {
+      "table": "app_game_day_activity",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        },
+        {
+          "target": "app_game_day_rooms",
+          "from": "room_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_game_day_events",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_game_day_rooms",
+          "from": "room_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_game_day_predictions",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        },
+        {
+          "target": "app_game_day_rooms",
+          "from": "room_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_game_day_reactions",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        },
+        {
+          "target": "app_game_day_activity",
+          "from": "activity_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_game_day_room_members",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        },
+        {
+          "target": "app_game_day_rooms",
+          "from": "room_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_game_day_rooms",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "host_user_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_heads",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "owner_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_history_packs",
+      "allocation": "SHARED",
+      "foreignKeys": []
+    },
+    {
+      "table": "app_huddle_enforcement",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "moderator_id",
+          "to": "id"
+        },
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_huddle_messages",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_huddle_messages",
+          "from": "reply_to",
+          "to": "id"
+        },
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_huddle_poll_votes",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        },
+        {
+          "target": "app_huddle_polls",
+          "from": "poll_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_huddle_polls",
+      "allocation": "USER",
+      "foreignKeys": []
+    },
+    {
+      "table": "app_huddle_reactions",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        },
+        {
+          "target": "app_huddle_messages",
+          "from": "message_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_huddle_reports",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        },
+        {
+          "target": "app_huddle_messages",
+          "from": "message_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_huddle_user_filters",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "target_id",
+          "to": "id"
+        },
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_identities",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_imports",
+      "allocation": "SHARED",
+      "foreignKeys": []
+    },
+    {
+      "table": "app_limits",
+      "allocation": "SHARED",
+      "foreignKeys": []
+    },
+    {
+      "table": "app_mail",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_notification_deliveries",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_devices",
+          "from": "device_id",
+          "to": "id"
+        },
+        {
+          "target": "app_notifications",
+          "from": "notification_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_notification_preferences",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_notifications",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_observer_events",
+      "allocation": "SHARED",
+      "foreignKeys": [
+        {
+          "target": "app_editorial_stories",
+          "from": "story_id",
+          "to": "id"
+        },
+        {
+          "target": "app_observer_runs",
+          "from": "run_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_observer_items",
+      "allocation": "SHARED",
+      "foreignKeys": [
+        {
+          "target": "app_editorial_sources",
+          "from": "source_id",
+          "to": "id"
+        },
+        {
+          "target": "app_editorial_candidates",
+          "from": "candidate_id",
+          "to": "id"
+        },
+        {
+          "target": "app_observer_runs",
+          "from": "run_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_observer_runs",
+      "allocation": "SHARED",
+      "foreignKeys": []
+    },
+    {
+      "table": "app_odds_board_history",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": [
+        {
+          "target": "app_sportsbook_events",
+          "from": "event_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_odds_history",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": []
+    },
+    {
+      "table": "app_odds_processing",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": []
+    },
+    {
+      "table": "app_odds_publication",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": []
+    },
+    {
+      "table": "app_parlay_scores",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": [
+        {
+          "target": "app_sportsbook_events",
+          "from": "event_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_payload_capacity",
+      "allocation": "LOCAL_INTERNAL",
+      "foreignKeys": []
+    },
+    {
+      "table": "app_payload_chunks",
+      "allocation": "LOCAL_INTERNAL",
+      "foreignKeys": [
+        {
+          "target": "app_payload_objects",
+          "from": "hash",
+          "to": "hash"
+        }
+      ]
+    },
+    {
+      "table": "app_payload_objects",
+      "allocation": "LOCAL_INTERNAL",
+      "foreignKeys": []
+    },
+    {
+      "table": "app_phone_numbers",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_public_stories",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": []
+    },
+    {
+      "table": "app_public_story_versions",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": []
+    },
+    {
+      "table": "app_public_wire",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": []
+    },
+    {
+      "table": "app_push_tokens",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_devices",
+          "from": "device_id",
+          "to": "id"
+        },
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_receipts",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "owner_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_reference_import_lock",
+      "allocation": "SHARED",
+      "foreignKeys": []
+    },
+    {
+      "table": "app_reference_packs",
+      "allocation": "SHARED",
+      "foreignKeys": []
+    },
+    {
+      "table": "app_reference_version",
+      "allocation": "SHARED",
+      "foreignKeys": []
+    },
+    {
+      "table": "app_reward_accounts",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_reward_definitions",
+      "allocation": "SHARED",
+      "foreignKeys": []
+    },
+    {
+      "table": "app_reward_events",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_reward_notifications",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_reward_definitions",
+          "from": "reward_id",
+          "to": "id"
+        },
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_saved_content",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_search",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": []
+    },
+    {
+      "table": "app_search_config",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": []
+    },
+    {
+      "table": "app_search_content",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": []
+    },
+    {
+      "table": "app_search_data",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": []
+    },
+    {
+      "table": "app_search_docsize",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": []
+    },
+    {
+      "table": "app_search_idx",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": []
+    },
+    {
+      "table": "app_security_audit",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_sessions",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_devices",
+          "from": "device_id",
+          "to": "id"
+        },
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_settings",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_social_notification_outbox",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_sportsbook_events",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": []
+    },
+    {
+      "table": "app_sportsbook_market_ids",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": [
+        {
+          "target": "app_sportsbook_events",
+          "from": "event_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_sportsbook_transfer_jobs",
+      "allocation": "USER",
+      "foreignKeys": []
+    },
+    {
+      "table": "app_storage_candidate_receipts",
+      "allocation": "LOCAL_INTERNAL",
+      "foreignKeys": []
+    },
+    {
+      "table": "app_storage_epoch",
+      "allocation": "LOCAL_INTERNAL",
+      "foreignKeys": []
+    },
+    {
+      "table": "app_storage_gc_audit",
+      "allocation": "LOCAL_INTERNAL",
+      "foreignKeys": []
+    },
+    {
+      "table": "app_storage_gc_candidates",
+      "allocation": "LOCAL_INTERNAL",
+      "foreignKeys": [
+        {
+          "target": "app_storage_gc_plans",
+          "from": "run_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_storage_gc_plans",
+      "allocation": "LOCAL_INTERNAL",
+      "foreignKeys": []
+    },
+    {
+      "table": "app_storage_guards",
+      "allocation": "LOCAL_INTERNAL",
+      "foreignKeys": []
+    },
+    {
+      "table": "app_storage_lifecycle_totals",
+      "allocation": "LOCAL_INTERNAL",
+      "foreignKeys": []
+    },
+    {
+      "table": "app_storage_pins",
+      "allocation": "LOCAL_INTERNAL",
+      "foreignKeys": []
+    },
+    {
+      "table": "app_storage_retention_audit",
+      "allocation": "LOCAL_INTERNAL",
+      "foreignKeys": []
+    },
+    {
+      "table": "app_storage_retention_items",
+      "allocation": "LOCAL_INTERNAL",
+      "foreignKeys": [
+        {
+          "target": "app_storage_retention_plans",
+          "from": "run_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_storage_retention_plans",
+      "allocation": "LOCAL_INTERNAL",
+      "foreignKeys": []
+    },
+    {
+      "table": "app_story_game_links",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": []
+    },
+    {
+      "table": "app_story_overrides",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": [
+        {
+          "target": "app_editorial_stories",
+          "from": "story_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_subscriptions",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_team_follows",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_tokens",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_trivia_answers",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_trivia_questions",
+          "from": "question_id",
+          "to": "id"
+        },
+        {
+          "target": "app_trivia_daily",
+          "from": "daily_id",
+          "to": "id"
+        },
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_trivia_challenges",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_trivia_games",
+          "from": "game_id",
+          "to": "id"
+        },
+        {
+          "target": "app_users",
+          "from": "challenged_user_id",
+          "to": "id"
+        },
+        {
+          "target": "app_users",
+          "from": "challenger_user_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_trivia_daily",
+      "allocation": "SHARED",
+      "foreignKeys": [
+        {
+          "target": "app_trivia_questions",
+          "from": "question_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_trivia_event_registrations",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_trivia_games",
+          "from": "game_id",
+          "to": "id"
+        },
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        },
+        {
+          "target": "app_trivia_events",
+          "from": "event_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_trivia_events",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_trivia_games",
+          "from": "question_set_game_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_trivia_friendships",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "addressee_user_id",
+          "to": "id"
+        },
+        {
+          "target": "app_users",
+          "from": "requester_user_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_trivia_game_answers",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_trivia_games",
+          "from": "game_id",
+          "to": "id"
+        },
+        {
+          "target": "app_trivia_questions",
+          "from": "question_id",
+          "to": "id"
+        },
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_trivia_game_participants",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        },
+        {
+          "target": "app_trivia_games",
+          "from": "game_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_trivia_game_questions",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_trivia_questions",
+          "from": "question_id",
+          "to": "id"
+        },
+        {
+          "target": "app_trivia_games",
+          "from": "game_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_trivia_games",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "created_by_user_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_trivia_groups",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "host_user_id",
+          "to": "id"
+        },
+        {
+          "target": "app_trivia_games",
+          "from": "game_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_trivia_invitations",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "invited_user_id",
+          "to": "id"
+        },
+        {
+          "target": "app_users",
+          "from": "inviter_user_id",
+          "to": "id"
+        },
+        {
+          "target": "app_trivia_games",
+          "from": "game_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_trivia_questions",
+      "allocation": "SHARED",
+      "foreignKeys": []
+    },
+    {
+      "table": "app_trivia_rank_snapshots",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        },
+        {
+          "target": "app_trivia_games",
+          "from": "game_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_trivia_stats",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_trivia_views",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_trivia_daily",
+          "from": "daily_id",
+          "to": "id"
+        },
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_user_content_state",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_user_poll_votes",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_user_predictions",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_user_rewards",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_reward_definitions",
+          "from": "reward_definition_id",
+          "to": "id"
+        },
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_user_team_visit_state",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "app_users",
+      "allocation": "USER",
+      "foreignKeys": []
+    },
+    {
+      "table": "app_web_push_test_limits",
+      "allocation": "USER",
+      "foreignKeys": [
+        {
+          "target": "app_users",
+          "from": "user_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "archive_chunks",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": []
+    },
+    {
+      "table": "archive_records",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": [
+        {
+          "target": "archive_chunks",
+          "from": "chunk_id",
+          "to": "chunk_id"
+        }
+      ]
+    },
+    {
+      "table": "candidate_teams",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": [
+        {
+          "target": "nfl_teams",
+          "from": "team_id",
+          "to": "id"
+        },
+        {
+          "target": "content_candidates",
+          "from": "candidate_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "canonical_stories",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": [
+        {
+          "target": "nfl_teams",
+          "from": "team_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "content_candidate_revisions",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": [
+        {
+          "target": "content_candidates",
+          "from": "candidate_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "content_candidates",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": [
+        {
+          "target": "content_sources",
+          "from": "source_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "content_control",
+      "allocation": "SHARED",
+      "foreignKeys": []
+    },
+    {
+      "table": "content_outbox",
+      "allocation": "SHARED",
+      "foreignKeys": []
+    },
+    {
+      "table": "content_run_log",
+      "allocation": "SHARED",
+      "foreignKeys": []
+    },
+    {
+      "table": "content_sources",
+      "allocation": "SHARED",
+      "foreignKeys": [
+        {
+          "target": "nfl_teams",
+          "from": "team_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "editorial_blob_fragments",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": [
+        {
+          "target": "editorial_blobs",
+          "from": "hash",
+          "to": "hash"
+        }
+      ]
+    },
+    {
+      "table": "editorial_blob_packs",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": []
+    },
+    {
+      "table": "editorial_blobs",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": [
+        {
+          "target": "editorial_blob_packs",
+          "from": "pack_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "editorial_cards",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": [
+        {
+          "target": "story_versions",
+          "from": "story_id",
+          "to": "story_id"
+        },
+        {
+          "target": "story_versions",
+          "from": "story_version",
+          "to": "version"
+        },
+        {
+          "target": "canonical_stories",
+          "from": "story_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "film_room_video_teams",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": [
+        {
+          "target": "film_room_videos",
+          "from": "video_id",
+          "to": "video_id"
+        },
+        {
+          "target": "nfl_teams",
+          "from": "team_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "film_room_videos",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": [
+        {
+          "target": "content_sources",
+          "from": "source_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "ingestion_jobs",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": [
+        {
+          "target": "nfl_teams",
+          "from": "team_id",
+          "to": "id"
+        },
+        {
+          "target": "content_candidates",
+          "from": "candidate_id",
+          "to": "id"
+        },
+        {
+          "target": "content_sources",
+          "from": "source_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "lean_heads",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": []
+    },
+    {
+      "table": "lean_receipts",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": []
+    },
+    {
+      "table": "lean_teams",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": [
+        {
+          "target": "lean_heads",
+          "from": "strategy",
+          "to": "strategy"
+        },
+        {
+          "target": "lean_heads",
+          "from": "kind",
+          "to": "kind"
+        },
+        {
+          "target": "lean_heads",
+          "from": "id",
+          "to": "id"
+        },
+        {
+          "target": "nfl_teams",
+          "from": "team_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "lean_versions",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": [
+        {
+          "target": "lean_heads",
+          "from": "strategy",
+          "to": "strategy"
+        },
+        {
+          "target": "lean_heads",
+          "from": "kind",
+          "to": "kind"
+        },
+        {
+          "target": "lean_heads",
+          "from": "id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "nfl_teams",
+      "allocation": "SHARED",
+      "foreignKeys": []
+    },
+    {
+      "table": "observer_run_events",
+      "allocation": "SHARED",
+      "foreignKeys": [
+        {
+          "target": "canonical_stories",
+          "from": "story_id",
+          "to": "id"
+        },
+        {
+          "target": "content_run_log",
+          "from": "run_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "observer_run_items",
+      "allocation": "SHARED",
+      "foreignKeys": [
+        {
+          "target": "content_candidates",
+          "from": "candidate_id",
+          "to": "id"
+        },
+        {
+          "target": "content_run_log",
+          "from": "run_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "odds_refresh_slots",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": []
+    },
+    {
+      "table": "public_schedule",
+      "allocation": "SHARED",
+      "foreignKeys": []
+    },
+    {
+      "table": "r2_archive_manifests",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": []
+    },
+    {
+      "table": "r2_archive_records",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": [
+        {
+          "target": "r2_archive_manifests",
+          "from": "manifest_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "source_check_daily",
+      "allocation": "SHARED",
+      "foreignKeys": [
+        {
+          "target": "content_sources",
+          "from": "source_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "source_checkpoints",
+      "allocation": "SHARED",
+      "foreignKeys": [
+        {
+          "target": "content_sources",
+          "from": "source_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "source_checks",
+      "allocation": "SHARED",
+      "foreignKeys": [
+        {
+          "target": "content_sources",
+          "from": "source_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "source_teams",
+      "allocation": "SHARED",
+      "foreignKeys": [
+        {
+          "target": "nfl_teams",
+          "from": "team_id",
+          "to": "id"
+        },
+        {
+          "target": "content_sources",
+          "from": "source_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "story_domain_events",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": [
+        {
+          "target": "canonical_stories",
+          "from": "story_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "story_editorial_overrides",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": [
+        {
+          "target": "nfl_teams",
+          "from": "team_id",
+          "to": "id"
+        },
+        {
+          "target": "canonical_stories",
+          "from": "story_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "story_entities",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": [
+        {
+          "target": "canonical_stories",
+          "from": "story_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "story_evidence",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": [
+        {
+          "target": "content_candidates",
+          "from": "content_candidate_id",
+          "to": "id"
+        },
+        {
+          "target": "content_candidates",
+          "from": "source_id",
+          "to": "source_id"
+        },
+        {
+          "target": "content_sources",
+          "from": "source_id",
+          "to": "id"
+        },
+        {
+          "target": "content_candidates",
+          "from": "content_candidate_id",
+          "to": "id"
+        },
+        {
+          "target": "canonical_stories",
+          "from": "story_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "story_publication_decisions",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": [
+        {
+          "target": "story_versions",
+          "from": "story_id",
+          "to": "story_id"
+        },
+        {
+          "target": "story_versions",
+          "from": "story_version",
+          "to": "version"
+        },
+        {
+          "target": "canonical_stories",
+          "from": "story_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "story_versions",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": [
+        {
+          "target": "canonical_stories",
+          "from": "story_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "three_and_out_snapshots",
+      "allocation": "TEAM_OWNER",
+      "foreignKeys": [
+        {
+          "target": "nfl_teams",
+          "from": "team_id",
+          "to": "id"
+        }
+      ]
+    },
+    {
+      "table": "transaction_assertions",
+      "allocation": "LOCAL_INTERNAL",
+      "foreignKeys": []
+    },
+    {
+      "table": "video_source_registry",
+      "allocation": "SHARED",
+      "foreignKeys": [
+        {
+          "target": "content_sources",
+          "from": "source_id",
+          "to": "id"
+        }
+      ]
+    }
+  ],
+  "crossRoleForeignKeys": [
+    {
+      "table": "app_commerce_inventory_adjustments",
+      "target": "app_users",
+      "from": "admin_user_id",
+      "to": "id"
+    },
+    {
+      "table": "app_commerce_order_items",
+      "target": "app_commerce_product_variants",
+      "from": "variant_id",
+      "to": "id"
+    },
+    {
+      "table": "app_commerce_order_items",
+      "target": "app_commerce_products",
+      "from": "product_id",
+      "to": "id"
+    },
+    {
+      "table": "app_editorial_candidates",
+      "target": "app_editorial_sources",
+      "from": "source_id",
+      "to": "id"
+    },
+    {
+      "table": "app_editorial_evidence",
+      "target": "app_editorial_sources",
+      "from": "source_id",
+      "to": "id"
+    },
+    {
+      "table": "app_editorial_overrides",
+      "target": "app_users",
+      "from": "user_id",
+      "to": "id"
+    },
+    {
+      "table": "app_observer_events",
+      "target": "app_editorial_stories",
+      "from": "story_id",
+      "to": "id"
+    },
+    {
+      "table": "app_observer_items",
+      "target": "app_editorial_candidates",
+      "from": "candidate_id",
+      "to": "id"
+    },
+    {
+      "table": "app_reward_notifications",
+      "target": "app_reward_definitions",
+      "from": "reward_id",
+      "to": "id"
+    },
+    {
+      "table": "app_trivia_answers",
+      "target": "app_trivia_questions",
+      "from": "question_id",
+      "to": "id"
+    },
+    {
+      "table": "app_trivia_answers",
+      "target": "app_trivia_daily",
+      "from": "daily_id",
+      "to": "id"
+    },
+    {
+      "table": "app_trivia_game_answers",
+      "target": "app_trivia_questions",
+      "from": "question_id",
+      "to": "id"
+    },
+    {
+      "table": "app_trivia_game_questions",
+      "target": "app_trivia_questions",
+      "from": "question_id",
+      "to": "id"
+    },
+    {
+      "table": "app_trivia_views",
+      "target": "app_trivia_daily",
+      "from": "daily_id",
+      "to": "id"
+    },
+    {
+      "table": "app_user_rewards",
+      "target": "app_reward_definitions",
+      "from": "reward_definition_id",
+      "to": "id"
+    },
+    {
+      "table": "candidate_teams",
+      "target": "nfl_teams",
+      "from": "team_id",
+      "to": "id"
+    },
+    {
+      "table": "canonical_stories",
+      "target": "nfl_teams",
+      "from": "team_id",
+      "to": "id"
+    },
+    {
+      "table": "content_candidates",
+      "target": "content_sources",
+      "from": "source_id",
+      "to": "id"
+    },
+    {
+      "table": "film_room_video_teams",
+      "target": "nfl_teams",
+      "from": "team_id",
+      "to": "id"
+    },
+    {
+      "table": "film_room_videos",
+      "target": "content_sources",
+      "from": "source_id",
+      "to": "id"
+    },
+    {
+      "table": "ingestion_jobs",
+      "target": "nfl_teams",
+      "from": "team_id",
+      "to": "id"
+    },
+    {
+      "table": "ingestion_jobs",
+      "target": "content_sources",
+      "from": "source_id",
+      "to": "id"
+    },
+    {
+      "table": "lean_teams",
+      "target": "nfl_teams",
+      "from": "team_id",
+      "to": "id"
+    },
+    {
+      "table": "observer_run_events",
+      "target": "canonical_stories",
+      "from": "story_id",
+      "to": "id"
+    },
+    {
+      "table": "observer_run_items",
+      "target": "content_candidates",
+      "from": "candidate_id",
+      "to": "id"
+    },
+    {
+      "table": "story_editorial_overrides",
+      "target": "nfl_teams",
+      "from": "team_id",
+      "to": "id"
+    },
+    {
+      "table": "story_evidence",
+      "target": "content_sources",
+      "from": "source_id",
+      "to": "id"
+    },
+    {
+      "table": "three_and_out_snapshots",
+      "target": "nfl_teams",
+      "from": "team_id",
+      "to": "id"
+    }
+  ],
+  "modelAssumptions": {
+    "schemaCopies": 10,
+    "physicalReserve": 1.2,
+    "backups": "owner offline only; full daily copies x2; zero D1 backup storage",
+    "sharedOperationalAttribution": "all operational and GC/retention allowance charged shared conservatively; local internal physical location may redistribute this",
+    "250DauOperations": "affine extrapolation from 0 and 50 DAU; excludes new cross-shard saga/search/maintenance costs",
+    "notIncluded": "unmodeled domains from approved source model; extra cross-database directory/pin/saga bytes and writes; foreign key replacement implementation; account existing resources",
+    "payloadAdmissionBytesPerDatabase": 64000000
+  }
+}

@@ -1,0 +1,14 @@
+test_50_dau_not_certified (__main__.Feasibility.test_50_dau_not_certified) ... ok
+test_all_scenarios (__main__.Feasibility.test_all_scenarios) ... ok
+test_all_teams_once (__main__.Feasibility.test_all_teams_once) ... ok
+test_auth_central (__main__.Feasibility.test_auth_central) ... ok
+test_content_and_local_namespaces (__main__.Feasibility.test_content_and_local_namespaces) ... ok
+test_cross_database_dependencies_exist (__main__.Feasibility.test_cross_database_dependencies_exist) ... ok
+test_inventory_complete (__main__.Feasibility.test_inventory_complete) ... ok
+test_queries_are_baseline_only (__main__.Feasibility.test_queries_are_baseline_only) ... ok
+test_unknown_fails_closed (__main__.Feasibility.test_unknown_fails_closed) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.002s
+
+OK
