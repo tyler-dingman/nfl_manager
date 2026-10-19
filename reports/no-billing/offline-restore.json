@@ -1,0 +1,13 @@
+{
+  "pass": true,
+  "source": "synthetic users, PHCs, sessions, preferences, saved bet, Front Office progress, historical FTS and all payload chunks",
+  "r2Bindings": false,
+  "postgres": false,
+  "encryptedBytes": 77552,
+  "sqlBytes": 77513,
+  "allExportedTablesExact": true,
+  "tamperRejected": true,
+  "foreignKeyErrors": 0,
+  "rpoHours": 24,
+  "hostedRto": null
+}

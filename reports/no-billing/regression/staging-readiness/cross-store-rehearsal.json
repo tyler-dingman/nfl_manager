@@ -1,0 +1,21 @@
+{
+  "scope": "MEASURED offline synthetic bindings; all logical D1 tables and frozen primary R2 namespace",
+  "backup": {
+    "id": "d13105ccbe538683bb6696ec49363b91857b7274837fd6a44c06283aa25a4693",
+    "reusedCheckpoint": false,
+    "reusedChunks": 0,
+    "tables": 166,
+    "rows": 132,
+    "objects": 12,
+    "milliseconds": 342.3285420000002
+  },
+  "restore": {
+    "tables": 166,
+    "objects": 12,
+    "milliseconds": 487.0551669999995,
+    "status": "READY"
+  },
+  "interruptAfterChunks": 9,
+  "productionRpo": "UNVERIFIED",
+  "productionRto": "UNVERIFIED"
+}

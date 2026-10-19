@@ -29,7 +29,12 @@ Object.assign(env, {
 assert(!('DATABASE_URL' in env));
 assert(!('PRODUCTION_DATABASE_URL' in env));
 const apiConfig = directory + '/api.toml';
-let api = await readFile('wrangler.api-local.toml', 'utf8');
+let api = await readFile(
+  process.env.DD_NO_R2 === 'true'
+    ? 'wrangler.api-no-billing-local.toml'
+    : 'wrangler.api-local.toml',
+  'utf8',
+);
 api = api
   .replace(
     'main = "workers/api/dist/worker.mjs"',
@@ -78,7 +83,9 @@ const start = async () => {
       'dev',
       '--local',
       '--config',
-      'wrangler.split-local.toml',
+      process.env.DD_NO_R2 === 'true'
+        ? 'wrangler.no-billing-local.toml'
+        : 'wrangler.split-local.toml',
       '--config',
       apiConfig,
       '--config',
@@ -378,8 +385,7 @@ try {
     `${out}/browser-results.json`,
     JSON.stringify(
       {
-        scope:
-          'MEASURED local Cloudflare workerd, D1/R2 and synthetic accounts. DATABASE_URL absent. Chromium desktop/mobile viewport only; external network blocked. Not Android/iOS or provider validation.',
+        scope: `MEASURED local Cloudflare workerd, D1${process.env.DD_NO_R2 === 'true' ? ' with no R2 bindings' : '/R2'} and synthetic accounts. DATABASE_URL absent. Chromium desktop/mobile viewport only; external network blocked. Not Android/iOS or provider validation.`,
         checks,
         routes,
       },

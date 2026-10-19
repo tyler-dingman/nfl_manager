@@ -1,12 +1,12 @@
 import { spawn, spawnSync } from 'node:child_process';
 import { createServer } from 'node:net';
-import { mkdtemp, writeFile, readFile, rm } from 'node:fs/promises';
+import { mkdtemp, writeFile, readFile, rm, mkdir, symlink } from 'node:fs/promises';
 import { createWriteStream } from 'node:fs';
 import assert from 'node:assert/strict';
 import { hash, verify } from '@node-rs/argon2';
 import { createDecipheriv, createHash } from 'node:crypto';
 const directory = await mkdtemp('/private/tmp/dd-staging-auth-'),
-  out = 'reports/staging-readiness';
+  out = process.env.DD_AUTH_REPORT_DIR ?? 'reports/staging-readiness';
 const env = Object.fromEntries(
   ['PATH', 'HOME', 'TMPDIR', 'SHELL', 'LANG', 'USER']
     .filter((k) => process.env[k])
@@ -31,7 +31,15 @@ function execute(args) {
   if (r.status !== 0) throw Error(r.stdout + r.stderr);
   return r.stdout;
 }
-const common = ['--local', '--config', 'wrangler.api-local.toml', '--persist-to', directory];
+const common = [
+  '--local',
+  '--config',
+  process.env.DD_NO_R2 === 'true'
+    ? 'wrangler.api-no-billing-local.toml'
+    : 'wrangler.api-local.toml',
+  '--persist-to',
+  directory,
+];
 execute(['d1', 'migrations', 'apply', 'APP_DB', ...common]);
 const sql = (command) =>
   JSON.parse(execute(['d1', 'execute', 'APP_DB', ...common, '--command', command, '--json']))[0]
@@ -52,7 +60,9 @@ async function start() {
       'dev',
       '--local',
       '--config',
-      'wrangler.api-local.toml',
+      process.env.DD_NO_R2 === 'true'
+        ? 'wrangler.api-no-billing-local.toml'
+        : 'wrangler.api-local.toml',
       '--config',
       'workers/password/wrangler.toml',
       '--port',
@@ -183,18 +193,26 @@ try {
   let token = '';
   for (const row of sql('SELECT object_hash FROM app_mail')) {
     const file = directory + '/mail-' + row.object_hash;
-    execute([
-      'r2',
-      'object',
-      'get',
-      `phase-four-local-objects/application/v1/${row.object_hash}`,
-      '--local',
-      '--persist-to',
-      directory,
-      '--file',
-      file,
-    ]);
-    let raw = await readFile(file);
+    let raw;
+    if (process.env.DD_NO_R2 === 'true') {
+      const rows = sql(
+        `SELECT body FROM app_payload_chunks WHERE hash='${row.object_hash}' ORDER BY ordinal`,
+      );
+      raw = Buffer.concat(rows.map((r) => Buffer.from(r.body, 'base64')));
+    } else {
+      execute([
+        'r2',
+        'object',
+        'get',
+        `phase-four-local-objects/application/v1/${row.object_hash}`,
+        '--local',
+        '--persist-to',
+        directory,
+        '--file',
+        file,
+      ]);
+      raw = await readFile(file);
+    }
     if (raw[0] === 31 && raw[1] === 139) raw = (await import('node:zlib')).gunzipSync(raw);
     assert.equal(createHash('sha256').update(raw).digest('hex'), row.object_hash);
     const encrypted = JSON.parse(raw);
@@ -223,6 +241,119 @@ try {
   await start();
   assert.equal((await call('me', undefined, persisted)).status, 200);
   assert.equal(sql('PRAGMA foreign_key_check').length, 0);
+  if (process.env.DD_NO_R2 === 'true') {
+    await stop();
+    const { encryptBackup, decryptBackup } = await import('./no-billing-backup.mjs');
+    const owner = sql('SELECT id FROM app_users LIMIT 1')[0].id;
+    const payload = Buffer.from(
+      JSON.stringify({
+        schema: 1,
+        originalSaveId: 'offline-front-office',
+        progress: { season: 2026, week: 7 },
+        attribution: 'synthetic-original',
+      }),
+    );
+    const payloadHash = createHash('sha256').update(payload).digest('hex');
+    sql(
+      `INSERT INTO app_payload_objects(hash,bytes,chunks,complete) VALUES('${payloadHash}',${payload.length},1,1)`,
+    );
+    sql(
+      `INSERT INTO app_payload_chunks(hash,ordinal,body) VALUES('${payloadHash}',0,'${payload.toString('base64')}')`,
+    );
+    sql(`UPDATE app_payload_capacity SET used_bytes=used_bytes+${payload.length}`);
+    sql(
+      `INSERT INTO app_franchise_heads(user_id,save_id,team_abbr,season,phase,version,object_hash,created_at,updated_at) VALUES('${owner}','offline-front-office','KC',2026,'REGULAR',7,'${payloadHash}',1,1)`,
+    );
+    sql(
+      `INSERT INTO app_saved_content(id,user_id,content_type,content_id,title,metadata_json,created_at) VALUES('offline-saved-bet','${owner}','OTHER','original-bet-id','Original bet','{"legs":[{"id":"original-market","line":42.5}]}',1)`,
+    );
+    sql(
+      "INSERT INTO app_search(id,team_id,title,content,source_id,source_url) VALUES('offline-search','KC','Original historical article','Correction and original evidence','original-source','https://example.invalid/source')",
+    );
+    const exportFile = directory + '/frozen.sql';
+    // Wrangler's native export rejects this application's FTS5 tables.
+    const { logicalExport } = await import('./export-no-billing.mjs');
+    const { Miniflare, convertV4MiniflareOptions } = await import('miniflare');
+    const open = (persist) =>
+      new Miniflare(
+        convertV4MiniflareOptions({
+          modules: true,
+          script: 'export default {}',
+          resourcePersistencePath: persist + '/v3',
+          d1Databases: { APP_DB: '00000000-0000-0000-0000-000000000000' },
+        }),
+      );
+    const sourceMf = open(directory),
+      sourceDb = await sourceMf.getD1Database('APP_DB');
+    const sourceQuery = async (command) => (await sourceDb.prepare(command).all()).results;
+    try {
+      await writeFile(exportFile, await logicalExport(sourceQuery), { mode: 0o600 });
+      const original = await readFile(exportFile),
+        key = (await import('node:crypto')).randomBytes(32);
+      const encrypted = encryptBackup(original, key);
+      assert.deepEqual(decryptBackup(encrypted, key), original);
+      const tampered = Buffer.from(encrypted);
+      tampered[tampered.length - 1] ^= 1;
+      assert.throws(() => decryptBackup(tampered, key));
+      const target = directory + '/restore';
+      execute([
+        'd1',
+        'execute',
+        'APP_DB',
+        '--local',
+        '--config',
+        'wrangler.api-no-billing-local.toml',
+        '--persist-to',
+        target,
+        '--file',
+        exportFile,
+      ]);
+      const targetMf = open(target),
+        targetDb = await targetMf.getD1Database('APP_DB');
+      const targetSql = async (command) => (await targetDb.prepare(command).all()).results;
+      try {
+        for (const table of await sourceQuery(
+          "SELECT s.name FROM sqlite_schema s JOIN pragma_table_list p ON p.name=s.name AND p.schema='main' WHERE s.type='table' AND p.type IN ('table','virtual') AND s.name NOT LIKE 'sqlite_%' AND s.name NOT LIKE '_cf_%' AND s.name NOT LIKE 'd1_%' ORDER BY s.name",
+        )) {
+          const name = '"' + table.name.replaceAll('"', '""') + '"';
+          assert.deepEqual(
+            await targetSql('SELECT * FROM ' + name),
+            await sourceQuery('SELECT * FROM ' + name),
+          );
+        }
+        assert.equal((await targetSql('PRAGMA foreign_key_check')).length, 0);
+        assert.equal(
+          (await targetSql("SELECT id FROM app_search WHERE app_search MATCH 'Correction'"))[0].id,
+          'offline-search',
+        );
+      } finally {
+        await targetMf.dispose();
+      }
+      await writeFile(
+        out + '/offline-restore.json',
+        JSON.stringify(
+          {
+            pass: true,
+            source:
+              'synthetic users, PHCs, sessions, preferences, saved bet, Front Office progress, historical FTS and all payload chunks',
+            r2Bindings: false,
+            postgres: false,
+            encryptedBytes: encrypted.length,
+            sqlBytes: original.length,
+            allExportedTablesExact: true,
+            tamperRejected: true,
+            foreignKeyErrors: 0,
+            rpoHours: 24,
+            hostedRto: null,
+          },
+          null,
+          2,
+        ) + '\n',
+      );
+    } finally {
+      await sourceMf.dispose();
+    }
+  }
   await writeFile(
     out + '/password-runtime.json',
     JSON.stringify(

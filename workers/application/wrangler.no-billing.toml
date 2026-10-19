@@ -1,0 +1,35 @@
+name = "down-distance-application-local-phase-three"
+main = "index.ts"
+compatibility_date = "2026-10-18"
+compatibility_flags = ["nodejs_compat"]
+workers_dev = false
+preview_urls = false
+send_metrics = false
+[vars]
+APP_OBJECT_BACKEND="d1"
+APP_DATA_BACKEND="d1"
+APP_SOCIAL_NOTIFICATIONS_ENABLED="false"
+APP_CONTENT_ENABLED="false"
+APP_BRIEFINGS_ENABLED="false"
+APP_ODDS_ENABLED = "false"
+APP_ODDS_PROCESSING_ENABLED = "false"
+APP_MAIL_ENABLED = "false"
+APP_MAINTENANCE_ENABLED = "false"
+[triggers]
+crons = []
+[[d1_databases]]
+binding = "APP_DB"
+database_name = "application-local-phase-three"
+database_id = "00000000-0000-0000-0000-000000000000"
+migrations_dir = "../content-engine/migrations"
+remote = false
+[observability]
+enabled = false
+
+[[services]]
+binding = "ODDS_PROCESSOR"
+service = "down-distance-odds-processor-local"
+
+[[services]]
+binding="API_SERVICE"
+service="down-distance-api-local"

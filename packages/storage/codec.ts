@@ -32,7 +32,7 @@ export async function encodeObject(bytes: Uint8Array) {
   const stream = new Blob([bytes.slice().buffer as ArrayBuffer])
     .stream()
     .pipeThrough(new CompressionStream('gzip'));
-  const compressed = await collect(stream, LIMIT + 1024);
+  const compressed = await collect(stream, LIMIT + 65_536);
   return compressed.length < bytes.length * 0.9 ? compressed : bytes;
 }
 export async function decodeObject(bytes: Uint8Array, hash: string) {

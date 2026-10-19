@@ -2,15 +2,17 @@ import { drainSocialNotifications } from '../../packages/storage/social-outbox';
 import { offloadSavedMetadata } from '../../packages/storage/saved-metadata';
 import { fanoutBriefingMail } from './briefing-mail';
 import { Storage, type SqlDatabase } from '../../packages/storage/core';
-import { PrivateObjects, type Bucket } from '../../packages/storage/objects';
+import { type Bucket } from '../../packages/storage/objects';
+import { applicationObjects } from '../../packages/storage/d1-objects';
 import { MailQueue, ResendEmailProvider } from '../../packages/storage/mail';
 import { maintainTemporaryData } from '../../packages/storage/lifecycle';
 import { scheduledApplicationOdds } from './odds';
 import { ODDS_REFRESH_CRON } from '../../packages/parlay/freshness';
 interface Env {
   APP_DB: SqlDatabase;
-  APP_OBJECTS: Bucket;
-  APP_BACKUP: Bucket;
+  APP_OBJECT_BACKEND?: string;
+  APP_OBJECTS?: Bucket;
+  APP_BACKUP?: Bucket;
   APP_ODDS_ENABLED?: string;
   APP_ODDS_PROCESSING_ENABLED?: string;
   SPORTSGAMEODDS_API_KEY?: string;
@@ -32,7 +34,7 @@ export const applicationWorker = {
     return new Response('No public application scheduler API', { status: 404 });
   },
   async scheduled(event: { cron: string; scheduledTime: number }, env: Env) {
-    const s = new Storage(env.APP_DB, new PrivateObjects(env.APP_OBJECTS, env.APP_BACKUP));
+    const s = new Storage(env.APP_DB, applicationObjects(env));
     const tick = new Date(event.scheduledTime);
     if (
       event.cron === '*/30 * * * *' &&

@@ -67,7 +67,7 @@ export class Storage {
     await this.objects.putImmutable(key, bytes);
     const verified = await this.objects.get(key);
     if (!verified || (await digest(verified)) !== hash)
-      throw Error('R2 read-back verification failed');
+      throw Error('Object read-back verification failed');
     return hash;
   }
   async get<T = unknown>(hash: string): Promise<T> {

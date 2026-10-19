@@ -1,0 +1,18 @@
+name = "down-distance-odds-processor-local"
+main = "odds-processor.ts"
+compatibility_date = "2026-10-18"
+compatibility_flags = ["nodejs_compat"]
+workers_dev = false
+preview_urls = false
+send_metrics = false
+[[d1_databases]]
+binding = "APP_DB"
+database_name = "application-local-phase-three"
+database_id = "00000000-0000-0000-0000-000000000000"
+migrations_dir = "../content-engine/migrations"
+remote = false
+[vars]
+APP_DATA_BACKEND="d1"
+APP_OBJECT_BACKEND="d1"
+[observability]
+enabled = false

@@ -3,7 +3,7 @@ import { publicCacheKey, cachePublicResponse } from './public-cache';
 // @ts-ignore Generated build artifact; not present before the OpenNext build.
 import application from '../../.open-next/worker.js';
 import { withApplicationBindings } from '../../src/server/persistence/bindings';
-import { PrivateObjects, type Bucket } from '../../packages/storage/objects';
+import { applicationObjects } from '../../packages/storage/d1-objects';
 import type { SqlDatabase } from '../../packages/storage/core';
 import {
   instrumentDatabase,
@@ -28,7 +28,10 @@ export default {
       }
     }
     const metrics = requestMetrics(),
-      objects = new PrivateObjects(env.APP_OBJECTS as Bucket, env.APP_BACKUP as Bucket),
+      objects = applicationObjects({
+        ...env,
+        APP_DB: instrumentDatabase(env.APP_DB as SqlDatabase, metrics),
+      }),
       start = performance.now();
     const response = await withApplicationBindings(
       {

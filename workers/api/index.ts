@@ -3,7 +3,7 @@ import { NextRequest } from 'next/server';
 import { routes } from './routes.generated';
 import { middleware } from '../../src/middleware';
 import { withApplicationBindings } from '../../src/server/persistence/bindings';
-import { PrivateObjects } from '../../packages/storage/objects';
+import { applicationObjects } from '../../packages/storage/d1-objects';
 import {
   instrumentDatabase,
   requestMetrics,
@@ -12,7 +12,7 @@ import {
 export default {
   async fetch(request: Request, env: any, ctx?: { waitUntil(p: Promise<unknown>): void }) {
     const metrics = requestMetrics(),
-      objects = new PrivateObjects(env.APP_OBJECTS, env.APP_BACKUP),
+      objects = applicationObjects({ ...env, APP_DB: instrumentDatabase(env.APP_DB, metrics) }),
       start = performance.now();
     return withApplicationBindings(
       {

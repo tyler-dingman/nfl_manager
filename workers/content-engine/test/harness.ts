@@ -11,6 +11,7 @@ export async function harness(
   compact = true,
   maxMigration = 999,
   workerScript?: string,
+  buckets = true,
 ) {
   const directory = await mkdtemp(join(tmpdir(), 'dd-editorial-synthetic-'));
   const options = {
@@ -21,7 +22,7 @@ export async function harness(
       'export default {fetch(){return new Response("No content API",{status:404})}}',
     bindings: { CONTENT_ENV: 'local', LOCAL_INGEST_TOKEN: 'synthetic-loopback-token-only' },
     compatibilityDate: '2026-01-01',
-    r2Buckets: ['EDITORIAL_ARCHIVE', 'EDITORIAL_BACKUP'],
+    r2Buckets: buckets ? ['EDITORIAL_ARCHIVE', 'EDITORIAL_BACKUP'] : [],
     d1Databases: { EDITORIAL_DB: 'editorial-synthetic-only' },
     resourcePersistencePath: persistent ? directory : undefined,
     telemetry: { enabled: false },

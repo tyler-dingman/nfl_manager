@@ -1,0 +1,7 @@
+{
+  "localOnly": true,
+  "databaseUrlPresent": false,
+  "migrations": 39,
+  "secondApply": "no pending migrations",
+  "foreignKeyViolations": []
+}

@@ -1,0 +1,21 @@
+TAP version 13
+# Subtest: No R2 D1 scheduler delivers durable outbox, delegates authenticated jobs, preserves odds cadence, and observer reports run without PostgreSQL
+ok 1 - No R2 D1 scheduler delivers durable outbox, delegates authenticated jobs, preserves odds cadence, and observer reports run without PostgreSQL
+  ---
+  duration_ms: 1616.636042
+  ...
+# maximum-payload-metrics {"d1Calls":7,"statements":19,"rowsRead":90,"rowsWritten":87}
+# Subtest: No R2: D1 payload deduplication, restart, corruption and capacity
+ok 2 - No R2: D1 payload deduplication, restart, corruption and capacity
+  ---
+  duration_ms: 2208.754583
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2731.92375

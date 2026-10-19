@@ -1,6 +1,10 @@
 import { spawnSync } from 'node:child_process';
-import { mkdtemp, rm, writeFile, mkdir } from 'node:fs/promises';
+import { mkdtemp, rm, writeFile, mkdir, readdir } from 'node:fs/promises';
 import assert from 'node:assert/strict';
+const out = process.env.DD_MIGRATION_REPORT_DIR ?? 'reports/final-staging';
+const expected = (await readdir('workers/content-engine/migrations')).filter((f) =>
+  /^\d+.*\.sql$/.test(f),
+).length;
 const state = await mkdtemp('/private/tmp/dd-final-migrations-');
 const env = Object.fromEntries(
   ['PATH', 'HOME', 'TMPDIR', 'SHELL', 'LANG', 'USER']
@@ -22,7 +26,9 @@ const run = (args) => {
       ...args,
       '--local',
       '--config',
-      'wrangler.api-local.toml',
+      process.env.DD_NO_R2 === 'true'
+        ? 'wrangler.api-no-billing-local.toml'
+        : 'wrangler.api-local.toml',
       '--persist-to',
       state,
     ],
@@ -45,19 +51,19 @@ try {
       '--json',
     ]),
   );
-  assert.equal(counts[0].results[0].count, 38);
+  assert.equal(counts[0].results[0].count, expected);
   const fk = JSON.parse(
     run(['d1', 'execute', 'APP_DB', '--command', 'PRAGMA foreign_key_check', '--json']),
   );
   assert.deepEqual(fk[0].results, []);
-  await mkdir('reports/final-staging', { recursive: true });
+  await mkdir(out, { recursive: true });
   await writeFile(
-    'reports/final-staging/migration-repeatability.json',
+    out + '/migration-repeatability.json',
     JSON.stringify(
       {
         localOnly: true,
         databaseUrlPresent: false,
-        migrations: 38,
+        migrations: expected,
         secondApply: 'no pending migrations',
         foreignKeyViolations: fk[0].results,
       },

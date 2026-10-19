@@ -1,0 +1,17 @@
+{
+  "automated": {
+    "rootPassed": 1072,
+    "workerPassed": 122,
+    "failed": 0,
+    "existingSkipped": 2
+  },
+  "browserRoutesPassed": 48,
+  "httpProductChecks": 12,
+  "authScenarios": 10,
+  "migrations": 39,
+  "offlineRestore": true,
+  "noProductionAccess": true,
+  "noDeployment": true,
+  "hostedCpuMeasured": false,
+  "readyForProduction": false
+}
