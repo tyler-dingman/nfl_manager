@@ -56,7 +56,7 @@ export class MultiD1 {
       throw new DatabaseOwnershipError('Unknown database owner');
     let store = this.stores.get(owner);
     if (!store) {
-      const local = requestMetrics();
+      const local = this.byOwner.get(owner) ?? requestMetrics();
       this.byOwner.set(owner, local);
       // The outer layer reserves the aggregate budget before entering any database.
       const db = instrumentDatabase(
@@ -64,10 +64,23 @@ export class MultiD1 {
         this.metrics,
         50,
       );
-      store = new Storage(db, new D1Objects(db));
+      store = new Storage(db, new D1Objects(db), owner);
       this.stores.set(owner, store);
     }
     return store;
+  }
+  /** Raw read-only owner/monitoring tooling must still share request accounting. */
+  monitoringBindings() {
+    return Object.fromEntries(
+      DATABASE_OWNERS.map((owner) => {
+        const local = this.byOwner.get(owner) ?? requestMetrics();
+        this.byOwner.set(owner, local);
+        return [
+          owner,
+          instrumentDatabase(instrumentDatabase(this.bindings[owner]!, local), this.metrics, 50),
+        ];
+      }),
+    ) as Record<DatabaseOwner, SqlDatabase>;
   }
   team(team: string) {
     return this.storage(teamDatabase(team));

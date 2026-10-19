@@ -9,7 +9,11 @@ import { TEAM_LIST } from '@/data/teams';
 import { checkRateLimit } from '@/server/auth/rate-limit';
 import { hybridSearch } from '@/server/search/retrieval';
 import { fallbackTeamSearch } from '@/server/search/fallback';
-import { applicationBackend, applicationStorage } from '@/server/persistence/bindings';
+import {
+  applicationBackend,
+  applicationStorage,
+  applicationTeamStorage,
+} from '@/server/persistence/bindings';
 import { lexicalSearch } from '../../../../packages/storage/ai';
 
 export const dynamic = 'force-dynamic';
@@ -63,7 +67,7 @@ export async function POST(request: Request) {
     try {
       const start = performance.now(),
         rows = await lexicalSearch(
-          applicationStorage(),
+          applicationTeamStorage(parsed.data.teamId),
           parsed.data.query,
           parsed.data.teamId,
           parsed.data.limit,

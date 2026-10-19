@@ -15,6 +15,7 @@ const globals = globalThis as typeof globalThis & { [key: symbol]: unknown };
 export interface ApplicationBindings {
   db: SqlDatabase;
   multiD1?: MultiD1;
+  editorialOwner?: DatabaseOwner;
   objects: Objects;
   cacheNamespace?: string;
   password?: { fetch(request: Request): Promise<Response> };
@@ -45,6 +46,7 @@ let local: Storage | undefined;
 export function applicationStorage(owner?: DatabaseOwner) {
   const scoped = context.getStore();
   if (scoped?.multiD1) {
+    owner ??= scoped.editorialOwner;
     if (!owner) throw new DatabaseOwnershipError('Repository must declare its database owner');
     return scoped.multiD1.storage(owner);
   }
@@ -154,4 +156,15 @@ export function applicationTeamStorage(team: string) {
 }
 export function applicationDatabaseRouter() {
   return context.getStore()?.multiD1;
+}
+
+/** Internal editorial scope; never grants user authorization. */
+export function withEditorialOwner<T>(owner: DatabaseOwner | undefined, operation: () => T): T {
+  const scoped = context.getStore();
+  if (!scoped?.multiD1) return operation();
+  if (owner === 'D1_USERS') throw new DatabaseOwnershipError('Users cannot own editorial payloads');
+  return context.run({ ...scoped, editorialOwner: owner }, operation);
+}
+export function currentEditorialOwner() {
+  return context.getStore()?.editorialOwner;
 }

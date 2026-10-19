@@ -1,5 +1,6 @@
 import { createHmac } from 'node:crypto';
-import { Storage } from './core';
+import { Storage, objectKey } from './core';
+import { JsonTree } from './json-tree';
 import { guardedBatch } from './atomic';
 import { D1OddsBoard } from './odds-board';
 import { applicationEnvironment } from '../../src/server/persistence/bindings';
@@ -45,20 +46,33 @@ const same = (a: TransferLeg[], b: TransferLeg[]) =>
         o.kickoffAt === l.kickoffAt,
     ),
   );
-export async function storedTransferLegs(s: Storage) {
-  const board = new D1OddsBoard(s),
-    events = (await board.events()).filter((e) => !e.marketsLocked),
-    rows: MatchLeg[] = [];
-  for (const e of events) {
-    for (const m of await board.markets(e.id)) {
+export async function storedTransferLegs(s: Storage, ids?: string[]) {
+  const heads = await s.rows<any>(
+    `SELECT * FROM app_sportsbook_events WHERE kickoff_at>? AND markets_locked=0 AND markets_hash IS NOT NULL ${s.owner === 'D1_SHARED' && ids ? "AND(market_lookup_json='[]' OR EXISTS(SELECT 1 FROM json_each(market_lookup_json) WHERE value IN(SELECT value FROM json_each(?))))" : ''}`,
+    [Date.now(), ...(s.owner === 'D1_SHARED' && ids ? [JSON.stringify(ids)] : [])],
+  );
+  await s.objects.prefetch?.(heads.map((h) => objectKey(h.markets_hash)));
+  const envelopes = await Promise.all(
+    heads.map(async (h) => {
+      const v = await s.get<any>(h.markets_hash);
+      if (v.schema !== 1 || v.eventId !== h.id) throw Error('Odds board identity mismatch');
+      return v;
+    }),
+  );
+  await s.objects.prefetch?.(envelopes.map((v) => objectKey(v.root)));
+  const rows: MatchLeg[] = [];
+  for (let i = 0; i < heads.length; i++) {
+    const e = heads[i],
+      markets = await new JsonTree(s).get<any[]>(envelopes[i].root);
+    for (const m of markets) {
       if (!m.playerId || !m.playerName) continue;
       rows.push({
         ...m,
         eventId: e.id,
-        homeTeamId: e.homeTeamId,
-        awayTeamId: e.awayTeamId,
-        kickoffAt: e.kickoffAt,
-        oddsUpdatedAt: e.asOf ?? '',
+        homeTeamId: e.home_team_id,
+        awayTeamId: e.away_team_id,
+        kickoffAt: new Date(e.kickoff_at).toISOString(),
+        oddsUpdatedAt: e.as_of == null ? '' : new Date(e.as_of).toISOString(),
         odds: m.available && Number.isFinite(m.odds) && Math.abs(m.odds) >= 100 ? m.odds : null,
         pricingStatus:
           m.available && Number.isFinite(m.odds) && Math.abs(m.odds) >= 100 ? 'stored' : 'unknown',
@@ -72,7 +86,7 @@ export class D1TransferProposals {
   async inspect(user: string, ids: string[], book: Sportsbook, enabled = true) {
     if (!ids.length || ids.length > 20 || new Set(ids).size !== ids.length)
       throw new TransferError('Invalid selections.');
-    const all = await storedTransferLegs(this.s),
+    const all = await storedTransferLegs(this.s, ids),
       originals = ids.flatMap((id) => {
         const m = all.find((l) => l.id === id);
         return m ? [m] : [];
@@ -116,6 +130,7 @@ export class D1Transfers {
   constructor(
     readonly s: Storage,
     readonly client = new UnabatedClient(),
+    readonly odds: Storage = s,
   ) {}
   actor(user: string) {
     return createHmac('sha256', applicationEnvironment().AUTH_JWT_SECRET!)
@@ -123,7 +138,7 @@ export class D1Transfers {
       .digest('hex');
   }
   async resolve(ids: string[], book: Sportsbook = 'fanduel') {
-    const all = await storedTransferLegs(this.s),
+    const all = await storedTransferLegs(this.odds, ids),
       legs = ids.flatMap((id) => {
         const row = all.find(
           (r) => r.id === id && r.sportsbook === sportsbookConfig[book].stored && r.available,

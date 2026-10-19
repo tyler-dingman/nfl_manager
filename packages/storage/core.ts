@@ -46,6 +46,7 @@ export class Storage {
   constructor(
     readonly db: SqlDatabase,
     readonly objects: Objects,
+    readonly owner?: string,
   ) {
     this.db = objects.transactionDatabase?.(db) ?? db;
   }

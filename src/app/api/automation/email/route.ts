@@ -1,7 +1,9 @@
+import { fanoutBriefingMail } from '../../../../../workers/application/briefing-mail';
 import { NextRequest, NextResponse } from 'next/server';
 import { timingSafeEqual, createHash } from 'node:crypto';
 import {
   applicationBackend,
+  applicationDatabaseRouter,
   applicationEnvironment,
   applicationStorage,
 } from '@/server/persistence/bindings';
@@ -33,8 +35,30 @@ export async function POST(request: NextRequest) {
       { status: 503 },
     );
   try {
-    const result = await new MailQueue(applicationStorage('D1_USERS'), env.APP_MAIL_ENCRYPTION_KEY).process(
+    const action = request.nextUrl.searchParams.get('action') ?? 'process';
+    if (!['process', 'fanout'].includes(action))
+      return NextResponse.json({ ok: false, error: 'Unknown mail continuation' }, { status: 400 });
+    if (action === 'fanout') {
+      if (!env.AUTH_BASE_URL)
+        return NextResponse.json({ ok: false, error: 'Mail base URL missing' }, { status: 503 });
+      return NextResponse.json({
+        ok: true,
+        ...(await fanoutBriefingMail(
+          applicationStorage('D1_USERS'),
+          env.APP_MAIL_ENCRYPTION_KEY,
+          env.AUTH_BASE_URL,
+          Date.now(),
+          1,
+        )),
+      });
+    }
+    const result = await new MailQueue(
+      applicationStorage('D1_USERS'),
+      env.APP_MAIL_ENCRYPTION_KEY,
+    ).process(
       new ResendEmailProvider(env.RESEND_API_KEY, env.APP_MAIL_FROM),
+      Date.now(),
+      applicationDatabaseRouter() ? 1 : 3,
     );
     return NextResponse.json({ ok: true, ...result }, { status: result.deferred ? 207 : 200 });
   } catch {

@@ -1,3 +1,4 @@
+type D1PreparedStatement = import('@cloudflare/workers-types/index.ts').D1PreparedStatement;
 import { PayloadStore } from './payloads';
 import { EditorialDatabase, canonicalUrl, hash, integer, json, text } from './database';
 import { teamId } from './teams';

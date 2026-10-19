@@ -1,0 +1,1 @@
+CREATE TABLE app_application_settings(key TEXT PRIMARY KEY,value_json TEXT NOT NULL,version INTEGER NOT NULL DEFAULT 1) WITHOUT ROWID;

@@ -32,8 +32,27 @@ test('encrypted ten-shard archive rejects incomplete, corrupted and mixed mainte
   corrupt.shards.D1_TEAM_1 = corrupt.shards.D1_USERS;
   await assert.rejects(openMultiD1Archive(corrupt, secret), /identity/);
   const tampered = structuredClone(archive),
-    sealed = tampered.shards.D1_TEAM_1!;
+    sealed = tampered.shards.D1_TEAM_1! as { schema: 2; iv: string; cipher: string };
   sealed.cipher = (sealed.cipher[0] === 'A' ? 'B' : 'A') + sealed.cipher.slice(1);
   await assert.rejects(openMultiD1Archive(tampered, secret));
   await assert.rejects(openMultiD1Archive(archive, 'wrong-synthetic-key-more-than-32-characters'));
+});
+
+test('large owner exports use authenticated ordered chunks without losing Unicode or original SQL', async () => {
+  const secret = 'synthetic-large-owner-key-more-than-32-characters';
+  const exports: ShardExport[] = DATABASE_OWNERS.map((owner) => ({
+    owner,
+    mappingVersion: MAPPING_VERSION,
+    windowId: 'large-synthetic-window',
+    epoch: 4,
+    snapshot: { sql: owner === 'D1_TEAM_1' ? 'original 🏈 SQL; '.repeat(350000) : 'original SQL;' },
+  }));
+  const archive = await sealMultiD1Archive(exports, secret, 'large-synthetic-window');
+  assert.equal(archive.shards.D1_TEAM_1?.schema, 3);
+  assert.deepEqual((await openMultiD1Archive(archive, secret)).exports, exports);
+  const broken = structuredClone(archive),
+    shard = broken.shards.D1_TEAM_1!;
+  if (shard.schema !== 3) throw Error('Expected chunked export');
+  shard.parts.reverse();
+  await assert.rejects(openMultiD1Archive(broken, secret), /identity/);
 });

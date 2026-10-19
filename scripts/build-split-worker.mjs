@@ -116,6 +116,15 @@ try {
     path.join(stage, 'node_modules'),
   ]);
   if (dependencies.status !== 0) throw Error('Dependency clone failed');
+  // Owner/test sources are typechecked by Next too; reuse their installed type dependencies.
+  await mkdir(path.join(stage, 'workers/content-engine'), { recursive: true });
+  await symlink(
+    await (
+      await import('node:fs/promises')
+    ).realpath(path.join(root, 'workers/content-engine/node_modules')),
+    path.join(stage, 'workers/content-engine/node_modules'),
+    'dir',
+  );
   const env = Object.fromEntries(
     ['PATH', 'HOME', 'TMPDIR', 'SHELL', 'LANG', 'USER']
       .filter((k) => process.env[k])
@@ -157,9 +166,9 @@ try {
       'deploy',
       '--dry-run',
       '--config',
-      'wrangler.split-local.toml',
+      process.env.DD_BUILD_WRANGLER_CONFIG ?? 'wrangler.split-local.toml',
       '--outdir',
-      'workers/web/dist',
+      path.join(root, 'workers/web/dist'),
     ],
     { env, stdio: 'inherit' },
   );

@@ -1,0 +1,597 @@
+{
+  "scope": "MEASURED local workerd actual automation HTTP route, 32-call scheduler, synthetic unchanged RSS; no editorial arrivals or provider network; not hosted CPU",
+  "minutes": 1440,
+  "activeSources": 97,
+  "expectedChecks": 18504,
+  "actualChecks": 18504,
+  "checksPreserved": true,
+  "cappedTicks": 0,
+  "maximumQueries": 24,
+  "requests": 19488,
+  "rowsRead": 469533,
+  "rowsWritten": 59277,
+  "checkpoints": [
+    {
+      "id": "DEN_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "ARROWHEAD_ADDICT_WEB",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "LV_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "LAC_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "DEN_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "ARROWHEAD_PRIDE_WEB",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "LV_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "LAC_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "DEN_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "CHIEFS_COM",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "LV_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "LAC_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "DAL_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "NYG_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "PHI_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "WAS_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "DAL_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "NYG_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "PHI_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "WAS_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "DAL_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "NYG_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "PHI_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "WAS_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "CHI_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "DET_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "GB_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "MIN_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "CHI_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "DET_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "GB_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "MIN_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "CHI_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "DET_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "GB_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "MIN_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "ARI_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "LAR_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "SF_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "SEA_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "ARI_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "LAR_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "SF_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "SEA_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "ARI_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "LAR_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "SF_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "SEA_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "BUF_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "MIA_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "NE_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "NYJ_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "BUF_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "MIA_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "NE_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "NYJ_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "BUF_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "MIA_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "NE_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "NYJ_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "BAL_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "CIN_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "CLE_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "PIT_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "BAL_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "CIN_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "CLE_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "PIT_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "BAL_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "CIN_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "CLE_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "PIT_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "HOU_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "IND_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "JAX_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "TEN_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "HOU_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "IND_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "JAX_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "TEN_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "HOU_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "IND_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "JAX_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "TEN_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "ATL_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "CAR_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "NO_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "TB_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "ATL_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "CAR_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "NO_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "TB_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "ATL_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "CAR_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "NO_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "TB_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "PRO_FOOTBALL_RUMORS",
+      "request_count": 72,
+      "last_checked_at": 1792453200000,
+      "next_check_at": 1792454400000
+    }
+  ]
+}

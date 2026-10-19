@@ -1,0 +1,70 @@
+TAP version 13
+# start {"d1Calls":5,"statements":7,"rowsRead":6,"rowsWritten":5}
+# [sportsGameOdds] usage 0/1000 monthly objects; local ceiling 1000
+# [sportsGameOdds] GET /events {
+#   leagueID: 'NFL',
+#   type: 'match',
+#   started: 'false',
+#   oddsPresent: 'true',
+#   bookmakerID: 'fanduel,draftkings,betmgm,caesars',
+#   includeAltLines: 'true',
+#   includeOpposingOdds: 'true',
+#   includeOpenCloseOdds: 'true',
+#   startsAfter: '2026-10-19T15:00:00.000Z',
+#   startsBefore: '2026-10-26T15:00:00.000Z',
+#   limit: '1'
+# }
+# capture-2000 {"d1Calls":18,"statements":46,"rowsRead":44,"rowsWritten":41}
+# board-2000 {"d1Calls":17,"statements":38,"rowsRead":58,"rowsWritten":33}
+# scores-2000 {"d1Calls":30,"statements":44,"rowsRead":51,"rowsWritten":20}
+# additional-event-1 {"d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25}
+# additional-event-2 {"d1Calls":10,"statements":27,"rowsRead":42,"rowsWritten":25}
+# additional-event-3 {"d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25}
+# additional-event-4 {"d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25}
+# additional-event-5 {"d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25}
+# additional-event-6 {"d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25}
+# additional-event-7 {"d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25}
+# additional-event-8 {"d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25}
+# additional-event-9 {"d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25}
+# additional-event-10 {"d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25}
+# additional-event-11 {"d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25}
+# additional-event-12 {"d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25}
+# additional-event-13 {"d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25}
+# additional-event-14 {"d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25}
+# additional-event-15 {"d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25}
+# transfer-16-events {"d1Calls":5,"statements":5,"rowsRead":208,"rowsWritten":0}
+# transfer-lookup {"d1Calls":5,"statements":5,"rowsRead":15029,"rowsWritten":0}
+# save-bet {"d1Calls":8,"statements":17,"rowsRead":23,"rowsWritten":14}
+# next-slot {"d1Calls":3,"statements":5,"rowsRead":4,"rowsWritten":4}
+# uncertain {"d1Calls":4,"statements":8,"rowsRead":10,"rowsWritten":7}
+# no-ambiguous-retry {"d1Calls":2,"statements":2,"rowsRead":1,"rowsWritten":0}
+# MULTI_D1_ODDS_METRICS [{"label":"start","d1Calls":5,"statements":7,"rowsRead":6,"rowsWritten":5},{"label":"capture-2000","d1Calls":18,"statements":46,"rowsRead":44,"rowsWritten":41},{"label":"board-2000","d1Calls":17,"statements":38,"rowsRead":58,"rowsWritten":33},{"label":"scores-2000","d1Calls":30,"statements":44,"rowsRead":51,"rowsWritten":20},{"label":"additional-event-1","d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25},{"label":"additional-event-2","d1Calls":10,"statements":27,"rowsRead":42,"rowsWritten":25},{"label":"additional-event-3","d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25},{"label":"additional-event-4","d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25},{"label":"additional-event-5","d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25},{"label":"additional-event-6","d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25},{"label":"additional-event-7","d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25},{"label":"additional-event-8","d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25},{"label":"additional-event-9","d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25},{"label":"additional-event-10","d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25},{"label":"additional-event-11","d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25},{"label":"additional-event-12","d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25},{"label":"additional-event-13","d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25},{"label":"additional-event-14","d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25},{"label":"additional-event-15","d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25},{"label":"transfer-16-events","d1Calls":5,"statements":5,"rowsRead":208,"rowsWritten":0},{"label":"transfer-lookup","d1Calls":5,"statements":5,"rowsRead":15029,"rowsWritten":0},{"label":"save-bet","d1Calls":8,"statements":17,"rowsRead":23,"rowsWritten":14},{"label":"next-slot","d1Calls":3,"statements":5,"rowsRead":4,"rowsWritten":4},{"label":"uncertain","d1Calls":4,"statements":8,"rowsRead":10,"rowsWritten":7},{"label":"no-ambiguous-retry","d1Calls":2,"statements":2,"rowsRead":1,"rowsWritten":0}]
+# Subtest: bounded multi-D1 provider capture, board/score phases, transfer resolution and saved evidence survive restart
+ok 1 - bounded multi-D1 provider capture, board/score phases, transfer resolution and saved evidence survive restart
+  ---
+  duration_ms: 34638.661917
+  ...
+# Subtest: all 32 public story IDs resolve without shard parameters and survive directory interruption/restart
+ok 2 - all 32 public story IDs resolve without shard parameters and survive directory interruption/restart
+  ---
+  duration_ms: 47613.007792
+  ...
+# Subtest: coordinated encrypted ten-database recovery rejects missing/corrupt inputs and restores original private IDs
+ok 3 - coordinated encrypted ten-database recovery rejects missing/corrupt inputs and restores original private IDs
+  ---
+  duration_ms: 18565.550875
+  ...
+# Subtest: cross-team ingestion uses a durable phased handoff without relocating original source checkpoints
+ok 4 - cross-team ingestion uses a durable phased handoff without relocating original source checkpoints
+  ---
+  duration_ms: 9865.140792
+  ...
+1..4
+# tests 4
+# suites 0
+# pass 4
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 114001.259709

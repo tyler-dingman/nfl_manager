@@ -43,6 +43,10 @@ export function compactParlaySnapshot(play: SavedPlay): SavedPlay {
       const trend = leg.trend as Record<string, unknown> | null | undefined;
       return {
         id: leg.id,
+        providerMarketId: leg.providerMarketId,
+        providerPlayerId: leg.providerPlayerId,
+        providerSelectionId: leg.providerSelectionId,
+        providerSelectionKey: leg.providerSelectionKey,
         eventId: value.eventId,
         playerId: leg.playerId,
         playerName: leg.playerName,

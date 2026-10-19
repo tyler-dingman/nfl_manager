@@ -5,6 +5,7 @@ export async function fanoutBriefingMail(
   secret: string,
   baseUrl: string,
   now = Date.now(),
+  limit = 3,
 ) {
   const [job] = await s.rows<any>(
     "SELECT * FROM app_briefing_mail_jobs WHERE status='READY' OR (status='RUNNING' AND lease_until<?) ORDER BY id LIMIT 1",
@@ -23,6 +24,7 @@ export async function fanoutBriefingMail(
     job.object_hash,
     baseUrl,
     job.after_user,
+    limit,
   );
   await s
     .statement(

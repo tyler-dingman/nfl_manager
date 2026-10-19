@@ -1,3 +1,4 @@
+import roleSchemas from './multi-d1-schema-hashes.json';
 import { GC_ROOT_SCHEMA_HASH } from './gc-schema';
 import { digest, utf8, decode, type SqlDatabase } from './core';
 import { decodeObject } from './codec';
@@ -35,6 +36,8 @@ export async function collectPayloadGarbage(
     acknowledge: 'OWNER_MAINTENANCE_RAW_WRITERS_STOPPED';
     expireDerived?: boolean;
     prepareOnly?: boolean;
+    role?: keyof typeof roleSchemas;
+    coordinatedEpoch?: number;
   },
 ): Promise<CollectorReport> {
   if (options.acknowledge !== 'OWNER_MAINTENANCE_RAW_WRITERS_STOPPED')
@@ -79,11 +82,20 @@ export async function collectPayloadGarbage(
     return r;
   }
   await run('INSERT OR IGNORE INTO app_storage_epoch(id,epoch,locked) VALUES(1,0,0)');
-  const lock = await run(
-    'UPDATE app_storage_epoch SET epoch=epoch+1,locked=1 WHERE id=1 AND locked=0',
-  );
-  if (lock.meta.changes !== 1)
-    throw Error('Storage maintenance is already locked; owner recovery required');
+  if (options.coordinatedEpoch !== undefined) {
+    if (!options.role) throw Error('Coordinated GC requires reviewed role');
+    const [epoch] = await all<{ epoch: number; locked: number }>(
+      'SELECT epoch,locked FROM app_storage_epoch WHERE id=1',
+    );
+    if (epoch?.epoch !== options.coordinatedEpoch || epoch.locked !== 1)
+      throw Error('Global maintenance fence mismatch');
+  } else {
+    const lock = await run(
+      'UPDATE app_storage_epoch SET epoch=epoch+1,locked=1 WHERE id=1 AND locked=0',
+    );
+    if (lock.meta.changes !== 1)
+      throw Error('Storage maintenance is already locked; owner recovery required');
+  }
   let holdFence = false;
   try {
     const objects: {
@@ -125,7 +137,10 @@ export async function collectPayloadGarbage(
     const rootSchema = tables
       .filter((t) => !internal(t.name))
       .map((t) => ({ name: t.name, sql: t.sql }));
-    if ((await digest(utf8.encode(JSON.stringify(rootSchema)))) !== GC_ROOT_SCHEMA_HASH)
+    if (
+      (await digest(utf8.encode(JSON.stringify(rootSchema)))) !==
+      (options.role ? roleSchemas[options.role] : GC_ROOT_SCHEMA_HASH)
+    )
       throw Error('Unknown root schema: review reference contracts before garbage collection');
     // Only expired inference rows with no active generator are eligible. This
     // is their already enforced cache expiry, not an invented editorial TTL.
@@ -141,7 +156,7 @@ export async function collectPayloadGarbage(
         : [],
     );
     for (const { name, without_rowid } of tables) {
-      if (internal(name)) continue;
+      if (internal(name) || name === 'app_cross_shard_references') continue;
       const keys = without_rowid
         ? (await all<{ name: string; pk: number }>(`PRAGMA table_info(${quote(name)})`))
             .filter((c) => c.pk)
@@ -330,7 +345,8 @@ export async function collectPayloadGarbage(
     }
     return report;
   } finally {
-    if (!holdFence) await run('UPDATE app_storage_epoch SET locked=0 WHERE id=1');
+    if (!holdFence && options.coordinatedEpoch === undefined)
+      await run('UPDATE app_storage_epoch SET locked=0 WHERE id=1');
   }
 }
 export async function storageCapacity(raw: SqlDatabase) {

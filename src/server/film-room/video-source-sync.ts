@@ -1,5 +1,10 @@
-import{applicationBackend,applicationStorage}from'../persistence/bindings';
-import{D1EditorialIngestion}from'../../../packages/storage/editorial-ingestion';
+import { editorialTeamOwner } from '../persistence/editorial';
+import {
+  applicationBackend,
+  applicationStorage,
+  applicationDatabaseRouter,
+} from '../persistence/bindings';
+import { D1EditorialIngestion } from '../../../packages/storage/editorial-ingestion';
 import { authDb } from '@/server/auth/database';
 
 type VerifiedVideoSource = readonly [string | null, string, string, string, string, string];
@@ -509,11 +514,52 @@ export const VERIFIED_VIDEO_SOURCES: readonly VerifiedVideoSource[] = [
   [null, 'YT_NFL_MATTYDUBS', 'Mattydubs', 'UCJ-kd8U-odAVk4iwWO5fCFA', 'film', 'YOUTUBE'],
 ];
 
-export async function syncVerifiedVideoSources(teamId?: string, force = false) {
-  if(applicationBackend()==='d1'){
-   const sources=VERIFIED_VIDEO_SOURCES.filter(([team])=>!teamId||team===teamId||team===null),repo=new D1EditorialIngestion(applicationStorage());
-   for(const[team,id,name,channel,category,sourceType]of sources){const official=category==='official';await repo.syncSource({id,name,sourceType,teamId:team,leagueWide:team===null,url:`https://www.youtube.com/channel/${channel}`,feedUrl:null,fetchStrategy:'STRUCTURED_API',pollingTier:official?'A':'B',priority:official?100:85,reliabilityScore:official?1:.85,checkIntervalSeconds:21600,enabled:true,etag:null,lastModified:null,lastCheckedAt:null,lastSuccessfulAt:null,nextCheckAt:new Date(),failureCount:0,lastError:null,metadata:{platform:'YOUTUBE',youtubeChannelId:channel,youtubeUploadsPlaylistId:`UU${channel.slice(2)}`,category,scope:team?'team':'league',multiTeam:team===null,publishAll:true}},force);}
-   return sources.length;
+export async function syncVerifiedVideoSources(teamId?: string, force = false, onlyId?: string) {
+  if (applicationBackend() === 'd1') {
+    const sources = VERIFIED_VIDEO_SOURCES.filter(
+      ([team, id]) => (!teamId || team === teamId || team === null) && (!onlyId || id === onlyId),
+    );
+    for (const [team, id, name, channel, category, sourceType] of sources) {
+      const repo = new D1EditorialIngestion(
+          applicationDatabaseRouter()?.storage(editorialTeamOwner(team)) ?? applicationStorage(),
+        ),
+        official = category === 'official';
+      await repo.syncSource(
+        {
+          id,
+          name,
+          sourceType,
+          teamId: team,
+          leagueWide: team === null,
+          url: `https://www.youtube.com/channel/${channel}`,
+          feedUrl: null,
+          fetchStrategy: 'STRUCTURED_API',
+          pollingTier: official ? 'A' : 'B',
+          priority: official ? 100 : 85,
+          reliabilityScore: official ? 1 : 0.85,
+          checkIntervalSeconds: 21600,
+          enabled: true,
+          etag: null,
+          lastModified: null,
+          lastCheckedAt: null,
+          lastSuccessfulAt: null,
+          nextCheckAt: new Date(),
+          failureCount: 0,
+          lastError: null,
+          metadata: {
+            platform: 'YOUTUBE',
+            youtubeChannelId: channel,
+            youtubeUploadsPlaylistId: `UU${channel.slice(2)}`,
+            category,
+            scope: team ? 'team' : 'league',
+            multiTeam: team === null,
+            publishAll: true,
+          },
+        },
+        force,
+      );
+    }
+    return sources.length;
   }
   const sql = authDb();
   const sources = VERIFIED_VIDEO_SOURCES.filter(
@@ -550,4 +596,13 @@ export async function syncVerifiedVideoSources(teamId?: string, force = false) {
     `;
   }
   return sources.length;
+}
+
+export function verifiedVideoSourceCount() {
+  return VERIFIED_VIDEO_SOURCES.length;
+}
+export async function syncVerifiedVideoSourceAt(cursor: number) {
+  if (!Number.isInteger(cursor) || cursor < 0 || cursor >= VERIFIED_VIDEO_SOURCES.length)
+    throw Error('Invalid video registry cursor');
+  return syncVerifiedVideoSources(undefined, false, VERIFIED_VIDEO_SOURCES[cursor][1]);
 }

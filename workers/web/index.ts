@@ -1,3 +1,4 @@
+import { MultiD1 } from '../../packages/storage/multi-d1';
 import { publicCacheKey, cachePublicResponse } from './public-cache';
 // Built first by OpenNext. This file adds request-scoped bindings and private-cache policy.
 // @ts-ignore Generated build artifact; not present before the OpenNext build.
@@ -28,14 +29,18 @@ export default {
       }
     }
     const metrics = requestMetrics(),
-      objects = applicationObjects({
-        ...env,
-        APP_DB: instrumentDatabase(env.APP_DB as SqlDatabase, metrics),
-      }),
+      multiD1 = env.APP_MULTI_D1 === 'true' ? new MultiD1(env, metrics) : undefined,
+      objects =
+        multiD1?.users().objects ??
+        applicationObjects({
+          ...env,
+          APP_DB: instrumentDatabase(env.APP_DB as SqlDatabase, metrics),
+        }),
       start = performance.now();
     const response = await withApplicationBindings(
       {
-        db: instrumentDatabase(env.APP_DB as SqlDatabase, metrics),
+        db: multiD1?.users().db ?? instrumentDatabase(env.APP_DB as SqlDatabase, metrics),
+        multiD1,
         objects,
         cacheNamespace: 'worker:' + String(env.APP_CACHE_VERSION ?? 'default'),
         ai: env.AI,
@@ -51,8 +56,8 @@ export default {
         status: response.status,
         wallMs: performance.now() - start,
         ...metrics,
-        r2Reads: objects.reads,
-        r2Writes: objects.writes,
+        r2Reads: 'reads' in objects ? objects.reads : 0,
+        r2Writes: 'writes' in objects ? objects.writes : 0,
         cpuMs: null,
         cpuSource: 'Use Cloudflare TraceEvent CPUTimeMs; wallMs is not CPU',
       }),

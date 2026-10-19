@@ -1,3 +1,9 @@
+import { D1AuthRepository } from '../../../packages/storage/auth';
+import { D1UserRepository } from '../../../packages/storage/user';
+import { MultiD1, teamDatabase } from '../../../packages/storage/multi-d1';
+import { withEditorialOwner } from '../../../src/server/persistence/bindings';
+import { dispatchEditorial } from '../../../packages/storage/editorial-dispatch';
+import { EditorialDirectory } from '../../../packages/storage/editorial-directory';
 import { NextRequest } from 'next/server';
 import { POST as automationPost } from '../../../src/app/api/automation/content/global/route';
 import { PollingBatches } from '../../../packages/storage/polling-batches';
@@ -73,9 +79,24 @@ export default {
     const b: any = await request.json();
     now = b.now ?? now;
     const m = requestMetrics(),
-      db = instrumentDatabase(env.EDITORIAL_DB, m, b.enforceBudget ? 50 : undefined),
-      objects = new D1Objects(db),
-      s = new Storage(db, objects),
+      multi = Boolean(env.D1_USERS),
+      router = multi ? new MultiD1(env, m) : undefined;
+    let owner =
+      b.owner ?? (b.team || b.row?.teamId ? teamDatabase(b.team ?? b.row.teamId) : 'D1_SHARED');
+    if (multi && ['sync', 'seed-retention'].includes(b.op)) {
+      const source = getAllMonitoringSources().find((x) => x.id === b.id);
+      if (source)
+        owner =
+          source.teamId === 'NFL' || source.metadata.multiTeam === true
+            ? 'D1_SHARED'
+            : teamDatabase(source.teamId);
+    }
+    const raw = router
+        ? router.storage(owner).db
+        : instrumentDatabase(env.EDITORIAL_DB, m, b.enforceBudget ? 50 : undefined),
+      objects = router ? router.storage(owner).objects : new D1Objects(raw),
+      s = router ? router.storage(owner) : new Storage(raw, objects),
+      db = raw,
       r = new D1EditorialIngestion(s);
     const started = performance.now();
     try {
@@ -83,14 +104,67 @@ export default {
         {
           db,
           objects,
+          multiD1: router,
+          editorialOwner: router ? owner : undefined,
           env: {
             APP_DATA_BACKEND: 'd1',
             APP_OBJECT_BACKEND: 'd1',
-            OBSERVER_MODE: 'true',
+            OBSERVER_MODE: router ? 'false' : 'true',
             CONTENT_AUTOMATION_SECRET: 'synthetic-content-day-automation-secret',
           },
         },
         async () => {
+          if (b.op === 'automation-http' && router) {
+            const original = globalThis.fetch;
+            globalThis.fetch = async () =>
+              new Response(null, { status: 304, headers: { etag: 'synthetic-unchanged' } });
+            try {
+              const response = await withEditorialOwner(undefined, () =>
+                automationPost(
+                  new NextRequest('http://localhost/api/automation/content/global?' + b.query, {
+                    method: 'POST',
+                    headers: { authorization: 'Bearer synthetic-content-day-automation-secret' },
+                  }),
+                ),
+              );
+              const body = await response.json();
+              if (!response.ok) throw Error(JSON.stringify(body));
+              return body;
+            } finally {
+              globalThis.fetch = original;
+            }
+          }
+          if (b.op === 'seed-user' && router) {
+            const user = await new D1AuthRepository(router.users()).createEmailUser({
+              email: `load-${b.i}@example.invalid`,
+              passwordHash: 'synthetic-no-login',
+            });
+            if (!user) throw Error('Synthetic user missing');
+            await router
+              .users()
+              .statement("UPDATE app_users SET status='ACTIVE' WHERE id=?", [user.id])
+              .run();
+            await new D1UserRepository(router.users()).updatePreferences(user.id, {
+              preferredTeamId: b.team,
+            });
+            return user.id;
+          }
+          if (b.op === 'checkpoint' && router) {
+            const response = await withEditorialOwner(undefined, () =>
+              automationPost(
+                new NextRequest(
+                  'http://localhost/api/automation/content/global?action=checkpoint&owner=D1_TEAM_1&resume=poll',
+                  {
+                    method: 'POST',
+                    headers: { authorization: 'Bearer synthetic-content-day-automation-secret' },
+                  },
+                ),
+              ),
+            );
+            if (!response.ok) throw Error('Checkpoint failed');
+            return response.json();
+          }
+          if (b.op === 'dispatch' && router) return dispatchEditorial(router, owner);
           if (b.op === 'registry')
             return getAllMonitoringSources().map((x) => ({
               ...definition(x),
@@ -269,6 +343,19 @@ export default {
               await p.sources(b.id),
               rows,
             );
+          }
+          if (b.op === 'inspect-user') {
+            const capacity = await db
+              .prepare('SELECT used_bytes FROM app_payload_capacity WHERE id=1')
+              .all();
+            return {
+              physicalBytes: capacity.meta.size_after,
+              encoded: capacity.results[0]?.used_bytes ?? 0,
+              stories: [],
+              sourceCheckpoints: [],
+              pendingInbox: [],
+              jobs: [],
+            };
           }
           if (b.op === 'inspect') {
             const capacity = await db

@@ -3,7 +3,12 @@ import { expireDerivedDirectories } from './derived-lifecycle';
 /** Bounded retention only for consumed, long-expired capabilities and derived
  * inference indexes. User/game/bet/editorial records are never eligible. Exact
  * original token rows are archived and verified before D1 removal. */
-export async function maintainTemporaryData(s: Storage, now = Date.now(), limit = 15) {
+export async function maintainTemporaryData(
+  s: Storage,
+  now = Date.now(),
+  limit = 15,
+  derivedStorage: Storage = s,
+) {
   if (!Number.isInteger(limit) || limit < 1 || limit > 15) throw Error('Maintenance batch limit');
   const cutoff = now - 30 * 86400000;
   const rows = await s.rows<any>(
@@ -31,7 +36,7 @@ export async function maintainTemporaryData(s: Storage, now = Date.now(), limit 
       s.statement('DELETE FROM app_storage_guards WHERE id=?', [nonce]),
     ]);
   }
-  const result = await expireDerivedDirectories(s, now);
+  const result = await expireDerivedDirectories(derivedStorage, now);
   return { ...result, archivedConsumedTokens: rows.length };
 }
 export class D1ApplicationSettings {

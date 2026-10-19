@@ -21,6 +21,10 @@ export type SavedEvent = {
 };
 
 export type SavedLeg = {
+  providerMarketId?: string | null;
+  providerPlayerId?: string | null;
+  providerSelectionId?: string | null;
+  providerSelectionKey?: string | null;
   id: string;
   playerId?: string | null;
   playerName?: string | null;

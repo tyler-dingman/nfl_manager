@@ -1,5 +1,6 @@
 import { digest, utf8, type SqlDatabase } from './core';
 import { decodeObject } from './codec';
+import roleSchemas from './multi-d1-schema-hashes.json';
 import { GC_ROOT_SCHEMA_HASH } from './gc-schema';
 export const RETENTION_DAYS = {
   published: 90,
@@ -36,7 +37,10 @@ export async function snapshotDigest(tables: FrozenTable[]) {
 }
 /** Owner-side full scan only. SDK writers must already be fenced and raw writers
  * stopped. FTS rowids are included so archive restore preserves indexed links. */
-export async function frozenTables(db: SqlDatabase): Promise<FrozenTable[]> {
+export async function frozenTables(
+  db: SqlDatabase,
+  role?: keyof typeof roleSchemas,
+): Promise<FrozenTable[]> {
   const names = await db
     .prepare(
       "SELECT s.name,s.sql FROM sqlite_schema s JOIN pragma_table_list p ON p.name=s.name AND p.schema='main' WHERE s.type='table' AND p.type IN('table','virtual') AND s.name NOT LIKE 'sqlite_%' AND s.name NOT LIKE '_cf_%' AND s.name NOT LIKE 'd1_%' ORDER BY s.name",
@@ -93,7 +97,10 @@ export async function frozenTables(db: SqlDatabase): Promise<FrozenTable[]> {
   const logical = tables
     .filter((t) => !t.name.startsWith('app_storage_') && !t.name.startsWith('app_payload_'))
     .map(({ name, sql }) => ({ name, sql }));
-  if ((await digest(utf8.encode(JSON.stringify(logical)))) !== GC_ROOT_SCHEMA_HASH)
+  if (
+    (await digest(utf8.encode(JSON.stringify(logical)))) !==
+    (role ? roleSchemas[role] : GC_ROOT_SCHEMA_HASH)
+  )
     throw Error('Unknown root schema: retention review required');
   return tables;
 }
@@ -170,7 +177,11 @@ async function payloadGraph(tables: FrozenTable[]) {
     graph.set(head.hash, { value, edges: hashes(value) });
   }
   for (const table of tables)
-    if (!table.name.startsWith('app_payload_') && !table.name.startsWith('app_storage_'))
+    if (
+      !table.name.startsWith('app_payload_') &&
+      !table.name.startsWith('app_storage_') &&
+      table.name !== 'app_cross_shard_references'
+    )
       for (const row of table.rows)
         for (const key of [
           'object_hash',
@@ -523,6 +534,7 @@ export async function publishRetentionPlan(
   now: number,
   limit = 100,
   preparationId?: string,
+  role?: keyof typeof roleSchemas,
 ) {
   if (
     !/^[a-f0-9]{64}$/.test(receipt.digest) ||
@@ -534,7 +546,7 @@ export async function publishRetentionPlan(
     .prepare('SELECT epoch,locked FROM app_storage_epoch WHERE id=1')
     .first<{ epoch: number; locked: number }>();
   if (!epoch?.locked) throw Error('Owner write fence required');
-  if ((await snapshotDigest(await frozenTables(db))) !== receipt.snapshotDigest)
+  if ((await snapshotDigest(await frozenTables(db, role))) !== receipt.snapshotDigest)
     throw Error('Frozen snapshot changed; archive again');
   const planned = await planApprovedRetention(tables, now, limit),
     id = preparationId ?? crypto.randomUUID();
@@ -589,6 +601,7 @@ export async function retentionStep(
   db: SqlDatabase,
   runId: string,
   authorization: 'OWNER_PRIVATE_MAINTENANCE',
+  retainFence = false,
 ) {
   if (authorization !== 'OWNER_PRIVATE_MAINTENANCE')
     throw Error('Private owner authorization required');
@@ -633,7 +646,7 @@ export async function retentionStep(
   else
     batch.push(
       db.prepare("UPDATE app_storage_retention_plans SET state='DONE' WHERE id=?").bind(runId),
-      db.prepare('UPDATE app_storage_epoch SET locked=0 WHERE id=1'),
+      ...(retainFence ? [] : [db.prepare('UPDATE app_storage_epoch SET locked=0 WHERE id=1')]),
     );
   batch.push(db.prepare('DELETE FROM app_storage_guards WHERE id=?').bind(token));
   try {

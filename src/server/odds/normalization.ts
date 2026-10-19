@@ -52,6 +52,7 @@ export type NormalizedOddsMarket = {
   prices: Array<{
     sportsbook: Sportsbook;
     providerSelectionId: string;
+    originalProviderSelectionId?: string;
     odds: number | null;
     line: number | null;
     available: boolean;
@@ -209,6 +210,7 @@ export function normalizeEventMarkets(event: SportsGameOddsEvent) {
             row.oddID ??
               String(odd.oddID ?? oddKey) + ':' + bookmaker + ':' + String(line ?? 'main'),
           ),
+          ...(typeof row.oddID === 'string' ? { originalProviderSelectionId: row.oddID } : {}),
           odds: numeric(row.odds),
           line,
           available: row.available !== false,

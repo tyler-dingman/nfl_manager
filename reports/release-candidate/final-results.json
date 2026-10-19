@@ -1,0 +1,31 @@
+{
+  "releaseCandidate": "FAIL",
+  "readyForStaging": false,
+  "unit": {
+    "passed": 1079,
+    "failed": 0,
+    "skipped": 2
+  },
+  "worker": {
+    "passed": 161,
+    "failed": 0,
+    "skipped": 0
+  },
+  "browser": {
+    "passed": 48,
+    "failed": 0,
+    "scope": "Chromium viewport checks and separate product HTTP checks"
+  },
+  "authHttpSamples": 20,
+  "productionBuild": "PASS",
+  "dryRunWorkers": 5,
+  "deploymentPerformed": false,
+  "productionAccessed": false,
+  "nativeDevicesValidated": false,
+  "criticalBlockers": [
+    "Account deletion requires at least 107 metadata statements before occupancy planning",
+    "Conservative receipt/pin lifecycle not proven bounded",
+    "Combined workload quota/freshness and hosted CPU unqualified",
+    "Actual staging account, Access, isolated resources/secrets and live-provider validation required"
+  ]
+}

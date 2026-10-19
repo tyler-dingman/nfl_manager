@@ -249,7 +249,8 @@ export class MailQueue {
       ),
     ]);
   }
-  async enqueueDailyBriefing(hash: string, baseUrl: string, afterUser = '') {
+  async enqueueDailyBriefing(hash: string, baseUrl: string, afterUser = '', limit = 3) {
+    if (!Number.isInteger(limit) || limit < 1 || limit > 3) throw Error('Mail fanout limit');
     const publication = await this.s.get<{
       approved: boolean;
       id: string;
@@ -272,8 +273,8 @@ export class MailQueue {
     )
       throw Error('A stored approved publication is required');
     const users = await this.s.rows<{ id: string; primary_email: string }>(
-      "SELECT u.id,u.primary_email FROM app_users u JOIN app_subscriptions b ON b.user_id=u.id AND b.topic='THREE_AND_OUT' AND b.enabled=1 JOIN app_settings s ON s.user_id=u.id WHERE u.id>? AND u.email_verified=1 AND u.status='ACTIVE' AND json_extract(s.preferences_json,'$.preferredTeamId')=? AND coalesce(json_extract(s.preferences_json,'$.emailEnabled'),1)=1 ORDER BY u.id LIMIT 3",
-      [afterUser, publication.team],
+      "SELECT u.id,u.primary_email FROM app_users u JOIN app_subscriptions b ON b.user_id=u.id AND b.topic='THREE_AND_OUT' AND b.enabled=1 JOIN app_settings s ON s.user_id=u.id WHERE u.id>? AND u.email_verified=1 AND u.status='ACTIVE' AND json_extract(s.preferences_json,'$.preferredTeamId')=? AND coalesce(json_extract(s.preferences_json,'$.emailEnabled'),1)=1 ORDER BY u.id LIMIT ?",
+      [afterUser, publication.team, limit],
     );
     for (const user of users) {
       const unsubscribe = new URL('/api/email/unsubscribe', url);
@@ -296,7 +297,7 @@ export class MailQueue {
     }
     return {
       considered: users.length,
-      nextCursor: users.length === 3 ? users.at(-1)!.id : null,
+      nextCursor: users.length === limit ? users.at(-1)!.id : null,
       delivery: 'QUEUED_NOT_SENT',
     };
   }

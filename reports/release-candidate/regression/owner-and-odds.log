@@ -1,0 +1,74 @@
+TAP version 13
+# start {"d1Calls":5,"statements":7,"rowsRead":6,"rowsWritten":5}
+# [sportsGameOdds] usage 0/1000 monthly objects; local ceiling 1000
+# [sportsGameOdds] GET /events {
+#   leagueID: 'NFL',
+#   type: 'match',
+#   started: 'false',
+#   oddsPresent: 'true',
+#   bookmakerID: 'fanduel,draftkings,betmgm,caesars',
+#   includeAltLines: 'true',
+#   includeOpposingOdds: 'true',
+#   includeOpenCloseOdds: 'true',
+#   startsAfter: '2026-10-19T15:00:00.000Z',
+#   startsBefore: '2026-10-26T15:00:00.000Z',
+#   limit: '1'
+# }
+# capture-2000 {"d1Calls":18,"statements":46,"rowsRead":44,"rowsWritten":41}
+# board-2000 {"d1Calls":17,"statements":38,"rowsRead":58,"rowsWritten":33}
+# scores-2000 {"d1Calls":30,"statements":44,"rowsRead":52,"rowsWritten":20}
+# additional-event-1 {"d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25}
+# additional-event-2 {"d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25}
+# additional-event-3 {"d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25}
+# additional-event-4 {"d1Calls":10,"statements":27,"rowsRead":42,"rowsWritten":25}
+# additional-event-5 {"d1Calls":10,"statements":27,"rowsRead":42,"rowsWritten":25}
+# additional-event-6 {"d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25}
+# additional-event-7 {"d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25}
+# additional-event-8 {"d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25}
+# additional-event-9 {"d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25}
+# additional-event-10 {"d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25}
+# additional-event-11 {"d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25}
+# additional-event-12 {"d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25}
+# additional-event-13 {"d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25}
+# additional-event-14 {"d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25}
+# additional-event-15 {"d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25}
+# transfer-16-events {"d1Calls":5,"statements":5,"rowsRead":208,"rowsWritten":0}
+# transfer-lookup {"d1Calls":5,"statements":5,"rowsRead":15029,"rowsWritten":0}
+# save-bet {"d1Calls":8,"statements":17,"rowsRead":23,"rowsWritten":14}
+# next-slot {"d1Calls":3,"statements":5,"rowsRead":4,"rowsWritten":4}
+# uncertain {"d1Calls":4,"statements":8,"rowsRead":10,"rowsWritten":7}
+# no-ambiguous-retry {"d1Calls":2,"statements":2,"rowsRead":1,"rowsWritten":0}
+# MULTI_D1_ODDS_METRICS [{"label":"start","d1Calls":5,"statements":7,"rowsRead":6,"rowsWritten":5},{"label":"capture-2000","d1Calls":18,"statements":46,"rowsRead":44,"rowsWritten":41},{"label":"board-2000","d1Calls":17,"statements":38,"rowsRead":58,"rowsWritten":33},{"label":"scores-2000","d1Calls":30,"statements":44,"rowsRead":52,"rowsWritten":20},{"label":"additional-event-1","d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25},{"label":"additional-event-2","d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25},{"label":"additional-event-3","d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25},{"label":"additional-event-4","d1Calls":10,"statements":27,"rowsRead":42,"rowsWritten":25},{"label":"additional-event-5","d1Calls":10,"statements":27,"rowsRead":42,"rowsWritten":25},{"label":"additional-event-6","d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25},{"label":"additional-event-7","d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25},{"label":"additional-event-8","d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25},{"label":"additional-event-9","d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25},{"label":"additional-event-10","d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25},{"label":"additional-event-11","d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25},{"label":"additional-event-12","d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25},{"label":"additional-event-13","d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25},{"label":"additional-event-14","d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25},{"label":"additional-event-15","d1Calls":10,"statements":27,"rowsRead":43,"rowsWritten":25},{"label":"transfer-16-events","d1Calls":5,"statements":5,"rowsRead":208,"rowsWritten":0},{"label":"transfer-lookup","d1Calls":5,"statements":5,"rowsRead":15029,"rowsWritten":0},{"label":"save-bet","d1Calls":8,"statements":17,"rowsRead":23,"rowsWritten":14},{"label":"next-slot","d1Calls":3,"statements":5,"rowsRead":4,"rowsWritten":4},{"label":"uncertain","d1Calls":4,"statements":8,"rowsRead":10,"rowsWritten":7},{"label":"no-ambiguous-retry","d1Calls":2,"statements":2,"rowsRead":1,"rowsWritten":0}]
+# Subtest: bounded multi-D1 provider capture, board/score phases, transfer resolution and saved evidence survive restart
+ok 1 - bounded multi-D1 provider capture, board/score phases, transfer resolution and saved evidence survive restart
+  ---
+  duration_ms: 50077.569541
+  ...
+# {"status":"encrypted-backup-written","databases":10,"path":"/private/tmp/dd-rc-ten-Yd47EE/owner-encrypted.json"}
+# {"databases":10,"mappingVersion":"nfl-divisions-v1","windowId":"001c840d-e5f2-41ae-90fc-2494ac1a89b8","consistentMaintenanceWindow":true,"atomicSnapshot":false}
+# Subtest: owner CLI backs up and restores all ten local databases without remote credentials
+ok 2 - owner CLI backs up and restores all ten local databases without remote credentials
+  ---
+  duration_ms: 42659.859334
+  ...
+# PRIVATE_MAIL_METRICS {"d1Calls":6,"statements":20,"rowsRead":19,"rowsWritten":21}
+# Subtest: transactional mail reserves private delivery limits atomically without sending real email
+ok 3 - transactional mail reserves private delivery limits atomically without sending real email
+  ---
+  duration_ms: 8634.388125
+  ...
+# BACKGROUND_SERVICE_CALLS 47
+# Subtest: multi-D1 scheduler separates bounded service invocations even when every optional job is enabled
+ok 4 - multi-D1 scheduler separates bounded service invocations even when every optional job is enabled
+  ---
+  duration_ms: 7708.451042
+  ...
+1..4
+# tests 4
+# suites 0
+# pass 4
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 113158.580042

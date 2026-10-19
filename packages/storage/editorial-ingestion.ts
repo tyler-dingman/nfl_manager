@@ -1,7 +1,10 @@
 import { packCanonical, expandCanonical } from './canonical-editorial';
 import { digest, utf8 } from './core';
 import { stageObjects } from './staged-objects';
-import { applicationEnvironment } from '../../src/server/persistence/bindings';
+import {
+  applicationEnvironment,
+  applicationDatabaseRouter,
+} from '../../src/server/persistence/bindings';
 import { socialNotificationBatch } from './social-outbox';
 import { Storage, type Statement } from './core';
 import { guardedBatch } from './atomic';
@@ -586,37 +589,39 @@ export class D1EditorialIngestion {
         change !== 'TRIVIAL' &&
         applicationEnvironment().OBSERVER_MODE !== 'true'
       ) {
-        const followers = await prepared.storage.rows<any>(
-          "SELECT u.id FROM app_users u JOIN app_settings p ON p.user_id=u.id WHERE u.status='ACTIVE' AND json_extract(p.preferences_json,'$.preferredTeamId')=? AND NOT EXISTS(SELECT 1 FROM app_notification_preferences np WHERE np.user_id=u.id AND np.category IN('BREAKING_NEWS','BREAKING','HOT_READ') AND np.channel='IN_APP' AND np.enabled=0)",
-          [story.teamId],
-        );
-        for (let offset = 0; offset < followers.length; offset += 250) {
-          const recipients = followers.slice(offset, offset + 250);
-          writes.push(
-            await socialNotificationBatch(
-              prepared.storage,
-              recipients[0].id,
-              `canonical:${story.id}:${story.version}:${offset}`,
-              recipients.map((u) => ({
-                user: u.id,
-                input: {
-                  eventId: `canonical:${story.id}:${story.version}`,
-                  dedupeKey: `canonical:${story.id}:${story.version}`,
-                  teamAbbr: story.teamId!,
-                  title: story.headline,
-                  body: story.summary,
-                  deepLink: `/the-beat?team=${story.teamId}&story=${story.id}`,
-                  contentId: story.id,
-                  contentType: 'BEAT_STORY',
-                  type: decision?.breaking ? 'BREAKING' : 'HOT_READ',
-                  category: decision?.breaking ? 'BREAKING' : 'HOT_READ',
-                  priority: decision?.breaking || story.importanceScore >= 85 ? 'HIGH' : 'NORMAL',
-                  pushEligible: Boolean(decision?.breaking || story.importanceScore >= 85),
-                  metadata: { storyVersion: story.version, reason: decision?.reason ?? change },
-                },
-              })),
-            ),
+        if (!applicationDatabaseRouter()) {
+          const followers = await prepared.storage.rows<any>(
+            "SELECT u.id FROM app_users u JOIN app_settings p ON p.user_id=u.id WHERE u.status='ACTIVE' AND json_extract(p.preferences_json,'$.preferredTeamId')=? AND NOT EXISTS(SELECT 1 FROM app_notification_preferences np WHERE np.user_id=u.id AND np.category IN('BREAKING_NEWS','BREAKING','HOT_READ') AND np.channel='IN_APP' AND np.enabled=0)",
+            [story.teamId],
           );
+          for (let offset = 0; offset < followers.length; offset += 250) {
+            const recipients = followers.slice(offset, offset + 250);
+            writes.push(
+              await socialNotificationBatch(
+                prepared.storage,
+                recipients[0].id,
+                `canonical:${story.id}:${story.version}:${offset}`,
+                recipients.map((u) => ({
+                  user: u.id,
+                  input: {
+                    eventId: `canonical:${story.id}:${story.version}`,
+                    dedupeKey: `canonical:${story.id}:${story.version}`,
+                    teamAbbr: story.teamId!,
+                    title: story.headline,
+                    body: story.summary,
+                    deepLink: `/the-beat?team=${story.teamId}&story=${story.id}`,
+                    contentId: story.id,
+                    contentType: 'BEAT_STORY',
+                    type: decision?.breaking ? 'BREAKING' : 'HOT_READ',
+                    category: decision?.breaking ? 'BREAKING' : 'HOT_READ',
+                    priority: decision?.breaking || story.importanceScore >= 85 ? 'HIGH' : 'NORMAL',
+                    pushEligible: Boolean(decision?.breaking || story.importanceScore >= 85),
+                    metadata: { storyVersion: story.version, reason: decision?.reason ?? change },
+                  },
+                })),
+              ),
+            );
+          }
         }
       }
     }
@@ -668,6 +673,39 @@ export class D1EditorialIngestion {
           guards,
         )),
       );
+    if (applicationDatabaseRouter()) {
+      const notification = Boolean(
+        story.teamId &&
+        story.publicationState === 'AUTO_PUBLISHED' &&
+        change !== 'TRIVIAL' &&
+        applicationEnvironment().OBSERVER_MODE !== 'true',
+      );
+      const metadata = {
+        team: story.teamId,
+        title: story.headline,
+        body: story.summary.slice(0, 2000),
+        breaking: Boolean(decision?.breaking),
+        importance: story.importanceScore,
+        reason: decision?.reason ?? change,
+        notify: notification,
+        state: story.publicationState,
+        status: story.status,
+        confidence: story.confidenceScore,
+        updatedAt: now,
+        sources: sources.map((x) => ({ name: x.name, url: x.url })),
+      };
+      writes.push(
+        prepared.storage.statement(
+          'INSERT INTO app_editorial_dispatch(id,story_id,version,payload) VALUES(?,?,?,?) ON CONFLICT(id) DO NOTHING',
+          [
+            `canonical:${story.id}:${story.version}`,
+            story.id,
+            story.version,
+            JSON.stringify(metadata),
+          ],
+        ),
+      );
+    }
     await prepared.flush();
     await guardedBatch(prepared.storage, guards, writes, 'Editorial version conflict');
     return story.version;

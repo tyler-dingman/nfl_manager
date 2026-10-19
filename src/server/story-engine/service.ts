@@ -1,3 +1,11 @@
+import { EditorialDirectory } from '../../../packages/storage/editorial-directory';
+import { editorialTeamOwner } from '../persistence/editorial';
+import { stageEditorialHandoff } from '../../../packages/storage/editorial-handoffs';
+import {
+  applicationDatabaseRouter,
+  currentEditorialOwner,
+  withEditorialOwner,
+} from '../persistence/bindings';
 import { hostname } from 'node:os';
 import { applicationBackend, applicationStorage } from '../persistence/bindings';
 import { findCandidateStory } from '@/features/story-engine/clustering';
@@ -50,7 +58,16 @@ export async function scheduleDueSources(
   return { due: sources.length, queued };
 }
 
-export async function processCandidate(candidateId: string, synthesizer?: StorySynthesizer) {
+export async function processCandidate(
+  candidateId: string,
+  synthesizer?: StorySynthesizer,
+): Promise<any> {
+  const router = applicationDatabaseRouter();
+  if (router && !currentEditorialOwner()) {
+    const owner = await new EditorialDirectory(router).resolve('candidate', candidateId);
+    if (!owner) return { action: 'ignored' };
+    return withEditorialOwner(owner, () => processCandidate(candidateId, synthesizer));
+  }
   synthesizer ??= configuredStorySynthesizer();
   const candidate = await repo.candidateById(candidateId);
   if (!candidate || candidate.status !== 'NEW') return { action: 'ignored' };
@@ -183,7 +200,11 @@ export async function processSource(
     ? new YouTubeSourceFetcher()
     : new RssSourceFetcher(),
   options: { publishedSince?: Date; teamId?: string; deferCheckpoint?: boolean } = {},
-) {
+): Promise<any> {
+  if (applicationDatabaseRouter() && !currentEditorialOwner())
+    return withEditorialOwner(editorialTeamOwner(source.leagueWide ? null : source.teamId), () =>
+      processSource(source, fetcher, options),
+    );
   const started = Date.now();
   try {
     const result = await fetcher.fetch(source);
@@ -203,6 +224,12 @@ export async function processSource(
       if (!isLikelyEnglishContent(`${raw.title} ${raw.excerpt}`)) continue;
       const candidate = normalizeRawItem(raw, source);
       if (options.teamId && !candidate.candidateTeams.includes(options.teamId)) continue;
+      const router = applicationDatabaseRouter(),
+        owner = currentEditorialOwner();
+      if (router && owner && (await stageEditorialHandoff(router, owner, candidate, source))) {
+        inserted++;
+        continue;
+      }
       const id = await repo.saveCandidate(candidate);
       if (id) {
         inserted++;

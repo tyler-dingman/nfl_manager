@@ -1,5 +1,5 @@
-import{applicationBackend,applicationStorage}from'../persistence/bindings';
-import{D1ContentAutomation}from'../../../packages/storage/automation';
+import { applicationBackend, applicationStorage } from '../persistence/bindings';
+import { D1ContentAutomation } from '../../../packages/storage/automation';
 import { randomUUID } from 'node:crypto';
 import { authDb } from '@/server/auth/database';
 
@@ -27,7 +27,11 @@ function ensureTrialSchema() {
 }
 
 export async function readTrialUsage(startsAt: Date, expiresAt: Date) {
-  if(applicationBackend()==='d1') return new D1ContentAutomation(applicationStorage()).readTrialUsage(startsAt,expiresAt);
+  if (applicationBackend() === 'd1')
+    return new D1ContentAutomation(applicationStorage('D1_SHARED')).readTrialUsage(
+      startsAt,
+      expiresAt,
+    );
 
   await ensureTrialSchema();
   const [row] = await authDb()`SELECT
@@ -51,7 +55,8 @@ export async function recordTrialRun(input: {
   aiSpendUsd?: number;
   detail?: object;
 }) {
-  if(applicationBackend()==='d1') return new D1ContentAutomation(applicationStorage()).recordTrialRun(input);
+  if (applicationBackend() === 'd1')
+    return new D1ContentAutomation(applicationStorage('D1_SHARED')).recordTrialRun(input);
 
   await ensureTrialSchema();
   await authDb()`INSERT INTO content_automation_trial_runs

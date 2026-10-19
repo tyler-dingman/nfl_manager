@@ -1,0 +1,1 @@
+CREATE TABLE app_saved_bet_receipts(user_id TEXT NOT NULL REFERENCES app_users(id) ON DELETE CASCADE,content_id TEXT NOT NULL,boards_json TEXT NOT NULL,created_at INTEGER NOT NULL,PRIMARY KEY(user_id,content_id)) WITHOUT ROWID;

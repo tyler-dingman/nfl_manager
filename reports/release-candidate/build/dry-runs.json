@@ -1,0 +1,27 @@
+[
+  {
+    "role": "password",
+    "exitCode": 0,
+    "deployed": false
+  },
+  {
+    "role": "api",
+    "exitCode": 0,
+    "deployed": false
+  },
+  {
+    "role": "web",
+    "exitCode": 0,
+    "deployed": false
+  },
+  {
+    "role": "odds-processor",
+    "exitCode": 0,
+    "deployed": false
+  },
+  {
+    "role": "application",
+    "exitCode": 0,
+    "deployed": false
+  }
+]

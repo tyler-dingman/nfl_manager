@@ -1,4 +1,4 @@
-import { Storage } from './core';
+import { Storage, digest, utf8, objectKey } from './core';
 import { ReferenceData } from './reference';
 import { JsonTree } from './json-tree';
 import { classifyStoredLine } from '../../src/server/odds/line-classification';
@@ -82,17 +82,23 @@ export class D1OddsBoard {
         (filters.maxLine === undefined || (r.line != null && r.line <= filters.maxLine)),
     );
   }
-  async publish(input: OddsEventInput, rows: any[], asOf: number, id?: string) {
+  async publish(
+    input: OddsEventInput,
+    rows: any[],
+    asOf: number,
+    id?: string,
+    provenance?: { sourceIdentity: string },
+  ) {
+    // Reject an oversized board before identity validation or any preparation write.
+    if (utf8.encode(JSON.stringify(rows)).length > 4_000_000)
+      throw Error('Application JSON tree limit');
     const [prior] = await this.s.rows<any>(
       'SELECT * FROM app_sportsbook_events WHERE provider_event_id=?',
       [input.providerEventId],
     );
     const eventId = prior?.id ?? id ?? crypto.randomUUID();
     if (id && id !== eventId) throw Error('Original odds event identity conflict');
-    const root = await new JsonTree(this.s).put(rows),
-      hash = await this.s.put({ schema: 1, eventId, root, asOf });
     if (prior?.as_of > asOf) throw Error('Odds board snapshot superseded');
-    if (prior?.markets_hash === hash && prior.as_of === asOf) return eventId;
     const identities = new Map((await this.knownIds(prior)).map((r) => [r.normalized_key, r.id]));
     for (const row of rows) {
       if (!row.id || !row.normalizedKey) throw Error('Market identity required');
@@ -102,22 +108,44 @@ export class D1OddsBoard {
     }
     if (new Set(identities.values()).size !== identities.size)
       throw Error('Repeated market identity');
-    const identityRoot = await new JsonTree(this.s).put(
-      [...identities]
-        .sort(([a], [b]) => a.localeCompare(b))
-        .map(([normalized_key, id]) => ({ normalized_key, id })),
-    );
-    const identityHash = await this.s.put({
+    const identityRows = [...identities]
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([normalized_key, id]) => ({ normalized_key, id }));
+    const staged: { key: string; bytes: Uint8Array }[] = [];
+    const stage = async (value: unknown) => {
+      const bytes = utf8.encode(JSON.stringify(value)),
+        hash = await digest(bytes);
+      staged.push({ key: objectKey(hash), bytes });
+      return hash;
+    };
+    const compact = this.s.objects.compactTrees && this.s.objects.putManyImmutable;
+    const root = compact ? await stage(['v', rows]) : await new JsonTree(this.s).put(rows);
+    const envelope = {
       schema: 1,
-      kind: 'MARKET_IDENTITIES',
       eventId,
-      root: identityRoot,
-    });
+      root,
+      asOf,
+      ...(provenance
+        ? { providerEventId: input.providerEventId, sourceIdentity: provenance.sourceIdentity }
+        : {}),
+    };
+    const hash = compact ? await stage(envelope) : await this.s.put(envelope);
+    const identityRoot = compact
+      ? await stage(['v', identityRows])
+      : await new JsonTree(this.s).put(identityRows);
+    const directory = { schema: 1, kind: 'MARKET_IDENTITIES', eventId, root: identityRoot };
+    const identityHash = compact ? await stage(directory) : await this.s.put(directory);
+    if (compact) await this.s.objects.putManyImmutable!(staged);
+    if (prior?.markets_hash === hash && prior.as_of === asOf) return eventId;
     const nonce = crypto.randomUUID(),
       version = prior?.version ?? 0;
+    const indexed = this.s.owner === 'D1_SHARED',
+      lookup = JSON.stringify([...new Set(rows.map((r) => r.id))]);
+    if (indexed && new TextEncoder().encode(lookup).length > 1_900_000)
+      throw Error('Event market directory exceeds safe D1 row size');
     const statements = [
       this.s.statement(
-        'INSERT INTO app_sportsbook_events(id,provider_event_id,season,week,home_team_id,away_team_id,kickoff_at,status,markets_locked,last_imported_at,markets_hash,as_of,market_ids_hash,version) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,1) ON CONFLICT(provider_event_id) DO UPDATE SET season=excluded.season,week=excluded.week,home_team_id=excluded.home_team_id,away_team_id=excluded.away_team_id,kickoff_at=excluded.kickoff_at,status=excluded.status,last_imported_at=excluded.last_imported_at,markets_hash=excluded.markets_hash,as_of=excluded.as_of,market_ids_hash=excluded.market_ids_hash,version=version+1 WHERE version=? AND as_of<=excluded.as_of',
+        `INSERT INTO app_sportsbook_events(id,provider_event_id,season,week,home_team_id,away_team_id,kickoff_at,status,markets_locked,last_imported_at,markets_hash,as_of,market_ids_hash,version${indexed ? ',market_lookup_json' : ''}) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,1${indexed ? ',?' : ''}) ON CONFLICT(provider_event_id) DO UPDATE SET season=excluded.season,week=excluded.week,home_team_id=excluded.home_team_id,away_team_id=excluded.away_team_id,kickoff_at=excluded.kickoff_at,status=excluded.status,last_imported_at=excluded.last_imported_at,markets_hash=excluded.markets_hash,as_of=excluded.as_of,market_ids_hash=excluded.market_ids_hash,version=version+1${indexed ? ',market_lookup_json=excluded.market_lookup_json' : ''} WHERE version=? AND as_of<=excluded.as_of`,
         [
           eventId,
           input.providerEventId,
@@ -132,6 +160,7 @@ export class D1OddsBoard {
           hash,
           asOf,
           identityHash,
+          ...(indexed ? [lookup] : []),
           version,
         ],
       ),
@@ -173,6 +202,10 @@ export class D1OddsBoard {
       for (const price of market.prices)
         rows.push({
           id,
+          providerMarketId: market.providerMarketId,
+          providerPlayerId: market.playerId ? market.entityId : null,
+          providerSelectionId: price.originalProviderSelectionId ?? null,
+          providerSelectionKey: price.providerSelectionId,
           marketType: market.marketType,
           statId: market.statId,
           entityId: market.entityId,
@@ -226,6 +259,8 @@ export class D1OddsBoard {
       },
       rows,
       asOf,
+      undefined,
+      { sourceIdentity: 'sportsgameodds' },
     );
   }
   async priceHistory(event: string, asOf: string, includeAll = false) {

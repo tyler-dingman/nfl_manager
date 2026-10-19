@@ -1,0 +1,2 @@
+CREATE TABLE app_cross_shard_references(user_id TEXT NOT NULL REFERENCES app_users(id) ON DELETE CASCADE,kind TEXT NOT NULL,content_id TEXT NOT NULL,owner TEXT NOT NULL,object_hash TEXT NOT NULL,state TEXT NOT NULL CHECK(state IN('PREPARED','COMMITTED')),updated_at INTEGER NOT NULL,PRIMARY KEY(user_id,kind,content_id)) WITHOUT ROWID;
+CREATE INDEX app_cross_shard_references_target ON app_cross_shard_references(owner,object_hash);

@@ -6,6 +6,7 @@ import { writeFile, mkdtemp, rm, readFile, mkdir } from 'node:fs/promises';
 import { checkD1Products } from './check-d1-product-workflows.mjs';
 import assert from 'node:assert/strict';
 
+const multiD1 = process.env.DD_MULTI_D1 === 'true';
 const out = process.env.D1_BROWSER_REPORT_DIR ?? 'reports/d1-migration';
 await mkdir(out, { recursive: true });
 const socket = createServer();
@@ -30,12 +31,18 @@ assert(!('DATABASE_URL' in env));
 assert(!('PRODUCTION_DATABASE_URL' in env));
 const apiConfig = directory + '/api.toml';
 let api = await readFile(
-  process.env.DD_NO_R2 === 'true'
-    ? 'wrangler.api-no-billing-local.toml'
-    : 'wrangler.api-local.toml',
+  multiD1
+    ? 'wrangler.api-multi-d1-local.toml'
+    : process.env.DD_NO_R2 === 'true'
+      ? 'wrangler.api-no-billing-local.toml'
+      : 'wrangler.api-local.toml',
   'utf8',
 );
 api = api
+  .replaceAll(
+    'migrations_dir = "workers/multi-d1/migrations/',
+    `migrations_dir = "${process.cwd()}/workers/multi-d1/migrations/`,
+  )
   .replace(
     'main = "workers/api/dist/worker.mjs"',
     `main = "${process.cwd()}/workers/api/dist/worker.mjs"`,
@@ -55,24 +62,31 @@ AUTH_BASE_URL="${baseURL}"`,
   );
 await writeFile(apiConfig, api);
 
-const migrated = spawnSync(
-  process.execPath,
-  [
-    'node_modules/wrangler/bin/wrangler.js',
-    'd1',
-    'migrations',
-    'apply',
-    'APP_DB',
-    '--local',
-    '--config',
-    apiConfig,
-    '--persist-to',
-    directory,
-  ],
-  { env, encoding: 'utf8' },
-);
-await writeFile(out + '/browser-migrations.log', migrated.stdout + migrated.stderr);
-assert.equal(migrated.status, 0);
+for (const binding of multiD1
+  ? [...Array.from({ length: 8 }, (_, i) => `D1_TEAM_${i + 1}`), 'D1_USERS', 'D1_SHARED']
+  : ['APP_DB']) {
+  const migrated = spawnSync(
+    process.execPath,
+    [
+      'node_modules/wrangler/bin/wrangler.js',
+      'd1',
+      'migrations',
+      'apply',
+      binding,
+      '--local',
+      '--config',
+      apiConfig,
+      '--persist-to',
+      directory,
+    ],
+    { env, encoding: 'utf8' },
+  );
+  await writeFile(
+    out + '/browser-migrations-' + binding + '.log',
+    migrated.stdout + migrated.stderr,
+  );
+  assert.equal(migrated.status, 0);
+}
 const serverLog = createWriteStream(`${out}/local-server.log`);
 let server;
 const start = async () => {
@@ -83,9 +97,11 @@ const start = async () => {
       'dev',
       '--local',
       '--config',
-      process.env.DD_NO_R2 === 'true'
-        ? 'wrangler.no-billing-local.toml'
-        : 'wrangler.split-local.toml',
+      multiD1
+        ? 'wrangler.web-multi-d1-local.toml'
+        : process.env.DD_NO_R2 === 'true'
+          ? 'wrangler.no-billing-local.toml'
+          : 'wrangler.split-local.toml',
       '--config',
       apiConfig,
       '--config',
@@ -169,6 +185,64 @@ try {
   assert.equal(trade.status, 0, 'Trade HTTP contract failed; see trade-http-integration.log');
   checks.push('real authenticated versioned multi-route trade HTTP regression');
   checks.push(...(await checkD1Products(a, b, baseURL)));
+  if (multiD1) {
+    const { createHash } = await import('node:crypto');
+    const story = {
+      id: 'saved-original-id',
+      teamId: 'KC',
+      headline: 'Original synthetic story',
+      shortSummary: 'Attributed',
+      whatHappened: 'Original evidence',
+      whyItMatters: 'Matters',
+      whatsNext: 'Next',
+      status: 'DEVELOPING',
+      storyType: 'ANALYSIS',
+      importanceScore: 80,
+      confidenceScore: 95,
+      firstReportedAt: new Date().toISOString(),
+      lastMeaningfulUpdateAt: new Date().toISOString(),
+      sources: [
+        {
+          id: 'source',
+          name: 'Original',
+          url: 'https://example.invalid/source',
+          publishedAt: new Date().toISOString(),
+          official: true,
+          original: true,
+        },
+      ],
+      version: 1,
+      sourceItemCount: 1,
+      publisherCount: 1,
+      independentSourceCount: 1,
+      hotReadUntil: null,
+      clusterReason: 'Original',
+    };
+    const payload = Buffer.from(
+        JSON.stringify({ schema: 1, kind: 'PUBLIC_STORY', story, state: 'AUTO_PUBLISHED' }),
+      ),
+      hash = createHash('sha256').update(payload).digest('hex'),
+      now = Date.now();
+    const command = `INSERT INTO app_payload_objects(hash,bytes,chunks,complete,inline_data) VALUES('${hash}',${payload.length},0,1,X'${payload.toString('hex')}'); INSERT OR IGNORE INTO app_payload_capacity(id,used_bytes) VALUES(1,0); UPDATE app_payload_capacity SET used_bytes=used_bytes+${payload.length}; INSERT INTO app_public_stories(id,search_rowid,team_id,story_type,importance,first_at,updated_at,evidence_at,version,visible,object_hash) VALUES('saved-original-id',-123456,'KC','ANALYSIS',80,${now},${now},${now},1,1,'${hash}');`;
+    const seeded = spawnSync(
+      process.execPath,
+      [
+        'node_modules/wrangler/bin/wrangler.js',
+        'd1',
+        'execute',
+        'D1_TEAM_1',
+        '--local',
+        '--config',
+        apiConfig,
+        '--persist-to',
+        directory,
+        '--command',
+        command,
+      ],
+      { env, encoding: 'utf8' },
+    );
+    assert.equal(seeded.status, 0, seeded.stdout + seeded.stderr);
+  }
   const saved = {
     contentType: 'STORY',
     contentId: 'saved-original-id',
@@ -385,7 +459,7 @@ try {
     `${out}/browser-results.json`,
     JSON.stringify(
       {
-        scope: `MEASURED local Cloudflare workerd, D1${process.env.DD_NO_R2 === 'true' ? ' with no R2 bindings' : '/R2'} and synthetic accounts. DATABASE_URL absent. Chromium desktop/mobile viewport only; external network blocked. Not Android/iOS or provider validation.`,
+        scope: `MEASURED ${multiD1 ? 'TEN PHYSICAL DATABASES' : 'single D1'} local Cloudflare workerd, D1${process.env.DD_NO_R2 === 'true' ? ' with no R2 bindings' : '/R2'} and synthetic accounts. DATABASE_URL absent. Chromium desktop/mobile viewport only; external network blocked. Not Android/iOS or provider validation.`,
         checks,
         routes,
       },

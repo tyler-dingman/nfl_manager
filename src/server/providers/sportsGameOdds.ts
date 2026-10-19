@@ -186,7 +186,11 @@ export class SportsGameOddsClient {
     return (await this.request(params)).data ?? [];
   }
 
-  async getNflEvents(input: { startsAfter: string; startsBefore: string; pageSize?: number }) {
+  private nflPageParameters(input: {
+    startsAfter: string;
+    startsBefore: string;
+    pageSize?: number;
+  }) {
     const pageSize = input.pageSize ?? 100;
     if (!Number.isSafeInteger(pageSize) || pageSize < 1 || pageSize > 100)
       throw new SportsGameOddsError('Invalid event page size');
@@ -203,6 +207,23 @@ export class SportsGameOddsClient {
       startsBefore: input.startsBefore,
       limit: String(pageSize),
     });
+    return params;
+  }
+  async getNflEventsPage(input: {
+    startsAfter: string;
+    startsBefore: string;
+    pageSize?: number;
+    cursor?: string;
+  }) {
+    const params = this.nflPageParameters(input);
+    if (input.cursor) {
+      if (input.cursor.length > 4096) throw new SportsGameOddsError('Invalid provider cursor');
+      params.set('cursor', input.cursor);
+    }
+    return this.request(params);
+  }
+  async getNflEvents(input: { startsAfter: string; startsBefore: string; pageSize?: number }) {
+    const params = this.nflPageParameters(input);
     const events: SportsGameOddsEvent[] = [];
     let cursor: string | undefined;
     do {

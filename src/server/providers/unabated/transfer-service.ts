@@ -1,5 +1,9 @@
-import{applicationBackend,applicationStorage,applicationEnvironment}from'../../persistence/bindings';
-import{D1Transfers}from'../../../../packages/storage/sportsbook-transfers';
+import {
+  applicationBackend,
+  applicationStorage,
+  applicationEnvironment,
+} from '../../persistence/bindings';
+import { D1Transfers } from '../../../../packages/storage/sportsbook-transfers';
 import { sportsbookConfig, type Sportsbook } from '../../../../packages/parlay/sportsbook-transfer';
 import { createHash, createHmac, randomUUID } from 'node:crypto';
 import { authDb } from '../../auth/database';
@@ -20,7 +24,11 @@ export class TransferError extends Error {
     super(message);
   }
 }
-export function transferEnabled(userId: string, env = applicationEnvironment(), book: Sportsbook = 'fanduel') {
+export function transferEnabled(
+  userId: string,
+  env = applicationEnvironment(),
+  book: Sportsbook = 'fanduel',
+) {
   return (
     ['development', 'test'].includes(env.NODE_ENV ?? '') &&
     env[sportsbookConfig[book].flag] === 'true' &&
@@ -73,9 +81,19 @@ export function quotaReason(
       ? 'Sportsbook preparation is busy. Please try later.'
       : null;
 }
-export function createTransferService(inputDb?:ReturnType<typeof authDb>,client=new UnabatedClient()){
- if(!inputDb&&applicationBackend()==='d1'){const d=new D1Transfers(applicationStorage('D1_USERS'),client);return{start:d.start.bind(d),poll:d.poll.bind(d),resolve:d.resolve.bind(d)};}
- const db=inputDb??authDb();
+export function createTransferService(
+  inputDb?: ReturnType<typeof authDb>,
+  client = new UnabatedClient(),
+) {
+  if (!inputDb && applicationBackend() === 'd1') {
+    const d = new D1Transfers(
+      applicationStorage('D1_USERS'),
+      client,
+      applicationStorage('D1_SHARED'),
+    );
+    return { start: d.start.bind(d), poll: d.poll.bind(d), resolve: d.resolve.bind(d) };
+  }
+  const db = inputDb ?? authDb();
   const actor = (user: string) =>
     createHmac('sha256', process.env.AUTH_JWT_SECRET!)
       .update('fanduel:' + user)

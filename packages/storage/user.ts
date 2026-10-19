@@ -1,4 +1,4 @@
-import { Storage } from './core';
+import { Storage, type Statement } from './core';
 import { D1AuthRepository } from './auth';
 import { DEFAULT_PREFERENCES } from '../../src/server/user/types';
 export class D1UserRepository {
@@ -172,7 +172,7 @@ export class D1UserRepository {
       }),
     );
   }
-  async saveContent(id: string, input: any) {
+  async saveContent(id: string, input: any, receipts: Statement[] = []) {
     let raw = JSON.stringify(input.metadata ?? {});
     let hash: string | null = null;
     if (new TextEncoder().encode(raw).length > 512) {
@@ -185,21 +185,23 @@ export class D1UserRepository {
       });
       raw = '{}';
     }
-    const rows = await this.s.rows<any>(
-      'INSERT INTO app_saved_content(id,user_id,content_type,content_id,title,href,image_url,metadata_json,metadata_hash,created_at) VALUES(?,?,?,?,?,?,?,?,?,?) ON CONFLICT(user_id,content_type,content_id) DO UPDATE SET title=excluded.title,href=excluded.href,image_url=excluded.image_url,metadata_json=excluded.metadata_json,metadata_hash=excluded.metadata_hash RETURNING id',
-      [
-        crypto.randomUUID(),
-        id,
-        input.contentType,
-        input.contentId,
-        input.title,
-        input.href ?? null,
-        input.imageUrl ?? null,
-        raw,
-        hash,
-        Date.now(),
-      ],
-    );
+    const sql =
+      'INSERT INTO app_saved_content(id,user_id,content_type,content_id,title,href,image_url,metadata_json,metadata_hash,created_at) VALUES(?,?,?,?,?,?,?,?,?,?) ON CONFLICT(user_id,content_type,content_id) DO UPDATE SET title=excluded.title,href=excluded.href,image_url=excluded.image_url,metadata_json=excluded.metadata_json,metadata_hash=excluded.metadata_hash RETURNING id';
+    const values = [
+      crypto.randomUUID(),
+      id,
+      input.contentType,
+      input.contentId,
+      input.title,
+      input.href ?? null,
+      input.imageUrl ?? null,
+      raw,
+      hash,
+      Date.now(),
+    ];
+    const rows = receipts.length
+      ? (await this.s.batch([this.s.statement(sql, values), ...receipts]))[0].results
+      : await this.s.rows<any>(sql, values);
     return rows[0] ?? null;
   }
   async unsaveContent(id: string, type: string, content: string) {

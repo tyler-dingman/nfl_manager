@@ -1,6 +1,9 @@
 import { Storage } from './core';
 export class D1ContentAutomation {
-  constructor(readonly s: Storage) {}
+  constructor(
+    readonly s: Storage,
+    readonly compactDailyCounter = false,
+  ) {}
   async readTrialUsage(starts: Date, expires: Date) {
     const [r] = await this.s.rows<any>(
       'SELECT coalesce(sum(generated_items),0) AS generatedTotal,coalesce(sum(CASE WHEN started_at>=? THEN generated_items ELSE 0 END),0) AS generatedToday,coalesce(sum(ai_spend_usd),0) AS aiSpendTotalUsd FROM app_content_automation_runs WHERE trial_starts_at=? AND trial_expires_at=?',
@@ -9,6 +12,13 @@ export class D1ContentAutomation {
     return r as { generatedTotal: number; generatedToday: number; aiSpendTotalUsd: number };
   }
   async readGlobalGeneratedToday() {
+    if (this.compactDailyCounter) {
+      const [row] = await this.s.rows<{ generated: number }>(
+        'SELECT generated FROM app_content_automation_totals WHERE day=?',
+        [Math.floor(Date.now() / 86400000)],
+      );
+      return row?.generated ?? 0;
+    }
     const [r] = await this.s.rows<any>(
       'SELECT coalesce(sum(generated_items),0) AS n FROM app_content_automation_runs WHERE trial_starts_at IS NULL AND started_at>=?',
       [new Date().setUTCHours(0, 0, 0, 0)],

@@ -1,4 +1,18 @@
-import { applicationBackend, applicationStorage } from '@/server/persistence/bindings';
+import {
+  verifiedVideoSourceCount,
+  syncVerifiedVideoSourceAt,
+} from '@/server/film-room/video-source-sync';
+import { advanceEditorialHandoff } from '../../../../../../packages/storage/editorial-handoffs';
+import { EDITORIAL_OWNERS } from '../../../../../../packages/storage/editorial-directory';
+import { dispatchEditorial } from '../../../../../../packages/storage/editorial-dispatch';
+import { teamDatabase, type DatabaseOwner } from '../../../../../../packages/storage/multi-d1';
+import {
+  applicationBackend,
+  applicationStorage,
+  applicationDatabaseRouter,
+  currentEditorialOwner,
+  withEditorialOwner,
+} from '@/server/persistence/bindings';
 import { PollingBatches } from '../../../../../../packages/storage/polling-batches';
 import { workOne } from '@/server/story-engine/service';
 import { automationAuthError } from '@/server/content-automation/auth';
@@ -36,11 +50,77 @@ const safeJobFailure = (value: unknown) => {
   return 'job-processing-error';
 };
 
-export async function POST(request: NextRequest) {
+export async function POST(request: NextRequest): Promise<Response> {
   const authError = automationAuthError(request.headers.get('authorization'));
   if (authError)
     return NextResponse.json({ ok: false, ...authError }, { status: authError.status });
 
+  const router = applicationDatabaseRouter();
+  if (router && !currentEditorialOwner()) {
+    const selected = request.nextUrl.searchParams.get('owner');
+    if (request.nextUrl.searchParams.get('action') === 'checkpoint') {
+      const owner = selected as DatabaseOwner,
+        action = request.nextUrl.searchParams.get('resume');
+      const batch = request.nextUrl.searchParams.get('batch');
+      if (
+        !EDITORIAL_OWNERS.includes(owner) ||
+        !['poll', 'candidate', 'dispatch', 'handoff'].includes(action ?? '') ||
+        (batch && !/^[a-f0-9-]{36}$/.test(batch))
+      )
+        return NextResponse.json({ ok: false }, { status: 400 });
+      const [prior] = await router
+        .shared()
+        .rows<any>('SELECT owner,action,batch FROM app_editorial_scheduler WHERE id=1');
+      if (prior?.owner === owner && prior.action === action && prior.batch === batch)
+        return NextResponse.json({ ok: true, unchanged: true });
+      await router
+        .shared()
+        .statement(
+          'INSERT INTO app_editorial_scheduler(id,owner,action,batch) VALUES(1,?,?,?) ON CONFLICT(id) DO UPDATE SET owner=excluded.owner,action=excluded.action,batch=excluded.batch',
+          [owner, action, batch],
+        )
+        .run();
+      return NextResponse.json({ ok: true });
+    }
+    const requested = request.nextUrl.searchParams.get('team')?.trim().toUpperCase();
+    let owner: DatabaseOwner;
+    let effective = request;
+    try {
+      if (!selected && !requested && request.nextUrl.searchParams.get('action') !== 'registry') {
+        const [saved] = await router
+          .shared()
+          .rows<any>('SELECT owner,action,batch FROM app_editorial_scheduler WHERE id=1');
+        owner = saved?.owner ?? 'D1_TEAM_1';
+        if (saved) {
+          if (
+            !EDITORIAL_OWNERS.includes(saved.owner) ||
+            !['poll', 'candidate', 'dispatch', 'handoff'].includes(saved.action)
+          )
+            throw Error('Corrupt scheduler cursor');
+          return NextResponse.json({
+            ok: true,
+            owner: saved.owner,
+            batch: saved.batch,
+            nextAction: saved.action,
+            resumed: true,
+          });
+        }
+      } else
+        owner = (selected as DatabaseOwner) || (requested ? teamDatabase(requested) : 'D1_TEAM_1');
+    } catch {
+      return NextResponse.json({ ok: false, error: 'Invalid owner/team' }, { status: 400 });
+    }
+    if (!EDITORIAL_OWNERS.includes(owner))
+      return NextResponse.json({ ok: false, error: 'Invalid editorial owner' }, { status: 400 });
+    const response = await withEditorialOwner(owner, () => POST(effective));
+    if (response.status !== 200) return response;
+    const body = await response.json();
+    return NextResponse.json({
+      ...body,
+      owner,
+      nextOwner: EDITORIAL_OWNERS[EDITORIAL_OWNERS.indexOf(owner) + 1] ?? null,
+    });
+  }
   const config = globalAutomationConfig();
   const disabled = globalGenerationStopReason({
     enabled: config.enabled,
@@ -69,6 +149,17 @@ export async function POST(request: NextRequest) {
   if (applicationBackend() === 'd1') {
     const batches = new PollingBatches(applicationStorage());
     const action = request.nextUrl.searchParams.get('action') ?? 'poll';
+    if (action === 'video-registry') {
+      const cursor = Number(request.nextUrl.searchParams.get('cursor') ?? 0);
+      if (!Number.isInteger(cursor) || cursor < 0 || cursor >= verifiedVideoSourceCount())
+        return NextResponse.json({ ok: false, error: 'Invalid registry cursor' }, { status: 400 });
+      await syncVerifiedVideoSourceAt(cursor);
+      return NextResponse.json({
+        ok: true,
+        done: cursor + 1 === verifiedVideoSourceCount(),
+        nextCursor: cursor + 1 < verifiedVideoSourceCount() ? cursor + 1 : null,
+      });
+    }
     if (action === 'registry') {
       const definitions = getAllMonitoringSources();
       const cursor = Number(request.nextUrl.searchParams.get('cursor') ?? 0);
@@ -80,6 +171,22 @@ export async function POST(request: NextRequest) {
         sourceId: definitions[cursor].id,
         nextCursor: cursor + 1 < definitions.length ? cursor + 1 : null,
         done: cursor + 1 === definitions.length,
+      });
+    }
+    if (action === 'handoff' && router) {
+      const result = await advanceEditorialHandoff(router, currentEditorialOwner()!);
+      return NextResponse.json({
+        ok: true,
+        ...result,
+        nextAction: result.done ? 'poll' : 'handoff',
+      });
+    }
+    if (action === 'dispatch' && router) {
+      const result = await dispatchEditorial(router, currentEditorialOwner()!);
+      return NextResponse.json({
+        ok: true,
+        ...result,
+        nextAction: result.done ? 'candidate' : 'dispatch',
       });
     }
     if (action !== 'poll' && action !== 'candidate')
@@ -105,18 +212,49 @@ export async function POST(request: NextRequest) {
         : 0;
       if (job)
         await recordGlobalRun({ status: 'COMPLETED', jobsProcessed: 1, generatedItems: generated });
-      return NextResponse.json({ ok: true, job, nextAction: job ? 'candidate' : 'poll' });
+      return NextResponse.json({
+        ok: true,
+        job,
+        nextAction: router ? (job ? 'dispatch' : 'handoff') : job ? 'candidate' : 'poll',
+      });
     }
     let token = request.nextUrl.searchParams.get('batch');
     if (!token) token = (await batches.claim(requestedTeam, requestedGroup as any))?.token ?? null;
+    if (!token && router) {
+      const [pending] = await applicationStorage().rows<{ pending: number }>(
+        `SELECT EXISTS(SELECT 1 FROM app_editorial_dispatch WHERE done=0) OR EXISTS(SELECT 1 FROM app_briefing_mail_jobs WHERE status='READY') OR EXISTS(SELECT 1 FROM app_editorial_jobs WHERE status IN('PENDING','RETRY','RUNNING')) OR EXISTS(SELECT 1 FROM app_editorial_handoffs WHERE status<>'DONE') AS pending`,
+      );
+      if (!pending.pending)
+        return NextResponse.json({
+          ok: true,
+          done: true,
+          busyOrNoDueSources: true,
+          ownerIdle: true,
+          nextAction: 'poll',
+        });
+    }
     if (!token)
       return NextResponse.json({
         ok: true,
         done: true,
         busyOrNoDueSources: true,
-        nextAction: 'candidate',
+        nextAction: router ? 'dispatch' : 'candidate',
       });
-    const result = await batches.step(token);
+    let result;
+    try {
+      result = await batches.step(token);
+    } catch (error) {
+      if (!router || !String(error).includes('Polling lease expired or replaced')) throw error;
+      token = (await batches.claim(requestedTeam, requestedGroup as any))?.token ?? null;
+      if (!token)
+        return NextResponse.json({
+          ok: true,
+          done: true,
+          busyOrNoDueSources: true,
+          nextAction: router ? 'dispatch' : 'candidate',
+        });
+      result = await batches.step(token);
+    }
     return NextResponse.json({
       ok: true,
       ...result,

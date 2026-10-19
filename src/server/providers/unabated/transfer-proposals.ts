@@ -1,5 +1,9 @@
-import{applicationBackend,applicationStorage,applicationEnvironment}from'../../persistence/bindings';
-import{D1TransferProposals}from'../../../../packages/storage/sportsbook-transfers';
+import {
+  applicationBackend,
+  applicationStorage,
+  applicationEnvironment,
+} from '../../persistence/bindings';
+import { D1TransferProposals } from '../../../../packages/storage/sportsbook-transfers';
 import { createHmac, timingSafeEqual } from 'node:crypto';
 import { authDb } from '../../auth/database';
 import { classifyStoredLine } from '../../odds/line-classification';
@@ -98,9 +102,12 @@ export function readProposalToken(user: string, book: Sportsbook, token: string)
     );
   }
 }
-export function createProposalService(inputDb?:ReturnType<typeof authDb>){
- if(!inputDb&&applicationBackend()==='d1'){const d=new D1TransferProposals(applicationStorage('D1_USERS'));return{inspect:d.inspect.bind(d),propose:d.propose.bind(d),approve:d.approve.bind(d)};}
- const db=inputDb??authDb();
+export function createProposalService(inputDb?: ReturnType<typeof authDb>) {
+  if (!inputDb && applicationBackend() === 'd1') {
+    const d = new D1TransferProposals(applicationStorage('D1_SHARED'));
+    return { inspect: d.inspect.bind(d), propose: d.propose.bind(d), approve: d.approve.bind(d) };
+  }
+  const db = inputDb ?? authDb();
   async function inspect(user: string, ids: string[], book: Sportsbook, enabled = true) {
     if (!ids.length || ids.length > 20 || new Set(ids).size !== ids.length)
       throw new TransferError('Invalid selections.');

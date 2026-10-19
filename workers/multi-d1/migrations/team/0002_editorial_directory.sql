@@ -1,0 +1,1 @@
+-- Directory hints live only in D1_SHARED.

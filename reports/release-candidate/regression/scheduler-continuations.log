@@ -1,0 +1,35 @@
+TAP version 13
+# Subtest: continuations process multiple batches, drain candidates, then stop on durable idle
+ok 1 - continuations process multiple batches, drain candidates, then stop on durable idle
+  ---
+  duration_ms: 3.966208
+  ...
+# Subtest: bounded scheduler never loops indefinitely or follows a supplied URL
+ok 2 - bounded scheduler never loops indefinitely or follows a supplied URL
+  ---
+  duration_ms: 4.220875
+  ...
+# Subtest: multi-D1 runner drains dispatch and handoff before advancing owners and checkpoints a bounded continuation
+ok 3 - multi-D1 runner drains dispatch and handoff before advancing owners and checkpoints a bounded continuation
+  ---
+  duration_ms: 3.103708
+  ...
+# Subtest: multi-D1 scheduler refuses a user-database routing injection
+ok 4 - multi-D1 scheduler refuses a user-database routing injection
+  ---
+  duration_ms: 0.332291
+  ...
+# Subtest: verified idle owners advance without three empty continuation requests
+ok 5 - verified idle owners advance without three empty continuation requests
+  ---
+  duration_ms: 0.643375
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 5
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 211.433625

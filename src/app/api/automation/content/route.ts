@@ -1,3 +1,9 @@
+import {
+  applicationDatabaseRouter,
+  currentEditorialOwner,
+  withEditorialOwner,
+} from '@/server/persistence/bindings';
+import { teamDatabase } from '../../../../../packages/storage/multi-d1';
 import { applicationBackend, applicationStorage } from '@/server/persistence/bindings';
 import { PollingBatches } from '../../../../../packages/storage/polling-batches';
 import { workOne } from '@/server/story-engine/service';
@@ -29,7 +35,7 @@ const safeJobFailure = (value: unknown) => {
   return 'job-processing-error';
 };
 
-export async function POST(request: NextRequest) {
+export async function POST(request: NextRequest): Promise<Response> {
   const authError = automationAuthError(request.headers.get('authorization'));
   if (authError)
     return NextResponse.json({ ok: false, ...authError }, { status: authError.status });
@@ -93,6 +99,8 @@ export async function POST(request: NextRequest) {
 
   const remaining = Math.min(10 - usage.generatedToday, 30 - usage.generatedTotal);
   if (applicationBackend() === 'd1') {
+    if (applicationDatabaseRouter() && !currentEditorialOwner())
+      return withEditorialOwner(teamDatabase(teamId), () => POST(request));
     const action = request.nextUrl.searchParams.get('action') ?? 'poll';
     if (!['poll', 'candidate'].includes(action))
       return NextResponse.json(

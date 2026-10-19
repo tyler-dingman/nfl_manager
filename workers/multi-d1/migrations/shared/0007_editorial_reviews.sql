@@ -1,0 +1,2 @@
+CREATE TABLE app_editorial_review_index(id TEXT PRIMARY KEY,owner TEXT NOT NULL,team_id TEXT,version INTEGER NOT NULL,headline TEXT NOT NULL,summary TEXT NOT NULL,status TEXT NOT NULL,confidence_score REAL NOT NULL,importance_score REAL NOT NULL,sources_json TEXT NOT NULL,reason TEXT NOT NULL,updated_at INTEGER NOT NULL);
+CREATE INDEX app_editorial_review_order ON app_editorial_review_index(updated_at DESC,id);

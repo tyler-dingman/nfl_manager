@@ -82,6 +82,10 @@ export async function logicalExport(query) {
     "SELECT sql FROM sqlite_schema WHERE type='index' AND sql IS NOT NULL AND name NOT LIKE 'sqlite_%' ORDER BY name",
   ))
     sql.push(index.sql + ';');
+  for (const trigger of await query(
+    "SELECT sql FROM sqlite_schema WHERE type='trigger' AND sql IS NOT NULL ORDER BY name",
+  ))
+    sql.push(trigger.sql + ';');
   return Buffer.from(sql.join('\n') + '\n');
 }
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {

@@ -1,3 +1,4 @@
+type D1Database = import('@cloudflare/workers-types/index.ts').D1Database;
 import { Miniflare, convertV4MiniflareOptions } from 'miniflare';
 import { readFile, readdir, mkdtemp, rm } from 'node:fs/promises';
 import { URL } from 'node:url';

@@ -41,7 +41,7 @@ async function main() {
       plugins: [
         {
           name: 'worker-password',
-          setup(b) {
+          setup(b: import('esbuild').PluginBuild) {
             b.onResolve({ filter: /argon-node$/ }, () => ({
               path: resolve('src/server/auth/argon-worker.ts'),
             }));
@@ -51,7 +51,7 @@ async function main() {
           ? [
               {
                 name: 'baseline-editorial',
-                setup(b) {
+                setup(b: import('esbuild').PluginBuild) {
                   b.onResolve({ filter: /editorial-ingestion(?:\.ts)?$/ }, () => ({ path: old }));
                 },
               },

@@ -75,7 +75,8 @@ test('mail encryption, dedupe, opt-out, free quota, concurrent workers and ambig
     assert(!JSON.stringify(encrypted).includes(message.text));
     assert.equal((await unseal<any>(encrypted, secret)).text, message.text);
     await assert.rejects(unseal(encrypted, 'wrong-key-that-is-at-least-32-characters'));
-    const now = Date.now() + 10000;
+    // A deterministic processing clock keeps late enqueues eligible on slow CI.
+    const now = Date.parse('2099-01-15T12:00:00Z');
     for (let i = 0; i < 24; i++)
       await Promise.all([mail.process(provider, now, 25), mail.process(provider, now, 25)]);
     assert.equal(calls, 60);

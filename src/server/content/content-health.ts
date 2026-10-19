@@ -1,4 +1,6 @@
-import{applicationBackend,applicationStorage}from'../persistence/bindings';
+import { applicationDatabaseRouter } from '../persistence/bindings';
+import { EDITORIAL_OWNERS } from '../../../packages/storage/editorial-directory';
+import { applicationBackend, applicationStorage } from '../persistence/bindings';
 import { TEAM_LIST } from '@/data/teams';
 import { assertNFLTeamCoverage, getMonitoringSources } from '@/data/sources/monitoring';
 import { authDb } from '@/server/auth/database';
@@ -30,21 +32,58 @@ const hoursSince = (value: string | null, now: Date) =>
 
 export async function auditContentHealth(now = new Date()) {
   const coverage = assertNFLTeamCoverage();
-  const s=applicationBackend()==='d1'?applicationStorage():null,sql=s?null:authDb();
+  const router = applicationDatabaseRouter();
+  const s =
+      applicationBackend() === 'd1'
+        ? router
+          ? {
+              rows: async <T = Record<string, unknown>>(
+                query: string,
+                values: unknown[] = [],
+              ): Promise<T[]> => {
+                const rows: T[] = [];
+                for (const owner of EDITORIAL_OWNERS)
+                  rows.push(...(await router.storage(owner).rows<T>(query, values)));
+                return rows;
+              },
+            }
+          : applicationStorage()
+        : null,
+    sql = s ? null : authDb();
   const [sources, stories, briefings, rejected] = await Promise.all([
-    s?s.rows<any>('SELECT team_id AS teamId,enabled,last_checked_at AS lastCheckedAt,last_successful_at AS lastSuccessfulAt,consecutive_failures AS consecutiveFailures,last_error AS lastError FROM app_editorial_sources WHERE team_id IS NOT NULL'):sql!<any[]>`SELECT team_id AS "teamId", enabled, last_checked_at AS "lastCheckedAt",
+    s
+      ? s.rows<any>(
+          'SELECT team_id AS teamId,enabled,last_checked_at AS lastCheckedAt,last_successful_at AS lastSuccessfulAt,consecutive_failures AS consecutiveFailures,last_error AS lastError FROM app_editorial_sources WHERE team_id IS NOT NULL',
+        )
+      : sql!<any[]>`SELECT team_id AS "teamId", enabled, last_checked_at AS "lastCheckedAt",
       last_successful_at AS "lastSuccessfulAt", consecutive_failures AS "consecutiveFailures",
       last_error AS "lastError" FROM content_sources WHERE team_id IS NOT NULL`,
-    s?s.rows<any>("SELECT team_id AS teamId,max(last_meaningful_update_at) AS latestStoryAt,count(*) FILTER(WHERE last_meaningful_update_at>=?) AS todayCount,count(*) FILTER(WHERE last_meaningful_update_at>=? AND status<>'HOLDING') AS homepageCandidates FROM app_editorial_stories WHERE team_id IS NOT NULL AND publication_state IN('PUBLISHED','AUTO_PUBLISHED') GROUP BY team_id",[new Date(now).setUTCHours(0,0,0,0),now.getTime()-72*3600000]):sql!<any[]>`SELECT team_id AS "teamId", max(last_meaningful_update_at) AS "latestStoryAt",
+    s
+      ? s.rows<any>(
+          "SELECT team_id AS teamId,max(last_meaningful_update_at) AS latestStoryAt,count(*) FILTER(WHERE last_meaningful_update_at>=?) AS todayCount,count(*) FILTER(WHERE last_meaningful_update_at>=? AND status<>'HOLDING') AS homepageCandidates FROM app_editorial_stories WHERE team_id IS NOT NULL AND publication_state IN('PUBLISHED','AUTO_PUBLISHED') GROUP BY team_id",
+          [new Date(now).setUTCHours(0, 0, 0, 0), now.getTime() - 72 * 3600000],
+        )
+      : sql!<any[]>`SELECT team_id AS "teamId", max(last_meaningful_update_at) AS "latestStoryAt",
       count(*) FILTER (WHERE last_meaningful_update_at >= date_trunc('day', ${now}::timestamptz))::int AS "todayCount",
       count(*) FILTER (WHERE last_meaningful_update_at >= ${new Date(now.getTime() - 72 * 3_600_000)}
         AND publication_state IN ('PUBLISHED','AUTO_PUBLISHED') AND status<>'HOLDING')::int AS "homepageCandidates"
       FROM canonical_stories WHERE team_id IS NOT NULL
       AND publication_state IN ('PUBLISHED','AUTO_PUBLISHED') GROUP BY team_id`,
-    s?s.rows<any>('SELECT b.team_id AS teamId,b.briefing_date AS briefingDate,json_array_length(b.summary_json) AS itemCount FROM app_daily_briefings b WHERE b.briefing_date=(SELECT max(briefing_date) FROM app_daily_briefings WHERE team_id=b.team_id)'):sql!<any[]>`SELECT DISTINCT ON (team_id) team_id AS "teamId", briefing_date AS "briefingDate",
+    s
+      ? s.rows<any>(
+          'SELECT b.team_id AS teamId,b.briefing_date AS briefingDate,json_array_length(b.summary_json) AS itemCount FROM app_daily_briefings b WHERE b.briefing_date=(SELECT max(briefing_date) FROM app_daily_briefings WHERE team_id=b.team_id)',
+        )
+      : sql!<
+          any[]
+        >`SELECT DISTINCT ON (team_id) team_id AS "teamId", briefing_date AS "briefingDate",
       jsonb_array_length(items) AS "itemCount" FROM three_and_out_snapshots
       WHERE status='PUBLISHED' AND items IS NOT NULL ORDER BY team_id, briefing_date DESC`,
-    s?s.rows<any>("SELECT source.team_id AS teamId,count(*) AS count FROM app_editorial_candidates candidate JOIN app_editorial_sources source ON source.id=candidate.source_id WHERE candidate.status IN('REJECTED','REVIEW_REQUIRED','FAILED') AND candidate.discovered_at>=? AND source.team_id IS NOT NULL GROUP BY source.team_id",[now.getTime()-24*3600000]):sql!<any[]>`SELECT source.team_id AS "teamId", count(*)::int AS count
+    s
+      ? s.rows<any>(
+          "SELECT source.team_id AS teamId,count(*) AS count FROM app_editorial_candidates candidate JOIN app_editorial_sources source ON source.id=candidate.source_id WHERE candidate.status IN('REJECTED','REVIEW_REQUIRED','FAILED') AND candidate.discovered_at>=? AND source.team_id IS NOT NULL GROUP BY source.team_id",
+          [now.getTime() - 24 * 3600000],
+        )
+      : sql!<any[]>`SELECT source.team_id AS "teamId", count(*)::int AS count
       FROM content_candidates candidate JOIN content_sources source ON source.id=candidate.source_id
       WHERE candidate.status IN ('REJECTED','REVIEW_REQUIRED','FAILED')
         AND candidate.updated_at >= ${new Date(now.getTime() - 24 * 3_600_000)}

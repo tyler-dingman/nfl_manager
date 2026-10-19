@@ -1,0 +1,38 @@
+{
+  "scope": "Local synthetic measurements; assumptions labeled; no hosted CPU or account validation",
+  "mixedDay": {
+    "sourceChecks": 18504,
+    "followers": 50,
+    "requestCount": 37690,
+    "maximumQueries": 49,
+    "over50": 0,
+    "schedulerFreshnessQualified": false
+  },
+  "mixedDayRows": {
+    "rowsRead": 595215,
+    "rowsWritten": 78174
+  },
+  "physicalBytes": {
+    "initial": 5070848,
+    "final": 8646656
+  },
+  "boundedUnchangedRss": {
+    "minutes": 1440,
+    "activeSources": 97,
+    "expectedChecks": 18504,
+    "actualChecks": 18504,
+    "checksPreserved": true,
+    "cappedTicks": 0,
+    "maximumQueries": 24,
+    "requests": 19488,
+    "rowsRead": 469533,
+    "rowsWritten": 59277
+  },
+  "planning": {
+    "privateWritesPerDauAssumed": 81,
+    "refreshDayCaptureDeltaAssumed": 1125,
+    "fiftyDauWritesBeforeUnmeasuredDeliveryAndRecovery": 83349,
+    "fourVersionSensitivityBeforeOmissions": 95906,
+    "worstCaseQuotaQualified": false
+  }
+}

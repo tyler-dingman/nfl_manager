@@ -1,11 +1,19 @@
-import{applicationBackend,applicationStorage}from'../persistence/bindings';
-import{D1ContentAutomation}from'../../../packages/storage/automation';
+import {
+  applicationBackend,
+  applicationStorage,
+  applicationDatabaseRouter,
+} from '../persistence/bindings';
+import { D1ContentAutomation } from '../../../packages/storage/automation';
 import { randomUUID } from 'node:crypto';
 
 import { authDb } from '@/server/auth/database';
 
 export async function readGlobalGeneratedToday() {
-  if(applicationBackend()==='d1') return new D1ContentAutomation(applicationStorage()).readGlobalGeneratedToday();
+  if (applicationBackend() === 'd1')
+    return new D1ContentAutomation(
+      applicationStorage('D1_SHARED'),
+      Boolean(applicationDatabaseRouter()),
+    ).readGlobalGeneratedToday();
 
   const [row] = await authDb()`SELECT COALESCE(SUM(generated_items),0)::int AS generated_today
     FROM content_automation_runs
@@ -22,7 +30,11 @@ export async function recordGlobalRun(input: {
   failedJobs?: number;
   detail?: object;
 }) {
-  if(applicationBackend()==='d1') return new D1ContentAutomation(applicationStorage()).recordGlobalRun(input);
+  if (applicationBackend() === 'd1')
+    return new D1ContentAutomation(
+      applicationStorage('D1_SHARED'),
+      Boolean(applicationDatabaseRouter()),
+    ).recordGlobalRun(input);
 
   await authDb()`INSERT INTO content_automation_runs
     (id,status,sources_due,sources_queued,jobs_processed,generated_items,failed_jobs,detail,finished_at)

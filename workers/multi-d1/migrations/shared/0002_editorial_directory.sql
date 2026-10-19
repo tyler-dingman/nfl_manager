@@ -1,0 +1,1 @@
+CREATE TABLE app_editorial_directory(kind TEXT NOT NULL,id TEXT NOT NULL,owner TEXT NOT NULL,PRIMARY KEY(kind,id)) WITHOUT ROWID;

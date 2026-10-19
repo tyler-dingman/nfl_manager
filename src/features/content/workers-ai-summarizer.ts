@@ -26,7 +26,7 @@ export class WorkersAITopicSummarizer implements TopicSummarizer {
   async summarize(input: Parameters<TopicSummarizer['summarize']>[0]) {
     const sourceVersion = await digest(utf8.encode(JSON.stringify(input))),
       prompt = `Use only the supplied NFL source facts. Never invent quotations, injuries, names or certainty. Return JSON only with category (BREAKING, ROSTER, INJURY, GAME_PREVIEW, GAME_RECAP, ANALYSIS or OTHER), headline, summary, whatHappened, whyItMatters (nullable), whatsNext (nullable), sourceIds (nonempty cited IDs from the input).\n${JSON.stringify(input)}`;
-    const result = await new SharedInference(applicationStorage()).generate(
+    const result = await new SharedInference(applicationStorage('D1_SHARED')).generate(
       new WorkersInference(applicationAi()),
       {
         team: input.teamAbbr,

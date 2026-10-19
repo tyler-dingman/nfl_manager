@@ -1,3 +1,4 @@
+import { applicationDatabaseRouter } from '../../src/server/persistence/bindings';
 import { canonicalizeUrl } from '../../src/features/story-engine/normalization';
 import { Storage } from './core';
 import { D1EditorialIngestion } from './editorial-ingestion';
@@ -223,8 +224,13 @@ export class PollingBatches {
           .run();
         const known = await this.s.rows<any>(
           `SELECT canonical_url FROM app_editorial_candidates WHERE canonical_url IN(SELECT value FROM json_each(?))
-          UNION SELECT canonical_url FROM app_storage_candidate_receipts WHERE canonical_url IN(SELECT value FROM json_each(?))`,
-          [JSON.stringify(urls), JSON.stringify(urls)],
+          UNION SELECT canonical_url FROM app_storage_candidate_receipts WHERE canonical_url IN(SELECT value FROM json_each(?))
+          ${applicationDatabaseRouter() ? 'UNION SELECT canonical_url FROM app_editorial_handoffs WHERE canonical_url IN(SELECT value FROM json_each(?))' : ''}`,
+          [
+            JSON.stringify(urls),
+            JSON.stringify(urls),
+            ...(applicationDatabaseRouter() ? [JSON.stringify(urls)] : []),
+          ],
         );
         const seen = new Set(known.map((r) => r.canonical_url));
         for (const r of results)

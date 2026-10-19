@@ -1,4 +1,10 @@
-import { applicationBackend, applicationStorage, applicationTeamStorage } from '../persistence/bindings';
+import { EditorialDirectory } from '../../../packages/storage/editorial-directory';
+import {
+  applicationBackend,
+  applicationStorage,
+  applicationTeamStorage,
+  applicationDatabaseRouter,
+} from '../persistence/bindings';
 import { PublicEditorial } from '../../../packages/storage/editorial';
 import { normalizeDisplayHeadline } from '@/lib/display-headline';
 import { authDb } from '@/server/auth/database';
@@ -206,7 +212,13 @@ export async function listPublicStoryPage(teamId: string, options: PublicStoryPa
 }
 
 export async function getPublicStoryById(id: string): Promise<StoryView | null> {
-  if (applicationBackend() === 'd1') return new PublicEditorial(applicationStorage()).get(id);
+  if (applicationBackend() === 'd1') {
+    const router = applicationDatabaseRouter();
+    const storage = router
+      ? await new EditorialDirectory(router).storage('public', id)
+      : applicationStorage();
+    return storage ? new PublicEditorial(storage).get(id) : null;
+  }
   const sql = authDb();
   const [row] =
     await sql`SELECT s.*,COUNT(e.id)::int AS source_count FROM canonical_stories s LEFT JOIN story_evidence e ON e.story_id=s.id WHERE s.id=${id} AND s.publication_state IN ('PUBLISHED','AUTO_PUBLISHED') AND s.status<>'HOLDING'

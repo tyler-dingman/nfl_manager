@@ -8,7 +8,7 @@ import { withApplicationBindings } from '../../src/server/persistence/bindings';
 /** Internal work only: no provider requests and no additional odds refresh. */
 export async function processOddsPublication(s: Storage, now = Date.now()) {
   const [task] = await s.rows<any>(
-    "SELECT * FROM app_odds_processing WHERE (status='READY' OR (status='RUNNING' AND lease_until<?)) AND attempts<3 ORDER BY as_of,slot,event_id LIMIT 1",
+    `SELECT * FROM app_odds_processing WHERE (status='READY' OR (status='RUNNING' AND lease_until<?)) AND attempts<3 ${s.owner === 'D1_SHARED' ? "AND NOT EXISTS(SELECT 1 FROM app_odds_fetch_runs f WHERE f.slot=app_odds_processing.slot AND f.state<>'COMPLETE')" : ''} ORDER BY as_of,slot,event_id LIMIT 1`,
     [now],
   );
   if (!task) return { status: 'idle' };
@@ -21,8 +21,23 @@ export async function processOddsPublication(s: Storage, now = Date.now()) {
       .first();
   if (!claimed) return { status: 'busy' };
   try {
-    const raw = await readPublishedOddsEvent(s, JSON.parse(task.reference_json));
-    const eventId = await new D1OddsBoard(s).publishProvider(raw as any, task.as_of);
+    const phased = s.owner === 'D1_SHARED';
+    const eventId =
+      phased && task.phase === 'SCORES'
+        ? task.canonical_event_id
+        : await new D1OddsBoard(s).publishProvider(
+            (await readPublishedOddsEvent(s, JSON.parse(task.reference_json))) as any,
+            task.as_of,
+          );
+    if (phased && task.phase === 'BOARD') {
+      await s
+        .statement(
+          "UPDATE app_odds_processing SET phase='SCORES',canonical_event_id=?,status='READY',attempts=0,lease_until=0 WHERE slot=? AND event_id=? AND lease_nonce=?",
+          [eventId, task.slot, task.event_id, nonce],
+        )
+        .run();
+      return { status: 'board-ready', eventId };
+    }
     const event = (await new D1OddsBoard(s).events(true)).find((e) => e.id === eventId)!;
     const opponents = {
         [event.homeTeamId]: event.awayTeamId,

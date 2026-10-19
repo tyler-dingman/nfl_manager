@@ -1,0 +1,70 @@
+TAP version 13
+# Subtest: Parlay board, alt lines, real scoring and API reads run on D1/R2; original IDs and source-bound precomputes survive refresh
+ok 1 - Parlay board, alt lines, real scoring and API reads run on D1/R2; original IDs and source-bound precomputes survive refresh
+  ---
+  duration_ms: 2908.971791
+  ...
+# Subtest: D1 reward dashboard, concurrent claims and redemption preserve account ownership
+ok 2 - D1 reward dashboard, concurrent claims and redemption preserve account ownership
+  ---
+  duration_ms: 1769.834125
+  ...
+# {"metric":"three_and_out_generated","teamId":"KC","briefingDate":"2026-10-18","storyIds":["original-story-0","original-story-1","original-story-2"]}
+# Subtest: editorial IDs, source attribution, lexical search, Three & Out and queued email run without PostgreSQL
+ok 3 - editorial IDs, source attribution, lexical search, Three & Out and queued email run without PostgreSQL
+  ---
+  duration_ms: 2257.947666
+  ...
+# Subtest: signup mail staging is atomic; explicit rate rejections retry, ambiguous delivery does not
+ok 4 - signup mail staging is atomic; explicit rate rejections retry, ambiguous delivery does not
+  ---
+  duration_ms: 2075.524375
+  ...
+# [sportsGameOdds] usage 0/2500 monthly objects; local ceiling 1000
+# [sportsGameOdds] GET /events {
+#   leagueID: 'NFL',
+#   type: 'match',
+#   started: 'false',
+#   oddsPresent: 'true',
+#   bookmakerID: 'fanduel,draftkings,betmgm,caesars',
+#   includeAltLines: 'true',
+#   includeOpposingOdds: 'true',
+#   includeOpenCloseOdds: 'true',
+#   startsAfter: '2026-10-19T15:00:00.000Z',
+#   startsBefore: '2026-10-26T15:00:00.000Z',
+#   limit: '25'
+# }
+# Subtest: scheduled raw publication feeds retry-safe normalized board and precompute without more provider requests
+ok 5 - scheduled raw publication feeds retry-safe normalized board and precompute without more provider requests
+  ---
+  duration_ms: 2329.153208
+  ...
+# Subtest: mail encryption, dedupe, opt-out, free quota, concurrent workers and ambiguous delivery
+ok 6 - mail encryption, dedupe, opt-out, free quota, concurrent workers and ambiguous delivery
+  ---
+  duration_ms: 8834.619958
+  ...
+# Subtest: approved daily team email is queued once, preserves sources and honors email preferences
+ok 7 - approved daily team email is queued once, preserves sources and honors email preferences
+  ---
+  duration_ms: 1610.203791
+  ...
+# Subtest: shared inference is source-versioned, quota-reserved and never invents a fallback; FTS preserves attribution
+ok 8 - shared inference is source-versioned, quota-reserved and never invents a fallback; FTS preserves attribution
+  ---
+  duration_ms: 2149.533083
+  ...
+# Subtest: cold cross-store checkpoint restores all logical tables, original IDs and large objects after interruption
+ok 9 - cold cross-store checkpoint restores all logical tables, original IDs and large objects after interruption
+  ---
+  duration_ms: 11163.529292
+  ...
+1..9
+# tests 9
+# suites 0
+# pass 9
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 37764.343208

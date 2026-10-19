@@ -1,0 +1,7 @@
+{
+  "scope": "Reviewed local role schema and existing planner, not an HTTP erasure execution",
+  "userSchemaTablesScannedByExistingPlanner": 106,
+  "minimumStatementsBeforeOccupancyChecks": 107,
+  "freeInvocationLimit": 50,
+  "status": "BLOCKED before deletion; unqualified existing erasure path"
+}

@@ -1,3 +1,5 @@
+import { saveCrossShardContent } from '../../../packages/storage/cross-shard-saves';
+import { applicationDatabaseRouter } from '../persistence/bindings';
 import * as pg from './content-repository-postgres';
 import { D1UserWorkflows } from '../../../packages/storage/user-workflows';
 import { applicationBackend, applicationStorage } from '../persistence/bindings';
@@ -9,6 +11,9 @@ export type {
 function dispatch<K extends keyof typeof pg>(name: K): (typeof pg)[K] {
   return (async (...args: unknown[]) => {
     if (applicationBackend() === 'postgres') return (pg[name] as Function)(...args);
+    const router = applicationDatabaseRouter();
+    if (router && name === 'saveContent')
+      return saveCrossShardContent(router, args[0] as string, args[1]);
     const repo = new D1UserWorkflows(applicationStorage('D1_USERS')),
       method = (repo as unknown as Record<string, Function>)[name];
     if (!method) throw Error(`D1 user operation is not migrated: ${name}`);
