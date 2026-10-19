@@ -139,8 +139,8 @@ test(
       assert(await new D1Objects(db).get(objectKey(active)));
       assert(await new D1Objects(db).get(objectKey(leased)));
       await db
-        .prepare('UPDATE app_payload_chunks SET data=NULL,body=? WHERE hash=?')
-        .bind(btoa('bad'), active)
+        .prepare('UPDATE app_payload_objects SET inline_data=? WHERE hash=?')
+        .bind(new TextEncoder().encode('bad').buffer, active)
         .run();
       await assert.rejects(collectPayloadGarbage(db, { dryRun: false, acknowledge: ack }));
       assert.equal(
@@ -219,16 +219,7 @@ test(
         },
         hash = await s.put(value);
       const before = await storageCapacity(db);
-      for (const row of (
-        await db
-          .prepare('SELECT ordinal,data FROM app_payload_chunks WHERE hash=?')
-          .bind(hash)
-          .all<any>()
-      ).results)
-        await db
-          .prepare('UPDATE app_payload_chunks SET body=?,data=NULL WHERE hash=? AND ordinal=?')
-          .bind(Buffer.from(row.data).toString('base64'), hash, row.ordinal)
-          .run();
+      await repackLegacyPayload(db,hash,ack,'base64');
       assert.deepEqual(await new Storage(db, new D1Objects(db)).get(hash), value);
       const result = await repackLegacyPayload(db, hash, ack);
       assert(result.convertedChunks > 0);

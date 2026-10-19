@@ -34,6 +34,7 @@ export async function collectPayloadGarbage(
     limit?: number;
     acknowledge: 'OWNER_MAINTENANCE_RAW_WRITERS_STOPPED';
     expireDerived?: boolean;
+    prepareOnly?: boolean;
   },
 ): Promise<CollectorReport> {
   if (options.acknowledge !== 'OWNER_MAINTENANCE_RAW_WRITERS_STOPPED')
@@ -83,12 +84,25 @@ export async function collectPayloadGarbage(
   );
   if (lock.meta.changes !== 1)
     throw Error('Storage maintenance is already locked; owner recovery required');
+  let holdFence = false;
   try {
-    const objects: { hash: string; bytes: number; chunks: number; complete: number }[] = [];
+    const objects: {
+      hash: string;
+      bytes: number;
+      chunks: number;
+      complete: number;
+      inline_data: number[] | ArrayBuffer | null;
+    }[] = [];
     let lastHash = '';
     for (;;) {
-      const part = await all<{ hash: string; bytes: number; chunks: number; complete: number }>(
-        'SELECT hash,bytes,chunks,complete FROM app_payload_objects WHERE hash>? ORDER BY hash LIMIT 100',
+      const part = await all<{
+        hash: string;
+        bytes: number;
+        chunks: number;
+        complete: number;
+        inline_data: number[] | ArrayBuffer | null;
+      }>(
+        'SELECT hash,bytes,chunks,complete,inline_data FROM app_payload_objects WHERE hash>? ORDER BY hash LIMIT 100',
         [lastHash],
       );
       objects.push(...part);
@@ -205,8 +219,11 @@ export async function collectPayloadGarbage(
       ]);
       if (rows.length !== object.chunks)
         throw Error('Incomplete immutable object; repair before collecting');
-      const stored = new Uint8Array(object.bytes);
-      let offset = 0;
+      const stored =
+        object.inline_data != null
+          ? new Uint8Array(object.inline_data as ArrayBuffer)
+          : new Uint8Array(object.bytes);
+      let offset = object.inline_data != null ? stored.length : 0;
       for (const [i, row] of rows.entries()) {
         if (row.ordinal !== i) throw Error('Invalid immutable chunk ordering');
         const part =
@@ -264,6 +281,31 @@ export async function collectPayloadGarbage(
         'DELETE FROM app_ai_cache WHERE cache_key IN (SELECT cache_key FROM app_ai_cache WHERE expires_at<=? AND lease_until<? ORDER BY cache_key LIMIT 500)',
         [now, now],
       );
+    if (options.prepareOnly) {
+      const epoch = await all<{ epoch: number }>('SELECT epoch FROM app_storage_epoch WHERE id=1');
+      const statements = [
+        raw
+          .prepare(
+            "INSERT INTO app_storage_gc_plans(id,epoch,state,created_at) VALUES(?,?,'RUNNING',?)",
+          )
+          .bind(report.runId, epoch[0].epoch, now),
+      ];
+      for (let i = 0; i < Math.min(candidates.length, limit); i += 16) {
+        const part = candidates.slice(i, Math.min(i + 16, limit));
+        statements.push(
+          raw
+            .prepare(
+              'INSERT INTO app_storage_gc_candidates(run_id,hash,bytes) VALUES' +
+                part.map(() => '(?,?,?)').join(','),
+            )
+            .bind(...part.flatMap((o) => [report.runId, o.hash, o.bytes])),
+        );
+      }
+      const result = await raw.batch(statements);
+      if (result.some((r) => !r.success)) throw Error('GC plan publication failed');
+      holdFence = true;
+      return report;
+    }
     for (const object of candidates.slice(0, limit)) {
       // The fence remains held. Each object's bytes, manifest, admission and
       // audit record change together. No user/editorial root rows are removed.
@@ -288,7 +330,7 @@ export async function collectPayloadGarbage(
     }
     return report;
   } finally {
-    await run('UPDATE app_storage_epoch SET locked=0 WHERE id=1');
+    if (!holdFence) await run('UPDATE app_storage_epoch SET locked=0 WHERE id=1');
   }
 }
 export async function storageCapacity(raw: SqlDatabase) {

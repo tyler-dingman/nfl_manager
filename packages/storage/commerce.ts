@@ -21,14 +21,6 @@ export class D1Commerce {
   ) {}
   async syncCommerceCatalog() {
     // Keep migrations schema-only so a fresh disaster-recovery target is empty.
-    await this.s.batch([
-      this.s.statement(
-        "INSERT INTO app_commerce_counters(name,next_value) VALUES('order_number',1042) ON CONFLICT DO NOTHING",
-      ),
-      this.s.statement(
-        "INSERT INTO app_commerce_promo_codes(code,type,value,active,minimum_subtotal_cents) VALUES('WELCOME10','PERCENT',10,1,1000),('CREW10','PERCENT',10,1,1000),('GAMEDAY','FIXED',500,1,2500) ON CONFLICT DO NOTHING",
-      ),
-    ]);
 
     const settings = new D1ApplicationSettings(this.s),
       version = await digest(
@@ -77,12 +69,25 @@ export class D1Commerce {
             [now, now, JSON.stringify(variants.slice(offset, offset + 200))],
           )
           .run();
-      try{await settings.compareAndSet('commerce-catalog-version', prior?.version ?? 0, {hash:version});}catch(error){if((await settings.read('commerce-catalog-version'))?.value?.hash!==version)throw error;}
+      try {
+        await settings.compareAndSet('commerce-catalog-version', prior?.version ?? 0, {
+          hash: version,
+        });
+      } catch (error) {
+        if ((await settings.read('commerce-catalog-version'))?.value?.hash !== version) throw error;
+      }
     }
     const fixed = JSON.stringify(
       FIXED_PRICE_MERCH_PRODUCTS.map((p) => ({ id: p.id, price: Math.round(p.price * 100) })),
     );
     await this.s.batch([
+      this.s.statement(
+        "INSERT INTO app_commerce_counters(name,next_value) VALUES('order_number',1042) ON CONFLICT DO NOTHING",
+      ),
+      this.s.statement(
+        "INSERT INTO app_commerce_promo_codes(code,type,value,active,minimum_subtotal_cents) VALUES('WELCOME10','PERCENT',10,1,1000),('CREW10','PERCENT',10,1,1000),('GAMEDAY','FIXED',500,1,2500) ON CONFLICT DO NOTHING",
+      ),
+
       this.s.statement(
         'UPDATE app_commerce_products SET active=0,updated_at=? WHERE id IN(SELECT value FROM json_each(?)) AND active=1',
         [now, JSON.stringify(RETIRED_MERCH_PRODUCT_IDS)],
@@ -159,8 +164,9 @@ export class D1Commerce {
     items: CheckoutInput['items'],
     promo?: string,
     shippingMethod?: CheckoutInput['shippingMethod'],
+    preparedCart?: Awaited<ReturnType<D1Commerce['cart']>>,
   ) {
-    const c = await this.cart(items, promo),
+    const c = preparedCart ?? (await this.cart(items, promo)),
       shipping = shippingMethod ? manualShippingProvider.quote(shippingMethod).amountCents : null,
       tax = shippingMethod
         ? demoTaxProvider.calculate({
@@ -182,6 +188,7 @@ export class D1Commerce {
     input: CheckoutInput | StripeCheckoutInput,
     provider: 'DEMO' | 'STRIPE',
     paymentReference: string | null = null,
+    preparedCart?: Awaited<ReturnType<D1Commerce['cart']>>,
   ) {
     const attempt = 'checkoutAttemptId' in input ? input.checkoutAttemptId : null,
       requestHash = await digest(utf8.encode(JSON.stringify({ user, input })));
@@ -196,7 +203,7 @@ export class D1Commerce {
         return old;
       }
     }
-    const c = await this.cart(input.items, input.promoCode),
+    const c = preparedCart ?? (await this.cart(input.items, input.promoCode)),
       shipping = manualShippingProvider.quote(input.shippingMethod),
       tax = demoTaxProvider.calculate({
         subtotalCents: c.subtotalCents,
@@ -335,13 +342,19 @@ export class D1Commerce {
     return (await this.s.rows<any>('SELECT * FROM app_commerce_orders WHERE id=?', [id]))[0];
   }
   async createCommerceOrder(user: string | null, input: CheckoutInput) {
-    const quote = await this.quoteCommerceOrder(input.items, input.promoCode, input.shippingMethod),
+    const cart = await this.cart(input.items, input.promoCode);
+    const quote = await this.quoteCommerceOrder(
+        input.items,
+        input.promoCode,
+        input.shippingMethod,
+        cart,
+      ),
       payment = await demoPaymentProvider.createPayment({
         amountCents: quote.totalCents,
         fixture: input.paymentFixture,
       });
     if (payment.status !== 'PAID') throw Error('Demo payment was declined.');
-    const order = await this.prepare(user, input, 'DEMO', payment.reference);
+    const order = await this.prepare(user, input, 'DEMO', payment.reference, cart);
     if (user) await drainSocialNotifications(this.s);
     return {
       id: order.id as string,

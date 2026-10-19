@@ -74,12 +74,22 @@ export class PublicEditorial {
       ),
     ];
   }
-  async publish(story:StoryView,state:string,evidenceAt=Date.parse(story.lastMeaningfulUpdateAt)){const writes=await this.prepare(story,state,evidenceAt);if(writes.length)await this.s.batch(writes);}
+  async publish(
+    story: StoryView,
+    state: string,
+    evidenceAt = Date.parse(story.lastMeaningfulUpdateAt),
+  ) {
+    const writes = await this.prepare(story, state, evidenceAt);
+    if (writes.length) await this.s.batch(writes);
+  }
   async load(rows: { object_hash: string; id: string }[]) {
     const result: StoryView[] = [];
-    for (let i = 0; i < rows.length; i += 6)
+    for (let i = 0; i < rows.length; i += 32) {
+      await this.s.objects.prefetch?.(
+        rows.slice(i, i + 32).map((r) => `application/v1/${r.object_hash}`),
+      );
       for (const [index, envelope] of (
-        await Promise.all(rows.slice(i, i + 6).map((r) => this.s.get<any>(r.object_hash)))
+        await Promise.all(rows.slice(i, i + 32).map((r) => this.s.get<any>(r.object_hash)))
       ).entries()) {
         if (
           envelope.schema !== 1 ||
@@ -89,6 +99,7 @@ export class PublicEditorial {
           throw Error('Public story identity mismatch');
         result.push(envelope.story);
       }
+    }
     return result;
   }
   async get(id: string) {

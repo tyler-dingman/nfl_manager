@@ -50,6 +50,8 @@ export default {
               console.log(
                 JSON.stringify({
                   metric: 'application_headers',
+                  routePattern: 'public-cache-hit',
+                  method: request.method,
                   route: routeFamily(req.nextUrl.pathname),
                   status: reply.status,
                   wallMs: performance.now() - start,
@@ -127,6 +129,8 @@ export default {
           console.log(
             JSON.stringify({
               metric: 'application_headers',
+              routePattern: route.pattern.source,
+              method,
               route: routeFamily(req.nextUrl.pathname),
               status: result.status,
               wallMs: performance.now() - start,

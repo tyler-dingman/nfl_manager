@@ -1,5 +1,6 @@
 import { harness } from '../test/harness';
 import { Storage, type SqlDatabase } from '../../../packages/storage/core';
+import { repackLegacyPayload } from '../../../packages/storage/repack';
 import { D1Objects } from '../../../packages/storage/d1-objects';
 import {
   collectPayloadGarbage,
@@ -9,7 +10,7 @@ import { instrumentDatabase, requestMetrics } from '../../../packages/storage/in
 import { readdir, writeFile, mkdir } from 'node:fs/promises';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
-const out = '../../reports/sustainable-storage';
+const out = process.env.DD_STORAGE_REPORT_DIR || '../../reports/sustainable-storage';
 await mkdir(out, { recursive: true });
 function text(seed: number, n: number) {
   let x = seed;
@@ -32,12 +33,23 @@ async function files(dir: string): Promise<string[]> {
   return out;
 }
 async function physical(h: Awaited<ReturnType<typeof harness>>) {
-  let file='';
-  for(const candidate of await files(h.directory)) {
-    const r=spawnSync('/usr/bin/sqlite3',['-readonly',candidate,"SELECT count(*) FROM sqlite_schema WHERE name='app_payload_objects'"],{encoding:'utf8'});
-    if(r.status===0&&r.stdout.trim()==='1'){file=candidate;break;}
+  let file = '';
+  for (const candidate of await files(h.directory)) {
+    const r = spawnSync(
+      '/usr/bin/sqlite3',
+      [
+        '-readonly',
+        candidate,
+        "SELECT count(*) FROM sqlite_schema WHERE name='app_payload_objects'",
+      ],
+      { encoding: 'utf8' },
+    );
+    if (r.status === 0 && r.stdout.trim() === '1') {
+      file = candidate;
+      break;
+    }
   }
-  if(!file)throw Error('Synthetic application SQLite file not found');
+  if (!file) throw Error('Synthetic application SQLite file not found');
   const query = (sql: string) => {
     const r = spawnSync('/usr/bin/sqlite3', ['-readonly', '-json', file, sql], {
       encoding: 'utf8',
@@ -137,12 +149,9 @@ for (const legacy of [true, false]) {
     }
     if (legacy)
       for (const row of (
-        await raw.prepare('SELECT hash,ordinal,data FROM app_payload_chunks').all<any>()
+        await raw.prepare('SELECT hash FROM app_payload_objects').all<{ hash: string }>()
       ).results)
-        await raw
-          .prepare('UPDATE app_payload_chunks SET body=?,data=NULL WHERE hash=? AND ordinal=?')
-          .bind(Buffer.from(row.data).toString('base64'), row.hash, row.ordinal)
-          .run();
+        await repackLegacyPayload(raw, row.hash, 'OWNER_MAINTENANCE_RAW_WRITERS_STOPPED', 'base64');
     const before = await physical(h),
       capacityBefore = await storageCapacity(raw);
     const preview = await collectPayloadGarbage(raw, {
@@ -175,6 +184,34 @@ for (const legacy of [true, false]) {
       metrics,
       reusedExistingPages: reuse.pageCount <= after.pageCount,
       physicalFileShrinkBytes: Math.max(0, before.sqliteBytes - after.sqliteBytes),
+    };
+  } finally {
+    await h.close();
+  }
+}
+results.smallObjects = {};
+for (const legacy of [true, false]) {
+  const h = await harness(true, true, 999, undefined, false);
+  try {
+    const db = h.binding as unknown as SqlDatabase;
+    const baseline = await physical(h);
+    const s = new Storage(db, new D1Objects(db));
+    for (let i = 0; i < 200; i++) {
+      const hash = await new Storage(db, new D1Objects(db)).put({
+        id: i,
+        attribution: 'https://example.invalid/original',
+        title: 'Small immutable content',
+        score: i % 100,
+      });
+      if (legacy)
+        await repackLegacyPayload(db, hash, 'OWNER_MAINTENANCE_RAW_WRITERS_STOPPED', 'base64');
+    }
+    const after = await physical(h);
+    results.smallObjects[legacy ? 'legacyChunks' : 'inline'] = {
+      objects: 200,
+      baseline,
+      after,
+      incrementalSqliteBytes: after.sqliteBytes - baseline.sqliteBytes,
     };
   } finally {
     await h.close();

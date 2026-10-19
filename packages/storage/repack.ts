@@ -17,10 +17,39 @@ export async function repackLegacyPayload(
   if (lock.meta.changes !== 1) throw Error('Storage maintenance already locked');
   try {
     const head = await raw
-      .prepare('SELECT bytes,chunks,complete FROM app_payload_objects WHERE hash=?')
+      .prepare('SELECT bytes,chunks,complete,inline_data FROM app_payload_objects WHERE hash=?')
       .bind(hash)
-      .first<{ bytes: number; chunks: number; complete: number }>();
+      .first<{
+        bytes: number;
+        chunks: number;
+        complete: number;
+        inline_data: number[] | ArrayBuffer | null;
+      }>();
     if (!head?.complete) throw Error('Complete object required');
+    if (head.inline_data != null) {
+      const bytes = new Uint8Array(head.inline_data as ArrayBuffer);
+      if (bytes.length !== head.bytes || (await digest(await decodeObject(bytes, hash))) !== hash)
+        throw Error('Object integrity failure');
+      if (target === 'base64') {
+        const result = await raw.batch([
+          raw
+            .prepare('INSERT INTO app_payload_chunks(hash,ordinal,body,data) VALUES(?,0,?,NULL)')
+            .bind(hash, btoa(String.fromCharCode(...bytes))),
+          raw
+            .prepare('UPDATE app_payload_objects SET inline_data=NULL,chunks=1 WHERE hash=?')
+            .bind(hash),
+        ]);
+        if (result.some((r) => !r.success)) throw Error('Inline rollback failed');
+      }
+      return {
+        hash,
+        target,
+        convertedChunks: target === 'base64' ? 1 : 0,
+        encodedBytesUnchanged: head.bytes,
+        physicalBytesReclaimed: null,
+      };
+    }
+
     const result = await raw
       .prepare('SELECT ordinal,body,data FROM app_payload_chunks WHERE hash=? ORDER BY ordinal')
       .bind(hash)

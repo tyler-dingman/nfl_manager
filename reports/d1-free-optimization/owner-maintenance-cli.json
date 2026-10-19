@@ -1,0 +1,236 @@
+{
+  "pass": true,
+  "syntheticOnly": true,
+  "r2": false,
+  "postgres": false,
+  "preview": {
+    "before": {
+      "inventory_bytes": 141,
+      "objects": 3,
+      "incomplete_bytes": 0,
+      "reserved_bytes": 141,
+      "reservedEncodedBytes": 141,
+      "admissionLimit": 64000000,
+      "physicalDatabaseBytes": 2084864,
+      "physicalFreeLimit": 500000000,
+      "utilization": 0.004169728,
+      "status": "ok",
+      "physicalBytesReclaimed": null
+    },
+    "result": {
+      "runId": "f50b3c1f-c07d-4312-a294-2a67dfa58c76",
+      "dryRun": true,
+      "rootReferences": 1,
+      "reachable": 2,
+      "objects": 3,
+      "candidateObjects": 1,
+      "candidateEncodedBytes": 36,
+      "deletedObjects": 0,
+      "releasedEncodedBytes": 0,
+      "queries": 203,
+      "rowsRead": 1386,
+      "rowsWritten": 2,
+      "physicalBytesReclaimed": null
+    },
+    "after": {
+      "inventory_bytes": 141,
+      "objects": 3,
+      "incomplete_bytes": 0,
+      "reserved_bytes": 141,
+      "reservedEncodedBytes": 141,
+      "admissionLimit": 64000000,
+      "physicalDatabaseBytes": 2084864,
+      "physicalFreeLimit": 500000000,
+      "utilization": 0.004169728,
+      "status": "ok",
+      "physicalBytesReclaimed": null
+    }
+  },
+  "prepared": {
+    "before": {
+      "inventory_bytes": 141,
+      "objects": 3,
+      "incomplete_bytes": 0,
+      "reserved_bytes": 141,
+      "reservedEncodedBytes": 141,
+      "admissionLimit": 64000000,
+      "physicalDatabaseBytes": 2084864,
+      "physicalFreeLimit": 500000000,
+      "utilization": 0.004169728,
+      "status": "ok",
+      "physicalBytesReclaimed": null
+    },
+    "result": {
+      "runId": "5e3362e9-e8c7-4a27-bcaf-2e30782b5794",
+      "dryRun": false,
+      "rootReferences": 1,
+      "reachable": 2,
+      "objects": 3,
+      "candidateObjects": 1,
+      "candidateEncodedBytes": 36,
+      "deletedObjects": 0,
+      "releasedEncodedBytes": 0,
+      "queries": 203,
+      "rowsRead": 1386,
+      "rowsWritten": 1,
+      "physicalBytesReclaimed": null
+    },
+    "after": {
+      "inventory_bytes": 141,
+      "objects": 3,
+      "incomplete_bytes": 0,
+      "reserved_bytes": 141,
+      "reservedEncodedBytes": 141,
+      "admissionLimit": 64000000,
+      "physicalDatabaseBytes": 2084864,
+      "physicalFreeLimit": 500000000,
+      "utilization": 0.004169728,
+      "status": "ok",
+      "physicalBytesReclaimed": null
+    }
+  },
+  "applied": {
+    "before": {
+      "inventory_bytes": 141,
+      "objects": 3,
+      "incomplete_bytes": 0,
+      "reserved_bytes": 141,
+      "reservedEncodedBytes": 141,
+      "admissionLimit": 64000000,
+      "physicalDatabaseBytes": 2084864,
+      "physicalFreeLimit": 500000000,
+      "utilization": 0.004169728,
+      "status": "ok",
+      "physicalBytesReclaimed": null
+    },
+    "result": {
+      "done": false,
+      "deleted": 1,
+      "statements": 10
+    },
+    "after": {
+      "inventory_bytes": 105,
+      "objects": 2,
+      "incomplete_bytes": 0,
+      "reserved_bytes": 105,
+      "reservedEncodedBytes": 105,
+      "admissionLimit": 64000000,
+      "physicalDatabaseBytes": 2084864,
+      "physicalFreeLimit": 500000000,
+      "utilization": 0.004169728,
+      "status": "ok",
+      "physicalBytesReclaimed": null
+    }
+  },
+  "finished": {
+    "before": {
+      "inventory_bytes": 105,
+      "objects": 2,
+      "incomplete_bytes": 0,
+      "reserved_bytes": 105,
+      "reservedEncodedBytes": 105,
+      "admissionLimit": 64000000,
+      "physicalDatabaseBytes": 2084864,
+      "physicalFreeLimit": 500000000,
+      "utilization": 0.004169728,
+      "status": "ok",
+      "physicalBytesReclaimed": null
+    },
+    "result": {
+      "done": true,
+      "deleted": 0,
+      "statements": 6
+    },
+    "after": {
+      "inventory_bytes": 105,
+      "objects": 2,
+      "incomplete_bytes": 0,
+      "reserved_bytes": 105,
+      "reservedEncodedBytes": 105,
+      "admissionLimit": 64000000,
+      "physicalDatabaseBytes": 2084864,
+      "physicalFreeLimit": 500000000,
+      "utilization": 0.004169728,
+      "status": "ok",
+      "physicalBytesReclaimed": null
+    }
+  },
+  "idempotent": {
+    "before": {
+      "inventory_bytes": 105,
+      "objects": 2,
+      "incomplete_bytes": 0,
+      "reserved_bytes": 105,
+      "reservedEncodedBytes": 105,
+      "admissionLimit": 64000000,
+      "physicalDatabaseBytes": 2084864,
+      "physicalFreeLimit": 500000000,
+      "utilization": 0.004169728,
+      "status": "ok",
+      "physicalBytesReclaimed": null
+    },
+    "result": {
+      "done": true,
+      "deleted": 0,
+      "statements": 1
+    },
+    "after": {
+      "inventory_bytes": 105,
+      "objects": 2,
+      "incomplete_bytes": 0,
+      "reserved_bytes": 105,
+      "reservedEncodedBytes": 105,
+      "admissionLimit": 64000000,
+      "physicalDatabaseBytes": 2084864,
+      "physicalFreeLimit": 500000000,
+      "utilization": 0.004169728,
+      "status": "ok",
+      "physicalBytesReclaimed": null
+    }
+  },
+  "repeated": {
+    "before": {
+      "inventory_bytes": 105,
+      "objects": 2,
+      "incomplete_bytes": 0,
+      "reserved_bytes": 105,
+      "reservedEncodedBytes": 105,
+      "admissionLimit": 64000000,
+      "physicalDatabaseBytes": 2084864,
+      "physicalFreeLimit": 500000000,
+      "utilization": 0.004169728,
+      "status": "ok",
+      "physicalBytesReclaimed": null
+    },
+    "result": {
+      "runId": "b42ed71e-5ba5-4c11-8fbd-8cb3d437ab45",
+      "dryRun": false,
+      "rootReferences": 1,
+      "reachable": 2,
+      "objects": 2,
+      "candidateObjects": 0,
+      "candidateEncodedBytes": 0,
+      "deletedObjects": 0,
+      "releasedEncodedBytes": 0,
+      "queries": 202,
+      "rowsRead": 1385,
+      "rowsWritten": 2,
+      "physicalBytesReclaimed": null
+    },
+    "after": {
+      "inventory_bytes": 105,
+      "objects": 2,
+      "incomplete_bytes": 0,
+      "reserved_bytes": 105,
+      "reservedEncodedBytes": 105,
+      "admissionLimit": 64000000,
+      "physicalDatabaseBytes": 2084864,
+      "physicalFreeLimit": 500000000,
+      "utilization": 0.004169728,
+      "status": "ok",
+      "physicalBytesReclaimed": null
+    }
+  },
+  "requiredRootAndChildPreserved": true,
+  "originalSavedIdPreserved": true
+}

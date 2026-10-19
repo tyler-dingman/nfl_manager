@@ -195,12 +195,19 @@ try {
     const file = directory + '/mail-' + row.object_hash;
     let raw;
     if (process.env.DD_NO_R2 === 'true') {
+      const inline = sql(
+        `SELECT hex(inline_data) AS hex FROM app_payload_objects WHERE hash='${row.object_hash}'`,
+      )[0]?.hex;
       const rows = sql(
         `SELECT body,hex(data) AS data_hex,data IS NULL AS is_legacy FROM app_payload_chunks WHERE hash='${row.object_hash}' ORDER BY ordinal`,
       );
-      raw = Buffer.concat(
-        rows.map((r) => (r.is_legacy ? Buffer.from(r.body, 'base64') : Buffer.from(r.data_hex,'hex'))),
-      );
+      raw = inline
+        ? Buffer.from(inline, 'hex')
+        : Buffer.concat(
+            rows.map((r) =>
+              r.is_legacy ? Buffer.from(r.body, 'base64') : Buffer.from(r.data_hex, 'hex'),
+            ),
+          );
     } else {
       execute([
         'r2',

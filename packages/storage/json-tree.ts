@@ -6,6 +6,11 @@ export class JsonTree {
   async put(value: unknown): Promise<string> {
     const text = JSON.stringify(value);
     if (!text || utf8.encode(text).length > 4_000_000) throw Error('Application JSON tree limit');
+    if (
+      this.s.objects.compactTrees &&
+      utf8.encode(JSON.stringify(['v', JSON.parse(text)])).length <= 4_000_000
+    )
+      return this.s.put(['v', JSON.parse(text)]);
     const write = async (v: any): Promise<string> => {
       const raw = JSON.stringify(v);
       const size = utf8.encode(raw).length;

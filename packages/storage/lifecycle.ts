@@ -1,4 +1,5 @@
 import { Storage } from './core';
+import { expireSupersededScores } from './derived-retention';
 /** Bounded retention only for consumed, long-expired capabilities and derived
  * inference indexes. User/game/bet/editorial records are never eligible. Exact
  * original token rows are archived and verified before D1 removal. */
@@ -12,27 +13,23 @@ export async function maintainTemporaryData(s: Storage, now = Date.now(), limit 
   if (rows.length) {
     const hash = await s.put({ schema: 1, table: 'app_tokens', rows });
     const nonce = crypto.randomUUID();
-    const statements = rows.flatMap((row) => [
-      s.statement('DELETE FROM app_tokens WHERE id=? AND expires_at=? AND consumed_at=?', [
-        row.id,
-        row.expires_at,
-        row.consumed_at,
-      ]),
-      s.guard(nonce + row.id),
-      s.unguard(nonce + row.id),
+    // Exact token tuples and the archived pack commit together. A concurrent
+    // change makes the guard fail and rolls back every deletion.
+    await s.batch([
+      s.statement(
+        "DELETE FROM app_tokens WHERE (id,expires_at,consumed_at) IN (SELECT json_extract(value,'$[0]'),json_extract(value,'$[1]'),json_extract(value,'$[2]') FROM json_each(?))",
+        [JSON.stringify(rows.map((row) => [row.id, row.expires_at, row.consumed_at]))],
+      ),
+      s.statement(
+        'INSERT INTO app_storage_guards(id,ok) VALUES(?,CASE WHEN changes()=? THEN 1 ELSE 0 END)',
+        [nonce, rows.length],
+      ),
+      s.statement(
+        'INSERT INTO app_history_packs(id,kind,object_hash,rows,created_at) VALUES(?,?,?,?,?)',
+        [nonce + ':0', 'EXPIRED_CONSUMED_TOKEN', hash, rows.length, now],
+      ),
+      s.statement('DELETE FROM app_storage_guards WHERE id=?', [nonce]),
     ]);
-    // At most 15 tokens per atomic batch (46 statements including directory).
-    for (let i = 0; i < rows.length; i += 15) {
-      const chunk = rows.slice(i, i + 15),
-        part = statements.slice(i * 3, (i + 15) * 3);
-      part.push(
-        s.statement(
-          'INSERT INTO app_history_packs(id,kind,object_hash,rows,created_at) VALUES(?,?,?,?,?)',
-          [nonce + ':' + i, 'EXPIRED_CONSUMED_TOKEN', hash, chunk.length, now],
-        ),
-      );
-      await s.batch(part);
-    }
   }
   const result = await s
     .statement(
@@ -40,7 +37,12 @@ export async function maintainTemporaryData(s: Storage, now = Date.now(), limit 
       [cutoff, now, 1000],
     )
     .run();
-  return { archivedConsumedTokens: rows.length, expiredDerivedKeys: result.meta.changes ?? 0 };
+  const scores = await expireSupersededScores(s);
+  return {
+    expiredScoreKeys: scores.removed,
+    archivedConsumedTokens: rows.length,
+    expiredDerivedKeys: result.meta.changes ?? 0,
+  };
 }
 export class D1ApplicationSettings {
   constructor(readonly s: Storage) {}

@@ -56,10 +56,10 @@ test(
         payload,
       );
       await restarted
-        .prepare('UPDATE app_payload_chunks SET data=NULL,body=? WHERE hash=? AND ordinal=0')
-        .bind(btoa('corrupt'), hash)
+        .prepare('UPDATE app_payload_objects SET inline_data=? WHERE hash=?')
+        .bind(new TextEncoder().encode('corrupt').buffer, hash)
         .run();
-      await assert.rejects(nextObjects.get(objectKey(hash)));
+      await assert.rejects(new D1Objects(restarted as unknown as SqlDatabase).get(objectKey(hash)));
       await restarted.prepare('UPDATE app_payload_capacity SET used_bytes=64000000').run();
       const next = utf8.encode('must not lose existing data');
       await assert.rejects(

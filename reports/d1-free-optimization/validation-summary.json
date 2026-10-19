@@ -1,0 +1,17 @@
+{
+  "rootPassed": 1072,
+  "rootFailed": 0,
+  "rootSkipped": 2,
+  "workerPassed": 130,
+  "workerFailed": 0,
+  "browserRoutesPassed": 48,
+  "browserRoutesFailed": 0,
+  "migrations": 42,
+  "typescript": "PASS",
+  "postgres": false,
+  "r2": false,
+  "hostedCpuMs": null,
+  "deploymentPerformed": false,
+  "automatedPassed": 1202,
+  "automatedFailed": 0
+}

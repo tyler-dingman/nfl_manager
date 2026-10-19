@@ -18,14 +18,35 @@ const open = () =>
       outboundService: () => new Response(null, { status: 403 }),
     }),
   );
-  const env = Object.fromEntries(
-    ['PATH', 'HOME', 'TMPDIR', 'SHELL', 'LANG', 'USER']
-      .filter((k) => process.env[k])
-      .map((k) => [k, process.env[k]]),
-  );
-  Object.assign(env, { DD_STORAGE_MAINTENANCE: 'RAW_WRITERS_STOPPED', CI:'true',WRANGLER_SEND_METRICS:'false',CLOUDFLARE_API_TOKEN:'',CLOUDFLARE_ACCOUNT_ID:'' });
-const migration=spawnSync(process.execPath,['node_modules/wrangler/bin/wrangler.js','d1','migrations','apply','APP_DB','--local','--config','wrangler.api-no-billing-local.toml','--persist-to',directory],{env,encoding:'utf8',maxBuffer:4_000_000});
-assert.equal(migration.status,0,migration.stdout+migration.stderr);
+const env = Object.fromEntries(
+  ['PATH', 'HOME', 'TMPDIR', 'SHELL', 'LANG', 'USER']
+    .filter((k) => process.env[k])
+    .map((k) => [k, process.env[k]]),
+);
+Object.assign(env, {
+  DD_STORAGE_MAINTENANCE: 'RAW_WRITERS_STOPPED',
+  CI: 'true',
+  WRANGLER_SEND_METRICS: 'false',
+  CLOUDFLARE_API_TOKEN: '',
+  CLOUDFLARE_ACCOUNT_ID: '',
+});
+const migration = spawnSync(
+  process.execPath,
+  [
+    'node_modules/wrangler/bin/wrangler.js',
+    'd1',
+    'migrations',
+    'apply',
+    'APP_DB',
+    '--local',
+    '--config',
+    'wrangler.api-no-billing-local.toml',
+    '--persist-to',
+    directory,
+  ],
+  { env, encoding: 'utf8', maxBuffer: 4_000_000 },
+);
+assert.equal(migration.status, 0, migration.stdout + migration.stderr);
 let mf = open();
 try {
   const db = await mf.getD1Database('APP_DB');
@@ -45,10 +66,10 @@ try {
     )
     .run();
   await mf.dispose();
-  const call = (mode) => {
+  const call = (mode, count = '5') => {
     const r = spawnSync(
       process.execPath,
-      ['--import', 'tsx', 'scripts/collect-sustainable-storage.mjs', directory, mode, '5'],
+      ['--import', 'tsx', 'scripts/collect-sustainable-storage.mjs', directory, mode, count],
       { env, encoding: 'utf8', maxBuffer: 4_000_000 },
     );
     assert.equal(r.status, 0, r.stdout + r.stderr);
@@ -57,8 +78,13 @@ try {
   const preview = call('--dry-run');
   assert.equal(preview.result.candidateObjects, 1);
   assert.equal(preview.result.deletedObjects, 0);
-  const applied = call('--apply');
-  assert.equal(applied.result.deletedObjects, 1);
+  const prepared = call('--prepare');
+  const applied = call('--step', prepared.result.runId);
+  assert.equal(applied.result.deleted, 1);
+  const finished = call('--step', prepared.result.runId);
+  assert.equal(finished.result.done, true);
+  const idempotent = call('--step', prepared.result.runId);
+  assert.equal(idempotent.result.deleted, 0);
   const repeated = call('--apply');
   assert.equal(repeated.result.deletedObjects, 0);
   mf = open();
@@ -77,13 +103,17 @@ try {
     r2: false,
     postgres: false,
     preview,
+    prepared,
     applied,
+    finished,
+    idempotent,
     repeated,
     requiredRootAndChildPreserved: true,
     originalSavedIdPreserved: true,
   };
   await writeFile(
-    'reports/sustainable-storage/owner-maintenance-cli.json',
+    (process.env.DD_STORAGE_REPORT_DIR || 'reports/sustainable-storage') +
+      '/owner-maintenance-cli.json',
     JSON.stringify(report, null, 2) + '\n',
   );
   console.log('Owner maintenance CLI: PASS');
