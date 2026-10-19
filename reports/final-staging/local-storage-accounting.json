@@ -1,0 +1,2845 @@
+{
+  "scope": "MEASURED read-only local synthetic SQLite pages; not populated production growth",
+  "totalBytes": 2048000,
+  "integrity": "ok",
+  "objects": [
+    {
+      "name": "sqlite_schema",
+      "type": "internal",
+      "bytes": 114688,
+      "pages": 28
+    },
+    {
+      "name": "videos_published",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "videos_available_time",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "video_teams_video",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "video_source_registry",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "transaction_assertions",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "three_and_out_snapshots",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "story_versions",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "story_publication_decisions",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "story_evidence",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "story_entities_story",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "story_entities",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "story_editorial_overrides",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "story_domain_events",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "stories_team_page",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "stories_importance",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "stories_first_report",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "stories_feed",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_sequence",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_video_source_registry_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_video_source_registry_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_transaction_assertions_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_three_and_out_snapshots_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_story_versions_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_story_versions_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_story_publication_decisions_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_story_publication_decisions_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_story_evidence_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_story_evidence_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_story_entities_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_story_editorial_overrides_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_story_domain_events_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_story_domain_events_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_source_teams_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_source_checks_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_source_checkpoints_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_r2_archive_manifests_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_r2_archive_manifests_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_public_schedule_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_observer_run_items_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_observer_run_events_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_nfl_teams_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_nfl_teams_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_lean_receipts_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_ingestion_jobs_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_ingestion_jobs_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_film_room_videos_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_film_room_video_teams_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_editorial_cards_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_editorial_cards_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_editorial_blob_packs_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_d1_migrations_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_content_sources_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_content_run_log_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_content_outbox_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_content_outbox_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_content_control_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_content_candidates_4",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_content_candidates_3",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_content_candidates_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_content_candidates_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_content_candidate_revisions_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_canonical_stories_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_candidate_teams_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_archive_records_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_web_push_test_limits_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_users_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_users_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_user_team_visit_state_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_user_rewards_3",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_user_rewards_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_user_rewards_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_user_predictions_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_user_predictions_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_user_poll_votes_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_user_poll_votes_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_user_content_state_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_user_content_state_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_trivia_stats_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_trivia_rank_snapshots_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_trivia_questions_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_trivia_invitations_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_trivia_invitations_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_trivia_groups_4",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_trivia_groups_3",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_trivia_groups_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_trivia_groups_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_trivia_games_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_trivia_game_questions_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_trivia_game_questions_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_trivia_game_participants_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_trivia_game_answers_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_trivia_game_answers_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_trivia_friendships_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_trivia_events_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_trivia_event_registrations_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_trivia_daily_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_trivia_daily_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_trivia_challenges_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_trivia_answers_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_trivia_answers_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_tokens_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_tokens_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_team_follows_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_team_follows_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_story_overrides_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_story_game_links_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_sportsbook_transfer_jobs_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_sportsbook_market_ids_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_sportsbook_events_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_sportsbook_events_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_social_notification_outbox_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_settings_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_sessions_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_sessions_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_security_audit_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_saved_content_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_saved_content_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_reward_notifications_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_reward_notifications_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_reward_events_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_reward_events_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_reward_definitions_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_reward_accounts_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_push_tokens_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_push_tokens_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_public_wire_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_public_stories_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_public_stories_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_phone_numbers_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_phone_numbers_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_odds_publication_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_odds_history_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_observer_runs_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_observer_items_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_observer_events_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_notifications_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_notifications_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_notification_preferences_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_notification_preferences_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_notification_deliveries_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_mail_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_mail_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_identities_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_identities_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_huddle_user_filters_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_huddle_reports_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_huddle_reactions_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_huddle_polls_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_huddle_poll_votes_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_huddle_messages_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_huddle_messages_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_huddle_enforcement_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_game_day_rooms_3",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_game_day_rooms_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_game_day_rooms_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_game_day_room_members_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_game_day_reactions_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_game_day_predictions_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_game_day_predictions_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_game_day_events_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_game_day_activity_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_fan_pulse_reactions_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_fan_pulse_reactions_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_email_change_requests_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_email_change_requests_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_editorial_versions_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_editorial_versions_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_editorial_stories_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_editorial_sources_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_editorial_overrides_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_editorial_jobs_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_editorial_jobs_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_editorial_evidence_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_editorial_evidence_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_editorial_events_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_editorial_events_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_editorial_decisions_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_editorial_decisions_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_editorial_candidates_3",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_editorial_candidates_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_editorial_candidates_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_devices_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_daily_briefings_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_daily_briefings_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_crews_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_crew_shares_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_crew_share_recipients_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_crew_reactions_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_crew_members_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_crew_members_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_crew_media_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_crew_invites_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_crew_invites_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_crew_comments_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_crew_activity_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_credentials_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_content_automation_runs_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_consents_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_commerce_stripe_webhook_events_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_commerce_refunds_3",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_commerce_refunds_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_commerce_refunds_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_commerce_promo_codes_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_commerce_products_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_commerce_products_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_commerce_product_variants_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_commerce_product_variants_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_commerce_orders_4",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_commerce_orders_3",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_commerce_orders_2",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_commerce_orders_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_commerce_order_items_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_commerce_inventory_adjustments_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_commerce_counters_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_briefing_push_deliveries_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_briefing_mail_jobs_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sqlite_autoindex_app_assertions_1",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sources_national",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "sources_due",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "source_teams_team",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "source_teams",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "source_checks",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "source_checkpoints",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "source_check_daily",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "run_log_time",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "r2_archive_records",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "r2_archive_members",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "r2_archive_manifests",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "public_schedule",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "overrides_active",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "outbox_due",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "odds_refresh_slots",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "observer_run_items",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "observer_run_events",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "nfl_teams",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "lean_versions",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "lean_teams_identity",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "lean_teams",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "lean_receipts",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "lean_hot_due",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "lean_history_source",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "lean_heads",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "jobs_reclaim",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "jobs_leases",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "jobs_exhausted",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "jobs_due",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "jobs_claim",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "jobs_archive_ready",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "ingestion_jobs",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "film_room_videos",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "film_room_video_teams",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "evidence_story",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "evidence_candidate",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "editorial_cards",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "editorial_blobs",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "editorial_blob_packs",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "editorial_blob_fragments",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "editions_published",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "editions_archive",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "edition_team_date",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "d1_migrations",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "content_sources",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "content_run_log",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "content_outbox",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "content_control",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "content_candidates",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "content_candidate_revisions",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "checks_source_time",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "checks_archive_ready",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "canonical_stories",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "candidates_source_time",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "candidates_fingerprint",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "candidate_teams_team",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "candidate_teams",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "archive_records",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "archive_chunks",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_web_push_test_limits",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_web_push_endpoint",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_users",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_user_team_visit_state",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_user_rewards",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_user_predictions",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_user_poll_votes",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_user_content_state",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_trivia_views",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_trivia_stats_weekly",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_trivia_stats_lifetime",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_trivia_stats",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_trivia_rank_snapshots",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_trivia_questions",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_trivia_pool",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_trivia_participant_user",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_trivia_invitations",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_trivia_groups",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_trivia_games",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_trivia_game_questions",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_trivia_game_participants",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_trivia_game_answers",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_trivia_friendships",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_trivia_friend_pair",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_trivia_events_upcoming",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_trivia_events",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_trivia_event_registrations",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_trivia_daily",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_trivia_challenges",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_trivia_answers_game",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_trivia_answers",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_transfer_actor",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_transfer_active",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_tokens",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_token_owner",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_token_expiry",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_team_follows",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_subscriptions",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_story_overrides",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_story_game_links",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_sportsbook_transfer_jobs",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_sportsbook_market_ids",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_sportsbook_kickoff",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_sportsbook_events",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_social_notification_ready",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_social_notification_outbox",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_settings",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_sessions",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_session_owner",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_session_family",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_security_audit_owner",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_security_audit",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_search_idx",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_search_docsize",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_search_data",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_search_content",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_search_config",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_saved_metadata_pending",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_saved_content",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_reward_rank",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_reward_notifications",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_reward_history",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_reward_events",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_reward_definitions",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_reward_accounts",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_reference_version",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_reference_subject",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_reference_packs",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_reference_import_lock",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_receipts",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_push_tokens",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_push_owner",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_public_wire_team",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_public_wire",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_public_story_versions",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_public_story_team",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_public_stories",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_prediction_owner",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_phone_numbers",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_parlay_scores",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_one_primary_team",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_odds_publication",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_odds_processing_due",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_odds_processing",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_odds_history",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_odds_board_history",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_observer_runs_team",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_observer_runs",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_observer_items",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_observer_events",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_notifications",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_notification_preferences",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_notification_preference_owner",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_notification_inbox",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_notification_deliveries",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_mail_due",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_mail",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_limits",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_imports",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_identity_owner",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_identities",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_huddle_vote_user",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_huddle_user_filters",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_huddle_updates",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_huddle_sender_rate",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_huddle_reports",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_huddle_reactions",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_huddle_reaction_user",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_huddle_polls",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_huddle_poll_votes",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_huddle_poll_room",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_huddle_messages",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_huddle_history",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_huddle_enforcement",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_huddle_block_target",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_history_packs",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_heads",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_game_day_rooms",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_game_day_room_members",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_game_day_reactions",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_game_day_predictions",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_game_day_events",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_game_day_activity_room_time_idx",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_game_day_activity",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_franchise_routes",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_franchise_latest",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_franchise_heads",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_franchise_commands",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_fan_pulse_reactions",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_fan_pulse_content",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_email_change_requests",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_editorial_versions",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_editorial_stories_team",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_editorial_stories",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_editorial_sources_due",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_editorial_sources",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_editorial_overrides_team",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_editorial_overrides",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_editorial_jobs_ready",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_editorial_jobs",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_editorial_evidence",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_editorial_events",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_editorial_decisions",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_editorial_candidates_team",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_editorial_candidates",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_devices",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_device_installation",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_daily_briefings",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_daily_briefing_team",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_crews",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_crew_shares_sender_idx",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_crew_shares_crew_idx",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_crew_shares",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_crew_share_recipients_user_idx",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_crew_share_recipients",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_crew_reactions",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_crew_members_one_active_crew_idx",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_crew_members_crew_idx",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_crew_members",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_crew_media_owner",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_crew_media",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_crew_invites_pending_recipient_idx",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_crew_invites_crew_idx",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_crew_invites",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_crew_comments_activity",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_crew_comments",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_crew_activity_feed_idx",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_crew_activity",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_credentials",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_content_state_owner",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_content_automation_runs",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_consents",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_consent_owner",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_commerce_variants_product_idx",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_commerce_stripe_webhook_events",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_commerce_refunds_order",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_commerce_refunds",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_commerce_promo_codes",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_commerce_products",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_commerce_product_variants",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_commerce_orders_user_idx",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_commerce_orders_status_idx",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_commerce_orders_email_idx",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_commerce_orders",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_commerce_order_items_order_idx",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_commerce_order_items",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_commerce_inventory_adjustments",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_commerce_counters",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_briefing_push_deliveries",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_briefing_mail_jobs",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_automation_day",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_assertions",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_application_settings",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_ai_expiry",
+      "type": "index",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "app_ai_cache",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    },
+    {
+      "name": "_cf_METADATA",
+      "type": "table",
+      "bytes": 4096,
+      "pages": 1
+    }
+  ]
+}

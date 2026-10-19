@@ -1,0 +1,19 @@
+{
+  "runtime": "actual generated staging web/API/password configs via local workerd",
+  "checks": [
+    {
+      "path": "/",
+      "status": 403
+    },
+    {
+      "path": "/api/auth/config",
+      "status": 403
+    },
+    {
+      "path": "/_next/static/chunks/1022-ce60910efcb8b6cd.js",
+      "status": 403
+    }
+  ],
+  "postgresAbsent": true,
+  "noRemoteAccess": true
+}

@@ -1,7 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { stagingConfigs } from '../../scripts/prepare-cloudflare-staging.mjs';
-const args = { databaseId: '11111111-1111-4111-8111-111111111111', subdomain: 'synthetic', root: '/tmp/synthetic' };
+const args = {
+  databaseId: '11111111-1111-4111-8111-111111111111',
+  subdomain: 'synthetic',
+  root: '/tmp/synthetic',
+};
 test('staging graph is private, isolated, cron-free, and provider-free', () => {
   const c = stagingConfigs(args);
   for (const config of Object.values(c)) {
@@ -12,6 +16,9 @@ test('staging graph is private, isolated, cron-free, and provider-free', () => {
     assert.equal(config.routes, undefined);
     assert.equal(config.account_id, undefined);
   }
+  assert.match(c.web.main, /workers\/staging\/index\.ts$/);
+  assert.equal(c.web.assets.run_worker_first, true);
+  assert.equal(c.web.vars.ACCESS_AUD, '');
   assert.equal(c.web.services[0].service, c.api.name);
   assert.equal(c.api.services[0].service, c.password.name);
   for (const config of [c.web, c.api]) {
@@ -20,8 +27,12 @@ test('staging graph is private, isolated, cron-free, and provider-free', () => {
     for (const [key, value] of Object.entries(config.vars))
       if (key.endsWith('_ENABLED')) assert.equal(value, 'false', key);
     assert.equal(config.d1_databases[0].database_id, args.databaseId);
-    for (const bucket of config.r2_buckets) assert.match(bucket.bucket_name, /^down-distance-staging-/);
-    assert.equal(config.vars.AUTH_BASE_URL, 'https://down-distance-staging-web.synthetic.workers.dev');
+    for (const bucket of config.r2_buckets)
+      assert.match(bucket.bucket_name, /^down-distance-staging-/);
+    assert.equal(
+      config.vars.AUTH_BASE_URL,
+      'https://down-distance-staging-web.synthetic.workers.dev',
+    );
   }
   assert.equal(c.password.d1_databases, undefined);
   assert.equal(c.password.r2_buckets, undefined);

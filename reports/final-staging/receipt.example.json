@@ -1,0 +1,38 @@
+{
+  "scope": "isolated-synthetic-staging",
+  "accountId": "6e8c301360ab628706dcf3acf55f0dbb",
+  "subdomain": "tdingman5",
+  "checkedUTC": "REPLACE_AFTER_APPROVED_ACCOUNT_RECHECK",
+  "workersPlan": "free",
+  "r2Enabled": false,
+  "accessEnabled": false,
+  "billingReviewed": false,
+  "productionData": false,
+  "remaining": {
+    "workerRequests": 0,
+    "d1Reads": 0,
+    "d1Writes": 0,
+    "r2StorageBytes": 0,
+    "r2ClassA": 0,
+    "r2ClassB": 0
+  },
+  "existingWorkerNames": [
+    "dnd-content-scheduler"
+  ],
+  "access": {
+    "teamDomain": "REPLACE.cloudflareaccess.com",
+    "audience": "REPLACE_WITH_APP_AUD_NOT_APP_ID",
+    "hostname": "down-distance-staging-web.tdingman5.workers.dev",
+    "policyReviewed": false
+  },
+  "newDatabase": {
+    "id": "REPLACE_WITH_NEW_STAGING_UUID",
+    "name": "down-distance-staging-app",
+    "createdForThisStaging": false
+  },
+  "newBucketNames": [],
+  "requiredSecrets": [
+    "AUTH_JWT_SECRET:web+api",
+    "APP_MAIL_ENCRYPTION_KEY:api"
+  ]
+}

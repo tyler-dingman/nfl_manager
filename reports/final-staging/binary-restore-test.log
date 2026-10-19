@@ -1,0 +1,15 @@
+TAP version 13
+# Subtest: opt-in binary directory checkpoint restores original rows and all immutable objects into fresh D1/R2
+ok 1 - opt-in binary directory checkpoint restores original rows and all immutable objects into fresh D1/R2
+  ---
+  duration_ms: 10315.370916
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 10982.974042

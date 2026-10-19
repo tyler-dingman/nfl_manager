@@ -1,0 +1,30 @@
+{
+  "runtime": "actual local workerd",
+  "hostedCPU": null,
+  "samples": [
+    {
+      "name": "tiny",
+      "beforeEnvelopeBytes": 88,
+      "afterEnvelopeBytes": 88,
+      "corruptionRejected": true,
+      "localWorkerWallMs": 1,
+      "cpuMs": null
+    },
+    {
+      "name": "large-Unicode",
+      "beforeEnvelopeBytes": 16272,
+      "afterEnvelopeBytes": 12160,
+      "corruptionRejected": true,
+      "localWorkerWallMs": 18,
+      "cpuMs": null
+    },
+    {
+      "name": "high-entropy",
+      "beforeEnvelopeBytes": 139520,
+      "afterEnvelopeBytes": 104596,
+      "corruptionRejected": true,
+      "localWorkerWallMs": 28,
+      "cpuMs": null
+    }
+  ]
+}

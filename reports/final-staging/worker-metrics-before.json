@@ -1,0 +1,207 @@
+{
+  "scope": "MEASURED local workerd request counters and wall time, not hosted CPU or complete account billing",
+  "hostedCpuMs": null,
+  "routes": [
+    {
+      "routeFamily": "/",
+      "requests": 70,
+      "errors": 0,
+      "statusCounts": {
+        "200": 70
+      },
+      "wallP50Ms": 21.0,
+      "wallP95Ms": 64,
+      "d1Calls": 0,
+      "statements": 0,
+      "rowsRead": 0,
+      "rowsWritten": 0,
+      "r2Reads": 0,
+      "r2Writes": 0
+    },
+    {
+      "routeFamily": "/api/auth",
+      "requests": 594,
+      "errors": 0,
+      "statusCounts": {
+        "200": 584,
+        "201": 2,
+        "400": 8
+      },
+      "wallP50Ms": 2.0,
+      "wallP95Ms": 6,
+      "d1Calls": 1164,
+      "statements": 1200,
+      "rowsRead": 1158,
+      "rowsWritten": 48,
+      "r2Reads": 10,
+      "r2Writes": 4
+    },
+    {
+      "routeFamily": "/api/automation",
+      "requests": 6,
+      "errors": 0,
+      "statusCounts": {
+        "200": 1,
+        "401": 5
+      },
+      "wallP50Ms": 0.0,
+      "wallP95Ms": 1,
+      "d1Calls": 1,
+      "statements": 1,
+      "rowsRead": 0,
+      "rowsWritten": 0,
+      "r2Reads": 0,
+      "r2Writes": 0
+    },
+    {
+      "routeFamily": "/api/search",
+      "requests": 11,
+      "errors": 0,
+      "statusCounts": {
+        "200": 11
+      },
+      "wallP50Ms": 0,
+      "wallP95Ms": 15,
+      "d1Calls": 5,
+      "statements": 5,
+      "rowsRead": 5,
+      "rowsWritten": 0,
+      "r2Reads": 0,
+      "r2Writes": 0
+    },
+    {
+      "routeFamily": "/api/user",
+      "requests": 146,
+      "errors": 0,
+      "statusCounts": {
+        "200": 143,
+        "201": 2,
+        "401": 1
+      },
+      "wallP50Ms": 3.0,
+      "wallP95Ms": 11,
+      "d1Calls": 462,
+      "statements": 485,
+      "rowsRead": 609,
+      "rowsWritten": 59,
+      "r2Reads": 6,
+      "r2Writes": 2
+    },
+    {
+      "routeFamily": "/front-office",
+      "requests": 11,
+      "errors": 0,
+      "statusCounts": {
+        "200": 11
+      },
+      "wallP50Ms": 15,
+      "wallP95Ms": 24,
+      "d1Calls": 0,
+      "statements": 0,
+      "rowsRead": 0,
+      "rowsWritten": 0,
+      "r2Reads": 0,
+      "r2Writes": 0
+    },
+    {
+      "routeFamily": "/parlay-lab",
+      "requests": 93,
+      "errors": 0,
+      "statusCounts": {
+        "200": 93
+      },
+      "wallP50Ms": 32,
+      "wallP95Ms": 59,
+      "d1Calls": 0,
+      "statements": 0,
+      "rowsRead": 0,
+      "rowsWritten": 0,
+      "r2Reads": 0,
+      "r2Writes": 0
+    },
+    {
+      "routeFamily": "/the-beat",
+      "requests": 61,
+      "errors": 0,
+      "statusCounts": {
+        "200": 61
+      },
+      "wallP50Ms": 17,
+      "wallP95Ms": 33,
+      "d1Calls": 0,
+      "statements": 0,
+      "rowsRead": 0,
+      "rowsWritten": 0,
+      "r2Reads": 0,
+      "r2Writes": 0
+    },
+    {
+      "routeFamily": "/three-and-out",
+      "requests": 6,
+      "errors": 0,
+      "statusCounts": {
+        "200": 6
+      },
+      "wallP50Ms": 20.0,
+      "wallP95Ms": 26,
+      "d1Calls": 0,
+      "statements": 0,
+      "rowsRead": 0,
+      "rowsWritten": 0,
+      "r2Reads": 0,
+      "r2Writes": 0
+    },
+    {
+      "routeFamily": "/trivia",
+      "requests": 11,
+      "errors": 0,
+      "statusCounts": {
+        "200": 11
+      },
+      "wallP50Ms": 22,
+      "wallP95Ms": 39,
+      "d1Calls": 0,
+      "statements": 0,
+      "rowsRead": 0,
+      "rowsWritten": 0,
+      "r2Reads": 0,
+      "r2Writes": 0
+    },
+    {
+      "routeFamily": "/watch",
+      "requests": 58,
+      "errors": 0,
+      "statusCounts": {
+        "200": 58
+      },
+      "wallP50Ms": 34.5,
+      "wallP95Ms": 59,
+      "d1Calls": 0,
+      "statements": 0,
+      "rowsRead": 0,
+      "rowsWritten": 0,
+      "r2Reads": 0,
+      "r2Writes": 0
+    },
+    {
+      "routeFamily": "other",
+      "requests": 473,
+      "errors": 6,
+      "statusCounts": {
+        "200": 458,
+        "201": 2,
+        "400": 2,
+        "404": 5,
+        "503": 6
+      },
+      "wallP50Ms": 15,
+      "wallP95Ms": 67,
+      "d1Calls": 901,
+      "statements": 1116,
+      "rowsRead": 16884,
+      "rowsWritten": 1571,
+      "r2Reads": 3221,
+      "r2Writes": 270
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+TAP version 13
+# Subtest: isolated build network guard rejects non-font application/provider hosts before connecting
+ok 1 - isolated build network guard rejects non-font application/provider hosts before connecting
+  ---
+  duration_ms: 68.613208
+  ...
+# Subtest: Access request protects the entire staging hostname including APIs/assets with named IdP identities
+ok 2 - Access request protects the entire staging hostname including APIs/assets with named IdP identities
+  ---
+  duration_ms: 0.626959
+  ...
+# Subtest: Access request rejects wildcard, empty and duplicate identity policies
+ok 3 - Access request rejects wildcard, empty and duplicate identity policies
+  ---
+  duration_ms: 0.712291
+  ...
+# Subtest: staging graph is private, isolated, cron-free, and provider-free
+ok 4 - staging graph is private, isolated, cron-free, and provider-free
+  ---
+  duration_ms: 1.233625
+  ...
+# Subtest: generator rejects placeholder IDs and unsafe URL input
+ok 5 - generator rejects placeholder IDs and unsafe URL input
+  ---
+  duration_ms: 1.417125
+  ...
+# Subtest: offline guard emits only private staging commands after complete operator evidence
+ok 6 - offline guard emits only private staging commands after complete operator evidence
+  ---
+  duration_ms: 2.377459
+  ...
+# Subtest: guard denies stale, paid, unprotected, mismatched and production targets
+ok 7 - guard denies stale, paid, unprotected, mismatched and production targets
+  ---
+  duration_ms: 4.436958
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 103.08125

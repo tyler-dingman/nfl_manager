@@ -1,5 +1,5 @@
 import { Storage, digest, utf8, decode, type SqlDatabase } from './core';
-import { sealDirectory, unsealDirectory } from './backup-codec';
+import { sealDirectory, unsealDirectory, type DirectoryFormat } from './backup-codec';
 import { JsonTree } from './json-tree';
 import { decodeObject } from './codec';
 import { seal, unseal, unsealBytes } from './mail';
@@ -90,6 +90,7 @@ export async function checkpoint(
   secret: string,
   mode: string,
   previousId?: string,
+  directoryFormat: DirectoryFormat = 'legacy',
 ) {
   requireOffline(mode);
   const start = performance.now(),
@@ -121,7 +122,7 @@ export async function checkpoint(
           if (JSON.stringify(restored) !== JSON.stringify(chunk))
             throw Error('Previous backup chunk mismatch');
           hash = prior;
-        } else hash = await backup.put(await sealDirectory(chunk, secret));
+        } else hash = await backup.put(await sealDirectory(chunk, secret, directoryFormat));
         manifest.chunkDigests![fingerprint] = hash;
         chunks.push(hash);
         chunk = [];
@@ -192,7 +193,9 @@ export async function checkpoint(
     previous &&
     JSON.stringify(previous.tables) === JSON.stringify(manifest.tables) &&
     JSON.stringify(previous.objects) === JSON.stringify(manifest.objects);
-  const id = unchanged ? previousId! : await backup.put(await sealDirectory(manifest, secret));
+  const id = unchanged
+    ? previousId!
+    : await backup.put(await sealDirectory(manifest, secret, directoryFormat));
   return {
     id,
     reusedCheckpoint: Boolean(unchanged),

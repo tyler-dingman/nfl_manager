@@ -238,6 +238,32 @@ try {
       2,
     ),
   );
+  if (process.env.D1_PERFORMANCE === 'true') {
+    const stateFile = directory + '/performance-state.json';
+    await writeFile(stateFile, JSON.stringify(await a.storageState()));
+    const measured = await new Promise((resolve, reject) => {
+      const probe = spawn(
+        process.execPath,
+        ['scripts/measure-staging-performance.mjs', baseURL, stateFile, `${out}/performance.json`],
+        { env, stdio: ['ignore', 'pipe', 'pipe'] },
+      );
+      let stdout = '',
+        stderr = '';
+      const timer = setTimeout(() => probe.kill('SIGTERM'), 600000);
+      probe.stdout.on('data', (b) => (stdout += b));
+      probe.stderr.on('data', (b) => (stderr += b));
+      probe.once('error', (e) => {
+        clearTimeout(timer);
+        reject(e);
+      });
+      probe.once('exit', (status) => {
+        clearTimeout(timer);
+        resolve({ status, stdout, stderr });
+      });
+    });
+    await writeFile(`${out}/performance-run.log`, measured.stdout + measured.stderr);
+    assert.equal(measured.status, 0, 'Local throttled performance probe failed');
+  }
   browser = await chromium.launch({ headless: true, channel: 'chrome' });
   const context = await browser.newContext({ storageState: await a.storageState() });
   await context.route('**/*', (route) =>

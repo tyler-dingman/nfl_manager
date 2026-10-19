@@ -1,0 +1,130 @@
+
+┌─────────────────────────────┐
+│ OpenNext — Cloudflare build │
+└─────────────────────────────┘
+
+App directory: /private/tmp/dd-split-web-0qYbm6
+Next.js version : 15.5.28
+@opennextjs/cloudflare version: 1.20.12
+@opennextjs/aws version: 4.1.11
+workerd compatibility_date: 2026-10-18
+
+┌─────────────────────────────────┐
+│ OpenNext — Building Next.js app │
+└─────────────────────────────────┘
+
+
+> nfl_manager@0.1.0 prebuild
+> npm run logo:check
+
+
+> nfl_manager@0.1.0 logo:check
+> node scripts/generate-team-logo.mjs --check
+
+
+> nfl_manager@0.1.0 build
+> next build
+
+   ▲ Next.js 15.5.28
+
+   Creating an optimized production build ...
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOSPC: no space left on device, write
+ ⚠ Compiled with warnings in 22.7s
+
+./node_modules/jose/dist/webapi/lib/deflate.js
+A Node.js API is used (CompressionStream at line: 18) which is not supported in the Edge Runtime.
+Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+
+Import trace for requested module:
+./node_modules/jose/dist/webapi/lib/deflate.js
+./node_modules/jose/dist/webapi/lib/jwe_encrypt.js
+./node_modules/jose/dist/webapi/jwt/encrypt.js
+./node_modules/jose/dist/webapi/index.js
+./src/lib/mobile-preview-access.ts
+
+./node_modules/jose/dist/webapi/lib/deflate.js
+A Node.js API is used (DecompressionStream at line: 34) which is not supported in the Edge Runtime.
+Learn more: https://nextjs.org/docs/api-reference/edge-runtime
+
+Import trace for requested module:
+./node_modules/jose/dist/webapi/lib/deflate.js
+./node_modules/jose/dist/webapi/lib/jwe_encrypt.js
+./node_modules/jose/dist/webapi/jwt/encrypt.js
+./node_modules/jose/dist/webapi/index.js
+./src/lib/mobile-preview-access.ts
+
+   Linting and checking validity of types ...
+node:internal/modules/cjs/loader:1228
+  throw err;
+  ^
+
+Error: Cannot find module './scripts/build-copy-on-write.cjs ./scripts/build-network-guard.cjs'
+Require stack:
+- internal/preload
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1225:15)
+    at Function._load (node:internal/modules/cjs/loader:1055:27)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:220:24)
+    at Module.require (node:internal/modules/cjs/loader:1311:12)
+    at node:internal/modules/cjs/loader:1856:12
+    at loadPreloadModules (node:internal/process/pre_execution:734:5)
+    at setupUserModules (node:internal/process/pre_execution:206:5)
+    at prepareExecution (node:internal/process/pre_execution:159:5)
+    at prepareMainThreadExecution (node:internal/process/pre_execution:54:10) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ 'internal/preload' ]
+}
+
+Node.js v22.14.0
+node:internal/modules/cjs/loader:1228
+  throw err;
+  ^
+
+Error: Cannot find module './scripts/build-copy-on-write.cjs ./scripts/build-network-guard.cjs'
+Require stack:
+- internal/preload
+    at Function._resolveFilename (node:internal/modules/cjs/loader:1225:15)
+    at Function._load (node:internal/modules/cjs/loader:1055:27)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:220:24)
+    at Module.require (node:internal/modules/cjs/loader:1311:12)
+    at node:internal/modules/cjs/loader:1856:12
+    at loadPreloadModules (node:internal/process/pre_execution:734:5)
+    at setupUserModules (node:internal/process/pre_execution:206:5)
+    at prepareExecution (node:internal/process/pre_execution:159:5)
+    at prepareMainThreadExecution (node:internal/process/pre_execution:54:10) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [ 'internal/preload' ]
+}
+
+Node.js v22.14.0
+Next.js build worker exited with code: 1 and signal: null
+node:internal/errors:983
+  const err = new Error(message);
+              ^
+
+Error: Command failed: npm run build
+    at genericNodeError (node:internal/errors:983:15)
+    at wrappedFn (node:internal/errors:537:14)
+    at checkExecSyncError (node:child_process:882:11)
+    at Object.execSync (node:child_process:954:15)
+    at buildNextjsApp (file:///private/tmp/dd-split-web-0qYbm6/node_modules/@opennextjs/aws/dist/build/buildNextApp.js:15:8)
+    at build (file:///private/tmp/dd-split-web-0qYbm6/node_modules/@opennextjs/cloudflare/dist/cli/build/build.js:64:9)
+    at async buildCommand (file:///private/tmp/dd-split-web-0qYbm6/node_modules/@opennextjs/cloudflare/dist/cli/commands/build.js:40:5) {
+  status: 1,
+  signal: null,
+  output: [ null, null, null ],
+  pid: 35717,
+  stdout: null,
+  stderr: null
+}
+
+Node.js v22.14.0
+file:///private/tmp/down-distance-staging-preparation/scripts/build-split-worker.mjs:133
+  if (run.status !== 0) throw Error('Web build failed with status ' + run.status);
+                              ^
+
+Error: Web build failed with status 1
+    at file:///private/tmp/down-distance-staging-preparation/scripts/build-split-worker.mjs:133:31
+
+Node.js v22.14.0

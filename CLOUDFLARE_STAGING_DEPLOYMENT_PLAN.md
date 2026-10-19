@@ -179,3 +179,7 @@ Staging objective: manually checkpoint before every mutable test group; RPO is t
 6. Hosted secrets, browser-safe staging auth, post-deployment health/ownership checks and explicit deployment approval are required. No production cutover or user import is part of this plan.
 
 **Review stop: no deployment, cloud resource creation, remote migration, DNS change, paid service activation, or real email has been performed.**
+
+## Final sprint additions (not deployment authorization)
+
+See `FINAL_CLOUDFLARE_STAGING_READINESS.md` for the application-level signed Access JWT gate, static asset dispatch protection and offline deployment guard. Generated staging web now runs `workers/staging/index.ts` before assets. Configure the reviewed Access team domain and application audience; empty values deliberately deny all traffic. Before an initial private deployment, pin `account_id` in every config and validate a fresh operator receipt with `node scripts/staging-deployment-guard.mjs .staging/account-receipt.json`. The receipt is operator evidence, not an independent remote verifier. That command only writes reviewable commands and never executes them. The account's R2/Access prerequisites and deployment approval remain unresolved.

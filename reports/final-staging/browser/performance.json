@@ -1,0 +1,1641 @@
+{
+  "localOnly": true,
+  "simulatedMobile": true,
+  "nativeDevice": false,
+  "inp": "Not measured: requires representative trusted interactions",
+  "samples": [
+    {
+      "path": "/",
+      "mobile": false,
+      "status": 200,
+      "finalURL": "http://localhost:55158/",
+      "lcp": 1600,
+      "cls": 0.14546524801372007,
+      "lcpElement": {
+        "tag": "IMG",
+        "id": "",
+        "className": "object-cover object-[58%_center] sm:object-center"
+      },
+      "shifts": [
+        {
+          "value": 0.077,
+          "sources": [
+            {
+              "tag": "FOOTER",
+              "before": {
+                "x": 0,
+                "y": 900,
+                "width": 1440,
+                "height": 77.484375,
+                "top": 900,
+                "right": 1440,
+                "bottom": 977.484375,
+                "left": 0
+              },
+              "after": {
+                "x": 0,
+                "y": 0,
+                "width": 0,
+                "height": 0,
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              }
+            }
+          ]
+        },
+        {
+          "value": 0.0657743359375,
+          "sources": [
+            {
+              "tag": "MAIN",
+              "before": {
+                "x": 72,
+                "y": 611.921875,
+                "width": 1296,
+                "height": 388.078125,
+                "top": 611.921875,
+                "right": 1368,
+                "bottom": 1000,
+                "left": 72
+              },
+              "after": {
+                "x": 72,
+                "y": 883.15625,
+                "width": 1296,
+                "height": 116.84375,
+                "top": 883.15625,
+                "right": 1368,
+                "bottom": 1000,
+                "left": 72
+              }
+            },
+            {
+              "tag": "#text",
+              "before": {
+                "x": 102.59375,
+                "y": 989.890625,
+                "width": 887.875,
+                "height": 10.109375,
+                "top": 989.890625,
+                "right": 990.46875,
+                "bottom": 1000,
+                "left": 102.59375
+              },
+              "after": {
+                "x": 0,
+                "y": 0,
+                "width": 0,
+                "height": 0,
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              }
+            }
+          ]
+        },
+        {
+          "value": 0.0002719779308931328,
+          "sources": [
+            {
+              "tag": "DIV",
+              "before": {
+                "x": 1156.578125,
+                "y": 26.765625,
+                "width": 180.828125,
+                "height": 38.25,
+                "top": 26.765625,
+                "right": 1337.40625,
+                "bottom": 65.015625,
+                "left": 1156.578125
+              },
+              "after": {
+                "x": 1095.25,
+                "y": 26.765625,
+                "width": 242.15625,
+                "height": 38.25,
+                "top": 26.765625,
+                "right": 1337.40625,
+                "bottom": 65.015625,
+                "left": 1095.25
+              }
+            }
+          ]
+        },
+        {
+          "value": 0.0024189341453269677,
+          "sources": [
+            {
+              "tag": "ASIDE",
+              "before": {
+                "x": 102.59375,
+                "y": 986.40625,
+                "width": 887.875,
+                "height": 13.59375,
+                "top": 986.40625,
+                "right": 990.46875,
+                "bottom": 1000,
+                "left": 102.59375
+              },
+              "after": {
+                "x": 0,
+                "y": 0,
+                "width": 0,
+                "height": 0,
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              }
+            }
+          ]
+        }
+      ],
+      "ttfb": 23.5,
+      "jsTransferBytes": 407805,
+      "requests": 95,
+      "inp": null
+    },
+    {
+      "path": "/the-beat",
+      "mobile": false,
+      "status": 200,
+      "finalURL": "http://localhost:55158/the-beat",
+      "lcp": 392,
+      "cls": 0.008451426881389855,
+      "lcpElement": {
+        "tag": "SECTION",
+        "id": "",
+        "className": "beat-hero_hero__rBe1b"
+      },
+      "shifts": [
+        {
+          "value": 0.0002719779308931328,
+          "sources": [
+            {
+              "tag": "DIV",
+              "before": {
+                "x": 1156.578125,
+                "y": 26.765625,
+                "width": 180.828125,
+                "height": 38.25,
+                "top": 26.765625,
+                "right": 1337.40625,
+                "bottom": 65.015625,
+                "left": 1156.578125
+              },
+              "after": {
+                "x": 1095.25,
+                "y": 26.765625,
+                "width": 242.15625,
+                "height": 38.25,
+                "top": 26.765625,
+                "right": 1337.40625,
+                "bottom": 65.015625,
+                "left": 1095.25
+              }
+            }
+          ]
+        },
+        {
+          "value": 0.008179448950496722,
+          "sources": [
+            {
+              "tag": "DIV",
+              "before": {
+                "x": 707.609375,
+                "y": 213.328125,
+                "width": 631.59375,
+                "height": 97.921875,
+                "top": 213.328125,
+                "right": 1339.203125,
+                "bottom": 311.25,
+                "left": 707.609375
+              },
+              "after": {
+                "x": 707.609375,
+                "y": 121.703125,
+                "width": 631.59375,
+                "height": 281.171875,
+                "top": 121.703125,
+                "right": 1339.203125,
+                "bottom": 402.875,
+                "left": 707.609375
+              }
+            }
+          ]
+        }
+      ],
+      "ttfb": 16.399999976158142,
+      "jsTransferBytes": 408294,
+      "requests": 94,
+      "inp": null
+    },
+    {
+      "path": "/watch",
+      "mobile": false,
+      "status": 200,
+      "finalURL": "http://localhost:55158/watch",
+      "lcp": 620,
+      "cls": 0.1370750139250579,
+      "lcpElement": {
+        "tag": "SECTION",
+        "id": "",
+        "className": "beat-hero_hero__rBe1b"
+      },
+      "shifts": [
+        {
+          "value": 0.023393261718750002,
+          "sources": [
+            {
+              "tag": "FOOTER",
+              "before": {
+                "x": 0,
+                "y": 900,
+                "width": 1440,
+                "height": 77.484375,
+                "top": 900,
+                "right": 1440,
+                "bottom": 977.484375,
+                "left": 0
+              },
+              "after": {
+                "x": 0,
+                "y": 0,
+                "width": 0,
+                "height": 0,
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              }
+            }
+          ]
+        },
+        {
+          "value": 0.04019514466085552,
+          "sources": [
+            {
+              "tag": "FOOTER",
+              "before": {
+                "x": 0,
+                "y": 0,
+                "width": 0,
+                "height": 0,
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              },
+              "after": {
+                "x": 0,
+                "y": 900,
+                "width": 1440,
+                "height": 77.484375,
+                "top": 900,
+                "right": 1440,
+                "bottom": 977.484375,
+                "left": 0
+              }
+            },
+            {
+              "tag": "P",
+              "before": {
+                "x": 0,
+                "y": 0,
+                "width": 0,
+                "height": 0,
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              },
+              "after": {
+                "x": 102.59375,
+                "y": 697.828125,
+                "width": 1234.8125,
+                "height": 15.296875,
+                "top": 697.828125,
+                "right": 1337.40625,
+                "bottom": 713.125,
+                "left": 102.59375
+              }
+            },
+            {
+              "tag": "DIV",
+              "before": {
+                "x": 1156.578125,
+                "y": 26.765625,
+                "width": 180.828125,
+                "height": 38.25,
+                "top": 26.765625,
+                "right": 1337.40625,
+                "bottom": 65.015625,
+                "left": 1156.578125
+              },
+              "after": {
+                "x": 1095.25,
+                "y": 26.765625,
+                "width": 242.15625,
+                "height": 38.25,
+                "top": 26.765625,
+                "right": 1337.40625,
+                "bottom": 65.015625,
+                "left": 1095.25
+              }
+            }
+          ]
+        },
+        {
+          "value": 0.03752795930085359,
+          "sources": [
+            {
+              "tag": "FOOTER",
+              "before": {
+                "x": 0,
+                "y": 900,
+                "width": 1440,
+                "height": 77.484375,
+                "top": 900,
+                "right": 1440,
+                "bottom": 977.484375,
+                "left": 0
+              },
+              "after": {
+                "x": 0,
+                "y": 0,
+                "width": 0,
+                "height": 0,
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              }
+            },
+            {
+              "tag": "P",
+              "before": {
+                "x": 102.59375,
+                "y": 697.828125,
+                "width": 1234.8125,
+                "height": 15.296875,
+                "top": 697.828125,
+                "right": 1337.40625,
+                "bottom": 713.125,
+                "left": 102.59375
+              },
+              "after": {
+                "x": 0,
+                "y": 0,
+                "width": 0,
+                "height": 0,
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              }
+            }
+          ]
+        },
+        {
+          "value": 0.03595864824459877,
+          "sources": [
+            {
+              "tag": "FOOTER",
+              "before": {
+                "x": 0,
+                "y": 0,
+                "width": 0,
+                "height": 0,
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              },
+              "after": {
+                "x": 0,
+                "y": 900,
+                "width": 1440,
+                "height": 77.484375,
+                "top": 900,
+                "right": 1440,
+                "bottom": 977.484375,
+                "left": 0
+              }
+            },
+            {
+              "tag": "P",
+              "before": {
+                "x": 0,
+                "y": 0,
+                "width": 0,
+                "height": 0,
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              },
+              "after": {
+                "x": 102.59375,
+                "y": 728.421875,
+                "width": 1234.8125,
+                "height": 15.296875,
+                "top": 728.421875,
+                "right": 1337.40625,
+                "bottom": 743.71875,
+                "left": 102.59375
+              }
+            }
+          ]
+        }
+      ],
+      "ttfb": 31.200000017881393,
+      "jsTransferBytes": 407805,
+      "requests": 85,
+      "inp": null
+    },
+    {
+      "path": "/three-and-out",
+      "mobile": false,
+      "status": 200,
+      "finalURL": "http://localhost:55158/three-and-out",
+      "lcp": 560,
+      "cls": 0.0018195799575617287,
+      "lcpElement": {
+        "tag": "H1",
+        "id": "",
+        "className": "mt-4 max-w-4xl text-4xl font-black tracking-tight sm:text-6xl"
+      },
+      "shifts": [
+        {
+          "value": 0.0018195799575617287,
+          "sources": [
+            {
+              "tag": "#text",
+              "before": {
+                "x": 102.59375,
+                "y": 139.6875,
+                "width": 1234.8125,
+                "height": 13,
+                "top": 139.6875,
+                "right": 1337.40625,
+                "bottom": 152.6875,
+                "left": 102.59375
+              },
+              "after": {
+                "x": 102.59375,
+                "y": 139.6875,
+                "width": 1234.8125,
+                "height": 13,
+                "top": 139.6875,
+                "right": 1337.40625,
+                "bottom": 152.6875,
+                "left": 102.59375
+              }
+            },
+            {
+              "tag": "DIV",
+              "before": {
+                "x": 1156.578125,
+                "y": 26.765625,
+                "width": 180.828125,
+                "height": 38.25,
+                "top": 26.765625,
+                "right": 1337.40625,
+                "bottom": 65.015625,
+                "left": 1156.578125
+              },
+              "after": {
+                "x": 1095.25,
+                "y": 26.765625,
+                "width": 242.15625,
+                "height": 38.25,
+                "top": 26.765625,
+                "right": 1337.40625,
+                "bottom": 65.015625,
+                "left": 1095.25
+              }
+            }
+          ]
+        }
+      ],
+      "ttfb": 18.299999982118607,
+      "jsTransferBytes": 408294,
+      "requests": 83,
+      "inp": null
+    },
+    {
+      "path": "/huddle",
+      "mobile": false,
+      "status": 200,
+      "finalURL": "http://localhost:55158/huddle",
+      "lcp": null,
+      "cls": 0,
+      "lcpElement": null,
+      "shifts": [],
+      "ttfb": 31.799999982118607,
+      "jsTransferBytes": 399545,
+      "requests": 79,
+      "inp": null
+    },
+    {
+      "path": "/front-office",
+      "mobile": false,
+      "status": 200,
+      "finalURL": "http://localhost:55158/front-office",
+      "lcp": 616,
+      "cls": 0.0032611799828800156,
+      "lcpElement": {
+        "tag": "SECTION",
+        "id": "",
+        "className": "front-office-strategic-hero_hero__Dwmj_ "
+      },
+      "shifts": [
+        {
+          "value": 0.0015635850694444447,
+          "sources": [
+            {
+              "tag": "FOOTER",
+              "before": {
+                "x": 0,
+                "y": 900,
+                "width": 1440,
+                "height": 77.484375,
+                "top": 900,
+                "right": 1440,
+                "bottom": 977.484375,
+                "left": 0
+              },
+              "after": {
+                "x": 0,
+                "y": 922.515625,
+                "width": 1440,
+                "height": 77.484375,
+                "top": 922.515625,
+                "right": 1440,
+                "bottom": 1000,
+                "left": 0
+              }
+            }
+          ]
+        },
+        {
+          "value": 0.001697594913435571,
+          "sources": [
+            {
+              "tag": "DIV",
+              "before": {
+                "x": 1231.421875,
+                "y": 26.765625,
+                "width": 177.984375,
+                "height": 38.25,
+                "top": 26.765625,
+                "right": 1409.40625,
+                "bottom": 65.015625,
+                "left": 1231.421875
+              },
+              "after": {
+                "x": 1173.84375,
+                "y": 26.765625,
+                "width": 235.5625,
+                "height": 38.25,
+                "top": 26.765625,
+                "right": 1409.40625,
+                "bottom": 65.015625,
+                "left": 1173.84375
+              }
+            },
+            {
+              "tag": "#text",
+              "before": {
+                "x": 130.359375,
+                "y": 384.671875,
+                "width": 552.3125,
+                "height": 15,
+                "top": 384.671875,
+                "right": 682.671875,
+                "bottom": 399.671875,
+                "left": 130.359375
+              },
+              "after": {
+                "x": 130.359375,
+                "y": 384.671875,
+                "width": 552.3125,
+                "height": 15,
+                "top": 384.671875,
+                "right": 682.671875,
+                "bottom": 399.671875,
+                "left": 130.359375
+              }
+            },
+            {
+              "tag": "#text",
+              "before": {
+                "x": 757.328125,
+                "y": 384.671875,
+                "width": 552.3125,
+                "height": 15,
+                "top": 384.671875,
+                "right": 1309.640625,
+                "bottom": 399.671875,
+                "left": 757.328125
+              },
+              "after": {
+                "x": 757.328125,
+                "y": 384.671875,
+                "width": 552.3125,
+                "height": 15,
+                "top": 384.671875,
+                "right": 1309.640625,
+                "bottom": 399.671875,
+                "left": 757.328125
+              }
+            },
+            {
+              "tag": "#text",
+              "before": {
+                "x": 130.359375,
+                "y": 630.515625,
+                "width": 552.3125,
+                "height": 15,
+                "top": 630.515625,
+                "right": 682.671875,
+                "bottom": 645.515625,
+                "left": 130.359375
+              },
+              "after": {
+                "x": 130.359375,
+                "y": 630.515625,
+                "width": 552.3125,
+                "height": 15,
+                "top": 630.515625,
+                "right": 682.671875,
+                "bottom": 645.515625,
+                "left": 130.359375
+              }
+            },
+            {
+              "tag": "#text",
+              "before": {
+                "x": 757.328125,
+                "y": 630.515625,
+                "width": 552.3125,
+                "height": 15,
+                "top": 630.515625,
+                "right": 1309.640625,
+                "bottom": 645.515625,
+                "left": 757.328125
+              },
+              "after": {
+                "x": 757.328125,
+                "y": 630.515625,
+                "width": 552.3125,
+                "height": 15,
+                "top": 630.515625,
+                "right": 1309.640625,
+                "bottom": 645.515625,
+                "left": 757.328125
+              }
+            }
+          ]
+        }
+      ],
+      "ttfb": 27.599999994039536,
+      "jsTransferBytes": 408294,
+      "requests": 84,
+      "inp": null
+    },
+    {
+      "path": "/parlay-lab",
+      "mobile": false,
+      "status": 200,
+      "finalURL": "http://localhost:55158/parlay-lab",
+      "lcp": 668,
+      "cls": 0.02407601071204668,
+      "lcpElement": {
+        "tag": "SECTION",
+        "id": "",
+        "className": "beat-hero_hero__rBe1b"
+      },
+      "shifts": [
+        {
+          "value": 0.02242825520833333,
+          "sources": [
+            {
+              "tag": "FOOTER",
+              "before": {
+                "x": 0,
+                "y": 900,
+                "width": 1440,
+                "height": 77.484375,
+                "top": 900,
+                "right": 1440,
+                "bottom": 977.484375,
+                "left": 0
+              },
+              "after": {
+                "x": 0,
+                "y": 0,
+                "width": 0,
+                "height": 0,
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              }
+            }
+          ]
+        },
+        {
+          "value": 0.0002719779308931328,
+          "sources": [
+            {
+              "tag": "DIV",
+              "before": {
+                "x": 1156.578125,
+                "y": 26.765625,
+                "width": 180.828125,
+                "height": 38.25,
+                "top": 26.765625,
+                "right": 1337.40625,
+                "bottom": 65.015625,
+                "left": 1156.578125
+              },
+              "after": {
+                "x": 1095.25,
+                "y": 26.765625,
+                "width": 242.15625,
+                "height": 38.25,
+                "top": 26.765625,
+                "right": 1337.40625,
+                "bottom": 65.015625,
+                "left": 1095.25
+              }
+            }
+          ]
+        },
+        {
+          "value": 0.0013757775728202163,
+          "sources": [
+            {
+              "tag": "SECTION",
+              "before": {
+                "x": 187.1875,
+                "y": 901.40625,
+                "width": 934.234375,
+                "height": 98.59375,
+                "top": 901.40625,
+                "right": 1121.421875,
+                "bottom": 1000,
+                "left": 187.1875
+              },
+              "after": {
+                "x": 187.1875,
+                "y": 920.125,
+                "width": 934.234375,
+                "height": 79.875,
+                "top": 920.125,
+                "right": 1121.421875,
+                "bottom": 1000,
+                "left": 187.1875
+              }
+            },
+            {
+              "tag": "A",
+              "before": {
+                "x": 187.1875,
+                "y": 827.421875,
+                "width": 934.234375,
+                "height": 41.59375,
+                "top": 827.421875,
+                "right": 1121.421875,
+                "bottom": 869.015625,
+                "left": 187.1875
+              },
+              "after": {
+                "x": 187.1875,
+                "y": 846.140625,
+                "width": 934.234375,
+                "height": 41.59375,
+                "top": 846.140625,
+                "right": 1121.421875,
+                "bottom": 887.734375,
+                "left": 187.1875
+              }
+            },
+            {
+              "tag": "BUTTON",
+              "before": {
+                "x": 188.1875,
+                "y": 789.09375,
+                "width": 78.09375,
+                "height": 22.9375,
+                "top": 789.09375,
+                "right": 266.28125,
+                "bottom": 812.03125,
+                "left": 188.1875
+              },
+              "after": {
+                "x": 188.1875,
+                "y": 807.8125,
+                "width": 78.09375,
+                "height": 22.9375,
+                "top": 807.8125,
+                "right": 266.28125,
+                "bottom": 830.75,
+                "left": 188.1875
+              }
+            }
+          ]
+        }
+      ],
+      "ttfb": 26,
+      "jsTransferBytes": 428585,
+      "requests": 110,
+      "inp": null
+    },
+    {
+      "path": "/account",
+      "mobile": false,
+      "status": 200,
+      "finalURL": "http://localhost:55158/account",
+      "lcp": 552,
+      "cls": 0.024563750919294948,
+      "lcpElement": {
+        "tag": "SECTION",
+        "id": "",
+        "className": "account-dashboard_hero__GUErz"
+      },
+      "shifts": [
+        {
+          "value": 0.006054893663194444,
+          "sources": [
+            {
+              "tag": "FOOTER",
+              "before": {
+                "x": 0,
+                "y": 900,
+                "width": 1440,
+                "height": 77.484375,
+                "top": 900,
+                "right": 1440,
+                "bottom": 977.484375,
+                "left": 0
+              },
+              "after": {
+                "x": 0,
+                "y": 0,
+                "width": 0,
+                "height": 0,
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              }
+            }
+          ]
+        },
+        {
+          "value": 0.018508857256100502,
+          "sources": [
+            {
+              "tag": "SECTION",
+              "before": {
+                "x": 885.09375,
+                "y": 628.453125,
+                "width": 348.359375,
+                "height": 124.625,
+                "top": 628.453125,
+                "right": 1233.453125,
+                "bottom": 753.078125,
+                "left": 885.09375
+              },
+              "after": {
+                "x": 885.09375,
+                "y": 797.6875,
+                "width": 348.359375,
+                "height": 155.140625,
+                "top": 797.6875,
+                "right": 1233.453125,
+                "bottom": 952.828125,
+                "left": 885.09375
+              }
+            },
+            {
+              "tag": "SECTION",
+              "before": {
+                "x": 454.46875,
+                "y": 786.5,
+                "width": 418.03125,
+                "height": 147.5625,
+                "top": 786.5,
+                "right": 872.5,
+                "bottom": 934.0625,
+                "left": 454.46875
+              },
+              "after": {
+                "x": 454.46875,
+                "y": 965.421875,
+                "width": 418.03125,
+                "height": 34.578125,
+                "top": 965.421875,
+                "right": 872.5,
+                "bottom": 1000,
+                "left": 454.46875
+              }
+            },
+            {
+              "tag": "SECTION",
+              "before": {
+                "x": 885.09375,
+                "y": 786.5,
+                "width": 348.359375,
+                "height": 174.09375,
+                "top": 786.5,
+                "right": 1233.453125,
+                "bottom": 960.59375,
+                "left": 885.09375
+              },
+              "after": {
+                "x": 885.09375,
+                "y": 965.421875,
+                "width": 348.359375,
+                "height": 34.578125,
+                "top": 965.421875,
+                "right": 1233.453125,
+                "bottom": 1000,
+                "left": 885.09375
+              }
+            },
+            {
+              "tag": "A",
+              "before": {
+                "x": 902.28125,
+                "y": 538.265625,
+                "width": 172.078125,
+                "height": 39.59375,
+                "top": 538.265625,
+                "right": 1074.359375,
+                "bottom": 577.859375,
+                "left": 902.28125
+              },
+              "after": {
+                "x": 902.28125,
+                "y": 728.3125,
+                "width": 172.078125,
+                "height": 39.59375,
+                "top": 728.3125,
+                "right": 1074.359375,
+                "bottom": 767.90625,
+                "left": 902.28125
+              }
+            },
+            {
+              "tag": "A",
+              "before": {
+                "x": 471.65625,
+                "y": 877.28125,
+                "width": 113,
+                "height": 39.59375,
+                "top": 877.28125,
+                "right": 584.65625,
+                "bottom": 916.875,
+                "left": 471.65625
+              },
+              "after": {
+                "x": 0,
+                "y": 0,
+                "width": 0,
+                "height": 0,
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              }
+            }
+          ]
+        }
+      ],
+      "ttfb": 30.700000017881393,
+      "jsTransferBytes": 474481,
+      "requests": 108,
+      "inp": null
+    },
+    {
+      "path": "/",
+      "mobile": true,
+      "status": 200,
+      "finalURL": "http://localhost:55158/",
+      "lcp": 8252,
+      "cls": 0,
+      "lcpElement": {
+        "tag": "IMG",
+        "id": "",
+        "className": "object-cover object-[58%_center] sm:object-center"
+      },
+      "shifts": [],
+      "ttfb": 24.200000017881393,
+      "jsTransferBytes": 399545,
+      "requests": 89,
+      "inp": null
+    },
+    {
+      "path": "/the-beat",
+      "mobile": true,
+      "status": 200,
+      "finalURL": "http://localhost:55158/the-beat",
+      "lcp": 1784,
+      "cls": 0.21328288465425996,
+      "lcpElement": {
+        "tag": "SECTION",
+        "id": "",
+        "className": "beat-hero_hero__rBe1b"
+      },
+      "shifts": [
+        {
+          "value": 0.0140621841378226,
+          "sources": [
+            {
+              "tag": "MAIN",
+              "before": {
+                "x": 0,
+                "y": 367.390625,
+                "width": 390,
+                "height": 476.609375,
+                "top": 367.390625,
+                "right": 390,
+                "bottom": 844,
+                "left": 0
+              },
+              "after": {
+                "x": 0,
+                "y": 388.390625,
+                "width": 390,
+                "height": 455.609375,
+                "top": 388.390625,
+                "right": 390,
+                "bottom": 844,
+                "left": 0
+              }
+            }
+          ]
+        },
+        {
+          "value": 0.0140621841378226,
+          "sources": [
+            {
+              "tag": "MAIN",
+              "before": {
+                "x": 0,
+                "y": 388.390625,
+                "width": 390,
+                "height": 455.609375,
+                "top": 388.390625,
+                "right": 390,
+                "bottom": 844,
+                "left": 0
+              },
+              "after": {
+                "x": 0,
+                "y": 367.390625,
+                "width": 390,
+                "height": 476.609375,
+                "top": 367.390625,
+                "right": 390,
+                "bottom": 844,
+                "left": 0
+              }
+            }
+          ]
+        },
+        {
+          "value": 0.18515851637861475,
+          "sources": [
+            {
+              "tag": "MAIN",
+              "before": {
+                "x": 0,
+                "y": 367.390625,
+                "width": 390,
+                "height": 476.609375,
+                "top": 367.390625,
+                "right": 390,
+                "bottom": 844,
+                "left": 0
+              },
+              "after": {
+                "x": 0,
+                "y": 628.390625,
+                "width": 390,
+                "height": 215.609375,
+                "top": 628.390625,
+                "right": 390,
+                "bottom": 844,
+                "left": 0
+              }
+            },
+            {
+              "tag": "P",
+              "before": {
+                "x": 20,
+                "y": 322.390625,
+                "width": 350,
+                "height": 21,
+                "top": 322.390625,
+                "right": 370,
+                "bottom": 343.390625,
+                "left": 20
+              },
+              "after": {
+                "x": 20,
+                "y": 574.390625,
+                "width": 350,
+                "height": 30,
+                "top": 574.390625,
+                "right": 370,
+                "bottom": 604.390625,
+                "left": 20
+              }
+            }
+          ]
+        }
+      ],
+      "ttfb": 16,
+      "jsTransferBytes": 267833,
+      "requests": 60,
+      "inp": null
+    },
+    {
+      "path": "/watch",
+      "mobile": true,
+      "status": 200,
+      "finalURL": "http://localhost:55158/watch",
+      "lcp": 3124,
+      "cls": 0.11031717098067809,
+      "lcpElement": {
+        "tag": "SECTION",
+        "id": "",
+        "className": "beat-hero_hero__rBe1b"
+      },
+      "shifts": [
+        {
+          "value": 0.036772390326892695,
+          "sources": [
+            {
+              "tag": "P",
+              "before": {
+                "x": 0,
+                "y": 0,
+                "width": 0,
+                "height": 0,
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              },
+              "after": {
+                "x": 17,
+                "y": 687.90625,
+                "width": 356,
+                "height": 34,
+                "top": 687.90625,
+                "right": 373,
+                "bottom": 721.90625,
+                "left": 17
+              }
+            }
+          ]
+        },
+        {
+          "value": 0.036772390326892695,
+          "sources": [
+            {
+              "tag": "P",
+              "before": {
+                "x": 17,
+                "y": 687.90625,
+                "width": 356,
+                "height": 34,
+                "top": 687.90625,
+                "right": 373,
+                "bottom": 721.90625,
+                "left": 17
+              },
+              "after": {
+                "x": 0,
+                "y": 0,
+                "width": 0,
+                "height": 0,
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              }
+            }
+          ]
+        },
+        {
+          "value": 0.036772390326892695,
+          "sources": [
+            {
+              "tag": "P",
+              "before": {
+                "x": 0,
+                "y": 0,
+                "width": 0,
+                "height": 0,
+                "top": 0,
+                "right": 0,
+                "bottom": 0,
+                "left": 0
+              },
+              "after": {
+                "x": 17,
+                "y": 721.90625,
+                "width": 356,
+                "height": 34,
+                "top": 721.90625,
+                "right": 373,
+                "bottom": 755.90625,
+                "left": 17
+              }
+            }
+          ]
+        }
+      ],
+      "ttfb": 17.400000005960464,
+      "jsTransferBytes": 399545,
+      "requests": 83,
+      "inp": null
+    },
+    {
+      "path": "/three-and-out",
+      "mobile": true,
+      "status": 200,
+      "finalURL": "http://localhost:55158/three-and-out",
+      "lcp": 2716,
+      "cls": 0.1538428425239148,
+      "lcpElement": {
+        "tag": "H1",
+        "id": "",
+        "className": "mt-4 max-w-4xl text-4xl font-black tracking-tight sm:text-6xl"
+      },
+      "shifts": [
+        {
+          "value": 0.1538428425239148,
+          "sources": [
+            {
+              "tag": "MAIN",
+              "before": {
+                "x": 0,
+                "y": 455.75,
+                "width": 390,
+                "height": 354.75,
+                "top": 455.75,
+                "right": 390,
+                "bottom": 810.5,
+                "left": 0
+              },
+              "after": {
+                "x": 0,
+                "y": 472.75,
+                "width": 390,
+                "height": 371.25,
+                "top": 472.75,
+                "right": 390,
+                "bottom": 844,
+                "left": 0
+              }
+            },
+            {
+              "tag": "H1",
+              "before": {
+                "x": 16,
+                "y": 160.5,
+                "width": 357,
+                "height": 130,
+                "top": 160.5,
+                "right": 373,
+                "bottom": 290.5,
+                "left": 16
+              },
+              "after": {
+                "x": 16,
+                "y": 177.5,
+                "width": 357,
+                "height": 130,
+                "top": 177.5,
+                "right": 373,
+                "bottom": 307.5,
+                "left": 16
+              }
+            },
+            {
+              "tag": "P",
+              "before": {
+                "x": 17,
+                "y": 311.25,
+                "width": 356,
+                "height": 102,
+                "top": 311.25,
+                "right": 373,
+                "bottom": 413.25,
+                "left": 17
+              },
+              "after": {
+                "x": 17,
+                "y": 328.25,
+                "width": 356,
+                "height": 102,
+                "top": 328.25,
+                "right": 373,
+                "bottom": 430.25,
+                "left": 17
+              }
+            },
+            {
+              "tag": "#text",
+              "before": {
+                "x": 17,
+                "y": 129.5,
+                "width": 356,
+                "height": 32,
+                "top": 129.5,
+                "right": 373,
+                "bottom": 161.5,
+                "left": 17
+              },
+              "after": {
+                "x": 17,
+                "y": 129.5,
+                "width": 356,
+                "height": 32,
+                "top": 129.5,
+                "right": 373,
+                "bottom": 161.5,
+                "left": 17
+              }
+            }
+          ]
+        }
+      ],
+      "ttfb": 16.30000001192093,
+      "jsTransferBytes": 400034,
+      "requests": 81,
+      "inp": null
+    },
+    {
+      "path": "/huddle",
+      "mobile": true,
+      "status": 200,
+      "finalURL": "http://localhost:55158/huddle",
+      "lcp": 7024,
+      "cls": 0,
+      "lcpElement": {
+        "tag": "HEADER",
+        "id": "",
+        "className": "huddle_hero__i5Ht9"
+      },
+      "shifts": [],
+      "ttfb": 18.400000005960464,
+      "jsTransferBytes": 399545,
+      "requests": 79,
+      "inp": null
+    },
+    {
+      "path": "/front-office",
+      "mobile": true,
+      "status": 200,
+      "finalURL": "http://localhost:55158/front-office",
+      "lcp": 2680,
+      "cls": 0.011409330601116499,
+      "lcpElement": {
+        "tag": "H1",
+        "id": "",
+        "className": "dd-home-hero-display"
+      },
+      "shifts": [
+        {
+          "value": 0.011409330601116499,
+          "sources": [
+            {
+              "tag": "#text",
+              "before": {
+                "x": 47.75,
+                "y": 704.046875,
+                "width": 294.5,
+                "height": 37.296875,
+                "top": 704.046875,
+                "right": 342.25,
+                "bottom": 741.34375,
+                "left": 47.75
+              },
+              "after": {
+                "x": 47.75,
+                "y": 704.046875,
+                "width": 294.5,
+                "height": 37.296875,
+                "top": 704.046875,
+                "right": 342.25,
+                "bottom": 741.34375,
+                "left": 47.75
+              }
+            },
+            {
+              "tag": "A",
+              "before": {
+                "x": 47.75,
+                "y": 748.84375,
+                "width": 156.046875,
+                "height": 46.75,
+                "top": 748.84375,
+                "right": 203.796875,
+                "bottom": 795.59375,
+                "left": 47.75
+              },
+              "after": {
+                "x": 47.75,
+                "y": 769.140625,
+                "width": 156.046875,
+                "height": 46.75,
+                "top": 769.140625,
+                "right": 203.796875,
+                "bottom": 815.890625,
+                "left": 47.75
+              }
+            },
+            {
+              "tag": "ARTICLE",
+              "before": {
+                "x": 0,
+                "y": 823.59375,
+                "width": 390,
+                "height": 20.40625,
+                "top": 823.59375,
+                "right": 390,
+                "bottom": 844,
+                "left": 0
+              },
+              "after": {
+                "x": 0,
+                "y": 843.890625,
+                "width": 390,
+                "height": 0.109375,
+                "top": 843.890625,
+                "right": 390,
+                "bottom": 844,
+                "left": 0
+              }
+            },
+            {
+              "tag": "#text",
+              "before": {
+                "x": 47.75,
+                "y": 431,
+                "width": 294.5,
+                "height": 17,
+                "top": 431,
+                "right": 342.25,
+                "bottom": 448,
+                "left": 47.75
+              },
+              "after": {
+                "x": 47.75,
+                "y": 431,
+                "width": 294.5,
+                "height": 17,
+                "top": 431,
+                "right": 342.25,
+                "bottom": 448,
+                "left": 47.75
+              }
+            }
+          ]
+        }
+      ],
+      "ttfb": 18.400000005960464,
+      "jsTransferBytes": 400034,
+      "requests": 81,
+      "inp": null
+    },
+    {
+      "path": "/parlay-lab",
+      "mobile": true,
+      "status": 200,
+      "finalURL": "http://localhost:55158/parlay-lab",
+      "lcp": 3480,
+      "cls": 0.002903599511380109,
+      "lcpElement": {
+        "tag": "SECTION",
+        "id": "",
+        "className": "beat-hero_hero__rBe1b"
+      },
+      "shifts": [
+        {
+          "value": 0.002903599511380109,
+          "sources": [
+            {
+              "tag": "#text",
+              "before": {
+                "x": 27,
+                "y": 675.515625,
+                "width": 336,
+                "height": 28,
+                "top": 675.515625,
+                "right": 363,
+                "bottom": 703.515625,
+                "left": 27
+              },
+              "after": {
+                "x": 27,
+                "y": 675.515625,
+                "width": 336,
+                "height": 28,
+                "top": 675.515625,
+                "right": 363,
+                "bottom": 703.515625,
+                "left": 27
+              }
+            },
+            {
+              "tag": "#text",
+              "before": {
+                "x": 27,
+                "y": 778.015625,
+                "width": 336,
+                "height": 20,
+                "top": 778.015625,
+                "right": 363,
+                "bottom": 798.015625,
+                "left": 27
+              },
+              "after": {
+                "x": 27,
+                "y": 778.015625,
+                "width": 336,
+                "height": 20,
+                "top": 778.015625,
+                "right": 363,
+                "bottom": 798.015625,
+                "left": 27
+              }
+            }
+          ]
+        }
+      ],
+      "ttfb": 22.200000017881393,
+      "jsTransferBytes": 400032,
+      "requests": 88,
+      "inp": null
+    },
+    {
+      "path": "/account",
+      "mobile": true,
+      "status": 200,
+      "finalURL": "http://localhost:55158/account",
+      "lcp": 2392,
+      "cls": 0.00017602201616969578,
+      "lcpElement": {
+        "tag": "SECTION",
+        "id": "",
+        "className": "account-dashboard_hero__GUErz"
+      },
+      "shifts": [
+        {
+          "value": 0.00017602201616969578,
+          "sources": [
+            {
+              "tag": "DIV",
+              "before": {
+                "x": 245,
+                "y": 628.734375,
+                "width": 83,
+                "height": 43.09375,
+                "top": 628.734375,
+                "right": 328,
+                "bottom": 671.828125,
+                "left": 245
+              },
+              "after": {
+                "x": 245,
+                "y": 620.6875,
+                "width": 103,
+                "height": 59.1875,
+                "top": 620.6875,
+                "right": 348,
+                "bottom": 679.875,
+                "left": 245
+              }
+            }
+          ]
+        }
+      ],
+      "ttfb": 17.900000005960464,
+      "jsTransferBytes": 238139,
+      "requests": 63,
+      "inp": null
+    }
+  ]
+}

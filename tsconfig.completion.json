@@ -8,6 +8,7 @@
     "workers/api/index.ts",
     "workers/application/*.ts",
     "workers/web/index.ts",
+    "workers/staging/*.ts",
     "workers/password/index.ts",
     "workers/password/implementation.ts",
     "workers/password/modules.d.ts"

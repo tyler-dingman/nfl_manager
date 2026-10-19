@@ -1,0 +1,99 @@
+
+┌─────────────────────────────┐
+│ OpenNext — Cloudflare build │
+└─────────────────────────────┘
+
+App directory: /private/tmp/dd-split-web-JubDdA
+Next.js version : 15.5.28
+@opennextjs/cloudflare version: 1.20.12
+@opennextjs/aws version: 4.1.11
+workerd compatibility_date: 2026-10-18
+
+┌─────────────────────────────────┐
+│ OpenNext — Building Next.js app │
+└─────────────────────────────────┘
+
+
+> nfl_manager@0.1.0 prebuild
+> npm run logo:check
+
+
+> nfl_manager@0.1.0 logo:check
+> node scripts/generate-team-logo.mjs --check
+
+
+> nfl_manager@0.1.0 build
+> next build
+
+   ▲ Next.js 15.5.28
+
+   Creating an optimized production build ...
+External TLS disabled during Phase 2 validation
+
+Retrying 1/3...
+External TLS disabled during Phase 2 validation
+
+Retrying 2/3...
+External TLS disabled during Phase 2 validation
+
+Retrying 3/3...
+Error: External TLS disabled during Phase 2 validation
+    at tls.connect (scripts/phase-two-network-guard.cjs:29:11)
+    at new Promise (<anonymous>)
+External TLS disabled during Phase 2 validation
+
+Retrying 1/3...
+External TLS disabled during Phase 2 validation
+
+Retrying 2/3...
+External TLS disabled during Phase 2 validation
+
+Retrying 3/3...
+Error: External TLS disabled during Phase 2 validation
+    at tls.connect (scripts/phase-two-network-guard.cjs:29:11)
+    at new Promise (<anonymous>)
+Failed to compile.
+
+src/components/beat/beat-font.ts
+`next/font` error:
+Failed to fetch `Barlow Condensed` from Google Fonts.
+
+src/components/front-office/front-office-font.ts
+`next/font` error:
+Failed to fetch `Barlow Condensed` from Google Fonts.
+
+src/components/front-office/front-office-font.ts
+`next/font` error:
+Failed to fetch `Barlow Condensed` from Google Fonts.
+
+
+> Build failed because of webpack errors
+node:internal/errors:983
+  const err = new Error(message);
+              ^
+
+Error: Command failed: npm run build
+    at genericNodeError (node:internal/errors:983:15)
+    at wrappedFn (node:internal/errors:537:14)
+    at checkExecSyncError (node:child_process:882:11)
+    at Object.execSync (node:child_process:954:15)
+    at buildNextjsApp (file:///private/tmp/dd-split-web-JubDdA/node_modules/@opennextjs/aws/dist/build/buildNextApp.js:15:8)
+    at build (file:///private/tmp/dd-split-web-JubDdA/node_modules/@opennextjs/cloudflare/dist/cli/build/build.js:64:9)
+    at async buildCommand (file:///private/tmp/dd-split-web-JubDdA/node_modules/@opennextjs/cloudflare/dist/cli/commands/build.js:40:5) {
+  status: 1,
+  signal: null,
+  output: [ null, null, null ],
+  pid: 32229,
+  stdout: null,
+  stderr: null
+}
+
+Node.js v22.14.0
+file:///private/tmp/down-distance-staging-preparation/scripts/build-split-worker.mjs:133
+  if (run.status !== 0) throw Error('Web build failed with status ' + run.status);
+                              ^
+
+Error: Web build failed with status 1
+    at file:///private/tmp/down-distance-staging-preparation/scripts/build-split-worker.mjs:133:31
+
+Node.js v22.14.0

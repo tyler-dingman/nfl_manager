@@ -1,0 +1,335 @@
+{
+  "scope": "MEASURED localhost workerd HTTP wall time. Not Cloudflare CPU. All response statuses retained, including unavailable paths.",
+  "benchmarks": [
+    {
+      "name": "Homepage",
+      "path": "/",
+      "samples": [
+        {
+          "localHttpWallMs": 308.10554200000115,
+          "status": 200,
+          "cache": "private, no-store"
+        },
+        {
+          "localHttpWallMs": 18.586042000000816,
+          "status": 200,
+          "cache": "private, no-store"
+        },
+        {
+          "localHttpWallMs": 18.132707999999184,
+          "status": 200,
+          "cache": "private, no-store"
+        },
+        {
+          "localHttpWallMs": 16.877457999999024,
+          "status": 200,
+          "cache": "private, no-store"
+        },
+        {
+          "localHttpWallMs": 18.159999999999854,
+          "status": 200,
+          "cache": "private, no-store"
+        }
+      ],
+      "workerCpuMs": null,
+      "note": "Local D1/R2 fixtures only; response status retained. No provider traffic."
+    },
+    {
+      "name": "The Beat",
+      "path": "/the-beat?team=kc",
+      "samples": [
+        {
+          "localHttpWallMs": 32.173665999998775,
+          "status": 200,
+          "cache": "private, no-store"
+        },
+        {
+          "localHttpWallMs": 16.075791999999637,
+          "status": 200,
+          "cache": "private, no-store"
+        },
+        {
+          "localHttpWallMs": 14.69262499999968,
+          "status": 200,
+          "cache": "private, no-store"
+        },
+        {
+          "localHttpWallMs": 14.521458999999595,
+          "status": 200,
+          "cache": "private, no-store"
+        },
+        {
+          "localHttpWallMs": 14.912082999999257,
+          "status": 200,
+          "cache": "private, no-store"
+        }
+      ],
+      "workerCpuMs": null,
+      "note": "Local D1/R2 fixtures only; response status retained. No provider traffic."
+    },
+    {
+      "name": "Film Room",
+      "path": "/watch?team=kc",
+      "samples": [
+        {
+          "localHttpWallMs": 19.844750000000204,
+          "status": 200,
+          "cache": "private, no-store"
+        },
+        {
+          "localHttpWallMs": 16.147916000001715,
+          "status": 200,
+          "cache": "private, no-store"
+        },
+        {
+          "localHttpWallMs": 15.789709000000585,
+          "status": 200,
+          "cache": "private, no-store"
+        },
+        {
+          "localHttpWallMs": 15.47637500000019,
+          "status": 200,
+          "cache": "private, no-store"
+        },
+        {
+          "localHttpWallMs": 15.66504200000054,
+          "status": 200,
+          "cache": "private, no-store"
+        }
+      ],
+      "workerCpuMs": null,
+      "note": "Local D1/R2 fixtures only; response status retained. No provider traffic."
+    },
+    {
+      "name": "AI Search",
+      "path": "/api/search",
+      "samples": [
+        {
+          "localHttpWallMs": 19.207209000000148,
+          "status": 200,
+          "cache": "private, no-store"
+        },
+        {
+          "localHttpWallMs": 2.560875000001033,
+          "status": 200,
+          "cache": "private, no-store"
+        },
+        {
+          "localHttpWallMs": 3.9229580000010174,
+          "status": 200,
+          "cache": "private, no-store"
+        },
+        {
+          "localHttpWallMs": 2.9242919999996957,
+          "status": 200,
+          "cache": "private, no-store"
+        },
+        {
+          "localHttpWallMs": 2.3795000000009168,
+          "status": 200,
+          "cache": "private, no-store"
+        }
+      ],
+      "workerCpuMs": null,
+      "note": "Local D1/R2 fixtures only; response status retained. No provider traffic."
+    },
+    {
+      "name": "Front Office",
+      "path": "/front-office",
+      "samples": [
+        {
+          "localHttpWallMs": 17.18054200000006,
+          "status": 200,
+          "cache": "private, no-store"
+        },
+        {
+          "localHttpWallMs": 15.995584000000235,
+          "status": 200,
+          "cache": "private, no-store"
+        },
+        {
+          "localHttpWallMs": 17.52166600000055,
+          "status": 200,
+          "cache": "private, no-store"
+        },
+        {
+          "localHttpWallMs": 16.405124999999316,
+          "status": 200,
+          "cache": "private, no-store"
+        },
+        {
+          "localHttpWallMs": 15.206833999998707,
+          "status": 200,
+          "cache": "private, no-store"
+        }
+      ],
+      "workerCpuMs": null,
+      "note": "Local D1/R2 fixtures only; response status retained. No provider traffic."
+    },
+    {
+      "name": "Parlay Lab",
+      "path": "/parlay-lab",
+      "samples": [
+        {
+          "localHttpWallMs": 21.47979200000009,
+          "status": 200,
+          "cache": "private, no-store"
+        },
+        {
+          "localHttpWallMs": 15.398999999999432,
+          "status": 200,
+          "cache": "private, no-store"
+        },
+        {
+          "localHttpWallMs": 15.291541000000507,
+          "status": 200,
+          "cache": "private, no-store"
+        },
+        {
+          "localHttpWallMs": 17.364332999999533,
+          "status": 200,
+          "cache": "private, no-store"
+        },
+        {
+          "localHttpWallMs": 15.054582999999184,
+          "status": 200,
+          "cache": "private, no-store"
+        }
+      ],
+      "workerCpuMs": null,
+      "note": "Local D1/R2 fixtures only; response status retained. No provider traffic."
+    },
+    {
+      "name": "Trending Props",
+      "path": "/api/parlay-lab/props",
+      "samples": [
+        {
+          "localHttpWallMs": 2.9302910000005795,
+          "status": 200,
+          "cache": "private, no-store"
+        },
+        {
+          "localHttpWallMs": 2.0780829999985144,
+          "status": 200,
+          "cache": "private, no-store"
+        },
+        {
+          "localHttpWallMs": 1.6101250000010623,
+          "status": 200,
+          "cache": "private, no-store"
+        },
+        {
+          "localHttpWallMs": 1.6957910000000993,
+          "status": 200,
+          "cache": "private, no-store"
+        },
+        {
+          "localHttpWallMs": 1.5773330000010901,
+          "status": 200,
+          "cache": "private, no-store"
+        }
+      ],
+      "workerCpuMs": null,
+      "note": "Local D1/R2 fixtures only; response status retained. No provider traffic."
+    },
+    {
+      "name": "Bet Slip",
+      "path": "/parlay-lab/my-plays",
+      "samples": [
+        {
+          "localHttpWallMs": 17.839083000000755,
+          "status": 200,
+          "cache": "private, no-store"
+        },
+        {
+          "localHttpWallMs": 15.186958000000232,
+          "status": 200,
+          "cache": "private, no-store"
+        },
+        {
+          "localHttpWallMs": 15.350540999999794,
+          "status": 200,
+          "cache": "private, no-store"
+        },
+        {
+          "localHttpWallMs": 14.761833999998998,
+          "status": 200,
+          "cache": "private, no-store"
+        },
+        {
+          "localHttpWallMs": 16.99762499999997,
+          "status": 200,
+          "cache": "private, no-store"
+        }
+      ],
+      "workerCpuMs": null,
+      "note": "Local D1/R2 fixtures only; response status retained. No provider traffic."
+    },
+    {
+      "name": "Authentication",
+      "path": "/api/auth/me",
+      "samples": [
+        {
+          "localHttpWallMs": 3.034625000000233,
+          "status": 200,
+          "cache": "private, no-store"
+        },
+        {
+          "localHttpWallMs": 2.4108329999999114,
+          "status": 200,
+          "cache": "private, no-store"
+        },
+        {
+          "localHttpWallMs": 2.4732920000005834,
+          "status": 200,
+          "cache": "private, no-store"
+        },
+        {
+          "localHttpWallMs": 2.281582999999955,
+          "status": 200,
+          "cache": "private, no-store"
+        },
+        {
+          "localHttpWallMs": 2.358582999999271,
+          "status": 200,
+          "cache": "private, no-store"
+        }
+      ],
+      "workerCpuMs": null,
+      "note": "Local D1/R2 fixtures only; response status retained. No provider traffic."
+    },
+    {
+      "name": "Editorial ingestion admission",
+      "path": "/api/automation/content",
+      "samples": [
+        {
+          "localHttpWallMs": 1.9721669999998994,
+          "status": 401,
+          "cache": "private, no-store"
+        },
+        {
+          "localHttpWallMs": 1.8166250000012951,
+          "status": 401,
+          "cache": "private, no-store"
+        },
+        {
+          "localHttpWallMs": 1.8353340000012395,
+          "status": 401,
+          "cache": "private, no-store"
+        },
+        {
+          "localHttpWallMs": 1.8918749999993452,
+          "status": 401,
+          "cache": "private, no-store"
+        },
+        {
+          "localHttpWallMs": 2.134041999999681,
+          "status": 401,
+          "cache": "private, no-store"
+        }
+      ],
+      "workerCpuMs": null,
+      "note": "Admission rejection only; no source jobs or provider calls authorized"
+    }
+  ]
+}

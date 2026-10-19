@@ -1,0 +1,15 @@
+node:internal/modules/run_main:122
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Account receipt must be less than one hour old
+    at validateDeployment (file:///private/tmp/down-distance-staging-preparation/scripts/staging-deployment-guard.mjs:10:3)
+    at file:///private/tmp/down-distance-staging-preparation/scripts/staging-deployment-guard.mjs:65:18 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '=='
+}
+
+Node.js v22.14.0

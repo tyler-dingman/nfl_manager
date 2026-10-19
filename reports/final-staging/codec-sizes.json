@@ -1,0 +1,24 @@
+{
+  "measurement": "serialized encrypted envelope bytes; not whole R2 bucket savings",
+  "defaultWriter": "legacy",
+  "rows": [
+    {
+      "name": "unicode-5000",
+      "beforeEnvelopeBytes": 55124,
+      "afterEnvelopeBytes": 41300,
+      "savingPercent": 25.078005950221318
+    },
+    {
+      "name": "entropy-60000",
+      "beforeEnvelopeBytes": 139452,
+      "afterEnvelopeBytes": 104540,
+      "savingPercent": 25.035137538364456
+    },
+    {
+      "name": "tiny",
+      "beforeEnvelopeBytes": 96,
+      "afterEnvelopeBytes": 96,
+      "savingPercent": 0
+    }
+  ]
+}

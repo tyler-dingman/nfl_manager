@@ -1,0 +1,181 @@
+{
+  "scope": "Single equivalent local viewport/network samples; not field INP/device/hosted CPU evidence. Nulls mean unmeasured. No statistically controlled latency attribution.",
+  "rows": [
+    {
+      "path": "/",
+      "mobile": false,
+      "beforeLcpMs": 1608,
+      "afterLcpMs": 1600,
+      "beforeCls": 0.14546524801372007,
+      "afterCls": 0.14546524801372007,
+      "beforeJsTransferBytes": 407816,
+      "afterJsTransferBytes": 407805,
+      "afterStatus": 200
+    },
+    {
+      "path": "/the-beat",
+      "mobile": false,
+      "beforeLcpMs": 392,
+      "afterLcpMs": 392,
+      "beforeCls": 0.008451426881389855,
+      "afterCls": 0.008451426881389855,
+      "beforeJsTransferBytes": 408306,
+      "afterJsTransferBytes": 408294,
+      "afterStatus": 200
+    },
+    {
+      "path": "/watch",
+      "mobile": false,
+      "beforeLcpMs": 616,
+      "afterLcpMs": 620,
+      "beforeCls": 0.1852000139250579,
+      "afterCls": 0.1370750139250579,
+      "beforeJsTransferBytes": 407816,
+      "afterJsTransferBytes": 407805,
+      "afterStatus": 200
+    },
+    {
+      "path": "/three-and-out",
+      "mobile": false,
+      "beforeLcpMs": 548,
+      "afterLcpMs": 560,
+      "beforeCls": 0.09806957995756173,
+      "afterCls": 0.0018195799575617287,
+      "beforeJsTransferBytes": 408306,
+      "afterJsTransferBytes": 408294,
+      "afterStatus": 200
+    },
+    {
+      "path": "/huddle",
+      "mobile": false,
+      "beforeLcpMs": null,
+      "afterLcpMs": null,
+      "beforeCls": 0,
+      "afterCls": 0,
+      "beforeJsTransferBytes": 399555,
+      "afterJsTransferBytes": 399545,
+      "afterStatus": 200
+    },
+    {
+      "path": "/front-office",
+      "mobile": false,
+      "beforeLcpMs": 624,
+      "afterLcpMs": 616,
+      "beforeCls": 0.10035551592038001,
+      "afterCls": 0.0032611799828800156,
+      "beforeJsTransferBytes": 408306,
+      "afterJsTransferBytes": 408294,
+      "afterStatus": 200
+    },
+    {
+      "path": "/parlay-lab",
+      "mobile": false,
+      "beforeLcpMs": 636,
+      "afterLcpMs": 668,
+      "beforeCls": 0.07265497629424672,
+      "afterCls": 0.02407601071204668,
+      "beforeJsTransferBytes": 428587,
+      "afterJsTransferBytes": 428585,
+      "afterStatus": 200
+    },
+    {
+      "path": "/account",
+      "mobile": false,
+      "beforeLcpMs": 552,
+      "afterLcpMs": 552,
+      "beforeCls": 0.024563750919294948,
+      "afterCls": 0.024563750919294948,
+      "beforeJsTransferBytes": 474491,
+      "afterJsTransferBytes": 474481,
+      "afterStatus": 200
+    },
+    {
+      "path": "/",
+      "mobile": true,
+      "beforeLcpMs": 8196,
+      "afterLcpMs": 8252,
+      "beforeCls": 0.36796469643539004,
+      "afterCls": 0,
+      "beforeJsTransferBytes": 399555,
+      "afterJsTransferBytes": 399545,
+      "afterStatus": 200
+    },
+    {
+      "path": "/the-beat",
+      "mobile": true,
+      "beforeLcpMs": 1800,
+      "afterLcpMs": 1784,
+      "beforeCls": 0.18515851637861475,
+      "afterCls": 0.21328288465425996,
+      "beforeJsTransferBytes": 267829,
+      "afterJsTransferBytes": 267833,
+      "afterStatus": 200
+    },
+    {
+      "path": "/watch",
+      "mobile": true,
+      "beforeLcpMs": 3044,
+      "afterLcpMs": 3124,
+      "beforeCls": 0.4657674079475028,
+      "afterCls": 0.11031717098067809,
+      "beforeJsTransferBytes": 399555,
+      "afterJsTransferBytes": 399545,
+      "afterStatus": 200
+    },
+    {
+      "path": "/three-and-out",
+      "mobile": true,
+      "beforeLcpMs": 2664,
+      "afterLcpMs": 2716,
+      "beforeCls": 0.5092930794907394,
+      "afterCls": 0.1538428425239148,
+      "beforeJsTransferBytes": 400045,
+      "afterJsTransferBytes": 400034,
+      "afterStatus": 200
+    },
+    {
+      "path": "/huddle",
+      "mobile": true,
+      "beforeLcpMs": 7028,
+      "afterLcpMs": 7024,
+      "beforeCls": 0.34608036095325806,
+      "afterCls": 0,
+      "beforeJsTransferBytes": 399555,
+      "afterJsTransferBytes": 399545,
+      "afterStatus": 200
+    },
+    {
+      "path": "/front-office",
+      "mobile": true,
+      "beforeLcpMs": 2740,
+      "afterLcpMs": 2680,
+      "beforeCls": 0.36685956756794114,
+      "afterCls": 0.011409330601116499,
+      "beforeJsTransferBytes": 400045,
+      "afterJsTransferBytes": 400034,
+      "afterStatus": 200
+    },
+    {
+      "path": "/parlay-lab",
+      "mobile": true,
+      "beforeLcpMs": 4004,
+      "afterLcpMs": 3480,
+      "beforeCls": 0.35545023696682465,
+      "afterCls": 0.002903599511380109,
+      "beforeJsTransferBytes": 400041,
+      "afterJsTransferBytes": 400032,
+      "afterStatus": 200
+    },
+    {
+      "path": "/account",
+      "mobile": true,
+      "beforeLcpMs": 2360,
+      "afterLcpMs": 2392,
+      "beforeCls": 0.00017602201616969578,
+      "afterCls": 0.00017602201616969578,
+      "beforeJsTransferBytes": 215629,
+      "afterJsTransferBytes": 238139,
+      "afterStatus": 200
+    }
+  ]
+}

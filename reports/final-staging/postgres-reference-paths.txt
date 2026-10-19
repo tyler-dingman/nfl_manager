@@ -1,0 +1,8 @@
+src/server/auth/mobile-handoff.test.ts
+src/server/auth/config.ts
+src/server/auth/social-providers.test.ts
+src/server/auth/database.ts
+src/server/providers/unabated/transfer-db.test.ts
+src/server/search/database.ts
+src/server/schedule/diagnostics.ts
+src/server/three-and-out/schema.ts

@@ -1,0 +1,7 @@
+{
+  "runtime": "actual local workerd",
+  "checks": 21,
+  "failed": 0,
+  "provider": "local signed JWKS fixture; hosted Access unverified",
+  "databaseUrlUsed": false
+}

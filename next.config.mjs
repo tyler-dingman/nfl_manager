@@ -3,6 +3,8 @@ import path from 'node:path';
 const nextConfig = {
   reactStrictMode: true,
   webpack(config, { webpack }) {
+    // Disposable isolated builds cannot reuse this large filesystem cache.
+    if (process.env.DD_ISOLATED_BUILD === 'true') config.cache = false;
     if (process.env.APP_RUNTIME === 'cloudflare')
       config.plugins.push(
         new webpack.NormalModuleReplacementPlugin(

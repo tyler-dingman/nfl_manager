@@ -92,12 +92,22 @@ async function stop() {
     await p;
   }
 }
-const call = (path, body, cookie) =>
-  fetch(base + '/api/auth/' + path, {
+const localSamples = [];
+const call = async (path, body, cookie) => {
+  const start = performance.now();
+  const response = await fetch(base + '/api/auth/' + path, {
     method: body ? 'POST' : 'GET',
     headers: { 'content-type': 'application/json', origin: base, ...(cookie ? { cookie } : {}) },
     ...(body ? { body: JSON.stringify(body) } : {}),
   });
+  localSamples.push({
+    operation: path.split('?')[0],
+    status: response.status,
+    localTimeToHeadersMs: performance.now() - start,
+    hostedCpuMs: null,
+  });
+  return response;
+};
 const cookie = (r) => r.headers.get('set-cookie').split(';')[0];
 try {
   await start();
@@ -238,6 +248,7 @@ try {
           'old password rejected',
           'restart',
         ],
+        localSamples,
         hostedCpuMs: null,
       },
       null,

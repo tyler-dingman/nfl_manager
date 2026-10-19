@@ -1,0 +1,44 @@
+{
+  "baseline": "2d65c390",
+  "preflightBase": "07deb215",
+  "branch": "poc/final-cloudflare-staging-readiness",
+  "productionAccess": false,
+  "remoteResourcesCreated": false,
+  "deployed": false,
+  "paidServicesActivated": false,
+  "postgresFreeCriticalWorkflows": "PASS local workerd",
+  "applicationTests": {
+    "pass": 1072,
+    "fail": 0,
+    "skip": 2
+  },
+  "workerD1Tests": {
+    "pass": 120,
+    "fail": 0
+  },
+  "browserRoutes": {
+    "pass": 48,
+    "fail": 0
+  },
+  "extraHTTPContracts": 12,
+  "accessWorkerdChecks": 21,
+  "generatedStagingDenialPaths": 3,
+  "backupCodecWorkerdCases": 3,
+  "compactRestoreUsers": 500,
+  "migrations": 38,
+  "migrationRepeatability": "PASS",
+  "typescript": "PASS",
+  "fullBuildAndDryRun": "PASS",
+  "hostedCPU": null,
+  "maximumSustainableDauAtZeroCost": null,
+  "readyToDeployStaging": false,
+  "remainingBlockers": [
+    "R2 enrollment",
+    "Access/IdP setup",
+    "fresh account evidence and isolated secrets",
+    "hosted CPU and health qualification",
+    "sustained storage/operations capacity",
+    "provider and native validation",
+    "production data cutover and online recovery"
+  ]
+}

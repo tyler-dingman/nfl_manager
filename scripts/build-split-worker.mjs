@@ -1,6 +1,7 @@
 /** Local-only experiment. Never deploys or reads application credentials. */
 import { readdir, mkdir, writeFile, cp, symlink, mkdtemp, readFile, rm } from 'node:fs/promises';
 import path from 'node:path';
+import { constants as fsConstants } from 'node:fs';
 import { gzipSync } from 'node:zlib';
 import { spawnSync } from 'node:child_process';
 import { build } from 'esbuild';
@@ -75,25 +76,37 @@ const result = await build({
 });
 const apiBytes = (await readFile('workers/api/dist/worker.mjs')).length;
 const apiGzip = gzipSync(await readFile('workers/api/dist/worker.mjs')).length;
+if (apiBytes > 64 * 1024 * 1024)
+  throw Error('API Worker exceeds current uncompressed bundle limit');
 await writeFile(
   'reports/production-completion/api-bundle.json',
   JSON.stringify(
-    { routes: routes.length, bytes: apiBytes, gzipBytes: apiGzip, freeLimitBytes: 3 * 1024 * 1024 },
+    {
+      routes: routes.length,
+      bytes: apiBytes,
+      gzipBytes: apiGzip,
+      freeUncompressedLimitBytes: 64 * 1024 * 1024,
+      compressedLimitBytes: null,
+    },
     null,
     2,
   ) + '\n',
 );
 if (process.argv.includes('--api-only')) process.exit(0);
+await rm('.open-next', { recursive: true, force: true });
+await rm('workers/web/dist', { recursive: true, force: true });
 const stage = await mkdtemp('/private/tmp/dd-split-web-');
 try {
   await cp(root, stage, {
     recursive: true,
+    mode: fsConstants.COPYFILE_FICLONE,
     filter: (src) => {
       const rel = path.relative(root, src);
       return (
         !/^(\.git|node_modules|\.next|\.open-next|workers\/.*\/node_modules)(\/|$)/.test(rel) &&
         !rel.split(path.sep).includes('node_modules') &&
-        !rel.startsWith('src/app/api')
+        !rel.startsWith('src/app/api') &&
+        !rel.startsWith('.staging')
       );
     },
   });
@@ -110,6 +123,9 @@ try {
   );
   Object.assign(env, {
     APP_RUNTIME: 'cloudflare',
+    DD_BUILD_COPY_ROOT: stage,
+    NODE_OPTIONS: '--require ./scripts/build-isolation.cjs',
+    DD_ISOLATED_BUILD: 'true',
     CLOUDFLARE_API_TOKEN: '',
     CLOUDFLARE_ACCOUNT_ID: '',
     NEXT_TELEMETRY_DISABLED: '1',
@@ -127,7 +143,13 @@ try {
     { cwd: stage, env, stdio: 'inherit' },
   );
   if (run.status !== 0) throw Error('Web build failed with status ' + run.status);
-  await cp(path.join(stage, '.open-next'), '.open-next', { recursive: true });
+  await rm('.open-next', { recursive: true, force: true });
+  await cp(path.join(stage, '.open-next'), '.open-next', {
+    recursive: true,
+    mode: fsConstants.COPYFILE_FICLONE,
+  });
+  // Release the disposable Next/dependency tree before bundling source maps.
+  await rm(stage, { recursive: true, force: true });
   const dry = spawnSync(
     process.execPath,
     [

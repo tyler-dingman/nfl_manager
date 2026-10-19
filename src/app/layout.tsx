@@ -67,7 +67,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="min-h-screen overflow-x-clip bg-background text-foreground antialiased">
         <AppProviders>
-          {children}
+          <div className="min-h-svh" data-web-route-content>
+            {children}
+          </div>
           <SiteFooter />
         </AppProviders>
       </body>
