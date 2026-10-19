@@ -1,0 +1,50 @@
+TAP version 13
+# Subtest: complete saved selections preserve all frozen provider/price identities and restore without reading original board
+ok 1 - complete saved selections preserve all frozen provider/price identities and restore without reading original board
+  ---
+  duration_ms: 28222.552042
+  ...
+# Subtest: measure current four-version canonical storage with shared and changing original correction bodies
+ok 2 - measure current four-version canonical storage with shared and changing original correction bodies
+  ---
+  duration_ms: 33347.798958
+  ...
+# Subtest: eight-source batch bounds queries, intervals, validators and duplicate scheduler ownership
+ok 3 - eight-source batch bounds queries, intervals, validators and duplicate scheduler ownership
+  ---
+  duration_ms: 22393.840958
+  ...
+# Subtest: termination, expired lease, independent timeout and failed checkpoint transaction
+ok 4 - termination, expired lease, independent timeout and failed checkpoint transaction
+  ---
+  duration_ms: 8233.810291
+  ...
+# Subtest: durable inbox survives restart and repairs interrupted candidate job with original attribution
+ok 5 - durable inbox survives restart and repairs interrupted candidate job with original attribution
+  ---
+  duration_ms: 8513.4905
+  ...
+# Subtest: failed item processing retains evidence separately while healthy source checkpoints advance
+ok 6 - failed item processing retains evidence separately while healthy source checkpoints advance
+  ---
+  duration_ms: 6577.436667
+  ...
+# Subtest: large simultaneous feeds use independent bounded inbox rows rather than one oversized batch row
+ok 7 - large simultaneous feeds use independent bounded inbox rows rather than one oversized batch row
+  ---
+  duration_ms: 7014.38075
+  ...
+# Subtest: concurrent stale candidate processing cannot publish two canonical articles
+ok 8 - concurrent stale candidate processing cannot publish two canonical articles
+  ---
+  duration_ms: 4660.020167
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 61764.496584

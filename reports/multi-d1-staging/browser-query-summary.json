@@ -1,0 +1,6 @@
+{
+  "scope": "Fresh local single-D1 browser HTTP only; no multi-D1 routing enabled",
+  "samples": 1057,
+  "maximumQueries": 38,
+  "atOrAbove50": 0
+}

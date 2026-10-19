@@ -1,0 +1,52 @@
+{
+  "baseDatabasesBytes": {
+    "TEAM_1": 128937852,
+    "TEAM_2": 128937852,
+    "TEAM_3": 128937852,
+    "TEAM_4": 128937852,
+    "TEAM_5": 128937852,
+    "TEAM_6": 128937852,
+    "TEAM_7": 128937852,
+    "TEAM_8": 128937852,
+    "USER": 63697532,
+    "SHARED": 224843324
+  },
+  "baseAccountBytes": 1320043672,
+  "retainedDatabasesBytes": {
+    "TEAM_1": 469842977,
+    "TEAM_2": 469842977,
+    "TEAM_3": 469842977,
+    "TEAM_4": 469842977,
+    "TEAM_5": 469842977,
+    "TEAM_6": 469842977,
+    "TEAM_7": 469842977,
+    "TEAM_8": 469842977,
+    "USER": 63697532,
+    "SHARED": 224843324
+  },
+  "retainedAccountBytes": 4047284672,
+  "optimisticZeroOldSavedOddsDatabasesBytes": {
+    "TEAM_1": 422959591,
+    "TEAM_2": 422959591,
+    "TEAM_3": 422959591,
+    "TEAM_4": 422959591,
+    "TEAM_5": 422959591,
+    "TEAM_6": 422959591,
+    "TEAM_7": 422959591,
+    "TEAM_8": 422959591,
+    "USER": 63697532,
+    "SHARED": 224843324
+  },
+  "teamAverageLowerBoundBytes": 469842977,
+  "measuredSingleD1DailyOperations": {
+    "dau": 50,
+    "rowsRead": 774999,
+    "rowsWritten": 68714,
+    "writeHeadroom": 31286,
+    "workerRequests": 13705,
+    "workerCpuMs": null,
+    "targetPass": true,
+    "freeWriteAllowancePass": true,
+    "scope": "Measured synthetic background plus assumed frequencies at observed HTTP unit costs. Adds 1440 proposed scheduler trigger invocations; all idle API continuations measured. Not a hosted DAU replay."
+  }
+}

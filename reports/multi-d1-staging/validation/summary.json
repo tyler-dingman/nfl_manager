@@ -1,0 +1,18 @@
+{
+  "rootPassed": 1074,
+  "workerPassed": 151,
+  "uniqueAutomatedPassed": 1225,
+  "failed": 0,
+  "existingSkipped": 2,
+  "pythonModelChecksPassed": 7,
+  "browserRoutesPassed": 48,
+  "targetedPollingAndEvidencePassed": 8,
+  "finalEvidenceAndLegacyPassed": 2,
+  "targetedRunsOverlapFullSuite": true,
+  "routingImplemented": false,
+  "multiD1RuntimeTests": "NOT RUN: capacity gate failed",
+  "typescript": "PASS",
+  "readyForStaging": false,
+  "readyForProduction": false,
+  "deployed": false
+}
