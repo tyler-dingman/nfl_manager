@@ -1,0 +1,22 @@
+{
+  "rootPassed": 1072,
+  "workerPassed": 126,
+  "automatedTotalPassed": 1198,
+  "failed": 0,
+  "existingSkipped": 2,
+  "browserRoutesPassed": 48,
+  "httpProductChecks": 12,
+  "authScenariosPassed": 10,
+  "migrations": 40,
+  "encryptedFullRestore": "PASS",
+  "ownerMaintenanceCli": "PASS",
+  "storageBeforeBytes": 3461120,
+  "freshBinaryBytes": 3059712,
+  "physicalFileShrinkBytes": 0,
+  "freePagesAfterGc": 48,
+  "subsequentWritesReusedPages": true,
+  "target50Dau365DaysMet": false,
+  "noProductionAccess": true,
+  "noDeployment": true,
+  "noBillingActivated": true
+}

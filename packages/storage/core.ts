@@ -23,6 +23,7 @@ export interface SqlDatabase {
   >;
 }
 export interface Objects {
+  transactionDatabase?(db: SqlDatabase): SqlDatabase;
   get(key: string): Promise<Uint8Array | null>;
   putImmutable(key: string, bytes: Uint8Array): Promise<void>;
 }
@@ -42,7 +43,9 @@ export class Storage {
   constructor(
     readonly db: SqlDatabase,
     readonly objects: Objects,
-  ) {}
+  ) {
+    this.db = objects.transactionDatabase?.(db) ?? db;
+  }
   statement(sql: string, values: unknown[] = []) {
     if (values.length > 100) throw Error('SQL parameter budget exceeded');
     return this.db.prepare(sql).bind(...values);

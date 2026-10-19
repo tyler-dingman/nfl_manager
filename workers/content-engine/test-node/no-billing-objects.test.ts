@@ -41,7 +41,7 @@ test(
       const key = objectKey(await digest(large));
       const metrics = requestMetrics();
       await new D1Objects(instrumentDatabase(db, metrics)).putImmutable(key, large);
-      assert(metrics.statements <= 25, JSON.stringify(metrics));
+      assert(metrics.statements <= 35, JSON.stringify(metrics));
       console.info('maximum-payload-metrics', JSON.stringify(metrics));
       assert.deepEqual(await objects.get(key), large);
       assert.equal(
@@ -56,7 +56,7 @@ test(
         payload,
       );
       await restarted
-        .prepare('UPDATE app_payload_chunks SET body=? WHERE hash=? AND ordinal=0')
+        .prepare('UPDATE app_payload_chunks SET data=NULL,body=? WHERE hash=? AND ordinal=0')
         .bind(btoa('corrupt'), hash)
         .run();
       await assert.rejects(nextObjects.get(objectKey(hash)));

@@ -9,11 +9,15 @@ const literal = (v) =>
     ? 'NULL'
     : typeof v === 'number' && Number.isFinite(v)
       ? String(v)
-      : typeof v === 'string'
-        ? "'" + v.replaceAll("'", "''") + "'"
-        : (() => {
-            throw Error('Unsupported export value');
-          })();
+      : Array.isArray(v) && v.every((n) => Number.isInteger(n) && n >= 0 && n <= 255)
+        ? "X'" + Buffer.from(v).toString('hex') + "'"
+        : v instanceof ArrayBuffer
+          ? "X'" + Buffer.from(v).toString('hex') + "'"
+          : typeof v === 'string'
+            ? "'" + v.replaceAll("'", "''") + "'"
+            : (() => {
+                throw Error('Unsupported export value');
+              })();
 export async function logicalExport(query) {
   const tables = await query(
     "SELECT s.name,s.sql FROM sqlite_schema s JOIN pragma_table_list p ON p.name=s.name AND p.schema='main' WHERE s.type='table' AND p.type IN ('table','virtual') AND s.name NOT LIKE 'sqlite_%' AND s.name NOT LIKE '_cf_%' AND s.name NOT LIKE 'd1_%' ORDER BY s.rowid",
@@ -21,12 +25,34 @@ export async function logicalExport(query) {
   const sql = ['PRAGMA defer_foreign_keys=ON;'];
   for (const table of tables) {
     sql.push(table.sql + ';');
+    const blobColumns = (await query(`PRAGMA table_info(${quote(table.name)})`))
+      .filter((c) => /BLOB/i.test(c.type))
+      .map((c) => c.name);
+    const extra = blobColumns
+      .map(
+        (c, i) =>
+          `,hex(${quote(c)}) AS ${quote('_dd_blob_' + i)},typeof(${quote(c)}) AS ${quote('_dd_type_' + i)}`,
+      )
+      .join('');
     for (let offset = 0; ; offset += 100) {
-      const rows = await query(`SELECT * FROM ${quote(table.name)} LIMIT 100 OFFSET ${offset}`);
-      for (const row of rows)
+      const rows = await query(
+        `SELECT *${extra} FROM ${quote(table.name)} LIMIT 100 OFFSET ${offset}`,
+      );
+      for (const row of rows) {
+        const blobs = new Map();
+        for (const [i, column] of blobColumns.entries()) {
+          if (row['_dd_type_' + i] === 'blob') blobs.set(column, row['_dd_blob_' + i]);
+          delete row['_dd_blob_' + i];
+          delete row['_dd_type_' + i];
+        }
         sql.push(
-          `INSERT INTO ${quote(table.name)}(${Object.keys(row).map(quote).join(',')}) VALUES(${Object.values(row).map(literal).join(',')});`,
+          `INSERT INTO ${quote(table.name)}(${Object.keys(row).map(quote).join(',')}) VALUES(${Object.entries(
+            row,
+          )
+            .map(([key, value]) => (blobs.has(key) ? "X'" + blobs.get(key) + "'" : literal(value)))
+            .join(',')});`,
         );
+      }
       if (rows.length < 100) break;
     }
   }

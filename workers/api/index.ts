@@ -3,6 +3,8 @@ import { NextRequest } from 'next/server';
 import { routes } from './routes.generated';
 import { middleware } from '../../src/middleware';
 import { withApplicationBindings } from '../../src/server/persistence/bindings';
+import { StorageMaintenanceError } from '../../packages/storage/write-fence';
+import { StorageCapacityError } from '../../packages/storage/d1-objects';
 import { applicationObjects } from '../../packages/storage/d1-objects';
 import {
   instrumentDatabase,
@@ -91,7 +93,13 @@ export default {
                 error: error instanceof Error ? error.name : 'Error',
               }),
             );
-            response = Response.json({ error: 'Internal server error' }, { status: 500 });
+            response =
+              error instanceof StorageMaintenanceError || error instanceof StorageCapacityError
+                ? Response.json(
+                    { error: 'Storage temporarily unavailable. Retry later.' },
+                    { status: 503, headers: { 'Retry-After': '60' } },
+                  )
+                : Response.json({ error: 'Internal server error' }, { status: 500 });
           }
           const result = new Response(request.method === 'HEAD' ? null : response.body, response);
           for (const [name, value] of gate.headers)
