@@ -943,9 +943,9 @@
 info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/app/api-reference/config/eslint#disabling-rules
    Collecting page data ...
    Generating static pages (0/212) ...
-   Generating static pages (53/212) 
-   Generating static pages (106/212) 
-   Generating static pages (159/212) 
+   Generating static pages (53/212)
+   Generating static pages (106/212)
+   Generating static pages (159/212)
  ✓ Generating static pages (212/212)
    Finalizing page optimization ...
    Collecting build traces ...
@@ -1264,4 +1264,3 @@ Route (app)                                           Size  First Load JS
 
 ○  (Static)   prerendered as static content
 ƒ  (Dynamic)  server-rendered on demand
-

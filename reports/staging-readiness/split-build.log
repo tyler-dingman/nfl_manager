@@ -767,9 +767,9 @@ Import trace for requested module:
 info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/app/api-reference/config/eslint#disabling-rules
    Collecting page data ...
    Generating static pages (0/95) ...
-   Generating static pages (23/95) 
-   Generating static pages (47/95) 
-   Generating static pages (71/95) 
+   Generating static pages (23/95)
+   Generating static pages (47/95)
+   Generating static pages (71/95)
  ✓ Generating static pages (95/95)
    Finalizing page optimization ...
    Collecting build traces ...
@@ -914,14 +914,14 @@ OpenNext build complete.
 ✨ Read 1776 files from the assets directory /private/tmp/down-distance-staging-blockers/.open-next/assets
 Total Upload: 11861.16 KiB / gzip: 2272.53 KiB
 Your Worker has access to the following bindings:
-Binding                                                        Resource                  
-env.APP_DB (phase-four-local)                                  D1 Database               
-env.APP_OBJECTS (phase-four-local-objects)                     R2 Bucket                 
-env.APP_BACKUP (phase-four-local-backup)                       R2 Bucket                 
-env.API_SERVICE (down-distance-api-local)                      Worker                    
-env.ASSETS                                                     Assets                    
-env.APP_DATA_BACKEND ("d1")                                    Environment Variable      
-env.APP_RUNTIME ("cloudflare")                                 Environment Variable      
-env.INFRASTRUCTURE_COST_POLICY ("zero-cost")                   Environment Variable      
+Binding                                                        Resource
+env.APP_DB (phase-four-local)                                  D1 Database
+env.APP_OBJECTS (phase-four-local-objects)                     R2 Bucket
+env.APP_BACKUP (phase-four-local-backup)                       R2 Bucket
+env.API_SERVICE (down-distance-api-local)                      Worker
+env.ASSETS                                                     Assets
+env.APP_DATA_BACKEND ("d1")                                    Environment Variable
+env.APP_RUNTIME ("cloudflare")                                 Environment Variable
+env.INFRASTRUCTURE_COST_POLICY ("zero-cost")                   Environment Variable
 
 --dry-run: exiting now.
