@@ -1,5 +1,5 @@
 import { Storage } from './core';
-import { expireSupersededScores } from './derived-retention';
+import { expireDerivedDirectories } from './derived-lifecycle';
 /** Bounded retention only for consumed, long-expired capabilities and derived
  * inference indexes. User/game/bet/editorial records are never eligible. Exact
  * original token rows are archived and verified before D1 removal. */
@@ -31,18 +31,8 @@ export async function maintainTemporaryData(s: Storage, now = Date.now(), limit 
       s.statement('DELETE FROM app_storage_guards WHERE id=?', [nonce]),
     ]);
   }
-  const result = await s
-    .statement(
-      'DELETE FROM app_ai_cache WHERE cache_key IN (SELECT cache_key FROM app_ai_cache WHERE expires_at<? AND lease_until<? ORDER BY expires_at,cache_key LIMIT ?)',
-      [cutoff, now, 1000],
-    )
-    .run();
-  const scores = await expireSupersededScores(s);
-  return {
-    expiredScoreKeys: scores.removed,
-    archivedConsumedTokens: rows.length,
-    expiredDerivedKeys: result.meta.changes ?? 0,
-  };
+  const result = await expireDerivedDirectories(s, now);
+  return { ...result, archivedConsumedTokens: rows.length };
 }
 export class D1ApplicationSettings {
   constructor(readonly s: Storage) {}

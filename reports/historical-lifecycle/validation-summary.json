@@ -1,0 +1,20 @@
+{
+  "rootPassed": 1072,
+  "rootFailed": 0,
+  "rootSkipped": 2,
+  "workerPassed": 133,
+  "workerFailed": 0,
+  "browserRoutesPassed": 48,
+  "browserRoutesFailed": 0,
+  "migrations": 43,
+  "postgresFreeApplication": "PASS",
+  "r2FreeApplication": "PASS",
+  "authentication": "PASS actual local workerd",
+  "encryptedFullRestore": "PASS including shared-body graph",
+  "typescript": "PASS",
+  "hostedCpuMs": null,
+  "deploymentPerformed": false,
+  "freeTierLaunch": "NO-GO",
+  "automatedPassed": 1205,
+  "automatedFailed": 0
+}

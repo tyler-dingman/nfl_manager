@@ -1,3 +1,9 @@
+const canonical = (value: unknown): string =>
+  JSON.stringify(value, (_key, v) =>
+    v && typeof v === 'object' && !Array.isArray(v)
+      ? Object.fromEntries(Object.entries(v).sort(([a], [b]) => a.localeCompare(b)))
+      : v,
+  );
 import { Storage } from './core';
 import type { StoryView } from '../../src/features/story-engine/public-story';
 import { isStoryPublishable } from '../../src/features/story-engine/public-story';
@@ -16,16 +22,26 @@ export class PublicEditorial {
       status: story.status,
       sourceCount: story.sources.length,
     });
-    const hash = await this.s.put({ schema: 1, kind: 'PUBLIC_STORY', story, state });
+    const { whatHappened, whyItMatters, whatsNext, sources, primarySource, ...metadata } = story;
+    const body = { whatHappened, whyItMatters, whatsNext, sources, primarySource };
+    const hash =
+      this.s.objects.compactTrees && new TextEncoder().encode(JSON.stringify(body)).length > 4096
+        ? await this.s.put({
+            schema: 2,
+            kind: 'PUBLIC_STORY',
+            story: metadata,
+            state,
+            bodyHash: await this.s.put({ schema: 1, kind: 'PUBLIC_STORY_BODY', body }),
+          })
+        : await this.s.put({ schema: 1, kind: 'PUBLIC_STORY', story, state });
     const [prior] = await this.s.rows<{ version: number; object_hash: string }>(
       'SELECT version,object_hash FROM app_public_stories WHERE id=?',
       [story.id],
     );
     if (prior?.version > story.version) throw Error('Editorial version conflict');
     if (prior?.version === story.version && prior.object_hash !== hash) {
-      const previous = await this.s.get<any>(prior.object_hash);
-      if (JSON.stringify(previous.story) !== JSON.stringify(story))
-        throw Error('Editorial version conflict');
+      const previous = await this.expand(await this.s.get<any>(prior.object_hash));
+      if (canonical(previous.story) !== canonical(story)) throw Error('Editorial version conflict');
     }
     if (prior?.object_hash === hash) return [];
     const idBytes = crypto.getRandomValues(new Uint32Array(2)),
@@ -82,15 +98,61 @@ export class PublicEditorial {
     const writes = await this.prepare(story, state, evidenceAt);
     if (writes.length) await this.s.batch(writes);
   }
+  private async expand(envelope: any) {
+    if (envelope.schema === 2 && envelope.kind === 'PUBLIC_STORY') {
+      const payload = await this.s.get<any>(envelope.bodyHash);
+      if (payload.schema !== 1 || payload.kind !== 'PUBLIC_STORY_BODY' || !payload.body)
+        throw Error('Public story body identity mismatch');
+      const fields = ['whatHappened', 'whyItMatters', 'whatsNext', 'sources', 'primarySource'];
+      if (
+        Object.keys(payload.body).length !== fields.length ||
+        fields.some((key) => !Object.hasOwn(payload.body, key))
+      )
+        throw Error('Invalid public story body');
+      return { ...envelope, schema: 1, story: { ...envelope.story, ...payload.body } };
+    }
+    return envelope;
+  }
+  async version(id: string, version: number) {
+    if (!Number.isSafeInteger(version) || version < 1) throw Error('Invalid story version');
+    const [row] = await this.s.rows<{ id: string; object_hash: string }>(
+      'SELECT v.id,v.object_hash FROM app_public_story_versions v JOIN app_public_stories p ON p.id=v.id WHERE v.id=? AND v.version=? AND p.visible=1',
+      [id, version],
+    );
+    if (!row) return null;
+    const envelope = await this.expand(await this.s.get<any>(row.object_hash));
+    if (
+      envelope.kind !== 'PUBLIC_STORY' ||
+      envelope.schema !== 1 ||
+      envelope.story.id !== id ||
+      envelope.story.version !== version
+    )
+      throw Error('Public story identity mismatch');
+    return isStoryPublishable({
+      publicationState: envelope.state,
+      confidenceScore: envelope.story.confidenceScore,
+      status: envelope.story.status,
+      sourceCount: envelope.story.sources.length,
+    })
+      ? (envelope.story as StoryView)
+      : null;
+  }
   async load(rows: { object_hash: string; id: string }[]) {
     const result: StoryView[] = [];
     for (let i = 0; i < rows.length; i += 32) {
       await this.s.objects.prefetch?.(
         rows.slice(i, i + 32).map((r) => `application/v1/${r.object_hash}`),
       );
-      for (const [index, envelope] of (
-        await Promise.all(rows.slice(i, i + 32).map((r) => this.s.get<any>(r.object_hash)))
-      ).entries()) {
+      const envelopes = await Promise.all(
+        rows.slice(i, i + 32).map((r) => this.s.get<any>(r.object_hash)),
+      );
+      await this.s.objects.prefetch?.(
+        envelopes
+          .filter((p) => p.schema === 2 && p.kind === 'PUBLIC_STORY')
+          .map((p) => `application/v1/${p.bodyHash}`),
+      );
+      for (const [index, stored] of envelopes.entries()) {
+        const envelope = await this.expand(stored);
         if (
           envelope.schema !== 1 ||
           envelope.kind !== 'PUBLIC_STORY' ||
@@ -190,6 +252,7 @@ export class PublicEditorial {
       'SELECT * FROM app_public_wire WHERE team_id=? AND story_id IN(SELECT value FROM json_each(?)) ORDER BY occurred_at DESC LIMIT ?',
       [team, JSON.stringify(stories.map((s) => s.id)), limit * 2],
     );
+    await this.s.objects.prefetch?.(rows.map((r) => `application/v1/${r.object_hash}`));
     const events = await Promise.all(
       rows.map(async (r) => {
         const event = await this.s.get<any>(r.object_hash);

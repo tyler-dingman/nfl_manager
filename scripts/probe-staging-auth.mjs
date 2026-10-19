@@ -279,6 +279,40 @@ try {
     sql(
       "INSERT INTO app_search(id,team_id,title,content,source_id,source_url) VALUES('offline-search','KC','Original historical article','Correction and original evidence','original-source','https://example.invalid/source')",
     );
+    // A real shared-body graph must survive the encrypted full export too.
+    const inline = (value) => {
+      const bytes = Buffer.from(JSON.stringify(value));
+      const hash = createHash('sha256').update(bytes).digest('hex');
+      sql(
+        `INSERT INTO app_payload_objects(hash,bytes,chunks,complete,inline_data) VALUES('${hash}',${bytes.length},0,1,X'${bytes.toString('hex')}')`,
+      );
+      sql(`UPDATE app_payload_capacity SET used_bytes=used_bytes+${bytes.length}`);
+      return hash;
+    };
+    const bodyHash = inline({
+      schema: 1,
+      kind: 'PUBLIC_STORY_BODY',
+      body: {
+        whatHappened: 'Original body with retained attribution',
+        whyItMatters: 'Original',
+        whatsNext: 'Follow sources',
+        sources: [],
+        primarySource: null,
+      },
+    });
+    const storyHash = inline({
+      schema: 2,
+      kind: 'PUBLIC_STORY',
+      story: { id: 'offline-shared-article', version: 1 },
+      state: 'PUBLISHED',
+      bodyHash,
+    });
+    sql(
+      `INSERT INTO app_public_stories(id,search_rowid,team_id,story_type,importance,first_at,updated_at,evidence_at,version,visible,object_hash) VALUES('offline-shared-article',-8675309,'KC','NEWS',1,1,1,1,1,1,'${storyHash}')`,
+    );
+    sql(
+      `INSERT INTO app_public_story_versions(id,version,object_hash) VALUES('offline-shared-article',1,'${storyHash}')`,
+    );
     const exportFile = directory + '/frozen.sql';
     // Wrangler's native export rejects this application's FTS5 tables.
     const { logicalExport } = await import('./export-no-billing.mjs');

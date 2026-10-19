@@ -234,22 +234,30 @@ export class D1OddsBoard {
       [event, Date.parse(asOf)],
     );
     const result: any[] = [];
-    for (const row of rows) {
-      const envelope = await this.s.get<any>(row.object_hash);
-      if (envelope.eventId !== event) throw Error('Historical board identity mismatch');
-      for (const m of await new JsonTree(this.s).get<any[]>(envelope.root))
-        if (includeAll || (m.period === 'game' && !m.isAltLine && m.available && m.line != null))
-          result.push({
-            marketId: m.id,
-            available: m.available,
-            playerId: m.playerId,
-            marketType: m.marketType,
-            side: m.side,
-            sportsbook: m.sportsbook,
-            line: m.line,
-            odds: m.odds,
-            capturedAt: new Date(row.as_of).toISOString(),
-          });
+    for (let i = 0; i < rows.length; i += 24) {
+      const part = rows.slice(i, i + 24);
+      await this.s.objects.prefetch?.(part.map((row) => `application/v1/${row.object_hash}`));
+      const envelopes = await Promise.all(part.map((row) => this.s.get<any>(row.object_hash)));
+      await this.s.objects.prefetch?.(
+        envelopes.map((envelope) => `application/v1/${envelope.root}`),
+      );
+      for (const [index, row] of part.entries()) {
+        const envelope = envelopes[index];
+        if (envelope.eventId !== event) throw Error('Historical board identity mismatch');
+        for (const m of await new JsonTree(this.s).get<any[]>(envelope.root))
+          if (includeAll || (m.period === 'game' && !m.isAltLine && m.available && m.line != null))
+            result.push({
+              marketId: m.id,
+              available: m.available,
+              playerId: m.playerId,
+              marketType: m.marketType,
+              side: m.side,
+              sportsbook: m.sportsbook,
+              line: m.line,
+              odds: m.odds,
+              capturedAt: new Date(row.as_of).toISOString(),
+            });
+      }
     }
     return result;
   }

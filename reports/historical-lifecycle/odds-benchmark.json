@@ -1,0 +1,27 @@
+{
+  "generations": 200,
+  "historyRows": 200,
+  "metrics": {
+    "d1Calls": 20,
+    "statements": 20,
+    "rowsRead": 1401,
+    "rowsWritten": 0
+  },
+  "chunkedBulkMetrics": {
+    "d1Calls": 3,
+    "statements": 3,
+    "rowsRead": 161,
+    "rowsWritten": 0
+  },
+  "representativeHistory": {
+    "generations": 32,
+    "marketsPerGeneration": 2000,
+    "rows": 64000,
+    "metrics": {
+      "d1Calls": 8,
+      "statements": 8,
+      "rowsRead": 385,
+      "rowsWritten": 0
+    }
+  }
+}

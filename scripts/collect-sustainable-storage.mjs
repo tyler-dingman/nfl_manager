@@ -3,6 +3,8 @@ import { Miniflare, convertV4MiniflareOptions } from 'miniflare';
 import step from '../packages/storage/maintenance-step.ts';
 const { maintenanceStep } = step;
 import retention from '../packages/storage/derived-retention.ts';
+import lifecycle from '../packages/storage/derived-lifecycle.ts';
+const { expireDerivedDirectories } = lifecycle;
 const { expireSupersededScores } = retention;
 import core from '../packages/storage/core.ts';
 import objects from '../packages/storage/d1-objects.ts';
@@ -24,6 +26,7 @@ if (
     '--prepare',
     '--step',
     '--expire-scores',
+    '--expire-derived',
   ].includes(mode) ||
   process.env.DD_STORAGE_MAINTENANCE !== 'RAW_WRITERS_STOPPED'
 )
@@ -44,22 +47,28 @@ try {
   const result =
     mode === '--step'
       ? await maintenanceStep(db, count, 'OWNER_PRIVATE_MAINTENANCE')
-      : mode === '--expire-scores'
-        ? await expireSupersededScores(new Storage(db, new D1Objects(db)), Number(count))
-        : mode.startsWith('--repack')
-          ? await repackLegacyPayload(
-              db,
-              count,
-              'OWNER_MAINTENANCE_RAW_WRITERS_STOPPED',
-              mode === '--repack-base64' ? 'base64' : 'binary',
-            )
-          : await collectPayloadGarbage(db, {
-              dryRun: mode !== '--apply' && mode !== '--prepare',
-              prepareOnly: mode === '--prepare',
-              limit: Number(count),
-              expireDerived: true,
-              acknowledge: 'OWNER_MAINTENANCE_RAW_WRITERS_STOPPED',
-            });
+      : mode === '--expire-derived'
+        ? await expireDerivedDirectories(
+            new Storage(db, new D1Objects(db)),
+            Date.now(),
+            Number(count),
+          )
+        : mode === '--expire-scores'
+          ? await expireSupersededScores(new Storage(db, new D1Objects(db)), Number(count))
+          : mode.startsWith('--repack')
+            ? await repackLegacyPayload(
+                db,
+                count,
+                'OWNER_MAINTENANCE_RAW_WRITERS_STOPPED',
+                mode === '--repack-base64' ? 'base64' : 'binary',
+              )
+            : await collectPayloadGarbage(db, {
+                dryRun: mode !== '--apply' && mode !== '--prepare',
+                prepareOnly: mode === '--prepare',
+                limit: Number(count),
+                expireDerived: true,
+                acknowledge: 'OWNER_MAINTENANCE_RAW_WRITERS_STOPPED',
+              });
   console.log(JSON.stringify({ before, result, after: await storageCapacity(db) }, null, 2));
 } finally {
   await mf.dispose();

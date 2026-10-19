@@ -385,6 +385,8 @@ export async function validateFrozenReferences(
       const content = await new JsonTree(logical).get<any>(value.root);
       if (value.saveId && content?.referenceHash) await logical.get(content.referenceHash);
     }
+    if (value?.schema === 2 && value?.saveId && value?.value?.referenceHash)
+      await logical.get(value.value.referenceHash);
     if (value?.saveId && value?.stateHash) await validateGraph(value.stateHash);
   }
   for (const hash of applicationHashes) await validateGraph(hash);

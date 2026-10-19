@@ -1,0 +1,11 @@
+{
+  "metrics": {
+    "d1Calls": 2,
+    "statements": 7,
+    "rowsRead": 86,
+    "rowsWritten": 24
+  },
+  "perBatchLimit": 20,
+  "pinnedEvidencePreserved": true,
+  "activeLeasePreserved": true
+}

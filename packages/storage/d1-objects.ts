@@ -30,8 +30,8 @@ export class D1Objects implements Objects {
       this.cachedBytes += bytes.length;
     }
   }
-  /** Inline-only batch read: bounded encoded memory, lazy decode/integrity check.
-   * Large/chunked objects retain the verified single-object fallback. */
+  /** Bounded encoded prefetch for inline and chunked payloads. Large payloads
+   * fall back to individual reads; decode and SHA verification stay lazy. */
   async prefetch(keys: string[]) {
     const hashes = [
       ...new Set(
@@ -45,18 +45,53 @@ export class D1Objects implements Objects {
       ),
     ];
     for (let i = 0; i < hashes.length && this.encodedBytes < 2_000_000; i += 32) {
-      const result = await this.db
+      const heads = await this.db
         .prepare(
-          'SELECT hash,bytes,inline_data FROM app_payload_objects WHERE hash IN (SELECT value FROM json_each(?)) AND complete=1 AND chunks=0 AND inline_data IS NOT NULL',
+          'SELECT hash,bytes,chunks,inline_data FROM app_payload_objects WHERE hash IN (SELECT value FROM json_each(?)) AND complete=1',
         )
         .bind(JSON.stringify(hashes.slice(i, i + 32)))
-        .all<{ hash: string; bytes: number; inline_data: ArrayBuffer }>();
-      if (!result.success) throw Error('D1 payload prefetch failed');
-      for (const row of result.results) {
-        const bytes = new Uint8Array(row.inline_data);
-        if (bytes.length !== row.bytes) throw Error('Invalid payload length');
-        if (this.encodedBytes + bytes.length > 2_000_000) break;
-        this.encoded.set(objectKey(row.hash), bytes);
+        .all<{ hash: string; bytes: number; chunks: number; inline_data: ArrayBuffer | null }>();
+      if (!heads.success) throw Error('D1 payload prefetch failed');
+      const selected: typeof heads.results = [];
+      let reserved = this.encodedBytes;
+      for (const head of heads.results)
+        if (reserved + head.bytes <= 2_000_000) {
+          selected.push(head);
+          reserved += head.bytes;
+        }
+      const chunked = selected.filter((head) => head.inline_data == null);
+      const chunks = chunked.length
+        ? await this.db
+            .prepare(
+              'SELECT hash,ordinal,body,data FROM app_payload_chunks WHERE hash IN (SELECT value FROM json_each(?)) ORDER BY hash,ordinal',
+            )
+            .bind(JSON.stringify(chunked.map((head) => head.hash)))
+            .all<{ hash: string; ordinal: number; body: string; data: ArrayBuffer | null }>()
+        : { success: true, results: [] };
+      if (!chunks.success) throw Error('D1 payload prefetch failed');
+      for (const head of selected) {
+        let bytes: Uint8Array;
+        if (head.inline_data != null) {
+          if (head.chunks !== 0) throw Error('Invalid inline payload');
+          bytes = new Uint8Array(head.inline_data);
+        } else {
+          const parts = chunks.results.filter((row) => row.hash === head.hash);
+          if (parts.length !== head.chunks) throw Error('Incomplete D1 payload');
+          bytes = new Uint8Array(head.bytes);
+          let offset = 0;
+          for (const [ordinal, row] of parts.entries()) {
+            if (row.ordinal !== ordinal) throw Error('Invalid chunk ordering');
+            const part =
+              row.data == null
+                ? Uint8Array.from(atob(row.body), (c) => c.charCodeAt(0))
+                : new Uint8Array(row.data);
+            bytes.set(part, offset);
+            offset += part.length;
+          }
+          if (offset !== head.bytes) throw Error('Invalid chunk length');
+        }
+        if (bytes.length !== head.bytes) throw Error('Invalid payload length');
+        this.encoded.set(objectKey(head.hash), bytes);
         this.encodedBytes += bytes.length;
       }
     }

@@ -75,6 +75,8 @@ try {
     assert.equal(r.status, 0, r.stdout + r.stderr);
     return JSON.parse(r.stdout);
   };
+  const expiredDerived = call('--expire-derived');
+  assert.equal(expiredDerived.result.expiredDerivedKeys, 0);
   const preview = call('--dry-run');
   assert.equal(preview.result.candidateObjects, 1);
   assert.equal(preview.result.deletedObjects, 0);
@@ -102,6 +104,7 @@ try {
     syntheticOnly: true,
     r2: false,
     postgres: false,
+    expiredDerived,
     preview,
     prepared,
     applied,

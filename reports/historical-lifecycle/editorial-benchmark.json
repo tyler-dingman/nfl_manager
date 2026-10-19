@@ -1,0 +1,23 @@
+{
+  "scope": "synthetic editorial fixture; 40 articles, four corrections each, 12KB incompressible unchanged body per article; not annual production composition",
+  "before": {
+    "encoded": 2006690,
+    "objects": 160
+  },
+  "after": {
+    "encoded": 568758,
+    "objects": 200
+  },
+  "listMetrics": {
+    "d1Calls": 6,
+    "statements": 6,
+    "rowsRead": 321,
+    "rowsWritten": 0
+  },
+  "wireMetrics": {
+    "d1Calls": 9,
+    "statements": 9,
+    "rowsRead": 521,
+    "rowsWritten": 0
+  }
+}

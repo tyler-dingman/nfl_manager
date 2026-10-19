@@ -156,14 +156,19 @@ export class ApplicationDocuments {
       if (prior.request_hash !== requestHash) throw Error('Command identity conflict');
       return { revision: prior.revision, replayed: true };
     }
-    const hash = await this.storage.put({
-        schema: 2,
-        owner,
-        kind,
-        id,
-        revision: expected + 1,
-        root: await new JsonTree(this.storage).put(value),
-      }),
+    const direct = { schema: 1, owner, kind, id, revision: expected + 1, value };
+    const hash = await this.storage.put(
+        this.storage.objects.compactTrees && utf8.encode(JSON.stringify(direct)).length <= 4_000_000
+          ? direct
+          : {
+              schema: 2,
+              owner,
+              kind,
+              id,
+              revision: expected + 1,
+              root: await new JsonTree(this.storage).put(value),
+            },
+      ),
       nonce = crypto.randomUUID();
     const write =
       expected === 0

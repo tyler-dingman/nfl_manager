@@ -7,6 +7,15 @@ export async function guardedBatch(
   writes: Statement[],
   message = 'State changed or operation is no longer permitted. Please retry.',
 ) {
+  // Boolean preconditions can share one assertion row without changing the
+  // transaction boundary. Preserve the parameter budget for large call sites.
+  if (guards.length > 1 && guards.reduce((n, g) => n + (g.values?.length ?? 0), 0) < 100)
+    guards = [
+      {
+        sql: guards.map((g) => `(${g.sql})`).join(' AND '),
+        values: guards.flatMap((g) => g.values ?? []),
+      },
+    ];
   const nonces = guards.map(() => crypto.randomUUID());
   try {
     return await s.batch([

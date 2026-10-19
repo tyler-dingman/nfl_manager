@@ -1,0 +1,35 @@
+{
+  "scope": "Synthetic encoded JSON fixture sizes, independent per domain; raw entropy represents a sensitivity, not observed production content.",
+  "oddsSnapshot2000Markets": {
+    "rawBytes": 654635,
+    "encodedBytes": 78310
+  },
+  "marketIdentityDirectory2000": {
+    "rawBytes": 146797,
+    "encodedBytes": 6677
+  },
+  "labScores2000": {
+    "rawBytes": 306691,
+    "encodedBytes": 171929
+  },
+  "sourceCandidate": {
+    "rawBytes": 10849,
+    "encodedBytes": 8216
+  },
+  "threeAndOut": {
+    "rawBytes": 4426,
+    "encodedBytes": 3248
+  },
+  "frontOfficeRevision": {
+    "rawBytes": 68799,
+    "encodedBytes": 50687
+  },
+  "savedEvidence": {
+    "rawBytes": 3588,
+    "encodedBytes": 2754
+  },
+  "operationDetails": {
+    "rawBytes": 1455,
+    "encodedBytes": 1156
+  }
+}

@@ -241,13 +241,13 @@ export function withD1FranchiseRoute(
       if (head) {
         const envelope = await s.get<any>(head.object_hash);
         if (
-          envelope.schema !== 1 ||
+          ![1, 2].includes(envelope.schema) ||
           envelope.owner !== user.id ||
           envelope.saveId !== id ||
           envelope.version !== version
         )
           throw Error('Franchise envelope mismatch');
-        value = await new JsonTree(s).get(envelope.root);
+        value = envelope.schema === 2 ? envelope.value : await new JsonTree(s).get(envelope.root);
         if (
           value.metadata.saveId !== id ||
           value.metadata.teamAbbr !== head.team_abbr ||
@@ -344,14 +344,19 @@ export function withD1FranchiseRoute(
             { runtime: runtime!, trades: [...workspace.trades] },
             workspace.recoveryReferences ?? references,
           );
-          const root = await new JsonTree(s).put(value),
-            hash = await s.put({
-              schema: 1,
-              owner: user.id,
-              saveId: id,
-              version: nextVersion,
-              root,
-            });
+          const direct = { schema: 2, owner: user.id, saveId: id, version: nextVersion, value };
+          const hash = await s.put(
+            s.objects.compactTrees &&
+              new TextEncoder().encode(JSON.stringify(direct)).length <= 4_000_000
+              ? direct
+              : {
+                  schema: 1,
+                  owner: user.id,
+                  saveId: id,
+                  version: nextVersion,
+                  root: await new JsonTree(s).put(value),
+                },
+          );
           const payload =
             result && typeof result === 'object' && !Array.isArray(result)
               ? { ...result, version: nextVersion }
