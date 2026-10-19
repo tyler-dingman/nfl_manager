@@ -252,7 +252,7 @@ export async function collectPayloadGarbage(
       const check = (v: unknown, key = '') => {
         if (
           typeof v === 'string' &&
-          ['root', 'referenceHash'].includes(key) &&
+          ['root', 'referenceHash', 'bodyHash'].includes(key) &&
           /^[a-f0-9]{64}$/.test(v) &&
           !inventory.has(v)
         )

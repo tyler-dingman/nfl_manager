@@ -1,0 +1,1137 @@
+{
+  "baseline": true,
+  "virtualHours": 24,
+  "initial": {
+    "physicalBytes": 2248704,
+    "encoded": 82170,
+    "stories": [],
+    "jobs": [
+      {
+        "status": "COMPLETED",
+        "n": 2
+      }
+    ]
+  },
+  "beforeCleanup": {
+    "physicalBytes": 15904768,
+    "encoded": 5387356,
+    "stories": [
+      {
+        "id": "befb6dec-4915-428a-9475-ede872ab89a2",
+        "team_id": "ARI",
+        "version": 2
+      },
+      {
+        "id": "ec66cbb9-ccfc-4ecd-9ff4-128815cc7a3b",
+        "team_id": "ARI",
+        "version": 2
+      },
+      {
+        "id": "e3700b0c-215a-4510-a049-9998bcfe4b16",
+        "team_id": "ARI",
+        "version": 2
+      },
+      {
+        "id": "5142e380-3839-412a-a376-64e1365b54d7",
+        "team_id": "ATL",
+        "version": 2
+      },
+      {
+        "id": "ff371e9b-3e0e-427a-b8ae-63b840b351ca",
+        "team_id": "ATL",
+        "version": 2
+      },
+      {
+        "id": "763e8f82-7c8c-4975-8412-3c4fcdedf25e",
+        "team_id": "ATL",
+        "version": 2
+      },
+      {
+        "id": "dedc3385-7d7e-40ce-83f9-7f1e844e8229",
+        "team_id": "BAL",
+        "version": 2
+      },
+      {
+        "id": "f6061d5b-09b9-4d78-810a-c3f4a42e5dd6",
+        "team_id": "BAL",
+        "version": 2
+      },
+      {
+        "id": "1e849e74-f66e-4a60-aa9a-05f49b816f7f",
+        "team_id": "BAL",
+        "version": 2
+      },
+      {
+        "id": "c5887030-963e-4725-9089-d3c2e51037e8",
+        "team_id": "BUF",
+        "version": 2
+      },
+      {
+        "id": "aa91d295-3bc7-457a-bcbd-556f90790794",
+        "team_id": "BUF",
+        "version": 2
+      },
+      {
+        "id": "5880ccd1-d72f-425b-9dd0-d938fb91f436",
+        "team_id": "BUF",
+        "version": 2
+      },
+      {
+        "id": "4a8f71f1-4534-4813-bb54-69641e0e9ae7",
+        "team_id": "CAR",
+        "version": 2
+      },
+      {
+        "id": "66b3f3bb-b712-4753-af98-0d179e8c450a",
+        "team_id": "CAR",
+        "version": 2
+      },
+      {
+        "id": "fa91f1ab-7966-47ce-a243-6eaa933780d3",
+        "team_id": "CAR",
+        "version": 2
+      },
+      {
+        "id": "5752ccf0-8034-4a55-a5fa-fca9c716bc51",
+        "team_id": "CHI",
+        "version": 2
+      },
+      {
+        "id": "1d9376a0-7b1e-4e92-b944-f720c6777e6f",
+        "team_id": "CHI",
+        "version": 2
+      },
+      {
+        "id": "8a854765-d578-478b-a6f1-ee419b5c6b09",
+        "team_id": "CHI",
+        "version": 2
+      },
+      {
+        "id": "5d62e027-7f55-4805-96a3-1e1432232f60",
+        "team_id": "CIN",
+        "version": 2
+      },
+      {
+        "id": "fe6a87ae-3520-40c8-a881-c21ad95f9d5c",
+        "team_id": "CIN",
+        "version": 2
+      },
+      {
+        "id": "5fee963e-fef1-42eb-86c5-3d164177fc98",
+        "team_id": "CIN",
+        "version": 2
+      },
+      {
+        "id": "51ed84f6-5e3f-4d0c-bb1f-cb152d01eac5",
+        "team_id": "CLE",
+        "version": 2
+      },
+      {
+        "id": "0a1cb23f-934f-49df-b4df-127aab0a0cd9",
+        "team_id": "CLE",
+        "version": 2
+      },
+      {
+        "id": "f9af17af-ad73-4bca-938d-4ccf0df18c70",
+        "team_id": "CLE",
+        "version": 2
+      },
+      {
+        "id": "b0d8927c-8771-43cf-b4a5-bc5c3b182901",
+        "team_id": "DAL",
+        "version": 2
+      },
+      {
+        "id": "5276e393-42d6-4313-9aa2-694c9b6f3df2",
+        "team_id": "DAL",
+        "version": 2
+      },
+      {
+        "id": "3df3db92-e519-415a-aab9-e0828157dc25",
+        "team_id": "DAL",
+        "version": 2
+      },
+      {
+        "id": "3021bb35-d8ae-4cc7-bee1-3325864a7072",
+        "team_id": "DEN",
+        "version": 2
+      },
+      {
+        "id": "f2220f1e-e364-4a2d-ab96-cf765417192b",
+        "team_id": "DEN",
+        "version": 2
+      },
+      {
+        "id": "004e4736-9dcd-4047-aa9f-333b877f6d09",
+        "team_id": "DEN",
+        "version": 2
+      },
+      {
+        "id": "7f00ef23-7866-4eea-aea1-d74ad324ff96",
+        "team_id": "DET",
+        "version": 2
+      },
+      {
+        "id": "6d40d7c0-6d64-469a-8f84-1b4df894f03b",
+        "team_id": "DET",
+        "version": 2
+      },
+      {
+        "id": "acf7c165-cf38-4dbc-9721-0956162818e0",
+        "team_id": "DET",
+        "version": 2
+      },
+      {
+        "id": "d98269fb-5696-408a-80f9-96e37fe58175",
+        "team_id": "GB",
+        "version": 2
+      },
+      {
+        "id": "77522ac1-45b5-4e9c-a297-d6357f86439c",
+        "team_id": "GB",
+        "version": 2
+      },
+      {
+        "id": "e7f634fc-809a-41c5-a361-af5b57f9d36a",
+        "team_id": "GB",
+        "version": 2
+      },
+      {
+        "id": "b3f350a5-b3be-4a38-88ea-83863ff5c3cf",
+        "team_id": "HOU",
+        "version": 2
+      },
+      {
+        "id": "54b99bdb-8c7c-4e45-86ff-0103422fec9b",
+        "team_id": "HOU",
+        "version": 2
+      },
+      {
+        "id": "23ba0b64-8b20-4b5a-b90f-2ed7bf78816c",
+        "team_id": "HOU",
+        "version": 2
+      },
+      {
+        "id": "b9c0b2bd-3afb-4659-b6e9-3575eb12b396",
+        "team_id": "IND",
+        "version": 2
+      },
+      {
+        "id": "cdb5eddf-0f43-47a3-8de2-335713bf4533",
+        "team_id": "IND",
+        "version": 2
+      },
+      {
+        "id": "93d0f982-0fd2-405f-a500-7d1bd431d1ac",
+        "team_id": "IND",
+        "version": 2
+      },
+      {
+        "id": "c64bb1da-977f-467d-a013-52764ee924fe",
+        "team_id": "JAX",
+        "version": 2
+      },
+      {
+        "id": "4ae6b23d-6a88-474b-80c1-c6aed95cc60c",
+        "team_id": "JAX",
+        "version": 2
+      },
+      {
+        "id": "92d103a9-39a5-4d75-b93b-11a92dc36031",
+        "team_id": "JAX",
+        "version": 2
+      },
+      {
+        "id": "b19469b2-8f32-45cf-bbbd-547592f148cb",
+        "team_id": "KC",
+        "version": 2
+      },
+      {
+        "id": "654be6c2-32b2-4f5a-bfe9-cdf9c4dd3af2",
+        "team_id": "KC",
+        "version": 2
+      },
+      {
+        "id": "619e163c-fcd2-4a9e-9ca3-222231e78a3d",
+        "team_id": "KC",
+        "version": 2
+      },
+      {
+        "id": "600d06aa-1201-4526-bca6-c9bef44c26c9",
+        "team_id": "LV",
+        "version": 2
+      },
+      {
+        "id": "737c345f-b229-4a90-a8b8-f87bea488ee3",
+        "team_id": "LV",
+        "version": 2
+      },
+      {
+        "id": "4b8167df-4ac5-4e17-9659-57ae5ea50e07",
+        "team_id": "LV",
+        "version": 2
+      },
+      {
+        "id": "21c7f3c6-44b2-4a76-972a-3fb701753787",
+        "team_id": "LAC",
+        "version": 2
+      },
+      {
+        "id": "e71d9b17-4e7d-4d9a-9f10-a4561a366f50",
+        "team_id": "LAC",
+        "version": 2
+      },
+      {
+        "id": "5a9a6f4b-dc65-4504-8eb7-447498357801",
+        "team_id": "LAC",
+        "version": 2
+      },
+      {
+        "id": "0aac40bc-eeed-474e-8404-c0872b3bf49c",
+        "team_id": "LAR",
+        "version": 2
+      },
+      {
+        "id": "b11a360e-5379-4e6e-9140-e91affb700c6",
+        "team_id": "LAR",
+        "version": 2
+      },
+      {
+        "id": "1c633542-160a-4c32-aa9f-cb5f9b1077bc",
+        "team_id": "LAR",
+        "version": 2
+      },
+      {
+        "id": "a981f0dc-0d90-4e0d-aefa-4a7dd551999f",
+        "team_id": "MIA",
+        "version": 2
+      },
+      {
+        "id": "cf1a1409-d4d2-43c1-9b37-531f89ca6119",
+        "team_id": "MIA",
+        "version": 2
+      },
+      {
+        "id": "b949a022-4053-407a-8854-41f540c9afa5",
+        "team_id": "MIA",
+        "version": 2
+      },
+      {
+        "id": "6c9ecb7f-1d1c-4e71-b03b-cb729575e86a",
+        "team_id": "MIN",
+        "version": 2
+      },
+      {
+        "id": "501c4161-9d5b-4922-9cfa-6097ecce3112",
+        "team_id": "MIN",
+        "version": 2
+      },
+      {
+        "id": "5a7c8a9e-6f8c-4148-9840-61ae107467bb",
+        "team_id": "MIN",
+        "version": 2
+      },
+      {
+        "id": "8eff3108-706d-4e7f-915d-fe4480a839b8",
+        "team_id": "NE",
+        "version": 2
+      },
+      {
+        "id": "a54dbb9f-1b7c-4e75-b191-ed6f999a8ea5",
+        "team_id": "NE",
+        "version": 2
+      },
+      {
+        "id": "0c93bdd0-402c-43d1-ac3b-9700a8c04ee5",
+        "team_id": "NE",
+        "version": 2
+      },
+      {
+        "id": "f9bfbed0-8297-4caf-bea2-7bbe4408dd31",
+        "team_id": "NO",
+        "version": 2
+      },
+      {
+        "id": "2bf5a2a0-6dfc-4049-afe1-fb4395462dac",
+        "team_id": "NO",
+        "version": 2
+      },
+      {
+        "id": "00ba76e6-abd5-4798-934f-120f532f8cc5",
+        "team_id": "NO",
+        "version": 2
+      },
+      {
+        "id": "4636c585-d6b7-48bc-b46c-fa654c0297ca",
+        "team_id": "NYG",
+        "version": 2
+      },
+      {
+        "id": "36477de4-05b6-436b-b1df-e56314561782",
+        "team_id": "NYG",
+        "version": 2
+      },
+      {
+        "id": "2f0112bc-f51e-4c81-879f-e88a0d469d14",
+        "team_id": "NYG",
+        "version": 2
+      },
+      {
+        "id": "3251b115-6134-477f-b415-731bf1108309",
+        "team_id": "NYJ",
+        "version": 2
+      },
+      {
+        "id": "d5b0f331-893d-47ae-905a-08ca640267a1",
+        "team_id": "NYJ",
+        "version": 2
+      },
+      {
+        "id": "0a250ad2-a9e9-4b49-862f-59d6ab2a1421",
+        "team_id": "NYJ",
+        "version": 2
+      },
+      {
+        "id": "2eeb09e7-3e68-4d64-9a61-536379f478fc",
+        "team_id": "PHI",
+        "version": 2
+      },
+      {
+        "id": "b9b1fff8-9eef-4807-bc3b-af64abdb13b7",
+        "team_id": "PHI",
+        "version": 2
+      },
+      {
+        "id": "b503a868-535a-4c96-b4b5-0e5388512047",
+        "team_id": "PHI",
+        "version": 2
+      },
+      {
+        "id": "ea66f946-4688-484f-bd66-b989e78bec44",
+        "team_id": "PIT",
+        "version": 2
+      },
+      {
+        "id": "19a07017-7d07-4a9c-948b-51b17bad1d3c",
+        "team_id": "PIT",
+        "version": 2
+      },
+      {
+        "id": "06eba63f-89a1-4cad-b830-235dc87cdd18",
+        "team_id": "PIT",
+        "version": 2
+      },
+      {
+        "id": "3fc1ab4a-1a77-4194-9451-c8cd63d1cacb",
+        "team_id": "SF",
+        "version": 2
+      },
+      {
+        "id": "810233e4-92f2-4e2f-b813-cf2e69bf74d9",
+        "team_id": "SF",
+        "version": 2
+      },
+      {
+        "id": "8c21ce2e-d9b6-44de-8ff4-f3f85bd503f5",
+        "team_id": "SF",
+        "version": 2
+      },
+      {
+        "id": "41da5ebf-0476-434a-b819-8a5671834bed",
+        "team_id": "SEA",
+        "version": 2
+      },
+      {
+        "id": "bb850956-bc43-4739-9aff-3bc4645f4740",
+        "team_id": "SEA",
+        "version": 2
+      },
+      {
+        "id": "ecd7c8fe-f346-4f97-9e91-88cf571e2463",
+        "team_id": "SEA",
+        "version": 2
+      },
+      {
+        "id": "592497bc-0a42-4bde-b372-e9e7a1d0b376",
+        "team_id": "TB",
+        "version": 2
+      },
+      {
+        "id": "27cc7bf2-9f78-4e60-befe-b2fdf6b2e6d8",
+        "team_id": "TB",
+        "version": 2
+      },
+      {
+        "id": "f4c94b51-02f6-4b94-b963-b2e5861970c7",
+        "team_id": "TB",
+        "version": 2
+      },
+      {
+        "id": "49cc5a8e-42a2-4968-bfc5-34126ba8af8d",
+        "team_id": "TEN",
+        "version": 2
+      },
+      {
+        "id": "a3874c4e-4fad-457f-9e48-ee876d5bf7bc",
+        "team_id": "TEN",
+        "version": 2
+      },
+      {
+        "id": "2b75af39-ac4c-405b-b2bf-65e787ba3c42",
+        "team_id": "TEN",
+        "version": 2
+      },
+      {
+        "id": "308440d9-24ed-4e56-84ed-85951f33feba",
+        "team_id": "WAS",
+        "version": 2
+      },
+      {
+        "id": "51035aba-836f-4633-ab31-09aa116c6786",
+        "team_id": "WAS",
+        "version": 2
+      },
+      {
+        "id": "c7ab10a3-b9bc-4ef8-9bc6-f9eed4b36100",
+        "team_id": "WAS",
+        "version": 2
+      }
+    ],
+    "jobs": [
+      {
+        "status": "COMPLETED",
+        "n": 18602
+      }
+    ]
+  },
+  "final": {
+    "physicalBytes": 15474688,
+    "encoded": 5047373,
+    "stories": [
+      {
+        "id": "befb6dec-4915-428a-9475-ede872ab89a2",
+        "team_id": "ARI",
+        "version": 2
+      },
+      {
+        "id": "ec66cbb9-ccfc-4ecd-9ff4-128815cc7a3b",
+        "team_id": "ARI",
+        "version": 2
+      },
+      {
+        "id": "e3700b0c-215a-4510-a049-9998bcfe4b16",
+        "team_id": "ARI",
+        "version": 2
+      },
+      {
+        "id": "5142e380-3839-412a-a376-64e1365b54d7",
+        "team_id": "ATL",
+        "version": 2
+      },
+      {
+        "id": "ff371e9b-3e0e-427a-b8ae-63b840b351ca",
+        "team_id": "ATL",
+        "version": 2
+      },
+      {
+        "id": "763e8f82-7c8c-4975-8412-3c4fcdedf25e",
+        "team_id": "ATL",
+        "version": 2
+      },
+      {
+        "id": "dedc3385-7d7e-40ce-83f9-7f1e844e8229",
+        "team_id": "BAL",
+        "version": 2
+      },
+      {
+        "id": "f6061d5b-09b9-4d78-810a-c3f4a42e5dd6",
+        "team_id": "BAL",
+        "version": 2
+      },
+      {
+        "id": "1e849e74-f66e-4a60-aa9a-05f49b816f7f",
+        "team_id": "BAL",
+        "version": 2
+      },
+      {
+        "id": "c5887030-963e-4725-9089-d3c2e51037e8",
+        "team_id": "BUF",
+        "version": 2
+      },
+      {
+        "id": "aa91d295-3bc7-457a-bcbd-556f90790794",
+        "team_id": "BUF",
+        "version": 2
+      },
+      {
+        "id": "5880ccd1-d72f-425b-9dd0-d938fb91f436",
+        "team_id": "BUF",
+        "version": 2
+      },
+      {
+        "id": "4a8f71f1-4534-4813-bb54-69641e0e9ae7",
+        "team_id": "CAR",
+        "version": 2
+      },
+      {
+        "id": "66b3f3bb-b712-4753-af98-0d179e8c450a",
+        "team_id": "CAR",
+        "version": 2
+      },
+      {
+        "id": "fa91f1ab-7966-47ce-a243-6eaa933780d3",
+        "team_id": "CAR",
+        "version": 2
+      },
+      {
+        "id": "5752ccf0-8034-4a55-a5fa-fca9c716bc51",
+        "team_id": "CHI",
+        "version": 2
+      },
+      {
+        "id": "1d9376a0-7b1e-4e92-b944-f720c6777e6f",
+        "team_id": "CHI",
+        "version": 2
+      },
+      {
+        "id": "8a854765-d578-478b-a6f1-ee419b5c6b09",
+        "team_id": "CHI",
+        "version": 2
+      },
+      {
+        "id": "5d62e027-7f55-4805-96a3-1e1432232f60",
+        "team_id": "CIN",
+        "version": 2
+      },
+      {
+        "id": "fe6a87ae-3520-40c8-a881-c21ad95f9d5c",
+        "team_id": "CIN",
+        "version": 2
+      },
+      {
+        "id": "5fee963e-fef1-42eb-86c5-3d164177fc98",
+        "team_id": "CIN",
+        "version": 2
+      },
+      {
+        "id": "51ed84f6-5e3f-4d0c-bb1f-cb152d01eac5",
+        "team_id": "CLE",
+        "version": 2
+      },
+      {
+        "id": "0a1cb23f-934f-49df-b4df-127aab0a0cd9",
+        "team_id": "CLE",
+        "version": 2
+      },
+      {
+        "id": "f9af17af-ad73-4bca-938d-4ccf0df18c70",
+        "team_id": "CLE",
+        "version": 2
+      },
+      {
+        "id": "b0d8927c-8771-43cf-b4a5-bc5c3b182901",
+        "team_id": "DAL",
+        "version": 2
+      },
+      {
+        "id": "5276e393-42d6-4313-9aa2-694c9b6f3df2",
+        "team_id": "DAL",
+        "version": 2
+      },
+      {
+        "id": "3df3db92-e519-415a-aab9-e0828157dc25",
+        "team_id": "DAL",
+        "version": 2
+      },
+      {
+        "id": "3021bb35-d8ae-4cc7-bee1-3325864a7072",
+        "team_id": "DEN",
+        "version": 2
+      },
+      {
+        "id": "f2220f1e-e364-4a2d-ab96-cf765417192b",
+        "team_id": "DEN",
+        "version": 2
+      },
+      {
+        "id": "004e4736-9dcd-4047-aa9f-333b877f6d09",
+        "team_id": "DEN",
+        "version": 2
+      },
+      {
+        "id": "7f00ef23-7866-4eea-aea1-d74ad324ff96",
+        "team_id": "DET",
+        "version": 2
+      },
+      {
+        "id": "6d40d7c0-6d64-469a-8f84-1b4df894f03b",
+        "team_id": "DET",
+        "version": 2
+      },
+      {
+        "id": "acf7c165-cf38-4dbc-9721-0956162818e0",
+        "team_id": "DET",
+        "version": 2
+      },
+      {
+        "id": "d98269fb-5696-408a-80f9-96e37fe58175",
+        "team_id": "GB",
+        "version": 2
+      },
+      {
+        "id": "77522ac1-45b5-4e9c-a297-d6357f86439c",
+        "team_id": "GB",
+        "version": 2
+      },
+      {
+        "id": "e7f634fc-809a-41c5-a361-af5b57f9d36a",
+        "team_id": "GB",
+        "version": 2
+      },
+      {
+        "id": "b3f350a5-b3be-4a38-88ea-83863ff5c3cf",
+        "team_id": "HOU",
+        "version": 2
+      },
+      {
+        "id": "54b99bdb-8c7c-4e45-86ff-0103422fec9b",
+        "team_id": "HOU",
+        "version": 2
+      },
+      {
+        "id": "23ba0b64-8b20-4b5a-b90f-2ed7bf78816c",
+        "team_id": "HOU",
+        "version": 2
+      },
+      {
+        "id": "b9c0b2bd-3afb-4659-b6e9-3575eb12b396",
+        "team_id": "IND",
+        "version": 2
+      },
+      {
+        "id": "cdb5eddf-0f43-47a3-8de2-335713bf4533",
+        "team_id": "IND",
+        "version": 2
+      },
+      {
+        "id": "93d0f982-0fd2-405f-a500-7d1bd431d1ac",
+        "team_id": "IND",
+        "version": 2
+      },
+      {
+        "id": "c64bb1da-977f-467d-a013-52764ee924fe",
+        "team_id": "JAX",
+        "version": 2
+      },
+      {
+        "id": "4ae6b23d-6a88-474b-80c1-c6aed95cc60c",
+        "team_id": "JAX",
+        "version": 2
+      },
+      {
+        "id": "92d103a9-39a5-4d75-b93b-11a92dc36031",
+        "team_id": "JAX",
+        "version": 2
+      },
+      {
+        "id": "b19469b2-8f32-45cf-bbbd-547592f148cb",
+        "team_id": "KC",
+        "version": 2
+      },
+      {
+        "id": "654be6c2-32b2-4f5a-bfe9-cdf9c4dd3af2",
+        "team_id": "KC",
+        "version": 2
+      },
+      {
+        "id": "619e163c-fcd2-4a9e-9ca3-222231e78a3d",
+        "team_id": "KC",
+        "version": 2
+      },
+      {
+        "id": "600d06aa-1201-4526-bca6-c9bef44c26c9",
+        "team_id": "LV",
+        "version": 2
+      },
+      {
+        "id": "737c345f-b229-4a90-a8b8-f87bea488ee3",
+        "team_id": "LV",
+        "version": 2
+      },
+      {
+        "id": "4b8167df-4ac5-4e17-9659-57ae5ea50e07",
+        "team_id": "LV",
+        "version": 2
+      },
+      {
+        "id": "21c7f3c6-44b2-4a76-972a-3fb701753787",
+        "team_id": "LAC",
+        "version": 2
+      },
+      {
+        "id": "e71d9b17-4e7d-4d9a-9f10-a4561a366f50",
+        "team_id": "LAC",
+        "version": 2
+      },
+      {
+        "id": "5a9a6f4b-dc65-4504-8eb7-447498357801",
+        "team_id": "LAC",
+        "version": 2
+      },
+      {
+        "id": "0aac40bc-eeed-474e-8404-c0872b3bf49c",
+        "team_id": "LAR",
+        "version": 2
+      },
+      {
+        "id": "b11a360e-5379-4e6e-9140-e91affb700c6",
+        "team_id": "LAR",
+        "version": 2
+      },
+      {
+        "id": "1c633542-160a-4c32-aa9f-cb5f9b1077bc",
+        "team_id": "LAR",
+        "version": 2
+      },
+      {
+        "id": "a981f0dc-0d90-4e0d-aefa-4a7dd551999f",
+        "team_id": "MIA",
+        "version": 2
+      },
+      {
+        "id": "cf1a1409-d4d2-43c1-9b37-531f89ca6119",
+        "team_id": "MIA",
+        "version": 2
+      },
+      {
+        "id": "b949a022-4053-407a-8854-41f540c9afa5",
+        "team_id": "MIA",
+        "version": 2
+      },
+      {
+        "id": "6c9ecb7f-1d1c-4e71-b03b-cb729575e86a",
+        "team_id": "MIN",
+        "version": 2
+      },
+      {
+        "id": "501c4161-9d5b-4922-9cfa-6097ecce3112",
+        "team_id": "MIN",
+        "version": 2
+      },
+      {
+        "id": "5a7c8a9e-6f8c-4148-9840-61ae107467bb",
+        "team_id": "MIN",
+        "version": 2
+      },
+      {
+        "id": "8eff3108-706d-4e7f-915d-fe4480a839b8",
+        "team_id": "NE",
+        "version": 2
+      },
+      {
+        "id": "a54dbb9f-1b7c-4e75-b191-ed6f999a8ea5",
+        "team_id": "NE",
+        "version": 2
+      },
+      {
+        "id": "0c93bdd0-402c-43d1-ac3b-9700a8c04ee5",
+        "team_id": "NE",
+        "version": 2
+      },
+      {
+        "id": "f9bfbed0-8297-4caf-bea2-7bbe4408dd31",
+        "team_id": "NO",
+        "version": 2
+      },
+      {
+        "id": "2bf5a2a0-6dfc-4049-afe1-fb4395462dac",
+        "team_id": "NO",
+        "version": 2
+      },
+      {
+        "id": "00ba76e6-abd5-4798-934f-120f532f8cc5",
+        "team_id": "NO",
+        "version": 2
+      },
+      {
+        "id": "4636c585-d6b7-48bc-b46c-fa654c0297ca",
+        "team_id": "NYG",
+        "version": 2
+      },
+      {
+        "id": "36477de4-05b6-436b-b1df-e56314561782",
+        "team_id": "NYG",
+        "version": 2
+      },
+      {
+        "id": "2f0112bc-f51e-4c81-879f-e88a0d469d14",
+        "team_id": "NYG",
+        "version": 2
+      },
+      {
+        "id": "3251b115-6134-477f-b415-731bf1108309",
+        "team_id": "NYJ",
+        "version": 2
+      },
+      {
+        "id": "d5b0f331-893d-47ae-905a-08ca640267a1",
+        "team_id": "NYJ",
+        "version": 2
+      },
+      {
+        "id": "0a250ad2-a9e9-4b49-862f-59d6ab2a1421",
+        "team_id": "NYJ",
+        "version": 2
+      },
+      {
+        "id": "2eeb09e7-3e68-4d64-9a61-536379f478fc",
+        "team_id": "PHI",
+        "version": 2
+      },
+      {
+        "id": "b9b1fff8-9eef-4807-bc3b-af64abdb13b7",
+        "team_id": "PHI",
+        "version": 2
+      },
+      {
+        "id": "b503a868-535a-4c96-b4b5-0e5388512047",
+        "team_id": "PHI",
+        "version": 2
+      },
+      {
+        "id": "ea66f946-4688-484f-bd66-b989e78bec44",
+        "team_id": "PIT",
+        "version": 2
+      },
+      {
+        "id": "19a07017-7d07-4a9c-948b-51b17bad1d3c",
+        "team_id": "PIT",
+        "version": 2
+      },
+      {
+        "id": "06eba63f-89a1-4cad-b830-235dc87cdd18",
+        "team_id": "PIT",
+        "version": 2
+      },
+      {
+        "id": "3fc1ab4a-1a77-4194-9451-c8cd63d1cacb",
+        "team_id": "SF",
+        "version": 2
+      },
+      {
+        "id": "810233e4-92f2-4e2f-b813-cf2e69bf74d9",
+        "team_id": "SF",
+        "version": 2
+      },
+      {
+        "id": "8c21ce2e-d9b6-44de-8ff4-f3f85bd503f5",
+        "team_id": "SF",
+        "version": 2
+      },
+      {
+        "id": "41da5ebf-0476-434a-b819-8a5671834bed",
+        "team_id": "SEA",
+        "version": 2
+      },
+      {
+        "id": "bb850956-bc43-4739-9aff-3bc4645f4740",
+        "team_id": "SEA",
+        "version": 2
+      },
+      {
+        "id": "ecd7c8fe-f346-4f97-9e91-88cf571e2463",
+        "team_id": "SEA",
+        "version": 2
+      },
+      {
+        "id": "592497bc-0a42-4bde-b372-e9e7a1d0b376",
+        "team_id": "TB",
+        "version": 2
+      },
+      {
+        "id": "27cc7bf2-9f78-4e60-befe-b2fdf6b2e6d8",
+        "team_id": "TB",
+        "version": 2
+      },
+      {
+        "id": "f4c94b51-02f6-4b94-b963-b2e5861970c7",
+        "team_id": "TB",
+        "version": 2
+      },
+      {
+        "id": "49cc5a8e-42a2-4968-bfc5-34126ba8af8d",
+        "team_id": "TEN",
+        "version": 2
+      },
+      {
+        "id": "a3874c4e-4fad-457f-9e48-ee876d5bf7bc",
+        "team_id": "TEN",
+        "version": 2
+      },
+      {
+        "id": "2b75af39-ac4c-405b-b2bf-65e787ba3c42",
+        "team_id": "TEN",
+        "version": 2
+      },
+      {
+        "id": "308440d9-24ed-4e56-84ed-85951f33feba",
+        "team_id": "WAS",
+        "version": 2
+      },
+      {
+        "id": "51035aba-836f-4633-ab31-09aa116c6786",
+        "team_id": "WAS",
+        "version": 2
+      },
+      {
+        "id": "c7ab10a3-b9bc-4ef8-9bc6-f9eed4b36100",
+        "team_id": "WAS",
+        "version": 2
+      }
+    ],
+    "jobs": [
+      {
+        "status": "COMPLETED",
+        "n": 18602
+      }
+    ]
+  },
+  "maintenance": {
+    "scope": "Owner-only offline preparation/restore, not one Worker invocation; retention steps individually bounded. All archived tables and FTS rowids compared before deletion.",
+    "restoreVerified": true,
+    "archiveBytes": 19851172,
+    "archiveTwoCopiesBytes": 39702344,
+    "preparation": {
+      "d1Calls": 1495,
+      "statements": 1499,
+      "rowsRead": 5988237,
+      "rowsWritten": 8
+    },
+    "recovery": {
+      "d1Calls": 1007,
+      "statements": 27740,
+      "rowsRead": 2035970,
+      "rowsWritten": 86533
+    },
+    "steps": [
+      {
+        "d1Calls": 3,
+        "statements": 10,
+        "rowsRead": 106,
+        "rowsWritten": 10,
+        "done": false,
+        "retired": 1
+      },
+      {
+        "d1Calls": 3,
+        "statements": 10,
+        "rowsRead": 106,
+        "rowsWritten": 10,
+        "done": false,
+        "retired": 1
+      },
+      {
+        "d1Calls": 3,
+        "statements": 6,
+        "rowsRead": 8,
+        "rowsWritten": 4,
+        "done": true,
+        "retired": 0
+      }
+    ],
+    "gc": {
+      "runId": "f2b06633-b1a9-4824-96d6-75bf1f0b3791",
+      "dryRun": false,
+      "rootReferences": 970,
+      "reachable": 1002,
+      "objects": 6740,
+      "candidateObjects": 5738,
+      "candidateEncodedBytes": 3898113,
+      "deletedObjects": 500,
+      "releasedEncodedBytes": 339983,
+      "queries": 9199,
+      "rowsRead": 29872,
+      "rowsWritten": 1502,
+      "physicalBytesReclaimed": null
+    },
+    "selected": 2,
+    "retired": 2,
+    "onlineCleanupRowsWritten": 1526,
+    "onlineCleanupRowsRead": 30092
+  },
+  "requestCount": 24527,
+  "maximumQueries": 65,
+  "over50": 192,
+  "subsystems": {
+    "registry": {
+      "requests": 5761,
+      "statements": 63362,
+      "rowsRead": 57482,
+      "rowsWritten": 46202,
+      "maxQueries": 13
+    },
+    "fixture-setup": {
+      "requests": 2,
+      "statements": 44,
+      "rowsRead": 56,
+      "rowsWritten": 50,
+      "maxQueries": 22
+    },
+    "inspect": {
+      "requests": 4,
+      "statements": 16,
+      "rowsRead": 56105,
+      "rowsWritten": 0,
+      "maxQueries": 4
+    },
+    "source-poll-and-jobs": {
+      "requests": 18504,
+      "statements": 301920,
+      "rowsRead": 447456,
+      "rowsWritten": 334704,
+      "maxQueries": 31
+    },
+    "editorial-processing": {
+      "requests": 96,
+      "statements": 5862,
+      "rowsRead": 5611,
+      "rowsWritten": 5476,
+      "maxQueries": 65
+    },
+    "corrections": {
+      "requests": 96,
+      "statements": 5382,
+      "rowsRead": 4803,
+      "rowsWritten": 4132,
+      "maxQueries": 62
+    },
+    "odds": {
+      "requests": 16,
+      "statements": 576,
+      "rowsRead": 448,
+      "rowsWritten": 416,
+      "maxQueries": 36
+    },
+    "lab-scores": {
+      "requests": 16,
+      "statements": 304,
+      "rowsRead": 294,
+      "rowsWritten": 112,
+      "maxQueries": 19
+    },
+    "three-and-out": {
+      "requests": 32,
+      "statements": 352,
+      "rowsRead": 288,
+      "rowsWritten": 320,
+      "maxQueries": 11
+    }
+  },
+  "assumptions": {
+    "content": "3 synthetic candidates/team; one correction per created story; content clustering/synthesis real deterministic code",
+    "sources": "all current registry cadence; repeated registry sync every 30 minutes; external fetch stubbed; no real upstream calls",
+    "odds": "all 16 events x2000 markets on actual Monday 15UTC slot; schedule remains Mon/Wed/Sat; real computeTrendingProps, no invented scores; empty historical references are explicitly a coverage gap",
+    "cpu": "unmeasured hosted CPU; wall time only",
+    "retention": "verified encrypted full export and complete restore before owner-only retention and GC; six/eight-day processed candidates exercise the seven-day boundary"
+  }
+}

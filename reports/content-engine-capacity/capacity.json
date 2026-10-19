@@ -1,0 +1,240 @@
+{
+  "status": "FAIL",
+  "baseline": "eb8af327",
+  "measurement": "Actual local workerd HTTP per-job/service pipeline, 24h virtual clock, all current monitoring RSS cadences; no production observations or deployed Free-plan success claim",
+  "before": {
+    "rowsRead": 516382,
+    "rowsWritten": 391362,
+    "requests": 24521,
+    "statements": 377758,
+    "sourceAccountRowsRead": 6534711,
+    "sourceAccountRowsWritten": 392896
+  },
+  "after": {
+    "rowsRead": 478821,
+    "rowsWritten": 343932,
+    "requests": 24521,
+    "statements": 327754,
+    "sourceAccountRowsRead": 570606,
+    "sourceAccountRowsWritten": 343972
+  },
+  "rows": [
+    {
+      "dau": 0,
+      "d1Reads": 570606,
+      "d1Writes": 343972,
+      "workerRequests": 24527,
+      "maximumMeasuredContentQueries": 39,
+      "maximumMeasuredUserQueries": 36,
+      "workerCpuMs": null,
+      "measuredOneDayD1PhysicalBytes": 10309632,
+      "measuredEncodedPayloadBytes": 1584622,
+      "userStorageGrowthBytes": null,
+      "storageScope": "background day measurement only; not a full-product storage forecast at this DAU",
+      "offlineFullBackupTwoCopiesBytes": 22555832,
+      "emergencyRemoteRestoreAdditionalReads": 62833,
+      "emergencyRemoteRestoreAdditionalWrites": 80893,
+      "feasibility": "FAIL",
+      "reasons": [
+        "measured background alone exceeds 100000 writes and 70000 target",
+        "user frequencies are assumptions and omit notification fanout/video/history-heavy research; these add demand",
+        "full global automation HTTP continuation and hosted CPU remain unqualified"
+      ]
+    },
+    {
+      "dau": 25,
+      "d1Reads": 574249,
+      "d1Writes": 345997,
+      "workerRequests": 24972,
+      "maximumMeasuredContentQueries": 39,
+      "maximumMeasuredUserQueries": 36,
+      "workerCpuMs": null,
+      "measuredOneDayD1PhysicalBytes": 10309632,
+      "measuredEncodedPayloadBytes": 1584622,
+      "userStorageGrowthBytes": null,
+      "storageScope": "background day measurement only; not a full-product storage forecast at this DAU",
+      "offlineFullBackupTwoCopiesBytes": 22555832,
+      "emergencyRemoteRestoreAdditionalReads": 62833,
+      "emergencyRemoteRestoreAdditionalWrites": 80893,
+      "feasibility": "FAIL",
+      "reasons": [
+        "measured background alone exceeds 100000 writes and 70000 target",
+        "user frequencies are assumptions and omit notification fanout/video/history-heavy research; these add demand",
+        "full global automation HTTP continuation and hosted CPU remain unqualified"
+      ]
+    },
+    {
+      "dau": 50,
+      "d1Reads": 577891,
+      "d1Writes": 348022,
+      "workerRequests": 25417,
+      "maximumMeasuredContentQueries": 39,
+      "maximumMeasuredUserQueries": 36,
+      "workerCpuMs": null,
+      "measuredOneDayD1PhysicalBytes": 10309632,
+      "measuredEncodedPayloadBytes": 1584622,
+      "userStorageGrowthBytes": null,
+      "storageScope": "background day measurement only; not a full-product storage forecast at this DAU",
+      "offlineFullBackupTwoCopiesBytes": 22555832,
+      "emergencyRemoteRestoreAdditionalReads": 62833,
+      "emergencyRemoteRestoreAdditionalWrites": 80893,
+      "feasibility": "FAIL",
+      "reasons": [
+        "measured background alone exceeds 100000 writes and 70000 target",
+        "user frequencies are assumptions and omit notification fanout/video/history-heavy research; these add demand",
+        "full global automation HTTP continuation and hosted CPU remain unqualified"
+      ]
+    },
+    {
+      "dau": 100,
+      "d1Reads": 585176,
+      "d1Writes": 352072,
+      "workerRequests": 26307,
+      "maximumMeasuredContentQueries": 39,
+      "maximumMeasuredUserQueries": 36,
+      "workerCpuMs": null,
+      "measuredOneDayD1PhysicalBytes": 10309632,
+      "measuredEncodedPayloadBytes": 1584622,
+      "userStorageGrowthBytes": null,
+      "storageScope": "background day measurement only; not a full-product storage forecast at this DAU",
+      "offlineFullBackupTwoCopiesBytes": 22555832,
+      "emergencyRemoteRestoreAdditionalReads": 62833,
+      "emergencyRemoteRestoreAdditionalWrites": 80893,
+      "feasibility": "FAIL",
+      "reasons": [
+        "measured background alone exceeds 100000 writes and 70000 target",
+        "user frequencies are assumptions and omit notification fanout/video/history-heavy research; these add demand",
+        "full global automation HTTP continuation and hosted CPU remain unqualified"
+      ]
+    }
+  ],
+  "userUnitCosts": [
+    {
+      "method": "GET",
+      "path": "/api/auth/me",
+      "perDauPerDayAssumed": 4,
+      "observed": {
+        "rowsRead": 3,
+        "rowsWritten": 0,
+        "statements": 3
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/login",
+      "perDauPerDayAssumed": 2,
+      "observed": {
+        "rowsRead": 19,
+        "rowsWritten": 20,
+        "statements": 22
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/logout",
+      "perDauPerDayAssumed": 2,
+      "observed": {
+        "rowsRead": 4,
+        "rowsWritten": 3,
+        "statements": 4
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/signup",
+      "perDauPerDayAssumed": 0.1,
+      "observed": {
+        "rowsRead": 18,
+        "rowsWritten": 34,
+        "statements": 27
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/user/home",
+      "perDauPerDayAssumed": 4,
+      "observed": {
+        "rowsRead": 10,
+        "rowsWritten": 0,
+        "statements": 6
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/user/saved-content",
+      "perDauPerDayAssumed": 2,
+      "observed": {
+        "rowsRead": 5,
+        "rowsWritten": 0,
+        "statements": 4
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/user/saved-content",
+      "perDauPerDayAssumed": 1,
+      "observed": {
+        "rowsRead": 6,
+        "rowsWritten": 5,
+        "statements": 6
+      }
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/user/preferences",
+      "perDauPerDayAssumed": 0.2,
+      "observed": {
+        "rowsRead": 7,
+        "rowsWritten": 3,
+        "statements": 7
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/saves/create",
+      "perDauPerDayAssumed": 0.5,
+      "observed": {
+        "rowsRead": 33,
+        "rowsWritten": 28,
+        "statements": 36
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/api/user/content-state",
+      "perDauPerDayAssumed": 2,
+      "observed": {
+        "rowsRead": 6,
+        "rowsWritten": 6,
+        "statements": 6
+      }
+    }
+  ],
+  "sourcePollLedger": {
+    "polls": 18504,
+    "businessMutationsPerUnchangedPoll": 4,
+    "fenceMutationsPerUnchangedPoll": 8,
+    "indexedExtraRowsPerUnchangedPollReconciled": 6,
+    "accountedRowsPerUnchangedPoll": 18,
+    "steadyPollRowsWritten": 333072,
+    "newCandidates": 96,
+    "newCandidateAndJobRowsWritten": 1632,
+    "total": 334704,
+    "scope": "Reconciles complete day metadata using current SQL/index/fence layout; not physical disk I/O or a hosted billing certificate"
+  },
+  "limits": {
+    "accountReads": 5000000,
+    "accountWrites": 100000,
+    "writeTarget": 70000,
+    "workerQueryLimit": 50,
+    "workerQueryTarget": 30
+  },
+  "unqualified": [
+    "mature history and seasonal/upstream bursts",
+    "notifications suppressed by observer mode; user activity is an explicit measured-unit model, not 50 users replayed through the full ingestion day",
+    "separate video-provider registry and full historical-reference datasets",
+    "all-source global API orchestration is not one of these bounded fixture requests",
+    "future remote owner-maintenance wiring and production CPU",
+    "multi-year database/backup retention capacity"
+  ]
+}

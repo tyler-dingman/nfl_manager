@@ -12,6 +12,7 @@ export async function harness(
   maxMigration = 999,
   workerScript?: string,
   buckets = true,
+  compatibilityFlags: string[] = [],
 ) {
   const directory = await mkdtemp(join(tmpdir(), 'dd-editorial-synthetic-'));
   const options = {
@@ -21,7 +22,8 @@ export async function harness(
       workerScript ??
       'export default {fetch(){return new Response("No content API",{status:404})}}',
     bindings: { CONTENT_ENV: 'local', LOCAL_INGEST_TOKEN: 'synthetic-loopback-token-only' },
-    compatibilityDate: '2026-01-01',
+    compatibilityDate: compatibilityFlags.length ? '2026-10-18' : '2026-01-01',
+    compatibilityFlags,
     r2Buckets: buckets ? ['EDITORIAL_ARCHIVE', 'EDITORIAL_BACKUP'] : [],
     d1Databases: { EDITORIAL_DB: 'editorial-synthetic-only' },
     resourcePersistencePath: persistent ? directory : undefined,
@@ -29,7 +31,11 @@ export async function harness(
     outboundService: () => new Response('External network disabled', { status: 403 }),
   };
   let mf = new Miniflare(convertV4MiniflareOptions(options));
-  const binding = await mf.getD1Database('EDITORIAL_DB');
+  const binding = await mf.getD1Database('EDITORIAL_DB').catch(async (error) => {
+    await mf.dispose();
+    await rm(directory, { recursive: true, force: true });
+    throw error;
+  });
   const db = new EditorialDatabase(binding as unknown as D1Database);
   const repo = new EditorialRepository(db, compact),
     jobs = new EditorialJobs(db, compact);

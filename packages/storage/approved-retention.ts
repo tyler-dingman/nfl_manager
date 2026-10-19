@@ -46,24 +46,46 @@ export async function frozenTables(db: SqlDatabase): Promise<FrozenTable[]> {
   const tables: FrozenTable[] = [];
   for (const t of names.results) {
     const rows: any[] = [];
-    for (let offset = 0; ; offset += 100) {
+    const info = await db.prepare(`PRAGMA table_info(${q(t.name)})`).all<any>();
+    if (!info.success || info.results.some((c) => c.name === '_dd_scan_cursor'))
+      throw Error('Snapshot cursor schema conflict');
+    const without = /\bWITHOUT\s+ROWID\b/i.test(t.sql),
+      keys = without
+        ? info.results
+            .filter((c) => c.pk)
+            .sort((a, b) => a.pk - b.pk)
+            .map((c) => c.name)
+        : [];
+    if (without && !keys.length) throw Error('Snapshot primary key required');
+    let cursor: unknown[] | undefined;
+    for (;;) {
+      const order = without ? keys.map(q).join(',') : 'rowid';
+      const predicate = cursor
+        ? without
+          ? `WHERE (${order})>(${keys.map(() => '?').join(',')})`
+          : 'WHERE rowid>?'
+        : '';
+      const selection = without
+        ? '*'
+        : `CAST(rowid AS TEXT) AS _dd_scan_cursor,${/\bfts5\b/i.test(t.sql) ? 'rowid,' : ''}*`;
       const r = await db
-        .prepare(
-          `SELECT ${/\bfts5\b/i.test(t.sql) ? 'rowid,' : ''}* FROM ${q(t.name)} LIMIT 100 OFFSET ?`,
-        )
-        .bind(offset)
+        .prepare(`SELECT ${selection} FROM ${q(t.name)} ${predicate} ORDER BY ${order} LIMIT 100`)
+        .bind(...(cursor ?? []))
         .all();
       if (!r.success) throw Error('Snapshot read failed');
-      rows.push(
-        ...r.results.map((row) =>
+      const last = r.results.at(-1) as any;
+      if (last) cursor = without ? keys.map((k) => last[k]) : [last._dd_scan_cursor];
+      for (const row of r.results) {
+        delete (row as any)._dd_scan_cursor;
+        rows.push(
           Object.fromEntries(
             Object.entries(row).map(([key, value]) => [
               key,
               value instanceof ArrayBuffer ? Array.from(new Uint8Array(value)) : value,
             ]),
           ),
-        ),
-      );
+        );
+      }
       if (r.results.length < 100) break;
     }
     tables.push({ ...t, rows });

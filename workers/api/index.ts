@@ -8,17 +8,18 @@ import { StorageCapacityError } from '../../packages/storage/d1-objects';
 import { applicationObjects } from '../../packages/storage/d1-objects';
 import {
   instrumentDatabase,
+  QueryBudgetError,
   requestMetrics,
   routeFamily,
 } from '../../packages/storage/instrumentation';
 export default {
   async fetch(request: Request, env: any, ctx?: { waitUntil(p: Promise<unknown>): void }) {
     const metrics = requestMetrics(),
-      objects = applicationObjects({ ...env, APP_DB: instrumentDatabase(env.APP_DB, metrics) }),
+      objects = applicationObjects({ ...env, APP_DB: instrumentDatabase(env.APP_DB, metrics, 50) }),
       start = performance.now();
     return withApplicationBindings(
       {
-        db: instrumentDatabase(env.APP_DB, metrics),
+        db: instrumentDatabase(env.APP_DB, metrics, 50),
         objects,
         ai: env.AI,
         password: env.PASSWORD_SERVICE,
@@ -96,7 +97,9 @@ export default {
               }),
             );
             response =
-              error instanceof StorageMaintenanceError || error instanceof StorageCapacityError
+              error instanceof StorageMaintenanceError ||
+              error instanceof StorageCapacityError ||
+              error instanceof QueryBudgetError
                 ? Response.json(
                     { error: 'Storage temporarily unavailable. Retry later.' },
                     { status: 503, headers: { 'Retry-After': '60' } },

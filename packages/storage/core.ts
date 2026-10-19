@@ -24,6 +24,7 @@ export interface SqlDatabase {
 }
 export interface Objects {
   readonly compactTrees?: boolean;
+  putManyImmutable?(entries: { key: string; bytes: Uint8Array }[]): Promise<void>;
   prefetch?(keys: string[]): Promise<void>;
   transactionDatabase?(db: SqlDatabase): SqlDatabase;
   get(key: string): Promise<Uint8Array | null>;

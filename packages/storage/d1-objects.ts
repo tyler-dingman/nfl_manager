@@ -157,6 +157,61 @@ export class D1Objects implements Objects {
     this.remember(key, decoded);
     return decoded.slice();
   }
+  /** Bounded inline preparation shares one reservation transaction and batched
+   * verification. Legacy/incomplete/chunked objects retain the repair path. */
+  async putManyImmutable(entries: { key: string; bytes: Uint8Array }[]) {
+    const unique = [...new Map(entries.map((e) => [e.key, e])).values()];
+    if (unique.length > 12) throw Error('Editorial preparation exceeds object budget');
+    for (const e of unique)
+      if (e.key !== objectKey(await digest(e.bytes)) || e.bytes.length > 4_000_000)
+        throw Error('Invalid immutable payload');
+    await this.prefetch(unique.map((e) => e.key));
+    const missing = [];
+    for (const e of unique) {
+      if (this.verified.has(e.key) || this.encoded.has(e.key)) {
+        await this.get(e.key);
+        continue;
+      }
+      const encoded = await encodeObject(e.bytes);
+      if (encoded.length > CHUNK || this.incomplete.has(e.key)) {
+        await this.putImmutable(e.key, e.bytes);
+      } else missing.push({ ...e, encoded, hash: e.key.split('/').at(-1)! });
+    }
+    if (missing.length) {
+      const values: unknown[] = [];
+      for (const e of missing) values.push(e.hash, e.encoded.length, e.encoded.slice().buffer);
+      const additions = JSON.stringify(
+        missing.map((e) => ({ hash: e.hash, bytes: e.encoded.length })),
+      );
+      const newBytes =
+        "(SELECT coalesce(sum(json_extract(j.value,'$.bytes')),0) FROM json_each(?) j WHERE NOT EXISTS(SELECT 1 FROM app_payload_objects o WHERE o.hash=json_extract(j.value,'$.hash')))";
+      await this.db.batch([
+        this.db.prepare('INSERT OR IGNORE INTO app_payload_capacity(id,used_bytes) VALUES(1,0)'),
+        this.db
+          .prepare(
+            'UPDATE app_payload_capacity SET used_bytes=used_bytes+' +
+              newBytes +
+              ' WHERE id=1 AND used_bytes+' +
+              newBytes +
+              '<=?',
+          )
+          .bind(additions, additions, CAPACITY),
+        this.db
+          .prepare(
+            'WITH incoming(hash,bytes,data) AS (VALUES ' +
+              missing.map(() => '(?,?,?)').join(',') +
+              ') INSERT OR IGNORE INTO app_payload_objects(hash,bytes,inline_data,chunks,complete) SELECT hash,bytes,data,0,1 FROM incoming WHERE changes()=1',
+          )
+          .bind(...values),
+      ]);
+      await this.prefetch(missing.map((e) => e.key));
+      for (const e of missing) {
+        const value = await this.get(e.key);
+        if (!value) throw new StorageCapacityError();
+        if ((await digest(value)) !== e.hash) throw Error('Editorial object verification failed');
+      }
+    }
+  }
   async putImmutable(key: string, bytes: Uint8Array) {
     const hash = await digest(bytes);
     if (key !== objectKey(hash) || bytes.length > 4_000_000)

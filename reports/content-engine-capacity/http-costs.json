@@ -1,0 +1,7 @@
+{
+  "scope": "Final browser and authentication local HTTP measurements; not production worst-case or hosted CPU",
+  "samples": 1075,
+  "maximumQueries": 38,
+  "atLeast50": 0,
+  "cpuMs": null
+}

@@ -1,0 +1,50 @@
+TAP version 13
+# Subtest: approved policy boundaries, saved/cross references, published corrections, archive gate and bounded private workerd steps
+ok 1 - approved policy boundaries, saved/cross references, published corrections, archive gate and bounded private workerd steps
+  ---
+  duration_ms: 15951.566667
+  ...
+# Subtest: prefix planning preserves references from omitted clusters and formerly published drafts do not get seven-day expiry
+ok 2 - prefix planning preserves references from omitted clusters and formerly published drafts do not get seven-day expiry
+  ---
+  duration_ms: 8298.931291
+  ...
+# Subtest: prepared inbox and outbox share one immutable payload under concurrent delivery and preserve owner isolation
+ok 3 - prepared inbox and outbox share one immutable payload under concurrent delivery and preserve owner isolation
+  ---
+  duration_ms: 2940.81275
+  ...
+# Subtest: bulk preparation concurrent dedup reserves exact bytes, rejects capacity and detects corrupted objects
+ok 4 - bulk preparation concurrent dedup reserves exact bytes, rejects capacity and detects corrupted objects
+  ---
+  duration_ms: 3722.436416
+  ...
+# Subtest: canonical bodies share across corrections; all original revisions and attribution restore without R2
+ok 5 - canonical bodies share across corrections; all original revisions and attribution restore without R2
+  ---
+  duration_ms: 9545.811375
+  ...
+# Subtest: registry clock revisits do not rewrite definitions or reset polling validators
+ok 6 - registry clock revisits do not rewrite definitions or reset polling validators
+  ---
+  duration_ms: 3050.497542
+  ...
+# Subtest: combined publication guard rejects a raced public version and preserves FTS atomically
+ok 7 - combined publication guard rejects a raced public version and preserves FTS atomically
+  ---
+  duration_ms: 3118.462166
+  ...
+# Subtest: shared invocation budget rejects oversized batches before any mutation and concurrent reads cannot exceed the limit
+ok 8 - shared invocation budget rejects oversized batches before any mutation and concurrent reads cannot exceed the limit
+  ---
+  duration_ms: 2838.255791
+  ...
+1..8
+# tests 8
+# suites 0
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 28497.047792

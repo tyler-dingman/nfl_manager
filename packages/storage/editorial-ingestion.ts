@@ -1,3 +1,6 @@
+import { packCanonical, expandCanonical } from './canonical-editorial';
+import { digest, utf8 } from './core';
+import { stageObjects } from './staged-objects';
 import { applicationEnvironment } from '../../src/server/persistence/bindings';
 import { socialNotificationBatch } from './social-outbox';
 import { Storage, type Statement } from './core';
@@ -24,7 +27,45 @@ const publisher = (s: RegisteredSource) =>
 export class D1EditorialIngestion {
   constructor(readonly s: Storage) {}
   async syncSource(source: RegisteredSource, force = false) {
-    const hash = await this.s.put({ schema: 1, kind: 'SOURCE', source });
+    // Runtime polling state lives in SQL. Definition hashes must not change
+    // just because registry synchronization runs at a different clock time.
+    const definition = {
+      ...source,
+      nextCheckAt: new Date(0),
+      etag: null,
+      lastModified: null,
+      lastCheckedAt: null,
+      lastSuccessfulAt: null,
+      failureCount: 0,
+      lastError: null,
+    };
+    const value = { schema: 1, kind: 'SOURCE', source: definition };
+    const expected = await digest(utf8.encode(JSON.stringify(value)));
+    const prior = await this.s
+      .statement(
+        'SELECT object_hash,next_check_at,name,team_id,league_wide,source_type,polling_tier,priority,enabled,platform FROM app_editorial_sources WHERE id=?',
+        [source.id],
+      )
+      .first<any>();
+    const projection = {
+      name: source.name,
+      team_id: source.teamId,
+      league_wide: source.leagueWide ? 1 : 0,
+      source_type: source.sourceType,
+      polling_tier: source.pollingTier,
+      priority: source.priority,
+      enabled: source.enabled ? 1 : 0,
+      platform: String(source.metadata.platform ?? ''),
+    };
+    if (
+      !force &&
+      prior?.object_hash === expected &&
+      Object.entries(projection).every(([key, value]) => prior[key] === value)
+    ) {
+      await this.s.get(expected);
+      return;
+    }
+    const hash = await this.s.put(value);
     await this.s
       .statement(
         'INSERT INTO app_editorial_sources(id,name,team_id,league_wide,source_type,polling_tier,priority,enabled,platform,object_hash,next_check_at,updated_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?) ON CONFLICT(id) DO UPDATE SET name=excluded.name,team_id=excluded.team_id,league_wide=excluded.league_wide,source_type=excluded.source_type,polling_tier=excluded.polling_tier,priority=excluded.priority,enabled=excluded.enabled,platform=excluded.platform,object_hash=excluded.object_hash,next_check_at=CASE WHEN ? THEN excluded.next_check_at ELSE app_editorial_sources.next_check_at END,updated_at=excluded.updated_at',
@@ -235,9 +276,34 @@ export class D1EditorialIngestion {
     const [r] = await this.s.rows<any>('SELECT * FROM app_editorial_stories WHERE id=?', [id]);
     if (!r) return null;
     const p = await this.s.get<any>(r.object_hash);
-    if (p.schema !== 1 || p.story.id !== id || p.story.version !== r.version)
+    const story = await expandCanonical(this.s, p, 'story');
+    if (story.id !== id || story.version !== r.version)
       throw Error('Story identity/version mismatch');
-    return p.story;
+    return story;
+  }
+  async revisionByVersion(id: string, version: number) {
+    const [row] = await this.s.rows<any>(
+      'SELECT object_hash FROM app_editorial_versions WHERE story_id=? AND version=?',
+      [id, version],
+    );
+    if (!row) return null;
+    const value = await this.s.get<any>(row.object_hash);
+    if (value.schema === 1) {
+      if (value.story?.id !== id || value.story?.version !== version)
+        throw Error('Revision identity mismatch');
+      return value;
+    }
+    if (value.schema !== 2 || value.kind !== 'CANONICAL_REVISION')
+      throw Error('Invalid canonical revision');
+    const story = await expandCanonical(this.s, await this.s.get(value.bodyHash), 'story');
+    if (story.id !== id || story.version !== version) throw Error('Revision identity mismatch');
+    return {
+      schema: 1,
+      story,
+      synth: await expandCanonical(this.s, value.synthEnvelope, 'synth'),
+      change: value.change,
+      evidenceIds: value.evidenceIds,
+    };
   }
   async recentStories(teams: string[], since: Date) {
     const rows = await this.s.rows<any>(
@@ -261,17 +327,58 @@ export class D1EditorialIngestion {
       )
     ).map((r) => String(r.id));
   }
-  async evidenceForStory(id: string) {
+  private async resolvedEvidence(id: string) {
     const rows = await this.s.rows<any>(
-      'SELECT * FROM app_editorial_evidence WHERE story_id=? ORDER BY first_seen_at,id',
+      `SELECT e.id,e.candidate_id,e.source_id,c.object_hash candidate_hash,c.source_id candidate_source_id,c.status candidate_status,s.object_hash source_hash,s.next_check_at,s.last_checked_at,s.last_successful_at,s.etag,s.last_modified,s.failure_count,s.last_error FROM app_editorial_evidence e LEFT JOIN app_editorial_candidates c ON c.id=e.candidate_id LEFT JOIN app_editorial_sources s ON s.id=e.source_id WHERE e.story_id=? ORDER BY e.first_seen_at,e.id`,
       [id],
     );
-    return Promise.all(
-      rows.map(async (r) => ({
-        candidate: (await this.candidateById(r.candidate_id))!,
-        source: (await this.sourceById(r.source_id))!,
-      })),
+    if (rows.some((row) => !row.candidate_hash || !row.source_hash))
+      throw Error('Missing editorial evidence dependency');
+    await this.s.objects.prefetch?.(
+      [...new Set(rows.flatMap((r) => [r.candidate_hash, r.source_hash]))].map(
+        (hash) => `application/v1/${hash}`,
+      ),
     );
+    return Promise.all(
+      rows.map(async (row) => {
+        const [candidate, source] = await Promise.all([
+          this.s.get<any>(row.candidate_hash),
+          this.s.get<any>(row.source_hash),
+        ]);
+        if (
+          candidate.schema !== 1 ||
+          candidate.kind !== 'CANDIDATE' ||
+          candidate.candidate.id !== row.candidate_id ||
+          candidate.candidate.sourceId !== row.source_id ||
+          candidate.candidate.sourceId !== row.candidate_source_id ||
+          source.schema !== 1 ||
+          source.kind !== 'SOURCE' ||
+          source.source.id !== row.source_id
+        )
+          throw Error('Editorial evidence identity mismatch');
+        return {
+          id: row.id,
+          candidate: { ...candidate.candidate, status: row.candidate_status } as ContentCandidate,
+          source: {
+            ...source.source,
+            nextCheckAt: new Date(row.next_check_at),
+            lastCheckedAt: row.last_checked_at == null ? null : new Date(row.last_checked_at),
+            lastSuccessfulAt:
+              row.last_successful_at == null ? null : new Date(row.last_successful_at),
+            etag: row.etag,
+            lastModified: row.last_modified,
+            failureCount: row.failure_count,
+            lastError: row.last_error,
+          } as RegisteredSource,
+        };
+      }),
+    );
+  }
+  async evidenceForStory(id: string) {
+    return (await this.resolvedEvidence(id)).map(({ candidate, source }) => ({
+      candidate,
+      source,
+    }));
   }
   async activePublishingOverride(id: string): Promise<PublishingOverride> {
     const [r] = await this.s.rows<any>(
@@ -289,8 +396,9 @@ export class D1EditorialIngestion {
     evidence: { id: string; candidate: ContentCandidate; source: RegisteredSource }[],
     newEvidence?: { id: string; candidate: ContentCandidate; source: RegisteredSource },
   ) {
+    const prepared = stageObjects(this.s);
     const now = Date.now(),
-      hash = await this.s.put({ schema: 1, story }),
+      hash = await prepared.storage.put(await packCanonical(prepared.storage, story, 'story')),
       writes: Statement[] = [],
       guards: { sql: string; values: unknown[] }[] = [];
     if (expected)
@@ -300,9 +408,10 @@ export class D1EditorialIngestion {
           story.id,
           expected,
           (
-            await this.s.rows<any>('SELECT object_hash FROM app_editorial_stories WHERE id=?', [
-              story.id,
-            ])
+            await prepared.storage.rows<any>(
+              'SELECT object_hash FROM app_editorial_stories WHERE id=?',
+              [story.id],
+            )
           )[0]?.object_hash,
         ],
       });
@@ -312,7 +421,7 @@ export class D1EditorialIngestion {
         values: [story.id],
       });
     writes.push(
-      this.s.statement(
+      prepared.storage.statement(
         'INSERT INTO app_editorial_stories(id,team_id,story_type,publication_state,status,version,object_hash,first_reported_at,last_meaningful_update_at,created_at,updated_at) VALUES(?,?,?,?,?,?,?,?,?,?,?) ON CONFLICT(id) DO UPDATE SET publication_state=excluded.publication_state,status=excluded.status,version=excluded.version,object_hash=excluded.object_hash,last_meaningful_update_at=excluded.last_meaningful_update_at,updated_at=excluded.updated_at',
         [
           story.id,
@@ -332,32 +441,34 @@ export class D1EditorialIngestion {
     if (newEvidence) {
       const e = newEvidence;
       writes.push(
-        this.s.statement(
+        prepared.storage.statement(
           'INSERT INTO app_editorial_evidence(id,story_id,candidate_id,source_id,first_seen_at) VALUES(?,?,?,?,?) ON CONFLICT(story_id,candidate_id) DO NOTHING',
           [e.id, story.id, e.candidate.id, e.source.id, now],
         ),
-        this.s.statement("UPDATE app_editorial_candidates SET status='CLUSTERED' WHERE id=?", [
-          e.candidate.id,
-        ]),
+        prepared.storage.statement(
+          "UPDATE app_editorial_candidates SET status='CLUSTERED' WHERE id=?",
+          [e.candidate.id],
+        ),
       );
     }
     if (synth) {
-      const versionHash = await this.s.put({
-        schema: 1,
-        story,
-        synth,
+      const versionHash = await prepared.storage.put({
+        schema: 2,
+        kind: 'CANONICAL_REVISION',
+        bodyHash: hash,
+        synthEnvelope: await packCanonical(prepared.storage, synth, 'synth'),
         change,
         evidenceIds: evidence.map((e) => e.id),
       });
       writes.push(
-        this.s.statement(
+        prepared.storage.statement(
           'INSERT INTO app_editorial_versions(id,story_id,version,object_hash,created_at) VALUES(?,?,?,?,?)',
           [crypto.randomUUID(), story.id, story.version, versionHash, now],
         ),
       );
       if (decision)
         writes.push(
-          this.s.statement(
+          prepared.storage.statement(
             'INSERT INTO app_editorial_decisions(id,story_id,story_version,action,reason,confidence,created_at) VALUES(?,?,?,?,?,?,?)',
             [
               crypto.randomUUID(),
@@ -374,7 +485,7 @@ export class D1EditorialIngestion {
         eventId = crypto.randomUUID(),
         payload = { change };
       writes.push(
-        this.s.statement(
+        prepared.storage.statement(
           'INSERT INTO app_editorial_events(id,event_type,story_id,team_id,story_version,idempotency_key,object_hash,occurred_at) VALUES(?,?,?,?,?,?,?,?)',
           [
             eventId,
@@ -383,13 +494,13 @@ export class D1EditorialIngestion {
             story.teamId,
             story.version,
             `${eventType}:${story.id}:${story.version}`,
-            await this.s.put({ schema: 1, payload }),
+            await prepared.storage.put({ schema: 1, payload }),
             now,
           ],
         ),
         ...(story.teamId
           ? [
-              this.s.statement(
+              prepared.storage.statement(
                 'INSERT INTO app_public_wire(id,event_type,story_id,team_id,story_version,object_hash,occurred_at) VALUES(?,?,?,?,?,?,?)',
                 [
                   eventId,
@@ -397,7 +508,7 @@ export class D1EditorialIngestion {
                   story.id,
                   story.teamId,
                   story.version,
-                  await this.s.put({
+                  await prepared.storage.put({
                     id: eventId,
                     eventType,
                     storyId: story.id,
@@ -434,9 +545,9 @@ export class D1EditorialIngestion {
           occurredAt: new Date(now).toISOString(),
           payload,
         };
-        const object = await this.s.put(event);
+        const object = await prepared.storage.put(event);
         writes.push(
-          this.s.statement(
+          prepared.storage.statement(
             'INSERT INTO app_editorial_events(id,event_type,story_id,team_id,story_version,idempotency_key,object_hash,occurred_at) VALUES(?,?,?,?,?,?,?,?)',
             [
               id,
@@ -452,7 +563,7 @@ export class D1EditorialIngestion {
         );
         if (story.teamId)
           writes.push(
-            this.s.statement(
+            prepared.storage.statement(
               'INSERT INTO app_public_wire(id,event_type,story_id,team_id,story_version,object_hash,occurred_at) VALUES(?,?,?,?,?,?,?)',
               [id, eventType, story.id, story.teamId, story.version, object, now],
             ),
@@ -464,7 +575,7 @@ export class D1EditorialIngestion {
         change !== 'TRIVIAL' &&
         applicationEnvironment().OBSERVER_MODE !== 'true'
       ) {
-        const followers = await this.s.rows<any>(
+        const followers = await prepared.storage.rows<any>(
           "SELECT u.id FROM app_users u JOIN app_settings p ON p.user_id=u.id WHERE u.status='ACTIVE' AND json_extract(p.preferences_json,'$.preferredTeamId')=? AND NOT EXISTS(SELECT 1 FROM app_notification_preferences np WHERE np.user_id=u.id AND np.category IN('BREAKING_NEWS','BREAKING','HOT_READ') AND np.channel='IN_APP' AND np.enabled=0)",
           [story.teamId],
         );
@@ -472,7 +583,7 @@ export class D1EditorialIngestion {
           const recipients = followers.slice(offset, offset + 250);
           writes.push(
             await socialNotificationBatch(
-              this.s,
+              prepared.storage,
               recipients[0].id,
               `canonical:${story.id}:${story.version}:${offset}`,
               recipients.map((u) => ({
@@ -538,8 +649,16 @@ export class D1EditorialIngestion {
         (e) => e.source.sourceType !== 'YOUTUBE' && e.source.metadata.platform !== 'YOUTUBE',
       )
     )
-      writes.push(...(await new PublicEditorial(this.s).prepare(view, story.publicationState)));
-    await guardedBatch(this.s, guards, writes, 'Editorial version conflict');
+      writes.push(
+        ...(await new PublicEditorial(prepared.storage).prepare(
+          view,
+          story.publicationState,
+          undefined,
+          guards,
+        )),
+      );
+    await prepared.flush();
+    await guardedBatch(prepared.storage, guards, writes, 'Editorial version conflict');
     return story.version;
   }
   async createStory(
@@ -584,14 +703,10 @@ export class D1EditorialIngestion {
     decision?: PublishingDecision,
     reason?: string,
   ) {
-    const old = await this.s.rows<any>(
-        'SELECT * FROM app_editorial_evidence WHERE story_id=? ORDER BY first_seen_at,id',
-        [story.id],
-      ),
-      prior = await this.evidenceForStory(story.id),
-      existing = old.find((e) => e.candidate_id === candidate.id),
+    const prior = await this.resolvedEvidence(story.id),
+      existing = prior.find((e) => e.candidate.id === candidate.id),
       e = { id: existing?.id ?? crypto.randomUUID(), candidate, source },
-      evidence = prior.map((p, i) => ({ id: old[i].id, ...p }));
+      evidence = [...prior];
     if (!existing) evidence.push(e);
     const hot = publication === 'AUTO_PUBLISHED' && !story.hotReadQualifiedAt,
       next: StoryRecord = {
@@ -636,11 +751,7 @@ export class D1EditorialIngestion {
     synth: SynthesizedStory,
     decision: PublishingDecision,
   ) {
-    const rows = await this.s.rows<any>(
-        'SELECT id FROM app_editorial_evidence WHERE story_id=? ORDER BY first_seen_at,id',
-        [story.id],
-      ),
-      evidence = (await this.evidenceForStory(story.id)).map((e, i) => ({ id: rows[i].id, ...e })),
+    const evidence = await this.resolvedEvidence(story.id),
       next = {
         ...story,
         ...synth,

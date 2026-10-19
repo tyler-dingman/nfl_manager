@@ -1,0 +1,108 @@
+{
+  "before": {
+    "rowsRead": 516382,
+    "rowsWritten": 391362,
+    "requests": 24521,
+    "statements": 377758,
+    "sourceAccountRowsRead": 6534711,
+    "sourceAccountRowsWritten": 392896
+  },
+  "after": {
+    "rowsRead": 478821,
+    "rowsWritten": 343932,
+    "requests": 24521,
+    "statements": 327754,
+    "sourceAccountRowsRead": 570606,
+    "sourceAccountRowsWritten": 343972
+  },
+  "rows": [
+    {
+      "dau": 0,
+      "d1Reads": 570606,
+      "d1Writes": 343972,
+      "workerRequests": 24527,
+      "maximumMeasuredContentQueries": 39,
+      "maximumMeasuredUserQueries": 36,
+      "workerCpuMs": null,
+      "measuredOneDayD1PhysicalBytes": 10309632,
+      "measuredEncodedPayloadBytes": 1584622,
+      "userStorageGrowthBytes": null,
+      "storageScope": "background day measurement only; not a full-product storage forecast at this DAU",
+      "offlineFullBackupTwoCopiesBytes": 22555832,
+      "emergencyRemoteRestoreAdditionalReads": 62833,
+      "emergencyRemoteRestoreAdditionalWrites": 80893,
+      "feasibility": "FAIL",
+      "reasons": [
+        "measured background alone exceeds 100000 writes and 70000 target",
+        "user frequencies are assumptions and omit notification fanout/video/history-heavy research; these add demand",
+        "full global automation HTTP continuation and hosted CPU remain unqualified"
+      ]
+    },
+    {
+      "dau": 25,
+      "d1Reads": 574249,
+      "d1Writes": 345997,
+      "workerRequests": 24972,
+      "maximumMeasuredContentQueries": 39,
+      "maximumMeasuredUserQueries": 36,
+      "workerCpuMs": null,
+      "measuredOneDayD1PhysicalBytes": 10309632,
+      "measuredEncodedPayloadBytes": 1584622,
+      "userStorageGrowthBytes": null,
+      "storageScope": "background day measurement only; not a full-product storage forecast at this DAU",
+      "offlineFullBackupTwoCopiesBytes": 22555832,
+      "emergencyRemoteRestoreAdditionalReads": 62833,
+      "emergencyRemoteRestoreAdditionalWrites": 80893,
+      "feasibility": "FAIL",
+      "reasons": [
+        "measured background alone exceeds 100000 writes and 70000 target",
+        "user frequencies are assumptions and omit notification fanout/video/history-heavy research; these add demand",
+        "full global automation HTTP continuation and hosted CPU remain unqualified"
+      ]
+    },
+    {
+      "dau": 50,
+      "d1Reads": 577891,
+      "d1Writes": 348022,
+      "workerRequests": 25417,
+      "maximumMeasuredContentQueries": 39,
+      "maximumMeasuredUserQueries": 36,
+      "workerCpuMs": null,
+      "measuredOneDayD1PhysicalBytes": 10309632,
+      "measuredEncodedPayloadBytes": 1584622,
+      "userStorageGrowthBytes": null,
+      "storageScope": "background day measurement only; not a full-product storage forecast at this DAU",
+      "offlineFullBackupTwoCopiesBytes": 22555832,
+      "emergencyRemoteRestoreAdditionalReads": 62833,
+      "emergencyRemoteRestoreAdditionalWrites": 80893,
+      "feasibility": "FAIL",
+      "reasons": [
+        "measured background alone exceeds 100000 writes and 70000 target",
+        "user frequencies are assumptions and omit notification fanout/video/history-heavy research; these add demand",
+        "full global automation HTTP continuation and hosted CPU remain unqualified"
+      ]
+    },
+    {
+      "dau": 100,
+      "d1Reads": 585176,
+      "d1Writes": 352072,
+      "workerRequests": 26307,
+      "maximumMeasuredContentQueries": 39,
+      "maximumMeasuredUserQueries": 36,
+      "workerCpuMs": null,
+      "measuredOneDayD1PhysicalBytes": 10309632,
+      "measuredEncodedPayloadBytes": 1584622,
+      "userStorageGrowthBytes": null,
+      "storageScope": "background day measurement only; not a full-product storage forecast at this DAU",
+      "offlineFullBackupTwoCopiesBytes": 22555832,
+      "emergencyRemoteRestoreAdditionalReads": 62833,
+      "emergencyRemoteRestoreAdditionalWrites": 80893,
+      "feasibility": "FAIL",
+      "reasons": [
+        "measured background alone exceeds 100000 writes and 70000 target",
+        "user frequencies are assumptions and omit notification fanout/video/history-heavy research; these add demand",
+        "full global automation HTTP continuation and hosted CPU remain unqualified"
+      ]
+    }
+  ]
+}

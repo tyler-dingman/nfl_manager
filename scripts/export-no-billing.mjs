@@ -25,20 +25,42 @@ export async function logicalExport(query) {
   const sql = ['PRAGMA defer_foreign_keys=ON;'];
   for (const table of tables) {
     sql.push(table.sql + ';');
-    const blobColumns = (await query(`PRAGMA table_info(${quote(table.name)})`))
-      .filter((c) => /BLOB/i.test(c.type))
-      .map((c) => c.name);
+    const columns = await query(`PRAGMA table_info(${quote(table.name)})`);
+    if (columns.some((c) => c.name === '_dd_scan_cursor'))
+      throw Error('Export cursor schema conflict');
+    const blobColumns = columns.filter((c) => /BLOB/i.test(c.type)).map((c) => c.name);
     const extra = blobColumns
       .map(
         (c, i) =>
           `,hex(${quote(c)}) AS ${quote('_dd_blob_' + i)},typeof(${quote(c)}) AS ${quote('_dd_type_' + i)}`,
       )
       .join('');
-    for (let offset = 0; ; offset += 100) {
+    const without = /\bWITHOUT\s+ROWID\b/i.test(table.sql),
+      keys = without
+        ? columns
+            .filter((c) => c.pk)
+            .sort((a, b) => a.pk - b.pk)
+            .map((c) => c.name)
+        : [];
+    if (without && !keys.length) throw Error('Export primary key required');
+    let cursor;
+    for (;;) {
+      const order = without ? keys.map(quote).join(',') : 'rowid';
+      const predicate = cursor
+        ? without
+          ? `WHERE (${order})>(${cursor.map(literal).join(',')})`
+          : `WHERE rowid>${literal(cursor[0])}`
+        : '';
+      const selection = without
+        ? '*'
+        : `CAST(rowid AS TEXT) AS _dd_scan_cursor,${/\bfts5\b/i.test(table.sql) ? 'rowid,' : ''}*`;
       const rows = await query(
-        `SELECT ${/\bfts5\b/i.test(table.sql) ? 'rowid,' : ''}*${extra} FROM ${quote(table.name)} LIMIT 100 OFFSET ${offset}`,
+        `SELECT ${selection}${extra} FROM ${quote(table.name)} ${predicate} ORDER BY ${order} LIMIT 100`,
       );
+      const last = rows.at(-1);
+      if (last) cursor = without ? keys.map((k) => last[k]) : [last._dd_scan_cursor];
       for (const row of rows) {
+        delete row._dd_scan_cursor;
         const blobs = new Map();
         for (const [i, column] of blobColumns.entries()) {
           if (row['_dd_type_' + i] === 'blob') blobs.set(column, row['_dd_blob_' + i]);

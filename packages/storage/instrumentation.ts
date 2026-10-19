@@ -12,7 +12,23 @@ export const requestMetrics = (): RequestMetrics => ({
   rowsWritten: 0,
 });
 /** Counts returned D1 metadata, not an inferred row count or billed Worker CPU. */
-export function instrumentDatabase(db: SqlDatabase, metrics: RequestMetrics): SqlDatabase {
+export class QueryBudgetError extends Error {
+  constructor() {
+    super('This operation is temporarily unavailable. Please try again later.');
+    this.name = 'QueryBudgetError';
+  }
+}
+export function instrumentDatabase(
+  db: SqlDatabase,
+  metrics: RequestMetrics,
+  maxStatements?: number,
+): SqlDatabase {
+  const reserve = (count: number) => {
+    if (maxStatements !== undefined && metrics.statements + count > maxStatements)
+      throw new QueryBudgetError();
+    metrics.d1Calls++;
+    metrics.statements += count;
+  };
   const originals = new WeakMap<Statement, Statement>();
   function record(result: { meta: Record<string, number> }) {
     metrics.rowsRead += result.meta.rows_read ?? 0;
@@ -22,15 +38,13 @@ export function instrumentDatabase(db: SqlDatabase, metrics: RequestMetrics): Sq
     const wrapped: Statement = {
       bind: (...values) => wrap(statement.bind(...values)),
       all: async <T>() => {
-        metrics.d1Calls++;
-        metrics.statements++;
+        reserve(1);
         const r = await statement.all<T>();
         record(r);
         return r;
       },
       run: async () => {
-        metrics.d1Calls++;
-        metrics.statements++;
+        reserve(1);
         const r = await statement.run();
         record(r);
         return r;
@@ -43,8 +57,7 @@ export function instrumentDatabase(db: SqlDatabase, metrics: RequestMetrics): Sq
   return {
     prepare: (sql) => wrap(db.prepare(sql)),
     batch: async (statements) => {
-      metrics.d1Calls++;
-      metrics.statements += statements.length;
+      reserve(statements.length);
       const result = await db.batch(statements.map((s) => originals.get(s) ?? s));
       result.forEach(record);
       return result;

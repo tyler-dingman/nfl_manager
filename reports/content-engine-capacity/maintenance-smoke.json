@@ -1,0 +1,47 @@
+{
+  "scope": "Owner-only offline preparation/restore, not one Worker invocation; retention steps individually bounded. All archived tables and FTS rowids compared before deletion.",
+  "restoreVerified": true,
+  "archiveBytes": 800553,
+  "archiveTwoCopiesBytes": 1601106,
+  "preparation": {
+    "d1Calls": 1155,
+    "statements": 1158,
+    "rowsRead": 13245,
+    "rowsWritten": 6
+  },
+  "recovery": {
+    "d1Calls": 449,
+    "statements": 3504,
+    "rowsRead": 9344,
+    "rowsWritten": 9861
+  },
+  "steps": [
+    {
+      "d1Calls": 3,
+      "statements": 6,
+      "rowsRead": 8,
+      "rowsWritten": 4,
+      "done": true,
+      "retired": 0
+    }
+  ],
+  "gc": {
+    "runId": "08ffa31f-2d4b-472d-b023-789cfde9c9e5",
+    "dryRun": false,
+    "rootReferences": 1,
+    "reachable": 1,
+    "objects": 2,
+    "candidateObjects": 1,
+    "candidateEncodedBytes": 60,
+    "deletedObjects": 1,
+    "releasedEncodedBytes": 60,
+    "queries": 234,
+    "rowsRead": 5706,
+    "rowsWritten": 5,
+    "physicalBytesReclaimed": null
+  },
+  "selected": 0,
+  "retired": 0,
+  "onlineCleanupRowsWritten": 9,
+  "onlineCleanupRowsRead": 5714
+}

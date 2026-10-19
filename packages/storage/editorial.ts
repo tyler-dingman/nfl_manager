@@ -15,6 +15,7 @@ export class PublicEditorial {
     story: StoryView,
     state: string,
     evidenceAt = Date.parse(story.lastMeaningfulUpdateAt),
+    guardCollector?: { sql: string; values: unknown[] }[],
   ) {
     const visible = isStoryPublishable({
       publicationState: state as any,
@@ -48,6 +49,15 @@ export class PublicEditorial {
       rowid = -(Number(idBytes[0] & 0xfffff) * 4294967296 + idBytes[1] + 1),
       primary = story.primarySource ?? story.sources[0];
     const nonce = crypto.randomUUID();
+    if (guardCollector)
+      guardCollector.push(
+        prior
+          ? {
+              sql: 'EXISTS(SELECT 1 FROM app_public_stories WHERE id=? AND version=? AND object_hash=?)',
+              values: [story.id, prior.version, prior.object_hash],
+            }
+          : { sql: 'NOT EXISTS(SELECT 1 FROM app_public_stories WHERE id=?)', values: [story.id] },
+      );
     return [
       this.s.statement(
         'INSERT INTO app_public_stories(id,search_rowid,team_id,story_type,importance,first_at,updated_at,evidence_at,hot_until,version,visible,object_hash) VALUES(?,?,?,?,?,?,?,?,?,?,?,?) ON CONFLICT(id) DO UPDATE SET team_id=excluded.team_id,story_type=excluded.story_type,importance=excluded.importance,first_at=excluded.first_at,updated_at=excluded.updated_at,evidence_at=excluded.evidence_at,hot_until=excluded.hot_until,version=excluded.version,visible=excluded.visible,object_hash=excluded.object_hash WHERE version=? AND object_hash=?',
@@ -68,8 +78,7 @@ export class PublicEditorial {
           prior?.object_hash ?? null,
         ],
       ),
-      this.s.guard(nonce),
-      this.s.unguard(nonce),
+      ...(guardCollector ? [] : [this.s.guard(nonce), this.s.unguard(nonce)]),
       this.s.statement(
         'INSERT INTO app_public_story_versions(id,version,object_hash) VALUES(?,?,?)',
         [story.id, story.version, hash],

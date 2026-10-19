@@ -7,6 +7,7 @@ import { hash, verify } from '@node-rs/argon2';
 import { createDecipheriv, createHash } from 'node:crypto';
 const directory = await mkdtemp('/private/tmp/dd-staging-auth-'),
   out = process.env.DD_AUTH_REPORT_DIR ?? 'reports/staging-readiness';
+await mkdir(out, { recursive: true });
 const env = Object.fromEntries(
   ['PATH', 'HOME', 'TMPDIR', 'SHELL', 'LANG', 'USER']
     .filter((k) => process.env[k])
@@ -102,12 +103,19 @@ async function stop() {
     await p;
   }
 }
+// Synchronous owner CLI queries can outlive Undici's idle keep-alive socket.
+// Use fresh loopback connections; never automatically retry an ambiguous POST.
 const localSamples = [];
 const call = async (path, body, cookie) => {
   const start = performance.now();
   const response = await fetch(base + '/api/auth/' + path, {
     method: body ? 'POST' : 'GET',
-    headers: { 'content-type': 'application/json', origin: base, ...(cookie ? { cookie } : {}) },
+    headers: {
+      'content-type': 'application/json',
+      connection: 'close',
+      origin: base,
+      ...(cookie ? { cookie } : {}),
+    },
     ...(body ? { body: JSON.stringify(body) } : {}),
   });
   localSamples.push({
