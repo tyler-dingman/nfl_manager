@@ -1,0 +1,499 @@
+{
+  "scope": "MEASURED local Cloudflare workerd, D1 with no R2 bindings and synthetic accounts. DATABASE_URL absent. Chromium desktop/mobile viewport only; external network blocked. Not Android/iOS or provider validation.",
+  "checks": [
+    "real HTTP signup and opaque session validation for two owners",
+    "real authenticated versioned multi-route trade HTTP regression",
+    "Crew creation, identity-bound invitation and member persistence",
+    "Ten-question drill, answer privacy, completion and owner isolation",
+    "Shared Trivia group creation, joining and host start",
+    "Worker-backed media progress and atomic prediction persistence remain owner scoped",
+    "DEMO-only checkout inventory reservation, persisted original order ID and private orders",
+    "Actual workerd Stripe HMAC verification and D1 webhook journal; no Stripe API call",
+    "Authenticated scheduled-job D1 schema readiness through actual workerd",
+    "saved content and preference mutations; second owner cannot read first owner saves",
+    "sessions, preferences and saved original IDs survive actual workerd restart",
+    "anonymous private saved-content API is rejected"
+  ],
+  "routes": [
+    {
+      "path": "/?team=kc",
+      "width": 1440,
+      "status": 200,
+      "finalPath": "/",
+      "wallMs": 793.1585419999974,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "The Beat\nFilm Room\nFront Office\nPlay\nParlay Lab\nThe Huddle\nMerch\nSynthetic\n\nKANSAS CITY CHIEFS\n\nHOME OF THE CHIEFS.\n\nYou"
+    },
+    {
+      "path": "/the-beat?team=kc",
+      "width": 1440,
+      "status": 200,
+      "finalPath": "/the-beat",
+      "wallMs": 1102.2885000000024,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "The Beat\nFilm Room\nFront Office\nPlay\nParlay Lab\nThe Huddle\nMerch\n1\nSynthetic\nTHE BEAT\n\nTHE PULSE OF CHIEFS KINGDOM. NEVE"
+    },
+    {
+      "path": "/watch?team=kc",
+      "width": 1440,
+      "status": 200,
+      "finalPath": "/watch",
+      "wallMs": 803.6082080000051,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "The Beat\nFilm Room\nFront Office\nPlay\nParlay Lab\nThe Huddle\nMerch\n1\nSynthetic\nFILM ROOM\n\nGET INTO THE FILM ROOM AND PUT O"
+    },
+    {
+      "path": "/parlay-lab?team=kc",
+      "width": 1440,
+      "status": 200,
+      "finalPath": "/parlay-lab",
+      "wallMs": 841.3417090000003,
+      "title": "Parlay Lab | Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "The Beat\nFilm Room\nFront Office\nPlay\nParlay Lab\nThe Huddle\nMerch\n1\nSynthetic\nHome\nAll Props\nTrending Props\nGames\nPlayers"
+    },
+    {
+      "path": "/account",
+      "width": 1440,
+      "status": 200,
+      "finalPath": "/account",
+      "wallMs": 902.0115000000005,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "The Beat\nFilm Room\nFront Office\nPlay\nParlay Lab\nThe Huddle\nMerch\n1\nSynthetic\n\nSynthetic 0\n\nbrowser-0@example.invalid\n\nAc"
+    },
+    {
+      "path": "/three-and-out",
+      "width": 1440,
+      "status": 200,
+      "finalPath": "/three-and-out",
+      "wallMs": 898.7214999999997,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "The Beat\nFilm Room\nFront Office\nPlay\nParlay Lab\nThe Huddle\nMerch\n1\nSynthetic\n\nKANSAS CITY CHIEFS · THREE AND OUT\n\nThe th"
+    },
+    {
+      "path": "/huddle",
+      "width": 1440,
+      "status": 200,
+      "finalPath": "/huddle",
+      "wallMs": 742.5546669999967,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "The Beat\nFilm Room\nFront Office\nPlay\nParlay Lab\nThe Huddle\nMerch\n1\nSynthetic\nTHE HUDDLE\n\nREAL FANS. REAL CONVERSATION.\n\n"
+    },
+    {
+      "path": "/trivia",
+      "width": 1440,
+      "status": 200,
+      "finalPath": "/trivia",
+      "wallMs": 632.1287920000032,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "The Beat\nFilm Room\nFront Office\nPlay\nParlay Lab\nThe Huddle\nMerch\n1\nSynthetic\n\nKANSAS CITY CHIEFS · TRIVIA\n\nFour Minute D"
+    },
+    {
+      "path": "/rewards",
+      "width": 1440,
+      "status": 200,
+      "finalPath": "/rewards",
+      "wallMs": 708.0675829999964,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "The Beat\nFilm Room\nFront Office\nPlay\nParlay Lab\nThe Huddle\nMerch\n1\nSynthetic\n\nSynthetic 0\n\nbrowser-0@example.invalid\n\nAc"
+    },
+    {
+      "path": "/front-office",
+      "width": 1440,
+      "status": 200,
+      "finalPath": "/front-office",
+      "wallMs": 793.258332999998,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "The Beat\nFilm Room\nFront Office\nPlay\nParlay Lab\nThe Huddle\nMerch\n1\nSynthetic\n\nFRONT OFFICE · YOUR FRANCHISE\n\nFront Offic"
+    },
+    {
+      "path": "/login?resetToken=synthetic-reset-token-32-characters",
+      "width": 1440,
+      "status": 200,
+      "finalPath": "/login",
+      "wallMs": 903.0282920000027,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "ONE ACCOUNT. EVERY SCREEN.\n\nPICK UP EXACTLY WHERE YOU LEFT OFF.\nYour team and preferences\nFront Office progress\nWeb, iOS"
+    },
+    {
+      "path": "/login?verifyToken=synthetic-verification-token-32-chars",
+      "width": 1440,
+      "status": 200,
+      "finalPath": "/login",
+      "wallMs": 722.913833000006,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "ONE ACCOUNT. EVERY SCREEN.\n\nPICK UP EXACTLY WHERE YOU LEFT OFF.\nYour team and preferences\nFront Office progress\nWeb, iOS"
+    },
+    {
+      "path": "/?team=sea",
+      "width": 1440,
+      "status": 200,
+      "finalPath": "/",
+      "wallMs": 874.4724579999965,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "The Beat\nFilm Room\nFront Office\nPlay\nParlay Lab\nThe Huddle\nMerch\n1\nSynthetic\n\nSEATTLE SEAHAWKS\n\nTHE 12s\n\nYour home for e"
+    },
+    {
+      "path": "/the-beat?team=sea",
+      "width": 1440,
+      "status": 200,
+      "finalPath": "/the-beat",
+      "wallMs": 859.9868750000023,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "The Beat\nFilm Room\nFront Office\nPlay\nParlay Lab\nThe Huddle\nMerch\n1\nSynthetic\nTHE BEAT\n\nTHE PULSE OF THE 12S. NEVER MISS "
+    },
+    {
+      "path": "/watch?team=sea",
+      "width": 1440,
+      "status": 200,
+      "finalPath": "/watch",
+      "wallMs": 692.1713750000054,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "The Beat\nFilm Room\nFront Office\nPlay\nParlay Lab\nThe Huddle\nMerch\n1\nSynthetic\nFILM ROOM\n\nGET INTO THE FILM ROOM AND PUT O"
+    },
+    {
+      "path": "/parlay-lab?team=sea",
+      "width": 1440,
+      "status": 200,
+      "finalPath": "/parlay-lab",
+      "wallMs": 738.4416669999991,
+      "title": "Parlay Lab | Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "The Beat\nFilm Room\nFront Office\nPlay\nParlay Lab\nThe Huddle\nMerch\n1\nSynthetic\nHome\nAll Props\nTrending Props\nGames\nPlayers"
+    },
+    {
+      "path": "/account",
+      "width": 1440,
+      "status": 200,
+      "finalPath": "/account",
+      "wallMs": 816.0761249999996,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "The Beat\nFilm Room\nFront Office\nPlay\nParlay Lab\nThe Huddle\nMerch\n1\nSynthetic\n\nSynthetic 0\n\nbrowser-0@example.invalid\n\nAc"
+    },
+    {
+      "path": "/three-and-out",
+      "width": 1440,
+      "status": 200,
+      "finalPath": "/three-and-out",
+      "wallMs": 807.8460840000043,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "The Beat\nFilm Room\nFront Office\nPlay\nParlay Lab\nThe Huddle\nMerch\n1\nSynthetic\n\nSEATTLE SEAHAWKS · THREE AND OUT\n\nThe thre"
+    },
+    {
+      "path": "/huddle",
+      "width": 1440,
+      "status": 200,
+      "finalPath": "/huddle",
+      "wallMs": 720.6971670000057,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "The Beat\nFilm Room\nFront Office\nPlay\nParlay Lab\nThe Huddle\nMerch\n1\nSynthetic\nTHE HUDDLE\n\nREAL FANS. REAL CONVERSATION.\n\n"
+    },
+    {
+      "path": "/trivia",
+      "width": 1440,
+      "status": 200,
+      "finalPath": "/trivia",
+      "wallMs": 701.9367500000008,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "The Beat\nFilm Room\nFront Office\nPlay\nParlay Lab\nThe Huddle\nMerch\n1\nSynthetic\n\nKANSAS CITY CHIEFS · TRIVIA\n\nFour Minute D"
+    },
+    {
+      "path": "/rewards",
+      "width": 1440,
+      "status": 200,
+      "finalPath": "/rewards",
+      "wallMs": 783.843458000003,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "The Beat\nFilm Room\nFront Office\nPlay\nParlay Lab\nThe Huddle\nMerch\n1\nSynthetic\n\nSynthetic 0\n\nbrowser-0@example.invalid\n\nAc"
+    },
+    {
+      "path": "/front-office",
+      "width": 1440,
+      "status": 200,
+      "finalPath": "/front-office",
+      "wallMs": 807.8237089999966,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "The Beat\nFilm Room\nFront Office\nPlay\nParlay Lab\nThe Huddle\nMerch\n1\nSynthetic\n\nFRONT OFFICE · YOUR FRANCHISE\n\nFront Offic"
+    },
+    {
+      "path": "/login?resetToken=synthetic-reset-token-32-characters",
+      "width": 1440,
+      "status": 200,
+      "finalPath": "/login",
+      "wallMs": 826.7030830000003,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "ONE ACCOUNT. EVERY SCREEN.\n\nPICK UP EXACTLY WHERE YOU LEFT OFF.\nYour team and preferences\nFront Office progress\nWeb, iOS"
+    },
+    {
+      "path": "/login?verifyToken=synthetic-verification-token-32-chars",
+      "width": 1440,
+      "status": 200,
+      "finalPath": "/login",
+      "wallMs": 676.1584159999984,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "ONE ACCOUNT. EVERY SCREEN.\n\nPICK UP EXACTLY WHERE YOU LEFT OFF.\nYour team and preferences\nFront Office progress\nWeb, iOS"
+    },
+    {
+      "path": "/?team=kc",
+      "width": 390,
+      "status": 200,
+      "finalPath": "/",
+      "wallMs": 762.2172500000015,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "1\n\nKANSAS CITY CHIEFS\n\nHOME OF THE CHIEFS.\n\nYour home for everything Kansas City football — the latest news, analysis, r"
+    },
+    {
+      "path": "/the-beat?team=kc",
+      "width": 390,
+      "status": 200,
+      "finalPath": "/the-beat",
+      "wallMs": 642.6336660000015,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "1\nTHE BEAT\n\nTHE PULSE OF CHIEFS KINGDOM. NEVER MISS A BEAT.\n\nTHREE & OUT\n\nTHE 3 THINGS YOU NEED TO KNOW\n\n01\nChiefs Acqui"
+    },
+    {
+      "path": "/watch?team=kc",
+      "width": 390,
+      "status": 200,
+      "finalPath": "/watch",
+      "wallMs": 706.505541999999,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "1\nFILM ROOM\n\nGET INTO THE FILM ROOM AND PUT ON THE TAPE.\n\nROLL THE TAPE\n\nTHE 3 THINGS YOU NEED TO KNOW\n\nCurrent team vid"
+    },
+    {
+      "path": "/parlay-lab?team=kc",
+      "width": 390,
+      "status": 200,
+      "finalPath": "/parlay-lab",
+      "wallMs": 686.9335419999989,
+      "title": "Parlay Lab | Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "1\nExplore Parlay Lab\n\nOdds freshness unverified. Refresh target: Mon, Wed and Sat at 15:00 UTC. Confirm current prices w"
+    },
+    {
+      "path": "/account",
+      "width": 390,
+      "status": 200,
+      "finalPath": "/account",
+      "wallMs": 617.9419999999955,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "1\nProfile & account\n\nMY ACCOUNT\n\nSYNTHETIC 0\n\nManage your account, preferences, and how you appear across Down & Distanc"
+    },
+    {
+      "path": "/three-and-out",
+      "width": 390,
+      "status": 200,
+      "finalPath": "/three-and-out",
+      "wallMs": 1397.3422920000012,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "1\n\nKANSAS CITY CHIEFS · THREE AND OUT\n\nThe three things you need to know right now.\n\nThe biggest ongoing football storie"
+    },
+    {
+      "path": "/huddle",
+      "width": 390,
+      "status": 200,
+      "finalPath": "/huddle",
+      "wallMs": 625.41075000001,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "1\nTHE HUDDLE\n\nREAL FANS. REAL CONVERSATION.\n\nYour team. Your conversation.\n\nTalk news, roster moves, film and everything"
+    },
+    {
+      "path": "/trivia",
+      "width": 390,
+      "status": 200,
+      "finalPath": "/trivia",
+      "wallMs": 593.6773749999993,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "1\n\nKANSAS CITY CHIEFS · TRIVIA\n\nFour Minute Drill\n\nTen questions. Twenty-four seconds each. Go the distance.\n\n30\n\nTRIVIA"
+    },
+    {
+      "path": "/rewards",
+      "width": 390,
+      "status": 200,
+      "finalPath": "/rewards",
+      "wallMs": 605.6006659999985,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "1\nProfile & account\n\nMOVE THE CHAINS\n\nENGAGEMENT\nREWARDS\n\nBe active. Earn points. Unlock rewards. Keep showing up.\n\nYour"
+    },
+    {
+      "path": "/front-office",
+      "width": 390,
+      "status": 200,
+      "finalPath": "/front-office",
+      "wallMs": 704.6951249999984,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "1\n\nFRONT OFFICE · YOUR FRANCHISE\n\nFront Office\nManage your roster, explore trades, and build for the future.\nDepth chart"
+    },
+    {
+      "path": "/login?resetToken=synthetic-reset-token-32-characters",
+      "width": 390,
+      "status": 200,
+      "finalPath": "/login",
+      "wallMs": 1017.2387920000037,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "← Back to Down & Distance\n\nDOWN & DISTANCE ACCOUNT\n\nNEW PASSWORD.\nPASSWORD\nCONFIRM PASSWORD\n\nThis password reset link is"
+    },
+    {
+      "path": "/login?verifyToken=synthetic-verification-token-32-chars",
+      "width": 390,
+      "status": 200,
+      "finalPath": "/login",
+      "wallMs": 690.247583999997,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "← Back to Down & Distance\n\nDOWN & DISTANCE ACCOUNT\n\nVERIFY EMAIL.\n\nThis verification link is invalid or expired.\n\nVerify"
+    },
+    {
+      "path": "/?team=sea",
+      "width": 390,
+      "status": 200,
+      "finalPath": "/",
+      "wallMs": 755.7346249999973,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "1\n\nSEATTLE SEAHAWKS\n\nTHE 12s\n\nYour home for everything Seattle football — the latest news, analysis, roster moves, and f"
+    },
+    {
+      "path": "/the-beat?team=sea",
+      "width": 390,
+      "status": 200,
+      "finalPath": "/the-beat",
+      "wallMs": 631.6546249999956,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "1\nTHE BEAT\n\nTHE PULSE OF THE 12S. NEVER MISS A BEAT.\n\nTHREE & OUT\n\nTHE 3 THINGS YOU NEED TO KNOW\n\n01\nSeahawks Sign CB Te"
+    },
+    {
+      "path": "/watch?team=sea",
+      "width": 390,
+      "status": 200,
+      "finalPath": "/watch",
+      "wallMs": 736.4597499999945,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "1\nFILM ROOM\n\nGET INTO THE FILM ROOM AND PUT ON THE TAPE.\n\nROLL THE TAPE\n\nTHE 3 THINGS YOU NEED TO KNOW\n\nCurrent team vid"
+    },
+    {
+      "path": "/parlay-lab?team=sea",
+      "width": 390,
+      "status": 200,
+      "finalPath": "/parlay-lab",
+      "wallMs": 688.932415999996,
+      "title": "Parlay Lab | Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "1\nExplore Parlay Lab\n\nOdds freshness unverified. Refresh target: Mon, Wed and Sat at 15:00 UTC. Confirm current prices w"
+    },
+    {
+      "path": "/account",
+      "width": 390,
+      "status": 200,
+      "finalPath": "/account",
+      "wallMs": 826.1717920000083,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "1\nProfile & account\n\nMY ACCOUNT\n\nSYNTHETIC 0\n\nManage your account, preferences, and how you appear across Down & Distanc"
+    },
+    {
+      "path": "/three-and-out",
+      "width": 390,
+      "status": 200,
+      "finalPath": "/three-and-out",
+      "wallMs": 815.825708999997,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "1\n\nSEATTLE SEAHAWKS · THREE AND OUT\n\nThe three things you need to know right now.\n\nThe biggest ongoing football stories,"
+    },
+    {
+      "path": "/huddle",
+      "width": 390,
+      "status": 200,
+      "finalPath": "/huddle",
+      "wallMs": 803.9985419999866,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "1\nTHE HUDDLE\n\nREAL FANS. REAL CONVERSATION.\n\nYour team. Your conversation.\n\nTalk news, roster moves, film and everything"
+    },
+    {
+      "path": "/trivia",
+      "width": 390,
+      "status": 200,
+      "finalPath": "/trivia",
+      "wallMs": 700.7727920000034,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "1\n\nKANSAS CITY CHIEFS · TRIVIA\n\nFour Minute Drill\n\nTen questions. Twenty-four seconds each. Go the distance.\n\n30\n\nTRIVIA"
+    },
+    {
+      "path": "/rewards",
+      "width": 390,
+      "status": 200,
+      "finalPath": "/rewards",
+      "wallMs": 795.5428750000137,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "1\nProfile & account\n\nMOVE THE CHAINS\n\nENGAGEMENT\nREWARDS\n\nBe active. Earn points. Unlock rewards. Keep showing up.\n\nYour"
+    },
+    {
+      "path": "/front-office",
+      "width": 390,
+      "status": 200,
+      "finalPath": "/front-office",
+      "wallMs": 854.1074579999986,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "1\n\nFRONT OFFICE · YOUR FRANCHISE\n\nFront Office\nManage your roster, explore trades, and build for the future.\nDepth chart"
+    },
+    {
+      "path": "/login?resetToken=synthetic-reset-token-32-characters",
+      "width": 390,
+      "status": 200,
+      "finalPath": "/login",
+      "wallMs": 877.2744999999995,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "← Back to Down & Distance\n\nDOWN & DISTANCE ACCOUNT\n\nNEW PASSWORD.\nPASSWORD\nCONFIRM PASSWORD\n\nThis password reset link is"
+    },
+    {
+      "path": "/login?verifyToken=synthetic-verification-token-32-chars",
+      "width": 390,
+      "status": 200,
+      "finalPath": "/login",
+      "wallMs": 742.2059159999917,
+      "title": "Down & Distance",
+      "horizontalOverflow": false,
+      "textExcerpt": "← Back to Down & Distance\n\nDOWN & DISTANCE ACCOUNT\n\nVERIFY EMAIL.\n\nThis verification link is invalid or expired.\n\nVerify"
+    }
+  ]
+}

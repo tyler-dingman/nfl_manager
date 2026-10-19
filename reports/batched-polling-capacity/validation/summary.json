@@ -1,0 +1,17 @@
+{
+  "rootPassed": 1074,
+  "workerPassed": 149,
+  "uniqueAutomatedPassed": 1223,
+  "automatedFailed": 0,
+  "existingSkipped": 2,
+  "finalTargetedPassed": 11,
+  "targetedOverlapNotAddedToUniqueCount": true,
+  "browserRoutesPassed": 48,
+  "authHttpSamples": 16,
+  "registryHttpContinuations": 120,
+  "migrations": 45,
+  "postgresAccess": false,
+  "r2Required": false,
+  "deploymentPerformed": false,
+  "hostedCpuMeasured": false
+}

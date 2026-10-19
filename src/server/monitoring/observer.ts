@@ -46,6 +46,13 @@ export async function syncMonitoringRegistry(teamId: string) {
   return syncSources(getMonitoringSources(teamId));
 }
 
+/** Bounded owner reconciliation: one registered definition per HTTP continuation. */
+export async function syncMonitoringSource(id: string) {
+  const source = getAllMonitoringSources().find(source=>source.id===id);
+  if (!source) throw Error('Unknown registered monitoring source');
+  return syncSources([source]);
+}
+
 export async function syncAllMonitoringRegistries() {
   return syncSources(getAllMonitoringSources());
 }

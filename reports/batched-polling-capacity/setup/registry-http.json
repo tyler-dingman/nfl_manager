@@ -1,0 +1,1105 @@
+{
+  "sources": 120,
+  "enabled": 97,
+  "maximumQueries": 14,
+  "samples": [
+    {
+      "op": "registry",
+      "subsystem": "registry",
+      "d1Calls": 0,
+      "statements": 0,
+      "rowsRead": 0,
+      "rowsWritten": 0,
+      "wallMs": 1
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 8,
+      "statements": 14,
+      "rowsRead": 11,
+      "rowsWritten": 11,
+      "wallMs": 11
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 6
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 8
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 5
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 3
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 5
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 5
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 3
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 3
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 5
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 3
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 3
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 7
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 3
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 5
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 3
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 3
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 6
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 3
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 3
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 5
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 3
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 5
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 3
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 3
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 3
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 3
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 3
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 3
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 3
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 3
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 3
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 5
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 3
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 3
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 3
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 5
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 3
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 3
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 3
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 3
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 3
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 3
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 3
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 5
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 10
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 3
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 3
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 3
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 3
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 3
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 3
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 3
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 3
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 3
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 3
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 6
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 3
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 3
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 3
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 6
+    },
+    {
+      "op": "registry-http",
+      "subsystem": "registry-owner-http",
+      "d1Calls": 6,
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 9,
+      "wallMs": 4
+    },
+    {
+      "op": "inspect",
+      "subsystem": "inspect",
+      "d1Calls": 6,
+      "statements": 6,
+      "rowsRead": 102,
+      "rowsWritten": 0,
+      "wallMs": 4
+    }
+  ]
+}

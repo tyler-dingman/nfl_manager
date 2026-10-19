@@ -4,9 +4,10 @@ compatibility_date = "2026-09-07"
 keep_vars = true
 
 [triggers]
-# Eight daily runs: 06:00 through 20:00 every two hours, fixed CST (UTC-6).
-# Cloudflare cron uses UTC; 18:00/20:00 CST fall on the following UTC date.
-crons = ["0 0,2,12,14,16,18,20,22 * * *"]
+# Disabled in this isolated POC. After review, one-minute dispatch is required
+# for the existing five-minute feeds; eight daily ticks cannot preserve freshness.
+# Proposed only: crons = ["* * * * *"]
+crons = []
 
 [observability]
 enabled = true

@@ -1,3 +1,4 @@
+import { runContentContinuations } from '../content-scheduler/src/continuations.mjs';
 import { drainSocialNotifications } from '../../packages/storage/social-outbox';
 import { offloadSavedMetadata } from '../../packages/storage/saved-metadata';
 import { fanoutBriefingMail } from './briefing-mail';
@@ -37,14 +38,25 @@ export const applicationWorker = {
     const s = new Storage(env.APP_DB, applicationObjects(env));
     const tick = new Date(event.scheduledTime);
     if (
-      event.cron === '*/30 * * * *' &&
-      (env.APP_CONTENT_ENABLED === 'true' || env.APP_BRIEFINGS_ENABLED === 'true')
+      (event.cron === '*/30 * * * *' || event.cron === '* * * * *') &&
+      (env.APP_CONTENT_ENABLED === 'true' ||
+        (event.cron === '*/30 * * * *' && env.APP_BRIEFINGS_ENABLED === 'true'))
     ) {
       if (!env.API_SERVICE || !env.CONTENT_AUTOMATION_SECRET)
         throw Error('Application jobs require an API binding and automation secret');
+      if (env.APP_CONTENT_ENABLED === 'true')
+        await runContentContinuations(async (query: URLSearchParams) => {
+          const response = await env.API_SERVICE!.fetch(
+            new Request('https://application.internal/api/automation/content/global?' + query, {
+              method: 'POST',
+              headers: { authorization: 'Bearer ' + env.CONTENT_AUTOMATION_SECRET },
+            }),
+          );
+          if (!response.ok) throw Error('Content continuation rejected: ' + response.status);
+          return response.json();
+        }, 16);
       const paths = [
-        ...(env.APP_CONTENT_ENABLED === 'true' ? ['/api/automation/content/global'] : []),
-        ...(env.APP_BRIEFINGS_ENABLED === 'true'
+        ...(event.cron === '*/30 * * * *' && env.APP_BRIEFINGS_ENABLED === 'true'
           ? [
               '/api/automation/three-and-out?action=generate',
               '/api/automation/three-and-out?action=deliver',

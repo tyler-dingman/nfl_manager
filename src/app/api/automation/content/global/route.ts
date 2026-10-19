@@ -1,7 +1,10 @@
+import { applicationBackend, applicationStorage } from '@/server/persistence/bindings';
+import { PollingBatches } from '../../../../../../packages/storage/polling-batches';
+import { workOne } from '@/server/story-engine/service';
 import { automationAuthError } from '@/server/content-automation/auth';
 import { NextRequest, NextResponse } from 'next/server';
 
-import { getMonitoringTeamIds } from '@/data/sources/monitoring';
+import { getAllMonitoringSources, getMonitoringTeamIds } from '@/data/sources/monitoring';
 import { GroundedDeterministicStorySynthesizer } from '@/features/story-engine/synthesis';
 import {
   globalAutomationConfig,
@@ -11,7 +14,11 @@ import {
   readGlobalGeneratedToday,
   recordGlobalRun,
 } from '@/server/content-automation/global-repository';
-import { syncAllMonitoringRegistries, syncMonitoringRegistry } from '@/server/monitoring/observer';
+import {
+  syncAllMonitoringRegistries,
+  syncMonitoringRegistry,
+  syncMonitoringSource,
+} from '@/server/monitoring/observer';
 import { drainJobs, scheduleDueSources } from '@/server/story-engine/service';
 import { syncVerifiedVideoSources } from '@/server/film-room/video-source-sync';
 import { storyById } from '@/server/story-engine/repository';
@@ -56,6 +63,67 @@ export async function POST(request: NextRequest) {
       { ok: false, error: 'group must be standard or video' },
       { status: 400 },
     );
+
+  // D1 uses explicit bounded continuations. Registry reconciliation is an owner
+  // preparation step, not an all-source mutation on every scheduler request.
+  if (applicationBackend() === 'd1') {
+    const batches = new PollingBatches(applicationStorage());
+    const action = request.nextUrl.searchParams.get('action') ?? 'poll';
+    if (action === 'registry') {
+      const definitions = getAllMonitoringSources();
+      const cursor = Number(request.nextUrl.searchParams.get('cursor') ?? 0);
+      if (!Number.isInteger(cursor) || cursor < 0 || cursor >= definitions.length)
+        return NextResponse.json({ ok: false, error: 'Invalid registry cursor' }, { status: 400 });
+      await syncMonitoringSource(definitions[cursor].id);
+      return NextResponse.json({
+        ok: true,
+        sourceId: definitions[cursor].id,
+        nextCursor: cursor + 1 < definitions.length ? cursor + 1 : null,
+        done: cursor + 1 === definitions.length,
+      });
+    }
+    if (action !== 'poll' && action !== 'candidate')
+      return NextResponse.json(
+        { ok: false, error: 'Unknown continuation action' },
+        { status: 400 },
+      );
+    if (action === 'candidate') {
+      const generatedToday = await readGlobalGeneratedToday();
+      if (generatedToday >= config.maxGeneratedPerDay)
+        return NextResponse.json({ ok: true, skipped: true, stoppedBy: 'daily-budget' });
+      const job = await workOne(
+        'bounded-automation',
+        requestedTeam,
+        new GroundedDeterministicStorySynthesizer(),
+        undefined,
+        requestedGroup as any,
+      );
+      const generated = ['created', 'updated', 'published'].includes(
+        String((job as any)?.result?.action),
+      )
+        ? 1
+        : 0;
+      if (job)
+        await recordGlobalRun({ status: 'COMPLETED', jobsProcessed: 1, generatedItems: generated });
+      return NextResponse.json({ ok: true, job, nextAction: job ? 'candidate' : 'poll' });
+    }
+    let token = request.nextUrl.searchParams.get('batch');
+    if (!token) token = (await batches.claim(requestedTeam, requestedGroup as any))?.token ?? null;
+    if (!token)
+      return NextResponse.json({
+        ok: true,
+        done: true,
+        busyOrNoDueSources: true,
+        nextAction: 'candidate',
+      });
+    const result = await batches.step(token);
+    return NextResponse.json({
+      ok: true,
+      ...result,
+      batch: result.done ? null : token,
+      nextAction: 'poll',
+    });
+  }
 
   const generatedToday = await readGlobalGeneratedToday();
   const stoppedBy = globalGenerationStopReason({

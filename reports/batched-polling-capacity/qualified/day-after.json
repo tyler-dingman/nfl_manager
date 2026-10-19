@@ -1,0 +1,3482 @@
+{
+  "sourceChecks": 18504,
+  "baseline": false,
+  "virtualHours": 24,
+  "initial": {
+    "physicalBytes": 2252800,
+    "encoded": 82170,
+    "stories": [],
+    "sourceCheckpoints": [
+      {
+        "id": "PRO_FOOTBALL_RUMORS",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "ARI_FANSIDED",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "ATL_FANSIDED",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "BAL_FANSIDED",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "BUF_FANSIDED",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "CAR_FANSIDED",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "CHI_FANSIDED",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "CIN_FANSIDED",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "CLE_FANSIDED",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "DAL_FANSIDED",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "DEN_FANSIDED",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "DET_FANSIDED",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "GB_FANSIDED",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "HOU_FANSIDED",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "IND_FANSIDED",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "JAX_FANSIDED",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "ARROWHEAD_ADDICT_WEB",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "LV_FANSIDED",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "LAC_FANSIDED",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "LAR_FANSIDED",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "MIA_FANSIDED",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "MIN_FANSIDED",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "NE_FANSIDED",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "NO_FANSIDED",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "NYG_FANSIDED",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "NYJ_FANSIDED",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "PHI_FANSIDED",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "PIT_FANSIDED",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "SF_FANSIDED",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "SEA_FANSIDED",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "TB_FANSIDED",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "TEN_FANSIDED",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "WAS_FANSIDED",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "ARI_SB_NATION",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "ATL_SB_NATION",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "BAL_SB_NATION",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "BUF_SB_NATION",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "CAR_SB_NATION",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "CHI_SB_NATION",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "CIN_SB_NATION",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "CLE_SB_NATION",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "DAL_SB_NATION",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "DEN_SB_NATION",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "DET_SB_NATION",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "GB_SB_NATION",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "HOU_SB_NATION",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "IND_SB_NATION",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "JAX_SB_NATION",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "ARROWHEAD_PRIDE_WEB",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "LV_SB_NATION",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "LAC_SB_NATION",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "LAR_SB_NATION",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "MIA_SB_NATION",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "MIN_SB_NATION",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "NE_SB_NATION",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "NO_SB_NATION",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "NYG_SB_NATION",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "NYJ_SB_NATION",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "PHI_SB_NATION",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "PIT_SB_NATION",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "SF_SB_NATION",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "SEA_SB_NATION",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "TB_SB_NATION",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "TEN_SB_NATION",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "WAS_SB_NATION",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "ARI_OFFICIAL_NEWS",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "ATL_OFFICIAL_NEWS",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "BAL_OFFICIAL_NEWS",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "BUF_OFFICIAL_NEWS",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "CAR_OFFICIAL_NEWS",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "CHI_OFFICIAL_NEWS",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "CIN_OFFICIAL_NEWS",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "CLE_OFFICIAL_NEWS",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "DAL_OFFICIAL_NEWS",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "DEN_OFFICIAL_NEWS",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "DET_OFFICIAL_NEWS",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "GB_OFFICIAL_NEWS",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "HOU_OFFICIAL_NEWS",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "IND_OFFICIAL_NEWS",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "JAX_OFFICIAL_NEWS",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "CHIEFS_COM",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "LV_OFFICIAL_NEWS",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "LAC_OFFICIAL_NEWS",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "LAR_OFFICIAL_NEWS",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "MIA_OFFICIAL_NEWS",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "MIN_OFFICIAL_NEWS",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "NE_OFFICIAL_NEWS",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "NO_OFFICIAL_NEWS",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "NYG_OFFICIAL_NEWS",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "NYJ_OFFICIAL_NEWS",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "PHI_OFFICIAL_NEWS",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "PIT_OFFICIAL_NEWS",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "SF_OFFICIAL_NEWS",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "SEA_OFFICIAL_NEWS",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "TB_OFFICIAL_NEWS",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "TEN_OFFICIAL_NEWS",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      },
+      {
+        "id": "WAS_OFFICIAL_NEWS",
+        "request_count": 0,
+        "next_check_at": 1792368000000,
+        "last_checked_at": null,
+        "failure_count": 0,
+        "etag": null
+      }
+    ],
+    "pendingInbox": [],
+    "jobs": [
+      {
+        "status": "COMPLETED",
+        "n": 2
+      }
+    ]
+  },
+  "beforeCleanup": {
+    "physicalBytes": 5029888,
+    "encoded": 1585733,
+    "stories": [
+      {
+        "id": "1741949f-9615-4fb3-ad6c-64bc0f9493e6",
+        "team_id": "ARI",
+        "version": 2
+      },
+      {
+        "id": "1667b24d-0870-4890-b66c-0fd828b395a0",
+        "team_id": "ARI",
+        "version": 2
+      },
+      {
+        "id": "478deae4-9df4-4bb6-96d5-02e8830c149a",
+        "team_id": "ARI",
+        "version": 2
+      },
+      {
+        "id": "6858dd28-fd58-458e-8358-44110d3858a7",
+        "team_id": "ATL",
+        "version": 2
+      },
+      {
+        "id": "cdb9d475-7ff3-466d-98d3-ce41582823ef",
+        "team_id": "ATL",
+        "version": 2
+      },
+      {
+        "id": "052092eb-8028-4469-a451-55c9a37f1a84",
+        "team_id": "ATL",
+        "version": 2
+      },
+      {
+        "id": "f15e4982-71b1-4018-94e3-3d674d2f74fa",
+        "team_id": "BAL",
+        "version": 2
+      },
+      {
+        "id": "0b7b47ab-6744-4c88-ba3e-0cd399799cd6",
+        "team_id": "BAL",
+        "version": 2
+      },
+      {
+        "id": "5fc5fd41-29d3-45f1-bdca-c3b2a9818f19",
+        "team_id": "BAL",
+        "version": 2
+      },
+      {
+        "id": "b050c4bb-0e2e-4122-9773-a830b48a8288",
+        "team_id": "BUF",
+        "version": 2
+      },
+      {
+        "id": "eed0ed17-dd77-4d08-8a55-cabdfc6fb02c",
+        "team_id": "BUF",
+        "version": 2
+      },
+      {
+        "id": "ae5d0dc8-cb9b-4fc5-bef7-7ddcdce3601c",
+        "team_id": "BUF",
+        "version": 2
+      },
+      {
+        "id": "fc4e75bd-ae33-474a-800e-ae81cd2c5e91",
+        "team_id": "CAR",
+        "version": 2
+      },
+      {
+        "id": "21b5015e-a555-487b-9199-4ece9a59f7ea",
+        "team_id": "CAR",
+        "version": 2
+      },
+      {
+        "id": "bf38c8dd-77cb-4e96-a744-51adb74a90f2",
+        "team_id": "CAR",
+        "version": 2
+      },
+      {
+        "id": "97edc653-9f2a-4abf-9e8b-6173aabca5c3",
+        "team_id": "CHI",
+        "version": 2
+      },
+      {
+        "id": "a91f34a7-a7e3-4632-965a-8504d6ca8779",
+        "team_id": "CHI",
+        "version": 2
+      },
+      {
+        "id": "a479912b-7b3c-4c45-a486-b98fc2d22b1a",
+        "team_id": "CHI",
+        "version": 2
+      },
+      {
+        "id": "2f74feec-9ecb-4650-9179-2d87fdc35d5d",
+        "team_id": "CIN",
+        "version": 2
+      },
+      {
+        "id": "f1ade38a-ab74-48ae-b183-951102e80a1d",
+        "team_id": "CIN",
+        "version": 2
+      },
+      {
+        "id": "f7d95978-46a6-4d48-b15a-36dc84c07c18",
+        "team_id": "CIN",
+        "version": 2
+      },
+      {
+        "id": "6156ca61-1a83-46b3-882f-e17ea05fc557",
+        "team_id": "CLE",
+        "version": 2
+      },
+      {
+        "id": "09a24ba2-7925-4ecf-b47f-3f03f60a4d4a",
+        "team_id": "CLE",
+        "version": 2
+      },
+      {
+        "id": "d12ae2b2-d997-4fc4-9ef3-af4e52c96724",
+        "team_id": "CLE",
+        "version": 2
+      },
+      {
+        "id": "c406c4c9-d16e-4013-8d9f-63b9d3a53419",
+        "team_id": "DAL",
+        "version": 2
+      },
+      {
+        "id": "47728734-ac68-42f9-a35c-db13f73dd6f1",
+        "team_id": "DAL",
+        "version": 2
+      },
+      {
+        "id": "516f2b45-4ab7-415e-9a6b-668705e4b32d",
+        "team_id": "DAL",
+        "version": 2
+      },
+      {
+        "id": "52f94238-a066-48e9-a4e3-13922e550885",
+        "team_id": "DEN",
+        "version": 2
+      },
+      {
+        "id": "92885205-4e80-4ea0-8f9c-e750ce9d0dc9",
+        "team_id": "DEN",
+        "version": 2
+      },
+      {
+        "id": "1c91683d-8cb2-4304-a81a-9ffbf13dd242",
+        "team_id": "DEN",
+        "version": 2
+      },
+      {
+        "id": "c0f9dd74-1bc8-49ba-a0ad-6b92f76f12c1",
+        "team_id": "DET",
+        "version": 2
+      },
+      {
+        "id": "022553da-f07a-477a-912f-4bdb96376c78",
+        "team_id": "DET",
+        "version": 2
+      },
+      {
+        "id": "c2ff40f7-f28b-4792-937e-fb7d43fefdec",
+        "team_id": "DET",
+        "version": 2
+      },
+      {
+        "id": "4065e7f9-dbd0-4c83-8ac3-5f2feeb1853c",
+        "team_id": "GB",
+        "version": 2
+      },
+      {
+        "id": "60e5dbd0-0739-405f-9b12-7946060c7f03",
+        "team_id": "GB",
+        "version": 2
+      },
+      {
+        "id": "be6de9ff-1824-479c-8e0a-70b34495adfe",
+        "team_id": "GB",
+        "version": 2
+      },
+      {
+        "id": "deba0adf-3b03-4e7f-8b9d-47425d3ff33c",
+        "team_id": "HOU",
+        "version": 2
+      },
+      {
+        "id": "1166dbdb-0884-4396-a2ec-ceaa8258c57c",
+        "team_id": "HOU",
+        "version": 2
+      },
+      {
+        "id": "779d3300-b988-4974-bf08-6d137b091420",
+        "team_id": "HOU",
+        "version": 2
+      },
+      {
+        "id": "1cfd2337-5f6c-4892-911d-63a9389f05cc",
+        "team_id": "IND",
+        "version": 2
+      },
+      {
+        "id": "fa2698a0-94db-4a39-bc28-d59a98af5212",
+        "team_id": "IND",
+        "version": 2
+      },
+      {
+        "id": "96f679b0-907f-4163-b2a3-368a8b923e58",
+        "team_id": "IND",
+        "version": 2
+      },
+      {
+        "id": "2d0a4e17-1412-4c66-9b51-263f4931a785",
+        "team_id": "JAX",
+        "version": 2
+      },
+      {
+        "id": "feccb14c-bcec-4631-acbb-b900ec0e2af9",
+        "team_id": "JAX",
+        "version": 2
+      },
+      {
+        "id": "59da7eed-f48d-4d05-8846-af46c732be6e",
+        "team_id": "JAX",
+        "version": 2
+      },
+      {
+        "id": "761ad7ed-6774-464b-8152-9807d0ff3021",
+        "team_id": "KC",
+        "version": 2
+      },
+      {
+        "id": "6e456de0-1a25-4d18-80d5-b62f05a043c6",
+        "team_id": "KC",
+        "version": 2
+      },
+      {
+        "id": "f12aab4f-7311-4a9e-a13a-fbcf1f2744e8",
+        "team_id": "KC",
+        "version": 2
+      },
+      {
+        "id": "016fd00e-7ba4-43cb-9920-a6f06d109f12",
+        "team_id": "LV",
+        "version": 2
+      },
+      {
+        "id": "b887a0ee-e8c9-4e40-aca3-116d2db11876",
+        "team_id": "LV",
+        "version": 2
+      },
+      {
+        "id": "9a652e69-11ed-4687-a681-4b3a53771369",
+        "team_id": "LV",
+        "version": 2
+      },
+      {
+        "id": "5a95c848-318e-432a-88a0-24618f8af8d1",
+        "team_id": "LAC",
+        "version": 2
+      },
+      {
+        "id": "7a7ce85f-945e-46ea-b653-1748c5e803b6",
+        "team_id": "LAC",
+        "version": 2
+      },
+      {
+        "id": "3f1f7c0b-5a0f-42f7-baa4-4a742e150898",
+        "team_id": "LAC",
+        "version": 2
+      },
+      {
+        "id": "4337eb5e-fed2-4332-9ab5-98e9b37943c4",
+        "team_id": "LAR",
+        "version": 2
+      },
+      {
+        "id": "6f676b3b-3d83-49b4-9f18-7adfe85aa135",
+        "team_id": "LAR",
+        "version": 2
+      },
+      {
+        "id": "6d2cae81-d106-4381-9c66-dd4765da4c3f",
+        "team_id": "LAR",
+        "version": 2
+      },
+      {
+        "id": "ebdde6e8-fcd5-46b4-af41-9b643993b406",
+        "team_id": "MIA",
+        "version": 2
+      },
+      {
+        "id": "eab015ba-586f-479a-a24a-d38736eebdd9",
+        "team_id": "MIA",
+        "version": 2
+      },
+      {
+        "id": "a9a4b8e8-4959-4b34-875b-e04fa7202e34",
+        "team_id": "MIA",
+        "version": 2
+      },
+      {
+        "id": "9f5e472d-d3a5-4c88-9af3-e235d6a7eabd",
+        "team_id": "MIN",
+        "version": 2
+      },
+      {
+        "id": "bcc4d103-9aec-4610-a67a-2bbc17e84677",
+        "team_id": "MIN",
+        "version": 2
+      },
+      {
+        "id": "5ebc111b-199f-4e76-8071-6d04e5dc06b2",
+        "team_id": "MIN",
+        "version": 2
+      },
+      {
+        "id": "8b7d2caa-3053-4fdb-ba71-760805f75d93",
+        "team_id": "NE",
+        "version": 2
+      },
+      {
+        "id": "afa5596f-8a7e-4ec8-a7a9-f55ab7f09469",
+        "team_id": "NE",
+        "version": 2
+      },
+      {
+        "id": "23f59fb6-6254-48a0-bd69-77e32823c433",
+        "team_id": "NE",
+        "version": 2
+      },
+      {
+        "id": "cd933a09-9793-49f4-a975-95c47609d02d",
+        "team_id": "NO",
+        "version": 2
+      },
+      {
+        "id": "caac3d10-66ca-4da9-83d8-673f99b41621",
+        "team_id": "NO",
+        "version": 2
+      },
+      {
+        "id": "760924f7-77e8-406c-a8a8-58a51770fcb5",
+        "team_id": "NO",
+        "version": 2
+      },
+      {
+        "id": "239dde17-85b8-4c9a-9be5-13943e4db100",
+        "team_id": "NYG",
+        "version": 2
+      },
+      {
+        "id": "4bf47c48-cf36-4b1d-b4d0-1b457ffff593",
+        "team_id": "NYG",
+        "version": 2
+      },
+      {
+        "id": "b4435400-eba6-46d8-a966-bed6b122f620",
+        "team_id": "NYG",
+        "version": 2
+      },
+      {
+        "id": "6d1b1fec-8b34-4e14-bc33-9df29129829f",
+        "team_id": "NYJ",
+        "version": 2
+      },
+      {
+        "id": "c1ec0c8f-7ede-48b3-b84c-5034cf43673d",
+        "team_id": "NYJ",
+        "version": 2
+      },
+      {
+        "id": "4e11f1d6-3aa5-4cff-996f-35a6328cdff0",
+        "team_id": "NYJ",
+        "version": 2
+      },
+      {
+        "id": "59eb21de-a50b-44d9-b12f-adf5de600400",
+        "team_id": "PHI",
+        "version": 2
+      },
+      {
+        "id": "3780a2c0-e75e-40a5-969d-f3be1eb25784",
+        "team_id": "PHI",
+        "version": 2
+      },
+      {
+        "id": "e52f636b-7616-4139-aa79-f359f49e82dd",
+        "team_id": "PHI",
+        "version": 2
+      },
+      {
+        "id": "582f716c-695c-41a8-b094-ec6a44aa50cf",
+        "team_id": "PIT",
+        "version": 2
+      },
+      {
+        "id": "900d6887-5d7c-4adf-903c-ebd3efcc5681",
+        "team_id": "PIT",
+        "version": 2
+      },
+      {
+        "id": "d497dbf1-0371-45e6-bffc-f9c2cd38a65f",
+        "team_id": "PIT",
+        "version": 2
+      },
+      {
+        "id": "6bf00c32-7b8c-4e57-a858-b5761bd4ef7c",
+        "team_id": "SF",
+        "version": 2
+      },
+      {
+        "id": "f0a9f572-3dac-47f7-ae12-1732181ab05b",
+        "team_id": "SF",
+        "version": 2
+      },
+      {
+        "id": "9462edb6-8890-473e-ad43-bda7951d0710",
+        "team_id": "SF",
+        "version": 2
+      },
+      {
+        "id": "b1401e0c-4f27-4d2b-92b5-545666a75596",
+        "team_id": "SEA",
+        "version": 2
+      },
+      {
+        "id": "45b35e8f-f39e-488a-a613-e0e187b4b160",
+        "team_id": "SEA",
+        "version": 2
+      },
+      {
+        "id": "53312ca0-d434-47e5-a58e-753fa3c067b6",
+        "team_id": "SEA",
+        "version": 2
+      },
+      {
+        "id": "420acc2b-67fe-496d-8e9d-96018214337e",
+        "team_id": "TB",
+        "version": 2
+      },
+      {
+        "id": "3721a505-40bf-42b7-9dbd-8e4825e49420",
+        "team_id": "TB",
+        "version": 2
+      },
+      {
+        "id": "e5764ddb-000f-417a-85a0-ede5029d5a3d",
+        "team_id": "TB",
+        "version": 2
+      },
+      {
+        "id": "8842f72a-fb8e-428a-be72-8b4e102b47d2",
+        "team_id": "TEN",
+        "version": 2
+      },
+      {
+        "id": "bb8d6cf1-4949-4138-a4ca-e1c01eab8507",
+        "team_id": "TEN",
+        "version": 2
+      },
+      {
+        "id": "fc71168a-5c18-4c00-81d4-4dc9dc61a768",
+        "team_id": "TEN",
+        "version": 2
+      },
+      {
+        "id": "d4693e89-7e1e-4e9e-9930-fdb0abce9a19",
+        "team_id": "WAS",
+        "version": 2
+      },
+      {
+        "id": "09da69a6-eaec-4921-852f-d2c65e9b3e3d",
+        "team_id": "WAS",
+        "version": 2
+      },
+      {
+        "id": "c798ccf0-68cd-48b8-8e2f-8bf36c4eeaa1",
+        "team_id": "WAS",
+        "version": 2
+      }
+    ],
+    "sourceCheckpoints": [
+      {
+        "id": "PRO_FOOTBALL_RUMORS",
+        "request_count": 72,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453200000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "ARI_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "ATL_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "BAL_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "BUF_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "CAR_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "CHI_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "CIN_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "CLE_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "DAL_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "DEN_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "DET_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "GB_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "HOU_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "IND_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "JAX_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "ARROWHEAD_ADDICT_WEB",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "LV_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "LAC_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "LAR_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "MIA_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "MIN_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "NE_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "NO_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "NYG_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "NYJ_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "PHI_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "PIT_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "SF_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "SEA_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "TB_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "TEN_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "WAS_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "ARI_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "ATL_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "BAL_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "BUF_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "CAR_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "CHI_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "CIN_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "CLE_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "DAL_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "DEN_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "DET_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "GB_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "HOU_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "IND_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "JAX_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "ARROWHEAD_PRIDE_WEB",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "LV_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "LAC_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "LAR_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "MIA_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "MIN_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "NE_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "NO_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "NYG_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "NYJ_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "PHI_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "PIT_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "SF_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "SEA_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "TB_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "TEN_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "WAS_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "ARI_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "ATL_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "BAL_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "BUF_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "CAR_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "CHI_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "CIN_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "CLE_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "DAL_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "DEN_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "DET_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "GB_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "HOU_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "IND_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "JAX_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "CHIEFS_COM",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "LV_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "LAC_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "LAR_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "MIA_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "MIN_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "NE_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "NO_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "NYG_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "NYJ_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "PHI_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "PIT_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "SF_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "SEA_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "TB_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "TEN_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "WAS_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      }
+    ],
+    "pendingInbox": [],
+    "jobs": [
+      {
+        "status": "COMPLETED",
+        "n": 98
+      }
+    ]
+  },
+  "final": {
+    "physicalBytes": 5029888,
+    "encoded": 1584595,
+    "stories": [
+      {
+        "id": "1741949f-9615-4fb3-ad6c-64bc0f9493e6",
+        "team_id": "ARI",
+        "version": 2
+      },
+      {
+        "id": "1667b24d-0870-4890-b66c-0fd828b395a0",
+        "team_id": "ARI",
+        "version": 2
+      },
+      {
+        "id": "478deae4-9df4-4bb6-96d5-02e8830c149a",
+        "team_id": "ARI",
+        "version": 2
+      },
+      {
+        "id": "6858dd28-fd58-458e-8358-44110d3858a7",
+        "team_id": "ATL",
+        "version": 2
+      },
+      {
+        "id": "cdb9d475-7ff3-466d-98d3-ce41582823ef",
+        "team_id": "ATL",
+        "version": 2
+      },
+      {
+        "id": "052092eb-8028-4469-a451-55c9a37f1a84",
+        "team_id": "ATL",
+        "version": 2
+      },
+      {
+        "id": "f15e4982-71b1-4018-94e3-3d674d2f74fa",
+        "team_id": "BAL",
+        "version": 2
+      },
+      {
+        "id": "0b7b47ab-6744-4c88-ba3e-0cd399799cd6",
+        "team_id": "BAL",
+        "version": 2
+      },
+      {
+        "id": "5fc5fd41-29d3-45f1-bdca-c3b2a9818f19",
+        "team_id": "BAL",
+        "version": 2
+      },
+      {
+        "id": "b050c4bb-0e2e-4122-9773-a830b48a8288",
+        "team_id": "BUF",
+        "version": 2
+      },
+      {
+        "id": "eed0ed17-dd77-4d08-8a55-cabdfc6fb02c",
+        "team_id": "BUF",
+        "version": 2
+      },
+      {
+        "id": "ae5d0dc8-cb9b-4fc5-bef7-7ddcdce3601c",
+        "team_id": "BUF",
+        "version": 2
+      },
+      {
+        "id": "fc4e75bd-ae33-474a-800e-ae81cd2c5e91",
+        "team_id": "CAR",
+        "version": 2
+      },
+      {
+        "id": "21b5015e-a555-487b-9199-4ece9a59f7ea",
+        "team_id": "CAR",
+        "version": 2
+      },
+      {
+        "id": "bf38c8dd-77cb-4e96-a744-51adb74a90f2",
+        "team_id": "CAR",
+        "version": 2
+      },
+      {
+        "id": "97edc653-9f2a-4abf-9e8b-6173aabca5c3",
+        "team_id": "CHI",
+        "version": 2
+      },
+      {
+        "id": "a91f34a7-a7e3-4632-965a-8504d6ca8779",
+        "team_id": "CHI",
+        "version": 2
+      },
+      {
+        "id": "a479912b-7b3c-4c45-a486-b98fc2d22b1a",
+        "team_id": "CHI",
+        "version": 2
+      },
+      {
+        "id": "2f74feec-9ecb-4650-9179-2d87fdc35d5d",
+        "team_id": "CIN",
+        "version": 2
+      },
+      {
+        "id": "f1ade38a-ab74-48ae-b183-951102e80a1d",
+        "team_id": "CIN",
+        "version": 2
+      },
+      {
+        "id": "f7d95978-46a6-4d48-b15a-36dc84c07c18",
+        "team_id": "CIN",
+        "version": 2
+      },
+      {
+        "id": "6156ca61-1a83-46b3-882f-e17ea05fc557",
+        "team_id": "CLE",
+        "version": 2
+      },
+      {
+        "id": "09a24ba2-7925-4ecf-b47f-3f03f60a4d4a",
+        "team_id": "CLE",
+        "version": 2
+      },
+      {
+        "id": "d12ae2b2-d997-4fc4-9ef3-af4e52c96724",
+        "team_id": "CLE",
+        "version": 2
+      },
+      {
+        "id": "c406c4c9-d16e-4013-8d9f-63b9d3a53419",
+        "team_id": "DAL",
+        "version": 2
+      },
+      {
+        "id": "47728734-ac68-42f9-a35c-db13f73dd6f1",
+        "team_id": "DAL",
+        "version": 2
+      },
+      {
+        "id": "516f2b45-4ab7-415e-9a6b-668705e4b32d",
+        "team_id": "DAL",
+        "version": 2
+      },
+      {
+        "id": "52f94238-a066-48e9-a4e3-13922e550885",
+        "team_id": "DEN",
+        "version": 2
+      },
+      {
+        "id": "92885205-4e80-4ea0-8f9c-e750ce9d0dc9",
+        "team_id": "DEN",
+        "version": 2
+      },
+      {
+        "id": "1c91683d-8cb2-4304-a81a-9ffbf13dd242",
+        "team_id": "DEN",
+        "version": 2
+      },
+      {
+        "id": "c0f9dd74-1bc8-49ba-a0ad-6b92f76f12c1",
+        "team_id": "DET",
+        "version": 2
+      },
+      {
+        "id": "022553da-f07a-477a-912f-4bdb96376c78",
+        "team_id": "DET",
+        "version": 2
+      },
+      {
+        "id": "c2ff40f7-f28b-4792-937e-fb7d43fefdec",
+        "team_id": "DET",
+        "version": 2
+      },
+      {
+        "id": "4065e7f9-dbd0-4c83-8ac3-5f2feeb1853c",
+        "team_id": "GB",
+        "version": 2
+      },
+      {
+        "id": "60e5dbd0-0739-405f-9b12-7946060c7f03",
+        "team_id": "GB",
+        "version": 2
+      },
+      {
+        "id": "be6de9ff-1824-479c-8e0a-70b34495adfe",
+        "team_id": "GB",
+        "version": 2
+      },
+      {
+        "id": "deba0adf-3b03-4e7f-8b9d-47425d3ff33c",
+        "team_id": "HOU",
+        "version": 2
+      },
+      {
+        "id": "1166dbdb-0884-4396-a2ec-ceaa8258c57c",
+        "team_id": "HOU",
+        "version": 2
+      },
+      {
+        "id": "779d3300-b988-4974-bf08-6d137b091420",
+        "team_id": "HOU",
+        "version": 2
+      },
+      {
+        "id": "1cfd2337-5f6c-4892-911d-63a9389f05cc",
+        "team_id": "IND",
+        "version": 2
+      },
+      {
+        "id": "fa2698a0-94db-4a39-bc28-d59a98af5212",
+        "team_id": "IND",
+        "version": 2
+      },
+      {
+        "id": "96f679b0-907f-4163-b2a3-368a8b923e58",
+        "team_id": "IND",
+        "version": 2
+      },
+      {
+        "id": "2d0a4e17-1412-4c66-9b51-263f4931a785",
+        "team_id": "JAX",
+        "version": 2
+      },
+      {
+        "id": "feccb14c-bcec-4631-acbb-b900ec0e2af9",
+        "team_id": "JAX",
+        "version": 2
+      },
+      {
+        "id": "59da7eed-f48d-4d05-8846-af46c732be6e",
+        "team_id": "JAX",
+        "version": 2
+      },
+      {
+        "id": "761ad7ed-6774-464b-8152-9807d0ff3021",
+        "team_id": "KC",
+        "version": 2
+      },
+      {
+        "id": "6e456de0-1a25-4d18-80d5-b62f05a043c6",
+        "team_id": "KC",
+        "version": 2
+      },
+      {
+        "id": "f12aab4f-7311-4a9e-a13a-fbcf1f2744e8",
+        "team_id": "KC",
+        "version": 2
+      },
+      {
+        "id": "016fd00e-7ba4-43cb-9920-a6f06d109f12",
+        "team_id": "LV",
+        "version": 2
+      },
+      {
+        "id": "b887a0ee-e8c9-4e40-aca3-116d2db11876",
+        "team_id": "LV",
+        "version": 2
+      },
+      {
+        "id": "9a652e69-11ed-4687-a681-4b3a53771369",
+        "team_id": "LV",
+        "version": 2
+      },
+      {
+        "id": "5a95c848-318e-432a-88a0-24618f8af8d1",
+        "team_id": "LAC",
+        "version": 2
+      },
+      {
+        "id": "7a7ce85f-945e-46ea-b653-1748c5e803b6",
+        "team_id": "LAC",
+        "version": 2
+      },
+      {
+        "id": "3f1f7c0b-5a0f-42f7-baa4-4a742e150898",
+        "team_id": "LAC",
+        "version": 2
+      },
+      {
+        "id": "4337eb5e-fed2-4332-9ab5-98e9b37943c4",
+        "team_id": "LAR",
+        "version": 2
+      },
+      {
+        "id": "6f676b3b-3d83-49b4-9f18-7adfe85aa135",
+        "team_id": "LAR",
+        "version": 2
+      },
+      {
+        "id": "6d2cae81-d106-4381-9c66-dd4765da4c3f",
+        "team_id": "LAR",
+        "version": 2
+      },
+      {
+        "id": "ebdde6e8-fcd5-46b4-af41-9b643993b406",
+        "team_id": "MIA",
+        "version": 2
+      },
+      {
+        "id": "eab015ba-586f-479a-a24a-d38736eebdd9",
+        "team_id": "MIA",
+        "version": 2
+      },
+      {
+        "id": "a9a4b8e8-4959-4b34-875b-e04fa7202e34",
+        "team_id": "MIA",
+        "version": 2
+      },
+      {
+        "id": "9f5e472d-d3a5-4c88-9af3-e235d6a7eabd",
+        "team_id": "MIN",
+        "version": 2
+      },
+      {
+        "id": "bcc4d103-9aec-4610-a67a-2bbc17e84677",
+        "team_id": "MIN",
+        "version": 2
+      },
+      {
+        "id": "5ebc111b-199f-4e76-8071-6d04e5dc06b2",
+        "team_id": "MIN",
+        "version": 2
+      },
+      {
+        "id": "8b7d2caa-3053-4fdb-ba71-760805f75d93",
+        "team_id": "NE",
+        "version": 2
+      },
+      {
+        "id": "afa5596f-8a7e-4ec8-a7a9-f55ab7f09469",
+        "team_id": "NE",
+        "version": 2
+      },
+      {
+        "id": "23f59fb6-6254-48a0-bd69-77e32823c433",
+        "team_id": "NE",
+        "version": 2
+      },
+      {
+        "id": "cd933a09-9793-49f4-a975-95c47609d02d",
+        "team_id": "NO",
+        "version": 2
+      },
+      {
+        "id": "caac3d10-66ca-4da9-83d8-673f99b41621",
+        "team_id": "NO",
+        "version": 2
+      },
+      {
+        "id": "760924f7-77e8-406c-a8a8-58a51770fcb5",
+        "team_id": "NO",
+        "version": 2
+      },
+      {
+        "id": "239dde17-85b8-4c9a-9be5-13943e4db100",
+        "team_id": "NYG",
+        "version": 2
+      },
+      {
+        "id": "4bf47c48-cf36-4b1d-b4d0-1b457ffff593",
+        "team_id": "NYG",
+        "version": 2
+      },
+      {
+        "id": "b4435400-eba6-46d8-a966-bed6b122f620",
+        "team_id": "NYG",
+        "version": 2
+      },
+      {
+        "id": "6d1b1fec-8b34-4e14-bc33-9df29129829f",
+        "team_id": "NYJ",
+        "version": 2
+      },
+      {
+        "id": "c1ec0c8f-7ede-48b3-b84c-5034cf43673d",
+        "team_id": "NYJ",
+        "version": 2
+      },
+      {
+        "id": "4e11f1d6-3aa5-4cff-996f-35a6328cdff0",
+        "team_id": "NYJ",
+        "version": 2
+      },
+      {
+        "id": "59eb21de-a50b-44d9-b12f-adf5de600400",
+        "team_id": "PHI",
+        "version": 2
+      },
+      {
+        "id": "3780a2c0-e75e-40a5-969d-f3be1eb25784",
+        "team_id": "PHI",
+        "version": 2
+      },
+      {
+        "id": "e52f636b-7616-4139-aa79-f359f49e82dd",
+        "team_id": "PHI",
+        "version": 2
+      },
+      {
+        "id": "582f716c-695c-41a8-b094-ec6a44aa50cf",
+        "team_id": "PIT",
+        "version": 2
+      },
+      {
+        "id": "900d6887-5d7c-4adf-903c-ebd3efcc5681",
+        "team_id": "PIT",
+        "version": 2
+      },
+      {
+        "id": "d497dbf1-0371-45e6-bffc-f9c2cd38a65f",
+        "team_id": "PIT",
+        "version": 2
+      },
+      {
+        "id": "6bf00c32-7b8c-4e57-a858-b5761bd4ef7c",
+        "team_id": "SF",
+        "version": 2
+      },
+      {
+        "id": "f0a9f572-3dac-47f7-ae12-1732181ab05b",
+        "team_id": "SF",
+        "version": 2
+      },
+      {
+        "id": "9462edb6-8890-473e-ad43-bda7951d0710",
+        "team_id": "SF",
+        "version": 2
+      },
+      {
+        "id": "b1401e0c-4f27-4d2b-92b5-545666a75596",
+        "team_id": "SEA",
+        "version": 2
+      },
+      {
+        "id": "45b35e8f-f39e-488a-a613-e0e187b4b160",
+        "team_id": "SEA",
+        "version": 2
+      },
+      {
+        "id": "53312ca0-d434-47e5-a58e-753fa3c067b6",
+        "team_id": "SEA",
+        "version": 2
+      },
+      {
+        "id": "420acc2b-67fe-496d-8e9d-96018214337e",
+        "team_id": "TB",
+        "version": 2
+      },
+      {
+        "id": "3721a505-40bf-42b7-9dbd-8e4825e49420",
+        "team_id": "TB",
+        "version": 2
+      },
+      {
+        "id": "e5764ddb-000f-417a-85a0-ede5029d5a3d",
+        "team_id": "TB",
+        "version": 2
+      },
+      {
+        "id": "8842f72a-fb8e-428a-be72-8b4e102b47d2",
+        "team_id": "TEN",
+        "version": 2
+      },
+      {
+        "id": "bb8d6cf1-4949-4138-a4ca-e1c01eab8507",
+        "team_id": "TEN",
+        "version": 2
+      },
+      {
+        "id": "fc71168a-5c18-4c00-81d4-4dc9dc61a768",
+        "team_id": "TEN",
+        "version": 2
+      },
+      {
+        "id": "d4693e89-7e1e-4e9e-9930-fdb0abce9a19",
+        "team_id": "WAS",
+        "version": 2
+      },
+      {
+        "id": "09da69a6-eaec-4921-852f-d2c65e9b3e3d",
+        "team_id": "WAS",
+        "version": 2
+      },
+      {
+        "id": "c798ccf0-68cd-48b8-8e2f-8bf36c4eeaa1",
+        "team_id": "WAS",
+        "version": 2
+      }
+    ],
+    "sourceCheckpoints": [
+      {
+        "id": "PRO_FOOTBALL_RUMORS",
+        "request_count": 72,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453200000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "ARI_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "ATL_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "BAL_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "BUF_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "CAR_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "CHI_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "CIN_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "CLE_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "DAL_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "DEN_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "DET_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "GB_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "HOU_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "IND_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "JAX_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "ARROWHEAD_ADDICT_WEB",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "LV_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "LAC_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "LAR_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "MIA_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "MIN_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "NE_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "NO_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "NYG_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "NYJ_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "PHI_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "PIT_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "SF_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "SEA_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "TB_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "TEN_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "WAS_FANSIDED",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "ARI_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "ATL_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "BAL_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "BUF_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "CAR_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "CHI_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "CIN_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "CLE_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "DAL_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "DEN_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "DET_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "GB_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "HOU_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "IND_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "JAX_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "ARROWHEAD_PRIDE_WEB",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "LV_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "LAC_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "LAR_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "MIA_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "MIN_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "NE_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "NO_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "NYG_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "NYJ_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "PHI_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "PIT_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "SF_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "SEA_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "TB_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "TEN_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "WAS_SB_NATION",
+        "request_count": 144,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792453800000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "ARI_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "ATL_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "BAL_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "BUF_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "CAR_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "CHI_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "CIN_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "CLE_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "DAL_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "DEN_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "DET_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "GB_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "HOU_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "IND_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "JAX_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "CHIEFS_COM",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "LV_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "LAC_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "LAR_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "MIA_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "MIN_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "NE_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "NO_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "NYG_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "NYJ_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "PHI_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "PIT_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "SF_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "SEA_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "TB_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "TEN_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      },
+      {
+        "id": "WAS_OFFICIAL_NEWS",
+        "request_count": 288,
+        "next_check_at": 1792454400000,
+        "last_checked_at": 1792454100000,
+        "failure_count": 0,
+        "etag": "\"synthetic-feed-v1\""
+      }
+    ],
+    "pendingInbox": [],
+    "jobs": [
+      {
+        "status": "COMPLETED",
+        "n": 98
+      }
+    ]
+  },
+  "maintenance": {
+    "scope": "Owner-only offline preparation/restore, not one Worker invocation; retention steps individually bounded. All archived tables and FTS rowids compared before deletion.",
+    "restoreVerified": true,
+    "archiveBytes": 4081444,
+    "archiveTwoCopiesBytes": 8162888,
+    "preparation": {
+      "d1Calls": 1135,
+      "statements": 1139,
+      "rowsRead": 13641,
+      "rowsWritten": 8
+    },
+    "recovery": {
+      "d1Calls": 445,
+      "statements": 3634,
+      "rowsRead": 7345,
+      "rowsWritten": 7171
+    },
+    "steps": [
+      {
+        "d1Calls": 3,
+        "statements": 10,
+        "rowsRead": 106,
+        "rowsWritten": 10,
+        "done": false,
+        "retired": 1
+      },
+      {
+        "d1Calls": 3,
+        "statements": 10,
+        "rowsRead": 106,
+        "rowsWritten": 10,
+        "done": false,
+        "retired": 1
+      },
+      {
+        "d1Calls": 3,
+        "statements": 6,
+        "rowsRead": 8,
+        "rowsWritten": 4,
+        "done": true,
+        "retired": 0
+      }
+    ],
+    "gc": {
+      "runId": "c6389b12-f34f-4585-82d9-69acd40b9a69",
+      "dryRun": false,
+      "rootReferences": 971,
+      "reachable": 1099,
+      "objects": 1101,
+      "candidateObjects": 2,
+      "candidateEncodedBytes": 1138,
+      "deletedObjects": 2,
+      "releasedEncodedBytes": 1138,
+      "queries": 1326,
+      "rowsRead": 4341,
+      "rowsWritten": 8,
+      "physicalBytesReclaimed": null
+    },
+    "selected": 2,
+    "retired": 2,
+    "onlineCleanupRowsWritten": 32,
+    "onlineCleanupRowsRead": 4561
+  },
+  "requestCount": 11375,
+  "maximumQueries": 47,
+  "over50": 0,
+  "subsystems": {
+    "registry": {
+      "requests": 5761,
+      "statements": 18362,
+      "rowsRead": 18002,
+      "rowsWritten": 1082,
+      "maxQueries": 14
+    },
+    "fixture-setup": {
+      "requests": 2,
+      "statements": 46,
+      "rowsRead": 64,
+      "rowsWritten": 50,
+      "maxQueries": 23
+    },
+    "inspect": {
+      "requests": 4,
+      "statements": 24,
+      "rowsRead": 985,
+      "rowsWritten": 0,
+      "maxQueries": 6
+    },
+    "source-poll-and-jobs": {
+      "requests": 3912,
+      "statements": 59064,
+      "rowsRead": 543228,
+      "rowsWritten": 54912,
+      "maxQueries": 34
+    },
+    "editorial-processing": {
+      "requests": 96,
+      "statements": 4134,
+      "rowsRead": 34513,
+      "rowsWritten": 4805,
+      "maxQueries": 47
+    },
+    "scheduler-idle": {
+      "requests": 1440,
+      "statements": 4320,
+      "rowsRead": 146880,
+      "rowsWritten": 0,
+      "maxQueries": 3
+    },
+    "corrections": {
+      "requests": 96,
+      "statements": 2688,
+      "rowsRead": 5859,
+      "rowsWritten": 2977,
+      "maxQueries": 28
+    },
+    "odds": {
+      "requests": 16,
+      "statements": 576,
+      "rowsRead": 448,
+      "rowsWritten": 416,
+      "maxQueries": 36
+    },
+    "lab-scores": {
+      "requests": 16,
+      "statements": 304,
+      "rowsRead": 294,
+      "rowsWritten": 112,
+      "maxQueries": 19
+    },
+    "three-and-out": {
+      "requests": 32,
+      "statements": 352,
+      "rowsRead": 288,
+      "rowsWritten": 320,
+      "maxQueries": 11
+    }
+  },
+  "assumptions": {
+    "content": "3 synthetic candidates/team; one correction per created story; content clustering/synthesis real deterministic code",
+    "sources": "all current registry cadence; repeated registry sync every 30 minutes; external fetch stubbed; no real upstream calls",
+    "odds": "all 16 events x2000 markets on actual Monday 15UTC slot; schedule remains Mon/Wed/Sat; real computeTrendingProps, no invented scores; empty historical references are explicitly a coverage gap",
+    "cpu": "unmeasured hosted CPU; wall time only",
+    "retention": "verified encrypted full export and complete restore before owner-only retention and GC; six/eight-day processed candidates exercise the seven-day boundary"
+  }
+}

@@ -1,0 +1,815 @@
+TAP version 13
+# {"event":"SIGN_IN","at":"2026-10-19T18:30:44.070Z","userId":"717ba6de-ee25-4ba9-a6ca-228f8f9f24b6","ip":null}
+# {"event":"SIGN_IN","at":"2026-10-19T18:30:44.535Z","userId":"717ba6de-ee25-4ba9-a6ca-228f8f9f24b6","ip":null}
+# Subtest: real Next handlers on D1: email recovery, login/logout, native bearer session, preferences and restart
+ok 1 - real Next handlers on D1: email recovery, login/logout, native bearer session, preferences and restart
+  ---
+  duration_ms: 6245.096375
+  ...
+# Subtest: approved policy boundaries, saved/cross references, published corrections, archive gate and bounded private workerd steps
+ok 2 - approved policy boundaries, saved/cross references, published corrections, archive gate and bounded private workerd steps
+  ---
+  duration_ms: 23451.983084
+  ...
+# Subtest: prefix planning preserves references from omitted clusters and formerly published drafts do not get seven-day expiry
+ok 3 - prefix planning preserves references from omitted clusters and formerly published drafts do not get seven-day expiry
+  ---
+  duration_ms: 10201.325209
+  ...
+# Subtest: prepared inbox and outbox share one immutable payload under concurrent delivery and preserve owner isolation
+ok 4 - prepared inbox and outbox share one immutable payload under concurrent delivery and preserve owner isolation
+  ---
+  duration_ms: 1920.784958
+  ...
+# Subtest: D1 structured search uses stored schedule attribution, reports missing evidence, and fails closed on malformed hosted classification
+ok 5 - D1 structured search uses stored schedule attribution, reports missing evidence, and fails closed on malformed hosted classification
+  ---
+  duration_ms: 1678.70975
+  ...
+# Subtest: Parlay board, alt lines, real scoring and API reads run on D1/R2; original IDs and source-bound precomputes survive refresh
+ok 6 - Parlay board, alt lines, real scoring and API reads run on D1/R2; original IDs and source-bound precomputes survive refresh
+  ---
+  duration_ms: 3002.077791
+  ...
+# Subtest: D1 reward dashboard, concurrent claims and redemption preserve account ownership
+ok 7 - D1 reward dashboard, concurrent claims and redemption preserve account ownership
+  ---
+  duration_ms: 1279.723208
+  ...
+# {"metric":"three_and_out_generated","teamId":"KC","briefingDate":"2026-10-18","storyIds":["original-story-0","original-story-1","original-story-2"]}
+# Subtest: editorial IDs, source attribution, lexical search, Three & Out and queued email run without PostgreSQL
+ok 8 - editorial IDs, source attribution, lexical search, Three & Out and queued email run without PostgreSQL
+  ---
+  duration_ms: 1432.382625
+  ...
+# Subtest: signup mail staging is atomic; explicit rate rejections retry, ambiguous delivery does not
+ok 9 - signup mail staging is atomic; explicit rate rejections retry, ambiguous delivery does not
+  ---
+  duration_ms: 1222.283125
+  ...
+# [sportsGameOdds] usage 0/2500 monthly objects; local ceiling 1000
+# [sportsGameOdds] GET /events {
+#   leagueID: 'NFL',
+#   type: 'match',
+#   started: 'false',
+#   oddsPresent: 'true',
+#   bookmakerID: 'fanduel,draftkings,betmgm,caesars',
+#   includeAltLines: 'true',
+#   includeOpposingOdds: 'true',
+#   includeOpenCloseOdds: 'true',
+#   startsAfter: '2026-10-19T15:00:00.000Z',
+#   startsBefore: '2026-10-26T15:00:00.000Z',
+#   limit: '25'
+# }
+# Subtest: scheduled raw publication feeds retry-safe normalized board and precompute without more provider requests
+ok 10 - scheduled raw publication feeds retry-safe normalized board and precompute without more provider requests
+  ---
+  duration_ms: 1522.911666
+  ...
+# Subtest: Front Office actual routes persist owner-scoped D1/R2 commands, replay, rollback, gameplay and restart without PostgreSQL
+ok 11 - Front Office actual routes persist owner-scoped D1/R2 commands, replay, rollback, gameplay and restart without PostgreSQL
+  ---
+  duration_ms: 22516.742041
+  ...
+# Subtest: saved bet metadata offloads losslessly, retaining original IDs, owner guards and bounded indexed cleanup
+ok 12 - saved bet metadata offloads losslessly, retaining original IDs, owner guards and bounded indexed cleanup
+  ---
+  duration_ms: 2339.928166
+  ...
+# Subtest: bulk preparation concurrent dedup reserves exact bytes, rejects capacity and detects corrupted objects
+ok 13 - bulk preparation concurrent dedup reserves exact bytes, rejects capacity and detects corrupted objects
+  ---
+  duration_ms: 1398.981125
+  ...
+# Subtest: canonical bodies share across corrections; all original revisions and attribution restore without R2
+ok 14 - canonical bodies share across corrections; all original revisions and attribution restore without R2
+  ---
+  duration_ms: 4265.618583
+  ...
+# Subtest: registry clock revisits do not rewrite definitions or reset polling validators
+ok 15 - registry clock revisits do not rewrite definitions or reset polling validators
+  ---
+  duration_ms: 1490.511833
+  ...
+# Subtest: combined publication guard rejects a raced public version and preserves FTS atomically
+ok 16 - combined publication guard rejects a raced public version and preserves FTS atomically
+  ---
+  duration_ms: 1210.0165
+  ...
+# Subtest: shared invocation budget rejects oversized batches before any mutation and concurrent reads cannot exceed the limit
+ok 17 - shared invocation budget rejects oversized batches before any mutation and concurrent reads cannot exceed the limit
+  ---
+  duration_ms: 1036.856333
+  ...
+# Subtest: D1 commerce prevents overselling and duplicate reservations; payments, refunds and shipping are atomic
+ok 18 - D1 commerce prevents overselling and duplicate reservations; payments, refunds and shipping are atomic
+  ---
+  duration_ms: 1807.711833
+  ...
+# Subtest: D1 crews enforce invite identity, one active crew, targeted visibility, media ownership and durable fanout
+ok 19 - D1 crews enforce invite identity, one active crew, targeted visibility, media ownership and durable fanout
+  ---
+  duration_ms: 2284.204167
+  ...
+# Subtest: D1 drill and group Trivia hide answers, reject duplicate concurrent answers, preserve rewards and group capacity
+ok 20 - D1 drill and group Trivia hide answers, reject duplicate concurrent answers, preserve rewards and group capacity
+  ---
+  duration_ms: 2339.83125
+  ...
+# Subtest: offline migration preserves executable franchise state, original social/game IDs, receipt replay and incomplete recovery evidence
+ok 21 - offline migration preserves executable franchise state, original social/game IDs, receipt replay and incomplete recovery evidence
+  ---
+  duration_ms: 2813.316166
+  ...
+# Subtest: D1 ingestion claims once, preserves evidence, rejects stale revisions and atomically publishes searchable historical IDs
+ok 22 - D1 ingestion claims once, preserves evidence, rejects stale revisions and atomically publishes searchable historical IDs
+  ---
+  duration_ms: 1634.966375
+  ...
+# Subtest: D1 browser push endpoint moves between accounts; owned deletion and cooldown remain isolated
+ok 23 - D1 browser push endpoint moves between accounts; owned deletion and cooldown remain isolated
+  ---
+  duration_ms: 2037.920333
+  ...
+# Subtest: D1 history ingestion retains canonical IDs, exact player mappings and updated reference logs
+ok 24 - D1 history ingestion retains canonical IDs, exact player mappings and updated reference logs
+  ---
+  duration_ms: 1866.240042
+  ...
+# Subtest: D1 sportsbook proposals and durable quota reservations use stored selections without live provider requests
+ok 25 - D1 sportsbook proposals and durable quota reservations use stored selections without live provider requests
+  ---
+  duration_ms: 1665.30275
+  ...
+# Subtest: D1 scheduler delivers durable outbox, delegates authenticated jobs, preserves odds cadence, and observer reports run without PostgreSQL
+ok 26 - D1 scheduler delivers durable outbox, delegates authenticated jobs, preserves odds cadence, and observer reports run without PostgreSQL
+  ---
+  duration_ms: 2440.415917
+  ...
+# Subtest: D1 social migration preserves original IDs, atomic chat rate limits, poll votes and private room boundaries
+ok 27 - D1 social migration preserves original IDs, atomic chat rate limits, poll votes and private room boundaries
+  ---
+  duration_ms: 3264.914583
+  ...
+# Subtest: D1 content progress, catch-up visit races, one poll vote, atomic prediction rewards and single-use email change
+ok 28 - D1 content progress, catch-up visit races, one poll vote, atomic prediction rewards and single-use email change
+  ---
+  duration_ms: 2417.967042
+  ...
+# Subtest: opt-in binary directory checkpoint restores original rows and all immutable objects into fresh D1/R2
+ok 29 - opt-in binary directory checkpoint restores original rows and all immutable objects into fresh D1/R2
+  ---
+  duration_ms: 11309.423625
+  ...
+# Subtest: private bounded workerd sweep resumes after restart, fences writers and handles concurrent steps
+ok 30 - private bounded workerd sweep resumes after restart, fences writers and handles concurrent steps
+  ---
+  duration_ms: 2280.036083
+  ...
+# Subtest: source-version retention removes only unreadable score cache rows and preserves saved evidence and old odds IDs
+ok 31 - source-version retention removes only unreadable score cache rows and preserves saved evidence and old odds IDs
+  ---
+  duration_ms: 1863.143833
+  ...
+# Subtest: inline bulk retrieval bounds statements and still rejects corrupt bytes
+ok 32 - inline bulk retrieval bounds statements and still rejects corrupt bytes
+  ---
+  duration_ms: 2541.453209
+  ...
+# Subtest: consumed-token archival and stale-score maintenance preserve rows within one bounded invocation
+ok 33 - consumed-token archival and stale-score maintenance preserve rows within one bounded invocation
+  ---
+  duration_ms: 1350.103125
+  ...
+# Subtest: editorial body sharing retains 160 published versions, search and saved IDs through verified GC
+ok 34 - editorial body sharing retains 160 published versions, search and saved IDs through verified GC
+  ---
+  duration_ms: 19982.849334
+  ...
+# Subtest: 200 historical odds generations remain exact below 30 read statements, including chunked and corrupt payloads
+ok 35 - 200 historical odds generations remain exact below 30 read statements, including chunked and corrupt payloads
+  ---
+  duration_ms: 17191.739542
+  ...
+# Subtest: bounded lifecycle resumes eligible queue, protects leases and references, and rolls audit back on failure
+ok 36 - bounded lifecycle resumes eligible queue, protects leases and references, and rolls audit back on failure
+  ---
+  duration_ms: 2021.472666
+  ...
+# Subtest: No R2 D1 scheduler delivers durable outbox, delegates authenticated jobs, preserves odds cadence, and observer reports run without PostgreSQL
+ok 37 - No R2 D1 scheduler delivers durable outbox, delegates authenticated jobs, preserves odds cadence, and observer reports run without PostgreSQL
+  ---
+  duration_ms: 1404.689667
+  ...
+# maximum-payload-metrics {"d1Calls":4,"statements":22,"rowsRead":94,"rowsWritten":91}
+# Subtest: No R2: D1 payload deduplication, restart, corruption and capacity
+ok 38 - No R2: D1 payload deduplication, restart, corruption and capacity
+  ---
+  duration_ms: 8949.185083
+  ...
+# Subtest: indexed upcoming-event range preserves rows while avoiding historical board scan
+ok 39 - indexed upcoming-event range preserves rows while avoiding historical board scan
+  ---
+  duration_ms: 1246.196958
+  ...
+# Subtest: actual daily trivia API uses D1, hides correct answers, retains progress and rejects cross-user replay
+ok 40 - actual daily trivia API uses D1, hides correct answers, retains progress and rejects cross-user replay
+  ---
+  duration_ms: 1383.153292
+  ...
+# Subtest: representative PostgreSQL daily trivia and reward IDs migrate losslessly with original relationships
+ok 41 - representative PostgreSQL daily trivia and reward IDs migrate losslessly with original relationships
+  ---
+  duration_ms: 1466.223708
+  ...
+# Subtest: eight-source batch bounds queries, intervals, validators and duplicate scheduler ownership
+ok 42 - eight-source batch bounds queries, intervals, validators and duplicate scheduler ownership
+  ---
+  duration_ms: 1527.409083
+  ...
+# Subtest: termination, expired lease, independent timeout and failed checkpoint transaction
+ok 43 - termination, expired lease, independent timeout and failed checkpoint transaction
+  ---
+  duration_ms: 1305.392041
+  ...
+# Subtest: durable inbox survives restart and repairs interrupted candidate job with original attribution
+ok 44 - durable inbox survives restart and repairs interrupted candidate job with original attribution
+  ---
+  duration_ms: 1710.018625
+  ...
+# Subtest: failed item processing retains evidence separately while healthy source checkpoints advance
+ok 45 - failed item processing retains evidence separately while healthy source checkpoints advance
+  ---
+  duration_ms: 1391.791958
+  ...
+# Subtest: large simultaneous feeds use independent bounded inbox rows rather than one oversized batch row
+ok 46 - large simultaneous feeds use independent bounded inbox rows rather than one oversized batch row
+  ---
+  duration_ms: 1508.578792
+  ...
+# Subtest: concurrent stale candidate processing cannot publish two canonical articles
+ok 47 - concurrent stale candidate processing cannot publish two canonical articles
+  ---
+  duration_ms: 1220.132917
+  ...
+# Subtest: prepared saved odds preserves original identities/fields, rejects incomplete legacy evidence and never retires source
+ok 48 - prepared saved odds preserves original identities/fields, rejects incomplete legacy evidence and never retires source
+  ---
+  duration_ms: 1340.526959
+  ...
+# Subtest: D1 notifications preserve ownership, deduplication, disabled-device isolation and full export
+ok 49 - D1 notifications preserve ownership, deduplication, disabled-device isolation and full export
+  ---
+  duration_ms: 2422.037541
+  ...
+# Subtest: actual workerd authentication: registration, native verification, reset, expiry, isolation, concurrent sessions and restart
+ok 50 - actual workerd authentication: registration, native verification, reset, expiry, isolation, concurrent sessions and restart
+  ---
+  duration_ms: 25988.749417
+  ...
+# Subtest: weekly full + daily row deltas: complete chain restore, interrupted restore, missing/corrupt parent rejection and reference-safe retention
+ok 51 - weekly full + daily row deltas: complete chain restore, interrupted restore, missing/corrupt parent rejection and reference-safe retention
+  ---
+  duration_ms: 12767.578042
+  ...
+# Subtest: reference-aware maintenance: nested roots, saved evidence, pins, dry run, stale writes and transactional reclamation
+ok 52 - reference-aware maintenance: nested roots, saved evidence, pins, dry run, stale writes and transactional reclamation
+  ---
+  duration_ms: 3269.302542
+  ...
+# Subtest: expired inference only: original expiry and active leases, corruption fails closed
+ok 53 - expired inference only: original expiry and active leases, corruption fails closed
+  ---
+  duration_ms: 2313.958
+  ...
+# Subtest: failed sweep rolls back chunks, capacity and audit; recovery ciphertext and abandoned fences fail closed
+ok 54 - failed sweep rolls back chunks, capacity and audit; recovery ciphertext and abandoned fences fail closed
+  ---
+  duration_ms: 2255.847916
+  ...
+# Subtest: legacy base64 repacking preserves hashes, IDs and reservations and resumes idempotently
+ok 55 - legacy base64 repacking preserves hashes, IDs and reservations and resumes idempotently
+  ---
+  duration_ms: 1165.791875
+  ...
+# Subtest: no-R2 workerd retries skip candidate uploads and score rewrites without hiding changes
+ok 56 - no-R2 workerd retries skip candidate uploads and score rewrites without hiding changes
+  ---
+  duration_ms: 1655.814916
+  ...
+# Subtest: synthetic SQL bridge rejects remote hosts, missing secrets, corrupt objects and oversized streamed bodies
+ok 57 - synthetic SQL bridge rejects remote hosts, missing secrets, corrupt objects and oversized streamed bodies
+  ---
+  duration_ms: 1301.787167
+  ...
+# Subtest: saved metadata cannot inject another owner private pointer or bypass envelope ownership
+ok 58 - saved metadata cannot inject another owner private pointer or bypass envelope ownership
+  ---
+  duration_ms: 1463.819583
+  ...
+# Subtest: D1 identities, settings, sessions, replay detection, ownership and restart
+ok 59 - D1 identities, settings, sessions, replay detection, ownership and restart
+  ---
+  duration_ms: 1621.522208
+  ...
+# Subtest: large owned game/slip/trivia/config aggregates commit atomically with R2 and reject stale updates
+ok 60 - large owned game/slip/trivia/config aggregates commit atomically with R2 and reject stale updates
+  ---
+  duration_ms: 2592.907417
+  ...
+# [sportsGameOdds] usage 0/2500 monthly objects; local ceiling 1000
+# [sportsGameOdds] GET /events {
+#   leagueID: 'NFL',
+#   type: 'match',
+#   started: 'false',
+#   oddsPresent: 'true',
+#   bookmakerID: 'fanduel,draftkings,betmgm,caesars',
+#   includeAltLines: 'true',
+#   includeOpposingOdds: 'true',
+#   includeOpenCloseOdds: 'true',
+#   startsAfter: '2026-10-05T15:00:00.000Z',
+#   startsBefore: '2026-10-12T15:00:00.000Z',
+#   limit: '25'
+# }
+# [sportsGameOdds] usage 0/2500 monthly objects; local ceiling 1000
+# [sportsGameOdds] GET /events {
+#   leagueID: 'NFL',
+#   type: 'match',
+#   started: 'false',
+#   oddsPresent: 'true',
+#   bookmakerID: 'fanduel,draftkings,betmgm,caesars',
+#   includeAltLines: 'true',
+#   includeOpposingOdds: 'true',
+#   includeOpenCloseOdds: 'true',
+#   startsAfter: '2026-10-10T15:00:00.000Z',
+#   startsBefore: '2026-10-17T15:00:00.000Z',
+#   limit: '25'
+# }
+# [sportsGameOdds] usage 0/2500 monthly objects; local ceiling 1000
+# [sportsGameOdds] GET /events {
+#   leagueID: 'NFL',
+#   type: 'match',
+#   started: 'false',
+#   oddsPresent: 'true',
+#   bookmakerID: 'fanduel,draftkings,betmgm,caesars',
+#   includeAltLines: 'true',
+#   includeOpposingOdds: 'true',
+#   includeOpenCloseOdds: 'true',
+#   startsAfter: '2026-10-12T15:00:00.000Z',
+#   startsBefore: '2026-10-19T15:00:00.000Z',
+#   limit: '25'
+# }
+# Subtest: concrete odds adapter: exactly three weekly slots, dedupe, quota, partial coverage, interruption and stale disclosure
+ok 61 - concrete odds adapter: exactly three weekly slots, dedupe, quota, partial coverage, interruption and stale disclosure
+  ---
+  duration_ms: 1392.664291
+  ...
+# Subtest: mail encryption, dedupe, opt-out, free quota, concurrent workers and ambiguous delivery
+ok 62 - mail encryption, dedupe, opt-out, free quota, concurrent workers and ambiguous delivery
+  ---
+  duration_ms: 6108.486334
+  ...
+# Subtest: approved daily team email is queued once, preserves sources and honors email preferences
+ok 63 - approved daily team email is queued once, preserves sources and honors email preferences
+  ---
+  duration_ms: 1352.712625
+  ...
+# Subtest: shared inference is source-versioned, quota-reserved and never invents a fallback; FTS preserves attribution
+ok 64 - shared inference is source-versioned, quota-reserved and never invents a fallback; FTS preserves attribution
+  ---
+  duration_ms: 1464.339792
+  ...
+# Subtest: cold cross-store checkpoint restores all logical tables, original IDs and large objects after interruption
+ok 65 - cold cross-store checkpoint restores all logical tables, original IDs and large objects after interruption
+  ---
+  duration_ms: 8507.579667
+  ...
+# Subtest: shared immutable packs preserve worst-size JSON, references, and explicit local restore
+ok 66 - shared immutable packs preserve worst-size JSON, references, and explicit local restore
+  ---
+  duration_ms: 9436.943458
+  ...
+# Subtest: failed uploads retain originals; missing/corrupt packs fail closed
+ok 67 - failed uploads retain originals; missing/corrupt packs fail closed
+  ---
+  duration_ms: 1299.940208
+  ...
+# Subtest: offloaded graph survives restart with saved IDs, corrections, team history and source attribution
+ok 68 - offloaded graph survives restart with saved IDs, corrections, team history and source attribution
+  ---
+  duration_ms: 2721.467166
+  ...
+# Subtest: shared national stories, multi-team Film Room and published editions serve every NFL team
+ok 69 - shared national stories, multi-team Film Room and published editions serve every NFL team
+  ---
+  duration_ms: 2164.751708
+  ...
+# Subtest: runtime has only local source imports and no PostgreSQL, provider, or shared app dependencies
+ok 70 - runtime has only local source imports and no PostgreSQL, provider, or shared app dependencies
+  ---
+  duration_ms: 7.567333
+  ...
+# Subtest: local command launcher refuses remote flags and deploy modes
+ok 71 - local command launcher refuses remote flags and deploy modes
+  ---
+  duration_ms: 106.653041
+  ...
+# Subtest: concurrent claims cannot share one lease; duplicate enqueue preserves first ID
+ok 72 - concurrent claims cannot share one lease; duplicate enqueue preserves first ID
+  ---
+  duration_ms: 1252.146959
+  ...
+# Subtest: expired leases are reclaimed and stale completions cannot alter current work
+ok 73 - expired leases are reclaimed and stale completions cannot alter current work
+  ---
+  duration_ms: 48.038041
+  ...
+# Subtest: retry deadlines and attempt limits stop poison jobs
+ok 74 - retry deadlines and attempt limits stop poison jobs
+  ---
+  duration_ms: 66.479291
+  ...
+# Subtest: writer epochs fence old jobs and old completion tokens
+ok 75 - writer epochs fence old jobs and old completion tokens
+  ---
+  duration_ms: 53.630334
+  ...
+# Subtest: dead-job history does not turn an idle claim into a full ledger scan
+ok 76 - dead-job history does not turn an idle claim into a full ledger scan
+  ---
+  duration_ms: 734.557
+  ...
+# Subtest: coherent lean checkpoint restores saved IDs, source-attributed revisions and rejects corruption before writes
+ok 77 - coherent lean checkpoint restores saved IDs, source-attributed revisions and rejects corruption before writes
+  ---
+  duration_ms: 2701.36225
+  ...
+# Subtest: A: unchanged ingestion is read-only; corrections, IDs, pagination and rollback survive
+ok 78 - A: unchanged ingestion is read-only; corrections, IDs, pagination and rollback survive
+  ---
+  duration_ms: 1352.341667
+  ...
+# Subtest: A: terminal receipts retain original IDs and strict dedupe
+ok 79 - A: terminal receipts retain original IDs and strict dedupe
+  ---
+  duration_ms: 1147.011875
+  ...
+# Subtest: B: unchanged ingestion is read-only; corrections, IDs, pagination and rollback survive
+ok 80 - B: unchanged ingestion is read-only; corrections, IDs, pagination and rollback survive
+  ---
+  duration_ms: 1267.335459
+  ...
+# Subtest: B: terminal receipts retain original IDs and strict dedupe
+ok 81 - B: terminal receipts retain original IDs and strict dedupe
+  ---
+  duration_ms: 1113.060417
+  ...
+# Subtest: C: unchanged ingestion is read-only; corrections, IDs, pagination and rollback survive
+ok 82 - C: unchanged ingestion is read-only; corrections, IDs, pagination and rollback survive
+  ---
+  duration_ms: 1530.717916
+  ...
+# Subtest: C: terminal receipts retain original IDs and strict dedupe
+ok 83 - C: terminal receipts retain original IDs and strict dedupe
+  ---
+  duration_ms: 1123.723208
+  ...
+# Subtest: A: interrupted metadata commit leaves source intact; retry and duplicate race are safe
+ok 84 - A: interrupted metadata commit leaves source intact; retry and duplicate race are safe
+  ---
+  duration_ms: 1200.853667
+  ...
+# Subtest: B: failed R2 upload, unavailable bucket, corrupt snapshot, and verified hot recovery
+ok 85 - B: failed R2 upload, unavailable bucket, corrupt snapshot, and verified hot recovery
+  ---
+  duration_ms: 1196.052666
+  ...
+# Subtest: A: exact legacy API snapshots migrate repeatably without changing original graph or contracts
+ok 86 - A: exact legacy API snapshots migrate repeatably without changing original graph or contracts
+  ---
+  duration_ms: 1728.735041
+  ...
+# Subtest: B: 7-day retention preserves all aged/current values
+ok 87 - B: 7-day retention preserves all aged/current values
+  ---
+  duration_ms: 1307.564375
+  ...
+# Subtest: B: 14-day retention preserves all aged/current values
+ok 88 - B: 14-day retention preserves all aged/current values
+  ---
+  duration_ms: 1240.414916
+  ...
+# Subtest: B: 30-day retention preserves all aged/current values
+ok 89 - B: 30-day retention preserves all aged/current values
+  ---
+  duration_ms: 1194.063042
+  ...
+# Subtest: C: long history fails with an explicit query-budget error rather than losing content
+ok 90 - C: long history fails with an explicit query-budget error rather than losing content
+  ---
+  duration_ms: 2272.791541
+  ...
+# Subtest: A: original revision history imports, resumes after partial failure, and exports for rollback
+ok 91 - A: original revision history imports, resumes after partial failure, and exports for rollback
+  ---
+  duration_ms: 1187.630209
+  ...
+# Subtest: A: verified terminal handoff preserves queue dedupe, original IDs and pending leases
+ok 92 - A: verified terminal handoff preserves queue dedupe, original IDs and pending leases
+  ---
+  duration_ms: 1202.721459
+  ...
+# Subtest: A: a national record retains all 32 team links within the invocation query budget
+ok 93 - A: a national record retains all 32 team links within the invocation query budget
+  ---
+  duration_ms: 1219.13775
+  ...
+# Subtest: selected A executes inside workerd with loopback/auth guards, mirrored objects, original IDs and full payload pages
+ok 94 - selected A executes inside workerd with loopback/auth guards, mirrored objects, original IDs and full payload pages
+  ---
+  duration_ms: 1315.387
+  ...
+# Subtest: both immutable copies verify before activation and damaged primary reads recover exactly
+ok 95 - both immutable copies verify before activation and damaged primary reads recover exactly
+  ---
+  duration_ms: 4.23
+  ...
+# Subtest: exactly three UTC refresh windows per week including DST boundaries
+ok 96 - exactly three UTC refresh windows per week including DST boundaries
+  ---
+  duration_ms: 1.619375
+  ...
+# Subtest: concurrent duplicate deliveries, restarts and ambiguous provider errors cannot spend twice
+ok 97 - concurrent duplicate deliveries, restarts and ambiguous provider errors cannot spend twice
+  ---
+  duration_ms: 1682.705542
+  ...
+# Subtest: gzip remains lossless, bounded, legacy compatible and resistant to tampering
+ok 98 - gzip remains lossless, bounded, legacy compatible and resistant to tampering
+  ---
+  duration_ms: 45.16775
+  ...
+# Subtest: immutable JSON subtrees preserve every revision and literal reference-shaped values
+ok 99 - immutable JSON subtrees preserve every revision and literal reference-shaped values
+  ---
+  duration_ms: 2577.164166
+  ...
+# Subtest: daily trivia, stats and reward history commit atomically under concurrency and ignore supplied answer truth
+ok 100 - daily trivia, stats and reward history commit atomically under concurrency and ignore supplied answer truth
+  ---
+  duration_ms: 1620.487708
+  ...
+# Subtest: bounded lifecycle archives consumed expired capabilities and retains active tokens and valuable records
+ok 101 - bounded lifecycle archives consumed expired capabilities and retains active tokens and valuable records
+  ---
+  duration_ms: 1317.101667
+  ...
+# Subtest: actual workerd supports bounded gzip and immutable application reads
+ok 102 - actual workerd supports bounded gzip and immutable application reads
+  ---
+  duration_ms: 1287.890334
+  ...
+# Subtest: public cache excludes credentials, personalized routes, cookies and private responses
+ok 103 - public cache excludes credentials, personalized routes, cookies and private responses
+  ---
+  duration_ms: 3.780417
+  ...
+# Subtest: public cache never shares authenticated, private, preference or saved-content responses
+ok 104 - public cache never shares authenticated, private, preference or saved-content responses
+  ---
+  duration_ms: 14.37925
+  ...
+# Subtest: private local R2 preserves historical revisions, Unicode, attribution, IDs and saved story links
+ok 105 - private local R2 preserves historical revisions, Unicode, attribution, IDs and saved story links
+  ---
+  duration_ms: 1573.339541
+  ...
+# Subtest: duplicate archive is a no-op, restart reader resolves same durable pointers and restore preserves revisions
+ok 106 - duplicate archive is a no-op, restart reader resolves same durable pointers and restore preserves revisions
+  ---
+  duration_ms: 1324.702917
+  ...
+# Subtest: upload failure preserves original D1 history and atomic pointers
+ok 107 - upload failure preserves original D1 history and atomic pointers
+  ---
+  duration_ms: 1233.867334
+  ...
+# Subtest: interrupted failure preserves original D1 history and atomic pointers
+ok 108 - interrupted failure preserves original D1 history and atomic pointers
+  ---
+  duration_ms: 1288.933292
+  ...
+# Subtest: concurrent failure preserves original D1 history and atomic pointers
+ok 109 - concurrent failure preserves original D1 history and atomic pointers
+  ---
+  duration_ms: 1266.949667
+  ...
+# Subtest: partial-transaction failure preserves original D1 history and atomic pointers
+ok 110 - partial-transaction failure preserves original D1 history and atomic pointers
+  ---
+  duration_ms: 1301.137125
+  ...
+# Subtest: corrupt archive fails closed while recovery copy survives
+ok 111 - corrupt archive fails closed while recovery copy survives
+  ---
+  duration_ms: 1309.504666
+  ...
+# Subtest: missing archive fails closed while recovery copy survives
+ok 112 - missing archive fails closed while recovery copy survives
+  ---
+  duration_ms: 1376.748458
+  ...
+# Subtest: stale archive fails closed while recovery copy survives
+ok 113 - stale archive fails closed while recovery copy survives
+  ---
+  duration_ms: 2313.212625
+  ...
+# Subtest: wrong-directory archive fails closed while recovery copy survives
+ok 114 - wrong-directory archive fails closed while recovery copy survives
+  ---
+  duration_ms: 2031.351583
+  ...
+# Subtest: atomic activation rolls back earlier members when a later member changes
+ok 115 - atomic activation rolls back earlier members when a later member changes
+  ---
+  duration_ms: 1765.325084
+  ...
+# Subtest: completed operational payloads and old source checks retrieve transparently; active jobs and pending outbox stay hot
+ok 116 - completed operational payloads and old source checks retrieve transparently; active jobs and pending outbox stay hot
+  ---
+  duration_ms: 1558.351916
+  ...
+# Subtest: old published editions preserve full response, dates and source story references; latest remains hot
+ok 117 - old published editions preserve full response, dates and source story references; latest remains hot
+  ---
+  duration_ms: 1495.054292
+  ...
+# Subtest: synthetic-only retirement respects recovery window and restores losslessly after blob removal
+ok 118 - synthetic-only retirement respects recovery window and restores losslessly after blob removal
+  ---
+  duration_ms: 6089.20325
+  ...
+# Subtest: source revisions pinned by current publishing, including legacy unknown pins, stay hot
+ok 119 - source revisions pinned by current publishing, including legacy unknown pins, stay hot
+  ---
+  duration_ms: 1199.745917
+  ...
+# Subtest: archive factory rejects remote environment and missing private bucket; future cutoffs fail
+ok 120 - archive factory rejects remote environment and missing private bucket; future cutoffs fail
+  ---
+  duration_ms: 1232.522917
+  ...
+# Subtest: concurrent duplicate archive attempts cannot publish partial or duplicate pointers
+ok 121 - concurrent duplicate archive attempts cannot publish partial or duplicate pointers
+  ---
+  duration_ms: 1287.028333
+  ...
+# Subtest: withdrawn historical evidence archives losslessly; active publishing evidence remains hot
+ok 122 - withdrawn historical evidence archives losslessly; active publishing evidence remains hot
+  ---
+  duration_ms: 1729.584417
+  ...
+# Subtest: durable D1 directory and private R2 objects survive emulator restart
+ok 123 - durable D1 directory and private R2 objects survive emulator restart
+  ---
+  duration_ms: 2006.322167
+  ...
+# Subtest: existing local repository factory transparently resolves archived response contracts when bucket is bound
+ok 124 - existing local repository factory transparently resolves archived response contracts when bucket is bound
+  ---
+  duration_ms: 1472.905708
+  ...
+# Subtest: corrupt recovery copy and changed restore target fail without overwriting authoritative data
+ok 125 - corrupt recovery copy and changed restore target fail without overwriting authoritative data
+  ---
+  duration_ms: 1571.219875
+  ...
+# Subtest: user JSON with reserved archive marker is escaped losslessly rather than interpreted as a pointer
+ok 126 - user JSON with reserved archive marker is escaped losslessly rather than interpreted as a pointer
+  ---
+  duration_ms: 1349.315667
+  ...
+# Subtest: binding validation fails closed for absent or production bindings
+ok 127 - binding validation fails closed for absent or production bindings
+  ---
+  duration_ms: 1880.869833
+  ...
+# Subtest: all 32 teams share one database; national sources are single shared records
+ok 128 - all 32 teams share one database; national sources are single shared records
+  ---
+  duration_ms: 3191.370583
+  ...
+# Subtest: source updates preserve IDs and health; unchanged definitions cause no writes
+ok 129 - source updates preserve IDs and health; unchanged definitions cause no writes
+  ---
+  duration_ms: 66.756083
+  ...
+# Subtest: candidate identity dedupes tracking URLs, keeps independent publishers and records revisions
+ok 130 - candidate identity dedupes tracking URLs, keeps independent publishers and records revisions
+  ---
+  duration_ms: 102.78875
+  ...
+# Subtest: multiple independent sources corroborate one story, retaining source attribution and JSON fields
+ok 131 - multiple independent sources corroborate one story, retaining source attribution and JSON fields
+  ---
+  duration_ms: 103.252916
+  ...
+# Subtest: story versions and outbox publish atomically; stale CAS leaves no dependent inserts
+ok 132 - story versions and outbox publish atomically; stale CAS leaves no dependent inserts
+  ---
+  duration_ms: 90.050125
+  ...
+# Subtest: constraint failure after CAS rolls back story, version, decision and outbox
+ok 133 - constraint failure after CAS rolls back story, version, decision and outbox
+  ---
+  duration_ms: 68.949917
+  ...
+# Subtest: feed publication filters, national stories and stable keyset pagination
+ok 134 - feed publication filters, national stories and stable keyset pagination
+  ---
+  duration_ms: 375.943875
+  ...
+# Subtest: one video can belong to multiple teams; unavailable videos and null statistics remain accurate
+ok 135 - one video can belong to multiple teams; unavailable videos and null statistics remain accurate
+  ---
+  duration_ms: 57.889375
+  ...
+# Subtest: published Three & Out requires three eligible stories; drafts stay private and edition IDs remain intact
+ok 136 - published Three & Out requires three eligible stories; drafts stay private and edition IDs remain intact
+  ---
+  duration_ms: 23.649917
+  ...
+# Subtest: SQLite enforces team, source, boolean, JSON and version relationships
+ok 137 - SQLite enforces team, source, boolean, JSON and version relationships
+  ---
+  duration_ms: 11.466959
+  ...
+# Subtest: a late candidate-job SQL failure leaves neither candidate, revision, associations nor job
+ok 138 - a late candidate-job SQL failure leaves neither candidate, revision, associations nor job
+  ---
+  duration_ms: 40.359
+  ...
+# Subtest: a new local runtime recovers the exact persisted editorial graph
+ok 139 - a new local runtime recovers the exact persisted editorial graph
+  ---
+  duration_ms: 1434.742958
+  ...
+# Subtest: bounded inputs fail explicitly instead of truncating complete records or exceeding query budgets
+ok 140 - bounded inputs fail explicitly instead of truncating complete records or exceeding query budgets
+  ---
+  duration_ms: 67.137
+  ...
+# Subtest: compact codec preserves arbitrary JSON, Unicode, BOM and reserved keys; shares exact chunks
+ok 141 - compact codec preserves arbitrary JSON, Unicode, BOM and reserved keys; shares exact chunks
+  ---
+  duration_ms: 1427.954833
+  ...
+# Subtest: missing and corrupt blobs fail closed
+ok 142 - missing and corrupt blobs fail closed
+  ---
+  duration_ms: 1153.893667
+  ...
+# Subtest: saved story IDs, source attribution and all revisions survive correction, repack and restart
+ok 143 - saved story IDs, source attribution and all revisions survive correction, repack and restart
+  ---
+  duration_ms: 1576.9465
+  ...
+# Subtest: cold jobs retain every field and dedupe receipts; active expired leases remain recoverable
+ok 144 - cold jobs retain every field and dedupe receipts; active expired leases remain recoverable
+  ---
+  duration_ms: 1481.952583
+  ...
+# Subtest: checks retain exact history plus daily aggregates; only acknowledged outbox becomes cold
+ok 145 - checks retain exact history plus daily aggregates; only acknowledged outbox becomes cold
+  ---
+  duration_ms: 1307.1255
+  ...
+# Subtest: archive transaction failure leaves hot history readable and no partial directory
+ok 146 - archive transaction failure leaves hot history readable and no partial directory
+  ---
+  duration_ms: 1286.646416
+  ...
+# Subtest: dense blob fragments preserve high-entropy text and detect missing pieces
+ok 147 - dense blob fragments preserve high-entropy text and detect missing pieces
+  ---
+  duration_ms: 1283.303
+  ...
+# Subtest: additive migrations preserve pre-optimization inline IDs, JSON and history
+ok 148 - additive migrations preserve pre-optimization inline IDs, JSON and history
+  ---
+  duration_ms: 1170.6465
+  ...
+# Subtest: cold job receipt lookups retain two indexed key probes as history grows
+ok 149 - cold job receipt lookups retain two indexed key probes as history grows
+  ---
+  duration_ms: 1076.242916
+  ...
+1..149
+# tests 149
+# suites 0
+# pass 149
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 419528.514125

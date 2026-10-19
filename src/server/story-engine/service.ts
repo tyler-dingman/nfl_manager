@@ -1,4 +1,5 @@
 import { hostname } from 'node:os';
+import { applicationBackend, applicationStorage } from '../persistence/bindings';
 import { findCandidateStory } from '@/features/story-engine/clustering';
 import {
   nextCheckAfterFailure,
@@ -31,6 +32,11 @@ export async function scheduleDueSources(
   teamId?: string,
   group?: 'standard' | 'video',
 ) {
+  if (applicationBackend() === 'd1') {
+    const { PollingBatches } = await import('../../../packages/storage/polling-batches');
+    const lease = await new PollingBatches(applicationStorage()).claim(teamId, group);
+    return { due: lease?.payload.ids.length ?? 0, queued: 0, batchToken: lease?.token ?? null };
+  }
   const sources = await repo.dueSources(now, SOURCE_BATCH_SIZE, teamId, group);
   let queued = 0;
   for (const source of sources) {
@@ -176,7 +182,7 @@ export async function processSource(
   fetcher: SourceFetcher = source.metadata.platform === 'YOUTUBE'
     ? new YouTubeSourceFetcher()
     : new RssSourceFetcher(),
-  options: { publishedSince?: Date; teamId?: string } = {},
+  options: { publishedSince?: Date; teamId?: string; deferCheckpoint?: boolean } = {},
 ) {
   const started = Date.now();
   try {
@@ -205,16 +211,17 @@ export async function processSource(
         }
       }
     }
-    await repo.markSourceSuccess(
-      source,
-      result.etag,
-      result.lastModified,
-      nextCheckAfterSuccess(registeredSourceIntervalSeconds(source)),
-      Date.now() - started,
-      result.items.length
-        ? new Date(Math.max(...result.items.map((item) => new Date(item.publishedAt).getTime())))
-        : null,
-    );
+    if (!options.deferCheckpoint)
+      await repo.markSourceSuccess(
+        source,
+        result.etag,
+        result.lastModified,
+        nextCheckAfterSuccess(registeredSourceIntervalSeconds(source)),
+        Date.now() - started,
+        result.items.length
+          ? new Date(Math.max(...result.items.map((item) => new Date(item.publishedAt).getTime())))
+          : null,
+      );
     return {
       fetched: result.items.length,
       eligible: eligibleItems.length,
@@ -222,12 +229,13 @@ export async function processSource(
       notModified: result.notModified,
     };
   } catch (error) {
-    await repo.markSourceFailure(
-      source,
-      error instanceof Error ? error.message : String(error),
-      nextCheckAfterFailure(registeredSourceIntervalSeconds(source), source.failureCount + 1),
-      Date.now() - started,
-    );
+    if (!options.deferCheckpoint)
+      await repo.markSourceFailure(
+        source,
+        error instanceof Error ? error.message : String(error),
+        nextCheckAfterFailure(registeredSourceIntervalSeconds(source), source.failureCount + 1),
+        Date.now() - started,
+      );
     throw error;
   }
 }
@@ -248,7 +256,7 @@ export async function workOne(
       if (!source) throw new Error('Source not found.');
       result = await processSource(source, undefined, { teamId, publishedSince });
     } else result = await processCandidate(job.payload.candidateId, synthesizer);
-    await repo.finishJob(job.id,job.locked_by);
+    await repo.finishJob(job.id, job.locked_by);
     return { jobId: job.id, type: job.job_type, result };
   } catch (error) {
     await repo.failJob(

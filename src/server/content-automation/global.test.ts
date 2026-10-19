@@ -70,22 +70,14 @@ test('global endpoint checks authorization and kill switch before database and s
   assert.match(route, /aiSpendUsd: 0/);
 });
 
-test('Cloudflare Worker authenticates one global call on the fixed-CST daytime cron', () => {
+test('Cloudflare scheduler authenticates bounded continuations and leaves cron disabled in the POC', () => {
   const worker = readFileSync('workers/content-scheduler/src/index.js', 'utf8');
   const config = readFileSync('workers/content-scheduler/wrangler.toml', 'utf8');
   assert.match(worker, /\/api\/automation\/content\/global/);
   assert.match(worker, /Authorization: `Bearer \$\{env\.DND_AUTOMATION_SECRET\}`/);
+  assert.match(worker, /runContentContinuations/);
   assert.match(worker, /async scheduled/);
-  const cron = config.match(/^\s*crons\s*=\s*\["([^"]+)"\]/m)?.[1];
-  assert.ok(cron);
-  const [minute, hours, day, month, weekday] = cron.split(' ');
-  assert.deepEqual([minute, day, month, weekday], ['0', '*', '*', '*']);
-  const centralHours = hours
-    .split(',')
-    .map(Number)
-    .map((hour) => (hour + 18) % 24)
-    .sort((a, b) => a - b);
-  assert.deepEqual(centralHours, [6, 8, 10, 12, 14, 16, 18, 20]);
+  assert.match(config, /^crons = \[\]/m);
 });
 
 test('migration runner includes the permanent automation ledger', () => {

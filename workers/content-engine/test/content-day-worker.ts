@@ -1,3 +1,6 @@
+import { NextRequest } from 'next/server';
+import { POST as automationPost } from '../../../src/app/api/automation/content/global/route';
+import { PollingBatches } from '../../../packages/storage/polling-batches';
 // Synthetic private benchmark entry only; never referenced by Wrangler configuration.
 import { Storage } from '../../../packages/storage/core';
 import { D1Objects } from '../../../packages/storage/d1-objects';
@@ -70,7 +73,7 @@ export default {
     const b: any = await request.json();
     now = b.now ?? now;
     const m = requestMetrics(),
-      db = instrumentDatabase(env.EDITORIAL_DB, m),
+      db = instrumentDatabase(env.EDITORIAL_DB, m, b.enforceBudget ? 50 : undefined),
       objects = new D1Objects(db),
       s = new Storage(db, objects),
       r = new D1EditorialIngestion(s);
@@ -80,7 +83,12 @@ export default {
         {
           db,
           objects,
-          env: { APP_DATA_BACKEND: 'd1', APP_OBJECT_BACKEND: 'd1', OBSERVER_MODE: 'true' },
+          env: {
+            APP_DATA_BACKEND: 'd1',
+            APP_OBJECT_BACKEND: 'd1',
+            OBSERVER_MODE: 'true',
+            CONTENT_AUTOMATION_SECRET: 'synthetic-content-day-automation-secret',
+          },
         },
         async () => {
           if (b.op === 'registry')
@@ -88,6 +96,20 @@ export default {
               ...definition(x),
               interval: registeredSourceIntervalSeconds(definition(x) as any),
             }));
+          if (b.op === 'registry-http') {
+            const response = await automationPost(
+              new NextRequest(
+                'http://localhost/api/automation/content/global?action=registry&cursor=' + b.cursor,
+                {
+                  method: 'POST',
+                  headers: { authorization: 'Bearer synthetic-content-day-automation-secret' },
+                },
+              ),
+            );
+            const body = await response.json();
+            if (!response.ok) throw Error('Registry HTTP failed: ' + JSON.stringify(body));
+            return body;
+          }
           if (b.op === 'sync') {
             const source = getAllMonitoringSources().find((x) => x.id === b.id);
             if (!source) throw Error('Missing source');
@@ -121,6 +143,23 @@ export default {
             if (!job) throw Error('Missing seed job');
             await r.finishJob(job.id, job.locked_by);
             return true;
+          }
+          if (b.op === 'batch') {
+            const batches = new PollingBatches(s);
+            const lease = b.token ? { token: b.token } : await batches.claim();
+            if (!lease) return { done: true, checks: 0, idle: true };
+            const result = await batches.step(lease.token, {
+              async fetch(source) {
+                const item = b.feeds?.[source.id];
+                return {
+                  items: item ? [item] : [],
+                  notModified: !item,
+                  etag: '"synthetic-feed-v1"',
+                  lastModified: null,
+                };
+              },
+            });
+            return { ...result, token: result.done ? null : lease.token };
           }
           if (b.op === 'poll') {
             const source = await r.sourceById(b.id);
@@ -159,6 +198,21 @@ export default {
             return result;
           }
           if (b.op === 'drain') {
+            if (b.enforceBudget) {
+              const response = await automationPost(
+                new NextRequest(
+                  'http://localhost/api/automation/content/global?action=candidate&group=standard' +
+                    (b.team ? '&team=' + b.team : ''),
+                  {
+                    method: 'POST',
+                    headers: { authorization: 'Bearer synthetic-content-day-automation-secret' },
+                  },
+                ),
+              );
+              const body: any = await response.json();
+              if (!response.ok) throw Error('Bounded automation failed: ' + JSON.stringify(body));
+              return body.job?.result ?? null;
+            }
             const job = await r.claimJob('synthetic-worker', b.team, 'standard');
             if (!job) return null;
             const payload = typeof job.payload === 'string' ? JSON.parse(job.payload) : job.payload;
@@ -224,6 +278,14 @@ export default {
               physicalBytes: capacity.meta.size_after,
               encoded: capacity.results[0]?.used_bytes ?? 0,
               stories: await s.rows('SELECT id,team_id,version FROM app_editorial_stories'),
+              sourceCheckpoints: b.enforceBudget
+                ? await s.rows(
+                    'SELECT id,request_count,next_check_at,last_checked_at,failure_count,etag FROM app_editorial_sources WHERE enabled=1',
+                  )
+                : undefined,
+              pendingInbox: b.enforceBudget
+                ? await s.rows('SELECT source_id FROM app_storage_poll_retry')
+                : undefined,
               jobs: await s.rows(
                 'SELECT status,count(*) n FROM app_editorial_jobs GROUP BY status',
               ),

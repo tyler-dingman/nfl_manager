@@ -1,19 +1,19 @@
+import { runContentContinuations } from './continuations.mjs';
 const endpoint = (baseUrl) => `${baseUrl.replace(/\/$/, '')}/api/automation/content/global`;
 
 async function runAutomation(env) {
   if (!env.DND_AUTOMATION_BASE_URL || !env.DND_AUTOMATION_SECRET) {
     throw new Error('Content scheduler bindings are not configured.');
   }
-  const response = await fetch(endpoint(env.DND_AUTOMATION_BASE_URL), {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${env.DND_AUTOMATION_SECRET}`,
-      'User-Agent': 'DownDistanceCloudflareScheduler/1.0',
-    },
+  return runContentContinuations(async (query) => {
+    const response = await fetch(endpoint(env.DND_AUTOMATION_BASE_URL) + '?' + query, {
+      method: 'POST',
+      redirect: 'manual',
+      headers: { Authorization: `Bearer ${env.DND_AUTOMATION_SECRET}` },
+    });
+    if (!response.ok) throw Error(`Content continuation returned HTTP ${response.status}`);
+    return response.json();
   });
-  const body = await response.text();
-  if (!response.ok) throw new Error(`D&D automation returned ${response.status}: ${body}`);
-  console.log(`D&D global content automation: ${body}`);
 }
 
 export default {

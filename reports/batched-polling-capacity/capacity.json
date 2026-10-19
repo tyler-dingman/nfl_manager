@@ -1,0 +1,192 @@
+{
+  "statusScope": "Daily operation target only; hosted deployment and live workload unqualified",
+  "baseline": "7aaec5b2",
+  "before": {
+    "requests": 24521,
+    "statements": 327754,
+    "rowsRead": 478821,
+    "rowsWritten": 343932,
+    "sourceAccountRowsRead": 570606,
+    "sourceAccountRowsWritten": 343972
+  },
+  "after": {
+    "requests": 11369,
+    "statements": 89800,
+    "rowsRead": 749512,
+    "rowsWritten": 64624,
+    "sourceAccountRowsRead": 767714,
+    "sourceAccountRowsWritten": 64664
+  },
+  "rows": [
+    {
+      "dau": 0,
+      "rowsRead": 767714,
+      "rowsWritten": 64664,
+      "writeHeadroom": 35336,
+      "workerRequests": 12815,
+      "workerCpuMs": null,
+      "targetPass": true,
+      "freeWriteAllowancePass": true,
+      "scope": "Measured synthetic background plus assumed frequencies at observed HTTP unit costs. Adds 1440 proposed scheduler trigger invocations; all idle API continuations measured. Not a hosted DAU replay."
+    },
+    {
+      "dau": 25,
+      "rowsRead": 771357,
+      "rowsWritten": 66689,
+      "writeHeadroom": 33311,
+      "workerRequests": 13260,
+      "workerCpuMs": null,
+      "targetPass": true,
+      "freeWriteAllowancePass": true,
+      "scope": "Measured synthetic background plus assumed frequencies at observed HTTP unit costs. Adds 1440 proposed scheduler trigger invocations; all idle API continuations measured. Not a hosted DAU replay."
+    },
+    {
+      "dau": 50,
+      "rowsRead": 774999,
+      "rowsWritten": 68714,
+      "writeHeadroom": 31286,
+      "workerRequests": 13705,
+      "workerCpuMs": null,
+      "targetPass": true,
+      "freeWriteAllowancePass": true,
+      "scope": "Measured synthetic background plus assumed frequencies at observed HTTP unit costs. Adds 1440 proposed scheduler trigger invocations; all idle API continuations measured. Not a hosted DAU replay."
+    },
+    {
+      "dau": 100,
+      "rowsRead": 782284,
+      "rowsWritten": 72764,
+      "writeHeadroom": 27236,
+      "workerRequests": 14595,
+      "workerCpuMs": null,
+      "targetPass": false,
+      "freeWriteAllowancePass": true,
+      "scope": "Measured synthetic background plus assumed frequencies at observed HTTP unit costs. Adds 1440 proposed scheduler trigger invocations; all idle API continuations measured. Not a hosted DAU replay."
+    }
+  ],
+  "userUnits": [
+    {
+      "method": "GET",
+      "path": "/api/auth/me",
+      "perDauPerDayAssumed": 4,
+      "observed": {
+        "rowsRead": 3,
+        "rowsWritten": 0,
+        "statements": 3
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/login",
+      "perDauPerDayAssumed": 2,
+      "observed": {
+        "rowsRead": 19,
+        "rowsWritten": 20,
+        "statements": 22
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/logout",
+      "perDauPerDayAssumed": 2,
+      "observed": {
+        "rowsRead": 4,
+        "rowsWritten": 3,
+        "statements": 4
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/signup",
+      "perDauPerDayAssumed": 0.1,
+      "observed": {
+        "rowsRead": 18,
+        "rowsWritten": 34,
+        "statements": 27
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/user/home",
+      "perDauPerDayAssumed": 4,
+      "observed": {
+        "rowsRead": 10,
+        "rowsWritten": 0,
+        "statements": 6
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/user/saved-content",
+      "perDauPerDayAssumed": 2,
+      "observed": {
+        "rowsRead": 5,
+        "rowsWritten": 0,
+        "statements": 4
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/user/saved-content",
+      "perDauPerDayAssumed": 1,
+      "observed": {
+        "rowsRead": 6,
+        "rowsWritten": 5,
+        "statements": 6
+      }
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/user/preferences",
+      "perDauPerDayAssumed": 0.2,
+      "observed": {
+        "rowsRead": 7,
+        "rowsWritten": 3,
+        "statements": 7
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/saves/create",
+      "perDauPerDayAssumed": 0.5,
+      "observed": {
+        "rowsRead": 33,
+        "rowsWritten": 28,
+        "statements": 36
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/api/user/content-state",
+      "perDauPerDayAssumed": 2,
+      "observed": {
+        "rowsRead": 6,
+        "rowsWritten": 6,
+        "statements": 6
+      }
+    }
+  ],
+  "sourceChecks": 18504,
+  "sourceCount": 97,
+  "teams": 32,
+  "pollingWritesBefore": 334704,
+  "pollingWritesAfter": 54912,
+  "maximumQueries": 47,
+  "hostedWorkerCpuMs": null,
+  "physicalBytesBefore": 10309632,
+  "physicalBytesAfter": 5029888,
+  "emergencyRestoreAdditional": {
+    "d1Calls": 445,
+    "statements": 3634,
+    "rowsRead": 7345,
+    "rowsWritten": 7171
+  },
+  "offlineArchiveTwoCopiesBytes": 8162888,
+  "status": "PASS",
+  "qualifications": [
+    "Daily writes/reads/request envelope only; not overall production readiness",
+    "Cold registry + complete configured RSS schedules + 96 new articles/corrections + 32 briefings + actual odds/Lab Scores + owner recovery/retention included",
+    "No real upstream/provider networking or hosted CPU; observer mode suppresses notification fanout",
+    "Separate video registry, mature historical research, account headroom, seasonal bursts, ongoing user storage and multi-year retention remain unqualified",
+    "Emergency restore writes are additional and require ingestion pause, not assumed free headroom"
+  ]
+}

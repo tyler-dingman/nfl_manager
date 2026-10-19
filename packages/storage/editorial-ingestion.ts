@@ -131,6 +131,13 @@ export class D1EditorialIngestion {
   }
   async claimJob(worker: string, team?: string, group?: 'standard' | 'video') {
     const now = Date.now();
+    const ready = await this.s
+      .statement(
+        "SELECT 1 FROM app_editorial_jobs WHERE (status IN('PENDING','FAILED') OR(status='RUNNING' AND locked_at<?)) AND available_at<=? AND attempts<max_attempts LIMIT 1",
+        [now - 300000, now],
+      )
+      .first();
+    if (!ready) return null;
     worker = worker + ':' + crypto.randomUUID();
     const [row] = await this.s.rows<any>(
       `UPDATE app_editorial_jobs SET status='RUNNING',attempts=attempts+1,locked_at=?,locked_by=?,updated_at=? WHERE id=(SELECT j.id FROM app_editorial_jobs j LEFT JOIN app_editorial_candidates c ON c.id=json_extract(j.payload,'$.candidateId') LEFT JOIN app_editorial_sources s ON s.id=CASE WHEN j.job_type='SOURCE_FETCH' THEN json_extract(j.payload,'$.sourceId') ELSE c.source_id END WHERE (j.status IN('PENDING','FAILED') OR(j.status='RUNNING' AND j.locked_at<?)) AND j.available_at<=? AND j.attempts<j.max_attempts AND(? IS NULL OR(j.job_type='SOURCE_FETCH' AND(s.team_id=? OR s.league_wide=1)) OR(j.job_type='CANDIDATE_PROCESS' AND EXISTS(SELECT 1 FROM json_each(c.teams) WHERE value=?))) AND(? IS NULL OR CASE WHEN ?='video' THEN(s.source_type='YOUTUBE' OR s.platform='YOUTUBE') ELSE(s.source_type<>'YOUTUBE' AND coalesce(s.platform,'')<>'YOUTUBE') END) ORDER BY CASE WHEN j.job_type='SOURCE_FETCH' THEN 0 ELSE 1 END,c.published_at DESC,j.available_at,j.created_at LIMIT 1) RETURNING *`,
@@ -440,6 +447,10 @@ export class D1EditorialIngestion {
     );
     if (newEvidence) {
       const e = newEvidence;
+      guards.push({
+        sql: 'NOT EXISTS(SELECT 1 FROM app_editorial_evidence WHERE candidate_id=? AND story_id<>?)',
+        values: [e.candidate.id, story.id],
+      });
       writes.push(
         prepared.storage.statement(
           'INSERT INTO app_editorial_evidence(id,story_id,candidate_id,source_id,first_seen_at) VALUES(?,?,?,?,?) ON CONFLICT(story_id,candidate_id) DO NOTHING',

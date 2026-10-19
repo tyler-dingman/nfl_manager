@@ -1,0 +1,75 @@
+TAP version 13
+# Subtest: continuations process multiple batches, drain candidates, then stop on durable idle
+ok 1 - continuations process multiple batches, drain candidates, then stop on durable idle
+  ---
+  duration_ms: 1.04175
+  ...
+# Subtest: bounded scheduler never loops indefinitely or follows a supplied URL
+ok 2 - bounded scheduler never loops indefinitely or follows a supplied URL
+  ---
+  duration_ms: 0.626625
+  ...
+# Subtest: canonicalizes known host and rejects malformed settings
+ok 3 - canonicalizes known host and rejects malformed settings
+  ---
+  duration_ms: 0.86475
+  ...
+# Subtest: authenticates before ingestion and never follows redirects
+ok 4 - authenticates before ingestion and never follows redirects
+  ---
+  duration_ms: 14.994292
+  ...
+# Subtest: preflight failures never POST or retry and do not leak response data
+ok 5 - preflight failures never POST or retry and do not leak response data
+  ---
+  duration_ms: 1.276875
+  ...
+# Subtest: check-only does not ingest
+ok 6 - check-only does not ingest
+  ---
+  duration_ms: 0.603125
+  ...
+# Subtest: rejects wrong preflight contract and failed ingestion jobs
+ok 7 - rejects wrong preflight contract and failed ingestion jobs
+  ---
+  duration_ms: 2.275833
+  ...
+# Subtest: global automation is enabled by default and uses bounded defaults
+ok 8 - global automation is enabled by default and uses bounded defaults
+  ---
+  duration_ms: 0.996916
+  ...
+# Subtest: invalid limits cannot remove global generation bounds
+ok 9 - invalid limits cannot remove global generation bounds
+  ---
+  duration_ms: 0.112458
+  ...
+# Subtest: daily limit stops global processing
+ok 10 - daily limit stops global processing
+  ---
+  duration_ms: 0.073583
+  ...
+# Subtest: global endpoint checks authorization and kill switch before database and sources
+ok 11 - global endpoint checks authorization and kill switch before database and sources
+  ---
+  duration_ms: 0.29025
+  ...
+# Subtest: Cloudflare scheduler authenticates bounded continuations and leaves cron disabled in the POC
+ok 12 - Cloudflare scheduler authenticates bounded continuations and leaves cron disabled in the POC
+  ---
+  duration_ms: 0.281416
+  ...
+# Subtest: migration runner includes the permanent automation ledger
+ok 13 - migration runner includes the permanent automation ledger
+  ---
+  duration_ms: 0.688667
+  ...
+1..13
+# tests 13
+# suites 0
+# pass 13
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 366.626959

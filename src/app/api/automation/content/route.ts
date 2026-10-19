@@ -1,4 +1,7 @@
-import{applicationEnvironment}from'@/server/persistence/bindings';
+import { applicationBackend, applicationStorage } from '@/server/persistence/bindings';
+import { PollingBatches } from '../../../../../packages/storage/polling-batches';
+import { workOne } from '@/server/story-engine/service';
+import { applicationEnvironment } from '@/server/persistence/bindings';
 import { automationAuthError, equalSecret } from '@/server/content-automation/auth';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -89,6 +92,60 @@ export async function POST(request: NextRequest) {
   }
 
   const remaining = Math.min(10 - usage.generatedToday, 30 - usage.generatedTotal);
+  if (applicationBackend() === 'd1') {
+    const action = request.nextUrl.searchParams.get('action') ?? 'poll';
+    if (!['poll', 'candidate'].includes(action))
+      return NextResponse.json(
+        { ok: false, error: 'Unknown continuation action' },
+        { status: 400 },
+      );
+    if (action === 'candidate') {
+      const job = await workOne(
+        'bounded-trial',
+        teamId,
+        new GroundedDeterministicStorySynthesizer(),
+        new Date(Date.now() - 86400000),
+        group,
+      );
+      const generated = ['created', 'updated', 'published'].includes(
+        String((job as any)?.result?.action),
+      )
+        ? 1
+        : 0;
+      if (job)
+        await recordTrialRun({
+          startsAt: window.startsAt,
+          expiresAt: window.expiresAt,
+          pollingGroup: group,
+          status: 'COMPLETED',
+          detail: { jobsProcessed: 1 },
+          generatedItems: generated,
+        });
+      return NextResponse.json({
+        ok: true,
+        job,
+        generated,
+        nextAction: job ? 'candidate' : 'poll',
+      });
+    }
+    const batches = new PollingBatches(applicationStorage());
+    const token =
+      request.nextUrl.searchParams.get('batch') ?? (await batches.claim(teamId, group))?.token;
+    if (!token)
+      return NextResponse.json({
+        ok: true,
+        done: true,
+        busyOrNoDueSources: true,
+        nextAction: 'candidate',
+      });
+    const result = await batches.step(token);
+    return NextResponse.json({
+      ok: true,
+      ...result,
+      batch: result.done ? null : token,
+      nextAction: 'poll',
+    });
+  }
   // Production databases are intentionally not seeded during deployment. Keep the
   // code-defined registry authoritative so a fresh database cannot silently report
   // zero due sources while publishers have new items.

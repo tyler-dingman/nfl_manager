@@ -1,3 +1,4 @@
+import { runContentContinuations } from '../workers/content-scheduler/src/continuations.mjs';
 import { pathToFileURL } from 'node:url';
 
 export function configuration(env) {
@@ -31,10 +32,10 @@ export function configuration(env) {
 
 export async function run(env = process.env, fetcher = fetch) {
   const { url, secret } = configuration(env);
-  async function request(method) {
+  async function request(method, target = url) {
     let response;
     try {
-      response = await fetcher(url, {
+      response = await fetcher(target, {
         method,
         redirect: 'manual',
         signal: AbortSignal.timeout(240_000),
@@ -78,13 +79,23 @@ export async function run(env = process.env, fetcher = fetch) {
       'Authentication preflight contract missing. Deploy the updated API before running this workflow.',
     );
   if (env.CHECK_ONLY === 'true') return { authenticated: true };
-  const result = await request('POST');
+  let result;
+  const continuation = await runContentContinuations(async (query) => {
+    const target = new URL(url);
+    for (const [key, value] of query) target.searchParams.set(key, value);
+    result = await request('POST', target);
+    return result;
+  });
   if (
     typeof result.failedJobs !== 'undefined' &&
     (!Number.isInteger(result.failedJobs) || result.failedJobs !== 0)
   )
     throw new Error('Ingestion reported failed jobs. Inspect the content automation ledger.');
-  return { authenticated: true, skipped: result.skipped === true };
+  return {
+    authenticated: true,
+    skipped: result.skipped === true,
+    ...(result.nextAction ? { continuation } : {}),
+  };
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {

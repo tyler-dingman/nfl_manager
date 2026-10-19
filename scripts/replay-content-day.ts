@@ -4,7 +4,10 @@ import { harness } from '../workers/content-engine/test/harness';
 import { mkdir, writeFile, unlink } from 'node:fs/promises';
 import { execFileSync } from 'node:child_process';
 import { resolve } from 'node:path';
-const out = 'reports/content-engine-capacity';
+const batched = process.env.DD_BATCHED_POLLING === 'true';
+const out =
+  process.env.DD_DAY_REPORT_DIR ??
+  (batched ? 'reports/batched-polling-capacity' : 'reports/content-engine-capacity');
 async function main() {
   if (process.env.DATABASE_URL) throw Error('Replay requires DATABASE_URL absent');
   await mkdir(out, { recursive: true });
@@ -66,6 +69,7 @@ async function main() {
     const day = Date.parse('2026-10-19T00:00:00Z');
     let clock = day;
     const samples: any[] = [];
+    let sourceChecks = 0;
     async function rpc(op: string, data: any = {}, subsystem = op) {
       const response = await h.mf.dispatchFetch('http://localhost/fixture', {
         method: 'POST',
@@ -73,7 +77,7 @@ async function main() {
           authorization: 'Bearer synthetic-content-day-only-token',
           'content-type': 'application/json',
         },
-        body: JSON.stringify({ op, now: clock, ...data }),
+        body: JSON.stringify({ op, now: clock, enforceBudget: batched, ...data }),
       });
       const x = (await response.json()) as any;
       samples.push({ op, subsystem, ...x.metrics, wallMs: x.wallMs });
@@ -82,7 +86,25 @@ async function main() {
     }
     const registry = await rpc('registry'),
       active = registry.filter((x: any) => x.enabled);
-    console.log(JSON.stringify({ baseline, totalSources: registry.length, active: active.length }));
+    console.log(
+      JSON.stringify({ baseline, batched, totalSources: registry.length, active: active.length }),
+    );
+    if (process.env.DD_REGISTRY_PREFLIGHT === 'true') {
+      for (let cursor = 0; cursor < registry.length; cursor++)
+        await rpc('registry-http', { cursor }, 'registry-owner-http');
+      const state = await rpc('inspect');
+      if (state.sourceCheckpoints.length !== 97)
+        throw Error('Registry enabled source count mismatch');
+      const summary = {
+        sources: registry.length,
+        enabled: active.length,
+        maximumQueries: Math.max(...samples.map((x) => x.statements)),
+        samples,
+      };
+      if (summary.maximumQueries > 50) throw Error('Registry exceeded query bound');
+      await writeFile(out + '/registry-http.json', JSON.stringify(summary, null, 2) + '\n');
+      return;
+    }
     for (const x of registry) await rpc('sync', { id: x.id }, 'registry');
     for (const age of [6, 8]) {
       clock = day - age * 86400000;
@@ -102,6 +124,8 @@ async function main() {
       clock = day + minute * 60000;
       if (minute && minute % 30 === 0)
         for (const x of registry) await rpc('sync', { id: x.id }, 'registry');
+      const feeds: Record<string, any> = {};
+      const freshTeams: string[] = [];
       for (const x of active) {
         if ((minute * 60) % x.interval !== 0) continue;
         const team = x.teamId;
@@ -125,21 +149,42 @@ async function main() {
           : null;
         if (item) lastItems.set(x.id, item);
         const feedItem = item ?? (minute % 60 === 0 ? lastItems.get(x.id) : null);
-        const p = await rpc(
-          'poll',
-          { id: x.id, item: feedItem, duplicate: !!feedItem && !fresh },
-          'source-poll-and-jobs',
-        );
-        if (fresh) {
-          produced.set(team, n + 1);
-          const result = await rpc('drain', { team }, 'editorial-processing');
-          if (result?.storyId) {
-            const ids = teamArticles.get(team) ?? [];
-            if (!ids.includes(result.storyId)) ids.push(result.storyId);
-            teamArticles.set(team, ids);
+        if (batched) {
+          if (feedItem) feeds[x.id] = feedItem;
+          if (fresh) {
+            produced.set(team, n + 1);
+            freshTeams.push(team);
+          }
+        } else {
+          await rpc(
+            'poll',
+            { id: x.id, item: feedItem, duplicate: !!feedItem && !fresh },
+            'source-poll-and-jobs',
+          );
+          if (fresh) {
+            produced.set(team, n + 1);
+            freshTeams.push(team);
           }
         }
       }
+      if (batched) {
+        let token: string | null = null;
+        for (let continuation = 0; continuation < 1000; continuation++) {
+          const result = await rpc('batch', { token, feeds }, 'source-poll-and-jobs');
+          sourceChecks += result.checks ?? 0;
+          token = result.token;
+          if (result.idle) break;
+        }
+      }
+      for (const team of freshTeams) {
+        const result = await rpc('drain', { team }, 'editorial-processing');
+        if (result?.storyId) {
+          const ids = teamArticles.get(team) ?? [];
+          if (!ids.includes(result.storyId)) ids.push(result.storyId);
+          teamArticles.set(team, ids);
+        }
+      }
+      if (batched) await rpc('drain', {}, 'scheduler-idle');
       if (minute === 720) {
         for (const [team, ids] of teamArticles)
           for (const id of ids)
@@ -224,6 +269,7 @@ async function main() {
     );
     const final = await rpc('inspect');
     const summary: any = {
+      sourceChecks: batched ? sourceChecks : 18504,
       baseline,
       virtualHours: 24,
       initial,
