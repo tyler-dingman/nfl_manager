@@ -1,0 +1,23 @@
+before mobile Homepage LCP=2648ms JS=401449
+before mobile The Beat LCP=1992ms JS=283301
+before mobile Film Room LCP=3100ms JS=347092
+before mobile Three & Out LCP=2516ms JS=401686
+before mobile The Huddle LCP=2976ms JS=401449
+before mobile AI Search LCP=2476ms JS=347092
+before mobile Front Office LCP=2516ms JS=401686
+before mobile Parlay Lab LCP=3804ms JS=268662
+before mobile Trending Props LCP=3100ms JS=271339
+before mobile Bet Slip LCP=1948ms JS=309418
+before mobile Profile LCP=2108ms JS=296545
+before desktop Homepage LCP=1228ms JS=670256
+before desktop The Beat LCP=380ms JS=653572
+before desktop Film Room LCP=584ms JS=653335
+before desktop Three & Out LCP=520ms JS=653572
+before desktop The Huddle LCP=3400ms JS=653335
+before desktop AI Search LCP=1228ms JS=653335
+before desktop Front Office LCP=580ms JS=653572
+before desktop Parlay Lab LCP=628ms JS=671148
+before desktop Trending Props LCP=596ms JS=671148
+before desktop Bet Slip LCP=432ms JS=671148
+before desktop Profile LCP=492ms JS=718041
+{"scope": "MEASURED synthetic PostgreSQL auth/user/game metadata tables only. Not full product or cross-store production backup.", "migrationReplayCount": 2, "tablesVerified": 50, "dumpBytes": 1095664, "backupSeconds": 0.08774691598955542, "restoreAndVerifySeconds": 2.8490705409785733, "frontOfficeExitCode": 0, "productionRpo": "UNVERIFIED", "productionRto": "UNVERIFIED"}

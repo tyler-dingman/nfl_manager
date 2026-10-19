@@ -1,0 +1,251 @@
+import { spawn, spawnSync } from 'node:child_process';
+import { createServer } from 'node:net';
+import { mkdtemp, writeFile, readFile, rm } from 'node:fs/promises';
+import { createWriteStream } from 'node:fs';
+import assert from 'node:assert/strict';
+import { hash, verify } from '@node-rs/argon2';
+import { createDecipheriv, createHash } from 'node:crypto';
+const directory = await mkdtemp('/private/tmp/dd-staging-auth-'),
+  out = 'reports/staging-readiness';
+const env = Object.fromEntries(
+  ['PATH', 'HOME', 'TMPDIR', 'SHELL', 'LANG', 'USER']
+    .filter((k) => process.env[k])
+    .map((k) => [k, process.env[k]]),
+);
+Object.assign(env, {
+  CI: 'true',
+  WRANGLER_SEND_METRICS: 'false',
+  CLOUDFLARE_API_TOKEN: '',
+  CLOUDFLARE_ACCOUNT_ID: '',
+  NODE_OPTIONS: '--require ./scripts/phase-two-network-guard.cjs',
+});
+assert(!('DATABASE_URL' in env));
+assert(!('PRODUCTION_DATABASE_URL' in env));
+const cli = ['node_modules/wrangler/bin/wrangler.js'];
+function execute(args) {
+  const r = spawnSync(process.execPath, [...cli, ...args], {
+    env,
+    encoding: 'utf8',
+    maxBuffer: 5000000,
+  });
+  if (r.status !== 0) throw Error(r.stdout + r.stderr);
+  return r.stdout;
+}
+const common = ['--local', '--config', 'wrangler.api-local.toml', '--persist-to', directory];
+execute(['d1', 'migrations', 'apply', 'APP_DB', ...common]);
+const sql = (command) =>
+  JSON.parse(execute(['d1', 'execute', 'APP_DB', ...common, '--command', command, '--json']))[0]
+    .results;
+const socket = createServer();
+await new Promise((r) => socket.listen(0, '127.0.0.1', r));
+const port = socket.address().port;
+await new Promise((r) => socket.close(r));
+const base = `http://localhost:${port}`,
+  secret = 'synthetic-staging-mail-secret-at-least-32-characters';
+const log = createWriteStream(out + '/password-worker.log');
+let child;
+async function start() {
+  child = spawn(
+    process.execPath,
+    [
+      ...cli,
+      'dev',
+      '--local',
+      '--config',
+      'wrangler.api-local.toml',
+      '--config',
+      'workers/password/wrangler.toml',
+      '--port',
+      String(port),
+      '--ip',
+      '127.0.0.1',
+      '--persist-to',
+      directory,
+      '--var',
+      'APP_PASSWORD_ENABLED:true',
+      '--var',
+      `AUTH_JWT_SECRET:${secret}`,
+      '--var',
+      `APP_MAIL_ENCRYPTION_KEY:${secret}`,
+      '--var',
+      `AUTH_BASE_URL:${base}`,
+      '--var',
+      'PRELAUNCH_MODE:false',
+    ],
+    { env, stdio: ['ignore', 'pipe', 'pipe'] },
+  );
+  child.stdout.pipe(log, { end: false });
+  child.stderr.pipe(log, { end: false });
+  for (let i = 0; i < 100; i++) {
+    try {
+      if ((await fetch(base + '/api/auth/config')).ok) return;
+    } catch {}
+    if (child.exitCode !== null) throw Error('Worker startup failed');
+    await new Promise((r) => setTimeout(r, 200));
+  }
+  throw Error('Worker readiness timeout');
+}
+async function stop() {
+  if (child && child.exitCode === null) {
+    const p = new Promise((r) => child.once('exit', r));
+    child.kill('SIGTERM');
+    await p;
+  }
+}
+const call = (path, body, cookie) =>
+  fetch(base + '/api/auth/' + path, {
+    method: body ? 'POST' : 'GET',
+    headers: { 'content-type': 'application/json', origin: base, ...(cookie ? { cookie } : {}) },
+    ...(body ? { body: JSON.stringify(body) } : {}),
+  });
+const cookie = (r) => r.headers.get('set-cookie').split(';')[0];
+try {
+  await start();
+  const password = 'synthetic-password-🏈-long';
+  assert.equal((await (await call('config')).json()).email, true);
+  const signup = await call('signup', { email: 'wasm@example.invalid', password });
+  assert.equal(signup.status, 201, await signup.clone().text());
+  const session = cookie(signup);
+  const delivery = await fetch(base + '/api/three-and-out/preferences', {
+    method: 'PUT',
+    headers: { origin: base, cookie: session, 'content-type': 'application/json' },
+    body: JSON.stringify({
+      enabled: true,
+      email: true,
+      sms: false,
+      push: false,
+      timezone: 'America/Chicago',
+      deliveryTime: '08:30',
+    }),
+  });
+  assert.equal(delivery.status, 200, await delivery.clone().text());
+  const pref = (await delivery.json()).preferences;
+  assert.equal(pref.email, true);
+  assert.equal(pref.timezone, 'America/Chicago');
+  assert.equal(pref.deliveryTime, '08:30');
+  assert.equal(
+    sql("SELECT enabled FROM app_subscriptions WHERE topic='THREE_AND_OUT'")[0].enabled,
+    1,
+  );
+  const changed = await fetch(base + '/api/three-and-out/preferences', {
+    method: 'PUT',
+    headers: { origin: base, cookie: session, 'content-type': 'application/json' },
+    body: JSON.stringify({ enabled: false, email: true, sms: false, push: false }),
+  });
+  assert.equal(changed.status, 200, await changed.clone().text());
+  assert.equal((await changed.json()).preferences.deliveryTime, '08:30');
+  assert.equal(
+    sql("SELECT enabled FROM app_subscriptions WHERE topic='THREE_AND_OUT'")[0].enabled,
+    0,
+  );
+
+  assert.equal((await call('me', undefined, session)).status, 200);
+  let credential = sql('SELECT * FROM app_credentials')[0];
+  assert.match(credential.password_hash, /^\$argon2id\$v=19\$m=19456,t=2,p=1\$/);
+  assert(await verify(credential.password_hash, password));
+  const native = await hash(password, {
+    algorithm: 2,
+    memoryCost: 19456,
+    timeCost: 2,
+    parallelism: 1,
+    outputLen: 32,
+  });
+  sql(`UPDATE app_credentials SET password_hash='${native}'`);
+  assert.equal(
+    (await call('login', { email: 'wasm@example.invalid', password: 'incorrect' })).status,
+    401,
+  );
+  const sessions = await Promise.all([
+    call('login', { email: 'wasm@example.invalid', password }),
+    call('login', { email: 'wasm@example.invalid', password }),
+  ]);
+  assert(
+    sessions.every((r) => r.status === 200),
+    await Promise.all(sessions.map((r) => r.clone().text())),
+  );
+  assert.notEqual(cookie(sessions[0]), cookie(sessions[1]));
+  assert.equal((await call('logout', {}, cookie(sessions[0]))).status, 200);
+  assert.equal((await call('me', undefined, cookie(sessions[0]))).status, 401);
+  assert.equal((await call('me', undefined, cookie(sessions[1]))).status, 200);
+  sql('UPDATE app_sessions SET expires_at=1');
+  assert.equal((await call('me', undefined, session)).status, 401);
+  assert.equal((await call('forgot-password', { email: 'wasm@example.invalid' })).status, 200);
+  let token = '';
+  for (const row of sql('SELECT object_hash FROM app_mail')) {
+    const file = directory + '/mail-' + row.object_hash;
+    execute([
+      'r2',
+      'object',
+      'get',
+      `phase-four-local-objects/application/v1/${row.object_hash}`,
+      '--local',
+      '--persist-to',
+      directory,
+      '--file',
+      file,
+    ]);
+    let raw = await readFile(file);
+    if (raw[0] === 31 && raw[1] === 139) raw = (await import('node:zlib')).gunzipSync(raw);
+    assert.equal(createHash('sha256').update(raw).digest('hex'), row.object_hash);
+    const encrypted = JSON.parse(raw);
+    const decipher = createDecipheriv(
+      'aes-256-gcm',
+      createHash('sha256').update(secret).digest(),
+      Buffer.from(encrypted.iv, 'base64'),
+    );
+    const data = Buffer.from(encrypted.cipher, 'base64');
+    decipher.setAuthTag(data.subarray(-16));
+    const mail = JSON.parse(
+      Buffer.concat([decipher.update(data.subarray(0, -16)), decipher.final()]),
+    );
+    if (mail.subject.startsWith('Reset'))
+      token = new URL(mail.text.split(': ').at(-1)).searchParams.get('resetToken');
+  }
+  assert(token);
+  const next = 'synthetic-new-password-🏈';
+  assert.equal((await call('reset-password', { token, password: next })).status, 200);
+  assert.notEqual((await call('reset-password', { token, password: next })).status, 200);
+  assert.equal((await call('login', { email: 'wasm@example.invalid', password })).status, 401);
+  const logged = await call('login', { email: 'wasm@example.invalid', password: next });
+  assert.equal(logged.status, 200, await logged.clone().text());
+  const persisted = cookie(logged);
+  await stop();
+  await start();
+  assert.equal((await call('me', undefined, persisted)).status, 200);
+  assert.equal(sql('PRAGMA foreign_key_check').length, 0);
+  await writeFile(
+    out + '/password-runtime.json',
+    JSON.stringify(
+      {
+        runtime: 'actual local workerd via Wrangler with static Wasm service binding',
+        databaseUrlPresent: false,
+        d1WorkflowChecks: [
+          'Three & Out channel preferences',
+          'timezone and delivery-time preservation',
+          'atomic email eligibility',
+        ],
+        nativePhcCompatible: true,
+        argon2id: { memoryKiB: 19456, iterations: 2, parallelism: 1, hashBytes: 32 },
+        scenarios: [
+          'registration',
+          'native-PHC login',
+          'invalid credentials',
+          'concurrent sessions',
+          'logout isolation',
+          'session expiry',
+          'password reset',
+          'single-use reset',
+          'old password rejected',
+          'restart',
+        ],
+        hostedCpuMs: null,
+      },
+      null,
+      2,
+    ) + '\n',
+  );
+} finally {
+  await stop();
+  log.end();
+  await rm(directory, { recursive: true, force: true });
+}

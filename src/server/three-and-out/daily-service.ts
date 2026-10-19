@@ -1,3 +1,4 @@
+import { loadOverrides } from './overrides';
 import {
   applicationBackend,
   applicationStorage,
@@ -219,7 +220,7 @@ export async function generateDailyThreeAndOut(
     )
     .map(asStory);
   const selected = selectDailyBriefingStories(
-    applyEditorialOverrides(candidates, getEditorialOverrides(teamId)),
+    applyEditorialOverrides(candidates, await loadOverrides(teamId)),
     teamId,
     now,
   );

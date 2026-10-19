@@ -85,7 +85,7 @@ export function HomepageHero({ teamId, game }: { teamId: string; game: HomepageG
         testID="homepage-stadium-image"
         source={
           teamId === 'KC'
-            ? require('../../../public/images/gameday/stadium/kc/gameday.png')
+            ? require('../../../public/images/gameday/stadium/kc/gameday.webp')
             : { uri: `${API_BASE_URL}${gameDayHeroAsset(teamId)}` }
         }
         style={StyleSheet.absoluteFill}

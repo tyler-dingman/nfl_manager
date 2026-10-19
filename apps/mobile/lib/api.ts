@@ -1,3 +1,9 @@
+import { publicContentWithPreviewFallback } from '../../../packages/public-content-transport';
+import { createPublicContentClient } from '../../../packages/public-content-client';
+import { publicContentPath } from '../../../packages/public-content-policy';
+import { apiFetch } from './network';
+import { demoSession } from './demo-session';
+const publicFetch = createPublicContentClient(apiFetch as typeof fetch);
 import { fixtureHome } from './fixtures';
 import type {
   CatchUpData,
@@ -18,9 +24,12 @@ export { API_BASE_URL } from './network';
 export const TEAM_ID = process.env.EXPO_PUBLIC_TEAM_ID ?? 'KC';
 export const USE_FIXTURES = process.env.EXPO_PUBLIC_USE_FIXTURES === 'true';
 async function request<T>(path: string): Promise<T> {
-  const response = await authenticatedFetch(path, {
-    headers: { Accept: 'application/json' },
-  });
+  const response =
+    publicContentPath(path) && !demoSession.isActive()
+      ? await publicContentWithPreviewFallback(path, publicFetch, (p) =>
+          authenticatedFetch(p, { headers: { Accept: 'application/json' } }),
+        )
+      : await authenticatedFetch(path, { headers: { Accept: 'application/json' } });
   if (!response.ok) throw new Error(`D&D API ${response.status}`);
   return response.json() as Promise<T>;
 }

@@ -1,0 +1,20 @@
+TAP version 13
+# Subtest: public content allowlist rejects identity, unknown parameters, private routes and credentials
+ok 1 - public content allowlist rejects identity, unknown parameters, private routes and credentials
+  ---
+  duration_ms: 8.290917
+  ...
+# Subtest: web/native public client coalesces requests, isolates teams, expires and retries failures
+ok 2 - web/native public client coalesces requests, isolates teams, expires and retries failures
+  ---
+  duration_ms: 2.905083
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 181.933833

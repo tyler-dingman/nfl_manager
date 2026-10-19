@@ -1,0 +1,19 @@
+React Compiler enabled
+Starting Metro Bundler
+iOS ../../../../../Users/tylerdingman/nfl_manager/apps/mobile/node_modules/expo-router/entry.js ▓▓▓▓░░░░░░░░░░░░ 30.8% (249/449)
+Android ../../../../../Users/tylerdingman/nfl_manager/apps/mobile/node_modules/expo-router/entry.js ▓▓▓▓▓▓▓▓▓▓▓▓▓░░░ 81.9% (716/791)
+Android Bundled 1633ms ../../../../../Users/tylerdingman/nfl_manager/apps/mobile/node_modules/expo-router/entry.js (791 modules)
+iOS Bundled 2425ms ../../../../../Users/tylerdingman/nfl_manager/apps/mobile/node_modules/expo-router/entry.js (955 modules)
+Static rendering is enabled. Learn more: https://docs.expo.dev/router/reference/static-rendering/
+Error: Unable to resolve module expo-router/node/render.js from /private/tmp/down-distance-staging-blockers/apps/mobile/.: expo-router/node/render.js could not be found within the project.
+Error: Unable to resolve module expo-router/node/render.js from /private/tmp/down-distance-staging-blockers/apps/mobile/.: expo-router/node/render.js could not be found within the project.
+    at ModuleResolver.resolveDependency (/Users/tylerdingman/nfl_manager/apps/mobile/node_modules/metro/src/node-haste/DependencyGraph/ModuleResolution.js:172:15)
+    at DependencyGraph.resolveDependency (/Users/tylerdingman/nfl_manager/apps/mobile/node_modules/metro/src/node-haste/DependencyGraph.js:252:43)
+    at /Users/tylerdingman/nfl_manager/apps/mobile/node_modules/metro/src/lib/transformHelpers.js:163:21
+    at Server._resolveRelativePath (/Users/tylerdingman/nfl_manager/apps/mobile/node_modules/metro/src/Server.js:1259:12)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at MetroBundlerDevServer.resolveRelativePathAsync (/Users/tylerdingman/nfl_manager/apps/mobile/node_modules/expo/node_modules/@expo/cli/src/start/server/metro/MetroBundlerDevServer.ts:1875:12)
+    at MetroBundlerDevServer.metroLoadModuleContents (/Users/tylerdingman/nfl_manager/apps/mobile/node_modules/expo/node_modules/@expo/cli/src/start/server/metro/MetroBundlerDevServer.ts:631:35)
+    at MetroBundlerDevServer.ssrLoadModuleContents (/Users/tylerdingman/nfl_manager/apps/mobile/node_modules/expo/node_modules/@expo/cli/src/start/server/metro/MetroBundlerDevServer.ts:704:48)
+    at MetroBundlerDevServer.ssrLoadModule (/Users/tylerdingman/nfl_manager/apps/mobile/node_modules/expo/node_modules/@expo/cli/src/start/server/metro/MetroBundlerDevServer.ts:534:17)
+    at MetroBundlerDevServer.getStaticRenderFunctionAsync (/Users/tylerdingman/nfl_manager/apps/mobile/node_modules/expo/node_modules/@expo/cli/src/start/server/metro/MetroBundlerDevServer.ts:384:7)

@@ -1,5 +1,6 @@
 'use client';
 
+import { publicContentWithPreviewFallback } from '../../packages/public-content-transport';
 import { lockDocumentScroll } from '@/lib/document-scroll-lock';
 import { ResponsiveRail } from '@/components/layout/responsive-rail';
 import Link from 'next/link';
@@ -224,9 +225,11 @@ export default function DownDistanceHome() {
     const loadBriefings = async () => {
       try {
         if (teamAbbr === 'NFL') return;
-        const response = await fetch(`/api/content/homepage?team=${encodeURIComponent(teamAbbr)}`, {
-          signal: controller.signal,
-        });
+        const response = await publicContentWithPreviewFallback(
+          `/api/content/homepage?team=${encodeURIComponent(teamAbbr)}`,
+          (p) => fetch(p, { signal: controller.signal, credentials: 'omit' }),
+          (p) => fetch(p, { signal: controller.signal }),
+        );
         if (!response.ok) return;
         const payload = (await response.json()) as {
           huddle?: TeamBriefing[];
@@ -249,9 +252,15 @@ export default function DownDistanceHome() {
     setFilmRoomData(null);
     setFilmRoomLoading(teamAbbr !== 'NFL');
     if (teamAbbr === 'NFL') return () => controller.abort();
-    void fetch(`/api/film-room?team=${encodeURIComponent(teamAbbr)}`, {
-      signal: controller.signal,
-    })
+    void publicContentWithPreviewFallback(
+      `/api/film-room?team=${encodeURIComponent(teamAbbr)}`,
+      () =>
+        fetch(`/api/film-room?team=${encodeURIComponent(teamAbbr)}`, {
+          signal: controller.signal,
+          credentials: 'omit',
+        }),
+      (p) => fetch(p, { signal: controller.signal }),
+    )
       .then(async (response) => {
         if (!response.ok) throw new Error(`Film Room request failed: ${response.status}`);
         setFilmRoomData((await response.json()) as FilmRoomResponse);

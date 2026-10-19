@@ -1,3 +1,5 @@
+import { applicationBackend, applicationStorage } from '../persistence/bindings';
+import { ReferenceData } from '../../../packages/storage/reference';
 import { normalizeDisplayHeadline } from '@/lib/display-headline';
 import { unstable_cache } from 'next/cache';
 import { authDb } from '@/server/auth/database';
@@ -113,5 +115,24 @@ const cachedDiscoveredVideos = unstable_cache(
   { revalidate: 60, tags: ['film-room-discovered'] },
 );
 export function loadDiscoveredFilmRoomVideos(teamId: string) {
+  if (applicationBackend() === 'd1')
+    return new ReferenceData(applicationStorage())
+      .values<DiscoveredFilmRoomRow[]>('FILM_ROOM_ROWS', 'subject=?', [teamId.toUpperCase()])
+      .then((packs) => {
+        const seen = new Set<string>();
+        return packs
+          .flat()
+          .sort(
+            (a, b) =>
+              new Date(b.published_at ?? b.discovered_at).getTime() -
+              new Date(a.published_at ?? a.discovered_at).getTime(),
+          )
+          .flatMap((row) => {
+            const video = discoveredRowToFilmRoomVideo(row);
+            if (!video || seen.has(video.id)) return [];
+            seen.add(video.id);
+            return [video];
+          });
+      });
   return cachedDiscoveredVideos(teamId.toUpperCase());
 }

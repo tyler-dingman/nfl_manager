@@ -1,3 +1,4 @@
+import { publicCacheKey, cachePublicResponse } from '../web/public-cache';
 import { NextRequest } from 'next/server';
 import { routes } from './routes.generated';
 import { middleware } from '../../src/middleware';
@@ -9,7 +10,7 @@ import {
   routeFamily,
 } from '../../packages/storage/instrumentation';
 export default {
-  async fetch(request: Request, env: any) {
+  async fetch(request: Request, env: any, ctx?: { waitUntil(p: Promise<unknown>): void }) {
     const metrics = requestMetrics(),
       objects = new PrivateObjects(env.APP_OBJECTS, env.APP_BACKUP),
       start = performance.now();
@@ -18,6 +19,7 @@ export default {
         db: instrumentDatabase(env.APP_DB, metrics),
         objects,
         ai: env.AI,
+        password: env.PASSWORD_SERVICE,
         env: { ...env, APP_RUNTIME: 'cloudflare' },
         cacheNamespace: 'api:' + String(env.APP_CACHE_VERSION ?? 'default'),
       },
@@ -31,6 +33,34 @@ export default {
         try {
           const gate = await middleware(req);
           if (!gate.headers.has('x-middleware-next')) return gate;
+          const cacheKey =
+            env.APP_PUBLIC_CACHE_ENABLED === 'true' &&
+            !gate.headers.has('set-cookie') &&
+            !gate.headers.has('vary')
+              ? publicCacheKey(request, env.APP_CACHE_VERSION ?? '')
+              : null;
+          const edgeCache = cacheKey ? (caches as unknown as { default: Cache }).default : null;
+          if (cacheKey && edgeCache) {
+            const hit = await edgeCache.match(cacheKey);
+            if (hit) {
+              const reply = new Response(hit.body, hit);
+              reply.headers.set('X-Application-Cache', 'HIT');
+              console.log(
+                JSON.stringify({
+                  metric: 'application_headers',
+                  route: routeFamily(req.nextUrl.pathname),
+                  status: reply.status,
+                  wallMs: performance.now() - start,
+                  ...metrics,
+                  r2Reads: 0,
+                  r2Writes: 0,
+                  cache: 'HIT',
+                  cpuMs: null,
+                }),
+              );
+              return reply;
+            }
+          }
           const route = routes.find((r) => r.pattern.test(req.nextUrl.pathname));
           if (!route) return new Response('Not found', { status: 404 });
           const matches = route.pattern.exec(req.nextUrl.pathname)!;
@@ -66,7 +96,25 @@ export default {
           const result = new Response(request.method === 'HEAD' ? null : response.body, response);
           for (const [name, value] of gate.headers)
             if (!name.startsWith('x-middleware-')) result.headers.set(name, value);
-          result.headers.set('Cache-Control', 'private, no-store');
+          if (
+            cacheKey &&
+            edgeCache &&
+            !gate.headers.has('set-cookie') &&
+            result.status === 200 &&
+            !result.headers.has('set-cookie') &&
+            !/private|no-store/i.test(response.headers.get('cache-control') ?? '') &&
+            !result.headers.has('vary')
+          ) {
+            if (!result.headers.has('Cache-Control'))
+              result.headers.set('Cache-Control', 'public, max-age=30');
+            result.headers.set('X-Application-Cache', 'MISS');
+            const put = cachePublicResponse(edgeCache, cacheKey, result).catch(() => false);
+            if (ctx) ctx.waitUntil(put);
+            else await put;
+          } else {
+            result.headers.set('Cache-Control', 'private, no-store');
+            result.headers.set('X-Application-Cache', 'BYPASS');
+          }
           result.headers.set('X-Content-Type-Options', 'nosniff');
           console.log(
             JSON.stringify({

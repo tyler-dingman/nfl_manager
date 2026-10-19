@@ -7,11 +7,10 @@
     "packages/**/*.ts",
     "workers/api/index.ts",
     "workers/application/*.ts",
-    "workers/web/index.ts"
+    "workers/web/index.ts",
+    "workers/password/index.ts",
+    "workers/password/implementation.ts",
+    "workers/password/modules.d.ts"
   ],
-  "exclude": [
-    "node_modules",
-    "apps/mobile",
-    "public"
-  ]
+  "exclude": ["node_modules", "apps/mobile", "public"]
 }

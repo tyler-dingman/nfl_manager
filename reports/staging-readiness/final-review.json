@@ -1,0 +1,19 @@
+{
+  "localReviewGate": "PASS",
+  "automatedTestsPassed": 1199,
+  "automatedTestsFailed": 0,
+  "browserCases": 48,
+  "workerHttpSamples": 58,
+  "performanceViewportSamples": 22,
+  "originalHeroAssetsPreserved": true,
+  "nativeJavaScriptExport": [
+    "android",
+    "ios",
+    "web"
+  ],
+  "devicePerformanceMeasured": false,
+  "hostedWorkerCpuMeasured": false,
+  "wholeProductPostgresFree": false,
+  "readyForStaging": false,
+  "deployed": false
+}

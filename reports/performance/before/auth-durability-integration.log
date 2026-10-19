@@ -1,0 +1,20 @@
+TAP version 13
+# Subtest: accounts, sessions, preferences and saved IDs survive process restart with owner isolation
+ok 1 - accounts, sessions, preferences and saved IDs survive process restart with owner isolation
+  ---
+  duration_ms: 218.523458
+  ...
+# Subtest: password reset rolls back token consumption on failure and only one concurrent reset commits
+ok 2 - password reset rolls back token consumption on failure and only one concurrent reset commits
+  ---
+  duration_ms: 70.806833
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 456.926042

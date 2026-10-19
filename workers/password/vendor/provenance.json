@@ -1,0 +1,12 @@
+{
+  "package": "hash-wasm",
+  "version": "4.12.0",
+  "source": "https://github.com/Daninet/hash-wasm",
+  "upstreamEsmSha256": "2d6333a619d7f64adc313a38732425fc0c6f0baaa36c1419cf05672bcd89340d",
+  "changes": "Static precompiled module injection only; exported argon2id only; unused algorithms eliminated by esbuild",
+  "files": {
+    "argon2.mjs": "bc2ad3e29157bd3e03776702bb89e5608c6cec2757d526baea0ca053d343efc0",
+    "argon2.wasm": "83b5829d20b4312aca1a56819f95eef20492e058c70f282c9ed6929f579b20ed",
+    "blake2b.wasm": "b478c0d889d97d7a8db4d10501457ad78dd406d02dcb4c892c0d844805ef05bb"
+  }
+}

@@ -92,6 +92,7 @@ try {
       const rel = path.relative(root, src);
       return (
         !/^(\.git|node_modules|\.next|\.open-next|workers\/.*\/node_modules)(\/|$)/.test(rel) &&
+        !rel.split(path.sep).includes('node_modules') &&
         !rel.startsWith('src/app/api')
       );
     },
@@ -109,8 +110,6 @@ try {
   );
   Object.assign(env, {
     APP_RUNTIME: 'cloudflare',
-    DATABASE_URL: '',
-    PRODUCTION_DATABASE_URL: '',
     CLOUDFLARE_API_TOKEN: '',
     CLOUDFLARE_ACCOUNT_ID: '',
     NEXT_TELEMETRY_DISABLED: '1',

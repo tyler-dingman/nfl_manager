@@ -6,7 +6,7 @@ import { TEAM_LIST } from '../../../../src/data/teams';
 import { HomeFilmRoom } from '../../components/home-film-room';
 import { HomepageHero } from '../../components/homepage-hero';
 import { PageScrollView as ScrollView } from '../../components/page-scroll-view';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, useRef } from 'react';
 import { Pressable, RefreshControl, StyleSheet, Text, View } from 'react-native';
 import { type Href, router } from 'expo-router';
 import { C } from '../../components/screen';
@@ -21,24 +21,34 @@ export default function Home() {
     [loading, setLoading] = useState(false),
     [error, setError] = useState<string | null>(null);
   const [game, setGame] = useState<HomepageGame | null>(null);
+  const generation = useRef(0);
   const load = useCallback(async () => {
+    const active = ++generation.current;
     setLoading(true);
     setError(null);
+    void getHomepageGame(teamId)
+      .then((value) => {
+        if (generation.current === active) setGame(value);
+      })
+      .catch(() => {
+        if (generation.current === active) setGame(null);
+      });
     try {
       const result = await getHome(teamId);
-      setData(result.data);
-      void getHomepageGame(teamId)
-        .then(setGame)
-        .catch(() => setGame(null));
+      if (generation.current === active) setData(result.data);
     } catch (caught) {
+      if (generation.current !== active) return;
       setData(null);
       setError(caught instanceof Error ? caught.message : 'Home is unavailable.');
     } finally {
-      setLoading(false);
+      if (generation.current === active) setLoading(false);
     }
   }, [teamId]);
   useEffect(() => {
     void load();
+    return () => {
+      generation.current++;
+    };
   }, [load]);
   return (
     <View style={s.safe}>

@@ -1,0 +1,25 @@
+TAP version 13
+# Subtest: indexed upcoming-event range preserves rows while avoiding historical board scan
+ok 1 - indexed upcoming-event range preserves rows while avoiding historical board scan
+  ---
+  duration_ms: 1042.874125
+  ...
+# Subtest: D1 notifications preserve ownership, deduplication, disabled-device isolation and full export
+ok 2 - D1 notifications preserve ownership, deduplication, disabled-device isolation and full export
+  ---
+  duration_ms: 2419.441917
+  ...
+# Subtest: weekly full + daily row deltas: complete chain restore, interrupted restore, missing/corrupt parent rejection and reference-safe retention
+ok 3 - weekly full + daily row deltas: complete chain restore, interrupted restore, missing/corrupt parent rejection and reference-safe retention
+  ---
+  duration_ms: 8484.505792
+  ...
+1..3
+# tests 3
+# suites 0
+# pass 3
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 9044.971666

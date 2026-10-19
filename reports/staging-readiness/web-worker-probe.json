@@ -1,0 +1,470 @@
+{
+  "scope": "MEASURED local workerd with disposable empty D1; no cloud CPU or provider qualification.",
+  "capabilityAssertionsPassed": 8,
+  "results": [
+    {
+      "name": "Homepage",
+      "path": "/",
+      "attempt": "cold",
+      "status": 200,
+      "localWallMs": 310.9447909999999,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Homepage",
+      "path": "/",
+      "attempt": "warm",
+      "status": 200,
+      "localWallMs": 21.561375000000226,
+      "workerCpuMs": null
+    },
+    {
+      "name": "The Beat",
+      "path": "/the-beat?team=kc",
+      "attempt": "cold",
+      "status": 200,
+      "localWallMs": 24.73162499999944,
+      "workerCpuMs": null
+    },
+    {
+      "name": "The Beat",
+      "path": "/the-beat?team=kc",
+      "attempt": "warm",
+      "status": 200,
+      "localWallMs": 16.270917000000736,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Film Room",
+      "path": "/watch?team=kc",
+      "attempt": "cold",
+      "status": 200,
+      "localWallMs": 18.22425000000021,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Film Room",
+      "path": "/watch?team=kc",
+      "attempt": "warm",
+      "status": 200,
+      "localWallMs": 17.59520799999973,
+      "workerCpuMs": null
+    },
+    {
+      "name": "AI Search",
+      "path": "/api/search",
+      "attempt": "cold",
+      "status": 200,
+      "localWallMs": 4.811791000000085,
+      "workerCpuMs": null
+    },
+    {
+      "name": "AI Search",
+      "path": "/api/search",
+      "attempt": "warm",
+      "status": 200,
+      "localWallMs": 2.930000000000291,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Front Office",
+      "path": "/front-office",
+      "attempt": "cold",
+      "status": 200,
+      "localWallMs": 17.49145799999951,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Front Office",
+      "path": "/front-office",
+      "attempt": "warm",
+      "status": 200,
+      "localWallMs": 16.639374999999745,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Parlay Lab",
+      "path": "/parlay-lab",
+      "attempt": "cold",
+      "status": 200,
+      "localWallMs": 23.328042000000096,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Parlay Lab",
+      "path": "/parlay-lab",
+      "attempt": "warm",
+      "status": 200,
+      "localWallMs": 16.55845799999952,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Trending Props",
+      "path": "/api/parlay-lab/props",
+      "attempt": "cold",
+      "status": 200,
+      "localWallMs": 2.804917000000387,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Trending Props",
+      "path": "/api/parlay-lab/props",
+      "attempt": "warm",
+      "status": 200,
+      "localWallMs": 2.3941670000003796,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Bet Slip",
+      "path": "/parlay-lab/my-plays",
+      "attempt": "cold",
+      "status": 200,
+      "localWallMs": 17.344750000000204,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Bet Slip",
+      "path": "/parlay-lab/my-plays",
+      "attempt": "warm",
+      "status": 200,
+      "localWallMs": 15.585291999999754,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Authentication",
+      "path": "/api/auth/config",
+      "attempt": "cold",
+      "status": 200,
+      "localWallMs": 2.1370829999996204,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Authentication",
+      "path": "/api/auth/config",
+      "attempt": "warm",
+      "status": 200,
+      "localWallMs": 1.707125000000815,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Existing session",
+      "path": "/api/auth/me",
+      "attempt": "cold",
+      "status": 200,
+      "localWallMs": 2.1906249999992724,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Existing session",
+      "path": "/api/auth/me",
+      "attempt": "warm",
+      "status": 200,
+      "localWallMs": 2.9539999999997235,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Saved IDs",
+      "path": "/api/user/saved-content",
+      "attempt": "cold",
+      "status": 200,
+      "localWallMs": 2.9210409999996045,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Saved IDs",
+      "path": "/api/user/saved-content",
+      "attempt": "warm",
+      "status": 200,
+      "localWallMs": 2.572957999999744,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Daily Trivia D1",
+      "path": "/api/trivia/daily?team=KC",
+      "attempt": "cold",
+      "status": 200,
+      "localWallMs": 4.769207999999708,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Daily Trivia D1",
+      "path": "/api/trivia/daily?team=KC",
+      "attempt": "warm",
+      "status": 200,
+      "localWallMs": 3.5557499999995343,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Editorial ingestion admission",
+      "path": "/api/automation/content",
+      "attempt": "cold",
+      "status": 503,
+      "localWallMs": 3.1163329999999405,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Editorial ingestion admission",
+      "path": "/api/automation/content",
+      "attempt": "warm",
+      "status": 503,
+      "localWallMs": 1.7581249999993815,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Team ARI",
+      "path": "/?team=ari",
+      "attempt": "team",
+      "status": 200,
+      "localWallMs": 18.525499999999738,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Team ATL",
+      "path": "/?team=atl",
+      "attempt": "team",
+      "status": 200,
+      "localWallMs": 15.485374999999294,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Team BAL",
+      "path": "/?team=bal",
+      "attempt": "team",
+      "status": 200,
+      "localWallMs": 27.316249999999854,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Team BUF",
+      "path": "/?team=buf",
+      "attempt": "team",
+      "status": 200,
+      "localWallMs": 15.339708999999857,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Team CAR",
+      "path": "/?team=car",
+      "attempt": "team",
+      "status": 200,
+      "localWallMs": 16.661583000000064,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Team CHI",
+      "path": "/?team=chi",
+      "attempt": "team",
+      "status": 200,
+      "localWallMs": 13.707250000000386,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Team CIN",
+      "path": "/?team=cin",
+      "attempt": "team",
+      "status": 200,
+      "localWallMs": 15.342500000000655,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Team CLE",
+      "path": "/?team=cle",
+      "attempt": "team",
+      "status": 200,
+      "localWallMs": 15.378582999999708,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Team DAL",
+      "path": "/?team=dal",
+      "attempt": "team",
+      "status": 200,
+      "localWallMs": 15.620332999999846,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Team DEN",
+      "path": "/?team=den",
+      "attempt": "team",
+      "status": 200,
+      "localWallMs": 16.847082999999657,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Team DET",
+      "path": "/?team=det",
+      "attempt": "team",
+      "status": 200,
+      "localWallMs": 16.201624999999694,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Team GB",
+      "path": "/?team=gb",
+      "attempt": "team",
+      "status": 200,
+      "localWallMs": 16.273709000000053,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Team HOU",
+      "path": "/?team=hou",
+      "attempt": "team",
+      "status": 200,
+      "localWallMs": 27.238542000000052,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Team IND",
+      "path": "/?team=ind",
+      "attempt": "team",
+      "status": 200,
+      "localWallMs": 15.021499999999833,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Team JAX",
+      "path": "/?team=jax",
+      "attempt": "team",
+      "status": 200,
+      "localWallMs": 15.857082999999875,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Team KC",
+      "path": "/?team=kc",
+      "attempt": "team",
+      "status": 200,
+      "localWallMs": 19.09320800000023,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Team LV",
+      "path": "/?team=lv",
+      "attempt": "team",
+      "status": 200,
+      "localWallMs": 16.198999999999614,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Team LAC",
+      "path": "/?team=lac",
+      "attempt": "team",
+      "status": 200,
+      "localWallMs": 16.684791000000587,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Team LAR",
+      "path": "/?team=lar",
+      "attempt": "team",
+      "status": 200,
+      "localWallMs": 15.564000000000306,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Team MIA",
+      "path": "/?team=mia",
+      "attempt": "team",
+      "status": 200,
+      "localWallMs": 15.42975000000024,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Team MIN",
+      "path": "/?team=min",
+      "attempt": "team",
+      "status": 200,
+      "localWallMs": 17.10029200000008,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Team NE",
+      "path": "/?team=ne",
+      "attempt": "team",
+      "status": 200,
+      "localWallMs": 17.615375000000313,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Team NO",
+      "path": "/?team=no",
+      "attempt": "team",
+      "status": 200,
+      "localWallMs": 21.136499999999614,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Team NYG",
+      "path": "/?team=nyg",
+      "attempt": "team",
+      "status": 200,
+      "localWallMs": 17.97149999999965,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Team NYJ",
+      "path": "/?team=nyj",
+      "attempt": "team",
+      "status": 200,
+      "localWallMs": 18.949916000000485,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Team PHI",
+      "path": "/?team=phi",
+      "attempt": "team",
+      "status": 200,
+      "localWallMs": 15.96691699999974,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Team PIT",
+      "path": "/?team=pit",
+      "attempt": "team",
+      "status": 200,
+      "localWallMs": 15.600292000000081,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Team SF",
+      "path": "/?team=sf",
+      "attempt": "team",
+      "status": 200,
+      "localWallMs": 16.697041999999783,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Team SEA",
+      "path": "/?team=sea",
+      "attempt": "team",
+      "status": 200,
+      "localWallMs": 16.90087500000027,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Team TB",
+      "path": "/?team=tb",
+      "attempt": "team",
+      "status": 200,
+      "localWallMs": 18.99829200000022,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Team TEN",
+      "path": "/?team=ten",
+      "attempt": "team",
+      "status": 200,
+      "localWallMs": 17.70391699999982,
+      "workerCpuMs": null
+    },
+    {
+      "name": "Team WAS",
+      "path": "/?team=was",
+      "attempt": "team",
+      "status": 200,
+      "localWallMs": 17.86345799999981,
+      "workerCpuMs": null
+    }
+  ]
+}

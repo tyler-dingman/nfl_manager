@@ -68,6 +68,8 @@ export const TEAM_TIME_ZONES: Record<string, string> = {
   WAS: 'America/New_York',
 };
 
-export const gameDayHeroAsset = (teamAbbr: string) => GAME_DAY_HERO_ASSETS[teamAbbr];
+// Keep original URLs available; both renderers use the same compressed derivative.
+export const gameDayHeroAsset = (teamAbbr: string) =>
+  GAME_DAY_HERO_ASSETS[teamAbbr]?.replace(/\.png$/, '.webp');
 
 export const teamTimeZone = (teamAbbr: string) => TEAM_TIME_ZONES[teamAbbr] ?? 'America/New_York';

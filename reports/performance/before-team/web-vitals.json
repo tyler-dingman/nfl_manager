@@ -1,0 +1,1215 @@
+{
+  "scope": "MEASURED local production Next + Chromium. Cold browser contexts, synthetic partial database, no production CPU/field INP/device certification.",
+  "network": {
+    "mobile": {
+      "downMbps": 1.6,
+      "upMbps": 0.75,
+      "rttMs": 100,
+      "cpuSlowdown": 4
+    },
+    "desktop": {
+      "downMbps": 10,
+      "upMbps": 5,
+      "rttMs": 40,
+      "cpuSlowdown": 1
+    }
+  },
+  "results": [
+    {
+      "name": "Homepage",
+      "path": "/?team=kc",
+      "device": "mobile",
+      "status": 200,
+      "lcpMs": 2660,
+      "cls": 0.36796469643539004,
+      "interactionLatencyMs": 64,
+      "interactionMetric": "Event Timing local interaction sample; not field INP",
+      "ttfbMs": 39.099999994039536,
+      "scriptEncodedBytes": 308085,
+      "scriptRequests": 39,
+      "resourceRequests": 79,
+      "horizontalOverflow": false,
+      "api": [
+        {
+          "path": "/api/auth/me",
+          "status": 200,
+          "ttfbMs": 128.319,
+          "cache": null
+        },
+        {
+          "path": "/api/content/next-game",
+          "status": 503,
+          "ttfbMs": 133.798,
+          "cache": null
+        },
+        {
+          "path": "/api/search/suggestions",
+          "status": 200,
+          "ttfbMs": 134.918,
+          "cache": null
+        },
+        {
+          "path": "/api/content/homepage",
+          "status": 200,
+          "ttfbMs": 136.82,
+          "cache": null
+        },
+        {
+          "path": "/api/film-room",
+          "status": 200,
+          "ttfbMs": 143.453,
+          "cache": null
+        },
+        {
+          "path": "/api/game-day/homepage",
+          "status": 200,
+          "ttfbMs": 128.90499999999997,
+          "cache": null
+        },
+        {
+          "path": "/api/user/notifications/unread-count",
+          "status": 500,
+          "ttfbMs": 406.45400000000006,
+          "cache": null
+        },
+        {
+          "path": "/api/catch-up",
+          "status": 500,
+          "ttfbMs": 136.70299999999997,
+          "cache": null
+        },
+        {
+          "path": "/api/three-and-out/preferences",
+          "status": 500,
+          "ttfbMs": 114.04899999999998,
+          "cache": null
+        },
+        {
+          "path": "/api/user/home",
+          "status": 200,
+          "ttfbMs": 120.05100000000004,
+          "cache": null
+        },
+        {
+          "path": "/t_q-best/league/api/clubs/logos/KC.svg",
+          "status": 200,
+          "ttfbMs": 142.43200000000002,
+          "cache": null
+        }
+      ],
+      "errors": [],
+      "fixture": "synthetic partial PostgreSQL schema; external provider network blocked; failed/empty content retained and reported"
+    },
+    {
+      "name": "The Beat",
+      "path": "/the-beat?team=kc",
+      "device": "mobile",
+      "status": 200,
+      "lcpMs": 1988,
+      "cls": 0.5406087533454393,
+      "interactionLatencyMs": 72,
+      "interactionMetric": "Event Timing local interaction sample; not field INP",
+      "ttfbMs": 38.29999998211861,
+      "scriptEncodedBytes": 283110,
+      "scriptRequests": 30,
+      "resourceRequests": 67,
+      "horizontalOverflow": false,
+      "api": [
+        {
+          "path": "/api/auth/me",
+          "status": 200,
+          "ttfbMs": 103.941,
+          "cache": null
+        },
+        {
+          "path": "/api/user/home",
+          "status": 200,
+          "ttfbMs": 116.603,
+          "cache": null
+        },
+        {
+          "path": "/api/content/huddle",
+          "status": 500,
+          "ttfbMs": 122.129,
+          "cache": null
+        },
+        {
+          "path": "/api/user/notifications/unread-count",
+          "status": 500,
+          "ttfbMs": 108.343,
+          "cache": null
+        },
+        {
+          "path": "/api/catch-up",
+          "status": 500,
+          "ttfbMs": 120.61,
+          "cache": null
+        },
+        {
+          "path": "/api/content/homepage",
+          "status": 200,
+          "ttfbMs": 107.118,
+          "cache": null
+        },
+        {
+          "path": "/t_q-best/league/api/clubs/logos/KC.svg",
+          "status": 200,
+          "ttfbMs": 127.806,
+          "cache": null
+        }
+      ],
+      "errors": [],
+      "fixture": "synthetic partial PostgreSQL schema; external provider network blocked; failed/empty content retained and reported"
+    },
+    {
+      "name": "Film Room",
+      "path": "/watch?team=kc",
+      "device": "mobile",
+      "status": 200,
+      "lcpMs": 3184,
+      "cls": 0.3922226272937174,
+      "interactionLatencyMs": 64,
+      "interactionMetric": "Event Timing local interaction sample; not field INP",
+      "ttfbMs": 4.9000000059604645,
+      "scriptEncodedBytes": 401449,
+      "scriptRequests": 47,
+      "resourceRequests": 84,
+      "horizontalOverflow": false,
+      "api": [
+        {
+          "path": "/api/auth/me",
+          "status": 200,
+          "ttfbMs": 135.14300000000003,
+          "cache": null
+        },
+        {
+          "path": "/api/film-room",
+          "status": 200,
+          "ttfbMs": 136.65099999999995,
+          "cache": null
+        },
+        {
+          "path": "/api/user/home",
+          "status": 200,
+          "ttfbMs": 134.44099999999992,
+          "cache": null
+        },
+        {
+          "path": "/api/user/notifications/unread-count",
+          "status": 500,
+          "ttfbMs": 135.21499999999997,
+          "cache": null
+        },
+        {
+          "path": "/t_q-best/league/api/clubs/logos/KC.svg",
+          "status": 200,
+          "ttfbMs": 105.31599999999999,
+          "cache": null
+        }
+      ],
+      "errors": [],
+      "fixture": "synthetic partial PostgreSQL schema; external provider network blocked; failed/empty content retained and reported"
+    },
+    {
+      "name": "Three & Out",
+      "path": "/three-and-out?team=kc",
+      "device": "mobile",
+      "status": 200,
+      "lcpMs": 2460,
+      "cls": 0.35545023696682465,
+      "interactionLatencyMs": 80,
+      "interactionMetric": "Event Timing local interaction sample; not field INP",
+      "ttfbMs": 9.599999994039536,
+      "scriptEncodedBytes": 347329,
+      "scriptRequests": 44,
+      "resourceRequests": 80,
+      "horizontalOverflow": false,
+      "api": [
+        {
+          "path": "/api/auth/me",
+          "status": 200,
+          "ttfbMs": 128.435,
+          "cache": null
+        },
+        {
+          "path": "/api/user/home",
+          "status": 200,
+          "ttfbMs": 106.86299999999997,
+          "cache": null
+        },
+        {
+          "path": "/api/user/notifications/unread-count",
+          "status": 500,
+          "ttfbMs": 128.077,
+          "cache": null
+        },
+        {
+          "path": "/api/three-and-out",
+          "status": 500,
+          "ttfbMs": 136.114,
+          "cache": null
+        },
+        {
+          "path": "/t_q-best/league/api/clubs/logos/KC.svg",
+          "status": 200,
+          "ttfbMs": 133.008,
+          "cache": null
+        }
+      ],
+      "errors": [],
+      "fixture": "synthetic partial PostgreSQL schema; external provider network blocked; failed/empty content retained and reported"
+    },
+    {
+      "name": "The Huddle",
+      "path": "/huddle?team=kc",
+      "device": "mobile",
+      "status": 200,
+      "lcpMs": 2988,
+      "cls": 0.34608036095325806,
+      "interactionLatencyMs": 64,
+      "interactionMetric": "Event Timing local interaction sample; not field INP",
+      "ttfbMs": 7.5999999940395355,
+      "scriptEncodedBytes": 401449,
+      "scriptRequests": 47,
+      "resourceRequests": 80,
+      "horizontalOverflow": false,
+      "api": [
+        {
+          "path": "/t_q-best/league/api/clubs/logos/ARI.svg",
+          "status": 200,
+          "ttfbMs": 137.769,
+          "cache": null
+        },
+        {
+          "path": "/api/auth/me",
+          "status": 200,
+          "ttfbMs": 122.71199999999999,
+          "cache": null
+        },
+        {
+          "path": "/api/user/notifications/unread-count",
+          "status": 500,
+          "ttfbMs": 134.373,
+          "cache": null
+        }
+      ],
+      "errors": [],
+      "fixture": "synthetic partial PostgreSQL schema; external provider network blocked; failed/empty content retained and reported"
+    },
+    {
+      "name": "AI Search",
+      "path": "/?team=kc&search=1",
+      "device": "mobile",
+      "status": 200,
+      "lcpMs": 2532,
+      "cls": 0.35545023696682465,
+      "interactionLatencyMs": 64,
+      "interactionMetric": "Event Timing local interaction sample; not field INP",
+      "ttfbMs": 6.0999999940395355,
+      "scriptEncodedBytes": 301514,
+      "scriptRequests": 37,
+      "resourceRequests": 78,
+      "horizontalOverflow": false,
+      "api": [
+        {
+          "path": "/api/auth/me",
+          "status": 200,
+          "ttfbMs": 135.36899999999997,
+          "cache": null
+        },
+        {
+          "path": "/api/search/suggestions",
+          "status": 200,
+          "ttfbMs": 136.706,
+          "cache": null
+        },
+        {
+          "path": "/api/content/next-game",
+          "status": 503,
+          "ttfbMs": 135.49499999999995,
+          "cache": null
+        },
+        {
+          "path": "/api/content/homepage",
+          "status": 200,
+          "ttfbMs": 145.21900000000005,
+          "cache": null
+        },
+        {
+          "path": "/api/film-room",
+          "status": 200,
+          "ttfbMs": 143.764,
+          "cache": null
+        },
+        {
+          "path": "/api/game-day/homepage",
+          "status": 200,
+          "ttfbMs": 141.86399999999992,
+          "cache": null
+        },
+        {
+          "path": "/api/user/notifications/unread-count",
+          "status": 500,
+          "ttfbMs": 144.255,
+          "cache": null
+        },
+        {
+          "path": "/api/catch-up",
+          "status": 500,
+          "ttfbMs": 142.65800000000002,
+          "cache": null
+        },
+        {
+          "path": "/api/three-and-out/preferences",
+          "status": 500,
+          "ttfbMs": 120.26699999999994,
+          "cache": null
+        },
+        {
+          "path": "/api/user/home",
+          "status": 200,
+          "ttfbMs": 114.10500000000002,
+          "cache": null
+        },
+        {
+          "path": "/api/search/suggestions",
+          "status": 200,
+          "ttfbMs": 113.04999999999995,
+          "cache": null
+        },
+        {
+          "path": "/t_q-best/league/api/clubs/logos/KC.svg",
+          "status": 200,
+          "ttfbMs": 106.14299999999999,
+          "cache": null
+        }
+      ],
+      "errors": [],
+      "fixture": "synthetic partial PostgreSQL schema; external provider network blocked; failed/empty content retained and reported"
+    },
+    {
+      "name": "Front Office",
+      "path": "/front-office?team=kc",
+      "device": "mobile",
+      "status": 200,
+      "lcpMs": 2472,
+      "cls": 0.35545023696682465,
+      "interactionLatencyMs": 64,
+      "interactionMetric": "Event Timing local interaction sample; not field INP",
+      "ttfbMs": 7.299999982118607,
+      "scriptEncodedBytes": 347329,
+      "scriptRequests": 44,
+      "resourceRequests": 78,
+      "horizontalOverflow": false,
+      "api": [
+        {
+          "path": "/api/auth/me",
+          "status": 200,
+          "ttfbMs": 128.809,
+          "cache": null
+        },
+        {
+          "path": "/api/user/home",
+          "status": 200,
+          "ttfbMs": 122.08,
+          "cache": null
+        },
+        {
+          "path": "/api/user/notifications/unread-count",
+          "status": 500,
+          "ttfbMs": 136.341,
+          "cache": null
+        },
+        {
+          "path": "/t_q-best/league/api/clubs/logos/KC.svg",
+          "status": 200,
+          "ttfbMs": 129.003,
+          "cache": null
+        }
+      ],
+      "errors": [],
+      "fixture": "synthetic partial PostgreSQL schema; external provider network blocked; failed/empty content retained and reported"
+    },
+    {
+      "name": "Parlay Lab",
+      "path": "/parlay-lab?team=kc",
+      "device": "mobile",
+      "status": 200,
+      "lcpMs": 3108,
+      "cls": 0.35545023696682465,
+      "interactionLatencyMs": 64,
+      "interactionMetric": "Event Timing local interaction sample; not field INP",
+      "ttfbMs": 8.699999988079071,
+      "scriptEncodedBytes": 292604,
+      "scriptRequests": 32,
+      "resourceRequests": 70,
+      "horizontalOverflow": false,
+      "api": [
+        {
+          "path": "/api/auth/me",
+          "status": 200,
+          "ttfbMs": 148.99899999999997,
+          "cache": null
+        },
+        {
+          "path": "/api/parlay-lab/freshness",
+          "status": 200,
+          "ttfbMs": 138.144,
+          "cache": null
+        },
+        {
+          "path": "/api/parlay-lab/movement",
+          "status": 503,
+          "ttfbMs": 142.26999999999998,
+          "cache": null
+        },
+        {
+          "path": "/api/parlay-lab/sportsbook-transfer",
+          "status": 200,
+          "ttfbMs": 141.57500000000005,
+          "cache": null
+        },
+        {
+          "path": "/api/user/home",
+          "status": 200,
+          "ttfbMs": 136.33899999999994,
+          "cache": null
+        },
+        {
+          "path": "/api/parlay-lab/events",
+          "status": 500,
+          "ttfbMs": 141.938,
+          "cache": null
+        },
+        {
+          "path": "/api/user/notifications/unread-count",
+          "status": 500,
+          "ttfbMs": 142.899,
+          "cache": null
+        },
+        {
+          "path": "/t_q-best/league/api/clubs/logos/KC.svg",
+          "status": 200,
+          "ttfbMs": 152.926,
+          "cache": null
+        }
+      ],
+      "errors": [],
+      "fixture": "synthetic partial PostgreSQL schema; external provider network blocked; failed/empty content retained and reported"
+    },
+    {
+      "name": "Trending Props",
+      "path": "/parlay-lab?team=kc&tab=trending",
+      "device": "mobile",
+      "status": 200,
+      "lcpMs": 3620,
+      "cls": 0.35545023696682465,
+      "interactionLatencyMs": 72,
+      "interactionMetric": "Event Timing local interaction sample; not field INP",
+      "ttfbMs": 4.200000017881393,
+      "scriptEncodedBytes": 292604,
+      "scriptRequests": 32,
+      "resourceRequests": 70,
+      "horizontalOverflow": false,
+      "api": [
+        {
+          "path": "/api/auth/me",
+          "status": 200,
+          "ttfbMs": 143.77499999999998,
+          "cache": null
+        },
+        {
+          "path": "/api/parlay-lab/freshness",
+          "status": 200,
+          "ttfbMs": 149.935,
+          "cache": null
+        },
+        {
+          "path": "/api/parlay-lab/movement",
+          "status": 503,
+          "ttfbMs": 137.00599999999997,
+          "cache": null
+        },
+        {
+          "path": "/api/parlay-lab/sportsbook-transfer",
+          "status": 200,
+          "ttfbMs": 149.85899999999998,
+          "cache": null
+        },
+        {
+          "path": "/api/user/home",
+          "status": 200,
+          "ttfbMs": 135.31900000000007,
+          "cache": null
+        },
+        {
+          "path": "/api/parlay-lab/events",
+          "status": 500,
+          "ttfbMs": 141.9029999999999,
+          "cache": null
+        },
+        {
+          "path": "/api/user/notifications/unread-count",
+          "status": 500,
+          "ttfbMs": 149.707,
+          "cache": null
+        },
+        {
+          "path": "/t_q-best/league/api/clubs/logos/KC.svg",
+          "status": 200,
+          "ttfbMs": 151.406,
+          "cache": null
+        }
+      ],
+      "errors": [],
+      "fixture": "synthetic partial PostgreSQL schema; external provider network blocked; failed/empty content retained and reported"
+    },
+    {
+      "name": "Bet Slip",
+      "path": "/parlay-lab/my-plays",
+      "device": "mobile",
+      "status": 200,
+      "lcpMs": 1996,
+      "cls": 0.35545023696682465,
+      "interactionLatencyMs": 80,
+      "interactionMetric": "Event Timing local interaction sample; not field INP",
+      "ttfbMs": 5.800000011920929,
+      "scriptEncodedBytes": 309418,
+      "scriptRequests": 39,
+      "resourceRequests": 77,
+      "horizontalOverflow": false,
+      "api": [
+        {
+          "path": "/api/auth/me",
+          "status": 200,
+          "ttfbMs": 108.838,
+          "cache": null
+        },
+        {
+          "path": "/api/user/home",
+          "status": 200,
+          "ttfbMs": 106.95700000000001,
+          "cache": null
+        },
+        {
+          "path": "/api/user/saved-content",
+          "status": 200,
+          "ttfbMs": 112.289,
+          "cache": null
+        },
+        {
+          "path": "/api/user/notifications/unread-count",
+          "status": 500,
+          "ttfbMs": 127.29700000000003,
+          "cache": null
+        },
+        {
+          "path": "/t_q-best/league/api/clubs/logos/KC.svg",
+          "status": 200,
+          "ttfbMs": 103.86900000000001,
+          "cache": null
+        }
+      ],
+      "errors": [],
+      "fixture": "synthetic partial PostgreSQL schema; external provider network blocked; failed/empty content retained and reported"
+    },
+    {
+      "name": "Profile",
+      "path": "/account/profile",
+      "device": "mobile",
+      "status": 404,
+      "lcpMs": 1588,
+      "cls": 0,
+      "interactionLatencyMs": null,
+      "interactionMetric": "Event Timing local interaction sample; not field INP",
+      "ttfbMs": 21.399999976158142,
+      "scriptEncodedBytes": 177440,
+      "scriptRequests": 17,
+      "resourceRequests": 47,
+      "horizontalOverflow": false,
+      "api": [],
+      "errors": [],
+      "fixture": "synthetic partial PostgreSQL schema; external provider network blocked; failed/empty content retained and reported"
+    },
+    {
+      "name": "Homepage",
+      "path": "/?team=kc",
+      "device": "desktop",
+      "status": 200,
+      "lcpMs": 1560,
+      "cls": 0.14582572979962383,
+      "interactionLatencyMs": null,
+      "interactionMetric": "Event Timing local interaction sample; not field INP",
+      "ttfbMs": 4.4000000059604645,
+      "scriptEncodedBytes": 670265,
+      "scriptRequests": 46,
+      "resourceRequests": 96,
+      "horizontalOverflow": false,
+      "api": [
+        {
+          "path": "/api/auth/me",
+          "status": 200,
+          "ttfbMs": 42.491,
+          "cache": null
+        },
+        {
+          "path": "/api/content/next-game",
+          "status": 503,
+          "ttfbMs": 42.159,
+          "cache": null
+        },
+        {
+          "path": "/api/search/suggestions",
+          "status": 200,
+          "ttfbMs": 41.004000000000005,
+          "cache": null
+        },
+        {
+          "path": "/api/game-day/homepage",
+          "status": 200,
+          "ttfbMs": 42.27,
+          "cache": null
+        },
+        {
+          "path": "/api/content/homepage",
+          "status": 200,
+          "ttfbMs": 112.49900000000001,
+          "cache": null
+        },
+        {
+          "path": "/api/film-room",
+          "status": 200,
+          "ttfbMs": 110.29,
+          "cache": null
+        },
+        {
+          "path": "/api/user/notifications/unread-count",
+          "status": 500,
+          "ttfbMs": 66.988,
+          "cache": null
+        },
+        {
+          "path": "/api/catch-up",
+          "status": 500,
+          "ttfbMs": 43.601,
+          "cache": null
+        },
+        {
+          "path": "/api/three-and-out/preferences",
+          "status": 500,
+          "ttfbMs": 43.099999999999994,
+          "cache": null
+        },
+        {
+          "path": "/api/user/home",
+          "status": 200,
+          "ttfbMs": 44.73200000000001,
+          "cache": null
+        },
+        {
+          "path": "/t_q-best/league/api/clubs/logos/KC.svg",
+          "status": 200,
+          "ttfbMs": 43.658,
+          "cache": null
+        }
+      ],
+      "errors": [],
+      "fixture": "synthetic partial PostgreSQL schema; external provider network blocked; failed/empty content retained and reported"
+    },
+    {
+      "name": "The Beat",
+      "path": "/the-beat?team=kc",
+      "device": "desktop",
+      "status": 200,
+      "lcpMs": 396,
+      "cls": 0.008811908667293597,
+      "interactionLatencyMs": null,
+      "interactionMetric": "Event Timing local interaction sample; not field INP",
+      "ttfbMs": 14.799999982118607,
+      "scriptEncodedBytes": 653572,
+      "scriptRequests": 47,
+      "resourceRequests": 90,
+      "horizontalOverflow": false,
+      "api": [
+        {
+          "path": "/api/content/huddle",
+          "status": 500,
+          "ttfbMs": 44.208,
+          "cache": null
+        },
+        {
+          "path": "/api/auth/me",
+          "status": 200,
+          "ttfbMs": 45.707,
+          "cache": null
+        },
+        {
+          "path": "/api/content/homepage",
+          "status": 200,
+          "ttfbMs": 46.719,
+          "cache": null
+        },
+        {
+          "path": "/api/user/home",
+          "status": 200,
+          "ttfbMs": 47.422,
+          "cache": null
+        },
+        {
+          "path": "/api/user/notifications/unread-count",
+          "status": 500,
+          "ttfbMs": 43.521,
+          "cache": null
+        },
+        {
+          "path": "/api/catch-up",
+          "status": 500,
+          "ttfbMs": 44.192,
+          "cache": null
+        },
+        {
+          "path": "/api/content/homepage",
+          "status": 200,
+          "ttfbMs": 50.566,
+          "cache": null
+        }
+      ],
+      "errors": [],
+      "fixture": "synthetic partial PostgreSQL schema; external provider network blocked; failed/empty content retained and reported"
+    },
+    {
+      "name": "Film Room",
+      "path": "/watch?team=kc",
+      "device": "desktop",
+      "status": 200,
+      "lcpMs": 584,
+      "cls": 0.11058376095618731,
+      "interactionLatencyMs": null,
+      "interactionMetric": "Event Timing local interaction sample; not field INP",
+      "ttfbMs": 7.300000011920929,
+      "scriptEncodedBytes": 670258,
+      "scriptRequests": 46,
+      "resourceRequests": 84,
+      "horizontalOverflow": false,
+      "api": [
+        {
+          "path": "/api/auth/me",
+          "status": 200,
+          "ttfbMs": 47.222,
+          "cache": null
+        },
+        {
+          "path": "/api/film-room",
+          "status": 200,
+          "ttfbMs": 43.774,
+          "cache": null
+        },
+        {
+          "path": "/api/user/home",
+          "status": 200,
+          "ttfbMs": 44.986000000000004,
+          "cache": null
+        },
+        {
+          "path": "/api/user/notifications/unread-count",
+          "status": 500,
+          "ttfbMs": 48.077999999999996,
+          "cache": null
+        }
+      ],
+      "errors": [],
+      "fixture": "synthetic partial PostgreSQL schema; external provider network blocked; failed/empty content retained and reported"
+    },
+    {
+      "name": "Three & Out",
+      "path": "/three-and-out?team=kc",
+      "device": "desktop",
+      "status": 200,
+      "lcpMs": 516,
+      "cls": 0.09688245971679688,
+      "interactionLatencyMs": null,
+      "interactionMetric": "Event Timing local interaction sample; not field INP",
+      "ttfbMs": 5.200000017881393,
+      "scriptEncodedBytes": 653572,
+      "scriptRequests": 47,
+      "resourceRequests": 85,
+      "horizontalOverflow": false,
+      "api": [
+        {
+          "path": "/api/auth/me",
+          "status": 200,
+          "ttfbMs": 51.289,
+          "cache": null
+        },
+        {
+          "path": "/api/user/home",
+          "status": 200,
+          "ttfbMs": 55.251,
+          "cache": null
+        },
+        {
+          "path": "/api/three-and-out",
+          "status": 500,
+          "ttfbMs": 43.487,
+          "cache": null
+        },
+        {
+          "path": "/api/user/notifications/unread-count",
+          "status": 500,
+          "ttfbMs": 46.994,
+          "cache": null
+        }
+      ],
+      "errors": [],
+      "fixture": "synthetic partial PostgreSQL schema; external provider network blocked; failed/empty content retained and reported"
+    },
+    {
+      "name": "The Huddle",
+      "path": "/huddle?team=kc",
+      "device": "desktop",
+      "status": 200,
+      "lcpMs": 3408,
+      "cls": 0.09665353176540799,
+      "interactionLatencyMs": null,
+      "interactionMetric": "Event Timing local interaction sample; not field INP",
+      "ttfbMs": 4.9000000059604645,
+      "scriptEncodedBytes": 653335,
+      "scriptRequests": 46,
+      "resourceRequests": 80,
+      "horizontalOverflow": false,
+      "api": [
+        {
+          "path": "/t_q-best/league/api/clubs/logos/ARI.svg",
+          "status": 200,
+          "ttfbMs": 42.96100000000001,
+          "cache": null
+        },
+        {
+          "path": "/api/auth/me",
+          "status": 200,
+          "ttfbMs": 43.571,
+          "cache": null
+        },
+        {
+          "path": "/api/user/notifications/unread-count",
+          "status": 500,
+          "ttfbMs": 42.689,
+          "cache": null
+        }
+      ],
+      "errors": [],
+      "fixture": "synthetic partial PostgreSQL schema; external provider network blocked; failed/empty content retained and reported"
+    },
+    {
+      "name": "AI Search",
+      "path": "/?team=kc&search=1",
+      "device": "desktop",
+      "status": 200,
+      "lcpMs": 1404,
+      "cls": 0.08005139386212384,
+      "interactionLatencyMs": null,
+      "interactionMetric": "Event Timing local interaction sample; not field INP",
+      "ttfbMs": 4.699999988079071,
+      "scriptEncodedBytes": 653335,
+      "scriptRequests": 46,
+      "resourceRequests": 97,
+      "horizontalOverflow": false,
+      "api": [
+        {
+          "path": "/api/auth/me",
+          "status": 200,
+          "ttfbMs": 50.247,
+          "cache": null
+        },
+        {
+          "path": "/api/search/suggestions",
+          "status": 200,
+          "ttfbMs": 45.561,
+          "cache": null
+        },
+        {
+          "path": "/api/content/next-game",
+          "status": 503,
+          "ttfbMs": 46.352000000000004,
+          "cache": null
+        },
+        {
+          "path": "/api/content/homepage",
+          "status": 200,
+          "ttfbMs": 42.663999999999994,
+          "cache": null
+        },
+        {
+          "path": "/api/film-room",
+          "status": 200,
+          "ttfbMs": 44.370999999999995,
+          "cache": null
+        },
+        {
+          "path": "/api/game-day/homepage",
+          "status": 200,
+          "ttfbMs": 45.541,
+          "cache": null
+        },
+        {
+          "path": "/api/search/suggestions",
+          "status": 200,
+          "ttfbMs": 42.27499999999999,
+          "cache": null
+        },
+        {
+          "path": "/api/user/notifications/unread-count",
+          "status": 500,
+          "ttfbMs": 42.995000000000005,
+          "cache": null
+        },
+        {
+          "path": "/api/catch-up",
+          "status": 500,
+          "ttfbMs": 43.132,
+          "cache": null
+        },
+        {
+          "path": "/api/three-and-out/preferences",
+          "status": 500,
+          "ttfbMs": 42.283,
+          "cache": null
+        },
+        {
+          "path": "/api/user/home",
+          "status": 200,
+          "ttfbMs": 43.31400000000001,
+          "cache": null
+        },
+        {
+          "path": "/t_q-best/league/api/clubs/logos/KC.svg",
+          "status": 200,
+          "ttfbMs": 44.159000000000006,
+          "cache": null
+        }
+      ],
+      "errors": [],
+      "fixture": "synthetic partial PostgreSQL schema; external provider network blocked; failed/empty content retained and reported"
+    },
+    {
+      "name": "Front Office",
+      "path": "/front-office?team=kc",
+      "device": "desktop",
+      "status": 200,
+      "lcpMs": 596,
+      "cls": 0.09921847443757234,
+      "interactionLatencyMs": null,
+      "interactionMetric": "Event Timing local interaction sample; not field INP",
+      "ttfbMs": 4.5,
+      "scriptEncodedBytes": 653572,
+      "scriptRequests": 47,
+      "resourceRequests": 84,
+      "horizontalOverflow": false,
+      "api": [
+        {
+          "path": "/api/auth/me",
+          "status": 200,
+          "ttfbMs": 46.67,
+          "cache": null
+        },
+        {
+          "path": "/api/user/home",
+          "status": 200,
+          "ttfbMs": 47.282000000000004,
+          "cache": null
+        },
+        {
+          "path": "/api/user/notifications/unread-count",
+          "status": 500,
+          "ttfbMs": 43.094,
+          "cache": null
+        }
+      ],
+      "errors": [],
+      "fixture": "synthetic partial PostgreSQL schema; external provider network blocked; failed/empty content retained and reported"
+    },
+    {
+      "name": "Parlay Lab",
+      "path": "/parlay-lab?team=kc",
+      "device": "desktop",
+      "status": 200,
+      "lcpMs": 664,
+      "cls": 0.0711857149251302,
+      "interactionLatencyMs": null,
+      "interactionMetric": "Event Timing local interaction sample; not field INP",
+      "ttfbMs": 4.0999999940395355,
+      "scriptEncodedBytes": 671148,
+      "scriptRequests": 57,
+      "resourceRequests": 111,
+      "horizontalOverflow": false,
+      "api": [
+        {
+          "path": "/api/auth/me",
+          "status": 200,
+          "ttfbMs": 44.23800000000001,
+          "cache": null
+        },
+        {
+          "path": "/api/parlay-lab/freshness",
+          "status": 200,
+          "ttfbMs": 42.219,
+          "cache": null
+        },
+        {
+          "path": "/api/parlay-lab/movement",
+          "status": 503,
+          "ttfbMs": 41.025,
+          "cache": null
+        },
+        {
+          "path": "/api/parlay-lab/sportsbook-transfer",
+          "status": 200,
+          "ttfbMs": 44.672,
+          "cache": null
+        },
+        {
+          "path": "/api/user/home",
+          "status": 200,
+          "ttfbMs": 44.455,
+          "cache": null
+        },
+        {
+          "path": "/api/parlay-lab/events",
+          "status": 500,
+          "ttfbMs": 42.29999999999998,
+          "cache": null
+        },
+        {
+          "path": "/api/user/notifications/unread-count",
+          "status": 500,
+          "ttfbMs": 41.82399999999999,
+          "cache": null
+        }
+      ],
+      "errors": [],
+      "fixture": "synthetic partial PostgreSQL schema; external provider network blocked; failed/empty content retained and reported"
+    },
+    {
+      "name": "Trending Props",
+      "path": "/parlay-lab?team=kc&tab=trending",
+      "device": "desktop",
+      "status": 200,
+      "lcpMs": 684,
+      "cls": 0.0711857149251302,
+      "interactionLatencyMs": null,
+      "interactionMetric": "Event Timing local interaction sample; not field INP",
+      "ttfbMs": 10.5,
+      "scriptEncodedBytes": 671148,
+      "scriptRequests": 57,
+      "resourceRequests": 111,
+      "horizontalOverflow": false,
+      "api": [
+        {
+          "path": "/api/auth/me",
+          "status": 200,
+          "ttfbMs": 43.82600000000001,
+          "cache": null
+        },
+        {
+          "path": "/api/parlay-lab/freshness",
+          "status": 200,
+          "ttfbMs": 40.995999999999995,
+          "cache": null
+        },
+        {
+          "path": "/api/parlay-lab/movement",
+          "status": 503,
+          "ttfbMs": 42.114,
+          "cache": null
+        },
+        {
+          "path": "/api/parlay-lab/sportsbook-transfer",
+          "status": 200,
+          "ttfbMs": 45.287000000000006,
+          "cache": null
+        },
+        {
+          "path": "/api/user/home",
+          "status": 200,
+          "ttfbMs": 42.47099999999999,
+          "cache": null
+        },
+        {
+          "path": "/api/parlay-lab/events",
+          "status": 500,
+          "ttfbMs": 43.399000000000015,
+          "cache": null
+        },
+        {
+          "path": "/api/user/notifications/unread-count",
+          "status": 500,
+          "ttfbMs": 44.39500000000001,
+          "cache": null
+        }
+      ],
+      "errors": [],
+      "fixture": "synthetic partial PostgreSQL schema; external provider network blocked; failed/empty content retained and reported"
+    },
+    {
+      "name": "Bet Slip",
+      "path": "/parlay-lab/my-plays",
+      "device": "desktop",
+      "status": 200,
+      "lcpMs": 444,
+      "cls": 0.05545067803276909,
+      "interactionLatencyMs": null,
+      "interactionMetric": "Event Timing local interaction sample; not field INP",
+      "ttfbMs": 4.0999999940395355,
+      "scriptEncodedBytes": 716091,
+      "scriptRequests": 57,
+      "resourceRequests": 104,
+      "horizontalOverflow": false,
+      "api": [
+        {
+          "path": "/api/auth/me",
+          "status": 200,
+          "ttfbMs": 40.57299999999999,
+          "cache": null
+        },
+        {
+          "path": "/api/user/home",
+          "status": 200,
+          "ttfbMs": 41.218999999999994,
+          "cache": null
+        },
+        {
+          "path": "/api/user/saved-content",
+          "status": 200,
+          "ttfbMs": 42.138000000000005,
+          "cache": null
+        },
+        {
+          "path": "/api/user/notifications/unread-count",
+          "status": 500,
+          "ttfbMs": 42.047999999999995,
+          "cache": null
+        }
+      ],
+      "errors": [],
+      "fixture": "synthetic partial PostgreSQL schema; external provider network blocked; failed/empty content retained and reported"
+    },
+    {
+      "name": "Profile",
+      "path": "/account/profile",
+      "device": "desktop",
+      "status": 404,
+      "lcpMs": 368,
+      "cls": 0,
+      "interactionLatencyMs": null,
+      "interactionMetric": "Event Timing local interaction sample; not field INP",
+      "ttfbMs": 12.399999976158142,
+      "scriptEncodedBytes": 242354,
+      "scriptRequests": 22,
+      "resourceRequests": 39,
+      "horizontalOverflow": false,
+      "api": [],
+      "errors": [],
+      "fixture": "synthetic partial PostgreSQL schema; external provider network blocked; failed/empty content retained and reported"
+    }
+  ]
+}

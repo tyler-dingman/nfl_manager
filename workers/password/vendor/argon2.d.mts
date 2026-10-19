@@ -1,0 +1,1 @@
+export function createArgon2(modules:Record<string,WebAssembly.Module>): {argon2id(input:{password:string;salt:Uint8Array;parallelism:number;iterations:number;memorySize:number;hashLength:number;outputType:'encoded'|'binary'}):Promise<any>};

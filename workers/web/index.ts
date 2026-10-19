@@ -34,8 +34,9 @@ export default {
       {
         db: instrumentDatabase(env.APP_DB as SqlDatabase, metrics),
         objects,
-        cacheNamespace: 'worker:'+String(env.APP_CACHE_VERSION??'default'),
+        cacheNamespace: 'worker:' + String(env.APP_CACHE_VERSION ?? 'default'),
         ai: env.AI,
+        password: env.PASSWORD_SERVICE,
         env: { ...env, APP_RUNTIME: 'cloudflare' },
       },
       () => application.fetch(request, env, ctx),

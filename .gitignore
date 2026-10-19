@@ -40,3 +40,4 @@ workers/api/dist/
 workers/api/routes.generated.ts
 
 scripts/__pycache__/
+workers/password/dist/

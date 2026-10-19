@@ -1,0 +1,67 @@
+React Compiler enabled
+Starting Metro Bundler
+iOS node_modules/expo-router/entry.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Android node_modules/expo-router/entry.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+iOS node_modules/expo-router/entry.js ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░ 99.8% (2148/2150)
+Android node_modules/expo-router/entry.js ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░ 99.9% (2156/2156)
+iOS Bundled 5708ms node_modules/expo-router/entry.js (2150 modules)
+Android Bundled 8726ms node_modules/expo-router/entry.js (2156 modules)
+Android node_modules/expo-router/entry.js ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░ 99.9% (2156/2156)
+Static rendering is enabled. Learn more: https://docs.expo.dev/router/reference/static-rendering/
+λ Bundled 1410ms node_modules/expo-router/node/render.js (1686 modules)
+[expo-notifications] Listening to push token changes is not yet fully supported on web. Adding a listener will have no effect.
+Web Bundled 2933ms node_modules/expo-router/entry.js (1651 modules)
+
+› ios bundles (1):
+_expo/static/js/ios/entry-5e2ea08469a784952d2e11c88687a7ac.hbc (7.05 MB)
+
+› android bundles (1):
+_expo/static/js/android/entry-8b402a3f664a626bb01c7e430cb0fccf.hbc (7.06 MB)
+
+› web bundles (1):
+_expo/static/js/web/entry-46163d5df504ffc9162e79a70cf22eda.js (4.25 MB)
+
+› Static routes (41):
+/beat (29.6 kB)
+/crew (29.6 kB)
+/play (29.6 kB)
+/wire (29.6 kB)
+/merch (29.6 kB)
+/saved (29.6 kB)
+/ (index) (29.6 kB)
+/three (29.6 kB)
+/huddle (29.6 kB)
+/orders (29.6 kB)
+/search (29.6 kB)
+/trivia (29.6 kB)
+/profile (29.6 kB)
+/rewards (29.6 kB)
+/sign-in (29.6 kB)
+/account (29.6 kB)
+/catch-up (29.6 kB)
+/game-day (29.6 kB)
+/security (29.6 kB)
+/_sitemap (29.4 kB)
+/film-room (29.6 kB)
+/merch-cart (29.6 kB)
+/parlay-lab (29.6 kB)
+/+not-found (29.4 kB)
+/story/[id] (29.6 kB)
+/team-select (29.6 kB)
+/trivia-game (29.6 kB)
+/(tabs)/wire (29.6 kB)
+/front-office (29.6 kB)
+/(tabs) (29.6 kB)
+/(tabs)/three (29.6 kB)
+/notifications (29.6 kB)
+/(tabs)/trivia (29.6 kB)
+/huddle-archive (29.6 kB)
+/merch-checkout (29.6 kB)
+/(tabs)/account (29.6 kB)
+/beat-story/[id] (29.6 kB)
+/order/[orderId] (29.6 kB)
+/player/[playerId] (29.6 kB)
+/notification-settings (29.6 kB)
+/merch-product/[productId] (29.6 kB)
+
+Exported: /private/tmp/dd-performance-native-export-final

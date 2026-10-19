@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { applicationBackend } from '@/server/persistence/bindings';
+import { applicationBackend, applicationStorage } from '@/server/persistence/bindings';
 import { authDb } from '@/server/auth/database';
 import { oddsFreshness } from '../../../../../packages/parlay/freshness';
 export const dynamic = 'force-dynamic';
@@ -26,12 +26,13 @@ export async function GET() {
     coverage = 'UNKNOWN';
   try {
     if (applicationBackend() === 'd1') {
-      // Until the actual board consumes app_odds_publication, its timestamp must not
-      // be shown as the timestamp of the still-PostgreSQL board.
-      return NextResponse.json(
-        { ...oddsFreshness(null), scope: 'D1 board adapter pending' },
-        { headers: { 'Cache-Control': 'no-store' } },
+      const s = applicationStorage();
+      const [row] = await s.rows<any>(
+        'SELECT min(as_of) AS completedAt FROM app_sportsbook_events WHERE kickoff_at>? AND markets_hash IS NOT NULL',
+        [Date.now()],
       );
+      completedAt = row?.completedAt ?? null;
+      coverage = completedAt ? 'STORED' : 'UNKNOWN';
     } else {
       completedAt = await storedPriceTime();
     }

@@ -1,0 +1,184 @@
+{
+  "runtime": "actual local workerd, empty synthetic precomputed odds board, loopback only",
+  "databaseUrlPresent": false,
+  "phase": "before",
+  "samples": [
+    {
+      "ms": 13.307416999999987,
+      "cache": null,
+      "policy": "private, no-store"
+    },
+    {
+      "ms": 4.556875000000218,
+      "cache": null,
+      "policy": "private, no-store"
+    },
+    {
+      "ms": 3.594000000000051,
+      "cache": null,
+      "policy": "private, no-store"
+    },
+    {
+      "ms": 4.366291999999703,
+      "cache": null,
+      "policy": "private, no-store"
+    },
+    {
+      "ms": 3.561916999999994,
+      "cache": null,
+      "policy": "private, no-store"
+    },
+    {
+      "ms": 3.740415999999641,
+      "cache": null,
+      "policy": "private, no-store"
+    },
+    {
+      "ms": 3.2928329999995185,
+      "cache": null,
+      "policy": "private, no-store"
+    },
+    {
+      "ms": 4.285791999999674,
+      "cache": null,
+      "policy": "private, no-store"
+    },
+    {
+      "ms": 3.680375000000822,
+      "cache": null,
+      "policy": "private, no-store"
+    },
+    {
+      "ms": 3.1414999999997235,
+      "cache": null,
+      "policy": "private, no-store"
+    },
+    {
+      "ms": 2.9314580000000205,
+      "cache": null,
+      "policy": "private, no-store"
+    },
+    {
+      "ms": 9.114583000000493,
+      "cache": null,
+      "policy": "private, no-store"
+    },
+    {
+      "ms": 3.867707999999766,
+      "cache": null,
+      "policy": "private, no-store"
+    },
+    {
+      "ms": 2.9608330000000933,
+      "cache": null,
+      "policy": "private, no-store"
+    },
+    {
+      "ms": 2.7597909999994954,
+      "cache": null,
+      "policy": "private, no-store"
+    },
+    {
+      "ms": 3.067790999999488,
+      "cache": null,
+      "policy": "private, no-store"
+    },
+    {
+      "ms": 3.781500000000051,
+      "cache": null,
+      "policy": "private, no-store"
+    },
+    {
+      "ms": 2.7209170000005543,
+      "cache": null,
+      "policy": "private, no-store"
+    },
+    {
+      "ms": 2.7751250000001164,
+      "cache": null,
+      "policy": "private, no-store"
+    },
+    {
+      "ms": 2.704334000000017,
+      "cache": null,
+      "policy": "private, no-store"
+    },
+    {
+      "ms": 2.2109580000005735,
+      "cache": null,
+      "policy": "private, no-store"
+    },
+    {
+      "ms": 2.1344159999998737,
+      "cache": null,
+      "policy": "private, no-store"
+    },
+    {
+      "ms": 2.4096249999993233,
+      "cache": null,
+      "policy": "private, no-store"
+    },
+    {
+      "ms": 3.4043750000000728,
+      "cache": null,
+      "policy": "private, no-store"
+    },
+    {
+      "ms": 2.748207999999977,
+      "cache": null,
+      "policy": "private, no-store"
+    },
+    {
+      "ms": 2.183791999999812,
+      "cache": null,
+      "policy": "private, no-store"
+    },
+    {
+      "ms": 2.178458999999748,
+      "cache": null,
+      "policy": "private, no-store"
+    },
+    {
+      "ms": 2.0209169999998267,
+      "cache": null,
+      "policy": "private, no-store"
+    },
+    {
+      "ms": 2.1286669999999503,
+      "cache": null,
+      "policy": "private, no-store"
+    },
+    {
+      "ms": 2.473417000000154,
+      "cache": null,
+      "policy": "private, no-store"
+    }
+  ],
+  "p50Ms": 2.9608330000000933,
+  "p95Ms": 4.556875000000218,
+  "hitRate": 0,
+  "isolation": [
+    {
+      "path": "/api/parlay-lab/events",
+      "status": 200,
+      "cache": null
+    },
+    {
+      "path": "/api/parlay-lab/events",
+      "status": 200,
+      "cache": null
+    },
+    {
+      "path": "/api/auth/me",
+      "status": 401,
+      "cache": null
+    },
+    {
+      "path": "/api/parlay-lab/events?user=other",
+      "status": 200,
+      "cache": null
+    }
+  ],
+  "hostedCpuMs": null,
+  "geographicalLatency": null
+}

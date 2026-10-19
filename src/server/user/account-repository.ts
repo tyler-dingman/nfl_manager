@@ -1,3 +1,5 @@
+import { applicationBackend, applicationStorage } from '../persistence/bindings';
+import { D1Notifications } from '../../../packages/storage/notifications';
 import { randomUUID } from 'node:crypto';
 
 import { authDb } from '@/server/auth/database';
@@ -6,18 +8,70 @@ import { listSavedContent, listPredictions } from './content-repository';
 import { getPreferences, listTeamFollows } from './repository';
 
 export async function exportUserAccount(userId: string) {
+  if (applicationBackend() === 'd1') {
+    const s = applicationStorage();
+    const [profile] = await s.rows<any>(
+      'SELECT id,display_name AS displayName,first_name AS firstName,last_name AS lastName,primary_email AS primaryEmail,email_verified AS emailVerified,avatar_url AS avatarUrl,status,created_at AS createdAt FROM app_users WHERE id=?',
+      [userId],
+    );
+    const [preferences, teamFollows, savedContent, predictions, notifications, consents] =
+      await Promise.all([
+        getPreferences(userId),
+        listTeamFollows(userId),
+        listSavedContent(userId),
+        listPredictions(userId),
+        new D1Notifications(s).exportNotifications(userId),
+        s.rows<any>(
+          'SELECT channel,consent_type AS consentType,policy_version AS policyVersion,granted_at AS grantedAt,revoked_at AS revokedAt,source FROM app_consents WHERE user_id=? ORDER BY granted_at DESC',
+          [userId],
+        ),
+      ]);
+    await recordSecurityEvent(userId, 'ACCOUNT_EXPORT_REQUESTED');
+    return {
+      exportedAt: new Date().toISOString(),
+      profile: profile
+        ? {
+            ...profile,
+            emailVerified: Boolean(profile.emailVerified),
+            createdAt: new Date(profile.createdAt).toISOString(),
+          }
+        : null,
+      preferences,
+      teamFollows,
+      savedContent,
+      predictions,
+      notifications,
+      consents,
+    };
+  }
   const sql = authDb();
-  const [profile, preferences, teamFollows, savedContent, predictions, notifications, consents] = await Promise.all([
-    sql<Array<Record<string, unknown>>>`SELECT id, display_name AS "displayName", first_name AS "firstName", last_name AS "lastName", primary_email AS "primaryEmail", email_verified AS "emailVerified", avatar_url AS "avatarUrl", status, created_at AS "createdAt" FROM users WHERE id = ${userId}`,
-    getPreferences(userId),
-    listTeamFollows(userId),
-    listSavedContent(userId),
-    listPredictions(userId),
-    sql<Array<Record<string, unknown>>>`SELECT id, title, body, deep_link AS "deepLink", created_at AS "createdAt", read_at AS "readAt" FROM user_notifications WHERE user_id = ${userId} ORDER BY created_at DESC`,
-    sql<Array<Record<string, unknown>>>`SELECT channel, consent_type AS "consentType", policy_version AS "policyVersion", granted_at AS "grantedAt", revoked_at AS "revokedAt", source FROM user_consents WHERE user_id = ${userId} ORDER BY granted_at DESC`,
-  ]);
+  const [profile, preferences, teamFollows, savedContent, predictions, notifications, consents] =
+    await Promise.all([
+      sql<
+        Array<Record<string, unknown>>
+      >`SELECT id, display_name AS "displayName", first_name AS "firstName", last_name AS "lastName", primary_email AS "primaryEmail", email_verified AS "emailVerified", avatar_url AS "avatarUrl", status, created_at AS "createdAt" FROM users WHERE id = ${userId}`,
+      getPreferences(userId),
+      listTeamFollows(userId),
+      listSavedContent(userId),
+      listPredictions(userId),
+      sql<
+        Array<Record<string, unknown>>
+      >`SELECT id, title, body, deep_link AS "deepLink", created_at AS "createdAt", read_at AS "readAt" FROM user_notifications WHERE user_id = ${userId} ORDER BY created_at DESC`,
+      sql<
+        Array<Record<string, unknown>>
+      >`SELECT channel, consent_type AS "consentType", policy_version AS "policyVersion", granted_at AS "grantedAt", revoked_at AS "revokedAt", source FROM user_consents WHERE user_id = ${userId} ORDER BY granted_at DESC`,
+    ]);
   await recordSecurityEvent(userId, 'ACCOUNT_EXPORT_REQUESTED');
-  return { exportedAt: new Date().toISOString(), profile: profile[0] ?? null, preferences, teamFollows, savedContent, predictions, notifications, consents };
+  return {
+    exportedAt: new Date().toISOString(),
+    profile: profile[0] ?? null,
+    preferences,
+    teamFollows,
+    savedContent,
+    predictions,
+    notifications,
+    consents,
+  };
 }
 
 export async function deleteUserAccount(userId: string) {

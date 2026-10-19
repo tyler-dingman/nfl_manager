@@ -48,7 +48,7 @@ function references(snapshot: Table[]) {
     }
   return keys;
 }
-async function tables(db: SqlDatabase): Promise<Table[]> {
+export async function readFrozenTables(db: SqlDatabase): Promise<Table[]> {
   // Shadow tables are rebuilt through their virtual table; sqlite internal tables
   // and the restore journal are deliberately excluded.
   const catalog = await db
@@ -93,7 +93,7 @@ export async function checkpoint(
 ) {
   requireOffline(mode);
   const start = performance.now(),
-    snapshot = await tables(db);
+    snapshot = await readFrozenTables(db);
   const previous = previousId
     ? await unsealDirectory<Manifest>(await backup.get<any>(previousId), secret)
     : undefined;
@@ -149,9 +149,6 @@ export async function checkpoint(
   }
   const keys = (await source.keys()).sort();
   if (new Set(keys).size !== keys.length) throw Error('Repeated object listing');
-  for (const key of references(snapshot))
-    if (!keys.includes(key))
-      throw Error(`D1 reference is missing from the object inventory: ${key}`);
   for (const key of keys) {
     const bytes = await source.get(key);
     if (!bytes) throw Error(`Missing source object: ${key}`);
@@ -178,51 +175,11 @@ export async function checkpoint(
   }
   // Validate shared tree edges as well as D1 head pointers. A missing child must
   // prevent checkpoint publication, even when every remaining object hashes.
-  const logical = new Storage(db, {
-    get: async (key) => {
-      const bytes = await source.get(key);
-      return bytes ? decodeObject(bytes, key.split('/').at(-1)!) : null;
-    },
-    putImmutable: async () => {
-      throw Error('Frozen source');
-    },
-  });
-  const treeTables = new Set([
-    'app_heads',
-    'app_receipts',
-    'app_odds_history',
-    'app_franchise_heads',
-    'app_franchise_commands',
-    'app_sportsbook_events',
-    'app_odds_board_history',
-  ]);
-  const applicationHashes = new Set(
-    snapshot
-      .filter((t) => treeTables.has(t.name))
-      .flatMap((t) =>
-        t.rows.flatMap((row) =>
-          ['object_hash', 'markets_hash', 'market_ids_hash'].flatMap((field) =>
-            typeof row[field] === 'string' ? [String(row[field])] : [],
-          ),
-        ),
-      ),
-  );
-  const checked = new Set<string>();
-  async function validateGraph(hash: string): Promise<void> {
-    if (checked.has(hash)) return;
-    checked.add(hash);
-    const value = await logical.get<any>(hash);
-    if (value?.root && [1, 2].includes(value.schema)) {
-      const content = await new JsonTree(logical).get<any>(value.root);
-      if (value.saveId && content?.referenceHash) await logical.get(content.referenceHash);
-    }
-    if (value?.saveId && value?.stateHash) await validateGraph(value.stateHash);
-  }
-  for (const hash of applicationHashes) await validateGraph(hash);
+  await validateFrozenReferences(db, snapshot, source, keys);
   // Detect changes during the copy; the explicit stopped-writers precondition
   // remains necessary, including writes after this comparison.
   if (
-    JSON.stringify(snapshot) !== JSON.stringify(await tables(db)) ||
+    JSON.stringify(snapshot) !== JSON.stringify(await readFrozenTables(db)) ||
     JSON.stringify(keys) !== JSON.stringify((await source.keys()).sort())
   )
     throw Error('Source changed during cold backup');
@@ -281,7 +238,7 @@ export async function restore(
       'CREATE TABLE IF NOT EXISTS app_restore_chunks(checkpoint TEXT NOT NULL,chunk TEXT PRIMARY KEY)',
     )
     .run();
-  const existing = await tables(db);
+  const existing = await readFrozenTables(db);
   if (
     !journals.results.length &&
     existing.some((t) => !['nfl_teams', 'content_control'].includes(t.name) && t.rows.length)
@@ -376,4 +333,56 @@ export async function restore(
     milliseconds: performance.now() - start,
     status: 'READY' as const,
   };
+}
+
+export async function validateFrozenReferences(
+  db: SqlDatabase,
+  snapshot: Table[],
+  source: SnapshotObjects,
+  keys: string[],
+) {
+  for (const key of references(snapshot))
+    if (!keys.includes(key))
+      throw Error(`D1 reference is missing from the object inventory: ${key}`);
+  const logical = new Storage(db, {
+    get: async (key) => {
+      const bytes = await source.get(key);
+      return bytes ? decodeObject(bytes, key.split('/').at(-1)!) : null;
+    },
+    putImmutable: async () => {
+      throw Error('Frozen source');
+    },
+  });
+  const treeTables = new Set([
+    'app_heads',
+    'app_receipts',
+    'app_odds_history',
+    'app_franchise_heads',
+    'app_franchise_commands',
+    'app_sportsbook_events',
+    'app_odds_board_history',
+  ]);
+  const applicationHashes = new Set(
+    snapshot
+      .filter((t) => treeTables.has(t.name))
+      .flatMap((t) =>
+        t.rows.flatMap((row) =>
+          ['object_hash', 'markets_hash', 'market_ids_hash'].flatMap((field) =>
+            typeof row[field] === 'string' ? [String(row[field])] : [],
+          ),
+        ),
+      ),
+  );
+  const checked = new Set<string>();
+  async function validateGraph(hash: string): Promise<void> {
+    if (checked.has(hash)) return;
+    checked.add(hash);
+    const value = await logical.get<any>(hash);
+    if (value?.root && [1, 2].includes(value.schema)) {
+      const content = await new JsonTree(logical).get<any>(value.root);
+      if (value.saveId && content?.referenceHash) await logical.get(content.referenceHash);
+    }
+    if (value?.saveId && value?.stateHash) await validateGraph(value.stateHash);
+  }
+  for (const hash of applicationHashes) await validateGraph(hash);
 }

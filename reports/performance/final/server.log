@@ -1,0 +1,918 @@
+   ▲ Next.js 15.5.28
+   - Local:        http://127.0.0.1:52845
+   - Network:      http://127.0.0.1:52845
+
+ ✓ Starting...
+ ✓ Ready in 274ms
+[homepage] failed to enrich game graphics k: relation "historical_games" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at g (.next/server/chunks/9043.js:1:34334) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '171',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+[next-game] Unable to load schedule {
+  team: 'KC',
+  source: 'historical_games',
+  category: 'missing-schema',
+  databaseCode: '42P01',
+  missingConfiguration: [],
+  migration: 'db/migrations/042_canonical_schedule.sql'
+}
+[film-room] Stored video lookup failed k: relation "content_candidates" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at D (.next/server/app/api/film-room/route.js:1:8250) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '473',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+k: column "expires_at" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at Module.x (.next/server/chunks/850.js:47:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+k: relation "three_and_out_snapshots" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at r (.next/server/chunks/2577.js:1:6539) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '273',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+k: column "delivery_time" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at Module.o (.next/server/chunks/850.js:17:204) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '134',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+[homepage] failed to enrich game graphics k: relation "historical_games" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at g (.next/server/chunks/9043.js:1:34334) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '171',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+[content-engine] failed to build briefings k: relation "canonical_stories" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at m (.next/server/chunks/7907.js:12:30) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '41',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+[homepage] failed to enrich game graphics k: relation "historical_games" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at g (.next/server/chunks/9043.js:1:34334) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '171',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+k: relation "three_and_out_snapshots" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at r (.next/server/chunks/2577.js:1:6539) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '273',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+k: column "expires_at" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at Module.x (.next/server/chunks/850.js:47:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+[homepage] failed to enrich game graphics k: relation "historical_games" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at g (.next/server/chunks/9043.js:1:34334) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '171',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+[film-room] Stored video lookup failed k: relation "content_candidates" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at D (.next/server/app/api/film-room/route.js:1:8250) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '473',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+k: column "expires_at" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at Module.x (.next/server/chunks/850.js:47:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+k: relation "three_and_out_snapshots" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at r (.next/server/chunks/2577.js:1:6539) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '273',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+k: column "expires_at" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at Module.x (.next/server/chunks/850.js:47:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+k: relation "three_and_out_snapshots" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at r (.next/server/chunks/2577.js:1:6539) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '273',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+k: column "expires_at" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at Module.x (.next/server/chunks/850.js:47:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+[film-room] Stored video lookup failed k: relation "content_candidates" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at D (.next/server/app/api/film-room/route.js:1:8250) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '473',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+[homepage] failed to enrich game graphics k: relation "historical_games" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at g (.next/server/chunks/9043.js:1:34334) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '171',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+[next-game] Unable to load schedule {
+  team: 'KC',
+  source: 'historical_games',
+  category: 'missing-schema',
+  databaseCode: '42P01',
+  missingConfiguration: [],
+  migration: 'db/migrations/042_canonical_schedule.sql'
+}
+k: column "expires_at" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at Module.x (.next/server/chunks/850.js:47:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+k: relation "three_and_out_snapshots" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at r (.next/server/chunks/2577.js:1:6539) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '273',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+k: column "delivery_time" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at Module.o (.next/server/chunks/850.js:17:204) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '134',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+k: column "expires_at" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at Module.x (.next/server/chunks/850.js:47:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+k: relation "sportsbook_events" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at j (.next/server/chunks/1769.js:1:5753) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '316',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+k: column "expires_at" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at Module.x (.next/server/chunks/850.js:47:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+k: relation "sportsbook_events" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at j (.next/server/chunks/1769.js:1:5753) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '316',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+k: column "expires_at" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at Module.x (.next/server/chunks/850.js:47:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+k: column "expires_at" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at Module.x (.next/server/chunks/850.js:47:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+[next-game] Unable to load schedule {
+  team: 'KC',
+  source: 'historical_games',
+  category: 'missing-schema',
+  databaseCode: '42P01',
+  missingConfiguration: [],
+  migration: 'db/migrations/042_canonical_schedule.sql'
+}
+[film-room] Stored video lookup failed k: relation "content_candidates" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at D (.next/server/app/api/film-room/route.js:1:8250) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '473',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+[homepage] failed to enrich game graphics k: relation "historical_games" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at g (.next/server/chunks/9043.js:1:34334) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '171',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+k: relation "three_and_out_snapshots" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at r (.next/server/chunks/2577.js:1:6539) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '273',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+k: column "expires_at" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at Module.x (.next/server/chunks/850.js:47:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+k: column "delivery_time" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at Module.o (.next/server/chunks/850.js:17:204) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '134',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+[content-engine] failed to build briefings k: relation "canonical_stories" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at m (.next/server/chunks/7907.js:12:30) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '41',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+[homepage] failed to enrich game graphics k: relation "historical_games" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at g (.next/server/chunks/9043.js:1:34334) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '171',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+k: relation "three_and_out_snapshots" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at r (.next/server/chunks/2577.js:1:6539) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '273',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+k: column "expires_at" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at Module.x (.next/server/chunks/850.js:47:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+[homepage] failed to enrich game graphics k: relation "historical_games" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at g (.next/server/chunks/9043.js:1:34334) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '171',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+[film-room] Stored video lookup failed k: relation "content_candidates" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at D (.next/server/app/api/film-room/route.js:1:8250) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '473',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+k: column "expires_at" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at Module.x (.next/server/chunks/850.js:47:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+k: relation "three_and_out_snapshots" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at r (.next/server/chunks/2577.js:1:6539) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '273',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+k: relation "three_and_out_snapshots" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at r (.next/server/chunks/2577.js:1:6539) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '273',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+k: column "expires_at" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at Module.x (.next/server/chunks/850.js:47:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+k: column "expires_at" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at Module.x (.next/server/chunks/850.js:47:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+[next-game] Unable to load schedule {
+  team: 'KC',
+  source: 'historical_games',
+  category: 'missing-schema',
+  databaseCode: '42P01',
+  missingConfiguration: [],
+  migration: 'db/migrations/042_canonical_schedule.sql'
+}
+[film-room] Stored video lookup failed k: relation "content_candidates" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at D (.next/server/app/api/film-room/route.js:1:8250) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '473',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+[homepage] failed to enrich game graphics k: relation "historical_games" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at g (.next/server/chunks/9043.js:1:34334) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '171',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+k: column "expires_at" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at Module.x (.next/server/chunks/850.js:47:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+k: relation "three_and_out_snapshots" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at r (.next/server/chunks/2577.js:1:6539) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '273',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+k: column "delivery_time" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at Module.o (.next/server/chunks/850.js:17:204) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '134',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+k: column "expires_at" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at Module.x (.next/server/chunks/850.js:47:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+k: relation "sportsbook_events" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at j (.next/server/chunks/1769.js:1:5753) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '316',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+k: column "expires_at" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at Module.x (.next/server/chunks/850.js:47:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+k: relation "sportsbook_events" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at j (.next/server/chunks/1769.js:1:5753) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42P01',
+  position: '316',
+  file: 'parse_relation.c',
+  line: '1384',
+  routine: 'parserOpenTable'
+}
+k: column "expires_at" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at Module.x (.next/server/chunks/850.js:47:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}
+k: column "expires_at" does not exist
+    at U (.next/server/chunks/3105.js:4:2009)
+    at <unknown> (.next/server/chunks/3105.js:4:2964)
+    at Socket.aP (.next/server/chunks/3105.js:4:2968)
+    at <unknown> (.next/server/chunks/3105.js:1:704)
+    at new j (.next/server/chunks/3105.js:1:746)
+    at d (.next/server/chunks/3105.js:21:8479)
+    at Module.x (.next/server/chunks/850.js:47:61) {
+  severity_local: 'ERROR',
+  severity: 'ERROR',
+  code: '42703',
+  position: '137',
+  file: 'parse_relation.c',
+  line: '3657',
+  routine: 'errorMissingColumn'
+}

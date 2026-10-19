@@ -107,14 +107,24 @@ export async function GET(request: NextRequest) {
         : Number(request.nextUrl.searchParams.get('line')),
     side = researchSide(storedSide) === 'UNDER' ? ('UNDER' as const) : ('OVER' as const);
   if (!playerId || !marketType || !Number.isFinite(line))
-    return NextResponse.json({
-      markets: (await getTrendingProps(eventId, opponents, event.season, event, discoveryMode)).map(
-        (market) => ({
+    return NextResponse.json(
+      {
+        markets: (
+          await getTrendingProps(eventId, opponents, event.season, event, discoveryMode)
+        ).map((market) => ({
           ...market,
           eventId,
-        }),
-      ),
-    });
+        })),
+      },
+      {
+        headers: {
+          'Cache-Control':
+            Date.parse(event.kickoffAt) - Date.now() > 1000
+              ? `public, max-age=${Math.min(30, Math.floor((Date.parse(event.kickoffAt) - Date.now()) / 1000))}`
+              : 'private, no-store',
+        },
+      },
+    );
   const statType = normalizeHistoricalStatType(marketType);
   if (!statType)
     return NextResponse.json({ error: 'Historical stat type is unsupported' }, { status: 400 });

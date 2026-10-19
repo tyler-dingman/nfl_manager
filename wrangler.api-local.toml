@@ -25,3 +25,7 @@ bucket_name = "phase-four-local-backup"
 remote = false
 [observability]
 enabled = false
+
+[[services]]
+binding = "PASSWORD_SERVICE"
+service = "down-distance-password-local"

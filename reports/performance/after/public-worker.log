@@ -1,0 +1,166 @@
+
+ ⛅️ wrangler 4.151.1
+────────────────────
+down-distance-api-local has access to the following bindings:
+Binding                                                            Resource                  Mode
+env.APP_DB (phase-four-local)                                      D1 Database               local
+env.APP_OBJECTS (phase-four-local-objects)                         R2 Bucket                 local
+env.APP_BACKUP (phase-four-local-backup)                           R2 Bucket                 local
+env.PASSWORD_SERVICE (down-distance-password-local)                Worker                    local [not connected]
+env.APP_DATA_BACKEND ("d1")                                        Environment Variable      local
+env.APP_RUNTIME ("cloudflare")                                     Environment Variable      local
+env.INFRASTRUCTURE_COST_POLICY ("zero-cost")                       Environment Variable      local
+env.APP_PUBLIC_CACHE_ENABLED ("(hidden)")                          Environment Variable      local
+env.APP_CACHE_VERSION ("(hidden)")                                 Environment Variable      local
+env.PRELAUNCH_MODE ("(hidden)")                                    Environment Variable      local
+env.AUTH_JWT_SECRET ("(hidden)")                                   Environment Variable      local
+
+
+Service bindings, Durable Object bindings, and Tail consumers connect to other Wrangler or Vite dev processes running locally, with their connection status indicated by [connected] or [not connected]. For more details, refer to https://developers.cloudflare.com/workers/runtime-apis/bindings/service-bindings/#local-development
+
+[wrangler:warn] Unable to fetch the `Request.cf` object! Falling back to a default placeholder...
+Error: External TLS disabled during Phase 2 validation
+    at tls.connect (/private/tmp/down-distance-staging-blockers/scripts/phase-two-network-guard.cjs:29:11)
+    at connect (/private/tmp/down-distance-zero-cost-phase-4/node_modules/miniflare/node_modules/undici/lib/core/connect.js:86:20)
+    at Client.connect (/private/tmp/down-distance-zero-cost-phase-4/node_modules/miniflare/node_modules/undici/lib/dispatcher/client.js:241:37)
+    at connect (/private/tmp/down-distance-zero-cost-phase-4/node_modules/miniflare/node_modules/undici/lib/dispatcher/client.js:465:23)
+    at _resume (/private/tmp/down-distance-zero-cost-phase-4/node_modules/miniflare/node_modules/undici/lib/dispatcher/client.js:648:7)
+    at resume (/private/tmp/down-distance-zero-cost-phase-4/node_modules/miniflare/node_modules/undici/lib/dispatcher/client.js:578:3)
+    at Client.<computed> (/private/tmp/down-distance-zero-cost-phase-4/node_modules/miniflare/node_modules/undici/lib/dispatcher/client.js:293:31)
+    at [dispatch] (/private/tmp/down-distance-zero-cost-phase-4/node_modules/miniflare/node_modules/undici/lib/dispatcher/client.js:350:20)
+    at Client.dispatch (/private/tmp/down-distance-zero-cost-phase-4/node_modules/miniflare/node_modules/undici/lib/dispatcher/dispatcher-base.js:171:29)
+    at [dispatch] (/private/tmp/down-distance-zero-cost-phase-4/node_modules/miniflare/node_modules/undici/lib/dispatcher/pool-base.js:163:28)
+⎔ Starting local server...
+[wrangler:warn] Unable to fetch the `Request.cf` object! Falling back to a default placeholder...
+Error: External TLS disabled during Phase 2 validation
+    at tls.connect (/private/tmp/down-distance-staging-blockers/scripts/phase-two-network-guard.cjs:29:11)
+    at connect (/private/tmp/down-distance-zero-cost-phase-4/node_modules/miniflare/node_modules/undici/lib/core/connect.js:86:20)
+    at Client.connect (/private/tmp/down-distance-zero-cost-phase-4/node_modules/miniflare/node_modules/undici/lib/dispatcher/client.js:241:37)
+    at connect (/private/tmp/down-distance-zero-cost-phase-4/node_modules/miniflare/node_modules/undici/lib/dispatcher/client.js:465:23)
+    at _resume (/private/tmp/down-distance-zero-cost-phase-4/node_modules/miniflare/node_modules/undici/lib/dispatcher/client.js:648:7)
+    at resume (/private/tmp/down-distance-zero-cost-phase-4/node_modules/miniflare/node_modules/undici/lib/dispatcher/client.js:578:3)
+    at Client.<computed> (/private/tmp/down-distance-zero-cost-phase-4/node_modules/miniflare/node_modules/undici/lib/dispatcher/client.js:293:31)
+    at [dispatch] (/private/tmp/down-distance-zero-cost-phase-4/node_modules/miniflare/node_modules/undici/lib/dispatcher/client.js:350:20)
+    at Client.dispatch (/private/tmp/down-distance-zero-cost-phase-4/node_modules/miniflare/node_modules/undici/lib/dispatcher/dispatcher-base.js:171:29)
+    at [dispatch] (/private/tmp/down-distance-zero-cost-phase-4/node_modules/miniflare/node_modules/undici/lib/dispatcher/pool-base.js:163:28)
+[wrangler:info] Ready on http://127.0.0.1:52084
+[down-distance-api-local] {"metric":"application_headers","route":"/api/auth","status":200,"wallMs":2,"d1Calls":0,"statements":0,"rowsRead":0,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+[wrangler:info] GET /api/auth/config 200 OK (448ms)
+[down-distance-api-local] {"metric":"application_headers","route":"other","status":200,"wallMs":7,"d1Calls":1,"statements":1,"rowsRead":1,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+[wrangler:info] GET /api/parlay-lab/events 200 OK (8ms)
+[down-distance-api-local] {"metric":"application_headers","route":"other","status":200,"wallMs":1,"d1Calls":0,"statements":0,"rowsRead":0,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cache":"HIT","cpuMs":null}
+[wrangler:info] GET /api/parlay-lab/events 200 OK (2ms)
+[down-distance-api-local] {"metric":"application_headers","route":"other","status":200,"wallMs":0,"d1Calls":0,"statements":0,"rowsRead":0,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cache":"HIT","cpuMs":null}
+[wrangler:info] GET /api/parlay-lab/events 200 OK (2ms)
+[down-distance-api-local] {"metric":"application_headers","route":"other","status":200,"wallMs":2,"d1Calls":0,"statements":0,"rowsRead":0,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cache":"HIT","cpuMs":null}
+[wrangler:info] GET /api/parlay-lab/events 200 OK (3ms)
+[down-distance-api-local] {"metric":"application_headers","route":"other","status":200,"wallMs":0,"d1Calls":0,"statements":0,"rowsRead":0,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cache":"HIT","cpuMs":null}
+[wrangler:info] GET /api/parlay-lab/events 200 OK (1ms)
+[down-distance-api-local] {"metric":"application_headers","route":"other","status":200,"wallMs":0,"d1Calls":0,"statements":0,"rowsRead":0,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cache":"HIT","cpuMs":null}
+[wrangler:info] GET /api/parlay-lab/events 200 OK (1ms)
+[down-distance-api-local] {"metric":"application_headers","route":"other","status":200,"wallMs":0,"d1Calls":0,"statements":0,"rowsRead":0,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cache":"HIT","cpuMs":null}
+[wrangler:info] GET /api/parlay-lab/events 200 OK (1ms)
+[down-distance-api-local] {"metric":"application_headers","route":"other","status":200,"wallMs":0,"d1Calls":0,"statements":0,"rowsRead":0,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cache":"HIT","cpuMs":null}
+[wrangler:info] GET /api/parlay-lab/events 200 OK (2ms)
+[down-distance-api-local] {"metric":"application_headers","route":"other","status":200,"wallMs":1,"d1Calls":0,"statements":0,"rowsRead":0,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cache":"HIT","cpuMs":null}
+[wrangler:info] GET /api/parlay-lab/events 200 OK (2ms)
+[down-distance-api-local] {"metric":"application_headers","route":"other","status":200,"wallMs":0,"d1Calls":0,"statements":0,"rowsRead":0,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cache":"HIT","cpuMs":null}
+[wrangler:info] GET /api/parlay-lab/events 200 OK (1ms)
+[down-distance-api-local] {"metric":"application_headers","route":"other","status":200,"wallMs":0,"d1Calls":0,"statements":0,"rowsRead":0,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cache":"HIT","cpuMs":null}
+[wrangler:info] GET /api/parlay-lab/events 200 OK (2ms)
+[down-distance-api-local] {"metric":"application_headers","route":"other","status":200,"wallMs":1,"d1Calls":0,"statements":0,"rowsRead":0,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cache":"HIT","cpuMs":null}
+[wrangler:info] GET /api/parlay-lab/events 200 OK (3ms)
+[down-distance-api-local] {"metric":"application_headers","route":"other","status":200,"wallMs":1,"d1Calls":0,"statements":0,"rowsRead":0,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cache":"HIT","cpuMs":null}
+[wrangler:info] GET /api/parlay-lab/events 200 OK (1ms)
+[down-distance-api-local] {"metric":"application_headers","route":"other","status":200,"wallMs":1,"d1Calls":0,"statements":0,"rowsRead":0,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cache":"HIT","cpuMs":null}
+[wrangler:info] GET /api/parlay-lab/events 200 OK (2ms)
+[down-distance-api-local] {"metric":"application_headers","route":"other","status":200,"wallMs":1,"d1Calls":0,"statements":0,"rowsRead":0,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cache":"HIT","cpuMs":null}
+[wrangler:info] GET /api/parlay-lab/events 200 OK (3ms)
+[down-distance-api-local] {"metric":"application_headers","route":"other","status":200,"wallMs":1,"d1Calls":0,"statements":0,"rowsRead":0,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cache":"HIT","cpuMs":null}
+[wrangler:info] GET /api/parlay-lab/events 200 OK (3ms)
+[down-distance-api-local] {"metric":"application_headers","route":"other","status":200,"wallMs":0,"d1Calls":0,"statements":0,"rowsRead":0,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cache":"HIT","cpuMs":null}
+[wrangler:info] GET /api/parlay-lab/events 200 OK (2ms)
+[down-distance-api-local] {"metric":"application_headers","route":"other","status":200,"wallMs":1,"d1Calls":0,"statements":0,"rowsRead":0,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cache":"HIT","cpuMs":null}
+[wrangler:info] GET /api/parlay-lab/events 200 OK (1ms)
+[down-distance-api-local] {"metric":"application_headers","route":"other","status":200,"wallMs":0,"d1Calls":0,"statements":0,"rowsRead":0,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cache":"HIT","cpuMs":null}
+[wrangler:info] GET /api/parlay-lab/events 200 OK (2ms)
+[down-distance-api-local] {"metric":"application_headers","route":"other","status":200,"wallMs":1,"d1Calls":0,"statements":0,"rowsRead":0,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cache":"HIT","cpuMs":null}
+[wrangler:info] GET /api/parlay-lab/events 200 OK (2ms)
+[down-distance-api-local] {"metric":"application_headers","route":"other","status":200,"wallMs":0,"d1Calls":0,"statements":0,"rowsRead":0,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cache":"HIT","cpuMs":null}
+[wrangler:info] GET /api/parlay-lab/events 200 OK (1ms)
+[down-distance-api-local] {"metric":"application_headers","route":"other","status":200,"wallMs":0,"d1Calls":0,"statements":0,"rowsRead":0,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cache":"HIT","cpuMs":null}
+[wrangler:info] GET /api/parlay-lab/events 200 OK (1ms)
+[down-distance-api-local] {"metric":"application_headers","route":"other","status":200,"wallMs":0,"d1Calls":0,"statements":0,"rowsRead":0,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cache":"HIT","cpuMs":null}
+[wrangler:info] GET /api/parlay-lab/events 200 OK (2ms)
+[down-distance-api-local] {"metric":"application_headers","route":"other","status":200,"wallMs":1,"d1Calls":0,"statements":0,"rowsRead":0,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cache":"HIT","cpuMs":null}
+[wrangler:info] GET /api/parlay-lab/events 200 OK (2ms)
+[down-distance-api-local] {"metric":"application_headers","route":"other","status":200,"wallMs":0,"d1Calls":0,"statements":0,"rowsRead":0,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cache":"HIT","cpuMs":null}
+[wrangler:info] GET /api/parlay-lab/events 200 OK (1ms)
+[down-distance-api-local] {"metric":"application_headers","route":"other","status":200,"wallMs":1,"d1Calls":0,"statements":0,"rowsRead":0,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cache":"HIT","cpuMs":null}
+[wrangler:info] GET /api/parlay-lab/events 200 OK (1ms)
+[down-distance-api-local] {"metric":"application_headers","route":"other","status":200,"wallMs":0,"d1Calls":0,"statements":0,"rowsRead":0,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cache":"HIT","cpuMs":null}
+[wrangler:info] GET /api/parlay-lab/events 200 OK (2ms)
+[down-distance-api-local] {"metric":"application_headers","route":"other","status":200,"wallMs":0,"d1Calls":0,"statements":0,"rowsRead":0,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cache":"HIT","cpuMs":null}
+[wrangler:info] GET /api/parlay-lab/events 200 OK (2ms)
+[down-distance-api-local] {"metric":"application_headers","route":"other","status":200,"wallMs":0,"d1Calls":0,"statements":0,"rowsRead":0,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cache":"HIT","cpuMs":null}
+[wrangler:info] GET /api/parlay-lab/events 200 OK (1ms)
+[down-distance-api-local] {"metric":"application_headers","route":"other","status":200,"wallMs":0,"d1Calls":0,"statements":0,"rowsRead":0,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cache":"HIT","cpuMs":null}
+[wrangler:info] GET /api/parlay-lab/events 200 OK (1ms)
+[down-distance-api-local] {"metric":"application_headers","route":"other","status":200,"wallMs":1,"d1Calls":1,"statements":1,"rowsRead":1,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+[wrangler:info] GET /api/parlay-lab/events 200 OK (3ms)
+[down-distance-api-local] {"metric":"application_headers","route":"other","status":200,"wallMs":1,"d1Calls":1,"statements":1,"rowsRead":1,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+[wrangler:info] GET /api/parlay-lab/events 200 OK (1ms)
+[down-distance-api-local] {"metric":"application_headers","route":"/api/auth","status":401,"wallMs":1,"d1Calls":0,"statements":0,"rowsRead":0,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+[wrangler:info] GET /api/auth/me 401 Unauthorized (1ms)
+[down-distance-api-local] {"metric":"application_headers","route":"other","status":200,"wallMs":0,"d1Calls":1,"statements":1,"rowsRead":1,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+[wrangler:info] GET /api/parlay-lab/events 200 OK (2ms)
+
+ ⛅️ wrangler 4.151.1
+────────────────────
+down-distance-api-local has access to the following bindings:
+Binding                                                            Resource                  Mode
+env.APP_DB (phase-four-local)                                      D1 Database               local
+env.APP_OBJECTS (phase-four-local-objects)                         R2 Bucket                 local
+env.APP_BACKUP (phase-four-local-backup)                           R2 Bucket                 local
+env.PASSWORD_SERVICE (down-distance-password-local)                Worker                    local [not connected]
+env.APP_DATA_BACKEND ("d1")                                        Environment Variable      local
+env.APP_RUNTIME ("cloudflare")                                     Environment Variable      local
+env.INFRASTRUCTURE_COST_POLICY ("zero-cost")                       Environment Variable      local
+env.APP_PUBLIC_CACHE_ENABLED ("(hidden)")                          Environment Variable      local
+env.APP_CACHE_VERSION ("(hidden)")                                 Environment Variable      local
+env.PRELAUNCH_MODE ("(hidden)")                                    Environment Variable      local
+env.AUTH_JWT_SECRET ("(hidden)")                                   Environment Variable      local
+
+
+Service bindings, Durable Object bindings, and Tail consumers connect to other Wrangler or Vite dev processes running locally, with their connection status indicated by [connected] or [not connected]. For more details, refer to https://developers.cloudflare.com/workers/runtime-apis/bindings/service-bindings/#local-development
+
+[wrangler:warn] Unable to fetch the `Request.cf` object! Falling back to a default placeholder...
+Error: External TLS disabled during Phase 2 validation
+    at tls.connect (/private/tmp/down-distance-staging-blockers/scripts/phase-two-network-guard.cjs:29:11)
+    at connect (/private/tmp/down-distance-zero-cost-phase-4/node_modules/miniflare/node_modules/undici/lib/core/connect.js:86:20)
+    at Client.connect (/private/tmp/down-distance-zero-cost-phase-4/node_modules/miniflare/node_modules/undici/lib/dispatcher/client.js:241:37)
+    at connect (/private/tmp/down-distance-zero-cost-phase-4/node_modules/miniflare/node_modules/undici/lib/dispatcher/client.js:465:23)
+    at _resume (/private/tmp/down-distance-zero-cost-phase-4/node_modules/miniflare/node_modules/undici/lib/dispatcher/client.js:648:7)
+    at resume (/private/tmp/down-distance-zero-cost-phase-4/node_modules/miniflare/node_modules/undici/lib/dispatcher/client.js:578:3)
+    at Client.<computed> (/private/tmp/down-distance-zero-cost-phase-4/node_modules/miniflare/node_modules/undici/lib/dispatcher/client.js:293:31)
+    at [dispatch] (/private/tmp/down-distance-zero-cost-phase-4/node_modules/miniflare/node_modules/undici/lib/dispatcher/client.js:350:20)
+    at Client.dispatch (/private/tmp/down-distance-zero-cost-phase-4/node_modules/miniflare/node_modules/undici/lib/dispatcher/dispatcher-base.js:171:29)
+    at [dispatch] (/private/tmp/down-distance-zero-cost-phase-4/node_modules/miniflare/node_modules/undici/lib/dispatcher/pool-base.js:163:28)
+⎔ Starting local server...
+[wrangler:warn] Unable to fetch the `Request.cf` object! Falling back to a default placeholder...
+Error: External TLS disabled during Phase 2 validation
+    at tls.connect (/private/tmp/down-distance-staging-blockers/scripts/phase-two-network-guard.cjs:29:11)
+    at connect (/private/tmp/down-distance-zero-cost-phase-4/node_modules/miniflare/node_modules/undici/lib/core/connect.js:86:20)
+    at Client.connect (/private/tmp/down-distance-zero-cost-phase-4/node_modules/miniflare/node_modules/undici/lib/dispatcher/client.js:241:37)
+    at connect (/private/tmp/down-distance-zero-cost-phase-4/node_modules/miniflare/node_modules/undici/lib/dispatcher/client.js:465:23)
+    at _resume (/private/tmp/down-distance-zero-cost-phase-4/node_modules/miniflare/node_modules/undici/lib/dispatcher/client.js:648:7)
+    at resume (/private/tmp/down-distance-zero-cost-phase-4/node_modules/miniflare/node_modules/undici/lib/dispatcher/client.js:578:3)
+    at Client.<computed> (/private/tmp/down-distance-zero-cost-phase-4/node_modules/miniflare/node_modules/undici/lib/dispatcher/client.js:293:31)
+    at [dispatch] (/private/tmp/down-distance-zero-cost-phase-4/node_modules/miniflare/node_modules/undici/lib/dispatcher/client.js:350:20)
+    at Client.dispatch (/private/tmp/down-distance-zero-cost-phase-4/node_modules/miniflare/node_modules/undici/lib/dispatcher/dispatcher-base.js:171:29)
+    at [dispatch] (/private/tmp/down-distance-zero-cost-phase-4/node_modules/miniflare/node_modules/undici/lib/dispatcher/pool-base.js:163:28)
+[wrangler:info] Ready on http://127.0.0.1:52084
+[down-distance-api-local] {"metric":"application_headers","route":"/api/auth","status":200,"wallMs":2,"d1Calls":0,"statements":0,"rowsRead":0,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+[wrangler:info] GET /api/auth/config 200 OK (287ms)
+[down-distance-api-local] {"metric":"application_headers","route":"other","status":200,"wallMs":6,"d1Calls":1,"statements":1,"rowsRead":1,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+[wrangler:info] GET /api/parlay-lab/events 200 OK (8ms)

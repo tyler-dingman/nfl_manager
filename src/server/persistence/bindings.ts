@@ -11,6 +11,7 @@ export interface ApplicationBindings {
   db: SqlDatabase;
   objects: Objects;
   cacheNamespace?: string;
+  password?: { fetch(request: Request): Promise<Response> };
   ai?: { run(model: string, input: unknown): Promise<unknown> };
   env?: Record<string, string | undefined>;
 }
@@ -119,4 +120,17 @@ export function applicationPublicCacheScope() {
     cacheIds.set(scoped.db, id);
   }
   return applicationBackend() + ':' + id;
+}
+
+export function applicationPasswordService() {
+  const service = context.getStore()?.password;
+  if (!service) throw Error('Password service binding is unavailable');
+  return service;
+}
+export function passwordRuntimeAvailable() {
+  return (
+    applicationEnvironment().APP_RUNTIME !== 'cloudflare' ||
+    (applicationEnvironment().APP_PASSWORD_ENABLED === 'true' &&
+      Boolean(context.getStore()?.password))
+  );
 }

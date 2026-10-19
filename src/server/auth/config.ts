@@ -1,5 +1,9 @@
 import { z } from 'zod';
-import { applicationBackend, applicationEnvironment } from '../persistence/bindings';
+import {
+  applicationBackend,
+  applicationEnvironment,
+  passwordRuntimeAvailable,
+} from '../persistence/bindings';
 import { assertAuthSecret } from './secret-policy';
 
 const optionalString = z.preprocess(
@@ -85,7 +89,7 @@ export function publicAuthConfig() {
     email: Boolean(
       (authConfig.DATABASE_URL || applicationBackend() === 'd1') &&
       authConfig.AUTH_JWT_SECRET &&
-      applicationEnvironment().APP_RUNTIME !== 'cloudflare',
+      passwordRuntimeAvailable(),
     ),
     providers: configuredSocialProviders(),
   };

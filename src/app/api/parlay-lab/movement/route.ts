@@ -1,9 +1,50 @@
+import { applicationBackend, applicationStorage } from '@/server/persistence/bindings';
+import { D1OddsBoard } from '../../../../../packages/storage/odds-board';
 import { NextResponse } from 'next/server';
 import { authDb } from '@/server/auth/database';
 export const dynamic = 'force-dynamic';
 // Read existing imported snapshots; no additional provider or ingestion pipeline.
 export async function GET() {
   try {
+    if (applicationBackend() === 'd1') {
+      const s = applicationStorage(),
+        board = new D1OddsBoard(s),
+        events = (await board.events()).filter((e) => !e.marketsLocked),
+        movements: any[] = [];
+      for (const event of events) {
+        const history = (await board.priceHistory(event.id, new Date().toISOString(), true)).filter(
+          (p: any) => Date.parse(p.capturedAt ?? p.asOf ?? '') > Date.now() - 7 * 86400000,
+        );
+        const prior = new Map<string, any>(),
+          changes = new Map<string, any>();
+        for (const sample of history.sort((a: any, b: any) =>
+          String(a.capturedAt ?? a.asOf).localeCompare(String(b.capturedAt ?? b.asOf)),
+        )) {
+          const key = sample.marketId + ':' + sample.sportsbook,
+            old = prior.get(key);
+          if (
+            old &&
+            sample.available &&
+            ((old.line != null && old.line !== sample.line) ||
+              (old.odds != null && old.odds !== sample.odds))
+          )
+            changes.set(key, {
+              marketId: sample.marketId,
+              sportsbook: sample.sportsbook,
+              newLine: sample.line,
+              oldLine: old.line,
+              newOdds: sample.odds,
+              oldOdds: old.odds,
+              capturedAt: sample.capturedAt ?? sample.asOf,
+            });
+          prior.set(key, sample);
+        }
+        movements.push(...changes.values());
+      }
+      return NextResponse.json({
+        movements: movements.sort((a, b) => b.capturedAt.localeCompare(a.capturedAt)).slice(0, 100),
+      });
+    }
     const rows = await authDb()`
       WITH recent AS (
         SELECT s.market_id, s.sportsbook, s.line, s.odds, s.captured_at,

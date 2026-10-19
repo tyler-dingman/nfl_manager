@@ -1,3 +1,5 @@
+import { applicationBackend, applicationStorage } from '@/server/persistence/bindings';
+import { ReferenceData } from '../../../../../../packages/storage/reference';
 import { NextRequest, NextResponse } from 'next/server';
 import { authDb } from '@/server/auth/database';
 import { gradeSavedLeg } from '@/server/historical-stats/saved-play-grading';
@@ -22,6 +24,44 @@ type FinalGame = {
 async function finalGameFor(play: SavedPlay) {
   const event = play.event;
   if (!event) return null;
+  if (applicationBackend() === 'd1') {
+    const refs = new ReferenceData(applicationStorage()),
+      season = event.season ?? new Date(event.kickoffAt).getUTCFullYear();
+    const games = (await refs.games([season])).filter(
+      (g) => g.status === 'FINAL' && g.homeScore != null && g.awayScore != null && g.kickoffAt,
+    );
+    const shape = (g: (typeof games)[number]) => ({
+      id: g.id,
+      season: g.season,
+      week: g.week,
+      homeTeamId: g.homeTeam,
+      awayTeamId: g.awayTeam,
+      kickoffAt: g.kickoffAt!,
+    });
+    const exact = games.find(
+      (g) =>
+        g.week === event.week && g.homeTeam === event.homeTeamId && g.awayTeam === event.awayTeamId,
+    );
+    if (exact) return shape(exact);
+    const players = [
+      ...new Set(play.selections.map((l) => l.playerId).filter(Boolean)),
+    ] as string[];
+    if (!players.length) return null;
+    const observations = await refs.playerGames(players, [season]);
+    const repaired = games
+      .filter(
+        (g) =>
+          (g.week === event.week ||
+            Math.abs(Date.parse(g.kickoffAt!) - Date.parse(event.kickoffAt)) <= 129600000) &&
+          players.every((p) => observations.some((o) => o.playerId === p && o.gameId === g.id)),
+      )
+      .sort(
+        (a, b) =>
+          Math.abs(Date.parse(a.kickoffAt!) - Date.parse(event.kickoffAt)) -
+          Math.abs(Date.parse(b.kickoffAt!) - Date.parse(event.kickoffAt)),
+      )[0];
+    return repaired ? shape(repaired) : null;
+  }
   const rows = await authDb()<FinalGame[]>`
     SELECT id,season,week,home_team_id AS "homeTeamId",away_team_id AS "awayTeamId",
       kickoff_at::text AS "kickoffAt" FROM historical_games
@@ -58,6 +98,18 @@ async function finalGameFor(play: SavedPlay) {
 }
 
 async function playerResult(gameId: string, playerId: string) {
+  if (applicationBackend() === 'd1')
+    return (
+      (
+        await new ReferenceData(applicationStorage()).values<HistoricalPlayerGame[]>(
+          'PLAYER_GAMES',
+          'subject=?',
+          [playerId],
+        )
+      )
+        .flat()
+        .find((g) => g.gameId === gameId) ?? null
+    );
   const rows = await authDb()<HistoricalPlayerGame[]>`
     SELECT pg.game_id AS "gameId", g.game_date::text AS date, g.kickoff_at::text AS "kickoffAt",
       pg.season, pg.week, pg.season_type AS "seasonType", pg.player_id AS "playerId",

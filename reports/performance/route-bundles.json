@@ -1,0 +1,133 @@
+{
+  "scope": "Production app-build-manifest initial route JS only; deterministic raw and independently gzipped files. Async/prefetch chunks are separate from initial route size.",
+  "before": [
+    {
+      "route": "/page",
+      "files": 22,
+      "rawBytes": 888021,
+      "gzipBytes": 243923,
+      "available": true
+    },
+    {
+      "route": "/the-beat/page",
+      "files": 24,
+      "rawBytes": 888002,
+      "gzipBytes": 244633,
+      "available": true
+    },
+    {
+      "route": "/watch/page",
+      "files": 24,
+      "rawBytes": 888002,
+      "gzipBytes": 244633,
+      "available": true
+    },
+    {
+      "route": "/three-and-out/page",
+      "files": 24,
+      "rawBytes": 888002,
+      "gzipBytes": 244633,
+      "available": true
+    },
+    {
+      "route": "/huddle/page",
+      "files": 19,
+      "rawBytes": 632196,
+      "gzipBytes": 200595,
+      "available": true
+    },
+    {
+      "route": "/front-office/page",
+      "files": 24,
+      "rawBytes": 888002,
+      "gzipBytes": 244632,
+      "available": true
+    },
+    {
+      "route": "/parlay-lab/page",
+      "files": 24,
+      "rawBytes": 777729,
+      "gzipBytes": 245220,
+      "available": true
+    },
+    {
+      "route": "/parlay-lab/my-plays/page",
+      "files": 20,
+      "rawBytes": 601364,
+      "gzipBytes": 190841,
+      "available": true
+    },
+    {
+      "route": "/account/[section]/page",
+      "files": 20,
+      "rawBytes": 615358,
+      "gzipBytes": 194020,
+      "available": true
+    }
+  ],
+  "after": [
+    {
+      "route": "/page",
+      "files": 22,
+      "rawBytes": 889834,
+      "gzipBytes": 244698,
+      "available": true
+    },
+    {
+      "route": "/the-beat/page",
+      "files": 24,
+      "rawBytes": 888004,
+      "gzipBytes": 244640,
+      "available": true
+    },
+    {
+      "route": "/watch/page",
+      "files": 24,
+      "rawBytes": 888004,
+      "gzipBytes": 244640,
+      "available": true
+    },
+    {
+      "route": "/three-and-out/page",
+      "files": 24,
+      "rawBytes": 888004,
+      "gzipBytes": 244640,
+      "available": true
+    },
+    {
+      "route": "/huddle/page",
+      "files": 19,
+      "rawBytes": 632256,
+      "gzipBytes": 200624,
+      "available": true
+    },
+    {
+      "route": "/front-office/page",
+      "files": 24,
+      "rawBytes": 888004,
+      "gzipBytes": 244639,
+      "available": true
+    },
+    {
+      "route": "/parlay-lab/page",
+      "files": 24,
+      "rawBytes": 777729,
+      "gzipBytes": 245223,
+      "available": true
+    },
+    {
+      "route": "/parlay-lab/my-plays/page",
+      "files": 20,
+      "rawBytes": 601364,
+      "gzipBytes": 190846,
+      "available": true
+    },
+    {
+      "route": "/account/[section]/page",
+      "files": 20,
+      "rawBytes": 615358,
+      "gzipBytes": 194022,
+      "available": true
+    }
+  ]
+}

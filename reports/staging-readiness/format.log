@@ -1,0 +1,51 @@
+packages/public-content-client.test.ts 40ms
+packages/public-content-client.ts 11ms
+packages/public-content-policy.ts 7ms
+packages/storage/incremental-recovery.ts 45ms
+packages/storage/notifications.ts 27ms
+scripts/benchmark-public-worker.mjs 24ms
+scripts/benchmark-site-performance.mjs 12ms
+scripts/build-password-worker.mjs 1ms
+scripts/probe-staging-auth.mjs 12ms
+scripts/probe-staging-web.mjs 10ms (unchanged)
+scripts/qualify-staging-workers.mjs 2ms (unchanged)
+scripts/validate-staging-browser.mjs 10ms
+scripts/vendor-password-wasm.mjs 3ms
+src/server/three-and-out/overrides.ts 2ms
+workers/content-engine/scripts/staging-scale.ts 18ms
+workers/content-engine/test-node/performance-queries.test.ts 2ms
+workers/content-engine/test-node/staging-notifications.test.ts 3ms
+workers/content-engine/test-node/staging-password.test.ts 2ms
+workers/content-engine/test-node/staging-recovery.test.ts 6ms
+workers/password/implementation.ts 4ms
+workers/password/index.ts 3ms
+workers/password/modules.d.ts 1ms
+workers/password/password.test.ts 2ms
+apps/mobile/app/(tabs)/index.tsx 24ms
+apps/mobile/lib/api.ts 32ms
+packages/storage/cold-recovery.ts 19ms
+packages/storage/odds-board.ts 9ms
+scripts/build-split-worker.mjs 5ms (unchanged)
+src/app/api/auth/forgot-password/route.ts 3ms (unchanged)
+src/app/api/auth/login/route.ts 2ms (unchanged)
+src/app/api/auth/reset-password/route.ts 1ms (unchanged)
+src/app/api/auth/signup/route.ts 2ms (unchanged)
+src/app/api/parlay-lab/freshness/route.ts 2ms
+src/app/api/parlay-lab/movement/route.ts 3ms
+src/app/api/parlay-lab/my-plays/grade/route.ts 10ms
+src/app/api/parlay-lab/research/route.ts 11ms
+src/app/api/three-and-out/editorial/route.ts 2ms
+src/app/api/three-and-out/preferences/route.ts 4ms
+src/components/down-distance-home.tsx 24ms
+src/server/auth/argon-worker.ts 3ms
+src/server/auth/config.ts 3ms
+src/server/auth/crypto.ts 3ms (unchanged)
+src/server/film-room/discovered.ts 5ms
+src/server/notifications/repository.ts 4ms
+src/server/persistence/bindings.ts 8ms
+src/server/three-and-out/daily-service.ts 12ms
+src/server/user/account-repository.ts 2ms
+tsconfig.completion.json 1ms
+workers/api/index.ts 5ms
+workers/web/index.ts 3ms
+workers/web/public-cache.ts 2ms

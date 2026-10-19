@@ -26,8 +26,10 @@ export class D1OddsBoard {
   }
   async events(includePast = false) {
     const rows = await this.s.rows<any>(
-      'SELECT * FROM app_sportsbook_events WHERE ?=1 OR kickoff_at>? ORDER BY kickoff_at,id',
-      [includePast ? 1 : 0, Date.now()],
+      includePast
+        ? 'SELECT * FROM app_sportsbook_events ORDER BY kickoff_at,id'
+        : 'SELECT * FROM app_sportsbook_events WHERE kickoff_at>? ORDER BY kickoff_at,id',
+      includePast ? [] : [Date.now()],
     );
     return rows.map((r) => ({
       id: r.id,
@@ -226,7 +228,7 @@ export class D1OddsBoard {
       asOf,
     );
   }
-  async priceHistory(event: string, asOf: string) {
+  async priceHistory(event: string, asOf: string, includeAll = false) {
     const rows = await this.s.rows<{ object_hash: string; as_of: number }>(
       'SELECT object_hash,as_of FROM app_odds_board_history WHERE event_id=? AND as_of<=? ORDER BY as_of',
       [event, Date.parse(asOf)],
@@ -236,8 +238,10 @@ export class D1OddsBoard {
       const envelope = await this.s.get<any>(row.object_hash);
       if (envelope.eventId !== event) throw Error('Historical board identity mismatch');
       for (const m of await new JsonTree(this.s).get<any[]>(envelope.root))
-        if (m.period === 'game' && !m.isAltLine && m.available && m.line != null)
+        if (includeAll || (m.period === 'game' && !m.isAltLine && m.available && m.line != null))
           result.push({
+            marketId: m.id,
+            available: m.available,
             playerId: m.playerId,
             marketType: m.marketType,
             side: m.side,

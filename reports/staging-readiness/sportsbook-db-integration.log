@@ -1,0 +1,29 @@
+TAP version 13
+# {
+#   severity_local: 'NOTICE',
+#   severity: 'NOTICE',
+#   code: '00000',
+#   message: 'drop cascades to 5 other objects',
+#   detail: 'drop cascades to table fd_test_d0e81edb90dd4f0a841fe560122a0af2.fanduel_transfer_jobs\\n' +
+#     'drop cascades to table fd_test_d0e81edb90dd4f0a841fe560122a0af2.sportsbook_events\\n' +
+#     'drop cascades to table fd_test_d0e81edb90dd4f0a841fe560122a0af2.bet_markets\\n' +
+#     'drop cascades to table fd_test_d0e81edb90dd4f0a841fe560122a0af2.sportsbook_prices\\n' +
+#     'drop cascades to table fd_test_d0e81edb90dd4f0a841fe560122a0af2.provider_player_mappings',
+#   file: 'dependency.c',
+#   line: '1223',
+#   routine: 'reportDependentObjects'
+# }
+# Subtest: durable reservations, quotas, concurrency, polling and timeout with isolated PostgreSQL fixtures
+ok 1 - durable reservations, quotas, concurrency, polling and timeout with isolated PostgreSQL fixtures
+  ---
+  duration_ms: 169.379584
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 309.977542

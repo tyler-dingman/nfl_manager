@@ -1,0 +1,111 @@
+{
+  "status": "BLOCKED; no 30% storage headroom, whole-product free tier unqualified",
+  "scope": "PROJECTED inherited 1000-DAU workload; measured low-churn delta ratio is sensitivity only, not production compression/churn certification. Peak end-of-horizon bytes, not GB-month billing averages. All required payload history retained. Unknown domains remain unknown.",
+  "recoveryObjective": {
+    "rpoHours": 24,
+    "dailyRewindDays": 35,
+    "maxDeltaDepth": 6,
+    "requiresStoppedWriters": true,
+    "rtoProduction": null
+  },
+  "measuredLowChurnRatio": 0.003727107477206268,
+  "annualPayloadBreakdown": {
+    "historicalEditorialAndOtherInheritedPayloadBytes": 2942045124,
+    "frontOfficeHistoryTwoCopiesCompressed": 456250000.0,
+    "oddsHistoryTwoCopiesCompressed": 250285714.28571427,
+    "sharedAiResultsTwoCopies": 299008000,
+    "privateConfigAttachmentsTwoCopies": 65536000,
+    "newSavedIdentityScoreAndPublicPayloadBytes": 3462299063
+  },
+  "assumedDirectoryToD1Factor": 0.25,
+  "baselineAnnualFullDirectoryBytes": 44026996263,
+  "storageLimitBytes": 10000000000,
+  "headroomTargetBytes": 7000000000,
+  "operations": "No whole-account savings credited. Prior lower bound 19,063,625 Class B/month and 95,294 D1 writes/day retained; delta still hashes all source objects. Cache hit evidence is one local PoP, not account-wide hit rate.",
+  "scenarios": [
+    {
+      "days": 30,
+      "d1Bytes": 190928223,
+      "beforeR2Bytes": 1896488014,
+      "payloadFloorBytes": 674567884,
+      "retainedWeeklyFullPoints": 5,
+      "retainedDailyDeltaPoints": 25,
+      "directoryFullBytesAssumed": 47732056,
+      "r2BytesAtMeasuredLowChurnRatio": 917675726,
+      "r2BytesAtTenPercentDeltaRatio": 1032558303,
+      "r2BytesAtFullChurnRatio": 2106529557,
+      "worstHighEntropyPayloadFloorBytes": 2684567884,
+      "unmodeledBytes": null
+    },
+    {
+      "days": 90,
+      "d1Bytes": 305277210,
+      "beforeR2Bytes": 6850386145,
+      "payloadFloorBytes": 1892631649,
+      "retainedWeeklyFullPoints": 6,
+      "retainedDailyDeltaPoints": 35,
+      "directoryFullBytesAssumed": 76319303,
+      "r2BytesAtMeasuredLowChurnRatio": 2360503223,
+      "r2BytesAtTenPercentDeltaRatio": 2617665023,
+      "r2BytesAtFullChurnRatio": 5021723052,
+      "worstHighEntropyPayloadFloorBytes": 7922631649,
+      "unmodeledBytes": null
+    },
+    {
+      "days": 180,
+      "d1Bytes": 476800691,
+      "beforeR2Bytes": 17497298604,
+      "payloadFloorBytes": 3719727296,
+      "retainedWeeklyFullPoints": 6,
+      "retainedDailyDeltaPoints": 34,
+      "directoryFullBytesAssumed": 119200173,
+      "r2BytesAtMeasuredLowChurnRatio": 4450033576,
+      "r2BytesAtTenPercentDeltaRatio": 4840208920,
+      "r2BytesAtFullChurnRatio": 8487734206,
+      "worstHighEntropyPayloadFloorBytes": 15779727296,
+      "unmodeledBytes": null
+    },
+    {
+      "days": 365,
+      "d1Bytes": 829376735,
+      "beforeR2Bytes": 51502420165,
+      "payloadFloorBytes": 7475423902,
+      "retainedWeeklyFullPoints": 6,
+      "retainedDailyDeltaPoints": 30,
+      "directoryFullBytesAssumed": 207344184,
+      "r2BytesAtMeasuredLowChurnRatio": 8742672827,
+      "r2BytesAtTenPercentDeltaRatio": 9341521556,
+      "r2BytesAtFullChurnRatio": 14939814517,
+      "worstHighEntropyPayloadFloorBytes": 31930423902,
+      "unmodeledBytes": null
+    },
+    {
+      "days": 730,
+      "d1Bytes": 1524999740,
+      "beforeR2Bytes": 166417687562,
+      "payloadFloorBytes": 14885311804,
+      "retainedWeeklyFullPoints": 6,
+      "retainedDailyDeltaPoints": 31,
+      "directoryFullBytesAssumed": 381249935,
+      "r2BytesAtMeasuredLowChurnRatio": 17216861158,
+      "r2BytesAtTenPercentDeltaRatio": 18354686213,
+      "r2BytesAtFullChurnRatio": 28991559399,
+      "worstHighEntropyPayloadFloorBytes": 63795311804,
+      "unmodeledBytes": null
+    },
+    {
+      "days": 1095,
+      "d1Bytes": 2220622745,
+      "beforeR2Bytes": 344808554193,
+      "payloadFloorBytes": 22295199705,
+      "retainedWeeklyFullPoints": 6,
+      "retainedDailyDeltaPoints": 32,
+      "directoryFullBytesAssumed": 555155687,
+      "r2BytesAtMeasuredLowChurnRatio": 25692345820,
+      "r2BytesAtTenPercentDeltaRatio": 27402632019,
+      "r2BytesAtFullChurnRatio": 43391115783,
+      "worstHighEntropyPayloadFloorBytes": 95660199705,
+      "unmodeledBytes": null
+    }
+  ]
+}

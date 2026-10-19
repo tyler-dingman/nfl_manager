@@ -1,0 +1,184 @@
+{
+  "runtime": "actual local workerd, empty synthetic precomputed odds board, loopback only",
+  "databaseUrlPresent": false,
+  "phase": "after",
+  "samples": [
+    {
+      "ms": 12.855999999999767,
+      "cache": "MISS",
+      "policy": "public, max-age=30"
+    },
+    {
+      "ms": 3.525416000000405,
+      "cache": "HIT",
+      "policy": "public, max-age=30"
+    },
+    {
+      "ms": 2.87762500000008,
+      "cache": "HIT",
+      "policy": "public, max-age=30"
+    },
+    {
+      "ms": 4.577333000000181,
+      "cache": "HIT",
+      "policy": "public, max-age=30"
+    },
+    {
+      "ms": 2.8971250000004147,
+      "cache": "HIT",
+      "policy": "public, max-age=30"
+    },
+    {
+      "ms": 2.4627909999999247,
+      "cache": "HIT",
+      "policy": "public, max-age=30"
+    },
+    {
+      "ms": 2.074416000000383,
+      "cache": "HIT",
+      "policy": "public, max-age=30"
+    },
+    {
+      "ms": 3.196708000000399,
+      "cache": "HIT",
+      "policy": "public, max-age=30"
+    },
+    {
+      "ms": 3.429124999999658,
+      "cache": "HIT",
+      "policy": "public, max-age=30"
+    },
+    {
+      "ms": 2.8006249999998545,
+      "cache": "HIT",
+      "policy": "public, max-age=30"
+    },
+    {
+      "ms": 2.6633329999995112,
+      "cache": "HIT",
+      "policy": "public, max-age=30"
+    },
+    {
+      "ms": 3.845792000000074,
+      "cache": "HIT",
+      "policy": "public, max-age=30"
+    },
+    {
+      "ms": 2.6772909999999683,
+      "cache": "HIT",
+      "policy": "public, max-age=30"
+    },
+    {
+      "ms": 2.778167000000394,
+      "cache": "HIT",
+      "policy": "public, max-age=30"
+    },
+    {
+      "ms": 5.470374999999876,
+      "cache": "HIT",
+      "policy": "public, max-age=30"
+    },
+    {
+      "ms": 5.225625000000036,
+      "cache": "HIT",
+      "policy": "public, max-age=30"
+    },
+    {
+      "ms": 3.5934580000002825,
+      "cache": "HIT",
+      "policy": "public, max-age=30"
+    },
+    {
+      "ms": 2.3209170000000086,
+      "cache": "HIT",
+      "policy": "public, max-age=30"
+    },
+    {
+      "ms": 2.269666000000143,
+      "cache": "HIT",
+      "policy": "public, max-age=30"
+    },
+    {
+      "ms": 2.358749999999418,
+      "cache": "HIT",
+      "policy": "public, max-age=30"
+    },
+    {
+      "ms": 2.2922920000000886,
+      "cache": "HIT",
+      "policy": "public, max-age=30"
+    },
+    {
+      "ms": 2.338999999999942,
+      "cache": "HIT",
+      "policy": "public, max-age=30"
+    },
+    {
+      "ms": 3.3654999999998836,
+      "cache": "HIT",
+      "policy": "public, max-age=30"
+    },
+    {
+      "ms": 2.7096670000000813,
+      "cache": "HIT",
+      "policy": "public, max-age=30"
+    },
+    {
+      "ms": 1.848374999999578,
+      "cache": "HIT",
+      "policy": "public, max-age=30"
+    },
+    {
+      "ms": 1.7600000000002183,
+      "cache": "HIT",
+      "policy": "public, max-age=30"
+    },
+    {
+      "ms": 1.9405420000002778,
+      "cache": "HIT",
+      "policy": "public, max-age=30"
+    },
+    {
+      "ms": 1.7837090000002718,
+      "cache": "HIT",
+      "policy": "public, max-age=30"
+    },
+    {
+      "ms": 1.815375000000131,
+      "cache": "HIT",
+      "policy": "public, max-age=30"
+    },
+    {
+      "ms": 2.085624999999709,
+      "cache": "HIT",
+      "policy": "public, max-age=30"
+    }
+  ],
+  "p50Ms": 2.6772909999999683,
+  "p95Ms": 5.225625000000036,
+  "hitRate": 0.9666666666666667,
+  "isolation": [
+    {
+      "path": "/api/parlay-lab/events",
+      "status": 200,
+      "cache": "BYPASS"
+    },
+    {
+      "path": "/api/parlay-lab/events",
+      "status": 200,
+      "cache": "BYPASS"
+    },
+    {
+      "path": "/api/auth/me",
+      "status": 401,
+      "cache": "BYPASS"
+    },
+    {
+      "path": "/api/parlay-lab/events?user=other",
+      "status": 200,
+      "cache": "BYPASS"
+    }
+  ],
+  "hostedCpuMs": null,
+  "geographicalLatency": null
+}

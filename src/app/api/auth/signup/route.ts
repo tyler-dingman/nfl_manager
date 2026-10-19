@@ -1,4 +1,4 @@
-import { applicationEnvironment } from '@/server/persistence/bindings';
+import { passwordRuntimeAvailable } from '@/server/persistence/bindings';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { assertSameOrigin, authError, setSessionCookie } from '@/server/auth/http';
@@ -13,7 +13,7 @@ const inputSchema = z.object({
   displayName: z.string().trim().max(100).optional(),
 });
 export async function POST(request: NextRequest) {
-  if (applicationEnvironment().APP_RUNTIME === 'cloudflare')
+  if (!passwordRuntimeAvailable())
     return authError('Email password authentication is temporarily unavailable.', 503);
   try {
     assertSameOrigin(request);

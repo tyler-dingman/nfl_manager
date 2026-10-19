@@ -28,10 +28,7 @@ export function decryptSecret(value: string) {
 }
 
 async function nativeArgon() {
-  if (applicationEnvironment().APP_RUNTIME === 'cloudflare')
-    throw new Error(
-      'Password hashing is not yet qualified for the Free Worker runtime; use the validated Node auth deployment.',
-    );
+  if (applicationEnvironment().APP_RUNTIME === 'cloudflare') return await import('./argon-worker');
   return await import('./argon-node');
 }
 export const hashPassword = async (password: string) =>

@@ -1,0 +1,263 @@
+{
+  "scope": "Measured local same-resolution WebP compression at quality 82. All originals retained. No AI regeneration or visual redesign.",
+  "results": [
+    {
+      "source": "public/images/gameday/stadium/az/gameday.png",
+      "output": "public/images/gameday/stadium/az/gameday.webp",
+      "width": 1672,
+      "height": 941,
+      "beforeBytes": 3025072,
+      "afterBytes": 435270
+    },
+    {
+      "source": "public/images/gameday/stadium/atl/gameday.png",
+      "output": "public/images/gameday/stadium/atl/gameday.webp",
+      "width": 1672,
+      "height": 941,
+      "beforeBytes": 3315391,
+      "afterBytes": 473376
+    },
+    {
+      "source": "public/images/gameday/stadium/bal/gameday.png",
+      "output": "public/images/gameday/stadium/bal/gameday.webp",
+      "width": 1672,
+      "height": 941,
+      "beforeBytes": 2955702,
+      "afterBytes": 419600
+    },
+    {
+      "source": "public/images/gameday/stadium/buf/gameday.png",
+      "output": "public/images/gameday/stadium/buf/gameday.webp",
+      "width": 1672,
+      "height": 941,
+      "beforeBytes": 2716623,
+      "afterBytes": 351072
+    },
+    {
+      "source": "public/images/gameday/stadium/car/gameday.png",
+      "output": "public/images/gameday/stadium/car/gameday.webp",
+      "width": 1672,
+      "height": 941,
+      "beforeBytes": 2831147,
+      "afterBytes": 364990
+    },
+    {
+      "source": "public/images/gameday/stadium/chi/gameday.png",
+      "output": "public/images/gameday/stadium/chi/gameday.webp",
+      "width": 1672,
+      "height": 941,
+      "beforeBytes": 2848123,
+      "afterBytes": 398780
+    },
+    {
+      "source": "public/images/gameday/stadium/cin/gameday.png",
+      "output": "public/images/gameday/stadium/cin/gameday.webp",
+      "width": 1672,
+      "height": 941,
+      "beforeBytes": 2922049,
+      "afterBytes": 394030
+    },
+    {
+      "source": "public/images/gameday/stadium/cle/gameday.png",
+      "output": "public/images/gameday/stadium/cle/gameday.webp",
+      "width": 1672,
+      "height": 941,
+      "beforeBytes": 2818209,
+      "afterBytes": 378552
+    },
+    {
+      "source": "public/images/gameday/stadium/dal/gameday.png",
+      "output": "public/images/gameday/stadium/dal/gameday.webp",
+      "width": 1672,
+      "height": 941,
+      "beforeBytes": 3421194,
+      "afterBytes": 498072
+    },
+    {
+      "source": "public/images/gameday/stadium/den/gameday.png",
+      "output": "public/images/gameday/stadium/den/gameday.webp",
+      "width": 1672,
+      "height": 941,
+      "beforeBytes": 2828663,
+      "afterBytes": 383944
+    },
+    {
+      "source": "public/images/gameday/stadium/det/gameday.png",
+      "output": "public/images/gameday/stadium/det/gameday.webp",
+      "width": 1672,
+      "height": 941,
+      "beforeBytes": 3344287,
+      "afterBytes": 486128
+    },
+    {
+      "source": "public/images/gameday/stadium/gb/gameday.png",
+      "output": "public/images/gameday/stadium/gb/gameday.webp",
+      "width": 1672,
+      "height": 941,
+      "beforeBytes": 2821846,
+      "afterBytes": 393422
+    },
+    {
+      "source": "public/images/gameday/stadium/hou/gameday.png",
+      "output": "public/images/gameday/stadium/hou/gameday.webp",
+      "width": 1672,
+      "height": 941,
+      "beforeBytes": 3283833,
+      "afterBytes": 467438
+    },
+    {
+      "source": "public/images/gameday/stadium/ind/gameday.png",
+      "output": "public/images/gameday/stadium/ind/gameday.webp",
+      "width": 1672,
+      "height": 941,
+      "beforeBytes": 3146301,
+      "afterBytes": 434442
+    },
+    {
+      "source": "public/images/gameday/stadium/jax/gameday.png",
+      "output": "public/images/gameday/stadium/jax/gameday.webp",
+      "width": 1672,
+      "height": 941,
+      "beforeBytes": 2876131,
+      "afterBytes": 387072
+    },
+    {
+      "source": "public/images/gameday/stadium/kc/gameday.png",
+      "output": "public/images/gameday/stadium/kc/gameday.webp",
+      "width": 1672,
+      "height": 941,
+      "beforeBytes": 2902008,
+      "afterBytes": 370270
+    },
+    {
+      "source": "public/images/gameday/stadium/lac/gameday.png",
+      "output": "public/images/gameday/stadium/lac/gameday.webp",
+      "width": 1672,
+      "height": 941,
+      "beforeBytes": 3150178,
+      "afterBytes": 474562
+    },
+    {
+      "source": "public/images/gameday/stadium/lar/gameday.png",
+      "output": "public/images/gameday/stadium/lar/gameday.webp",
+      "width": 1672,
+      "height": 941,
+      "beforeBytes": 3164922,
+      "afterBytes": 477518
+    },
+    {
+      "source": "public/images/gameday/stadium/lv/gameday.png",
+      "output": "public/images/gameday/stadium/lv/gameday.webp",
+      "width": 1672,
+      "height": 941,
+      "beforeBytes": 3034919,
+      "afterBytes": 419538
+    },
+    {
+      "source": "public/images/gameday/stadium/mia/gameday.png",
+      "output": "public/images/gameday/stadium/mia/gameday.webp",
+      "width": 1671,
+      "height": 941,
+      "beforeBytes": 2975786,
+      "afterBytes": 419826
+    },
+    {
+      "source": "public/images/gameday/stadium/min/gameday.png",
+      "output": "public/images/gameday/stadium/min/gameday.webp",
+      "width": 1672,
+      "height": 941,
+      "beforeBytes": 3206468,
+      "afterBytes": 465590
+    },
+    {
+      "source": "public/images/gameday/stadium/ne/gameday.png",
+      "output": "public/images/gameday/stadium/ne/gameday.webp",
+      "width": 1672,
+      "height": 941,
+      "beforeBytes": 2914905,
+      "afterBytes": 409288
+    },
+    {
+      "source": "public/images/gameday/stadium/no/gameday.png",
+      "output": "public/images/gameday/stadium/no/gameday.webp",
+      "width": 1672,
+      "height": 941,
+      "beforeBytes": 2961915,
+      "afterBytes": 414314
+    },
+    {
+      "source": "public/images/gameday/stadium/nyg/gameday.png",
+      "output": "public/images/gameday/stadium/nyg/gameday.webp",
+      "width": 1672,
+      "height": 941,
+      "beforeBytes": 2932771,
+      "afterBytes": 422048
+    },
+    {
+      "source": "public/images/gameday/stadium/nyj/gameday.png",
+      "output": "public/images/gameday/stadium/nyj/gameday.webp",
+      "width": 1672,
+      "height": 941,
+      "beforeBytes": 2978995,
+      "afterBytes": 427222
+    },
+    {
+      "source": "public/images/gameday/stadium/phi/gameday.png",
+      "output": "public/images/gameday/stadium/phi/gameday.webp",
+      "width": 1672,
+      "height": 941,
+      "beforeBytes": 2948590,
+      "afterBytes": 408732
+    },
+    {
+      "source": "public/images/gameday/stadium/pit/gameday.png",
+      "output": "public/images/gameday/stadium/pit/gameday.webp",
+      "width": 1672,
+      "height": 941,
+      "beforeBytes": 2878665,
+      "afterBytes": 414332
+    },
+    {
+      "source": "public/images/gameday/stadium/sea/gameday.png",
+      "output": "public/images/gameday/stadium/sea/gameday.webp",
+      "width": 1672,
+      "height": 941,
+      "beforeBytes": 2962495,
+      "afterBytes": 428152
+    },
+    {
+      "source": "public/images/gameday/stadium/san/gameday.png",
+      "output": "public/images/gameday/stadium/san/gameday.webp",
+      "width": 1672,
+      "height": 941,
+      "beforeBytes": 2864532,
+      "afterBytes": 397792
+    },
+    {
+      "source": "public/images/gameday/stadium/tb/gameday.png",
+      "output": "public/images/gameday/stadium/tb/gameday.webp",
+      "width": 1672,
+      "height": 941,
+      "beforeBytes": 2890154,
+      "afterBytes": 405720
+    },
+    {
+      "source": "public/images/gameday/stadium/ten/gameday.png",
+      "output": "public/images/gameday/stadium/ten/gameday.webp",
+      "width": 1672,
+      "height": 941,
+      "beforeBytes": 2907303,
+      "afterBytes": 418842
+    },
+    {
+      "source": "public/images/gameday/stadium/was/gameday.png",
+      "output": "public/images/gameday/stadium/was/gameday.webp",
+      "width": 1672,
+      "height": 941,
+      "beforeBytes": 2865590,
+      "afterBytes": 412384
+    }
+  ],
+  "beforeBytes": 95694767,
+  "afterBytes": 13452318
+}

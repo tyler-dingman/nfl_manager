@@ -1,0 +1,1701 @@
+{
+  "scope": "Static textual SQL/config references including preserved rollback branches. hasD1Branch is a hint, not whole-file qualification. No database connection performed.",
+  "files": [
+    {
+      "file": "src/app/api/admin/observer/route.ts",
+      "sites": [
+        {
+          "line": 23,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": false
+    },
+    {
+      "file": "src/app/api/automation/three-and-out/route.ts",
+      "sites": [
+        {
+          "line": 33,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": false
+    },
+    {
+      "file": "src/app/api/crew/media/[mediaId]/route.ts",
+      "sites": [
+        {
+          "line": 13,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": false
+    },
+    {
+      "file": "src/app/api/front-office/recovery/route.ts",
+      "sites": [
+        {
+          "line": 18,
+          "kind": "authDb"
+        },
+        {
+          "line": 37,
+          "kind": "authDb"
+        },
+        {
+          "line": 62,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": false
+    },
+    {
+      "file": "src/app/api/parlay-lab/freshness/route.ts",
+      "sites": [
+        {
+          "line": 12,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": true
+    },
+    {
+      "file": "src/app/api/parlay-lab/movement/route.ts",
+      "sites": [
+        {
+          "line": 16,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": true
+    },
+    {
+      "file": "src/app/api/parlay-lab/my-plays/grade/route.ts",
+      "sites": [
+        {
+          "line": 36,
+          "kind": "authDb"
+        },
+        {
+          "line": 54,
+          "kind": "authDb"
+        },
+        {
+          "line": 73,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": true
+    },
+    {
+      "file": "src/app/api/saves/route.ts",
+      "sites": [
+        {
+          "line": 10,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": false
+    },
+    {
+      "file": "src/app/api/three-and-out/preferences/route.ts",
+      "sites": [
+        {
+          "line": 42,
+          "kind": "authDb"
+        },
+        {
+          "line": 75,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": true
+    },
+    {
+      "file": "src/server/auth/config.ts",
+      "sites": [
+        {
+          "line": 14,
+          "kind": "DATABASE_URL"
+        },
+        {
+          "line": 37,
+          "kind": "DATABASE_URL"
+        },
+        {
+          "line": 76,
+          "kind": "DATABASE_URL"
+        },
+        {
+          "line": 79,
+          "kind": "DATABASE_URL"
+        },
+        {
+          "line": 84,
+          "kind": "DATABASE_URL"
+        },
+        {
+          "line": 86,
+          "kind": "DATABASE_URL"
+        }
+      ],
+      "hasD1Branch": true
+    },
+    {
+      "file": "src/server/auth/database.ts",
+      "sites": [
+        {
+          "line": 8,
+          "kind": "authDb"
+        },
+        {
+          "line": 14,
+          "kind": "DATABASE_URL"
+        },
+        {
+          "line": 15,
+          "kind": "DATABASE_URL"
+        },
+        {
+          "line": 19,
+          "kind": "DATABASE_URL"
+        },
+        {
+          "line": 32,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": true
+    },
+    {
+      "file": "src/server/auth/postgres-repository.ts",
+      "sites": [
+        {
+          "line": 33,
+          "kind": "authDb"
+        },
+        {
+          "line": 40,
+          "kind": "authDb"
+        },
+        {
+          "line": 48,
+          "kind": "authDb"
+        },
+        {
+          "line": 60,
+          "kind": "authDb"
+        },
+        {
+          "line": 78,
+          "kind": "authDb"
+        },
+        {
+          "line": 86,
+          "kind": "authDb"
+        },
+        {
+          "line": 87,
+          "kind": "authDb"
+        },
+        {
+          "line": 91,
+          "kind": "authDb"
+        },
+        {
+          "line": 97,
+          "kind": "authDb"
+        },
+        {
+          "line": 152,
+          "kind": "authDb"
+        },
+        {
+          "line": 175,
+          "kind": "authDb"
+        },
+        {
+          "line": 179,
+          "kind": "authDb"
+        },
+        {
+          "line": 196,
+          "kind": "authDb"
+        },
+        {
+          "line": 216,
+          "kind": "authDb"
+        },
+        {
+          "line": 230,
+          "kind": "authDb"
+        },
+        {
+          "line": 242,
+          "kind": "authDb"
+        },
+        {
+          "line": 269,
+          "kind": "authDb"
+        },
+        {
+          "line": 273,
+          "kind": "authDb"
+        },
+        {
+          "line": 277,
+          "kind": "authDb"
+        },
+        {
+          "line": 281,
+          "kind": "authDb"
+        },
+        {
+          "line": 298,
+          "kind": "authDb"
+        },
+        {
+          "line": 317,
+          "kind": "authDb"
+        },
+        {
+          "line": 318,
+          "kind": "authDb"
+        },
+        {
+          "line": 326,
+          "kind": "authDb"
+        },
+        {
+          "line": 333,
+          "kind": "authDb"
+        },
+        {
+          "line": 334,
+          "kind": "authDb"
+        },
+        {
+          "line": 338,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": false
+    },
+    {
+      "file": "src/server/commerce/admin.ts",
+      "sites": [
+        {
+          "line": 7,
+          "kind": "authDb"
+        },
+        {
+          "line": 53,
+          "kind": "authDb"
+        },
+        {
+          "line": 67,
+          "kind": "authDb"
+        },
+        {
+          "line": 88,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": false
+    },
+    {
+      "file": "src/server/commerce/catalog.ts",
+      "sites": [
+        {
+          "line": 14,
+          "kind": "authDb"
+        },
+        {
+          "line": 46,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": false
+    },
+    {
+      "file": "src/server/commerce/orders.ts",
+      "sites": [
+        {
+          "line": 31,
+          "kind": "authDb"
+        },
+        {
+          "line": 58,
+          "kind": "authDb"
+        },
+        {
+          "line": 91,
+          "kind": "authDb"
+        },
+        {
+          "line": 171,
+          "kind": "authDb"
+        },
+        {
+          "line": 281,
+          "kind": "authDb"
+        },
+        {
+          "line": 318,
+          "kind": "authDb"
+        },
+        {
+          "line": 337,
+          "kind": "authDb"
+        },
+        {
+          "line": 346,
+          "kind": "authDb"
+        },
+        {
+          "line": 370,
+          "kind": "authDb"
+        },
+        {
+          "line": 378,
+          "kind": "authDb"
+        },
+        {
+          "line": 393,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": false
+    },
+    {
+      "file": "src/server/commerce/stripe.ts",
+      "sites": [
+        {
+          "line": 134,
+          "kind": "authDb"
+        },
+        {
+          "line": 210,
+          "kind": "authDb"
+        },
+        {
+          "line": 308,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": false
+    },
+    {
+      "file": "src/server/content/content-health.ts",
+      "sites": [
+        {
+          "line": 32,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": false
+    },
+    {
+      "file": "src/server/content-automation/global-repository.ts",
+      "sites": [
+        {
+          "line": 6,
+          "kind": "authDb"
+        },
+        {
+          "line": 21,
+          "kind": "authDb"
+        },
+        {
+          "line": 31,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": false
+    },
+    {
+      "file": "src/server/content-automation/repository.ts",
+      "sites": [
+        {
+          "line": 8,
+          "kind": "authDb"
+        },
+        {
+          "line": 21,
+          "kind": "authDb"
+        },
+        {
+          "line": 29,
+          "kind": "authDb"
+        },
+        {
+          "line": 51,
+          "kind": "authDb"
+        },
+        {
+          "line": 53,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": false
+    },
+    {
+      "file": "src/server/crew/repository.ts",
+      "sites": [
+        {
+          "line": 24,
+          "kind": "authDb"
+        },
+        {
+          "line": 77,
+          "kind": "authDb"
+        },
+        {
+          "line": 97,
+          "kind": "authDb"
+        },
+        {
+          "line": 165,
+          "kind": "authDb"
+        },
+        {
+          "line": 174,
+          "kind": "authDb"
+        },
+        {
+          "line": 213,
+          "kind": "authDb"
+        },
+        {
+          "line": 264,
+          "kind": "authDb"
+        },
+        {
+          "line": 284,
+          "kind": "authDb"
+        },
+        {
+          "line": 295,
+          "kind": "authDb"
+        },
+        {
+          "line": 299,
+          "kind": "authDb"
+        },
+        {
+          "line": 304,
+          "kind": "authDb"
+        },
+        {
+          "line": 311,
+          "kind": "authDb"
+        },
+        {
+          "line": 321,
+          "kind": "authDb"
+        },
+        {
+          "line": 330,
+          "kind": "authDb"
+        },
+        {
+          "line": 335,
+          "kind": "authDb"
+        },
+        {
+          "line": 343,
+          "kind": "authDb"
+        },
+        {
+          "line": 350,
+          "kind": "authDb"
+        },
+        {
+          "line": 358,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": false
+    },
+    {
+      "file": "src/server/fan-pulse/repository.ts",
+      "sites": [
+        {
+          "line": 13,
+          "kind": "authDb"
+        },
+        {
+          "line": 44,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": false
+    },
+    {
+      "file": "src/server/film-room/discovered.ts",
+      "sites": [
+        {
+          "line": 73,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": true
+    },
+    {
+      "file": "src/server/film-room/video-source-sync.ts",
+      "sites": [
+        {
+          "line": 511,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": false
+    },
+    {
+      "file": "src/server/front-office/durable-route.ts",
+      "sites": [
+        {
+          "line": 146,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": true
+    },
+    {
+      "file": "src/server/front-office/events-repository-postgres.ts",
+      "sites": [
+        {
+          "line": 58,
+          "kind": "authDb"
+        },
+        {
+          "line": 111,
+          "kind": "authDb"
+        },
+        {
+          "line": 142,
+          "kind": "authDb"
+        },
+        {
+          "line": 152,
+          "kind": "authDb"
+        },
+        {
+          "line": 160,
+          "kind": "authDb"
+        },
+        {
+          "line": 169,
+          "kind": "authDb"
+        },
+        {
+          "line": 181,
+          "kind": "authDb"
+        },
+        {
+          "line": 208,
+          "kind": "authDb"
+        },
+        {
+          "line": 222,
+          "kind": "authDb"
+        },
+        {
+          "line": 236,
+          "kind": "authDb"
+        },
+        {
+          "line": 256,
+          "kind": "authDb"
+        },
+        {
+          "line": 265,
+          "kind": "authDb"
+        },
+        {
+          "line": 278,
+          "kind": "authDb"
+        },
+        {
+          "line": 289,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": false
+    },
+    {
+      "file": "src/server/front-office/hero-story.ts",
+      "sites": [
+        {
+          "line": 94,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": true
+    },
+    {
+      "file": "src/server/front-office/repository.ts",
+      "sites": [
+        {
+          "line": 49,
+          "kind": "authDb"
+        },
+        {
+          "line": 63,
+          "kind": "authDb"
+        },
+        {
+          "line": 93,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": true
+    },
+    {
+      "file": "src/server/game-day/repository.ts",
+      "sites": [
+        {
+          "line": 41,
+          "kind": "authDb"
+        },
+        {
+          "line": 50,
+          "kind": "authDb"
+        },
+        {
+          "line": 54,
+          "kind": "authDb"
+        },
+        {
+          "line": 56,
+          "kind": "authDb"
+        },
+        {
+          "line": 69,
+          "kind": "authDb"
+        },
+        {
+          "line": 80,
+          "kind": "authDb"
+        },
+        {
+          "line": 134,
+          "kind": "authDb"
+        },
+        {
+          "line": 139,
+          "kind": "authDb"
+        },
+        {
+          "line": 152,
+          "kind": "authDb"
+        },
+        {
+          "line": 156,
+          "kind": "authDb"
+        },
+        {
+          "line": 175,
+          "kind": "authDb"
+        },
+        {
+          "line": 179,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": false
+    },
+    {
+      "file": "src/server/historical-stats/importer.ts",
+      "sites": [
+        {
+          "line": 138,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": false
+    },
+    {
+      "file": "src/server/historical-stats/repository.ts",
+      "sites": [
+        {
+          "line": 17,
+          "kind": "authDb"
+        },
+        {
+          "line": 53,
+          "kind": "authDb"
+        },
+        {
+          "line": 70,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": true
+    },
+    {
+      "file": "src/server/historical-stats/role-repository.ts",
+      "sites": [
+        {
+          "line": 21,
+          "kind": "authDb"
+        },
+        {
+          "line": 51,
+          "kind": "authDb"
+        },
+        {
+          "line": 65,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": true
+    },
+    {
+      "file": "src/server/historical-stats/team-matchup-service.ts",
+      "sites": [
+        {
+          "line": 10,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": false
+    },
+    {
+      "file": "src/server/historical-stats/team-season-strength-service.ts",
+      "sites": [
+        {
+          "line": 4,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": false
+    },
+    {
+      "file": "src/server/huddle/repository.ts",
+      "sites": [
+        {
+          "line": 19,
+          "kind": "authDb"
+        },
+        {
+          "line": 48,
+          "kind": "authDb"
+        },
+        {
+          "line": 53,
+          "kind": "authDb"
+        },
+        {
+          "line": 79,
+          "kind": "authDb"
+        },
+        {
+          "line": 136,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": false
+    },
+    {
+      "file": "src/server/monitoring/observer.ts",
+      "sites": [
+        {
+          "line": 18,
+          "kind": "authDb"
+        },
+        {
+          "line": 51,
+          "kind": "authDb"
+        },
+        {
+          "line": 56,
+          "kind": "authDb"
+        },
+        {
+          "line": 136,
+          "kind": "authDb"
+        },
+        {
+          "line": 140,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": false
+    },
+    {
+      "file": "src/server/notifications/repository-postgres.ts",
+      "sites": [
+        {
+          "line": 16,
+          "kind": "authDb"
+        },
+        {
+          "line": 25,
+          "kind": "authDb"
+        },
+        {
+          "line": 41,
+          "kind": "authDb"
+        },
+        {
+          "line": 50,
+          "kind": "authDb"
+        },
+        {
+          "line": 65,
+          "kind": "authDb"
+        },
+        {
+          "line": 69,
+          "kind": "authDb"
+        },
+        {
+          "line": 77,
+          "kind": "authDb"
+        },
+        {
+          "line": 87,
+          "kind": "authDb"
+        },
+        {
+          "line": 105,
+          "kind": "authDb"
+        },
+        {
+          "line": 126,
+          "kind": "authDb"
+        },
+        {
+          "line": 136,
+          "kind": "authDb"
+        },
+        {
+          "line": 145,
+          "kind": "authDb"
+        },
+        {
+          "line": 149,
+          "kind": "authDb"
+        },
+        {
+          "line": 162,
+          "kind": "authDb"
+        },
+        {
+          "line": 172,
+          "kind": "authDb"
+        },
+        {
+          "line": 201,
+          "kind": "authDb"
+        },
+        {
+          "line": 238,
+          "kind": "authDb"
+        },
+        {
+          "line": 247,
+          "kind": "authDb"
+        },
+        {
+          "line": 252,
+          "kind": "authDb"
+        },
+        {
+          "line": 256,
+          "kind": "authDb"
+        },
+        {
+          "line": 260,
+          "kind": "authDb"
+        },
+        {
+          "line": 284,
+          "kind": "authDb"
+        },
+        {
+          "line": 285,
+          "kind": "authDb"
+        },
+        {
+          "line": 306,
+          "kind": "authDb"
+        },
+        {
+          "line": 310,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": false
+    },
+    {
+      "file": "src/server/notifications/web-push-repository.ts",
+      "sites": [
+        {
+          "line": 8,
+          "kind": "authDb"
+        },
+        {
+          "line": 25,
+          "kind": "authDb"
+        },
+        {
+          "line": 29,
+          "kind": "authDb"
+        },
+        {
+          "line": 34,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": false
+    },
+    {
+      "file": "src/server/odds/repository.ts",
+      "sites": [
+        {
+          "line": 26,
+          "kind": "authDb"
+        },
+        {
+          "line": 42,
+          "kind": "authDb"
+        },
+        {
+          "line": 85,
+          "kind": "authDb"
+        },
+        {
+          "line": 92,
+          "kind": "authDb"
+        },
+        {
+          "line": 96,
+          "kind": "authDb"
+        },
+        {
+          "line": 101,
+          "kind": "authDb"
+        },
+        {
+          "line": 109,
+          "kind": "authDb"
+        },
+        {
+          "line": 114,
+          "kind": "authDb"
+        },
+        {
+          "line": 129,
+          "kind": "authDb"
+        },
+        {
+          "line": 167,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": true
+    },
+    {
+      "file": "src/server/providers/unabated/transfer-proposals.ts",
+      "sites": [
+        {
+          "line": 99,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": false
+    },
+    {
+      "file": "src/server/providers/unabated/transfer-service.ts",
+      "sites": [
+        {
+          "line": 74,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": false
+    },
+    {
+      "file": "src/server/rewards/repository.ts",
+      "sites": [
+        {
+          "line": 92,
+          "kind": "authDb"
+        },
+        {
+          "line": 97,
+          "kind": "authDb"
+        },
+        {
+          "line": 154,
+          "kind": "authDb"
+        },
+        {
+          "line": 185,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": true
+    },
+    {
+      "file": "src/server/schedule/diagnostics.ts",
+      "sites": [
+        {
+          "line": 6,
+          "kind": "DATABASE_URL"
+        }
+      ],
+      "hasD1Branch": false
+    },
+    {
+      "file": "src/server/schedule/enrich.ts",
+      "sites": [
+        {
+          "line": 9,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": false
+    },
+    {
+      "file": "src/server/schedule/ingest.ts",
+      "sites": [
+        {
+          "line": 82,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": false
+    },
+    {
+      "file": "src/server/schedule/repository.ts",
+      "sites": [
+        {
+          "line": 10,
+          "kind": "authDb"
+        },
+        {
+          "line": 57,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": true
+    },
+    {
+      "file": "src/server/search/answer-data.ts",
+      "sites": [
+        {
+          "line": 218,
+          "kind": "authDb"
+        },
+        {
+          "line": 267,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": false
+    },
+    {
+      "file": "src/server/search/database.ts",
+      "sites": [
+        {
+          "line": 9,
+          "kind": "DATABASE_URL"
+        },
+        {
+          "line": 10,
+          "kind": "DATABASE_URL"
+        }
+      ],
+      "hasD1Branch": true
+    },
+    {
+      "file": "src/server/search/stored-betting.ts",
+      "sites": [
+        {
+          "line": 22,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": false
+    },
+    {
+      "file": "src/server/security/audit.ts",
+      "sites": [
+        {
+          "line": 52,
+          "kind": "authDb"
+        },
+        {
+          "line": 54,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": true
+    },
+    {
+      "file": "src/server/story-engine/projections.ts",
+      "sites": [
+        {
+          "line": 42,
+          "kind": "authDb"
+        },
+        {
+          "line": 108,
+          "kind": "authDb"
+        },
+        {
+          "line": 210,
+          "kind": "authDb"
+        },
+        {
+          "line": 272,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": true
+    },
+    {
+      "file": "src/server/story-engine/repository.ts",
+      "sites": [
+        {
+          "line": 74,
+          "kind": "authDb"
+        },
+        {
+          "line": 75,
+          "kind": "authDb"
+        },
+        {
+          "line": 79,
+          "kind": "authDb"
+        },
+        {
+          "line": 88,
+          "kind": "authDb"
+        },
+        {
+          "line": 92,
+          "kind": "authDb"
+        },
+        {
+          "line": 141,
+          "kind": "authDb"
+        },
+        {
+          "line": 144,
+          "kind": "authDb"
+        },
+        {
+          "line": 154,
+          "kind": "authDb"
+        },
+        {
+          "line": 162,
+          "kind": "authDb"
+        },
+        {
+          "line": 167,
+          "kind": "authDb"
+        },
+        {
+          "line": 174,
+          "kind": "authDb"
+        },
+        {
+          "line": 198,
+          "kind": "authDb"
+        },
+        {
+          "line": 212,
+          "kind": "authDb"
+        },
+        {
+          "line": 218,
+          "kind": "authDb"
+        },
+        {
+          "line": 222,
+          "kind": "authDb"
+        },
+        {
+          "line": 232,
+          "kind": "authDb"
+        },
+        {
+          "line": 262,
+          "kind": "authDb"
+        },
+        {
+          "line": 273,
+          "kind": "authDb"
+        },
+        {
+          "line": 397,
+          "kind": "authDb"
+        },
+        {
+          "line": 413,
+          "kind": "authDb"
+        },
+        {
+          "line": 470,
+          "kind": "authDb"
+        },
+        {
+          "line": 515,
+          "kind": "authDb"
+        },
+        {
+          "line": 518,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": false
+    },
+    {
+      "file": "src/server/three-and-out/daily-service.ts",
+      "sites": [
+        {
+          "line": 152,
+          "kind": "authDb"
+        },
+        {
+          "line": 158,
+          "kind": "authDb"
+        },
+        {
+          "line": 169,
+          "kind": "authDb"
+        },
+        {
+          "line": 210,
+          "kind": "authDb"
+        },
+        {
+          "line": 265,
+          "kind": "authDb"
+        },
+        {
+          "line": 268,
+          "kind": "authDb"
+        },
+        {
+          "line": 269,
+          "kind": "authDb"
+        },
+        {
+          "line": 308,
+          "kind": "authDb"
+        },
+        {
+          "line": 327,
+          "kind": "authDb"
+        },
+        {
+          "line": 330,
+          "kind": "authDb"
+        },
+        {
+          "line": 367,
+          "kind": "authDb"
+        },
+        {
+          "line": 372,
+          "kind": "authDb"
+        },
+        {
+          "line": 400,
+          "kind": "authDb"
+        },
+        {
+          "line": 405,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": true
+    },
+    {
+      "file": "src/server/three-and-out/schema.ts",
+      "sites": [
+        {
+          "line": 55,
+          "kind": "DATABASE_URL"
+        }
+      ],
+      "hasD1Branch": false
+    },
+    {
+      "file": "src/server/trivia/event-repository.ts",
+      "sites": [
+        {
+          "line": 13,
+          "kind": "authDb"
+        },
+        {
+          "line": 33,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": false
+    },
+    {
+      "file": "src/server/trivia/game-repository.ts",
+      "sites": [
+        {
+          "line": 14,
+          "kind": "authDb"
+        },
+        {
+          "line": 31,
+          "kind": "authDb"
+        },
+        {
+          "line": 34,
+          "kind": "authDb"
+        },
+        {
+          "line": 113,
+          "kind": "authDb"
+        },
+        {
+          "line": 241,
+          "kind": "authDb"
+        },
+        {
+          "line": 249,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": false
+    },
+    {
+      "file": "src/server/trivia/guest.ts",
+      "sites": [
+        {
+          "line": 26,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": false
+    },
+    {
+      "file": "src/server/trivia/question-pool.ts",
+      "sites": [
+        {
+          "line": 12,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": false
+    },
+    {
+      "file": "src/server/trivia/repository-postgres.ts",
+      "sites": [
+        {
+          "line": 10,
+          "kind": "authDb"
+        },
+        {
+          "line": 20,
+          "kind": "authDb"
+        },
+        {
+          "line": 37,
+          "kind": "authDb"
+        },
+        {
+          "line": 45,
+          "kind": "authDb"
+        },
+        {
+          "line": 52,
+          "kind": "authDb"
+        },
+        {
+          "line": 55,
+          "kind": "authDb"
+        },
+        {
+          "line": 75,
+          "kind": "authDb"
+        },
+        {
+          "line": 109,
+          "kind": "authDb"
+        },
+        {
+          "line": 116,
+          "kind": "authDb"
+        },
+        {
+          "line": 130,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": false
+    },
+    {
+      "file": "src/server/trivia/social-repository.ts",
+      "sites": [
+        {
+          "line": 13,
+          "kind": "authDb"
+        },
+        {
+          "line": 28,
+          "kind": "authDb"
+        },
+        {
+          "line": 31,
+          "kind": "authDb"
+        },
+        {
+          "line": 35,
+          "kind": "authDb"
+        },
+        {
+          "line": 39,
+          "kind": "authDb"
+        },
+        {
+          "line": 46,
+          "kind": "authDb"
+        },
+        {
+          "line": 56,
+          "kind": "authDb"
+        },
+        {
+          "line": 57,
+          "kind": "authDb"
+        },
+        {
+          "line": 61,
+          "kind": "authDb"
+        },
+        {
+          "line": 63,
+          "kind": "authDb"
+        },
+        {
+          "line": 67,
+          "kind": "authDb"
+        },
+        {
+          "line": 78,
+          "kind": "authDb"
+        },
+        {
+          "line": 82,
+          "kind": "authDb"
+        },
+        {
+          "line": 97,
+          "kind": "authDb"
+        },
+        {
+          "line": 128,
+          "kind": "authDb"
+        },
+        {
+          "line": 132,
+          "kind": "authDb"
+        },
+        {
+          "line": 133,
+          "kind": "authDb"
+        },
+        {
+          "line": 137,
+          "kind": "authDb"
+        },
+        {
+          "line": 138,
+          "kind": "authDb"
+        },
+        {
+          "line": 143,
+          "kind": "authDb"
+        },
+        {
+          "line": 149,
+          "kind": "authDb"
+        },
+        {
+          "line": 154,
+          "kind": "authDb"
+        },
+        {
+          "line": 160,
+          "kind": "authDb"
+        },
+        {
+          "line": 165,
+          "kind": "authDb"
+        },
+        {
+          "line": 182,
+          "kind": "authDb"
+        },
+        {
+          "line": 186,
+          "kind": "authDb"
+        },
+        {
+          "line": 191,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": false
+    },
+    {
+      "file": "src/server/user/account-repository.ts",
+      "sites": [
+        {
+          "line": 16,
+          "kind": "authDb"
+        },
+        {
+          "line": 31,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": true
+    },
+    {
+      "file": "src/server/user/content-repository-postgres.ts",
+      "sites": [
+        {
+          "line": 23,
+          "kind": "authDb"
+        },
+        {
+          "line": 41,
+          "kind": "authDb"
+        },
+        {
+          "line": 60,
+          "kind": "authDb"
+        },
+        {
+          "line": 78,
+          "kind": "authDb"
+        },
+        {
+          "line": 80,
+          "kind": "authDb"
+        },
+        {
+          "line": 87,
+          "kind": "authDb"
+        },
+        {
+          "line": 91,
+          "kind": "authDb"
+        },
+        {
+          "line": 98,
+          "kind": "authDb"
+        },
+        {
+          "line": 124,
+          "kind": "authDb"
+        },
+        {
+          "line": 186,
+          "kind": "authDb"
+        },
+        {
+          "line": 190,
+          "kind": "authDb"
+        },
+        {
+          "line": 201,
+          "kind": "authDb"
+        },
+        {
+          "line": 207,
+          "kind": "authDb"
+        },
+        {
+          "line": 228,
+          "kind": "authDb"
+        },
+        {
+          "line": 247,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": false
+    },
+    {
+      "file": "src/server/user/repository-postgres.ts",
+      "sites": [
+        {
+          "line": 6,
+          "kind": "authDb"
+        },
+        {
+          "line": 7,
+          "kind": "authDb"
+        },
+        {
+          "line": 11,
+          "kind": "authDb"
+        },
+        {
+          "line": 28,
+          "kind": "authDb"
+        },
+        {
+          "line": 37,
+          "kind": "authDb"
+        },
+        {
+          "line": 44,
+          "kind": "authDb"
+        },
+        {
+          "line": 52,
+          "kind": "authDb"
+        },
+        {
+          "line": 54,
+          "kind": "authDb"
+        },
+        {
+          "line": 59,
+          "kind": "authDb"
+        },
+        {
+          "line": 67,
+          "kind": "authDb"
+        },
+        {
+          "line": 68,
+          "kind": "authDb"
+        },
+        {
+          "line": 76,
+          "kind": "authDb"
+        },
+        {
+          "line": 81,
+          "kind": "authDb"
+        },
+        {
+          "line": 82,
+          "kind": "authDb"
+        },
+        {
+          "line": 86,
+          "kind": "authDb"
+        }
+      ],
+      "hasD1Branch": false
+    }
+  ]
+}

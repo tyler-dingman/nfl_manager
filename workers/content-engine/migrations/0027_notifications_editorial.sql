@@ -1,0 +1,18 @@
+ALTER TABLE app_devices ADD COLUMN platform TEXT;
+ALTER TABLE app_devices ADD COLUMN app_version TEXT;
+ALTER TABLE app_devices ADD COLUMN os_version TEXT;
+ALTER TABLE app_devices ADD COLUMN installation_id TEXT;
+ALTER TABLE app_devices ADD COLUMN disabled_at INTEGER;
+CREATE UNIQUE INDEX app_device_installation ON app_devices(user_id,installation_id) WHERE installation_id IS NOT NULL;
+CREATE TABLE app_push_tokens(id TEXT PRIMARY KEY,user_id TEXT NOT NULL REFERENCES app_users(id),device_id TEXT NOT NULL REFERENCES app_devices(id),provider TEXT NOT NULL,token_hash TEXT NOT NULL,token_ciphertext TEXT NOT NULL,created_at INTEGER NOT NULL,last_validated_at INTEGER,invalidated_at INTEGER,UNIQUE(user_id,device_id,provider,token_hash));
+CREATE INDEX app_push_owner ON app_push_tokens(user_id,invalidated_at);
+CREATE TABLE app_notification_preferences(id TEXT PRIMARY KEY,user_id TEXT NOT NULL REFERENCES app_users(id),topic_type TEXT,topic_id TEXT,category TEXT NOT NULL,channel TEXT NOT NULL,enabled INTEGER NOT NULL,minimum_priority TEXT NOT NULL DEFAULT 'NORMAL',delivery_time TEXT,delivery_timezone TEXT,created_at INTEGER NOT NULL,UNIQUE(user_id,topic_type,topic_id,category,channel));
+CREATE INDEX app_notification_preference_owner ON app_notification_preferences(user_id,created_at DESC);
+CREATE TABLE app_phone_numbers(id TEXT PRIMARY KEY,user_id TEXT NOT NULL REFERENCES app_users(id),phone_number TEXT NOT NULL,is_verified INTEGER NOT NULL DEFAULT 0,verified_at INTEGER,removed_at INTEGER,UNIQUE(user_id,phone_number));
+CREATE TABLE app_consents(id TEXT PRIMARY KEY,user_id TEXT NOT NULL REFERENCES app_users(id),channel TEXT NOT NULL,consent_type TEXT NOT NULL,policy_version TEXT NOT NULL,granted_at INTEGER NOT NULL,revoked_at INTEGER,source TEXT NOT NULL,metadata_hash TEXT);
+CREATE INDEX app_consent_owner ON app_consents(user_id,granted_at DESC);
+CREATE TABLE app_notifications(id TEXT PRIMARY KEY,user_id TEXT NOT NULL REFERENCES app_users(id),dedupe_key TEXT,team_abbr TEXT,object_hash TEXT NOT NULL,created_at INTEGER NOT NULL,read_at INTEGER,seen_at INTEGER,dismissed_at INTEGER,expires_at INTEGER,delivery_state TEXT NOT NULL,push_sent_at INTEGER,UNIQUE(user_id,dedupe_key));
+CREATE INDEX app_notification_inbox ON app_notifications(user_id,created_at DESC,id) WHERE dismissed_at IS NULL;
+CREATE TABLE app_notification_deliveries(id TEXT PRIMARY KEY,notification_id TEXT NOT NULL REFERENCES app_notifications(id),channel TEXT NOT NULL,device_id TEXT REFERENCES app_devices(id),provider TEXT NOT NULL,state TEXT NOT NULL,attempted_at INTEGER NOT NULL,delivered_at INTEGER,failed_at INTEGER,failure_code TEXT);
+CREATE TABLE app_editorial_overrides(id TEXT PRIMARY KEY,team_id TEXT NOT NULL,story_id TEXT NOT NULL,user_id TEXT NOT NULL REFERENCES app_users(id),object_hash TEXT NOT NULL,created_at INTEGER NOT NULL);
+CREATE INDEX app_editorial_overrides_team ON app_editorial_overrides(team_id,created_at,id);
