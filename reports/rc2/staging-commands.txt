@@ -1,0 +1,44 @@
+# REMOTE ACTIONS REQUIRE SEPARATE EXPLICIT APPROVAL; do not execute this output now.
+# First confirm account is Workers Free, no billing upgrade, ten free slots/headroom.
+npx wrangler d1 create dd-rc2-staging-1
+npx wrangler d1 create dd-rc2-staging-2
+npx wrangler d1 create dd-rc2-staging-3
+npx wrangler d1 create dd-rc2-staging-4
+npx wrangler d1 create dd-rc2-staging-5
+npx wrangler d1 create dd-rc2-staging-6
+npx wrangler d1 create dd-rc2-staging-7
+npx wrangler d1 create dd-rc2-staging-8
+npx wrangler d1 create dd-rc2-staging-9
+npx wrangler d1 create dd-rc2-staging-10
+# Record returned staging IDs in all four binding configurations; reject placeholders.
+npx wrangler d1 migrations apply D1_TEAM_1 --remote --config config/rc2.api.toml
+npx wrangler d1 migrations apply D1_TEAM_2 --remote --config config/rc2.api.toml
+npx wrangler d1 migrations apply D1_TEAM_3 --remote --config config/rc2.api.toml
+npx wrangler d1 migrations apply D1_TEAM_4 --remote --config config/rc2.api.toml
+npx wrangler d1 migrations apply D1_TEAM_5 --remote --config config/rc2.api.toml
+npx wrangler d1 migrations apply D1_TEAM_6 --remote --config config/rc2.api.toml
+npx wrangler d1 migrations apply D1_TEAM_7 --remote --config config/rc2.api.toml
+npx wrangler d1 migrations apply D1_TEAM_8 --remote --config config/rc2.api.toml
+npx wrangler d1 migrations apply D1_USERS --remote --config config/rc2.api.toml
+npx wrangler d1 migrations apply D1_SHARED --remote --config config/rc2.api.toml
+# Configure approved staging hostname + mTLS, install individual tester certs; record SHA256 allowlist.
+# Set AUTH_BASE_URL to that HTTPS hostname in API/Web configurations.
+npx wrangler secret put AUTH_JWT_SECRET --config config/rc2.api.toml
+npx wrangler secret put APP_MAIL_ENCRYPTION_KEY --config config/rc2.api.toml
+npx wrangler secret put CONTENT_AUTOMATION_SECRET --config config/rc2.api.toml
+npx wrangler secret put APP_MAIL_JOB_SECRET --config config/rc2.api.toml
+npx wrangler secret put AUTH_JWT_SECRET --config config/rc2.web.toml
+npx wrangler secret put CONTENT_AUTOMATION_SECRET --config config/rc2.application.toml
+npx wrangler secret put APP_MAIL_JOB_SECRET --config config/rc2.application.toml
+# Revalidate configuration and build. Keep every cron/ingestion/delivery flag disabled.
+npx wrangler deploy --config config/rc2.password.toml
+npx wrangler deploy --config config/rc2.api.toml
+npx wrangler deploy --config config/rc2.odds-processor.toml
+npx wrangler deploy --config config/rc2.application.toml
+npx wrangler deploy --config config/rc2.web.toml
+# mTLS client is also required for health/API checks; never place the key in public assets.
+# curl --cert /secure/tester.pem --key /secure/tester.key https://APPROVED_HOST/api/auth/config
+# Anonymous and spoofed-certificate-header requests MUST return 403, including /_next assets.
+# Emergency: remove web route/deny all certificate fingerprints; keep service workers private.
+# Code rollback: wrangler versions list --config CONFIG; wrangler rollback VERSION --config CONFIG.
+# Stop ingress and every writer first; do not roll back schemas or replace D1 data in place.

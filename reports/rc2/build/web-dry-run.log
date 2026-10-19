@@ -1,0 +1,33 @@
+
+ ⛅️ wrangler 4.151.1
+────────────────────
+✨ Read 1808 files from the assets directory /private/tmp/down-distance-rc2/.open-next/assets
+Total Upload: 12173.54 KiB / gzip: 2333.44 KiB
+Your Worker has access to the following bindings:
+Binding                                                                               Resource
+env.D1_TEAM_1 (dd-rc2-staging-1)                                                      D1 Database
+env.D1_TEAM_2 (dd-rc2-staging-2)                                                      D1 Database
+env.D1_TEAM_3 (dd-rc2-staging-3)                                                      D1 Database
+env.D1_TEAM_4 (dd-rc2-staging-4)                                                      D1 Database
+env.D1_TEAM_5 (dd-rc2-staging-5)                                                      D1 Database
+env.D1_TEAM_6 (dd-rc2-staging-6)                                                      D1 Database
+env.D1_TEAM_7 (dd-rc2-staging-7)                                                      D1 Database
+env.D1_TEAM_8 (dd-rc2-staging-8)                                                      D1 Database
+env.D1_USERS (dd-rc2-staging-9)                                                       D1 Database
+env.D1_SHARED (dd-rc2-staging-10)                                                     D1 Database
+env.API_SERVICE (down-distance-rc2-staging-api)                                       Worker
+env.ASSETS                                                                            Assets
+env.STAGING_MTLS_HOST ("REPLACE_WITH_APPROVED_STAGING_HOST")                          Environment Variable
+env.STAGING_MTLS_SHA256 ("REPLACE_WITH_TESTER_CERTIFICATE_SHA256")                    Environment Variable
+env.APP_PASSWORD_ENABLED ("true")                                                     Environment Variable
+env.APP_PUBLIC_CACHE_ENABLED ("false")                                                Environment Variable
+env.CONTENT_AUTOMATION_GLOBAL_ENABLED ("false")                                       Environment Variable
+env.APP_ODDS_FETCH_ENABLED ("false")                                                  Environment Variable
+env.APP_EDITORIAL_EMAIL_ENABLED ("false")                                             Environment Variable
+env.APP_MULTI_D1 ("true")                                                             Environment Variable
+env.APP_OBJECT_BACKEND ("d1")                                                         Environment Variable
+env.APP_DATA_BACKEND ("d1")                                                           Environment Variable
+env.APP_RUNTIME ("cloudflare")                                                        Environment Variable
+env.INFRASTRUCTURE_COST_POLICY ("zero-cost")                                          Environment Variable
+
+--dry-run: exiting now.

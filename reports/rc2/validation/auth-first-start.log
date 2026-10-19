@@ -1,0 +1,12 @@
+
+ ⛅️ wrangler 4.151.1
+────────────────────
+
+✘ [ERROR] The entry-point file at "workers/api/dist/worker.mjs" was not found.
+
+
+  This might mean that your entry-point file needs to be generated (which is the general case when a framework is being used).
+  If that's the case please run your project's build command and try again.
+
+
+🪵  Logs were written to "/Users/tylerdingman/Library/Preferences/.wrangler/logs/wrangler-2026-10-19_23-10-57_816.log"

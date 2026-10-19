@@ -1,0 +1,61 @@
+{
+  "application": {
+    "passed": 1079,
+    "failed": 0,
+    "skipped": 2
+  },
+  "workerFullSuite": {
+    "passed": 163,
+    "failed": 0,
+    "skipped": 0
+  },
+  "additionalErasureRecovery": {
+    "passed": 1,
+    "failed": 0
+  },
+  "mtlsGate": {
+    "passed": 1,
+    "failed": 0
+  },
+  "browserViewportChecks": {
+    "passed": 48,
+    "failed": 0
+  },
+  "authentication": {
+    "runtime": "actual local workerd",
+    "databases": 10,
+    "scenarios": 10,
+    "passed": true
+  },
+  "erasureHttpProbe": {
+    "runtime": "actual local workerd",
+    "physicalDatabases": 10,
+    "authorizationRejected": true,
+    "invalidOriginRejected": true,
+    "confirmationRequired": true,
+    "callerSelectedOtherUserIgnored": true,
+    "deactivationPersistsAcrossRestart": true,
+    "otherUserUnaffected": true,
+    "acceptedStatus": 202,
+    "complete": false,
+    "finalErasureQualified": false
+  },
+  "productionBuild": {
+    "passed": true,
+    "pages": 95,
+    "apiRoutes": 200,
+    "remoteDeployment": false
+  },
+  "stagingDryRuns": {
+    "passed": 5,
+    "failed": 0
+  },
+  "qualification": {
+    "release": "FAIL",
+    "sourceChecksExpected": 18504,
+    "sourceChecksActual": 18344,
+    "maximumSampledApplicationQueries": 49,
+    "completeErasure": false,
+    "completeRetentionReconciliation": false
+  }
+}

@@ -1,0 +1,272 @@
+{
+  "schema": 1,
+  "operations": [
+    {
+      "table": "app_credentials",
+      "sql": "DELETE FROM \"app_credentials\" WHERE (\"user_id\") IN(SELECT \"user_id\" FROM \"app_credentials\" WHERE \"user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_identities",
+      "sql": "DELETE FROM \"app_identities\" WHERE (\"id\") IN(SELECT \"id\" FROM \"app_identities\" WHERE \"user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_sessions",
+      "sql": "DELETE FROM \"app_sessions\" WHERE (\"id\") IN(SELECT \"id\" FROM \"app_sessions\" WHERE \"user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_push_tokens",
+      "sql": "DELETE FROM \"app_push_tokens\" WHERE (\"id\") IN(SELECT \"id\" FROM \"app_push_tokens\" WHERE \"user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_notification_deliveries",
+      "sql": "DELETE FROM \"app_notification_deliveries\" WHERE (\"id\") IN(SELECT \"id\" FROM \"app_notification_deliveries\" WHERE notification_id IN(SELECT id FROM app_notifications WHERE user_id=:user) OR device_id IN(SELECT id FROM app_devices WHERE user_id=:user) LIMIT 25)"
+    },
+    {
+      "table": "app_devices",
+      "sql": "DELETE FROM \"app_devices\" WHERE (\"id\") IN(SELECT \"id\" FROM \"app_devices\" WHERE \"user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_tokens",
+      "sql": "DELETE FROM \"app_tokens\" WHERE (\"id\") IN(SELECT \"id\" FROM \"app_tokens\" WHERE \"user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_settings",
+      "sql": "DELETE FROM \"app_settings\" WHERE (\"user_id\") IN(SELECT \"user_id\" FROM \"app_settings\" WHERE \"user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_saved_content",
+      "sql": "DELETE FROM \"app_saved_content\" WHERE (\"id\") IN(SELECT \"id\" FROM \"app_saved_content\" WHERE \"user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_heads",
+      "sql": "DELETE FROM \"app_heads\" WHERE (\"owner_id\",\"kind\",\"id\") IN(SELECT \"owner_id\",\"kind\",\"id\" FROM \"app_heads\" WHERE \"owner_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_receipts",
+      "sql": "DELETE FROM \"app_receipts\" WHERE (\"owner_id\",\"command_id\") IN(SELECT \"owner_id\",\"command_id\" FROM \"app_receipts\" WHERE \"owner_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_mail",
+      "sql": "DELETE FROM \"app_mail\" WHERE (\"id\") IN(SELECT \"id\" FROM \"app_mail\" WHERE \"user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_subscriptions",
+      "sql": "DELETE FROM \"app_subscriptions\" WHERE (\"user_id\",\"topic\") IN(SELECT \"user_id\",\"topic\" FROM \"app_subscriptions\" WHERE \"user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_team_follows",
+      "sql": "DELETE FROM \"app_team_follows\" WHERE (\"id\") IN(SELECT \"id\" FROM \"app_team_follows\" WHERE \"user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_trivia_views",
+      "sql": "DELETE FROM \"app_trivia_views\" WHERE (\"user_id\",\"daily_id\") IN(SELECT \"user_id\",\"daily_id\" FROM \"app_trivia_views\" WHERE \"user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_trivia_answers",
+      "sql": "DELETE FROM \"app_trivia_answers\" WHERE (\"id\") IN(SELECT \"id\" FROM \"app_trivia_answers\" WHERE \"user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_trivia_stats",
+      "sql": "DELETE FROM \"app_trivia_stats\" WHERE (\"user_id\") IN(SELECT \"user_id\" FROM \"app_trivia_stats\" WHERE \"user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_reward_accounts",
+      "sql": "DELETE FROM \"app_reward_accounts\" WHERE (\"user_id\") IN(SELECT \"user_id\" FROM \"app_reward_accounts\" WHERE \"user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_reward_events",
+      "sql": "DELETE FROM \"app_reward_events\" WHERE (\"id\") IN(SELECT \"id\" FROM \"app_reward_events\" WHERE \"user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_user_rewards",
+      "sql": "DELETE FROM \"app_user_rewards\" WHERE (\"id\") IN(SELECT \"id\" FROM \"app_user_rewards\" WHERE \"user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_reward_notifications",
+      "sql": "DELETE FROM \"app_reward_notifications\" WHERE (\"id\") IN(SELECT \"id\" FROM \"app_reward_notifications\" WHERE \"user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_franchise_commands",
+      "sql": "DELETE FROM \"app_franchise_commands\" WHERE (\"user_id\",\"command_id\") IN(SELECT \"user_id\",\"command_id\" FROM \"app_franchise_commands\" WHERE \"user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_franchise_routes",
+      "sql": "DELETE FROM \"app_franchise_routes\" WHERE (\"user_id\",\"kind\",\"id\") IN(SELECT \"user_id\",\"kind\",\"id\" FROM \"app_franchise_routes\" WHERE user_id=:user LIMIT 25)"
+    },
+    {
+      "table": "app_franchise_heads",
+      "sql": "DELETE FROM \"app_franchise_heads\" WHERE (\"user_id\",\"save_id\") IN(SELECT \"user_id\",\"save_id\" FROM \"app_franchise_heads\" WHERE \"user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_notification_preferences",
+      "sql": "DELETE FROM \"app_notification_preferences\" WHERE (\"id\") IN(SELECT \"id\" FROM \"app_notification_preferences\" WHERE \"user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_phone_numbers",
+      "sql": "DELETE FROM \"app_phone_numbers\" WHERE (\"id\") IN(SELECT \"id\" FROM \"app_phone_numbers\" WHERE \"user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_notifications",
+      "sql": "DELETE FROM \"app_notifications\" WHERE (\"id\") IN(SELECT \"id\" FROM \"app_notifications\" WHERE \"user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_editorial_overrides",
+      "sql": "DELETE FROM \"app_editorial_overrides\" WHERE (\"id\") IN(SELECT \"id\" FROM \"app_editorial_overrides\" WHERE \"user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_huddle_reactions",
+      "sql": "DELETE FROM \"app_huddle_reactions\" WHERE (\"message_id\",\"user_id\") IN(SELECT \"message_id\",\"user_id\" FROM \"app_huddle_reactions\" WHERE \"user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_huddle_user_filters",
+      "sql": "DELETE FROM \"app_huddle_user_filters\" WHERE (\"user_id\",\"target_id\") IN(SELECT \"user_id\",\"target_id\" FROM \"app_huddle_user_filters\" WHERE \"target_id\"=:user OR \"user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_huddle_reports",
+      "sql": "DELETE FROM \"app_huddle_reports\" WHERE (\"message_id\",\"user_id\") IN(SELECT \"message_id\",\"user_id\" FROM \"app_huddle_reports\" WHERE \"user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_huddle_poll_votes",
+      "sql": "DELETE FROM \"app_huddle_poll_votes\" WHERE (\"poll_id\",\"user_id\") IN(SELECT \"poll_id\",\"user_id\" FROM \"app_huddle_poll_votes\" WHERE \"user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_crew_members",
+      "sql": "DELETE FROM \"app_crew_members\" WHERE (\"id\") IN(SELECT \"id\" FROM \"app_crew_members\" WHERE \"user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_crew_invites",
+      "sql": "DELETE FROM \"app_crew_invites\" WHERE (\"id\") IN(SELECT \"id\" FROM \"app_crew_invites\" WHERE \"invitee_user_id\"=:user OR \"inviter_user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_crew_reactions",
+      "sql": "DELETE FROM \"app_crew_reactions\" WHERE (\"activity_id\",\"user_id\",\"reaction\") IN(SELECT \"activity_id\",\"user_id\",\"reaction\" FROM \"app_crew_reactions\" WHERE \"user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_crew_share_recipients",
+      "sql": "DELETE FROM \"app_crew_share_recipients\" WHERE (\"share_id\",\"user_id\") IN(SELECT \"share_id\",\"user_id\" FROM \"app_crew_share_recipients\" WHERE (\"user_id\"=:user OR share_id IN(SELECT id FROM app_crew_shares WHERE sender_user_id=:user)) LIMIT 25)"
+    },
+    {
+      "table": "app_crew_shares",
+      "sql": "DELETE FROM \"app_crew_shares\" WHERE (\"id\") IN(SELECT \"id\" FROM \"app_crew_shares\" WHERE \"sender_user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_game_day_room_members",
+      "sql": "DELETE FROM \"app_game_day_room_members\" WHERE (\"room_id\",\"user_id\") IN(SELECT \"room_id\",\"user_id\" FROM \"app_game_day_room_members\" WHERE \"user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_game_day_reactions",
+      "sql": "DELETE FROM \"app_game_day_reactions\" WHERE (\"activity_id\",\"user_id\",\"reaction\") IN(SELECT \"activity_id\",\"user_id\",\"reaction\" FROM \"app_game_day_reactions\" WHERE \"user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_game_day_predictions",
+      "sql": "DELETE FROM \"app_game_day_predictions\" WHERE (\"id\") IN(SELECT \"id\" FROM \"app_game_day_predictions\" WHERE \"user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_crew_media",
+      "sql": "DELETE FROM \"app_crew_media\" WHERE (\"id\") IN(SELECT \"id\" FROM \"app_crew_media\" WHERE \"uploader_user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_crew_comments",
+      "sql": "DELETE FROM \"app_crew_comments\" WHERE (\"id\") IN(SELECT \"id\" FROM \"app_crew_comments\" WHERE \"user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_fan_pulse_reactions",
+      "sql": "DELETE FROM \"app_fan_pulse_reactions\" WHERE (\"id\") IN(SELECT \"id\" FROM \"app_fan_pulse_reactions\" WHERE \"user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_social_notification_outbox",
+      "sql": "DELETE FROM \"app_social_notification_outbox\" WHERE (\"id\") IN(SELECT \"id\" FROM \"app_social_notification_outbox\" WHERE \"user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_trivia_game_participants",
+      "sql": "DELETE FROM \"app_trivia_game_participants\" WHERE (\"game_id\",\"user_id\") IN(SELECT \"game_id\",\"user_id\" FROM \"app_trivia_game_participants\" WHERE \"user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_trivia_friendships",
+      "sql": "DELETE FROM \"app_trivia_friendships\" WHERE (\"requester_user_id\",\"addressee_user_id\") IN(SELECT \"requester_user_id\",\"addressee_user_id\" FROM \"app_trivia_friendships\" WHERE \"addressee_user_id\"=:user OR \"requester_user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_trivia_challenges",
+      "sql": "DELETE FROM \"app_trivia_challenges\" WHERE (\"id\") IN(SELECT \"id\" FROM \"app_trivia_challenges\" WHERE \"challenged_user_id\"=:user OR \"challenger_user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_trivia_game_answers",
+      "sql": "DELETE FROM \"app_trivia_game_answers\" WHERE (\"id\") IN(SELECT \"id\" FROM \"app_trivia_game_answers\" WHERE \"user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_trivia_invitations",
+      "sql": "DELETE FROM \"app_trivia_invitations\" WHERE (\"id\") IN(SELECT \"id\" FROM \"app_trivia_invitations\" WHERE \"invited_user_id\"=:user OR \"inviter_user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_trivia_rank_snapshots",
+      "sql": "DELETE FROM \"app_trivia_rank_snapshots\" WHERE (\"game_id\",\"user_id\",\"question_position\") IN(SELECT \"game_id\",\"user_id\",\"question_position\" FROM \"app_trivia_rank_snapshots\" WHERE \"user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_trivia_event_registrations",
+      "sql": "DELETE FROM \"app_trivia_event_registrations\" WHERE (\"event_id\",\"user_id\") IN(SELECT \"event_id\",\"user_id\" FROM \"app_trivia_event_registrations\" WHERE \"user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_web_push_test_limits",
+      "sql": "DELETE FROM \"app_web_push_test_limits\" WHERE (\"user_id\") IN(SELECT \"user_id\" FROM \"app_web_push_test_limits\" WHERE \"user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_briefing_push_deliveries",
+      "sql": "DELETE FROM \"app_briefing_push_deliveries\" WHERE (\"user_id\",\"delivery_date\") IN(SELECT \"user_id\",\"delivery_date\" FROM \"app_briefing_push_deliveries\" WHERE \"user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_user_content_state",
+      "sql": "DELETE FROM \"app_user_content_state\" WHERE (\"id\") IN(SELECT \"id\" FROM \"app_user_content_state\" WHERE \"user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_user_team_visit_state",
+      "sql": "DELETE FROM \"app_user_team_visit_state\" WHERE (\"user_id\",\"team_id\") IN(SELECT \"user_id\",\"team_id\" FROM \"app_user_team_visit_state\" WHERE \"user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_user_poll_votes",
+      "sql": "DELETE FROM \"app_user_poll_votes\" WHERE (\"id\") IN(SELECT \"id\" FROM \"app_user_poll_votes\" WHERE \"user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_user_predictions",
+      "sql": "DELETE FROM \"app_user_predictions\" WHERE (\"id\") IN(SELECT \"id\" FROM \"app_user_predictions\" WHERE \"user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_email_change_requests",
+      "sql": "DELETE FROM \"app_email_change_requests\" WHERE (\"id\") IN(SELECT \"id\" FROM \"app_email_change_requests\" WHERE \"user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_cross_shard_references",
+      "sql": "DELETE FROM \"app_cross_shard_references\" WHERE (\"user_id\",\"kind\",\"content_id\") IN(SELECT \"user_id\",\"kind\",\"content_id\" FROM \"app_cross_shard_references\" WHERE \"user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_saved_bet_receipts",
+      "sql": "DELETE FROM \"app_saved_bet_receipts\" WHERE (\"user_id\",\"content_id\") IN(SELECT \"user_id\",\"content_id\" FROM \"app_saved_bet_receipts\" WHERE \"user_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_huddle_messages",
+      "sql": "UPDATE app_huddle_messages SET body='[deleted]',media=NULL,play_id=NULL,removed=1 WHERE id IN(SELECT id FROM app_huddle_messages WHERE user_id=:user AND (body<>'[deleted]' OR media IS NOT NULL OR play_id IS NOT NULL OR removed<>1) LIMIT 25)"
+    },
+    {
+      "table": "app_crew_activity",
+      "sql": "UPDATE app_crew_activity SET message=NULL,metadata='{}',href=NULL,actor_user_id=NULL WHERE id IN(SELECT id FROM app_crew_activity WHERE actor_user_id=:user LIMIT 25)"
+    },
+    {
+      "table": "app_game_day_activity",
+      "sql": "UPDATE app_game_day_activity SET body='[deleted]',payload='{}',user_id=NULL WHERE id IN(SELECT id FROM app_game_day_activity WHERE user_id=:user LIMIT 25)"
+    }
+  ],
+  "retainedTables": [
+    "app_commerce_inventory_adjustments",
+    "app_commerce_orders",
+    "app_commerce_refunds",
+    "app_consents",
+    "app_crew_activity",
+    "app_crews",
+    "app_game_day_activity",
+    "app_game_day_rooms",
+    "app_huddle_enforcement",
+    "app_huddle_messages",
+    "app_security_audit",
+    "app_trivia_games",
+    "app_trivia_groups"
+  ]
+}

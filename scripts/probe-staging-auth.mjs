@@ -259,6 +259,64 @@ try {
   await start();
   assert.equal((await call('me', undefined, persisted)).status, 200);
   assert.equal(sql('PRAGMA foreign_key_check').length, 0);
+  if (process.env.DD_RC2_ERASURE_PROBE === 'true') {
+    assert(multiD1, 'Erasure probe requires ten D1 databases');
+    const other = await call('signup', { email: 'unrelated@example.invalid', password: next });
+    assert.equal(other.status, 201);
+    const otherSession = cookie(other);
+    const otherId = sql(
+      "SELECT id FROM app_users WHERE primary_email='unrelated@example.invalid'",
+    )[0].id;
+    const erase = async (body, sessionCookie = persisted, origin = base) =>
+      fetch(base + '/api/user/account/delete', {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          origin,
+          cookie: sessionCookie,
+          connection: 'close',
+        },
+        body: JSON.stringify(body),
+      });
+    assert.equal((await erase({ confirmation: 'DELETE' }, '', base)).status, 401);
+    assert.equal(
+      (await erase({ confirmation: 'DELETE' }, persisted, 'https://untrusted.invalid')).status,
+      500,
+    );
+    assert.equal((await erase({ confirmation: 'WRONG' })).status, 400);
+    const accepted = await erase({ confirmation: 'DELETE', userId: otherId });
+    assert.equal(accepted.status, 202, await accepted.clone().text());
+    const body = await accepted.json();
+    assert.equal(body.accepted, true);
+    assert.equal(body.complete, false);
+    assert.equal((await call('me', undefined, persisted)).status, 401);
+    assert.equal((await call('me', undefined, otherSession)).status, 200);
+    await stop();
+    await start();
+    assert.equal((await call('me', undefined, persisted)).status, 401);
+    assert.equal((await call('me', undefined, otherSession)).status, 200);
+    assert.equal(sql('SELECT status FROM app_account_erasure')[0].status, 'RUNNING');
+    await writeFile(
+      out + '/erasure-http.json',
+      JSON.stringify(
+        {
+          runtime: 'actual local workerd',
+          physicalDatabases: 10,
+          authorizationRejected: true,
+          invalidOriginRejected: true,
+          confirmationRequired: true,
+          callerSelectedOtherUserIgnored: true,
+          deactivationPersistsAcrossRestart: true,
+          otherUserUnaffected: true,
+          acceptedStatus: 202,
+          complete: false,
+          finalErasureQualified: false,
+        },
+        null,
+        2,
+      ) + '\n',
+    );
+  }
   if (process.env.DD_NO_R2 === 'true' && !multiD1) {
     await stop();
     const { encryptBackup, decryptBackup } = await import('./no-billing-backup.mjs');

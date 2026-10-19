@@ -69,6 +69,7 @@ const definition = (x: any) => {
     },
   };
 };
+const syntheticRss = new Map<string, { xml: string; etag: string }>();
 export default {
   async fetch(request: Request, env: any) {
     if (
@@ -114,10 +115,24 @@ export default {
           },
         },
         async () => {
+          if (b.op === 'fixture-rss') {
+            for (const [url, feed] of Object.entries(b.feeds)) syntheticRss.set(url, feed as any);
+            return { feeds: syntheticRss.size };
+          }
           if (b.op === 'automation-http' && router) {
             const original = globalThis.fetch;
-            globalThis.fetch = async () =>
-              new Response(null, { status: 304, headers: { etag: 'synthetic-unchanged' } });
+            globalThis.fetch = async (input, init) => {
+              const url = input instanceof Request ? input.url : String(input);
+              const feed = syntheticRss.get(url);
+              if (!feed || new Headers(init?.headers).get('If-None-Match') === feed.etag)
+                return new Response(null, {
+                  status: 304,
+                  headers: { etag: feed?.etag ?? 'synthetic-unchanged' },
+                });
+              return new Response(feed.xml, {
+                headers: { 'content-type': 'application/rss+xml', etag: feed.etag },
+              });
+            };
             try {
               const response = await withEditorialOwner(undefined, () =>
                 automationPost(

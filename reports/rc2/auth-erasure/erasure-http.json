@@ -1,0 +1,13 @@
+{
+  "runtime": "actual local workerd",
+  "physicalDatabases": 10,
+  "authorizationRejected": true,
+  "invalidOriginRejected": true,
+  "confirmationRequired": true,
+  "callerSelectedOtherUserIgnored": true,
+  "deactivationPersistsAcrossRestart": true,
+  "otherUserUnaffected": true,
+  "acceptedStatus": 202,
+  "complete": false,
+  "finalErasureQualified": false
+}

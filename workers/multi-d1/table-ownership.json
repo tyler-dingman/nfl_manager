@@ -136,5 +136,6 @@
   "app_storage_retention_audit": "local",
   "app_storage_candidate_receipts": "team",
   "app_storage_poll_batch": "team",
-  "app_storage_poll_retry": "team"
+  "app_storage_poll_retry": "team",
+  "app_account_erasure": "users"
 }

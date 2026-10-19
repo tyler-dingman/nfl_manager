@@ -1,0 +1,21 @@
+TAP version 13
+# {"maxQueries":8,"erasedSavedRows":101,"finalStatus":"REVIEW_REQUIRED"}
+# Subtest: bounded multi-D1 erasure revokes immediately, survives restart, isolates users and requires shared/legal review
+ok 1 - bounded multi-D1 erasure revokes immediately, survives restart, isolates users and requires shared/legal review
+  ---
+  duration_ms: 2731.260875
+  ...
+# Subtest: offline reconciliation preserves other users, pending saves, permanent bets and non-owned pins
+ok 2 - offline reconciliation preserves other users, pending saves, permanent bets and non-owned pins
+  ---
+  duration_ms: 1652.009875
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 5221.501333

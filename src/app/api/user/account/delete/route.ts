@@ -15,8 +15,11 @@ export async function POST(request: NextRequest) {
         { error: 'Type DELETE to confirm account deletion.' },
         { status: 400 },
       );
-    await deleteUserAccount(user.id);
-    const response = NextResponse.json({ ok: true });
+    const result = await deleteUserAccount(user.id);
+    const response = NextResponse.json(
+      { ok: true, ...(result ?? {}) },
+      { status: result?.accepted ? 202 : 200 },
+    );
     clearSessionCookie(response);
     return response;
   } catch {

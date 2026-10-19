@@ -1,7 +1,13 @@
-import{eraseD1Account}from'../../../packages/storage/account-erasure';
-import { applicationBackend, applicationStorage } from '../persistence/bindings';
+import { requestMultiD1Erasure } from '../../../packages/storage/account-erasure-multi';
+import { eraseD1Account } from '../../../packages/storage/account-erasure';
+import {
+  applicationBackend,
+  applicationStorage,
+  applicationDatabaseRouter,
+  applicationEnvironment,
+} from '../persistence/bindings';
 import { D1Notifications } from '../../../packages/storage/notifications';
-import { randomUUID } from 'node:crypto';
+import { randomUUID, createHmac } from 'node:crypto';
 
 import { authDb } from '@/server/auth/database';
 import { recordSecurityEvent } from '@/server/security/audit';
@@ -76,7 +82,16 @@ export async function exportUserAccount(userId: string) {
 }
 
 export async function deleteUserAccount(userId: string) {
-  if(applicationBackend()==='d1')return eraseD1Account(applicationStorage('D1_USERS'),userId);
+  if (applicationBackend() === 'd1')
+    return applicationDatabaseRouter()
+      ? requestMultiD1Erasure(
+          applicationStorage('D1_USERS'),
+          userId,
+          createHmac('sha256', applicationEnvironment().AUTH_JWT_SECRET!)
+            .update('fanduel:' + userId)
+            .digest('hex'),
+        )
+      : eraseD1Account(applicationStorage('D1_USERS'), userId);
   const sql = authDb();
   await sql.begin(async (tx) => {
     await tx`INSERT INTO security_audit_events (id, user_id, event_type, actor_type, metadata) VALUES (${randomUUID()}, ${userId}, 'ACCOUNT_DELETED', 'USER', ${tx.json({ reason: 'user_requested' })})`;

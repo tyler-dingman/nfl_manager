@@ -1,0 +1,168 @@
+
+ ⛅️ wrangler 4.151.1
+────────────────────
+Resource location: local
+
+Use --remote if you want to access the remote instance.
+
+Migrations to be applied:
+┌─────────────────────────────┐
+│ name                        │
+├─────────────────────────────┤
+│ 0001_role_bootstrap.sql     │
+├─────────────────────────────┤
+│ 0002_cross_references.sql   │
+├─────────────────────────────┤
+│ 0003_private_history.sql    │
+├─────────────────────────────┤
+│ 0004_commerce_settings.sql  │
+├─────────────────────────────┤
+│ 0005_saved_bet_receipts.sql │
+├─────────────────────────────┤
+│ 0006_delivery_limits.sql    │
+├─────────────────────────────┤
+│ 0007_account_erasure.sql    │
+└─────────────────────────────┘
+? About to apply 7 migration(s)
+Your database may not be available to serve requests during the migration, continue?
+🤖 Using fallback value in non-interactive context: yes
+🌀 Executing on local database D1_USERS (00000000-0000-0000-0000-000000000009) from ../dd-d1-browser-KiUrRQ/v3/d1:
+🌀 To execute on your remote database, add a --remote flag to your wrangler command.
+🚣 158 commands executed successfully.
+┌─────────────────────────────┬────────┐
+│ name                        │ status │
+├─────────────────────────────┼────────┤
+│ 0001_role_bootstrap.sql     │ ✅     │
+├─────────────────────────────┼────────┤
+│ 0002_cross_references.sql   │ 🕒️    │
+├─────────────────────────────┼────────┤
+│ 0003_private_history.sql    │ 🕒️    │
+├─────────────────────────────┼────────┤
+│ 0004_commerce_settings.sql  │ 🕒️    │
+├─────────────────────────────┼────────┤
+│ 0005_saved_bet_receipts.sql │ 🕒️    │
+├─────────────────────────────┼────────┤
+│ 0006_delivery_limits.sql    │ 🕒️    │
+├─────────────────────────────┼────────┤
+│ 0007_account_erasure.sql    │ 🕒️    │
+└─────────────────────────────┴────────┘
+🌀 Executing on local database D1_USERS (00000000-0000-0000-0000-000000000009) from ../dd-d1-browser-KiUrRQ/v3/d1:
+🌀 To execute on your remote database, add a --remote flag to your wrangler command.
+🚣 3 commands executed successfully.
+┌─────────────────────────────┬────────┐
+│ name                        │ status │
+├─────────────────────────────┼────────┤
+│ 0001_role_bootstrap.sql     │ ✅     │
+├─────────────────────────────┼────────┤
+│ 0002_cross_references.sql   │ ✅     │
+├─────────────────────────────┼────────┤
+│ 0003_private_history.sql    │ 🕒️    │
+├─────────────────────────────┼────────┤
+│ 0004_commerce_settings.sql  │ 🕒️    │
+├─────────────────────────────┼────────┤
+│ 0005_saved_bet_receipts.sql │ 🕒️    │
+├─────────────────────────────┼────────┤
+│ 0006_delivery_limits.sql    │ 🕒️    │
+├─────────────────────────────┼────────┤
+│ 0007_account_erasure.sql    │ 🕒️    │
+└─────────────────────────────┴────────┘
+🌀 Executing on local database D1_USERS (00000000-0000-0000-0000-000000000009) from ../dd-d1-browser-KiUrRQ/v3/d1:
+🌀 To execute on your remote database, add a --remote flag to your wrangler command.
+🚣 2 commands executed successfully.
+┌─────────────────────────────┬────────┐
+│ name                        │ status │
+├─────────────────────────────┼────────┤
+│ 0001_role_bootstrap.sql     │ ✅     │
+├─────────────────────────────┼────────┤
+│ 0002_cross_references.sql   │ ✅     │
+├─────────────────────────────┼────────┤
+│ 0003_private_history.sql    │ ✅     │
+├─────────────────────────────┼────────┤
+│ 0004_commerce_settings.sql  │ 🕒️    │
+├─────────────────────────────┼────────┤
+│ 0005_saved_bet_receipts.sql │ 🕒️    │
+├─────────────────────────────┼────────┤
+│ 0006_delivery_limits.sql    │ 🕒️    │
+├─────────────────────────────┼────────┤
+│ 0007_account_erasure.sql    │ 🕒️    │
+└─────────────────────────────┴────────┘
+🌀 Executing on local database D1_USERS (00000000-0000-0000-0000-000000000009) from ../dd-d1-browser-KiUrRQ/v3/d1:
+🌀 To execute on your remote database, add a --remote flag to your wrangler command.
+🚣 2 commands executed successfully.
+┌─────────────────────────────┬────────┐
+│ name                        │ status │
+├─────────────────────────────┼────────┤
+│ 0001_role_bootstrap.sql     │ ✅     │
+├─────────────────────────────┼────────┤
+│ 0002_cross_references.sql   │ ✅     │
+├─────────────────────────────┼────────┤
+│ 0003_private_history.sql    │ ✅     │
+├─────────────────────────────┼────────┤
+│ 0004_commerce_settings.sql  │ ✅     │
+├─────────────────────────────┼────────┤
+│ 0005_saved_bet_receipts.sql │ 🕒️    │
+├─────────────────────────────┼────────┤
+│ 0006_delivery_limits.sql    │ 🕒️    │
+├─────────────────────────────┼────────┤
+│ 0007_account_erasure.sql    │ 🕒️    │
+└─────────────────────────────┴────────┘
+🌀 Executing on local database D1_USERS (00000000-0000-0000-0000-000000000009) from ../dd-d1-browser-KiUrRQ/v3/d1:
+🌀 To execute on your remote database, add a --remote flag to your wrangler command.
+🚣 2 commands executed successfully.
+┌─────────────────────────────┬────────┐
+│ name                        │ status │
+├─────────────────────────────┼────────┤
+│ 0001_role_bootstrap.sql     │ ✅     │
+├─────────────────────────────┼────────┤
+│ 0002_cross_references.sql   │ ✅     │
+├─────────────────────────────┼────────┤
+│ 0003_private_history.sql    │ ✅     │
+├─────────────────────────────┼────────┤
+│ 0004_commerce_settings.sql  │ ✅     │
+├─────────────────────────────┼────────┤
+│ 0005_saved_bet_receipts.sql │ ✅     │
+├─────────────────────────────┼────────┤
+│ 0006_delivery_limits.sql    │ 🕒️    │
+├─────────────────────────────┼────────┤
+│ 0007_account_erasure.sql    │ 🕒️    │
+└─────────────────────────────┴────────┘
+🌀 Executing on local database D1_USERS (00000000-0000-0000-0000-000000000009) from ../dd-d1-browser-KiUrRQ/v3/d1:
+🌀 To execute on your remote database, add a --remote flag to your wrangler command.
+🚣 2 commands executed successfully.
+┌─────────────────────────────┬────────┐
+│ name                        │ status │
+├─────────────────────────────┼────────┤
+│ 0001_role_bootstrap.sql     │ ✅     │
+├─────────────────────────────┼────────┤
+│ 0002_cross_references.sql   │ ✅     │
+├─────────────────────────────┼────────┤
+│ 0003_private_history.sql    │ ✅     │
+├─────────────────────────────┼────────┤
+│ 0004_commerce_settings.sql  │ ✅     │
+├─────────────────────────────┼────────┤
+│ 0005_saved_bet_receipts.sql │ ✅     │
+├─────────────────────────────┼────────┤
+│ 0006_delivery_limits.sql    │ ✅     │
+├─────────────────────────────┼────────┤
+│ 0007_account_erasure.sql    │ 🕒️    │
+└─────────────────────────────┴────────┘
+🌀 Executing on local database D1_USERS (00000000-0000-0000-0000-000000000009) from ../dd-d1-browser-KiUrRQ/v3/d1:
+🌀 To execute on your remote database, add a --remote flag to your wrangler command.
+🚣 153 commands executed successfully.
+┌─────────────────────────────┬────────┐
+│ name                        │ status │
+├─────────────────────────────┼────────┤
+│ 0001_role_bootstrap.sql     │ ✅     │
+├─────────────────────────────┼────────┤
+│ 0002_cross_references.sql   │ ✅     │
+├─────────────────────────────┼────────┤
+│ 0003_private_history.sql    │ ✅     │
+├─────────────────────────────┼────────┤
+│ 0004_commerce_settings.sql  │ ✅     │
+├─────────────────────────────┼────────┤
+│ 0005_saved_bet_receipts.sql │ ✅     │
+├─────────────────────────────┼────────┤
+│ 0006_delivery_limits.sql    │ ✅     │
+├─────────────────────────────┼────────┤
+│ 0007_account_erasure.sql    │ ✅     │
+└─────────────────────────────┴────────┘

@@ -1,3 +1,4 @@
+import { reconcileMultiD1References } from '../packages/storage/reconcile-multi-d1';
 /** Owner-only, coordinated maintenance. Persist/read-back an encrypted archive before deletion. */
 import { backupDatabases, type Databases } from './multi-d1-recovery';
 import { DATABASE_OWNERS } from '../packages/storage/multi-d1';
@@ -36,6 +37,7 @@ export async function maintainMultiD1(
       const archiveDigest = await digest(utf8.encode(JSON.stringify(stored.archive)));
       // Every database remains locked while any shard is retired or swept. A failure leaves all locked.
       await verifyCrossShardReferences(databases);
+      const reconciliation = await reconcileMultiD1References(databases, options.now);
       for (const owner of DATABASE_OWNERS) {
         const db = databases[owner],
           role = owner === 'D1_USERS' ? 'users' : owner === 'D1_SHARED' ? 'shared' : 'team';
@@ -66,7 +68,12 @@ export async function maintainMultiD1(
           role,
           coordinatedEpoch: epochs.get(owner),
         });
-        results.push({ owner, retention: plan, gc });
+        results.push({
+          owner,
+          retention: plan,
+          gc,
+          ...(owner === 'D1_USERS' ? { reconciliation } : {}),
+        });
       }
       await verifyCrossShardReferences(databases);
     },
