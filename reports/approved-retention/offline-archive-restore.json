@@ -1,0 +1,26 @@
+{
+  "pass": true,
+  "syntheticOnly": true,
+  "noR2": true,
+  "noPostgres": true,
+  "archiveEncryptedBytes": 78163,
+  "archiveDecryptionAndIntegrity": true,
+  "completeRestoreBeforeDeletion": true,
+  "ftsRowidsPreserved": true,
+  "tamperBlocksCleanup": true,
+  "interruptedPreparationAbortPreservesData": true,
+  "savedArticleAndCorrectionsPreserved": true,
+  "savedBetAndUserPreserved": true,
+  "retiredOriginalId": "expired-original",
+  "plan": {
+    "runId": "901d6fa0-d1fb-4713-8c5a-614cfa5455f8",
+    "planned": 1,
+    "candidates": 2,
+    "protected": 1,
+    "oversized": 0,
+    "archiveVerified": true,
+    "fullRestoreVerified": true,
+    "archivePath": "/private/tmp/dd-approved-retention-test-qPERxt/archive.enc"
+  },
+  "steps": 1
+}

@@ -36,7 +36,7 @@ export async function logicalExport(query) {
       .join('');
     for (let offset = 0; ; offset += 100) {
       const rows = await query(
-        `SELECT *${extra} FROM ${quote(table.name)} LIMIT 100 OFFSET ${offset}`,
+        `SELECT ${/\bfts5\b/i.test(table.sql) ? 'rowid,' : ''}*${extra} FROM ${quote(table.name)} LIMIT 100 OFFSET ${offset}`,
       );
       for (const row of rows) {
         const blobs = new Map();

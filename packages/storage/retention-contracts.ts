@@ -12,19 +12,27 @@ export const RETENTION_CONTRACTS = {
   savedEvidence: { class: 'PERMANENT', deletion: 'none; retain ownership and evidence payloads' },
   editorial: {
     class: 'REFERENCED_HISTORY',
-    deletion: 'none; retain all published versions, corrections, source attribution and IDs',
+    deletion:
+      '90 days after latest meaningful update; saved/externally referenced articles and all their corrections retained; verified encrypted offline archive required before owner cleanup',
+  },
+  drafts: {
+    class: 'TEMPORARY',
+    deletion:
+      '7 days after last eligibility update; never treat a formerly published article as a 7-day draft',
   },
   threeAndOut: {
     class: 'REFERENCED_HISTORY',
-    deletion: 'none; dated briefing lookup remains supported',
+    deletion: '30 days online unless saved/referenced; verified owner archive required',
   },
   oddsHistory: {
     class: 'REFERENCED_HISTORY',
-    deletion: 'none; priceHistory consumes all original timestamps',
+    deletion:
+      '30 days general history; permanent saved market/event evidence and original identities retained; verified owner archive required',
   },
   sourceEvidence: {
     class: 'REFERENCED_HISTORY',
-    deletion: 'none; candidates, source provenance and editorial evidence remain rooted',
+    deletion:
+      '7 days after completed processing only if unreferenced; retain evidence/attribution required by retained articles; compact identity receipt prevents re-ingestion',
   },
   sportsbookTransfers: {
     class: 'PERMANENT',

@@ -169,6 +169,15 @@ export class D1EditorialIngestion {
       .run();
   }
   async saveCandidate(c: ContentCandidate) {
+    if (
+      await this.s
+        .statement(
+          'SELECT id FROM app_storage_candidate_receipts WHERE canonical_url=? OR (source_id=? AND external_id=?)',
+          [c.url, c.sourceId, c.externalId],
+        )
+        .first()
+    )
+      return undefined;
     const id = c.id ?? crypto.randomUUID(),
       hash = await this.s.put({ schema: 1, kind: 'CANDIDATE', candidate: { ...c, id } });
     const row = await this.s
@@ -470,8 +479,8 @@ export class D1EditorialIngestion {
                   type: decision?.breaking ? 'BREAKING' : 'HOT_READ',
                   category: decision?.breaking ? 'BREAKING' : 'HOT_READ',
                   priority: decision?.breaking || story.importanceScore >= 85 ? 'HIGH' : 'NORMAL',
-                  pushEligible:Boolean(decision?.breaking||story.importanceScore>=85),
-                    metadata: { storyVersion: story.version, reason: decision?.reason ?? change },
+                  pushEligible: Boolean(decision?.breaking || story.importanceScore >= 85),
+                  metadata: { storyVersion: story.version, reason: decision?.reason ?? change },
                 },
               })),
             ),

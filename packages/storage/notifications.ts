@@ -265,19 +265,7 @@ export class D1Notifications {
   async createNotification(user: string, input: Parameters<typeof PG.createNotification>[1]) {
     const id = crypto.randomUUID(),
       state = input.deliveryState ?? (input.pushEligible ? 'PUSH_PENDING' : 'PUSH_NOT_ELIGIBLE');
-    const value = {
-      ...input,
-      deepLink: input.deepLink ?? null,
-      imageUrl: input.imageUrl ?? null,
-      teamAbbr: input.teamAbbr ?? null,
-      type: input.type ?? 'SYSTEM',
-      category: input.category ?? input.type ?? 'SYSTEM',
-      contentId: input.contentId ?? null,
-      contentType: input.contentType ?? null,
-      priority: input.priority ?? 'NORMAL',
-      pushEligible: input.pushEligible ?? false,
-      metadata: input.metadata ?? {},
-    };
+    const value = notificationValue(input);
     const hash = await this.s.put({ schema: 1, id, owner: user, value });
     return (
       (
@@ -333,4 +321,20 @@ export class D1Notifications {
       ])
       .run();
   }
+}
+
+export function notificationValue(input: Parameters<typeof PG.createNotification>[1]) {
+  return {
+    ...input,
+    deepLink: input.deepLink ?? null,
+    imageUrl: input.imageUrl ?? null,
+    teamAbbr: input.teamAbbr ?? null,
+    type: input.type ?? 'SYSTEM',
+    category: input.category ?? input.type ?? 'SYSTEM',
+    contentId: input.contentId ?? null,
+    contentType: input.contentType ?? null,
+    priority: input.priority ?? 'NORMAL',
+    pushEligible: input.pushEligible ?? false,
+    metadata: input.metadata ?? {},
+  };
 }

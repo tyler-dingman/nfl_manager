@@ -1,12 +1,19 @@
 import { Storage } from './core';
-import { D1Notifications } from './notifications';
+import { D1Notifications, notificationValue } from './notifications';
 export async function socialNotification(
   s: Storage,
   user: string,
   id: string,
   input: Parameters<D1Notifications['createNotification']>[1],
 ) {
-  const hash = await s.put({ schema: 1, owner: user, id, input });
+  const hash = await s.put({
+    schema: 1,
+    kind: 'PREPARED_NOTIFICATION',
+    owner: user,
+    id: crypto.randomUUID(),
+    outboxId: id,
+    value: notificationValue(input),
+  });
   return s.statement(
     "INSERT INTO app_social_notification_outbox(id,user_id,object_hash,status,created_at) VALUES(?,?,?,'READY',?) ON CONFLICT DO NOTHING",
     [id, user, hash, Date.now()],
@@ -36,6 +43,61 @@ export async function drainSocialNotifications(s: Storage, limit = 3, now = Date
   );
   for (const row of rows) {
     if (delivered >= limit) break;
+    const prepared = await s.get<any>(row.object_hash);
+    if (prepared.kind === 'PREPARED_NOTIFICATION') {
+      if (
+        prepared.schema !== 1 ||
+        prepared.owner !== row.user_id ||
+        prepared.outboxId !== row.id ||
+        !prepared.id ||
+        !prepared.value
+      )
+        throw Error('Prepared notification ownership mismatch');
+      const v = prepared.value,
+        nonce = crypto.randomUUID();
+      const expires = v.expiresAt == null ? null : Date.parse(v.expiresAt);
+      if (expires !== null && !Number.isFinite(expires)) throw Error('Invalid notification expiry');
+      // Immutable outbox payload is already a complete inbox envelope. Publish
+      // inbox + cursor atomically, without a second upload or claim transaction.
+      try {
+        await s.batch([
+          s.statement(
+            "INSERT INTO app_storage_guards(id,ok) VALUES(?,CASE WHEN EXISTS(SELECT 1 FROM app_social_notification_outbox WHERE id=? AND object_hash=? AND cursor=? AND attempts<10 AND (status='READY' OR(status='RUNNING' AND lease_until<?))) THEN 1 ELSE 0 END)",
+            [nonce, row.id, row.object_hash, row.cursor, now],
+          ),
+          s.statement(
+            'INSERT INTO app_notifications(id,user_id,dedupe_key,team_abbr,object_hash,created_at,expires_at,delivery_state) VALUES(?,?,?,?,?,?,?,?) ON CONFLICT(user_id,dedupe_key) DO NOTHING',
+            [
+              prepared.id,
+              row.user_id,
+              v.dedupeKey ?? v.eventId,
+              v.teamAbbr,
+              row.object_hash,
+              now,
+              expires,
+              v.deliveryState ?? (v.pushEligible ? 'PUSH_PENDING' : 'PUSH_NOT_ELIGIBLE'),
+            ],
+          ),
+          s.statement(
+            "UPDATE app_social_notification_outbox SET status='DONE',cursor=1,lease_until=0,error=NULL WHERE id=?",
+            [row.id],
+          ),
+          s.statement(
+            "UPDATE app_crew_invites SET delivery_state='DELIVERED' WHERE 'crew-invite:'||id=?",
+            [row.id],
+          ),
+          s.statement('DELETE FROM app_storage_guards WHERE id=?', [nonce]),
+        ]);
+        delivered++;
+      } catch (error) {
+        const [current] = await s.rows<any>(
+          'SELECT status,cursor FROM app_social_notification_outbox WHERE id=?',
+          [row.id],
+        );
+        if (!current || current.status !== 'DONE') throw error;
+      }
+      continue;
+    }
     const nonce = crypto.randomUUID();
     const claim = await s
       .statement(
@@ -45,7 +107,7 @@ export async function drainSocialNotifications(s: Storage, limit = 3, now = Date
       .first();
     if (!claim) continue;
     try {
-      const p = await s.get<any>(row.object_hash);
+      const p = prepared;
       if (![1, 2].includes(p.schema) || p.owner !== row.user_id || p.id !== row.id)
         throw Error('Social notification ownership mismatch');
       const items = p.schema === 1 ? [{ user: row.user_id, input: p.input }] : p.notifications;
