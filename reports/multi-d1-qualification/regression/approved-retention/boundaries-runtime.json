@@ -1,0 +1,23 @@
+{
+  "boundaries": [
+    6,
+    7,
+    29,
+    30,
+    89,
+    90,
+    91
+  ],
+  "planned": {
+    "runId": "5832eba1-dd80-413c-ab17-d1cb30b9e8b5",
+    "planned": 16,
+    "candidates": 21,
+    "protected": 5,
+    "oversized": 0
+  },
+  "maximumStepStatements": 10,
+  "permanentSavedArticleAndBetPreserved": true,
+  "recoveryPinPreserved": true,
+  "encodedPayloadBytesBefore": 13465,
+  "encodedPayloadBytesAfter": 7947
+}

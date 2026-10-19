@@ -1,0 +1,43 @@
+20 scenarios and four mapping strategies validated; feasibility FAIL
+{
+  "worstDelta": {
+    "editorialPublished": 365604751,
+    "canonicalEditorialRecords": 1612406769,
+    "sourceIngestionEvidence": 422507800,
+    "threeAndOutHistory": 34818560,
+    "historicalOdds": 0,
+    "marketIdentityDirectories": 0,
+    "labScoresAndTrending": 0,
+    "userAccountsAndOwnership": 0,
+    "authenticationHistory": 0,
+    "frontOfficeHistory": 0,
+    "savedBettingEvidence": 0,
+    "operationalHistory": 0,
+    "searchIndexes": 78988800,
+    "structuredHistoryDirectoriesAndIndexes": 52659200,
+    "aiResponseCache": 0,
+    "temporaryPayloadBacklog": 0,
+    "gcAuditAndPlanAllowance": 0,
+    "fixedSchemaAndRegistry": 0,
+    "candidateIdentityReceipts": 0,
+    "retentionAuditAndPlans": 0
+  },
+  "optimisticExtraction": {
+    "TEAM_1": 535723166,
+    "TEAM_2": 535723166,
+    "TEAM_3": 535723166,
+    "TEAM_4": 535723166,
+    "TEAM_5": 535723166,
+    "TEAM_6": 535723166,
+    "TEAM_7": 535723166,
+    "TEAM_8": 535723166,
+    "USER": 63682786,
+    "SHARED": 224828578
+  },
+  "strategies": {
+    "A_equal_four": 1393783323,
+    "B_uneven_team_counts": 814371344,
+    "C_capacity_aware_static": 582606552,
+    "D_dedicated_high_volume": 814371344
+  }
+}

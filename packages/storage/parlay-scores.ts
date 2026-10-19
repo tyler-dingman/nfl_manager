@@ -56,16 +56,27 @@ export class PrecomputedProps {
     rows: unknown[],
   ) {
     if (!source.board) throw Error('Missing odds board');
-    const key = await digest(utf8.encode(context(opponents, season, teams))),
-      hash = await this.s.put({
-        schema: 1,
-        event,
-        model,
-        key,
-        board: source.board,
-        references: source.references,
-        rows,
-      });
+    const key = await digest(utf8.encode(context(opponents, season, teams)));
+    const envelope = {
+      schema: 1,
+      event,
+      model,
+      key,
+      board: source.board,
+      references: source.references,
+      rows,
+    };
+    const expected = await digest(utf8.encode(JSON.stringify(envelope)));
+    const [existing] = await this.s.rows<{ object_hash: string }>(
+      'SELECT p.object_hash FROM app_parlay_scores p JOIN app_sportsbook_events e ON e.id=p.event_id WHERE p.event_id=? AND p.model_version=? AND p.context_key=? AND p.board_hash=? AND e.markets_hash=p.board_hash AND p.reference_version=? AND p.reference_version=coalesce((SELECT version FROM app_reference_version WHERE id=1),0)',
+      [event, model, key, source.board, source.references],
+    );
+    if (existing?.object_hash === expected) {
+      // Verify the existing immutable bytes before accepting a no-write retry.
+      await this.s.get(expected);
+      return expected;
+    }
+    const hash = await this.s.put(envelope);
     const result = await this.s
       .statement(
         'INSERT INTO app_parlay_scores(event_id,model_version,context_key,board_hash,reference_version,object_hash,computed_at) SELECT ?,?,?,?,?,?,? WHERE EXISTS(SELECT 1 FROM app_sportsbook_events WHERE id=? AND markets_hash=?) AND coalesce((SELECT version FROM app_reference_version WHERE id=1),0)=? ON CONFLICT(event_id,model_version,context_key) DO UPDATE SET board_hash=excluded.board_hash,reference_version=excluded.reference_version,object_hash=excluded.object_hash,computed_at=excluded.computed_at',

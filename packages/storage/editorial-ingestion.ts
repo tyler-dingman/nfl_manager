@@ -178,6 +178,17 @@ export class D1EditorialIngestion {
         .first()
     )
       return undefined;
+    // Match the existing UNIQUE constraints before allocating an immutable object.
+    // The INSERT still arbitrates races; a retry must not upload an orphan blob.
+    if (
+      await this.s
+        .statement(
+          'SELECT id FROM app_editorial_candidates WHERE id=? OR canonical_url=? OR (source_id=? AND external_id=?) LIMIT 1',
+          [c.id ?? null, c.url, c.sourceId, c.externalId],
+        )
+        .first()
+    )
+      return undefined;
     const id = c.id ?? crypto.randomUUID(),
       hash = await this.s.put({ schema: 1, kind: 'CANDIDATE', candidate: { ...c, id } });
     const row = await this.s
@@ -214,11 +225,10 @@ export class D1EditorialIngestion {
   }
   async setCandidateStatus(id: string, status: string, reason?: string) {
     await this.s
-      .statement('UPDATE app_editorial_candidates SET status=?,rejection_reason=? WHERE id=?', [
-        status,
-        reason ?? null,
-        id,
-      ])
+      .statement(
+        'UPDATE app_editorial_candidates SET status=?,rejection_reason=? WHERE id=? AND (status IS NOT ? OR rejection_reason IS NOT ?)',
+        [status, reason ?? null, id, status, reason ?? null],
+      )
       .run();
   }
   async storyById(id: string): Promise<StoryRecord | null> {
