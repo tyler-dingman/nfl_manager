@@ -1,0 +1,56 @@
+{
+  "checkedDate": "2026-10-19",
+  "method": "Existing authorized Chrome session; read-only UI observations",
+  "accountId": "6e8c301360ab628706dcf3acf55f0dbb",
+  "pages": {
+    "workersOverview": {
+      "url": "https://dash.cloudflare.com/6e8c301360ab628706dcf3acf55f0dbb/workers-and-pages",
+      "requestsToday": 3,
+      "dailyLimit": 100000,
+      "period": "October 1 - October 19",
+      "periodRequests": 144,
+      "periodCpuMs": 108.29,
+      "observabilityEvents": 0,
+      "buildMinutes": 0,
+      "accessMessage": "Set up Zero Trust before requiring Access sign-in for Workers on this account."
+    },
+    "workersPlans": {
+      "url": "https://dash.cloudflare.com/6e8c301360ab628706dcf3acf55f0dbb/workers/plans",
+      "selected": "Free \u2014 Current plan",
+      "cpuMsPerRequest": 10
+    },
+    "billingSubscriptions": {
+      "url": "https://dash.cloudflare.com/6e8c301360ab628706dcf3acf55f0dbb/billing/subscriptions",
+      "subscribed": [
+        "Workers Free \u2014 Active"
+      ],
+      "paymentMethod": "No payment method on file"
+    },
+    "billingUsage": {
+      "url": "https://dash.cloudflare.com/6e8c301360ab628706dcf3acf55f0dbb/billing/billable-usage",
+      "message": "Configure a billable usage notification",
+      "hardSpendCapVerified": false
+    },
+    "d1": {
+      "url": "https://dash.cloudflare.com/6e8c301360ab628706dcf3acf55f0dbb/workers/d1",
+      "databaseCount": 0,
+      "databaseLimit": 10,
+      "rowsReadToday": 0,
+      "rowsReadLimit": 5000000,
+      "rowsWrittenToday": 0,
+      "rowsWrittenLimit": 100000,
+      "storageBytes": 0,
+      "totalStorageAllowance": "5 GB"
+    },
+    "r2Plans": {
+      "url": "https://dash.cloudflare.com/6e8c301360ab628706dcf3acf55f0dbb/r2/plans",
+      "state": "Get started with R2",
+      "dueNow": "$0.00",
+      "monthly": "$0.00 + additional usage",
+      "terms": "Subscription automatically renews and usage above allowances is billable",
+      "activationClicked": false
+    }
+  },
+  "changesMade": false,
+  "finalDecision": "NO-GO"
+}

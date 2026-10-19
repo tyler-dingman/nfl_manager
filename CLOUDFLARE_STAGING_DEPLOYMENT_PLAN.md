@@ -2,6 +2,8 @@
 
 Prepared 2026-10-19 from `poc/d1-migration-completion` / `5bac5bcb`, in isolated worktree `/private/tmp/down-distance-staging-preparation`. **STOP before resource creation or deployment.** No production systems, DNS, real users, provider deliveries, or paid infrastructure were accessed or activated.
 
+> Preflight update: see `CLOUDFLARE_STAGING_PREFLIGHT_RESULTS.md`. Account inspection found Workers Free active, but R2 and Access not enabled. Deployment remains NO-GO.
+
 ## Decision and scope
 
 Local preparation is complete subject to the validation results below. Hosted deployment is **not yet authorized or qualified**. The migration report confirms PostgreSQL-free local workflows, while password CPU on Workers Free and sustained storage/operation budgets remain unresolved. A small, private, synthetic staging exercise is appropriate only after account capacity, R2 availability without service activation, and Access configuration have been reviewed. This is not production migration approval.
@@ -111,7 +113,7 @@ Results and command evidence are in `reports/staging-deployment/`. All test exec
 | Real Trade Machine HTTP regression | **1 passed, 0 failed**, run separately by browser harness |
 | Actual local workerd authentication | **PASS**, registration/login/PHC/reset/session expiry/concurrent sessions/logout/restart |
 | Generated staging graph checks | **2 passed**, included in application total, not an additional 2 |
-| Generated staging dry-run bundles | **PASS**, gzip web 2,338.34 KiB, API 898.15 KiB, password 79.42 KiB; each below 3 MiB |
+| Generated staging dry-run bundles | **PASS**, gzip web 2,338.34 KiB, API 898.15 KiB, password 79.42 KiB; gzip values retained as baseline measurements; current limit is 64 MiB uncompressed |
 | Hosted CPU / account quotas / Access | **NOT VERIFIED**; no remote access |
 | Throttled performance harness | Syntax checked; **not measured** in this task |
 
@@ -141,7 +143,7 @@ Proposed staging stop budgets, contingent on existing headroom: 1,000 Worker inv
 
 Cloudflare documentation checked 2026-10-19:
 
-- [Workers limits](https://developers.cloudflare.com/workers/platform/limits/): Free 100,000 requests/day, 10 ms CPU/request, 3 MiB compressed script limit. Check every split Worker independently, including Wasm. Proposed staging request budget uses at most 1% before other account use.
+- [Workers limits](https://developers.cloudflare.com/workers/platform/limits/): Free 100,000 requests/day, 10 ms CPU/request. Current documentation specifies a 64 MiB uncompressed script limit with no compressed-size limit; the earlier 3 MiB reference is superseded. Check every split Worker independently, including Wasm. Proposed staging request budget uses at most 1% before other account use.
 - [D1 pricing](https://developers.cloudflare.com/d1/platform/pricing/) and [limits](https://developers.cloudflare.com/d1/platform/limits/): account-wide 5M rows read/day, 100k written/day, 5 GB total storage, with 500 MB per Free database. Extra databases do not add daily writes. Proposed staging daily row budgets use 2% reads/10% writes before other use; migrations are additional. Index writes count. Observed local empty schema is ~2 MB; populated staging growth must be measured.
 - [R2 pricing](https://developers.cloudflare.com/r2/pricing/): Standard free allowance 10 GB-month/month, 1M Class A/month, 10M Class B/month across account usage. Proposed staging operations use 1%/0.5% respectively; 250 MiB kept for a full month is approximately 0.262 GB-month. R2 is metered beyond allowances; alerts are not a hard spending cap. No Infrequent Access or paid add-ons.
 

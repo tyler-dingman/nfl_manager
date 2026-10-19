@@ -1,0 +1,305 @@
+{
+  "baseline": "2d65c390",
+  "applicationCodeChanged": false,
+  "priorValidationReused": true,
+  "assetFiles": 1509,
+  "largestAssetBytes": 5532574,
+  "totalAssetBytes": 511647947,
+  "migrations": [
+    {
+      "name": "0001_editorial.sql",
+      "sha256": "dda29b240d53a13af2ff5a900cf96c56ba4d8d35f53e56fadd2fbcd30e87c0d6"
+    },
+    {
+      "name": "0002_candidate_revision_history.sql",
+      "sha256": "5cab0b82dedd21333d6bffa307864d535ad3bf243ffe2a8fc31f50330d8a6e66"
+    },
+    {
+      "name": "0003_query_cost_indexes.sql",
+      "sha256": "d73d1c927cdbd8cbc1d845662b31ab79a13aa79f7d0122f3e49908c5a93b6d79"
+    },
+    {
+      "name": "0004_lossless_storage.sql",
+      "sha256": "eece6858109ab68652c29512188f77db7b6185dd4413a12df9f2c56cdefb0ed2"
+    },
+    {
+      "name": "0005_evidence_revision_pin.sql",
+      "sha256": "13ccf03ffb83898d6feafd69be07cefab61dc5b41b8c60b581920f8b4188be70"
+    },
+    {
+      "name": "0006_dense_blob_fragments.sql",
+      "sha256": "0ffabee20ca6538d635c7a31b57e3afe5d902d664b39f349215334ae7e1938f0"
+    },
+    {
+      "name": "0007_private_r2_archives.sql",
+      "sha256": "33315d88982fd09c27e77dbfe9476a9c132d3c98b418d4cb7acd360af111727c"
+    },
+    {
+      "name": "0008_blob_pack_locations.sql",
+      "sha256": "b872c04016bf5b27041c88beaab92c84381002067aca4cc1a0bb32514f325154"
+    },
+    {
+      "name": "0009_lean_editorial.sql",
+      "sha256": "858d54fac5e969e88521d31272b9c45335530687662f028c7df6c36e6132284c"
+    },
+    {
+      "name": "0010_odds_refresh_slots.sql",
+      "sha256": "b6a800b0023c0b9050cf9cc49303097d9ce7aa42f1fe71789f5409d0180338f8"
+    },
+    {
+      "name": "0011_application.sql",
+      "sha256": "0c272a69c5e41904d985f1e10dd177365ab6e1c8272a52ad842a406c4e437334"
+    },
+    {
+      "name": "0012_team_preferences.sql",
+      "sha256": "b26fc01ef9364496e0c42345b37230d53e658d21a0af9d35880cbc8e72457d68"
+    },
+    {
+      "name": "0013_odds_publication.sql",
+      "sha256": "a6d918de462f5a84122cb643a03b7f14d8a3ba64d8bfbdf766c9c301b0becbf1"
+    },
+    {
+      "name": "0014_security_audit.sql",
+      "sha256": "64dfddea077f2c8546e9b61a15adf62caab61348de9380ea14ec0161b5b0790e"
+    },
+    {
+      "name": "0015_saved_metadata_pointer.sql",
+      "sha256": "8cf26bb637a257ab25785fc976b36f6d9884a2e9add56efddc944e4ef36e4f3a"
+    },
+    {
+      "name": "0016_phase_four_lifecycle.sql",
+      "sha256": "9a15072682f9999de2c342d4db12e2dac8f0432f608ee41f777aa5a5ca70949c"
+    },
+    {
+      "name": "0017_phase_four_daily_trivia.sql",
+      "sha256": "6de3843c96ead47902bcbc414e16c1c5e96607a633d620413ce5e157cae88de8"
+    },
+    {
+      "name": "0018_phase_four_odds_history.sql",
+      "sha256": "1d715fe6c23819ae8c3898761549195e121894a87c1d325ebcd517051aac191c"
+    },
+    {
+      "name": "0019_franchise_aggregates.sql",
+      "sha256": "68a60cfd8e1fc093862e64b44a8ff2764b5ae3cb6be38642e27a431ee54e10f2"
+    },
+    {
+      "name": "0020_reward_rank_index.sql",
+      "sha256": "4402bde743de75b2d2286bd1da3f4cf0af660bc66735ccb4ef73eb9effd55240"
+    },
+    {
+      "name": "0021_reference_and_odds.sql",
+      "sha256": "565c441f8238c14425d4a856ace2a962345b4d873253726b3e07f66b97ef4ddd"
+    },
+    {
+      "name": "0022_odds_processing.sql",
+      "sha256": "25375c10a9db8a78ce4c00f79fd01459effd1e9d52c1e20652f4c78ac1553b93"
+    },
+    {
+      "name": "0023_public_editorial.sql",
+      "sha256": "54c303701fa912e92e422bd4cbb35981f8b4327ab64dd908752299a3721073eb"
+    },
+    {
+      "name": "0024_briefing_mail_jobs.sql",
+      "sha256": "284d4b02571aaea40adf6bcf8096139d7abf069e3c40415858e371da4a905b11"
+    },
+    {
+      "name": "0025_saved_metadata_offload.sql",
+      "sha256": "e0f28a6d0f58ce5eb1146906f78d53fb1775a23444cc13cc6e7782d3936e7128"
+    },
+    {
+      "name": "0026_odds_identity_directory.sql",
+      "sha256": "c839b603088f09e422600558ccddd9d0e128d21b1bc579bb4068f79cea49f881"
+    },
+    {
+      "name": "0027_notifications_editorial.sql",
+      "sha256": "184b96932d85ea926891263d74e48b954699c7a674d150e09835b4a28243bfb3"
+    },
+    {
+      "name": "0028_social_workflows.sql",
+      "sha256": "587dd2d0bab8147f2993ae00ab6e1a4040238a5899ddaf2dd50dcbd6b1c66e67"
+    },
+    {
+      "name": "0029_trivia_games.sql",
+      "sha256": "43cf67239d917c14d5fb6dcd0583d3d2b79a02cebd61a9894473be939e797646"
+    },
+    {
+      "name": "0030_web_push.sql",
+      "sha256": "926ef8877976527df033166d546bddcbb6c5ce5235db2f992f447077558ee66f"
+    },
+    {
+      "name": "0031_commerce.sql",
+      "sha256": "d3e3d6fcdd608ef1b42d2a2b56b20fd3e4082040f4c6672ba0c8c7a6dad62369"
+    },
+    {
+      "name": "0032_editorial_ingestion.sql",
+      "sha256": "be9216838cdf01b26d78e94ca924a15038d5abb7ee7385701449548b58b06f35"
+    },
+    {
+      "name": "0033_story_game_links.sql",
+      "sha256": "d05aaeab05cb3417c40722a1c4894bb8272925802f3187534402d615031f36b4"
+    },
+    {
+      "name": "0034_briefing_push.sql",
+      "sha256": "27c19dbcf44b8c7179c8d81d54fd98226f7e0aa789d5f94ee21aaa02335deb6e"
+    },
+    {
+      "name": "0035_observer.sql",
+      "sha256": "0b948c0e95fe94f4067079a3cb63eb119b7f7c12a254c0b98890bfe88baffe95"
+    },
+    {
+      "name": "0036_sportsbook_transfers.sql",
+      "sha256": "79524536103a5218f0badf36b7141edc25842a3f800d15b50046886a91de5dcc"
+    },
+    {
+      "name": "0037_reference_import_lock.sql",
+      "sha256": "f000abcf0f15a59e73eafe7af0fe81ff07b2f11569a44d70d36780c14bfe3b19"
+    },
+    {
+      "name": "0038_user_workflows.sql",
+      "sha256": "dca9d8815eaf21515a9147aa5e66d31faf9b43f34822eb677df192b35077d89d"
+    }
+  ],
+  "configReview": {
+    "web": {
+      "compatibility_date": "2026-10-18",
+      "compatibility_flags": [
+        "nodejs_compat"
+      ],
+      "workers_dev": false,
+      "preview_urls": false,
+      "send_metrics": false,
+      "triggers": {
+        "crons": []
+      },
+      "observability": {
+        "enabled": true,
+        "head_sampling_rate": 1
+      },
+      "vars": {
+        "APP_DATA_BACKEND": "d1",
+        "APP_RUNTIME": "cloudflare",
+        "INFRASTRUCTURE_COST_POLICY": "zero-cost",
+        "AUTH_BASE_URL": "https://down-distance-staging-web.synthetic.workers.dev",
+        "PRELAUNCH_MODE": "false",
+        "APP_PASSWORD_ENABLED": "false",
+        "APP_SOCIAL_NOTIFICATIONS_ENABLED": "false",
+        "APP_CONTENT_ENABLED": "false",
+        "APP_BRIEFINGS_ENABLED": "false",
+        "APP_ODDS_ENABLED": "false",
+        "APP_ODDS_PROCESSING_ENABLED": "false",
+        "APP_MAIL_ENABLED": "false",
+        "APP_MAINTENANCE_ENABLED": "false",
+        "APP_PUBLIC_CACHE_ENABLED": "false",
+        "APP_CACHE_VERSION": "staging-5bac5bcb"
+      },
+      "d1_databases": [
+        {
+          "binding": "APP_DB",
+          "database_name": "down-distance-staging-app",
+          "database_id": "11111111-1111-4111-8111-111111111111",
+          "migrations_dir": "/private/tmp/down-distance-staging-preparation/workers/content-engine/migrations"
+        }
+      ],
+      "r2_buckets": [
+        {
+          "binding": "APP_OBJECTS",
+          "bucket_name": "down-distance-staging-objects"
+        },
+        {
+          "binding": "APP_BACKUP",
+          "bucket_name": "down-distance-staging-backups"
+        }
+      ],
+      "name": "down-distance-staging-web",
+      "main": "/private/tmp/down-distance-staging-preparation/workers/web/index.ts",
+      "minify": true,
+      "assets": {
+        "directory": "/private/tmp/down-distance-staging-preparation/.open-next/assets",
+        "binding": "ASSETS"
+      },
+      "services": [
+        {
+          "binding": "API_SERVICE",
+          "service": "down-distance-staging-api"
+        }
+      ]
+    },
+    "api": {
+      "compatibility_date": "2026-10-18",
+      "compatibility_flags": [
+        "nodejs_compat"
+      ],
+      "workers_dev": false,
+      "preview_urls": false,
+      "send_metrics": false,
+      "triggers": {
+        "crons": []
+      },
+      "observability": {
+        "enabled": true,
+        "head_sampling_rate": 1
+      },
+      "vars": {
+        "APP_DATA_BACKEND": "d1",
+        "APP_RUNTIME": "cloudflare",
+        "INFRASTRUCTURE_COST_POLICY": "zero-cost",
+        "AUTH_BASE_URL": "https://down-distance-staging-web.synthetic.workers.dev",
+        "PRELAUNCH_MODE": "false",
+        "APP_PASSWORD_ENABLED": "false",
+        "APP_SOCIAL_NOTIFICATIONS_ENABLED": "false",
+        "APP_CONTENT_ENABLED": "false",
+        "APP_BRIEFINGS_ENABLED": "false",
+        "APP_ODDS_ENABLED": "false",
+        "APP_ODDS_PROCESSING_ENABLED": "false",
+        "APP_MAIL_ENABLED": "false",
+        "APP_MAINTENANCE_ENABLED": "false",
+        "APP_PUBLIC_CACHE_ENABLED": "false",
+        "APP_CACHE_VERSION": "staging-5bac5bcb"
+      },
+      "d1_databases": [
+        {
+          "binding": "APP_DB",
+          "database_name": "down-distance-staging-app",
+          "database_id": "11111111-1111-4111-8111-111111111111",
+          "migrations_dir": "/private/tmp/down-distance-staging-preparation/workers/content-engine/migrations"
+        }
+      ],
+      "r2_buckets": [
+        {
+          "binding": "APP_OBJECTS",
+          "bucket_name": "down-distance-staging-objects"
+        },
+        {
+          "binding": "APP_BACKUP",
+          "bucket_name": "down-distance-staging-backups"
+        }
+      ],
+      "name": "down-distance-staging-api",
+      "main": "/private/tmp/down-distance-staging-preparation/workers/api/dist/worker.mjs",
+      "services": [
+        {
+          "binding": "PASSWORD_SERVICE",
+          "service": "down-distance-staging-password"
+        }
+      ]
+    },
+    "password": {
+      "compatibility_date": "2026-10-18",
+      "compatibility_flags": [
+        "nodejs_compat"
+      ],
+      "workers_dev": false,
+      "preview_urls": false,
+      "send_metrics": false,
+      "triggers": {
+        "crons": []
+      },
+      "observability": {
+        "enabled": true,
+        "head_sampling_rate": 1
+      },
+      "name": "down-distance-staging-password",
+      "main": "/private/tmp/down-distance-staging-preparation/workers/password/index.ts"
+    }
+  }
+}

@@ -1,0 +1,150 @@
+{
+  "checkedUTC": "2026-10-19T12:35:01.692Z",
+  "accountId": "6e8c301360ab628706dcf3acf55f0dbb",
+  "readOnly": true,
+  "endpoints": {
+    "subscriptions": {
+      "httpStatus": 403,
+      "success": false,
+      "errors": [
+        {
+          "code": 10000,
+          "message": "Authentication error",
+          "documentation_url": "https://developers.cloudflare.com/api/resources/accounts/subresources/subscriptions/methods/get"
+        }
+      ],
+      "metadata": null
+    },
+    "workers": {
+      "httpStatus": 200,
+      "success": true,
+      "errors": [],
+      "metadata": [
+        {
+          "created_on": "2026-09-07T17:14:15.810716Z",
+          "modified_on": "2026-09-17T16:04:07.950039Z",
+          "id": "dnd-content-scheduler",
+          "tag": "0318ff8c49ea48d1ac5e454fe3ef922c",
+          "tags": [],
+          "deployment_id": "",
+          "tail_consumers": null,
+          "logpush": false,
+          "observability": {
+            "enabled": true,
+            "head_sampling_rate": 1,
+            "redact_query_string": false,
+            "logs": {
+              "enabled": true,
+              "head_sampling_rate": 1,
+              "persist": true,
+              "invocation_logs": true
+            },
+            "traces": {
+              "enabled": false,
+              "persist": true,
+              "head_sampling_rate": 1
+            }
+          },
+          "has_assets": false,
+          "has_modules": true,
+          "etag": "994b19704e4efe035d190cb4383174a50ba6d191d9eecb0315605340b517b162",
+          "handlers": [
+            "fetch",
+            "scheduled"
+          ],
+          "last_deployed_from": "wrangler",
+          "compatibility_date": "2026-09-07",
+          "usage_model": "standard",
+          "routes": null
+        }
+      ]
+    },
+    "workersSubdomain": {
+      "httpStatus": 200,
+      "success": true,
+      "errors": [],
+      "metadata": {
+        "subdomain": "tdingman5"
+      }
+    },
+    "workersStandard": {
+      "httpStatus": 200,
+      "success": true,
+      "errors": [],
+      "metadata": {
+        "standard": true
+      }
+    },
+    "workerSchedules": {
+      "httpStatus": 200,
+      "success": true,
+      "errors": [],
+      "metadata": {
+        "schedules": [
+          {
+            "cron": "0 0,2,12,14,16,18,20,22 * * *",
+            "created_on": "2026-09-17T16:04:08.445445Z",
+            "modified_on": "2026-09-17T16:04:08.445445Z"
+          }
+        ]
+      }
+    },
+    "d1": {
+      "httpStatus": 200,
+      "success": true,
+      "errors": [],
+      "metadata": [],
+      "resultInfo": {
+        "count": 0,
+        "page": 1,
+        "per_page": 100,
+        "total_count": 0
+      }
+    },
+    "r2": {
+      "httpStatus": 403,
+      "success": false,
+      "errors": [
+        {
+          "code": 10042,
+          "message": "Please enable R2 through the Cloudflare Dashboard."
+        }
+      ],
+      "metadata": null
+    },
+    "accessApps": {
+      "httpStatus": 403,
+      "success": false,
+      "errors": [
+        {
+          "code": 9999,
+          "message": "access.api.error.not_enabled: Access is not enabled. Visit the Access dashboard at https://dash.cloudflare.com/ and click the 'Enable Access' button."
+        }
+      ],
+      "metadata": null
+    },
+    "accessOrganizations": {
+      "httpStatus": 403,
+      "success": false,
+      "errors": [
+        {
+          "code": 10000,
+          "message": "Authentication error",
+          "documentation_url": "https://developers.cloudflare.com/api/resources/zero_trust/subresources/organizations/methods/list"
+        }
+      ],
+      "metadata": null
+    },
+    "accessIdentityProviders": {
+      "httpStatus": 403,
+      "success": false,
+      "errors": [
+        {
+          "code": 9999,
+          "message": "access.api.error.not_enabled: Access is not enabled. Visit the Access dashboard at https://dash.cloudflare.com/ and click the 'Enable Access' button."
+        }
+      ],
+      "metadata": null
+    }
+  }
+}
