@@ -305,6 +305,7 @@ export async function generateAllDailyThreeAndOut(options: { now?: Date; force?:
 type PushCandidate = SnapshotRow & { userId: string; timezone: string; deliveryTime: string };
 
 export async function deliverDueDailyThreeAndOut(now = new Date()) {
+ if(applicationBackend()==='d1')return deliverDueD1Briefings(now);
   const subscribers = await authDb()<{ teamId: string; timezone: string; deliveryTime: string }[]>`
     SELECT DISTINCT pref.favorite_team_abbr AS "teamId",coalesce(np.delivery_timezone,p.timezone,'UTC') AS timezone,
       coalesce(np.delivery_time,'07:00') AS "deliveryTime"
@@ -416,4 +417,16 @@ export async function deliverDueDailyThreeAndOut(now = new Date()) {
     }),
   );
   return { candidates: candidates.length, sent, skipped };
+}
+
+async function deliverDueD1Briefings(now:Date){
+ const s=applicationStorage(),subscribers=await s.rows<any>(`SELECT u.id AS userId,json_extract(p.preferences_json,'$.preferredTeamId') AS teamId,coalesce(np.delivery_timezone,json_extract(p.profile_json,'$.timezone'),'UTC') AS timezone,coalesce(np.delivery_time,'07:00') AS deliveryTime,json_extract(p.preferences_json,'$.pushEnabled') AS pushEnabled FROM app_users u JOIN app_settings p ON p.user_id=u.id JOIN app_notification_preferences np ON np.user_id=u.id WHERE u.status='ACTIVE' AND np.category='THREE_AND_OUT_DAILY' AND np.channel='IN_APP' AND np.enabled=1 AND json_extract(p.preferences_json,'$.preferredTeamId') IS NOT NULL`),generated=new Set<string>();let sent=0,skipped=0;
+ for(const user of subscribers){const date=dailyBriefingDeliveryDate(now,user.timezone,user.deliveryTime);if(!date){skipped++;continue;}const key=user.teamId+':'+date;if(!generated.has(key)){generated.add(key);const rows=await new DailyBriefings(s).latest(user.teamId,date);if(!rows.length)await generateDailyThreeAndOut(user.teamId,{now,briefingDate:date});}
+  if(user.pushEnabled===0||!(await s.rows("SELECT 1 FROM app_notification_preferences WHERE user_id=? AND category='THREE_AND_OUT_DAILY' AND channel='PUSH' AND enabled=1",[user.userId])).length){skipped++;continue;}
+  const[row]=await new DailyBriefings(s).latest(user.teamId,date);if(!row||row.items.length!==3){skipped++;continue;}
+  const claim=await s.statement("INSERT INTO app_briefing_push_deliveries(briefing_id,user_id,delivery_date,status,attempted_at) VALUES(?,?,?,'PENDING',?) ON CONFLICT(user_id,delivery_date) DO UPDATE SET briefing_id=excluded.briefing_id,status='PENDING',attempt_count=attempt_count+1,attempted_at=excluded.attempted_at WHERE status='FAILED' AND attempt_count<3 RETURNING briefing_id",[row.id,user.userId,date,now.getTime()]).first();if(!claim){skipped++;continue;}
+  try{const payload=buildDailyBriefingPush({teamId:user.teamId,teamName:TEAM_LIST.find(t=>t.abbr===user.teamId)?.name??user.teamId,briefingDate:date,stories:row.items}),result=await sendPush({userId:user.userId,eventId:`three-and-out:${row.id}:${user.userId}`,...payload,data:{type:'THREE_AND_OUT_DAILY',teamId:user.teamId,briefingDate:date}});await s.statement('UPDATE app_briefing_push_deliveries SET status=?,delivered_at=?,last_error=? WHERE user_id=? AND delivery_date=?',[result.ok?'SENT':'SUPPRESSED',result.ok?now.getTime():null,result.ok?null:result.reason??'Suppressed',user.userId,date]).run();if(result.ok)sent++;}
+  catch(error){await s.statement("UPDATE app_briefing_push_deliveries SET status='FAILED',last_error=? WHERE user_id=? AND delivery_date=?",[String(error).slice(0,300),user.userId,date]).run();}
+ }
+ return{candidates:subscribers.length,sent,skipped};
 }

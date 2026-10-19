@@ -1,3 +1,5 @@
+import{applicationBackend,applicationStorage}from'../persistence/bindings';
+import{D1HistoryIngestion}from'../../../packages/storage/history-ingestion';
 import { TEAM_LIST } from '@/data/teams';
 import { authDb } from '@/server/auth/database';
 
@@ -78,7 +80,8 @@ export async function ingestSchedule(season: number, dryRun = false) {
   for (const t of TEAM_LIST)
     if (regular.filter((g) => g.homeTeam === t.abbr || g.awayTeam === t.abbr).length !== 17)
       throw new Error(`Invalid season coverage for ${t.abbr}`);
-  if (!dryRun)
+  if(!dryRun&&applicationBackend()==='d1')await new D1HistoryIngestion(applicationStorage()).schedules(games.map(g=>({id:crypto.randomUUID(),providerEventId:g.eventId,season:g.season,seasonType:g.seasonType as 'PRE'|'REG'|'POST',week:g.week,homeTeam:g.homeTeam,awayTeam:g.awayTeam,kickoffAt:g.kickoffAt,kickoffConfirmed:g.kickoffConfirmed,status:g.status as any,homeScore:g.homeScore,awayScore:g.awayScore,overtime:g.overtime,venue:g.venue,broadcastNetwork:g.broadcastNetwork})));
+  if (!dryRun&&applicationBackend()!=='d1')
     await authDb().begin(async (tx) => {
       for (const g of games)
         await tx`INSERT INTO historical_games(season,season_type,week,provider,provider_game_id,espn_event_id,game_date,kickoff_at,kickoff_confirmed,home_team_id,away_team_id,status,home_score,away_score,overtime,venue,broadcast_network)

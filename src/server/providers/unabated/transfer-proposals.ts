@@ -1,3 +1,5 @@
+import{applicationBackend,applicationStorage,applicationEnvironment}from'../../persistence/bindings';
+import{D1TransferProposals}from'../../../../packages/storage/sportsbook-transfers';
 import { createHmac, timingSafeEqual } from 'node:crypto';
 import { authDb } from '../../auth/database';
 import { classifyStoredLine } from '../../odds/line-classification';
@@ -13,7 +15,7 @@ import {
 import { TransferError } from './transfer-service';
 import type { TransferLeg } from './test-transfer-validation';
 
-export function substitutionPolicy(env = process.env) {
+export function substitutionPolicy(env = applicationEnvironment()) {
   return {
     differences: Object.fromEntries(
       Object.entries(defaultSubstitutionPolicy.differences).map(([key, fallback]) => {
@@ -29,7 +31,7 @@ export function substitutionPolicy(env = process.env) {
   };
 }
 const signature = (value: string) =>
-  createHmac('sha256', process.env.AUTH_JWT_SECRET!)
+  createHmac('sha256', applicationEnvironment().AUTH_JWT_SECRET!)
     .update('sportsbook-proposal:' + value)
     .digest('base64url');
 const stamp = (matches: TransferProposal['matches']) =>
@@ -96,7 +98,9 @@ export function readProposalToken(user: string, book: Sportsbook, token: string)
     );
   }
 }
-export function createProposalService(db = authDb()) {
+export function createProposalService(inputDb?:ReturnType<typeof authDb>){
+ if(!inputDb&&applicationBackend()==='d1'){const d=new D1TransferProposals(applicationStorage());return{inspect:d.inspect.bind(d),propose:d.propose.bind(d),approve:d.approve.bind(d)};}
+ const db=inputDb??authDb();
   async function inspect(user: string, ids: string[], book: Sportsbook, enabled = true) {
     if (!ids.length || ids.length > 20 || new Set(ids).size !== ids.length)
       throw new TransferError('Invalid selections.');

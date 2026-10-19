@@ -1,10 +1,10 @@
 import * as pg from './repository-postgres';
-import { D1UserRepository } from '../../../packages/storage/user';
+import { D1UserWorkflows } from '../../../packages/storage/user-workflows';
 import { applicationBackend, applicationStorage } from '../persistence/bindings';
 function dispatch<K extends keyof typeof pg>(name: K): (typeof pg)[K] {
   return (async (...args: unknown[]) => {
     if (applicationBackend() === 'postgres') return (pg[name] as Function)(...args);
-    const repo = new D1UserRepository(applicationStorage()),
+    const repo = new D1UserWorkflows(applicationStorage()),
       method = (repo as unknown as Record<string, Function>)[name];
     if (!method) throw Error(`D1 user operation is not migrated: ${name}`);
     return method.apply(repo, args);

@@ -1,0 +1,53 @@
+{
+  "scope": "actual local Miniflare D1, 10000 events, 16 upcoming; no new index",
+  "before": {
+    "served_by": "miniflare.db",
+    "served_by_primary": true,
+    "total_attempts": 1,
+    "timings": {
+      "sql_duration_ms": 1
+    },
+    "duration": 1,
+    "changes": 0,
+    "last_row_id": 10000,
+    "changed_db": false,
+    "size_after": 3497984,
+    "rows_read": 10000,
+    "rows_written": 0
+  },
+  "after": {
+    "served_by": "miniflare.db",
+    "served_by_primary": true,
+    "total_attempts": 1,
+    "timings": {
+      "sql_duration_ms": 0
+    },
+    "duration": 0,
+    "changes": 0,
+    "last_row_id": 10000,
+    "changed_db": false,
+    "size_after": 3497984,
+    "rows_read": 16,
+    "rows_written": 0
+  },
+  "plans": {
+    "before": [
+      {
+        "id": 4,
+        "parent": 0,
+        "notused": 223,
+        "detail": "SCAN app_sportsbook_events USING INDEX app_sportsbook_kickoff"
+      }
+    ],
+    "after": [
+      {
+        "id": 4,
+        "parent": 0,
+        "notused": 203,
+        "detail": "SEARCH app_sportsbook_events USING INDEX app_sportsbook_kickoff (kickoff_at>?)"
+      }
+    ]
+  },
+  "extraIndexBytes": 0,
+  "extraWrites": 0
+}

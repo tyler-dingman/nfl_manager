@@ -397,23 +397,29 @@ export class D1AuthRepository {
   async confirmEmail(token: string) {
     const nonce = crypto.randomUUID(),
       now = Date.now();
-    await this.s.batch([
-      this.s.statement(
-        "UPDATE app_tokens SET consumed_at=?,consume_nonce=? WHERE token_hash=? AND type='EMAIL_VERIFICATION' AND consumed_at IS NULL AND expires_at>?",
-        [now, nonce, await digest(utf8.encode(token)), now],
-      ),
-      this.s.guard(nonce),
-      this.s.statement(
-        "UPDATE app_users SET email_verified=1,status=CASE WHEN status='PENDING' THEN 'ACTIVE' ELSE status END,updated_at=? WHERE id=(SELECT user_id FROM app_tokens WHERE consume_nonce=?)",
-        [now, nonce],
-      ),
-      this.s.guard(nonce + 'user'),
-      this.s.statement(
-        "UPDATE app_identities SET provider_email_verified=1 WHERE provider='EMAIL' AND user_id=(SELECT user_id FROM app_tokens WHERE consume_nonce=?)",
-        [nonce],
-      ),
-      this.s.unguard(nonce),
-      this.s.unguard(nonce + 'user'),
-    ]);
+    try {
+      await this.s.batch([
+        this.s.statement(
+          "UPDATE app_tokens SET consumed_at=?,consume_nonce=? WHERE token_hash=? AND type='EMAIL_VERIFICATION' AND consumed_at IS NULL AND expires_at>?",
+          [now, nonce, await digest(utf8.encode(token)), now],
+        ),
+        this.s.guard(nonce),
+        this.s.statement(
+          "UPDATE app_users SET email_verified=1,status=CASE WHEN status='PENDING' THEN 'ACTIVE' ELSE status END,updated_at=? WHERE id=(SELECT user_id FROM app_tokens WHERE consume_nonce=?)",
+          [now, nonce],
+        ),
+        this.s.guard(nonce + 'user'),
+        this.s.statement(
+          "UPDATE app_identities SET provider_email_verified=1 WHERE provider='EMAIL' AND user_id=(SELECT user_id FROM app_tokens WHERE consume_nonce=?)",
+          [nonce],
+        ),
+        this.s.unguard(nonce),
+        this.s.unguard(nonce + 'user'),
+      ]);
+    } catch (error) {
+      if (/CHECK constraint failed|app_assertions/.test(String(error)))
+        throw Error('This verification link is invalid or expired.');
+      throw error;
+    }
   }
 }

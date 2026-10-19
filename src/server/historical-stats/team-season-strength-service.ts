@@ -1,6 +1,9 @@
+import{applicationBackend,applicationStorage}from'../persistence/bindings';
+import{D1HistoryIngestion}from'../../../packages/storage/history-ingestion';
 import { authDb } from '@/server/auth/database';
 
 export async function calculateTeamSeasonStrength(season: number) {
+ if(applicationBackend()==='d1')return new D1HistoryIngestion(applicationStorage()).calculateTeamSeasonStrength(season);
   const db = authDb();
   await db`
     WITH offense AS (

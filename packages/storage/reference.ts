@@ -1,3 +1,4 @@
+import { JsonTree } from './json-tree';
 import { Storage } from './core';
 import type { CanonicalGame } from '../../src/lib/canonical-game';
 import type {
@@ -14,7 +15,15 @@ export class ReferenceData {
     value: unknown,
     metadata: unknown = {},
   ) {
-    const hash = await this.s.put({ schema: 1, namespace, id, value });
+    const hash =
+      Array.isArray(value) && JSON.stringify(value).length > 131072
+        ? await this.s.put({
+            schema: 2,
+            namespace,
+            id,
+            root: await new JsonTree(this.s).put(value),
+          })
+        : await this.s.put({ schema: 1, namespace, id, value });
     await this.s.batch([
       this.s.statement(
         'INSERT INTO app_reference_packs(namespace,id,subject,season,metadata_json,object_hash) VALUES(?,?,?,?,?,?) ON CONFLICT(namespace,id) DO UPDATE SET subject=excluded.subject,season=excluded.season,metadata_json=excluded.metadata_json,object_hash=excluded.object_hash WHERE subject IS NOT excluded.subject OR season IS NOT excluded.season OR metadata_json IS NOT excluded.metadata_json OR object_hash IS NOT excluded.object_hash',
@@ -28,7 +37,9 @@ export class ReferenceData {
   }
   async values<T>(namespace: string, where = '1', values: unknown[] = []): Promise<T[]> {
     const rows = await this.s.rows<{ id: string; object_hash: string }>(
-      'SELECT id,object_hash FROM app_reference_packs WHERE namespace=? AND ' + where,
+      'SELECT id,object_hash FROM app_reference_packs WHERE namespace=? AND ' +
+        where +
+        " ORDER BY CASE WHEN id LIKE 'canonical:%' THEN 1 ELSE 0 END,id",
       [namespace, ...values],
     );
     const result: T[] = [];
@@ -36,24 +47,29 @@ export class ReferenceData {
       for (const value of await Promise.all(
         rows.slice(i, i + 6).map(async (row) => {
           const envelope = await this.s.get<any>(row.object_hash);
-          if (envelope.schema !== 1 || envelope.namespace !== namespace || envelope.id !== row.id)
+          if (
+            ![1, 2].includes(envelope.schema) ||
+            envelope.namespace !== namespace ||
+            envelope.id !== row.id
+          )
             throw Error('Reference pack identity mismatch');
-          return envelope.value as T;
+          return (
+            envelope.schema === 2 ? await new JsonTree(this.s).get(envelope.root) : envelope.value
+          ) as T;
         }),
       ))
         result.push(value);
     return result;
   }
   async games(seasons: number[]) {
-    return (
+    const packs = (
       await this.values<CanonicalGame[]>('SCHEDULE', 'season IN(SELECT value FROM json_each(?))', [
         JSON.stringify(seasons),
       ])
-    )
-      .flat()
-      .sort(
-        (a, b) => (a.kickoffAt ?? '').localeCompare(b.kickoffAt ?? '') || a.id.localeCompare(b.id),
-      );
+    ).flat();
+    return [...new Map(packs.map((g) => [g.id, g])).values()].sort(
+      (a, b) => (a.kickoffAt ?? '').localeCompare(b.kickoffAt ?? '') || a.id.localeCompare(b.id),
+    );
   }
   async nextGame(team: string, now = new Date()) {
     const games = (
@@ -80,6 +96,10 @@ export class ReferenceData {
       )
     )
       .flat()
+      .filter(
+        (g, i, all) =>
+          all.findLastIndex((x) => x.gameId === g.gameId && x.playerId === g.playerId) === i,
+      )
       .sort((a, b) => b.date.localeCompare(a.date) || b.week - a.week);
   }
   async strength(team: string, season: number) {
@@ -89,7 +109,7 @@ export class ReferenceData {
           team,
           season,
         ])
-      )[0] ?? null
+      ).at(-1) ?? null
     );
   }
   async opponentGames(opponent: string, position: string, seasons: number[]) {
@@ -101,6 +121,10 @@ export class ReferenceData {
       )
     )
       .flat()
+      .filter(
+        (g, i, all) =>
+          all.findLastIndex((x) => x.gameId === g.gameId && x.playerId === g.playerId) === i,
+      )
       .sort((a, b) => b.date.localeCompare(a.date) || b.week - a.week);
   }
   async researchPlayers(teams: string[], year = new Date().getUTCFullYear()) {

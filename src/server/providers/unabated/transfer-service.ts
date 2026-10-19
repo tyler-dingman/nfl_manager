@@ -1,3 +1,5 @@
+import{applicationBackend,applicationStorage,applicationEnvironment}from'../../persistence/bindings';
+import{D1Transfers}from'../../../../packages/storage/sportsbook-transfers';
 import { sportsbookConfig, type Sportsbook } from '../../../../packages/parlay/sportsbook-transfer';
 import { createHash, createHmac, randomUUID } from 'node:crypto';
 import { authDb } from '../../auth/database';
@@ -18,7 +20,7 @@ export class TransferError extends Error {
     super(message);
   }
 }
-export function transferEnabled(userId: string, env = process.env, book: Sportsbook = 'fanduel') {
+export function transferEnabled(userId: string, env = applicationEnvironment(), book: Sportsbook = 'fanduel') {
   return (
     ['development', 'test'].includes(env.NODE_ENV ?? '') &&
     env[sportsbookConfig[book].flag] === 'true' &&
@@ -38,7 +40,7 @@ export const transferLimits = () => ({
   concurrent: limit('UNABATED_MAX_CONCURRENT_GENERATIONS', 3),
 });
 function limit(key: string, fallback: number) {
-  const n = Number(process.env[key] ?? fallback);
+  const n = Number(applicationEnvironment()[key] ?? fallback);
   return Number.isSafeInteger(n) && n >= 0 ? Math.min(n, fallback) : 0;
 }
 export type Job = {
@@ -71,7 +73,9 @@ export function quotaReason(
       ? 'Sportsbook preparation is busy. Please try later.'
       : null;
 }
-export function createTransferService(db = authDb(), client = new UnabatedClient()) {
+export function createTransferService(inputDb?:ReturnType<typeof authDb>,client=new UnabatedClient()){
+ if(!inputDb&&applicationBackend()==='d1'){const d=new D1Transfers(applicationStorage(),client);return{start:d.start.bind(d),poll:d.poll.bind(d),resolve:d.resolve.bind(d)};}
+ const db=inputDb??authDb();
   const actor = (user: string) =>
     createHmac('sha256', process.env.AUTH_JWT_SECRET!)
       .update('fanduel:' + user)

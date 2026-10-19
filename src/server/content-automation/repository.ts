@@ -1,3 +1,5 @@
+import{applicationBackend,applicationStorage}from'../persistence/bindings';
+import{D1ContentAutomation}from'../../../packages/storage/automation';
 import { randomUUID } from 'node:crypto';
 import { authDb } from '@/server/auth/database';
 
@@ -25,6 +27,8 @@ function ensureTrialSchema() {
 }
 
 export async function readTrialUsage(startsAt: Date, expiresAt: Date) {
+  if(applicationBackend()==='d1') return new D1ContentAutomation(applicationStorage()).readTrialUsage(startsAt,expiresAt);
+
   await ensureTrialSchema();
   const [row] = await authDb()`SELECT
     COALESCE(SUM(generated_items),0)::int AS generated_total,
@@ -47,6 +51,8 @@ export async function recordTrialRun(input: {
   aiSpendUsd?: number;
   detail?: object;
 }) {
+  if(applicationBackend()==='d1') return new D1ContentAutomation(applicationStorage()).recordTrialRun(input);
+
   await ensureTrialSchema();
   await authDb()`INSERT INTO content_automation_trial_runs
     (id,trial_starts_at,trial_expires_at,polling_group,status,generated_items,ai_spend_usd,detail,finished_at)

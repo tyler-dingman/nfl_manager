@@ -1,3 +1,5 @@
+import{applicationBackend,applicationStorage}from'../persistence/bindings';
+import{ReferenceData}from'../../../packages/storage/reference';
 import { authDb } from '@/server/auth/database';
 
 type Context = 'PASSING_YARDS' | 'PASSING_TDS' | 'RUSHING_YARDS' | 'RUSHING_TDS' | 'RECEPTIONS';
@@ -7,7 +9,7 @@ export async function getTeamMatchupTrend(
   context: Context,
   seasons = [2024, 2025],
 ) {
-  const rows = await authDb()<
+  const rows: Array<{teamId:string;passingYards:number|null;passingTds:number|null;rushingYards:number|null;rushingTds:number|null;receptions:number|null}>=applicationBackend()==='d1'?(await new ReferenceData(applicationStorage()).values<any[]>('TEAM_GAMES','season IN(SELECT value FROM json_each(?))',[JSON.stringify(seasons)])).flat().map(r=>({...r,teamId:r.opponentTeamId})):await authDb()<
     Array<{
       teamId: string;
       passingYards: number | null;

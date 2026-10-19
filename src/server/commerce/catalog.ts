@@ -1,3 +1,5 @@
+import{applicationBackend,applicationStorage}from'../persistence/bindings';
+import{D1Commerce}from'../../../packages/storage/commerce';
 import {
   MERCH_PRODUCTS,
   RETIRED_MERCH_PRODUCT_IDS,
@@ -11,6 +13,8 @@ const description = (type: string) =>
     : 'Built for Sundays, Saturdays, and everything in between.';
 
 export async function syncCommerceCatalog() {
+  if(applicationBackend()==='d1') return new D1Commerce(applicationStorage()).syncCommerceCatalog();
+
   const sql = authDb();
   // Retain historical order records while removing retired items from sale.
   await sql`UPDATE commerce_products SET active=false,updated_at=now()
@@ -42,6 +46,8 @@ export async function syncCommerceCatalog() {
 }
 
 export async function commerceCatalog() {
+  if(applicationBackend()==='d1') return new D1Commerce(applicationStorage()).commerceCatalog();
+
   await syncCommerceCatalog();
   const sql = authDb();
   return sql<
@@ -53,6 +59,8 @@ export async function commerceCatalog() {
 }
 
 export async function commerceProduct(productId: string) {
+  if(applicationBackend()==='d1') return new D1Commerce(applicationStorage()).commerceProduct(productId);
+
   return (
     (await commerceCatalog()).find(
       (product) => product.id === productId || product.slug === productId,

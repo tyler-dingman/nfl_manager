@@ -1,3 +1,5 @@
+import{applicationBackend,applicationStorage}from'../persistence/bindings';
+import{D1EditorialIngestion}from'../../../packages/storage/editorial-ingestion';
 import type { ClusteringStory } from '@/features/story-engine/clustering';
 import { randomUUID } from 'node:crypto';
 import { authDb } from '@/server/auth/database';
@@ -70,12 +72,16 @@ export async function dueSources(
   teamId?: string,
   group?: 'standard' | 'video',
 ) {
+  if(applicationBackend()==='d1') return new D1EditorialIngestion(applicationStorage()).dueSources(now,limit,teamId,group);
+
   const rows = teamId
     ? await authDb()`SELECT * FROM content_sources WHERE enabled=true AND next_check_at<=${now} AND (team_id=${teamId} OR league_wide=true) AND (${group ?? null}::text IS NULL OR CASE WHEN ${group ?? null}='video' THEN (source_type='YOUTUBE' OR metadata->>'platform'='YOUTUBE') ELSE NOT (source_type='YOUTUBE' OR metadata->>'platform'='YOUTUBE') END) ORDER BY priority DESC,next_check_at LIMIT ${limit}`
     : await authDb()`SELECT * FROM content_sources WHERE enabled=true AND next_check_at<=${now} AND (${group ?? null}::text IS NULL OR CASE WHEN ${group ?? null}='video' THEN (source_type='YOUTUBE' OR metadata->>'platform'='YOUTUBE') ELSE NOT (source_type='YOUTUBE' OR metadata->>'platform'='YOUTUBE') END) ORDER BY priority DESC,next_check_at LIMIT ${limit}`;
   return rows.map(rowSource);
 }
 export async function sourceById(id: string) {
+  if(applicationBackend()==='d1') return new D1EditorialIngestion(applicationStorage()).sourceById(id);
+
   const [r] = await authDb()`SELECT * FROM content_sources WHERE id=${id}`;
   return r ? rowSource(r) : null;
 }
@@ -84,11 +90,15 @@ export async function enqueueJob(
   key: string,
   payload: object,
 ) {
+  if(applicationBackend()==='d1') return new D1EditorialIngestion(applicationStorage()).enqueueJob(type,key,payload);
+
   const rows =
     await authDb()`INSERT INTO ingestion_jobs(id,job_type,idempotency_key,payload) VALUES(${randomUUID()},${type},${key},${authDb().json(payload as any)}) ON CONFLICT(idempotency_key) DO NOTHING RETURNING id`;
   return Boolean(rows.length);
 }
 export async function claimJob(workerId: string, teamId?: string, group?: 'standard' | 'video') {
+  if(applicationBackend()==='d1') return new D1EditorialIngestion(applicationStorage()).claimJob(workerId,teamId,group);
+
   return authDb().begin(async (sql) => {
     const [job] = await sql`SELECT job.* FROM ingestion_jobs job
         WHERE job.status IN ('PENDING','FAILED')
@@ -137,10 +147,14 @@ export async function claimJob(workerId: string, teamId?: string, group?: 'stand
     return claimed;
   });
 }
-export async function finishJob(id: string) {
+export async function finishJob(id: string, worker?:string) {
+  if(applicationBackend()==='d1') return new D1EditorialIngestion(applicationStorage()).finishJob(id,worker);
+
   await authDb()`UPDATE ingestion_jobs SET status='COMPLETED',locked_at=NULL,locked_by=NULL,updated_at=now() WHERE id=${id}`;
 }
-export async function failJob(id: string, error: string, delaySeconds: number) {
+export async function failJob(id: string, error: string, delaySeconds: number,worker?:string) {
+  if(applicationBackend()==='d1') return new D1EditorialIngestion(applicationStorage()).failJob(id,error,delaySeconds,worker);
+
   await authDb()`UPDATE ingestion_jobs SET status=CASE WHEN attempts>=max_attempts THEN 'DEAD' ELSE 'FAILED' END,last_error=${error.slice(0, 1000)},available_at=now()+(${delaySeconds}*interval '1 second'),locked_at=NULL,locked_by=NULL,updated_at=now() WHERE id=${id}`;
 }
 export async function markSourceSuccess(
@@ -151,6 +165,8 @@ export async function markSourceSuccess(
   latencyMs?: number,
   lastItemAt?: Date | null,
 ) {
+  if(applicationBackend()==='d1') return new D1EditorialIngestion(applicationStorage()).markSourceSuccess(source,etag,lastModified,next,latencyMs,lastItemAt);
+
   await authDb()`UPDATE content_sources SET etag=${etag},last_modified=${lastModified},last_checked_at=now(),last_successful_at=now(),last_item_at=COALESCE(${lastItemAt ?? null},last_item_at),next_check_at=${next},failure_count=0,consecutive_failures=0,average_latency_ms=CASE WHEN ${latencyMs ?? null}::numeric IS NULL THEN average_latency_ms WHEN request_count=0 THEN ${latencyMs ?? null}::numeric ELSE ((COALESCE(average_latency_ms,0)*request_count)+${latencyMs ?? null}::numeric)/(request_count+1) END,request_count=request_count+1,last_error=NULL,updated_at=now() WHERE id=${source.id}`;
 }
 export async function markSourceFailure(
@@ -159,10 +175,14 @@ export async function markSourceFailure(
   next: Date,
   latencyMs?: number,
 ) {
+  if(applicationBackend()==='d1') return new D1EditorialIngestion(applicationStorage()).markSourceFailure(source,error,next,latencyMs);
+
   await authDb()`UPDATE content_sources SET last_checked_at=now(),next_check_at=${next},failure_count=failure_count+1,consecutive_failures=consecutive_failures+1,average_latency_ms=CASE WHEN ${latencyMs ?? null}::numeric IS NULL THEN average_latency_ms WHEN request_count=0 THEN ${latencyMs ?? null}::numeric ELSE ((COALESCE(average_latency_ms,0)*request_count)+${latencyMs ?? null}::numeric)/(request_count+1) END,request_count=request_count+1,last_error=${error.slice(0, 1000)},updated_at=now() WHERE id=${source.id}`;
 }
 
 export async function saveCandidate(c: ContentCandidate) {
+  if(applicationBackend()==='d1') return new D1EditorialIngestion(applicationStorage()).saveCandidate(c);
+
   const id = randomUUID();
   const sql = authDb();
   const rows =
@@ -170,6 +190,8 @@ export async function saveCandidate(c: ContentCandidate) {
   return rows[0]?.id as string | undefined;
 }
 export async function candidateById(id: string): Promise<ContentCandidate | null> {
+  if(applicationBackend()==='d1') return new D1EditorialIngestion(applicationStorage()).candidateById(id);
+
   const [r] =
     await authDb()`SELECT id,source_id,external_id,canonical_url,title,normalized_title,author,published_at,discovered_at,raw_text,excerpt,entities,candidate_teams,fingerprint,status,jsonb_build_object('storyType',metadata->'storyType') AS metadata FROM content_candidates WHERE id=${id}`;
   return r
@@ -194,6 +216,8 @@ export async function candidateById(id: string): Promise<ContentCandidate | null
     : null;
 }
 export async function recentStories(teams: string[], since: Date): Promise<ClusteringStory[]> {
+  if(applicationBackend()==='d1') return new D1EditorialIngestion(applicationStorage()).recentStories(teams,since);
+
   const rows =
     await authDb()`SELECT id,team_id,story_type,headline,entities,summary,what_happened,last_meaningful_update_at
     FROM canonical_stories WHERE last_meaningful_update_at>=${since} AND (team_id IS NULL OR team_id=ANY(${teams}))`;
@@ -209,16 +233,22 @@ export async function recentStories(teams: string[], since: Date): Promise<Clust
   }));
 }
 export async function publishedStoryCountToday(teamId: string) {
+  if(applicationBackend()==='d1') return new D1EditorialIngestion(applicationStorage()).publishedStoryCountToday(teamId);
+
   const [row] = await authDb()`SELECT count(*)::int AS count FROM canonical_stories
     WHERE team_id=${teamId} AND created_at>=date_trunc('day',now())
       AND publication_state IN ('AUTO_PUBLISHED','PUBLISHED')`;
   return Number(row?.count ?? 0);
 }
 export async function storyById(id: string) {
+  if(applicationBackend()==='d1') return new D1EditorialIngestion(applicationStorage()).storyById(id);
+
   const [r] = await authDb()`SELECT * FROM canonical_stories WHERE id=${id}`;
   return r ? rowStory(r) : null;
 }
 export async function storyIdsWithEvidenceSince(teamId: string, since: Date) {
+  if(applicationBackend()==='d1') return new D1EditorialIngestion(applicationStorage()).storyIdsWithEvidenceSince(teamId,since);
+
   const rows = await authDb()`SELECT DISTINCT story.id
     FROM canonical_stories story
     JOIN story_evidence evidence ON evidence.story_id=story.id
@@ -228,6 +258,8 @@ export async function storyIdsWithEvidenceSince(teamId: string, since: Date) {
   return rows.map((row: any) => String(row.id));
 }
 export async function evidenceForStory(id: string) {
+  if(applicationBackend()==='d1') return new D1EditorialIngestion(applicationStorage()).evidenceForStory(id);
+
   const rows =
     await authDb()`SELECT c.id,c.source_id,c.external_id,c.canonical_url,c.title,c.normalized_title,c.author,c.published_at,c.discovered_at,c.raw_text,c.excerpt,c.entities,c.candidate_teams,c.fingerprint,c.status,jsonb_build_object('storyType',c.metadata->'storyType') AS metadata,s.name,s.source_type,s.team_id,s.league_wide,s.url AS source_home,s.feed_url,s.fetch_strategy,s.polling_tier,s.priority,s.reliability_score,s.check_interval_seconds,s.enabled,s.etag,s.last_modified,s.last_checked_at,s.last_successful_at,s.next_check_at,s.failure_count,s.last_error,s.metadata AS source_metadata FROM story_evidence e JOIN content_candidates c ON c.id=e.content_candidate_id JOIN content_sources s ON s.id=e.source_id WHERE e.story_id=${id} ORDER BY e.first_seen_at`;
   return rows.map((r: any) => ({
@@ -259,6 +291,8 @@ export async function evidenceForStory(id: string) {
 }
 
 export async function setCandidateStatus(id: string, status: string, reason?: string) {
+  if(applicationBackend()==='d1') return new D1EditorialIngestion(applicationStorage()).setCandidateStatus(id,status,reason);
+
   await authDb()`UPDATE content_candidates SET status=${status},rejection_reason=${reason ?? null},updated_at=now() WHERE id=${id}`;
 }
 export async function createStory(
@@ -270,6 +304,8 @@ export async function createStory(
   decision?: PublishingDecision,
   clusterReason = 'NEW CANONICAL EVENT: no existing same-event cluster matched.',
 ) {
+  if(applicationBackend()==='d1') return new D1EditorialIngestion(applicationStorage()).createStory(candidate,source,synth,publication,change,decision,clusterReason);
+
   const sql = authDb();
   return sql.begin(async (tx: any) => {
     const storyId = randomUUID(),
@@ -393,6 +429,8 @@ async function createCanonicalNotification(
   `;
 }
 export async function activePublishingOverride(storyId: string): Promise<PublishingOverride> {
+  if(applicationBackend()==='d1') return new D1EditorialIngestion(applicationStorage()).activePublishingOverride(storyId);
+
   const [row] =
     await authDb()`SELECT action FROM story_editorial_overrides WHERE story_id=${storyId} AND active=true AND surface='PUBLIC' AND (expires_at IS NULL OR expires_at>now()) ORDER BY created_at DESC LIMIT 1`;
   if (row?.action === 'HIDE') return 'HIDE';
@@ -410,6 +448,8 @@ export async function attachEvidence(
   decision?: PublishingDecision,
   clusterReason?: string,
 ) {
+  if(applicationBackend()==='d1') return new D1EditorialIngestion(applicationStorage()).attachEvidence(story,candidate,source,synth,publication,change,decision,clusterReason);
+
   const sql = authDb();
   return sql.begin(async (tx: any) => {
     const evidenceId = randomUUID();
@@ -467,6 +507,8 @@ export async function promoteExistingStory(
   synth: SynthesizedStory,
   decision: PublishingDecision,
 ) {
+  if(applicationBackend()==='d1') return new D1EditorialIngestion(applicationStorage()).promoteExistingStory(story,synth,decision);
+
   const sql = authDb();
   return sql.begin(async (tx: any) => {
     const version = story.version + 1;
@@ -512,8 +554,12 @@ const publicationStateForDecision = (decision: PublishingDecision) =>
       : 'REJECTED';
 
 export async function sourceHealth() {
+  if(applicationBackend()==='d1') return new D1EditorialIngestion(applicationStorage()).sourceHealth();
+
   return authDb()`SELECT id,name,team_id,enabled,fetch_strategy,polling_tier,last_checked_at,last_successful_at,last_item_at,next_check_at,failure_count,consecutive_failures,average_latency_ms,request_count,last_error FROM content_sources ORDER BY consecutive_failures DESC,priority DESC`;
 }
 export async function reviewRequiredStories(limit = 50) {
+  if(applicationBackend()==='d1') return new D1EditorialIngestion(applicationStorage()).reviewRequiredStories(limit);
+
   return authDb()`SELECT s.id,s.team_id,s.headline,s.summary,s.status,s.confidence_score,s.importance_score,s.version,d.reason,d.created_at,(SELECT jsonb_agg(jsonb_build_object('name',cs.name,'url',e.source_url)) FROM story_evidence e JOIN content_sources cs ON cs.id=e.source_id WHERE e.story_id=s.id) AS sources FROM canonical_stories s LEFT JOIN story_publication_decisions d ON d.story_id=s.id AND d.story_version=s.version WHERE s.publication_state='REVIEW_REQUIRED' ORDER BY s.updated_at DESC LIMIT ${limit}`;
 }

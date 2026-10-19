@@ -1,3 +1,4 @@
+import { drainSocialNotifications } from '../../packages/storage/social-outbox';
 import { offloadSavedMetadata } from '../../packages/storage/saved-metadata';
 import { fanoutBriefingMail } from './briefing-mail';
 import { Storage, type SqlDatabase } from '../../packages/storage/core';
@@ -14,20 +15,56 @@ interface Env {
   APP_ODDS_PROCESSING_ENABLED?: string;
   SPORTSGAMEODDS_API_KEY?: string;
   APP_MAIL_ENABLED?: string;
+  APP_SOCIAL_NOTIFICATIONS_ENABLED?: string;
   APP_MAINTENANCE_ENABLED?: string;
+  APP_CONTENT_ENABLED?: string;
+  APP_BRIEFINGS_ENABLED?: string;
+  CONTENT_AUTOMATION_SECRET?: string;
+  API_SERVICE?: { fetch(request: Request): Promise<Response> };
   APP_MAIL_ENCRYPTION_KEY?: string;
   RESEND_API_KEY?: string;
   APP_MAIL_FROM?: string;
   AUTH_BASE_URL?: string;
   ODDS_PROCESSOR?: { fetch(request: Request): Promise<Response> };
 }
-export default {
+export const applicationWorker = {
   fetch() {
     return new Response('No public application scheduler API', { status: 404 });
   },
   async scheduled(event: { cron: string; scheduledTime: number }, env: Env) {
     const s = new Storage(env.APP_DB, new PrivateObjects(env.APP_OBJECTS, env.APP_BACKUP));
     const tick = new Date(event.scheduledTime);
+    if (
+      event.cron === '*/30 * * * *' &&
+      (env.APP_CONTENT_ENABLED === 'true' || env.APP_BRIEFINGS_ENABLED === 'true')
+    ) {
+      if (!env.API_SERVICE || !env.CONTENT_AUTOMATION_SECRET)
+        throw Error('Application jobs require an API binding and automation secret');
+      const paths = [
+        ...(env.APP_CONTENT_ENABLED === 'true' ? ['/api/automation/content/global'] : []),
+        ...(env.APP_BRIEFINGS_ENABLED === 'true'
+          ? [
+              '/api/automation/three-and-out?action=generate',
+              '/api/automation/three-and-out?action=deliver',
+            ]
+          : []),
+      ];
+      for (const path of paths) {
+        const response = await env.API_SERVICE.fetch(
+          new Request('https://application.internal' + path, {
+            method: 'POST',
+            headers: { authorization: 'Bearer ' + env.CONTENT_AUTOMATION_SECRET },
+          }),
+        );
+        if (!response.ok)
+          throw Error('Application scheduled job rejected: ' + path + ' (' + response.status + ')');
+        const body = (await response.json()) as { ok?: boolean };
+        if (body.ok === false) throw Error('Application scheduled job failed: ' + path);
+      }
+    }
+
+    if (event.cron === '*/30 * * * *' && env.APP_SOCIAL_NOTIFICATIONS_ENABLED === 'true')
+      await drainSocialNotifications(s, 3, event.scheduledTime);
     if (
       env.APP_MAINTENANCE_ENABLED === 'true' &&
       event.cron === '*/30 * * * *' &&
@@ -71,3 +108,5 @@ export default {
     }
   },
 };
+
+export default applicationWorker;

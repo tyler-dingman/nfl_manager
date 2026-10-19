@@ -1,3 +1,4 @@
+import{importRelationalDomains}from'./import-domains';
 import { Storage, digest, utf8 } from './core';
 export interface ExportTable {
   name: string;
@@ -440,9 +441,11 @@ export async function importPostgres(s: Storage, source: PostgresExport) {
     )
       throw Error('Imported archive differs');
   }
+  const domains=await importRelationalDomains(s,source);
   const foreign = await s.rows('PRAGMA foreign_key_check');
   if (foreign.length || rows.length !== archived) throw Error('Import integrity check failed');
   return {
+    domains,
     archivedRows: archived,
     typedRows: typed,
     typedSourceTables: Object.keys(definitions).filter((n) =>
@@ -452,7 +455,7 @@ export async function importPostgres(s: Storage, source: PostgresExport) {
     sourceHash: await digest(utf8.encode(JSON.stringify(source))),
     unportedTables: source.tables
       .filter(
-        (t) => !definitions[t.name] && !['user_profiles', 'user_preferences'].includes(t.name),
+        (t) => !definitions[t.name] && !['user_profiles', 'user_preferences',...domains.tables].includes(t.name),
       )
       .map((t) => t.name),
     activation: 'NOT_ACTIVATED',

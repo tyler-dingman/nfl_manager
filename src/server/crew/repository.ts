@@ -1,3 +1,5 @@
+import{applicationBackend,applicationStorage}from'../persistence/bindings';
+import{D1Crew}from'../../../packages/storage/crew';
 import { createHash, randomUUID } from 'node:crypto';
 
 import { secureToken, tokenHash } from '@/server/auth/crypto';
@@ -21,6 +23,8 @@ const hint = (value: string) =>
     : `•••${value.replace(/\D/g, '').slice(-4)}`;
 
 export async function getCrewForUser(userId: string) {
+  if(applicationBackend()==='d1') return new D1Crew(applicationStorage()).getCrewForUser(userId);
+
   const sql = authDb();
   const crews = await sql<
     any[]
@@ -74,6 +78,8 @@ export async function getCrewForUser(userId: string) {
 }
 
 export async function createCrew(userId: string, input: { name: string; teamAbbr: string }) {
+  if(applicationBackend()==='d1') return new D1Crew(applicationStorage()).createCrew(userId,input);
+
   return authDb().begin(async (tx) => {
     const existing =
       await tx`SELECT 1 FROM crew_members WHERE user_id=${userId} AND status='ACTIVE'`;
@@ -94,6 +100,8 @@ export async function createCrewInvite(
     inviteeUserId?: string;
   },
 ) {
+  if(applicationBackend()==='d1') return new D1Crew(applicationStorage()).createCrewInvite(userId,input);
+
   const sql = authDb();
   const crewRows = await sql<
     any[]
@@ -162,6 +170,8 @@ export async function createCrewInvite(
 }
 
 export async function inspectCrewInvite(token: string) {
+  if(applicationBackend()==='d1') return new D1Crew(applicationStorage()).inspectCrewInvite(token);
+
   const rows = await authDb()<
     any[]
   >`SELECT i.id,i.status,i.expires_at AS "expiresAt",c.name,c.team_abbr AS "teamAbbr",
@@ -171,6 +181,8 @@ export async function inspectCrewInvite(token: string) {
 }
 
 export async function acceptCrewInvite(userId: string, token: string) {
+  if(applicationBackend()==='d1') return new D1Crew(applicationStorage()).acceptCrewInvite(userId,token);
+
   return authDb().begin(async (tx) => {
     const rows = await tx<
       any[]
@@ -210,6 +222,8 @@ export async function shareToCrew(
     recipientIds: string[];
   },
 ) {
+  if(applicationBackend()==='d1') return new D1Crew(applicationStorage()).shareToCrew(userId,input);
+
   const sql = authDb();
   const rows = await sql<any[]>`SELECT c.id,u.display_name AS "senderName" FROM crews c
     JOIN crew_members m ON m.crew_id=c.id JOIN users u ON u.id=${userId}
@@ -261,6 +275,8 @@ export async function shareToCrew(
 }
 
 export async function getCrewShareRecipients(userId: string) {
+  if(applicationBackend()==='d1') return new D1Crew(applicationStorage()).getCrewShareRecipients(userId);
+
   const rows = await authDb()<
     any[]
   >`SELECT c.id AS "crewId",c.name AS "crewName",u.id,u.display_name AS "displayName",u.avatar_url AS "avatarUrl"
@@ -281,12 +297,16 @@ export async function reactToActivity(
   activityId: string,
   reaction: 'FIRE' | 'LAUGH' | 'EYES' | 'LIKE',
 ) {
+  if(applicationBackend()==='d1') return new D1Crew(applicationStorage()).reactToActivity(userId,activityId,reaction);
+
   await authDb()`INSERT INTO crew_reactions(activity_id,user_id,reaction) SELECT ${activityId},${userId},${reaction}
     WHERE EXISTS(SELECT 1 FROM crew_activity a JOIN crew_members m ON m.crew_id=a.crew_id WHERE a.id=${activityId} AND m.user_id=${userId} AND m.status='ACTIVE')
     ON CONFLICT DO NOTHING`;
 }
 
 export async function updateCrew(userId: string, input: z.infer<typeof crewUpdateSchema>) {
+  if(applicationBackend()==='d1') return new D1Crew(applicationStorage()).updateCrew(userId,input);
+
   const member = await requireCrewMember(userId);
   if (member.role !== 'OWNER') throw new Error('Only the Crew owner can edit the Crew.');
   let photoUrl: string | null = null;
@@ -301,6 +321,8 @@ export async function updateCrew(userId: string, input: z.infer<typeof crewUpdat
 }
 
 export async function leaveCrew(userId: string) {
+  if(applicationBackend()==='d1') return new D1Crew(applicationStorage()).leaveCrew(userId);
+
   const rows = await authDb()<
     any[]
   >`UPDATE crew_members SET status='LEFT',updated_at=now() WHERE user_id=${userId} AND status='ACTIVE' AND role<>'OWNER' RETURNING id`;
@@ -308,6 +330,8 @@ export async function leaveCrew(userId: string) {
 }
 
 export async function requireCrewMember(userId: string) {
+  if(applicationBackend()==='d1') return new D1Crew(applicationStorage()).requireCrewMember(userId);
+
   const rows = await authDb()<
     Array<{ crewId: string; role: string }>
   >`SELECT crew_id AS "crewId",role FROM crew_members WHERE user_id=${userId} AND status='ACTIVE' LIMIT 1`;
@@ -316,6 +340,8 @@ export async function requireCrewMember(userId: string) {
 }
 
 export async function saveCrewMedia(userId: string, mime: string, bytes: Buffer) {
+  if(applicationBackend()==='d1') return new D1Crew(applicationStorage()).saveCrewMedia(userId,mime,bytes);
+
   const member = await requireCrewMember(userId);
   const id = randomUUID();
   await authDb()`INSERT INTO crew_media(id,crew_id,uploader_user_id,mime_type,content) VALUES(${id},${member.crewId},${userId},${mime},${bytes})`;
@@ -323,6 +349,8 @@ export async function saveCrewMedia(userId: string, mime: string, bytes: Buffer)
 }
 
 export async function createCrewPost(userId: string, input: z.infer<typeof crewPostSchema>) {
+  if(applicationBackend()==='d1') return new D1Crew(applicationStorage()).createCrewPost(userId,input);
+
   const member = await requireCrewMember(userId);
   let photoUrl: string | undefined;
   if (input.kind === 'PHOTO') {
@@ -338,6 +366,8 @@ export async function createCrewPost(userId: string, input: z.infer<typeof crewP
 }
 
 export async function commentOnCrewActivity(userId: string, activityId: string, message: string) {
+  if(applicationBackend()==='d1') return new D1Crew(applicationStorage()).commentOnCrewActivity(userId,activityId,message);
+
   const member = await requireCrewMember(userId);
   const result =
     await authDb()`INSERT INTO crew_comments(id,activity_id,user_id,message) SELECT ${randomUUID()},id,${userId},${message} FROM crew_activity WHERE id=${activityId} AND crew_id=${member.crewId} RETURNING id`;
@@ -345,6 +375,8 @@ export async function commentOnCrewActivity(userId: string, activityId: string, 
 }
 
 export async function deleteCrewPost(userId: string, activityId: string) {
+  if(applicationBackend()==='d1') return new D1Crew(applicationStorage()).deleteCrewPost(userId,activityId);
+
   const member = await requireCrewMember(userId);
   const rows =
     await authDb()`DELETE FROM crew_activity WHERE id=${activityId} AND crew_id=${member.crewId} AND type IN ('POST_TEXT','POST_PHOTO','POST_LINK') AND (actor_user_id=${userId} OR ${member.role}='OWNER') RETURNING id`;
@@ -352,6 +384,8 @@ export async function deleteCrewPost(userId: string, activityId: string) {
 }
 
 export async function removeCrewMember(userId: string, targetId: string) {
+  if(applicationBackend()==='d1') return new D1Crew(applicationStorage()).removeCrewMember(userId,targetId);
+
   const member = await requireCrewMember(userId);
   if (member.role !== 'OWNER') throw new Error('Only the Crew owner can manage members.');
   const rows =

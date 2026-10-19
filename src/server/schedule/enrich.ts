@@ -1,3 +1,6 @@
+import{applicationBackend,applicationStorage}from'../persistence/bindings';
+import{D1EditorialIngestion}from'../../../packages/storage/editorial-ingestion';
+import{ReferenceData}from'../../../packages/storage/reference';
 import { authDb } from '@/server/auth/database';
 import { beatGameMetadata } from '@/lib/canonical-game';
 import { enrichBeatTransaction } from '@/server/content/beat-transactions';
@@ -6,10 +9,10 @@ import { gameStoryHints, resolveStoryGame, type GameStory, type GameResolution }
 
 export async function enrichGameStories<T extends GameStory>(stories: T[], persist = true) {
   if (!stories.length) return [];
-  const db = authDb();
+  const d1=applicationBackend()==='d1',s=d1?applicationStorage():null,db=d1?null:authDb();
   const ids = stories.map((s) => s.id).filter((id) => /^[\da-f-]{36}$/i.test(id));
   const links = ids.length
-    ? await db`SELECT id,game_id,game_resolution,first_reported_at FROM canonical_stories WHERE id=ANY(${ids}::uuid[])`
+    ? d1?await Promise.all(ids.map(async id=>{const story=await new D1EditorialIngestion(s!).storyById(id),[link]=await s!.rows<any>('SELECT game_id,resolution_json FROM app_story_game_links WHERE story_id=?',[id]);return{id,game_id:link?.game_id,game_resolution:link?JSON.parse(link.resolution_json):undefined,first_reported_at:story?new Date(story.firstReportedAt):null};})):await db!`SELECT id,game_id,game_resolution,first_reported_at FROM canonical_stories WHERE id=ANY(${ids}::uuid[])`
     : [];
   const stored = new Map(links.map((r) => [r.id, r]));
   const inputs = stories.map((s) => ({
@@ -20,7 +23,7 @@ export async function enrichGameStories<T extends GameStory>(stories: T[], persi
   const seasons = [...new Set(inputs.map((s) => gameStoryHints(s).season).filter(Number.isFinite))];
   // Include explicitly linked seasons, including archival articles refreshed much later.
   if (links.some((r) => r.game_id))
-    for (const r of await db`SELECT DISTINCT season FROM historical_games WHERE id=ANY(${links.filter((r) => r.game_id).map((r) => r.game_id)}::uuid[])`)
+    for (const r of d1?(await new ReferenceData(s!).values<any[]>('SCHEDULE')).flat().filter(g=>links.some(l=>l.game_id===g.id)):await db!`SELECT DISTINCT season FROM historical_games WHERE id=ANY(${links.filter((r) => r.game_id).map((r) => r.game_id)}::uuid[])`)
       if (!seasons.includes(r.season)) seasons.push(r.season);
   const games = await listCanonicalGames(seasons);
   const enriched = inputs.map((s) => {
@@ -43,8 +46,9 @@ export async function enrichGameStories<T extends GameStory>(stories: T[], persi
       graphicDecision: enrichBeatTransaction({ ...s, game: metadata }),
     };
   });
-  if (persist)
-    await db.begin(async (tx) => {
+  if(persist&&d1){const writes=enriched.filter(x=>stored.has(x.id)&&gameStoryHints(x).relevant).map(x=>s!.statement('INSERT INTO app_story_game_links(story_id,game_id,resolution_json,updated_at) VALUES(?,?,?,?) ON CONFLICT(story_id) DO UPDATE SET game_id=excluded.game_id,resolution_json=excluded.resolution_json,updated_at=excluded.updated_at',[x.id,x.gameId??null,JSON.stringify(x.gameResolution),Date.now()]));for(let i=0;i<writes.length;i+=50)await s!.batch(writes.slice(i,i+50));}
+  if (persist&&!d1)
+    await db!.begin(async (tx) => {
       for (const s of enriched) {
         if (!stored.has(s.id) || !gameStoryHints(s).relevant) continue;
         const resolution: GameResolution = s.gameResolution;

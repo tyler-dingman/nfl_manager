@@ -1,8 +1,12 @@
+import{applicationBackend,applicationStorage}from'../persistence/bindings';
+import{D1ContentAutomation}from'../../../packages/storage/automation';
 import { randomUUID } from 'node:crypto';
 
 import { authDb } from '@/server/auth/database';
 
 export async function readGlobalGeneratedToday() {
+  if(applicationBackend()==='d1') return new D1ContentAutomation(applicationStorage()).readGlobalGeneratedToday();
+
   const [row] = await authDb()`SELECT COALESCE(SUM(generated_items),0)::int AS generated_today
     FROM content_automation_runs
     WHERE started_at >= date_trunc('day',now() AT TIME ZONE 'UTC') AT TIME ZONE 'UTC'`;
@@ -18,6 +22,8 @@ export async function recordGlobalRun(input: {
   failedJobs?: number;
   detail?: object;
 }) {
+  if(applicationBackend()==='d1') return new D1ContentAutomation(applicationStorage()).recordGlobalRun(input);
+
   await authDb()`INSERT INTO content_automation_runs
     (id,status,sources_due,sources_queued,jobs_processed,generated_items,failed_jobs,detail,finished_at)
     VALUES(

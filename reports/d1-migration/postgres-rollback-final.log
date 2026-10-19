@@ -1,0 +1,1 @@
+{"scope": "MEASURED synthetic PostgreSQL auth/user/game metadata tables only. Not full product or cross-store production backup.", "migrationReplayCount": 2, "tablesVerified": 50, "dumpBytes": 1095670, "backupSeconds": 0.37736229100846685, "restoreAndVerifySeconds": 14.028504999994766, "frontOfficeExitCode": 0, "productionRpo": "UNVERIFIED", "productionRto": "UNVERIFIED"}

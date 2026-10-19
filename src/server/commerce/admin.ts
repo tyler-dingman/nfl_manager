@@ -1,8 +1,12 @@
+import{applicationBackend,applicationStorage}from'../persistence/bindings';
+import{D1Commerce}from'../../../packages/storage/commerce';
 import { randomUUID } from 'node:crypto';
 import { authDb } from '@/server/auth/database';
 import { syncCommerceCatalog } from './catalog';
 import { adminOrders } from './orders';
 export async function commerceAdminData(section: string, search = '', status = 'ALL') {
+  if(applicationBackend()==='d1') return new D1Commerce(applicationStorage()).commerceAdminData(section,search,status);
+
   await syncCommerceCatalog();
   const sql = authDb();
   if (section === 'orders') return { orders: await adminOrders(search, status) };
@@ -50,6 +54,8 @@ export async function adjustInventory(
   delta: number,
   reason: string,
 ) {
+  if(applicationBackend()==='d1') return new D1Commerce(applicationStorage()).adjustInventory(adminUserId,variantId,delta,reason);
+
   const sql = authDb();
   return sql.begin(async (tx) => {
     const rows = await tx<
@@ -64,6 +70,8 @@ export async function updateCommerceProduct(
   productId: string,
   input: { active?: boolean; name?: string; description?: string; basePriceCents?: number },
 ) {
+  if(applicationBackend()==='d1') return new D1Commerce(applicationStorage()).updateCommerceProduct(productId,input);
+
   const rows = await authDb()<
     any[]
   >`UPDATE commerce_products SET active=COALESCE(${input.active ?? null},active),name=COALESCE(${input.name ?? null},name),description=COALESCE(${input.description ?? null},description),base_price_cents=COALESCE(${input.basePriceCents ?? null},base_price_cents),updated_at=now() WHERE id=${productId} RETURNING *`;
@@ -85,6 +93,8 @@ export async function createCommerceProduct(
     inventoryOnHand: number;
   },
 ) {
+  if(applicationBackend()==='d1') return new D1Commerce(applicationStorage()).createCommerceProduct(adminUserId,input);
+
   const sql = authDb();
   return sql.begin(async (tx) => {
     await tx`INSERT INTO commerce_products(id,slug,name,description,category,base_price_cents,active)VALUES(${input.id},${input.id},${input.name},${input.description},${input.category},${input.basePriceCents},true)`;

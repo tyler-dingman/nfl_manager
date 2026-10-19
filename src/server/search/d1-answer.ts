@@ -137,7 +137,7 @@ export function d1AnswerDependencies(): AnswerDependencies {
         .filter((m) => m.available && m.period === 'game')
         .map((m) => ({
           market: m.marketType,
-          selection: m.playerName || (m.marketType === 'TOTAL' ? m.side : m.teamId || m.side),
+          selection: m.playerName||m.marketType==='TOTAL'?m.side:m.teamId||m.side,
           line: m.line,
           price: m.odds ?? NaN,
           sportsbook: m.sportsbook,

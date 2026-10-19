@@ -1,3 +1,4 @@
+import{applicationEnvironment}from'@/server/persistence/bindings';
 import { automationAuthError, equalSecret } from '@/server/content-automation/auth';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -34,11 +35,11 @@ export async function POST(request: NextRequest) {
     request.headers.get('x-content-automation-manual') === 'true' &&
     equalSecret(
       request.headers.get('x-content-automation-override'),
-      process.env.CONTENT_AUTOMATION_ADMIN_OVERRIDE_SECRET,
+      applicationEnvironment().CONTENT_AUTOMATION_ADMIN_OVERRIDE_SECRET,
     );
   const window = evaluateTrialWindow({
-    startsAt: process.env.CONTENT_AUTOMATION_STARTS_AT,
-    expiresAt: process.env.CONTENT_AUTOMATION_EXPIRES_AT,
+    startsAt: applicationEnvironment().CONTENT_AUTOMATION_STARTS_AT,
+    expiresAt: applicationEnvironment().CONTENT_AUTOMATION_EXPIRES_AT,
     override: manualOverride,
   });
   if (!window.active) {
@@ -51,7 +52,7 @@ export async function POST(request: NextRequest) {
     });
   }
 
-  const teamId = (process.env.CONTENT_AUTOMATION_TEAM_ID ?? '').trim().toUpperCase();
+  const teamId = (applicationEnvironment().CONTENT_AUTOMATION_TEAM_ID ?? '').trim().toUpperCase();
   if (teamId !== 'KC') {
     console.log('Content automation team scope is missing or is not KC');
     return NextResponse.json({

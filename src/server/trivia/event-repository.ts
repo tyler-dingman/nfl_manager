@@ -1,3 +1,5 @@
+import{applicationBackend,applicationStorage}from'../persistence/bindings';
+import{D1TriviaGames}from'../../../packages/storage/trivia-games';
 import { randomUUID } from 'node:crypto';
 import {
   DRILL_QUESTION_COUNT,
@@ -10,6 +12,8 @@ export async function nextTriviaEvent(
   teamId: string,
   userId?: string,
 ): Promise<ScheduledTriviaEvent | null> {
+  if(applicationBackend()==='d1') return new D1TriviaGames(applicationStorage()).nextTriviaEvent(teamId,userId);
+
   const rows = await authDb()`SELECT e.id,e.team_id,e.starts_at,e.ends_at,e.timezone,e.status,
     (SELECT count(*)::int FROM trivia_event_registrations r WHERE r.event_id=e.id) AS count,
     EXISTS(SELECT 1 FROM trivia_event_registrations r WHERE r.event_id=e.id AND r.user_id=${userId ?? null}::uuid) AS registered
@@ -30,6 +34,8 @@ export async function nextTriviaEvent(
     : null;
 }
 export async function registerTriviaEvent(eventId: string, userId: string, join = false) {
+  if(applicationBackend()==='d1') return new D1TriviaGames(applicationStorage()).registerTriviaEvent(eventId,userId,join);
+
   const db = authDb();
   return db.begin(async (tx) => {
     const [event] = await tx`SELECT * FROM trivia_events WHERE id=${eventId} FOR UPDATE`;

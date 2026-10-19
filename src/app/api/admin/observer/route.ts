@@ -1,3 +1,4 @@
+import{applicationBackend,applicationStorage,applicationEnvironment}from'@/server/persistence/bindings';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 
@@ -10,7 +11,7 @@ import { observerReport } from '@/server/monitoring/observer';
 
 async function allowed(request: NextRequest) {
   const user = await currentUser(request);
-  return isAllowedAdminUser(user?.id, process.env.ADMIN_USER_IDS ?? '');
+  return isAllowedAdminUser(user?.id, applicationEnvironment().ADMIN_USER_IDS ?? '');
 }
 
 export async function GET(request: NextRequest) {
@@ -20,7 +21,7 @@ export async function GET(request: NextRequest) {
   let runId = params.get('run');
   if (!runId) {
     const [latest] =
-      await authDb()`SELECT id FROM observer_runs WHERE team_id=${teamId} ORDER BY started_at DESC LIMIT 1`;
+      applicationBackend()==='d1'?await applicationStorage().rows<{id:string}>('SELECT id FROM app_observer_runs WHERE team_id=? ORDER BY started_at DESC LIMIT 1',[teamId]):await authDb()`SELECT id FROM observer_runs WHERE team_id=${teamId} ORDER BY started_at DESC LIMIT 1`;
     runId = latest?.id ?? null;
   }
   return NextResponse.json({

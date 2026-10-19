@@ -1,3 +1,5 @@
+import{applicationBackend,applicationStorage}from'../persistence/bindings';
+import{D1Huddle}from'../../../packages/storage/huddle';
 import { validateMessage } from '../../../packages/huddle/message';
 import { randomUUID } from 'node:crypto';
 import { authDb } from '@/server/auth/database';
@@ -10,6 +12,8 @@ const cache = new Map<
   }
 >();
 export async function publicSnapshot(room: string) {
+  if(applicationBackend()==='d1') return new D1Huddle(applicationStorage()).publicSnapshot(room);
+
   const old = cache.get(room);
   if (old && old.until > Date.now()) return old.pending;
   if (cache.size > 200)
@@ -44,12 +48,16 @@ export async function publicSnapshot(room: string) {
   }
 }
 export async function history(room: string, before: string) {
+  if(applicationBackend()==='d1') return new D1Huddle(applicationStorage()).history(room,before);
+
   const [time, id] = before.split('|');
   return authDb()<
     Message[]
   >`SELECT m.id,m.user_id AS "userId",coalesce(u.display_name,'Football Fan') AS name,u.avatar_url AS avatar,m.body,to_char(m.created_at AT TIME ZONE 'UTC','YYYY-MM-DD"T"HH24:MI:SS.US"Z"') AS at,m.updated_at::text AS updated,m.play_id AS "playId",CASE WHEN m.removed THEN NULL ELSE m.media END AS media,m.reply_to AS "replyTo",m.removed,(SELECT count(*)::int FROM huddle_reactions r WHERE r.message_id=m.id) AS likes FROM huddle_messages m JOIN users u ON u.id=m.user_id WHERE m.room=${room} AND (m.created_at,m.id)<(${time},${id}::uuid) AND NOT m.removed ORDER BY m.created_at DESC,m.id DESC LIMIT 50`;
 }
 export async function viewer(user: string, room: string) {
+  if(applicationBackend()==='d1') return new D1Huddle(applicationStorage()).viewer(user,room);
+
   const sql = authDb();
   const [hidden, liked, votes] = await Promise.all([
     sql<
@@ -75,6 +83,8 @@ export async function action(
   admin: boolean,
   playId: string | null,
 ) {
+  if(applicationBackend()==='d1') return new D1Huddle(applicationStorage()).action(user,room,b,admin,playId);
+
   const message = b.action === 'message' ? validateMessage(b) : undefined;
   const sql = authDb();
   await sql.begin(async (tx) => {
@@ -133,5 +143,7 @@ export async function action(
 }
 
 export async function moderationQueue(room: string) {
+  if(applicationBackend()==='d1') return new D1Huddle(applicationStorage()).moderationQueue(room);
+
   return authDb()`SELECT m.id,m.user_id AS "userId",m.body,m.media,m.removed,coalesce(u.display_name,'Football Fan') AS name,count(r.user_id)::int AS reports FROM huddle_reports r JOIN huddle_messages m ON m.id=r.message_id JOIN users u ON u.id=m.user_id WHERE m.room=${room} AND NOT m.removed GROUP BY m.id,u.display_name ORDER BY max(r.created_at) DESC LIMIT 50`;
 }

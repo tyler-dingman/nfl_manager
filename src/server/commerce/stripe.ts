@@ -1,3 +1,5 @@
+import {applicationBackend,applicationStorage,applicationEnvironment} from '../persistence/bindings';
+import {D1StripeCommerce} from '../../../packages/storage/commerce-stripe';
 import { randomUUID } from 'node:crypto';
 import Stripe from 'stripe';
 import { authDb } from '@/server/auth/database';
@@ -81,16 +83,17 @@ export function stripePaymentIntentParams(order: {
 }
 
 function stripeClient() {
-  const key = process.env.STRIPE_SECRET_KEY;
+  const env=applicationEnvironment();
+  const key = env.STRIPE_SECRET_KEY;
   if (!key) throw new Error('STRIPE_SECRET_KEY is not configured.');
-  if ((process.env.STRIPE_MODE ?? 'test') !== 'test')
+  if ((env.STRIPE_MODE ?? 'test') !== 'test')
     throw new Error('Only Stripe test mode is enabled.');
   if (!key.startsWith('sk_test_')) throw new Error('STRIPE_SECRET_KEY must be a test-mode key.');
-  return new Stripe(key);
+  return new Stripe(key, {httpClient: Stripe.createFetchHttpClient()});
 }
 
 export function constructStripeWebhookEvent(rawBody: string, signature: string) {
-  const secret = process.env.STRIPE_WEBHOOK_SECRET;
+  const secret = applicationEnvironment().STRIPE_WEBHOOK_SECRET;
   if (!secret) throw new Error('STRIPE_WEBHOOK_SECRET is not configured.');
   return stripeClient().webhooks.constructEvent(rawBody, signature, secret);
 }
@@ -207,6 +210,7 @@ export async function createStripeRefund(input: {
   amountCents?: number;
   reason?: string;
 }) {
+  if(applicationBackend()==='d1') return new D1StripeCommerce(applicationStorage()).createStripeRefund(input);
   const sql = authDb();
   const prepared = await sql.begin(async (tx) => {
     await tx`SELECT pg_advisory_xact_lock(hashtext(${input.requestId}))`;
@@ -303,6 +307,7 @@ export type StripeWebhookResult =
   | { result: 'DUPLICATE' | 'IGNORED'; orderNumber: null };
 
 export async function processStripeWebhookEvent(event: Stripe.Event): Promise<StripeWebhookResult> {
+  if(applicationBackend()==='d1') return new D1StripeCommerce(applicationStorage()).processStripeWebhookEvent(event);
   if (event.type === 'refund.created' || event.type === 'refund.updated')
     return processStripeRefundEvent(event);
   const sql = authDb();
@@ -412,4 +417,9 @@ export async function processStripeWebhookEvent(event: Stripe.Event): Promise<St
     );
     return { result, orderNumber: order.order_number };
   });
+}
+
+/** Provider-only request; persistence and idempotent reconciliation belong to the adapter. */
+export async function requestPreparedStripeRefund(prepared:any,input:{requestId:string;adminUserId:string;reason?:string}) {
+ return stripeClient().refunds.create({payment_intent:prepared.stripe_payment_intent_id,amount:prepared.amount_cents,reason:'requested_by_customer',metadata:{orderId:prepared.order_id,orderNumber:prepared.order_number,refundRequestId:input.requestId,adminUserId:input.adminUserId,reason:input.reason??''}},{idempotencyKey:`dnd-refund-${input.requestId}`});
 }

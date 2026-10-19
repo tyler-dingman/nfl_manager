@@ -1,3 +1,4 @@
+import{applicationEnvironment}from'../persistence/bindings';
 export const DEFAULT_GLOBAL_GENERATION_LIMIT_PER_RUN = 10;
 export const DEFAULT_GLOBAL_GENERATION_LIMIT_PER_DAY = 320;
 
@@ -6,7 +7,7 @@ const positiveInteger = (value: string | undefined, fallback: number) => {
   return Number.isSafeInteger(parsed) && parsed > 0 ? parsed : fallback;
 };
 
-export function globalAutomationConfig(env: Record<string, string | undefined> = process.env) {
+export function globalAutomationConfig(env: Record<string, string | undefined> = applicationEnvironment()) {
   return {
     enabled: env.CONTENT_AUTOMATION_GLOBAL_ENABLED !== 'false',
     maxGeneratedPerRun: positiveInteger(

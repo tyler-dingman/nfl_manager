@@ -1,3 +1,4 @@
+import{applicationEnvironment}from'../persistence/bindings';
 import { timingSafeEqual } from 'node:crypto';
 
 export function equalSecret(actual: string | null, expected?: string) {
@@ -9,7 +10,7 @@ export function equalSecret(actual: string | null, expected?: string) {
 
 export function automationAuthError(
   authorization: string | null,
-  env: Record<string, string | undefined> = process.env,
+  env: Record<string, string | undefined> = applicationEnvironment(),
 ): { status: 401 | 503; code: string; error: string } | null {
   const current = env.CONTENT_AUTOMATION_SECRET;
   // A missing or malformed primary credential must never enable access.

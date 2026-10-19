@@ -1,3 +1,4 @@
+import{eraseD1Account}from'../../../packages/storage/account-erasure';
 import { applicationBackend, applicationStorage } from '../persistence/bindings';
 import { D1Notifications } from '../../../packages/storage/notifications';
 import { randomUUID } from 'node:crypto';
@@ -75,6 +76,7 @@ export async function exportUserAccount(userId: string) {
 }
 
 export async function deleteUserAccount(userId: string) {
+  if(applicationBackend()==='d1')return eraseD1Account(applicationStorage(),userId);
   const sql = authDb();
   await sql.begin(async (tx) => {
     await tx`INSERT INTO security_audit_events (id, user_id, event_type, actor_type, metadata) VALUES (${randomUUID()}, ${userId}, 'ACCOUNT_DELETED', 'USER', ${tx.json({ reason: 'user_requested' })})`;

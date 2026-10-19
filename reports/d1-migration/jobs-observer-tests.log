@@ -1,0 +1,15 @@
+TAP version 13
+# Subtest: D1 scheduler delivers durable outbox, delegates authenticated jobs, preserves odds cadence, and observer reports run without PostgreSQL
+ok 1 - D1 scheduler delivers durable outbox, delegates authenticated jobs, preserves odds cadence, and observer reports run without PostgreSQL
+  ---
+  duration_ms: 4797.185875
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 6620.201875

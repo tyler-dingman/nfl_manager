@@ -1,0 +1,3 @@
+CREATE TABLE app_sportsbook_transfer_jobs(id TEXT PRIMARY KEY NOT NULL,sportsbook TEXT NOT NULL,actor TEXT NOT NULL,fingerprint TEXT NOT NULL,region TEXT NOT NULL,object_hash TEXT NOT NULL,status TEXT NOT NULL CHECK(status IN('submitting','pending','complete','failed')),request_id TEXT,url TEXT,error TEXT,created_at INTEGER NOT NULL,expires_at INTEGER NOT NULL,next_poll_at INTEGER NOT NULL,poll_count INTEGER NOT NULL DEFAULT 0,api_calls INTEGER NOT NULL DEFAULT 1,version INTEGER NOT NULL DEFAULT 0);
+CREATE INDEX app_transfer_actor ON app_sportsbook_transfer_jobs(actor,created_at);
+CREATE INDEX app_transfer_active ON app_sportsbook_transfer_jobs(status,expires_at);

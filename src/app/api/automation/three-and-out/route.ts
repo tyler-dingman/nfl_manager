@@ -1,3 +1,4 @@
+import{applicationBackend,applicationStorage}from'@/server/persistence/bindings';
 import { NextRequest, NextResponse } from 'next/server';
 import { automationAuthError } from '@/server/content-automation/auth';
 
@@ -30,7 +31,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ ok: false, error: 'Unknown action' }, { status: 400 });
   }
   try {
-    await assertDailyThreeAndOutSchema(authDb());
+    if(applicationBackend()==='d1')await applicationStorage().rows('SELECT id FROM app_daily_briefings LIMIT 0');else await assertDailyThreeAndOutSchema(authDb());
     if (action === 'check') return NextResponse.json({ ok: true, action, schemaReady: true });
     if (action === 'generate') {
       const chicago = localHourAndMinute(new Date(), 'America/Chicago');

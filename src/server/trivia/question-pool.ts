@@ -1,3 +1,5 @@
+import{applicationBackend,applicationStorage}from'../persistence/bindings';
+import{D1TriviaGames}from'../../../packages/storage/trivia-games';
 import { TRIVIA_QUESTION_BANK } from '@/features/trivia/question-bank';
 import { authDb } from '@/server/auth/database';
 
@@ -9,6 +11,8 @@ const choices = ['A', 'B', 'C', 'D'] as const;
  * the preferred pool whenever they are present.
  */
 export async function ensureTriviaQuestionPool(teamId: string, minimum: number) {
+  if(applicationBackend()==='d1') return new D1TriviaGames(applicationStorage()).ensureTriviaQuestionPool(teamId,minimum);
+
   const sql = authDb();
   const normalizedTeamId = teamId.toUpperCase();
   const counts = await sql<Array<{ count: number }>>`

@@ -1,3 +1,6 @@
+import{D1Observer}from'../../../packages/storage/observer';
+import{applicationBackend,applicationStorage}from'../persistence/bindings';
+import{D1EditorialIngestion}from'../../../packages/storage/editorial-ingestion';
 import { randomUUID } from 'node:crypto';
 
 import { MONITORING_THRESHOLDS } from '@/features/monitoring/config';
@@ -15,6 +18,12 @@ const observerPublisherKey = (source: { name: string }) =>
     .trim();
 
 async function syncSources(sources: ReturnType<typeof getMonitoringSources>) {
+  if(applicationBackend()==='d1'){
+    const repo=new D1EditorialIngestion(applicationStorage());
+    for(const source of sources){const rss=source.ingestionMethod==='RSS_ATOM',leagueWide=source.teamId==='NFL'||source.metadata.multiTeam===true;await repo.syncSource({id:source.id,name:source.name,sourceType:source.tier===3?'OTHER':'LOCAL_OUTLET',teamId:leagueWide?null:source.teamId,leagueWide,url:source.canonicalUrl,feedUrl:rss?String(source.metadata.feedUrl):null,fetchStrategy:rss?'RSS':'STRUCTURED_API',pollingTier:source.tier===1?'A':source.tier===2?'B':'C',priority:source.authorityWeight,reliabilityScore:source.authorityWeight/100,checkIntervalSeconds:source.cadenceSeconds??300,enabled:source.active&&source.availability==='LIVE'&&rss,etag:null,lastModified:null,lastCheckedAt:null,lastSuccessfulAt:null,nextCheckAt:new Date(),failureCount:0,lastError:null,metadata:{...source.metadata,monitoringTier:source.tier,platform:source.platform,ingestionMethod:source.ingestionMethod,availability:source.availability,publishAll:true}});}
+    return sources;
+  }
+
   const sql = authDb();
   const syncOne = async (source: (typeof sources)[number]) => {
     const rss = source.ingestionMethod === 'RSS_ATOM';
@@ -46,6 +55,7 @@ export async function startObserverRun(
   hours: number,
   thresholds = MONITORING_THRESHOLDS,
 ) {
+  if(applicationBackend()==='d1')return new D1Observer(applicationStorage()).startObserverRun(teamId,hours,thresholds);
   const id = randomUUID();
   const end = new Date(Date.now() + hours * 3_600_000);
   await authDb()`INSERT INTO observer_runs(id,team_id,status,scheduled_end_at,thresholds) VALUES(${id},${teamId},'RUNNING',${end},${authDb().json(thresholds)})`;
@@ -53,6 +63,7 @@ export async function startObserverRun(
 }
 
 export async function captureObserverSnapshot(runId: string) {
+ if(applicationBackend()==='d1')return new D1Observer(applicationStorage()).captureObserverSnapshot(runId);
   const sql = authDb();
   const [run] = await sql`SELECT * FROM observer_runs WHERE id=${runId} AND status='RUNNING'`;
   if (!run) throw new Error('Observer run is not active.');
@@ -132,18 +143,21 @@ export async function completeObserverRun(
   status: 'COMPLETED' | 'FAILED' = 'COMPLETED',
   error?: string,
 ) {
+  if(applicationBackend()==='d1')return new D1Observer(applicationStorage()).completeObserverRun(runId,status,error);
   await captureObserverSnapshot(runId).catch(() => undefined);
   await authDb()`UPDATE observer_runs SET status=${status},completed_at=now(),error=${error?.slice(0, 1000) ?? null} WHERE id=${runId}`;
 }
 
 export async function observerReport(runId: string, replayThresholds?: NotificationThresholds) {
-  const sql = authDb();
-  const [run] = await sql`SELECT * FROM observer_runs WHERE id=${runId}`;
+  const d1=applicationBackend()==='d1'?await new D1Observer(applicationStorage()).reportData(runId):undefined;
+  if(d1===null)return null;
+  const sql=d1?null:authDb();
+  const [run] = d1?[d1.run]:await sql!`SELECT * FROM observer_runs WHERE id=${runId}`;
   if (!run) return null;
   const items =
-    await sql`SELECT i.*,s.name AS source_name FROM observer_run_items i JOIN content_sources s ON s.id=i.source_id WHERE i.run_id=${runId} ORDER BY i.detection_time DESC`;
+    d1?d1.items:await sql!`SELECT i.*,s.name AS source_name FROM observer_run_items i JOIN content_sources s ON s.id=i.source_id WHERE i.run_id=${runId} ORDER BY i.detection_time DESC`;
   const events: any[] =
-    await sql`SELECT e.*,s.publication_state,s.status AS story_status,s.first_reported_at,s.hot_read_until,s.cluster_reason,s.source_item_count,s.publisher_count,s.independent_source_count,pd.reason AS publication_decision_reason,
+    d1?d1.events:await sql!`SELECT e.*,s.publication_state,s.status AS story_status,s.first_reported_at,s.hot_read_until,s.cluster_reason,s.source_item_count,s.publisher_count,s.independent_source_count,pd.reason AS publication_decision_reason,
     EXISTS(
       SELECT 1 FROM story_evidence se
       JOIN content_sources cs ON cs.id=se.source_id
@@ -280,7 +294,7 @@ export async function observerReport(runId: string, replayThresholds?: Notificat
     };
   });
   const health =
-    await sql`SELECT id,name,polling_tier,fetch_strategy,last_successful_at,last_item_at,failure_count,consecutive_failures,average_latency_ms,last_error FROM content_sources WHERE team_id=${run.team_id} OR league_wide=true ORDER BY consecutive_failures DESC,priority DESC`;
+    d1?d1.health:await sql!`SELECT id,name,polling_tier,fetch_strategy,last_successful_at,last_item_at,failure_count,consecutive_failures,average_latency_ms,last_error FROM content_sources WHERE team_id=${run.team_id} OR league_wide=true ORDER BY consecutive_failures DESC,priority DESC`;
   const pushes = replayed.filter((event) => event.replayDecision.decision === 'PUSH');
   const countBy = (values: string[]) =>
     Object.fromEntries(

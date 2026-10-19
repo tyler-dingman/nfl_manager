@@ -1,0 +1,20 @@
+TAP version 13
+# Subtest: offline migration preserves executable franchise state, original social/game IDs, receipt replay and incomplete recovery evidence
+ok 1 - offline migration preserves executable franchise state, original social/game IDs, receipt replay and incomplete recovery evidence
+  ---
+  duration_ms: 4202.984916
+  ...
+# Subtest: D1 ingestion claims once, preserves evidence, rejects stale revisions and atomically publishes searchable historical IDs
+ok 2 - D1 ingestion claims once, preserves evidence, rejects stale revisions and atomically publishes searchable historical IDs
+  ---
+  duration_ms: 2976.313833
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 5301.300542

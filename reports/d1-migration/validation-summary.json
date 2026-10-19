@@ -1,0 +1,51 @@
+{
+  "baseline": "f1b77f90",
+  "branch": "poc/d1-migration-completion",
+  "postgresUrlsAbsentInWorkerHarness": true,
+  "root": {
+    "tests": 1065,
+    "pass": 1063,
+    "fail": 0,
+    "skipped": 2
+  },
+  "workerD1": {
+    "tests": 119,
+    "pass": 119,
+    "fail": 0,
+    "skipped": 0
+  },
+  "browser": {
+    "cases": 48,
+    "passed": 48,
+    "workflowChecks": [
+      "real HTTP signup and opaque session validation for two owners",
+      "real authenticated versioned multi-route trade HTTP regression",
+      "Crew creation, identity-bound invitation and member persistence",
+      "Ten-question drill, answer privacy, completion and owner isolation",
+      "Shared Trivia group creation, joining and host start",
+      "Worker-backed media progress and atomic prediction persistence remain owner scoped",
+      "DEMO-only checkout inventory reservation, persisted original order ID and private orders",
+      "Actual workerd Stripe HMAC verification and D1 webhook journal; no Stripe API call",
+      "Authenticated scheduled-job D1 schema readiness through actual workerd",
+      "saved content and preference mutations; second owner cannot read first owner saves",
+      "sessions, preferences and saved original IDs survive actual workerd restart",
+      "anonymous private saved-content API is rejected"
+    ]
+  },
+  "splitWorkerHttp": {
+    "samples": 58,
+    "capabilityAssertionsPassed": 8
+  },
+  "postgresRollback": {
+    "frontOfficePassed": 21,
+    "authPassed": 2,
+    "sportsbookPassed": 1,
+    "restoredTables": 50
+  },
+  "typecheck": "PASS",
+  "splitWorkerBuild": "PASS_LOCAL_DRY_RUN",
+  "passwordActualWorkerd": "PASS",
+  "hostedWorkerCpu": "UNVERIFIED",
+  "deployed": false,
+  "productionAccessed": false
+}

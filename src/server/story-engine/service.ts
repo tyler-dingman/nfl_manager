@@ -248,13 +248,14 @@ export async function workOne(
       if (!source) throw new Error('Source not found.');
       result = await processSource(source, undefined, { teamId, publishedSince });
     } else result = await processCandidate(job.payload.candidateId, synthesizer);
-    await repo.finishJob(job.id);
+    await repo.finishJob(job.id,job.locked_by);
     return { jobId: job.id, type: job.job_type, result };
   } catch (error) {
     await repo.failJob(
       job.id,
       error instanceof Error ? error.message : String(error),
       Math.min(3600, 30 * 2 ** job.attempts),
+      job.locked_by,
     );
     throw error;
   }

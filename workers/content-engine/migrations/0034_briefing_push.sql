@@ -1,0 +1,1 @@
+CREATE TABLE app_briefing_push_deliveries(briefing_id TEXT NOT NULL,user_id TEXT NOT NULL REFERENCES app_users(id),delivery_date TEXT NOT NULL,status TEXT NOT NULL,attempt_count INTEGER NOT NULL DEFAULT 1,attempted_at INTEGER NOT NULL,delivered_at INTEGER,last_error TEXT,PRIMARY KEY(user_id,delivery_date));

@@ -5,7 +5,7 @@ import type { PublicStoryPageOptions, WireEntry } from '../../src/server/story-e
 import { selectWireEvents } from '../../src/features/story-engine/surface-selectors';
 export class PublicEditorial {
   constructor(readonly s: Storage) {}
-  async publish(
+  async prepare(
     story: StoryView,
     state: string,
     evidenceAt = Date.parse(story.lastMeaningfulUpdateAt),
@@ -27,12 +27,12 @@ export class PublicEditorial {
       if (JSON.stringify(previous.story) !== JSON.stringify(story))
         throw Error('Editorial version conflict');
     }
-    if (prior?.object_hash === hash) return;
+    if (prior?.object_hash === hash) return [];
     const idBytes = crypto.getRandomValues(new Uint32Array(2)),
       rowid = -(Number(idBytes[0] & 0xfffff) * 4294967296 + idBytes[1] + 1),
       primary = story.primarySource ?? story.sources[0];
     const nonce = crypto.randomUUID();
-    await this.s.batch([
+    return [
       this.s.statement(
         'INSERT INTO app_public_stories(id,search_rowid,team_id,story_type,importance,first_at,updated_at,evidence_at,hot_until,version,visible,object_hash) VALUES(?,?,?,?,?,?,?,?,?,?,?,?) ON CONFLICT(id) DO UPDATE SET team_id=excluded.team_id,story_type=excluded.story_type,importance=excluded.importance,first_at=excluded.first_at,updated_at=excluded.updated_at,evidence_at=excluded.evidence_at,hot_until=excluded.hot_until,version=excluded.version,visible=excluded.visible,object_hash=excluded.object_hash WHERE version=? AND object_hash=?',
         [
@@ -72,8 +72,9 @@ export class PublicEditorial {
           story.id,
         ],
       ),
-    ]);
+    ];
   }
+  async publish(story:StoryView,state:string,evidenceAt=Date.parse(story.lastMeaningfulUpdateAt)){const writes=await this.prepare(story,state,evidenceAt);if(writes.length)await this.s.batch(writes);}
   async load(rows: { object_hash: string; id: string }[]) {
     const result: StoryView[] = [];
     for (let i = 0; i < rows.length; i += 6)
