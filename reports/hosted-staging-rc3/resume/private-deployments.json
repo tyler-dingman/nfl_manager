@@ -1,0 +1,12 @@
+[
+  {
+    "role": "web",
+    "name": "down-distance-rc3-staging-web",
+    "exitCode": 0,
+    "publicRoute": false,
+    "atomicStagingSecretNames": [
+      "AUTH_JWT_SECRET",
+      "STAGING_ACCESS_SECRET"
+    ]
+  }
+]
