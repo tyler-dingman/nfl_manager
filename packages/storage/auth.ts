@@ -111,8 +111,7 @@ export class D1AuthRepository {
       [identity.provider, identity.providerSubject],
     );
     if (match) {
-      await this.linkSocialIdentity(match.user_id, identity);
-      return this.findUserById(match.user_id);
+      return this.linkSocialIdentity(match.user_id, identity);
     }
     if (identity.email && (await this.findUserByEmail(identity.email)))
       throw Error(
@@ -210,8 +209,22 @@ export class D1AuthRepository {
     const id = crypto.randomUUID(),
       familyId = input.familyId ?? crypto.randomUUID(),
       now = Date.now(),
-      expiresAt = new Date(now + 30 * 86400000),
+      expiresAt = input.expiresAt ?? new Date(now + 30 * 86400000),
       statements = [];
+    if (
+      !(expiresAt instanceof Date) ||
+      !Number.isFinite(expiresAt.getTime()) ||
+      expiresAt.getTime() <= now ||
+      expiresAt.getTime() > now + 30 * 86400000
+    )
+      throw Error('Invalid session expiry');
+    if (input.previousToken)
+      statements.push(
+        this.s.statement(
+          'UPDATE app_sessions SET revoked_at=? WHERE refresh_token_hash=? AND user_id=? AND revoked_at IS NULL',
+          [now, await digest(utf8.encode(input.previousToken)), input.userId],
+        ),
+      );
     if (input.deviceId)
       statements.push(
         this.s.statement(
@@ -237,6 +250,13 @@ export class D1AuthRepository {
         ],
       ),
     );
+    if (input.firebase)
+      statements.push(
+        this.s.statement(
+          'INSERT INTO app_firebase_sessions(session_id,user_id,identity_hash,id_token_ciphertext) VALUES(?,?,?,?)',
+          [id, input.userId, input.firebase.identityHash, input.firebase.idTokenCiphertext],
+        ),
+      );
     await this.s.batch(statements);
     return { id, familyId, expiresAt };
   }

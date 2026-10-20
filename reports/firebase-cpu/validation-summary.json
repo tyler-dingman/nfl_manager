@@ -1,0 +1,20 @@
+{
+  "baselineCommit": "75e6910d",
+  "remoteRequestsThisMission": 0,
+  "deploymentPerformed": false,
+  "hostedCpuQualified": false,
+  "historicalHostedCpuMs": 47,
+  "historicalWorker": "down-distance-rc3-staging-api",
+  "historicalRoute": "POST /api/auth/firebase/session",
+  "historicalComponentCpuAttribution": "UNATTRIBUTED; only whole-invocation CPU exists",
+  "authTestsPassed": 23,
+  "workerTestsPassed": 5,
+  "legacyRuntimeTestsPassed": 1,
+  "productionBuild": "PASS",
+  "compiledLocalSSR": "PASS",
+  "workerDryRunsPassed": 5,
+  "configurationSnapshots": "immutable request-local only",
+  "authorizationDecisionsCached": false,
+  "newMigrations": 0,
+  "newCloudflareResources": 0
+}

@@ -1,3 +1,4 @@
+import { authStage } from './performance';
 import { firebaseSessionValid } from './firebase-service';
 import { createD1EmailSignup } from './d1-mail';
 import { jwtVerify, SignJWT } from 'jose';
@@ -71,20 +72,25 @@ export async function issueSession(
 ) {
   const refreshToken = secureToken(48);
   const session = await createSession({ userId, token: refreshToken, ...metadata });
-  const accessToken = await new SignJWT({ sid: session.id })
-    .setProtectedHeader({ alg: 'HS256' })
-    .setSubject(userId)
-    .setIssuer('down-distance')
-    .setAudience('down-distance-api')
-    .setIssuedAt()
-    .setExpirationTime('15m')
-    .sign(new TextEncoder().encode(requireAuthConfig().AUTH_JWT_SECRET));
+  const accessToken = await signSessionAccessToken(session.id, userId);
   return { refreshToken, accessToken, expiresAt: session.expiresAt, sessionId: session.id };
+}
+export async function signSessionAccessToken(sessionId: string, userId: string) {
+  return authStage('session.sign', () =>
+    new SignJWT({ sid: sessionId })
+      .setProtectedHeader({ alg: 'HS256' })
+      .setSubject(userId)
+      .setIssuer('down-distance')
+      .setAudience('down-distance-api')
+      .setIssuedAt()
+      .setExpirationTime('15m')
+      .sign(new TextEncoder().encode(requireAuthConfig().AUTH_JWT_SECRET)),
+  );
 }
 
 export async function userFromSessionToken(token?: string | null) {
   if (!token) return null;
-  const session = await findSessionByToken(token);
+  const session = await authStage('session.lookup', () => findSessionByToken(token));
   if (!session || session.revoked_at || session.expires_at <= new Date()) return null;
   if (!(await firebaseSessionValid(session.id, session.user_id))) return null;
   const user = await findUserById(session.user_id);

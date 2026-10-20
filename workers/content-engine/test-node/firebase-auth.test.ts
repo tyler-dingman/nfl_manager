@@ -1,3 +1,4 @@
+import { withAuthTimings, type AuthTiming } from '../../../src/server/auth/performance';
 import {
   sealFirebaseLedger,
   openFirebaseLedger,
@@ -106,11 +107,47 @@ test(
             assert(router.metrics.statements <= 50);
             Object.assign(router.metrics, requestMetrics());
           };
-          const a = await exchangeFirebaseSession(at, undefined, {});
+          const a = await exchangeFirebaseSession(at, undefined, { mobile: true });
           nextRequest();
-          const b = await exchangeFirebaseSession(bt, undefined, {});
+          const b = await exchangeFirebaseSession(bt, undefined, { mobile: true });
           nextRequest();
           assert.notEqual(a.user.id, b.user.id);
+          nextRequest();
+          const webTimings: AuthTiming[] = [];
+          const web = await withAuthTimings(webTimings, () =>
+            exchangeFirebaseSession(at, undefined, {}),
+          );
+          assert.equal(
+            web.accessToken,
+            undefined,
+            'web cookie exchange must not sign a discarded native JWT',
+          );
+          assert(!webTimings.some((t) => t.stage === 'session.sign'));
+          assert(webTimings.some((t) => t.stage === 'session.create'));
+          const expires = await repo.findSessionByToken(web.refreshToken);
+          assert.equal(expires?.expires_at.getTime(), (now + 3600) * 1000);
+          nextRequest();
+          const count = (await repo.s.rows<any>('SELECT count(*) AS n FROM app_sessions'))[0].n;
+          await assert.rejects(
+            repo.createSession({
+              userId: b.user.id,
+              token: 'synthetic-atomic-failure-token',
+              previousToken: b.refreshToken,
+              expiresAt: new Date((now + 3600) * 1000),
+              firebase: { identityHash: null, idTokenCiphertext: 'synthetic' },
+            }),
+          );
+          assert.equal(
+            (await repo.s.rows<any>('SELECT count(*) AS n FROM app_sessions'))[0].n,
+            count,
+          );
+          assert.equal(
+            (await repo.findSessionByToken(b.refreshToken))?.revoked_at,
+            null,
+            'failed association insert must roll back prior revocation',
+          );
+          nextRequest();
+
           nextRequest();
           assert.equal((await userFromSessionToken(a.refreshToken))?.id, a.user.id);
           nextRequest();
@@ -175,7 +212,7 @@ test(
           await revokeFirebaseUserSessions(a.user.id);
           await repo.revokeAllSessions(a.user.id);
           nextRequest();
-          await assert.rejects(exchangeFirebaseSession(at, undefined, {}));
+          await assert.rejects(exchangeFirebaseSession(at, undefined, { mobile: true }));
           nextRequest();
           const hash = await deleteFirebaseIdentity(b.user.id, bt);
           assert(deleted.has('owner-b'));

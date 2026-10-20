@@ -7,7 +7,7 @@ import * as sqlScript from '../../packages/storage/sql-script.ts';
 const splitSql = sqlScript.splitSql ?? sqlScript.default.splitSql;
 const root = process.cwd(),
   directory = await mkdtemp('/private/tmp/dd-blocker-ssr-'),
-  out = 'reports/firebase-auth',
+  out = process.env.DD_FIREBASE_PROBE_OUT ?? 'reports/firebase-auth',
   host = 'local-remediation.workers.dev',
   base = 'https://' + host,
   records = [];
@@ -18,6 +18,7 @@ const owners = [
 ];
 const bindings = {
   AUTH_PROVIDER: 'firebase',
+  APP_AUTH_TIMINGS: 'true',
   FIREBASE_AUTH_ENABLED: 'true',
   FIREBASE_PROJECT_ID: 'synthetic-workerd-firebase',
   FIREBASE_API_KEY: 'public-workerd-fixture-key',

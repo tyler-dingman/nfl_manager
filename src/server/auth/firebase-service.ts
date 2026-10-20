@@ -1,3 +1,4 @@
+import { authStage, authStageSync } from './performance';
 import { createHmac } from 'node:crypto';
 import { applicationStorage } from '../persistence/bindings';
 import { requireAuthConfig } from './config';
@@ -8,10 +9,10 @@ import {
   assertFirebaseAccount,
   type FirebaseIdentity,
 } from './firebase-token';
-import { encryptSecret, decryptSecret } from './crypto';
+import { encryptSecret, decryptSecret, secureToken } from './crypto';
 import { D1AuthRepository } from '../../../packages/storage/auth';
-import { issueSession } from './service';
-import { findUserById, toPublicUser } from './repository';
+import { signSessionAccessToken } from './service';
+import { toPublicUser } from './repository';
 const storage = () => applicationStorage('D1_USERS');
 export const firebaseIdentityHash = (identity: FirebaseIdentity) =>
   createHmac('sha256', requireAuthConfig().AUTH_JWT_SECRET)
@@ -28,9 +29,11 @@ async function checkTombstone(identity: FirebaseIdentity) {
 export async function verifiedFirebaseIdentity(token: string) {
   const configuration = firebaseConfiguration();
   const identity = await verifyFirebaseSignature(token, configuration.projectId);
-  const body = await firebaseAccountRequest('lookup', configuration.apiKey, token);
+  const body = await authStage('provider.lookup', () =>
+    firebaseAccountRequest('lookup', configuration.apiKey, token),
+  );
   assertFirebaseAccount(identity, body.users?.[0]);
-  await checkTombstone(identity);
+  await authStage('d1.revocation', () => checkTombstone(identity));
   return identity;
 }
 export async function firebaseSessionValid(sessionId: string, userId: string) {
@@ -54,38 +57,50 @@ export async function firebaseSessionValid(sessionId: string, userId: string) {
 export async function exchangeFirebaseSession(
   token: string,
   previous: string | undefined,
-  metadata: { deviceId?: string; ip?: string | null; userAgent?: string | null },
+  metadata: { deviceId?: string; ip?: string | null; userAgent?: string | null; mobile?: boolean },
 ) {
   const identity = await verifiedFirebaseIdentity(token);
   const repo = new D1AuthRepository(storage());
-  const user = await repo.resolveSocialUser({
-    provider: 'FIREBASE',
-    providerSubject: `${identity.projectId}:${identity.uid}`,
-    email: identity.email,
-    emailVerified: identity.emailVerified,
-    displayName: identity.displayName,
-  });
+  const user = await authStage('d1.provision', () =>
+    repo.resolveSocialUser({
+      provider: 'FIREBASE',
+      providerSubject: `${identity.projectId}:${identity.uid}`,
+      email: identity.email,
+      emailVerified: identity.emailVerified,
+      displayName: identity.displayName,
+    }),
+  );
   if (!user || !['ACTIVE', 'PENDING'].includes(user.status)) throw Error('Account unavailable.');
-  // Revoke only the caller's previous application session; a foreign token can never revoke another user.
-  if (previous) {
-    const old = await repo.findSessionByToken(previous);
-    if (old?.user_id === user.id) await repo.revokeSessionToken(previous);
-  }
-  const session = await issueSession(user.id, metadata);
-  const expiresAt = new Date(identity.expires * 1000);
-  await repo.s.batch([
-    repo.s.statement('UPDATE app_sessions SET expires_at=? WHERE id=? AND user_id=?', [
-      expiresAt.getTime(),
-      session.sessionId,
-      user.id,
-    ]),
-    repo.s.statement(
-      'INSERT INTO app_firebase_sessions(session_id,user_id,identity_hash,id_token_ciphertext) VALUES(?,?,?,?)',
-      [session.sessionId, user.id, firebaseIdentityHash(identity), encryptSecret(token)],
-    ),
-  ]);
-  return { ...session, expiresAt, user: toPublicUser((await findUserById(user.id))!) };
+  const expiresAt = new Date(identity.expires * 1000),
+    refreshToken = secureToken(48);
+  const binding = {
+    identityHash: firebaseIdentityHash(identity),
+    idTokenCiphertext: authStageSync('session.encrypt', () => encryptSecret(token)),
+  };
+  // One fenced atomic batch: revoke only this user's previous session, insert the
+  // already-capped session and its provider association. No transient unbound session.
+  const session = await authStage('session.create', () =>
+    repo.createSession({
+      userId: user.id,
+      token: refreshToken,
+      ...metadata,
+      expiresAt,
+      firebase: binding,
+      previousToken: previous,
+    }),
+  );
+  const accessToken = metadata.mobile
+    ? await signSessionAccessToken(session.id, user.id)
+    : undefined;
+  return {
+    sessionId: session.id,
+    refreshToken,
+    accessToken,
+    expiresAt,
+    user: toPublicUser(user as Parameters<typeof toPublicUser>[0]),
+  };
 }
+
 export async function revokeFirebaseUserSessions(userId: string) {
   if (!firebaseSelected()) return;
   const rows = await storage().rows<{ identity_hash: string }>(

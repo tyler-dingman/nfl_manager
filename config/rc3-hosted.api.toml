@@ -8,6 +8,8 @@ workers_dev = false
 preview_urls = false
 send_metrics = false
 [vars]
+# Numeric stage elapsed timings; actual CPU still comes from Cloudflare traces.
+APP_AUTH_TIMINGS = "true"
 # Existing owner-confirmed Spark project; actual public SDK values supplied via private staging config.
 AUTH_PROVIDER = "firebase"
 FIREBASE_AUTH_ENABLED = "true"

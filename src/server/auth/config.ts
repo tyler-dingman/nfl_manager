@@ -1,6 +1,7 @@
 import { firebaseSelected, publicFirebaseConfiguration } from './firebase-config';
 import { z } from 'zod';
 import {
+  applicationBindingScope,
   applicationBackend,
   applicationEnvironment,
   passwordRuntimeAvailable,
@@ -31,11 +32,22 @@ const schema = z.object({
   FACEBOOK_APP_SECRET: optionalString,
 });
 
+const parsedRequestConfigs = new WeakMap<object, z.infer<typeof schema>>();
+function parsedAuthConfig() {
+  const scope = applicationBindingScope();
+  if (!scope) return schema.parse(applicationEnvironment());
+  let parsed = parsedRequestConfigs.get(scope);
+  if (!parsed) {
+    parsed = Object.freeze(schema.parse(applicationEnvironment()));
+    parsedRequestConfigs.set(scope, parsed);
+  }
+  return parsed;
+}
 // Resolve request-scoped Worker secrets at access time; never capture one user's
 // bindings in module-global configuration shared with subsequent requests.
 export const authConfig: z.infer<typeof schema> = new Proxy({} as z.infer<typeof schema>, {
-  get: (_target, property) => Reflect.get(schema.parse(applicationEnvironment()), property),
-  ownKeys: () => Reflect.ownKeys(schema.parse(applicationEnvironment())),
+  get: (_target, property) => Reflect.get(parsedAuthConfig(), property),
+  ownKeys: () => Reflect.ownKeys(parsedAuthConfig()),
   getOwnPropertyDescriptor: () => ({ enumerable: true, configurable: true }),
 });
 export const isAuthDatabaseConfigured =

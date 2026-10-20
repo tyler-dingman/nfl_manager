@@ -25,7 +25,7 @@ export interface ApplicationBindings {
 const context = (globals[symbol] ??=
   new AsyncLocalStorage<ApplicationBindings>()) as AsyncLocalStorage<ApplicationBindings>;
 export const withApplicationBindings = <T>(bindings: ApplicationBindings, operation: () => T) =>
-  context.run(bindings, operation);
+  context.run({ ...bindings, env: bindings.env ? { ...bindings.env } : undefined }, operation);
 export function applicationBackend() {
   const value =
     context.getStore()?.env?.APP_DATA_BACKEND ?? process.env.APP_DATA_BACKEND ?? 'postgres';
@@ -34,8 +34,17 @@ export function applicationBackend() {
   if (!['postgres', 'd1'].includes(value)) throw Error('Unsupported APP_DATA_BACKEND');
   return value;
 }
+export const applicationBindingScope = () => context.getStore();
+const environmentSnapshots = new WeakMap<ApplicationBindings, Record<string, string | undefined>>();
 export function applicationEnvironment() {
-  return { ...process.env, ...context.getStore()?.env };
+  const scope = context.getStore();
+  if (!scope) return { ...process.env };
+  let snapshot = environmentSnapshots.get(scope);
+  if (!snapshot) {
+    snapshot = Object.freeze({ ...process.env, ...scope.env });
+    environmentSnapshots.set(scope, snapshot);
+  }
+  return snapshot;
 }
 export function applicationAi() {
   const ai = context.getStore()?.ai;

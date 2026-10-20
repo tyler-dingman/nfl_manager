@@ -21,7 +21,7 @@ function sessionService(): SessionService | undefined {
   return service;
 }
 
-export async function hasApplicationSession(request: NextRequest): Promise<boolean> {
+async function resolveApplicationSession(request: NextRequest): Promise<boolean> {
   const token = request.cookies.get(SESSION_COOKIE)?.value;
   if (!token) return false;
   const service = sessionService();
@@ -43,4 +43,31 @@ export async function hasApplicationSession(request: NextRequest): Promise<boole
   const body = await response.json();
   // API validates token hash, expiry, revocation and user status on every lookup.
   return body.ok === true && typeof body.user?.id === 'string' && body.user.id.length > 0;
+}
+
+/** Numeric SSR transport timing only; API signature/lookup CPU is a separate Worker event. */
+export async function hasApplicationSession(request: NextRequest): Promise<boolean> {
+  let timed = false;
+  try {
+    timed =
+      (getCloudflareContext().env as { APP_AUTH_TIMINGS?: string }).APP_AUTH_TIMINGS === 'true';
+  } catch {}
+  if (!timed) return resolveApplicationSession(request);
+  const start = performance.now();
+  let ok = false;
+  try {
+    const result = await resolveApplicationSession(request);
+    ok = true;
+    return result;
+  } finally {
+    console.log(
+      JSON.stringify({
+        metric: 'auth_stage',
+        stage: 'ssr.authentication',
+        elapsedMs: performance.now() - start,
+        ok,
+        cpuMs: null,
+      }),
+    );
+  }
 }

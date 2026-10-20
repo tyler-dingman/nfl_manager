@@ -1,9 +1,15 @@
-import { createRemoteJWKSet, jwtVerify, type JWTVerifyGetKey } from 'jose';
+import { authStage, authStageSync } from './performance';
+import { createRemoteJWKSet, customFetch, jwtVerify, type JWTVerifyGetKey } from 'jose';
 const keys = createRemoteJWKSet(
   new URL(
     'https://www.googleapis.com/service_accounts/v1/jwk/securetoken@system.gserviceaccount.com',
   ),
-  { timeoutDuration: 5000 },
+  {
+    timeoutDuration: 5000,
+    cacheMaxAge: 600000,
+    cooldownDuration: 30000,
+    [customFetch]: (url, init) => authStage('jwt.key_fetch', () => fetch(url, init)),
+  },
 );
 export interface FirebaseIdentity {
   uid: string;
@@ -22,37 +28,41 @@ export async function verifyFirebaseSignature(
   now = new Date(),
 ): Promise<FirebaseIdentity> {
   if (!token || token.length > 16384) throw Error('Invalid identity token.');
-  const { payload } = await jwtVerify(token, key, {
-    algorithms: ['RS256'],
-    issuer: `https://securetoken.google.com/${projectId}`,
-    audience: projectId,
-    currentDate: now,
-    requiredClaims: ['sub', 'exp', 'iat', 'auth_time'],
+  const { payload } = await authStage('jwt.signature', () =>
+    jwtVerify(token, (header, jws) => authStage('jwt.public_key', () => key(header, jws)), {
+      algorithms: ['RS256'],
+      issuer: `https://securetoken.google.com/${projectId}`,
+      audience: projectId,
+      currentDate: now,
+      requiredClaims: ['sub', 'exp', 'iat', 'auth_time'],
+    }),
+  );
+  return authStageSync('jwt.claims', () => {
+    const seconds = Math.floor(now.getTime() / 1000);
+    if (
+      !payload.sub ||
+      payload.sub.length > 128 ||
+      !Number.isInteger(payload.iat) ||
+      payload.iat! > seconds ||
+      !Number.isInteger(payload.exp) ||
+      payload.exp! <= seconds ||
+      !Number.isInteger(payload.auth_time) ||
+      Number(payload.auth_time) > seconds ||
+      Number(payload.auth_time) < 0 ||
+      Number(payload.auth_time) > payload.iat! ||
+      (payload.firebase as { tenant?: string } | undefined)?.tenant
+    )
+      throw Error('Invalid Firebase identity claims.');
+    return {
+      uid: payload.sub,
+      projectId,
+      expires: payload.exp!,
+      authTime: Number(payload.auth_time),
+      email: typeof payload.email === 'string' ? payload.email : undefined,
+      emailVerified: payload.email_verified === true,
+      displayName: typeof payload.name === 'string' ? payload.name : undefined,
+    };
   });
-  const seconds = Math.floor(now.getTime() / 1000);
-  if (
-    !payload.sub ||
-    payload.sub.length > 128 ||
-    !Number.isInteger(payload.iat) ||
-    payload.iat! > seconds ||
-    !Number.isInteger(payload.exp) ||
-    payload.exp! <= seconds ||
-    !Number.isInteger(payload.auth_time) ||
-    Number(payload.auth_time) > seconds ||
-    Number(payload.auth_time) < 0 ||
-    Number(payload.auth_time) > payload.iat! ||
-    (payload.firebase as { tenant?: string } | undefined)?.tenant
-  )
-    throw Error('Invalid Firebase identity claims.');
-  return {
-    uid: payload.sub,
-    projectId,
-    expires: payload.exp!,
-    authTime: Number(payload.auth_time),
-    email: typeof payload.email === 'string' ? payload.email : undefined,
-    emailVerified: payload.email_verified === true,
-    displayName: typeof payload.name === 'string' ? payload.name : undefined,
-  };
 }
 export async function firebaseAccountRequest(
   operation: 'lookup' | 'delete',

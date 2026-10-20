@@ -1,0 +1,239 @@
+{
+  "source": "Local Node process.cpuUsage, sequential fixture requests; includes Node orchestration and crypto threads, excludes D1 workerd subprocess CPU; NOT hosted or Worker CPU",
+  "baselineCommit": "75e6910d",
+  "keyFetches": 2,
+  "providerLookups": 6,
+  "rows": [
+    {
+      "variant": "baseline",
+      "operation": "cold-web",
+      "localNodeCpuMs": 47.814000000000306,
+      "d1": {
+        "d1Calls": 9,
+        "statements": 18,
+        "rowsRead": 12,
+        "rowsWritten": 24
+      },
+      "stages": []
+    },
+    {
+      "variant": "baseline",
+      "operation": "warm-web-refresh",
+      "localNodeCpuMs": 37.78200000000015,
+      "d1": {
+        "d1Calls": 12,
+        "statements": 22,
+        "rowsRead": 23,
+        "rowsWritten": 20
+      },
+      "stages": []
+    },
+    {
+      "variant": "baseline",
+      "operation": "native",
+      "localNodeCpuMs": 35.50700000000052,
+      "d1": {
+        "d1Calls": 9,
+        "statements": 18,
+        "rowsRead": 12,
+        "rowsWritten": 24
+      },
+      "stages": []
+    },
+    {
+      "variant": "optimized",
+      "operation": "cold-web",
+      "localNodeCpuMs": 24.16700000000037,
+      "d1": {
+        "d1Calls": 7,
+        "statements": 14,
+        "rowsRead": 7,
+        "rowsWritten": 21
+      },
+      "stages": [
+        {
+          "stage": "jwt.key_fetch",
+          "elapsedMs": 0.11358300000028976,
+          "ok": true,
+          "localNodeCpuMs": 0.12100000000009459
+        },
+        {
+          "stage": "jwt.public_key",
+          "elapsedMs": 0.4524590000000899,
+          "ok": true,
+          "localNodeCpuMs": 0.4539999999997235
+        },
+        {
+          "stage": "jwt.signature",
+          "elapsedMs": 0.7562079999997877,
+          "ok": true,
+          "localNodeCpuMs": 0.7650000000003274
+        },
+        {
+          "stage": "jwt.claims",
+          "elapsedMs": 0.04712500000005093,
+          "ok": true,
+          "localNodeCpuMs": 0.04899999999997817
+        },
+        {
+          "stage": "provider.lookup",
+          "elapsedMs": 0.18845799999962765,
+          "ok": true,
+          "localNodeCpuMs": 0.1889999999993961
+        },
+        {
+          "stage": "d1.revocation",
+          "elapsedMs": 6.115874999999505,
+          "ok": true,
+          "localNodeCpuMs": 3.457999999999629
+        },
+        {
+          "stage": "d1.provision",
+          "elapsedMs": 18.810959000000366,
+          "ok": true,
+          "localNodeCpuMs": 15.355000000000473
+        },
+        {
+          "stage": "session.encrypt",
+          "elapsedMs": 0.13262500000018917,
+          "ok": true,
+          "localNodeCpuMs": 0.13400000000001455
+        },
+        {
+          "stage": "session.create",
+          "elapsedMs": 7.32983299999978,
+          "ok": true,
+          "localNodeCpuMs": 3.2910000000001673
+        }
+      ]
+    },
+    {
+      "variant": "optimized",
+      "operation": "warm-web-refresh",
+      "localNodeCpuMs": 28.52099999999973,
+      "d1": {
+        "d1Calls": 7,
+        "statements": 14,
+        "rowsRead": 14,
+        "rowsWritten": 15
+      },
+      "stages": [
+        {
+          "stage": "jwt.public_key",
+          "elapsedMs": 0.036291999999775726,
+          "ok": true,
+          "localNodeCpuMs": 0.03899999999975989
+        },
+        {
+          "stage": "jwt.signature",
+          "elapsedMs": 0.29441700000006676,
+          "ok": true,
+          "localNodeCpuMs": 0.318000000000211
+        },
+        {
+          "stage": "jwt.claims",
+          "elapsedMs": 0.011542000000190455,
+          "ok": true,
+          "localNodeCpuMs": 0.012999999999919964
+        },
+        {
+          "stage": "provider.lookup",
+          "elapsedMs": 0.1994169999998121,
+          "ok": true,
+          "localNodeCpuMs": 0.20099999999911233
+        },
+        {
+          "stage": "d1.revocation",
+          "elapsedMs": 5.187291000000187,
+          "ok": true,
+          "localNodeCpuMs": 2.5460000000002765
+        },
+        {
+          "stage": "d1.provision",
+          "elapsedMs": 19.040917000000263,
+          "ok": true,
+          "localNodeCpuMs": 16.23399999999947
+        },
+        {
+          "stage": "session.encrypt",
+          "elapsedMs": 0.06404199999997218,
+          "ok": true,
+          "localNodeCpuMs": 0.06700000000000728
+        },
+        {
+          "stage": "session.create",
+          "elapsedMs": 8.283333000000312,
+          "ok": true,
+          "localNodeCpuMs": 8.312999999999192
+        }
+      ]
+    },
+    {
+      "variant": "optimized",
+      "operation": "native",
+      "localNodeCpuMs": 27.228000000000065,
+      "d1": {
+        "d1Calls": 7,
+        "statements": 14,
+        "rowsRead": 7,
+        "rowsWritten": 21
+      },
+      "stages": [
+        {
+          "stage": "jwt.public_key",
+          "elapsedMs": 0.03775000000041473,
+          "ok": true,
+          "localNodeCpuMs": 0.037000000000261934
+        },
+        {
+          "stage": "jwt.signature",
+          "elapsedMs": 0.47616699999980483,
+          "ok": true,
+          "localNodeCpuMs": 0.48800000000028376
+        },
+        {
+          "stage": "jwt.claims",
+          "elapsedMs": 0.012875000000349246,
+          "ok": true,
+          "localNodeCpuMs": 0.014000000000123691
+        },
+        {
+          "stage": "provider.lookup",
+          "elapsedMs": 0.208042000000205,
+          "ok": true,
+          "localNodeCpuMs": 0.20800000000053842
+        },
+        {
+          "stage": "d1.revocation",
+          "elapsedMs": 7.4285409999993135,
+          "ok": true,
+          "localNodeCpuMs": 3.69800000000032
+        },
+        {
+          "stage": "d1.provision",
+          "elapsedMs": 20.035124999999425,
+          "ok": true,
+          "localNodeCpuMs": 13.787000000000262
+        },
+        {
+          "stage": "session.encrypt",
+          "elapsedMs": 0.06287499999962165,
+          "ok": true,
+          "localNodeCpuMs": 0.06499999999959982
+        },
+        {
+          "stage": "session.create",
+          "elapsedMs": 7.89904099999967,
+          "ok": true,
+          "localNodeCpuMs": 7.9780000000000655
+        },
+        {
+          "stage": "session.sign",
+          "elapsedMs": 0.47879199999988487,
+          "ok": true,
+          "localNodeCpuMs": 0.49499999999989086
+        }
+      ]
+    }
+  ]
+}

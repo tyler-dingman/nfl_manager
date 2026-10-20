@@ -1,0 +1,23 @@
+service core:user:api: Uncaught Error: internal error; reference = iob0m61i1ciavdfc5na0lghb
+/private/tmp/down-distance-rc3/node_modules/miniflare/dist/src/index.js:117210
+      throw new MiniflareCoreError(
+            ^
+
+MiniflareCoreError [ERR_RUNTIME_FAILURE]: The Workers runtime failed to start. There was likely a problem with the workerd binary or your configuration.
+Runtime stderr:
+{"timestamp":"1792513313978","level":"error","source":"src/workerd/server/json-logger.c++:127","message":"service core:user:api: Uncaught Error: internal error; reference = iob0m61i1ciavdfc5na0lghb","context_depth":0}
+    at StartupLogBuffer.handleStartupFailure (/private/tmp/down-distance-rc3/node_modules/miniflare/dist/src/index.js:117210:13)
+    at Runtime.updateConfig (/private/tmp/down-distance-rc3/node_modules/miniflare/dist/src/index.js:117290:24)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async #assembleAndUpdateConfigInternal (/private/tmp/down-distance-rc3/node_modules/miniflare/dist/src/index.js:134942:30)
+    at async #assembleAndUpdateConfig (/private/tmp/down-distance-rc3/node_modules/miniflare/dist/src/index.js:134869:7)
+    at async /private/tmp/down-distance-rc3/node_modules/miniflare/dist/src/index.js:133646:7
+    at async Mutex.runWith (/private/tmp/down-distance-rc3/node_modules/miniflare/dist/src/index.js:80704:16)
+    at async #waitForReady (/private/tmp/down-distance-rc3/node_modules/miniflare/dist/src/index.js:135077:5)
+    at async _Miniflare._getProxyClient (/private/tmp/down-distance-rc3/node_modules/miniflare/dist/src/index.js:135415:5)
+    at async #getProxy (/private/tmp/down-distance-rc3/node_modules/miniflare/dist/src/index.js:135477:25) {
+  code: 'ERR_RUNTIME_FAILURE',
+  cause: undefined
+}
+
+Node.js v22.14.0

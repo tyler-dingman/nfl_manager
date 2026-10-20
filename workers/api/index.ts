@@ -1,3 +1,4 @@
+import { authStage, withAuthTimings, type AuthTiming } from '../../src/server/auth/performance';
 import { MultiD1, DatabaseOwnershipError } from '../../packages/storage/multi-d1';
 import { publicCacheKey, cachePublicResponse } from '../web/public-cache';
 import { NextRequest } from 'next/server';
@@ -21,149 +22,159 @@ export default {
         multiD1?.users().objects ??
         applicationObjects({ ...env, APP_DB: instrumentDatabase(env.APP_DB, metrics, 50) }),
       start = performance.now();
-    return withApplicationBindings(
-      {
-        db: multiD1?.users().db ?? instrumentDatabase(env.APP_DB, metrics, 50),
-        multiD1,
-        objects,
-        ai: env.AI,
-        password: env.PASSWORD_SERVICE,
-        env: { ...env, APP_RUNTIME: 'cloudflare' },
-        cacheNamespace: 'api:' + String(env.APP_CACHE_VERSION ?? 'default'),
-      },
-      async () => {
-        const req = new NextRequest(request.url, {
-          method: request.method,
-          headers: request.headers,
-          body: request.body,
-          signal: request.signal,
-        });
-        try {
-          const gate = await middleware(req);
-          if (!gate.headers.has('x-middleware-next')) return gate;
-          const cacheKey =
-            env.APP_PUBLIC_CACHE_ENABLED === 'true' &&
-            !gate.headers.has('set-cookie') &&
-            !gate.headers.has('vary')
-              ? publicCacheKey(request, env.APP_CACHE_VERSION ?? '')
-              : null;
-          const edgeCache = cacheKey ? (caches as unknown as { default: Cache }).default : null;
-          if (cacheKey && edgeCache) {
-            const hit = await edgeCache.match(cacheKey);
-            if (hit) {
-              const reply = new Response(hit.body, hit);
-              reply.headers.set('X-Application-Cache', 'HIT');
-              console.log(
+    const authTimings: AuthTiming[] = [];
+    const execute = () =>
+      withApplicationBindings(
+        {
+          db: multiD1?.users().db ?? instrumentDatabase(env.APP_DB, metrics, 50),
+          multiD1,
+          objects,
+          ai: env.AI,
+          password: env.PASSWORD_SERVICE,
+          env: { ...env, APP_RUNTIME: 'cloudflare' },
+          cacheNamespace: 'api:' + String(env.APP_CACHE_VERSION ?? 'default'),
+        },
+        async () => {
+          const req = new NextRequest(request.url, {
+            method: request.method,
+            headers: request.headers,
+            body: request.body,
+            signal: request.signal,
+          });
+          try {
+            const gate = await authStage('middleware', () => middleware(req));
+            if (!gate.headers.has('x-middleware-next')) return gate;
+            const cacheKey =
+              env.APP_PUBLIC_CACHE_ENABLED === 'true' &&
+              !gate.headers.has('set-cookie') &&
+              !gate.headers.has('vary')
+                ? publicCacheKey(request, env.APP_CACHE_VERSION ?? '')
+                : null;
+            const edgeCache = cacheKey ? (caches as unknown as { default: Cache }).default : null;
+            if (cacheKey && edgeCache) {
+              const hit = await edgeCache.match(cacheKey);
+              if (hit) {
+                const reply = new Response(hit.body, hit);
+                reply.headers.set('X-Application-Cache', 'HIT');
+                console.log(
+                  JSON.stringify({
+                    metric: 'application_headers',
+                    routePattern: 'public-cache-hit',
+                    method: request.method,
+                    route: routeFamily(req.nextUrl.pathname),
+                    status: reply.status,
+                    wallMs: performance.now() - start,
+                    ...metrics,
+                    r2Reads: 0,
+                    r2Writes: 0,
+                    cache: 'HIT',
+                    cpuMs: null,
+                  }),
+                );
+                return reply;
+              }
+            }
+            const route = routes.find((r) => r.pattern.test(req.nextUrl.pathname));
+            if (!route) return new Response('Not found', { status: 404 });
+            const matches = route.pattern.exec(req.nextUrl.pathname)!;
+            const handlers = route.handlers as Record<string, any>;
+            const method = request.method === 'HEAD' && !handlers.HEAD ? 'GET' : request.method;
+            const allowed = new Set(
+              Object.keys(handlers).filter((k) =>
+                /^(GET|HEAD|POST|PUT|DELETE|PATCH|OPTIONS)$/.test(k),
+              ),
+            );
+            if (allowed.has('GET')) allowed.add('HEAD');
+            allowed.add('OPTIONS');
+            if (method === 'OPTIONS' && !handlers.OPTIONS)
+              return new Response(null, {
+                status: 204,
+                headers: { Allow: [...allowed].join(', ') },
+              });
+            if (!handlers[method])
+              return new Response(null, {
+                status: 405,
+                headers: { Allow: [...allowed].join(', ') },
+              });
+            let response: Response;
+            try {
+              const params = Object.fromEntries(
+                route.names.map((name, i) => [name, decodeURIComponent(matches[i + 1])]),
+              );
+              response = await handlers[method](req, { params: Promise.resolve(params) });
+            } catch (error) {
+              console.error(
                 JSON.stringify({
-                  metric: 'application_headers',
-                  routePattern: 'public-cache-hit',
-                  method: request.method,
+                  metric: 'api_failure',
                   route: routeFamily(req.nextUrl.pathname),
-                  status: reply.status,
-                  wallMs: performance.now() - start,
-                  ...metrics,
-                  r2Reads: 0,
-                  r2Writes: 0,
-                  cache: 'HIT',
-                  cpuMs: null,
+                  error: error instanceof Error ? error.name : 'Error',
                 }),
               );
-              return reply;
+              response =
+                error instanceof DatabaseOwnershipError ||
+                error instanceof StorageMaintenanceError ||
+                error instanceof StorageCapacityError ||
+                error instanceof QueryBudgetError
+                  ? Response.json(
+                      { error: 'Storage temporarily unavailable. Retry later.' },
+                      { status: 503, headers: { 'Retry-After': '60' } },
+                    )
+                  : Response.json({ error: 'Internal server error' }, { status: 500 });
             }
-          }
-          const route = routes.find((r) => r.pattern.test(req.nextUrl.pathname));
-          if (!route) return new Response('Not found', { status: 404 });
-          const matches = route.pattern.exec(req.nextUrl.pathname)!;
-          const handlers = route.handlers as Record<string, any>;
-          const method = request.method === 'HEAD' && !handlers.HEAD ? 'GET' : request.method;
-          const allowed = new Set(
-            Object.keys(handlers).filter((k) =>
-              /^(GET|HEAD|POST|PUT|DELETE|PATCH|OPTIONS)$/.test(k),
-            ),
-          );
-          if (allowed.has('GET')) allowed.add('HEAD');
-          allowed.add('OPTIONS');
-          if (method === 'OPTIONS' && !handlers.OPTIONS)
-            return new Response(null, { status: 204, headers: { Allow: [...allowed].join(', ') } });
-          if (!handlers[method])
-            return new Response(null, { status: 405, headers: { Allow: [...allowed].join(', ') } });
-          let response: Response;
-          try {
-            const params = Object.fromEntries(
-              route.names.map((name, i) => [name, decodeURIComponent(matches[i + 1])]),
-            );
-            response = await handlers[method](req, { params: Promise.resolve(params) });
-          } catch (error) {
-            console.error(
+            const result = new Response(request.method === 'HEAD' ? null : response.body, response);
+            for (const [name, value] of gate.headers)
+              if (!name.startsWith('x-middleware-')) result.headers.set(name, value);
+            if (
+              cacheKey &&
+              edgeCache &&
+              !gate.headers.has('set-cookie') &&
+              result.status === 200 &&
+              !result.headers.has('set-cookie') &&
+              !/private|no-store/i.test(response.headers.get('cache-control') ?? '') &&
+              !result.headers.has('vary')
+            ) {
+              if (!result.headers.has('Cache-Control'))
+                result.headers.set('Cache-Control', 'public, max-age=30');
+              result.headers.set('X-Application-Cache', 'MISS');
+              const put = cachePublicResponse(edgeCache, cacheKey, result).catch(() => false);
+              if (ctx) ctx.waitUntil(put);
+              else await put;
+            } else {
+              result.headers.set('Cache-Control', 'private, no-store');
+              result.headers.set('X-Application-Cache', 'BYPASS');
+            }
+            result.headers.set('X-Content-Type-Options', 'nosniff');
+            console.log(
               JSON.stringify({
-                metric: 'api_failure',
+                metric: 'application_headers',
+                authTimings: env.APP_AUTH_TIMINGS === 'true' ? authTimings : undefined,
+                routePattern: route.pattern.source,
+                method,
                 route: routeFamily(req.nextUrl.pathname),
-                error: error instanceof Error ? error.name : 'Error',
+                status: result.status,
+                wallMs: performance.now() - start,
+                ...metrics,
+                r2Reads: 'reads' in objects ? objects.reads : 0,
+                r2Writes: 'writes' in objects ? objects.writes : 0,
+                cpuMs: null,
+                cpuSource: 'Cloudflare TraceEvent CPUTimeMs required',
               }),
             );
-            response =
-              error instanceof DatabaseOwnershipError ||
-              error instanceof StorageMaintenanceError ||
-              error instanceof StorageCapacityError ||
-              error instanceof QueryBudgetError
-                ? Response.json(
-                    { error: 'Storage temporarily unavailable. Retry later.' },
-                    { status: 503, headers: { 'Retry-After': '60' } },
-                  )
-                : Response.json({ error: 'Internal server error' }, { status: 500 });
-          }
-          const result = new Response(request.method === 'HEAD' ? null : response.body, response);
-          for (const [name, value] of gate.headers)
-            if (!name.startsWith('x-middleware-')) result.headers.set(name, value);
-          if (
-            cacheKey &&
-            edgeCache &&
-            !gate.headers.has('set-cookie') &&
-            result.status === 200 &&
-            !result.headers.has('set-cookie') &&
-            !/private|no-store/i.test(response.headers.get('cache-control') ?? '') &&
-            !result.headers.has('vary')
-          ) {
-            if (!result.headers.has('Cache-Control'))
-              result.headers.set('Cache-Control', 'public, max-age=30');
-            result.headers.set('X-Application-Cache', 'MISS');
-            const put = cachePublicResponse(edgeCache, cacheKey, result).catch(() => false);
-            if (ctx) ctx.waitUntil(put);
-            else await put;
-          } else {
-            result.headers.set('Cache-Control', 'private, no-store');
-            result.headers.set('X-Application-Cache', 'BYPASS');
-          }
-          result.headers.set('X-Content-Type-Options', 'nosniff');
-          console.log(
-            JSON.stringify({
-              metric: 'application_headers',
-              routePattern: route.pattern.source,
-              method,
-              route: routeFamily(req.nextUrl.pathname),
-              status: result.status,
-              wallMs: performance.now() - start,
-              ...metrics,
-              r2Reads: 'reads' in objects ? objects.reads : 0,
-              r2Writes: 'writes' in objects ? objects.writes : 0,
-              cpuMs: null,
-              cpuSource: 'Cloudflare TraceEvent CPUTimeMs required',
-            }),
-          );
-          return result;
-        } finally {
-          if (req.body && !req.bodyUsed) {
-            const reader = req.body.getReader();
-            try {
-              while (!(await reader.read()).done) {
-                /* Drain rejected requests without retaining payload bytes. */
+            return result;
+          } finally {
+            if (req.body && !req.bodyUsed) {
+              const reader = req.body.getReader();
+              try {
+                while (!(await reader.read()).done) {
+                  /* Drain rejected requests without retaining payload bytes. */
+                }
+              } finally {
+                reader.releaseLock();
               }
-            } finally {
-              reader.releaseLock();
             }
           }
-        }
-      },
-    );
+        },
+      );
+    return env.APP_AUTH_TIMINGS === 'true' ? withAuthTimings(authTimings, execute) : execute();
   },
 };

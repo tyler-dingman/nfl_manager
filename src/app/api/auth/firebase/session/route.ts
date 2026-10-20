@@ -1,3 +1,4 @@
+import { authStage } from '@/server/auth/performance';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { assertSameOrigin, authError, SESSION_COOKIE, setSessionCookie } from '@/server/auth/http';
@@ -18,19 +19,21 @@ export async function POST(request: NextRequest) {
     const metadata = requestMetadata(request);
     if (!checkRateLimit(`firebase-session:${metadata.ip ?? 'unknown'}`, 60, 60000))
       return authError('Please try again later.', 429);
-    const input = schema.parse(await request.json());
+    const input = schema.parse(await authStage('request.parse', () => request.json()));
     const session = await exchangeFirebaseSession(
       input.idToken,
       input.mobile ? input.refreshToken : request.cookies.get(SESSION_COOKIE)?.value,
-      { ...metadata, deviceId: input.deviceId },
+      { ...metadata, deviceId: input.deviceId, mobile: input.mobile === true },
     );
-    const response = NextResponse.json({
-      ok: true,
-      user: session.user,
-      ...(input.mobile
-        ? { accessToken: session.accessToken, refreshToken: session.refreshToken }
-        : {}),
-    });
+    const response = await authStage('json.serialization', () =>
+      NextResponse.json({
+        ok: true,
+        user: session.user,
+        ...(input.mobile
+          ? { accessToken: session.accessToken, refreshToken: session.refreshToken }
+          : {}),
+      }),
+    );
     if (!input.mobile) setSessionCookie(response, session.refreshToken, session.expiresAt);
     response.headers.set('Cache-Control', 'no-store');
     return response;
