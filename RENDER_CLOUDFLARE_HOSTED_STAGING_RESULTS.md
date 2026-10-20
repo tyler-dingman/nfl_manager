@@ -26,3 +26,32 @@ Exact next owner action: approve publishing this dedicated staging branch to pub
 Until that approval, hosted deployment, CPU/memory measurement and product validation are NOT RUN. Controlled beta remains NO-GO. Required final results: origin security local PASS/hosted UNVERIFIED; gateway local PASS/hosted UNVERIFIED; Firebase authentication and authenticated SSR local PASS/hosted UNVERIFIED; all-team routing/global feed/product workflows local PASS/hosted UNVERIFIED; hosted recovery UNVERIFIED; billing activation NONE.
 
 Publication scope review found 55 pre-existing local commits absent from locally recorded origin/main, affecting 2611 files, in addition to this resumed candidate. A branch push exposes that baseline history too. See [the complete proposed publication scope](reports/render-cloudflare-hosted/publication-scope.md). The new credential scan is limited to new evidence/configuration, not a historical credential audit. Do not describe this as a small isolated patch publication.
+
+## Final status at publication gate
+
+| Required result | Status |
+| --- | --- |
+| Render service created | Existing owner-created `nfl_manager`, `srv-dbbsht6i0phs73e2otg0`; no additional service created |
+| Render Free verified | YES, Free instance / Hobby workspace; no card on file |
+| Billing activated | NONE |
+| Origin security | Local PASS; hosted UNVERIFIED; no reviewed app deployment |
+| Cloudflare gateway | Local PASS; hybrid deployment NOT RUN; five existing Workers freshly verified private with empty schedules |
+| Firebase authentication | Local PASS; hybrid hosted UNVERIFIED; existing Spark project unchanged |
+| Authenticated SSR | Local PASS; hybrid hosted UNVERIFIED |
+| All-team routing | Local PASS; hybrid hosted UNVERIFIED |
+| Global feed | Local PASS; hybrid hosted UNVERIFIED |
+| Cloudflare gateway CPU | UNMEASURED; no compliance claim |
+| Render memory | UNMEASURED |
+| Cold-start behavior | UNMEASURED |
+| D1 usage | Account preflight: 66,316 rows read / 2,844 written; storage approximately 5.55 MB. No hybrid application workload executed |
+| Product smoke tests | 78 local integration assertions PASS; hybrid hosted NOT RUN |
+| Hosted recovery | UNVERIFIED; ten occupied databases, no safe empty isolated restore targets |
+| Remaining blockers | Explicit public publication approval and historical secret audit; then actual deployment, security, CPU/memory, product and quota qualification |
+| Controlled beta readiness | NO-GO |
+| Exact next owner action | Answer the publication-scope approval request; credentials approval alone does not authorize this broader public export |
+| Branch | `staging/render-cloudflare-hosted-preflight` |
+| Commit | Local candidate `7efa896d`; final documentation commit identified by `git log -1 --format=%H -- RENDER_CLOUDFLARE_HOSTED_STAGING_RESULTS.md` |
+
+Saved credentials are masked in Render's environment view; no secret appears in new repository evidence/configuration. The bulk editor briefly exposed staging values to the private tool transcript before saving; no raw editor snapshot was stored in the repository or published. Subsequent observations were redacted/masked. No production credential was used. This is not a full historical secret audit.
+
+At stop: Render auto-deploy is off and its initial deployment remains canceled; no successful application deployment exists to suspend. All five Cloudflare staging Workers are private. No public staging exposure was enabled by this resumed run. Production DNS, Vercel and production data were untouched. No hosted results are inferred from local tests.
