@@ -1,0 +1,34 @@
+{
+  "branch": "release/down-distance-firebase-auth",
+  "baselineCommit": "5f0629db",
+  "localOnly": true,
+  "deployed": false,
+  "remoteResourcesCreated": false,
+  "selectedBoundary": "Render API/auth/SSR computation; existing Web gateway -> existing private API service -> native D1 bindings",
+  "publicD1Rest": "not on active data path; original remote mutation refusal unchanged",
+  "regressionTestsPassed": 85,
+  "finalNativeTestsPassed": 3,
+  "endToEndAssertionsPassed": 78,
+  "gatewayRequests": 867,
+  "applicationNativeBatches": 229,
+  "webReplayClaimBatchPerGatewayRequest": 1,
+  "providerKeyFetches": 1,
+  "providerLiveLookups": 47,
+  "hostedCpu": "UNVERIFIED",
+  "renderIsolatedMemory": "UNVERIFIED",
+  "hostedReadiness": "local candidate ready for review; hosted not qualified",
+  "productionBuild": "PASS",
+  "typecheck": "PASS",
+  "format": "PASS",
+  "offlineDryRuns": [
+    "web with gated assets/private service binding",
+    "private API native executor with ten existing D1 bindings"
+  ],
+  "nativeDeviceValidation": "UNVERIFIED; no renderer changes",
+  "artifactsSha256": {
+    ".staging/transaction-boundary/web.mjs": "f683e80a7226a7d8728810fbd15369415d51d519966da4ee1f648092f9486593",
+    ".staging/transaction-boundary/api.mjs": "ac898f322e8a418e483ddf614f3f95030c71ec4e49f89485b29cdec4ce7691f5",
+    ".staging/render-node/api.mjs": "9f616ac07e244e81446881f099d48db8e5bb090d3b61115c85a851ee2c46aa1c",
+    ".staging/render-node/start.mjs": "0ca0904154fd8bf00a84d0aade2840924b4d4ad07ec744b197046b6605ba6f79"
+  }
+}

@@ -1,0 +1,12 @@
+
+ ⛅️ wrangler 4.151.1 (update available 4.151.3)
+───────────────────────────────────────────────
+✨ Read 2256 files from the assets directory /private/tmp/down-distance-rc3/.staging/render-node/assets
+Total Upload: 11.70 KiB / gzip: 4.27 KiB
+Your Worker has access to the following bindings:
+Binding                                              Resource         
+env.D1_USERS (existing-staging-d1_users)             D1 Database      
+env.API_SERVICE (down-distance-rc3-staging-api)      Worker           
+env.ASSETS                                           Assets           
+
+--dry-run: exiting now.

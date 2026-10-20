@@ -1,0 +1,32 @@
+[
+  {
+    "name": "web",
+    "bytes": 9799,
+    "inputs": [
+      "packages/security/origin-assertion.ts",
+      "src/server/node-staging/replay.ts",
+      "packages/security/transaction-boundary.ts",
+      "workers/staging/credential-access.ts",
+      "workers/staging/authorized-dispatch.ts",
+      "workers/staging/render-origin.ts"
+    ]
+  },
+  {
+    "name": "api",
+    "bytes": 5634,
+    "inputs": [
+      "packages/storage/codec.ts",
+      "packages/storage/json-tree.ts",
+      "packages/storage/core.ts",
+      "packages/storage/write-fence.ts",
+      "packages/storage/objects.ts",
+      "packages/storage/d1-objects.ts",
+      "packages/storage/instrumentation.ts",
+      "packages/storage/multi-d1.ts",
+      "packages/storage/sql-script.ts",
+      "packages/security/origin-assertion.ts",
+      "packages/security/transaction-boundary.ts",
+      "workers/staging/transaction-api.ts"
+    ]
+  }
+]

@@ -1,0 +1,18 @@
+
+ ⛅️ wrangler 4.151.1 (update available 4.151.3)
+───────────────────────────────────────────────
+Total Upload: 7.11 KiB / gzip: 2.97 KiB
+Your Worker has access to the following bindings:
+Binding                                         Resource         
+env.D1_TEAM_1 (existing-staging-d1_team_1)      D1 Database      
+env.D1_TEAM_2 (existing-staging-d1_team_2)      D1 Database      
+env.D1_TEAM_3 (existing-staging-d1_team_3)      D1 Database      
+env.D1_TEAM_4 (existing-staging-d1_team_4)      D1 Database      
+env.D1_TEAM_5 (existing-staging-d1_team_5)      D1 Database      
+env.D1_TEAM_6 (existing-staging-d1_team_6)      D1 Database      
+env.D1_TEAM_7 (existing-staging-d1_team_7)      D1 Database      
+env.D1_TEAM_8 (existing-staging-d1_team_8)      D1 Database      
+env.D1_USERS (existing-staging-d1_users)        D1 Database      
+env.D1_SHARED (existing-staging-d1_shared)      D1 Database      
+
+--dry-run: exiting now.

@@ -1,8 +1,7 @@
 import next from 'next';
-import { readFile } from 'node:fs/promises';
-import { createRestBindings } from './d1-rest';
+import { createWorkerBindings } from './d1-worker';
+import { transactionConfiguration } from '../../../packages/security/transaction-boundary';
 import { createNodeOrigin } from './origin-server';
-import type { DatabaseOwner } from '../../../packages/storage/multi-d1';
 // Built by scripts/render-staging/build.mjs; never a separately registered route table.
 // @ts-ignore generated build output
 import api from '../../../.staging/render-node/api.mjs';
@@ -55,14 +54,10 @@ async function main() {
     throw Error('Canonical staging auth URL required');
   if (!process.env.DD_NODE_ORIGIN_SECRET || process.env.DD_NODE_ORIGIN_SECRET.length < 64)
     throw Error('Private origin secret required');
-  const manifest = JSON.parse(
-    await readFile(process.cwd() + '/config/render-staging/databases.json', 'utf8'),
-  ) as Record<DatabaseOwner, string>;
-  const bindings = createRestBindings({
-    accountId: '6e8c301360ab628706dcf3acf55f0dbb',
-    databaseIds: manifest,
-    token: process.env.D1_REST_TOKEN ?? '',
-  });
+  if (process.env.D1_REST_TOKEN || process.env.CLOUDFLARE_API_TOKEN)
+    throw Error('Node must not possess Cloudflare account database credentials');
+  const transaction = transactionConfiguration(process.env);
+  const bindings = createWorkerBindings({ configuration: transaction });
   const port = Number(process.env.PORT ?? 3000);
   if (!Number.isInteger(port) || port < 1024 || port > 65535) throw Error('Invalid port');
   process.env.DD_NODE_INTERNAL_URL = 'http://127.0.0.1:' + port;

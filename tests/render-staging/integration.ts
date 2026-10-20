@@ -14,6 +14,7 @@ import {
   signOut,
   connectAuthEmulator,
 } from 'firebase/auth';
+import { nativeFixture, publicOrigin as nativePublicOrigin } from '../execution-boundary/fixture';
 import { restFixture, listen, close } from './fixture';
 import { firebaseFixture } from './firebase-fixture';
 import { seedStories } from './product-fixtures';
@@ -21,12 +22,13 @@ import { createNodeOrigin } from '../../src/server/node-staging/origin-server';
 import edge from '../../workers/staging/render-origin';
 import { TEAM_GROUPS } from '../../packages/storage/multi-d1';
 async function main() {
-  const out = 'reports/render-free-prototype';
+  const nativeBoundary = process.env.DD_TEST_NATIVE_BOUNDARY === 'true';
+  const out = nativeBoundary ? 'reports/execution-boundary' : 'reports/render-free-prototype';
   await mkdir(out, { recursive: true });
-  const f = await restFixture(),
+  const f = await (nativeBoundary ? nativeFixture() : restFixture()),
     firebase = await firebaseFixture(),
     originalFetch = globalThis.fetch;
-  const publicOrigin = 'https://local-render.workers.dev',
+  const publicOrigin = nativeBoundary ? nativePublicOrigin : 'https://local-render.workers.dev',
     configuration = {
       secret: 'synthetic-render-origin-secret-independent-and-64-characters-long-only',
       audience: 'dd-render-staging',
@@ -103,7 +105,7 @@ async function main() {
     app = next({
       dev: false,
       dir: process.cwd() + '/.staging/render-node/app',
-      hostname: 'local-render.workers.dev',
+      hostname: new URL(publicOrigin).hostname,
       port: 443,
     });
     await app.prepare();
@@ -147,11 +149,11 @@ async function main() {
       ...env,
       DD_NODE_ORIGIN_SECRET: configuration.secret,
       RENDER_STAGING_ORIGIN: 'https://synthetic.onrender.com',
-      STAGING_ACCESS_HOST: 'local-render.workers.dev',
+      STAGING_ACCESS_HOST: new URL(publicOrigin).hostname,
       STAGING_ACCESS_SECRET:
         'synthetic-edge-gate-secret-at-least-64-characters-only-for-local-fixture',
       STAGING_ACCESS_EXPIRES_AT: new Date(Date.now() + 3600000).toISOString(),
-      D1_USERS: f.bindings.D1_USERS,
+      D1_USERS: f.h.db.D1_USERS,
       ASSETS: { fetch: assets },
     };
     edgeServer = createServer(async (req, res) => {
@@ -509,11 +511,15 @@ async function main() {
         {
           passed: true,
           records,
-          restRequests: f.calls,
-          restBatches: f.batches,
+          ...(nativeBoundary
+            ? { gatewayRequests: f.calls, nativeBatches: f.batches }
+            : { restRequests: f.calls, restBatches: f.batches }),
           firebaseKeyFetches: firebase.keyFetches,
           firebaseLiveLookups: firebase.lookups,
           providerMode: 'synthetic intercepted SDK; no live Firebase project',
+          databaseTransport: nativeBoundary
+            ? 'signed Web to private API service binding; actual workerd native D1'
+            : 'local REST fixture',
           browserExternalRequestsBlocked: blocked,
           rssBytes: process.memoryUsage().rss,
         },

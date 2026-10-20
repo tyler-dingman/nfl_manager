@@ -50,7 +50,8 @@ export function createNodeOrigin(options: OriginOptions) {
       denied(
         res,
         (error as Error).name === 'RestAtomicityUnverified' ||
-          (error as Error).name === 'D1RestError'
+          (error as Error).name === 'D1RestError' ||
+          (error as Error).name === 'NativeBoundaryError'
           ? 503
           : 403,
       );
