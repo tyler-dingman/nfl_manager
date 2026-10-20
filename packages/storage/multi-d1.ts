@@ -1,5 +1,6 @@
 import { Storage, type SqlDatabase } from './core';
 import { D1Objects } from './d1-objects';
+import { BoundedD1Objects } from './bounded-d1-objects';
 import { instrumentDatabase, requestMetrics, type RequestMetrics } from './instrumentation';
 
 export const TEAM_GROUPS = [
@@ -64,7 +65,24 @@ export class MultiD1 {
         this.metrics,
         50,
       );
-      store = new Storage(db, new D1Objects(db), owner);
+      const raw = this.bindings[owner]!;
+      // Bulk preparation spans separate native invocations; keep the final business
+      // transaction's 50-statement budget. All payload metadata still counts.
+      const objects =
+        raw.payloadChunkBytes === undefined
+          ? new D1Objects(db)
+          : new BoundedD1Objects(
+              instrumentDatabase(
+                instrumentDatabase(raw, local, undefined, true),
+                this.metrics,
+                undefined,
+                true,
+              ),
+              raw.payloadChunkBytes,
+              db,
+              raw.payloadEncoding,
+            );
+      store = new Storage(db, objects, owner);
       this.stores.set(owner, store);
     }
     return store;

@@ -15,6 +15,9 @@ export interface Statement {
   first<T = Record<string, unknown>>(): Promise<T | null>;
 }
 export interface SqlDatabase {
+  /** Server-only native gateway capability. Absent in edge/legacy adapters. */
+  readonly payloadChunkBytes?: number;
+  readonly payloadEncoding?: 'hex';
   prepare(sql: string): Statement;
   batch(
     statements: Statement[],

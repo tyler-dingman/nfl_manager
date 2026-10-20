@@ -1,5 +1,9 @@
 import { authStage } from './performance';
-import { firebaseSessionValid } from './firebase-service';
+import {
+  firebaseSessionValid,
+  firebaseSessionUser,
+  coalescedFirebaseSessions,
+} from './firebase-service';
 import { createD1EmailSignup } from './d1-mail';
 import { jwtVerify, SignJWT } from 'jose';
 import { secureToken, hashPassword, verifyPassword } from './crypto';
@@ -90,6 +94,10 @@ export async function signSessionAccessToken(sessionId: string, userId: string) 
 
 export async function userFromSessionToken(token?: string | null) {
   if (!token) return null;
+  if (coalescedFirebaseSessions()) {
+    const user = await firebaseSessionUser({ refreshToken: token });
+    return user ? toPublicUser(user as Parameters<typeof toPublicUser>[0]) : null;
+  }
   const session = await authStage('session.lookup', () => findSessionByToken(token));
   if (!session || session.revoked_at || session.expires_at <= new Date()) return null;
   if (!(await firebaseSessionValid(session.id, session.user_id))) return null;
@@ -106,6 +114,10 @@ export async function userFromAccessToken(token?: string | null) {
       { issuer: 'down-distance', audience: 'down-distance-api' },
     );
     if (!payload.sub || typeof payload.sid !== 'string') return null;
+    if (coalescedFirebaseSessions()) {
+      const user = await firebaseSessionUser({ sessionId: payload.sid, userId: payload.sub });
+      return user ? toPublicUser(user as Parameters<typeof toPublicUser>[0]) : null;
+    }
     if (!(await findActiveSessionById(payload.sid, payload.sub))) return null;
     if (!(await firebaseSessionValid(payload.sid, payload.sub))) return null;
     const user = await findUserById(payload.sub);

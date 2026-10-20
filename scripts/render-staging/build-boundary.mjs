@@ -15,7 +15,8 @@ for (const [name, entry] of [
     platform: 'browser',
     format: 'esm',
     target: 'es2022',
-    minify: true,
+    minify: process.env.DD_GATEWAY_PROFILE_BUILD !== 'true',
+    sourcemap: process.env.DD_GATEWAY_PROFILE_BUILD === 'true' ? 'inline' : false,
     metafile: true,
     external: ['node:*', 'cloudflare:*'],
   });

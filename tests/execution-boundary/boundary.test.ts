@@ -88,6 +88,33 @@ test(
       });
       await assert.rejects(ambiguous.D1_USERS.prepare('SELECT 1').all(), NativeBoundaryError);
       assert.equal(attempts, 1);
+      let committedAttempts = 0;
+      const lostResponse = createWorkerBindings({
+        configuration,
+        request: async (input, init) => {
+          committedAttempts++;
+          const committed = await f.dispatch(input, init);
+          assert.equal(committed.status, 200);
+          await committed.arrayBuffer();
+          throw Error('Synthetic crash after native commit before response');
+        },
+      });
+      await assert.rejects(
+        lostResponse.D1_USERS.prepare('INSERT INTO boundary_test VALUES(?,?)')
+          .bind('committed-before-crash', 7)
+          .run(),
+        NativeBoundaryError,
+      );
+      assert.equal(committedAttempts, 1, 'no automatic retry after ambiguous committed write');
+      await f.restart();
+      assert.equal(
+        (
+          await fresh.D1_USERS.prepare(
+            "SELECT n FROM boundary_test WHERE id='committed-before-crash'",
+          ).first<any>()
+        )?.n,
+        7,
+      );
     } finally {
       await f.close();
     }

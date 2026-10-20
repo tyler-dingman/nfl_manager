@@ -23,7 +23,9 @@ import edge from '../../workers/staging/render-origin';
 import { TEAM_GROUPS } from '../../packages/storage/multi-d1';
 async function main() {
   const nativeBoundary = process.env.DD_TEST_NATIVE_BOUNDARY === 'true';
-  const out = nativeBoundary ? 'reports/execution-boundary' : 'reports/render-free-prototype';
+  const out =
+    process.env.DD_TEST_OUT ??
+    (nativeBoundary ? 'reports/execution-boundary' : 'reports/render-free-prototype');
   await mkdir(out, { recursive: true });
   const f = await (nativeBoundary ? nativeFixture() : restFixture()),
     firebase = await firebaseFixture(),
@@ -52,6 +54,7 @@ async function main() {
     APP_DATA_BACKEND: 'd1',
     APP_OBJECT_BACKEND: 'd1',
     APP_RUNTIME: 'node',
+    DD_COALESCED_FIREBASE_SESSION: process.env.DD_TEST_COALESCED_FIREBASE_SESSION ?? 'false',
     APP_PASSWORD_ENABLED: 'false',
     APP_MAIL_ENABLED: 'false',
     APP_PUBLIC_CACHE_ENABLED: 'false',
@@ -226,6 +229,8 @@ async function main() {
     const stage = gate.headers.get('set-cookie')!.split(';')[0];
     let session = '';
     async function call(label: string, p: string, status = 200, body?: unknown, cookie = session) {
+      const beforeCalls = f.calls;
+      const beforeMetrics = 'metrics' in f ? f.metrics : undefined;
       const response = await originalFetch(edgeUrl + p, {
         method: body ? 'POST' : 'GET',
         redirect: 'manual',
@@ -237,7 +242,23 @@ async function main() {
         ...(body ? { body: JSON.stringify(body) } : {}),
       });
       const text = await response.text();
-      await record(label, response.status === status, { path: p, status: response.status });
+      const afterMetrics = 'metrics' in f ? f.metrics : undefined;
+      await record(label, response.status === status, {
+        path: p,
+        method: body ? 'POST' : 'GET',
+        status: response.status,
+        gatewayCalls: f.calls - beforeCalls,
+        ...(beforeMetrics && afterMetrics
+          ? {
+              database: {
+                rowsRead: afterMetrics.rowsRead - beforeMetrics.rowsRead,
+                rowsWritten: afterMetrics.rowsWritten - beforeMetrics.rowsWritten,
+                queries: afterMetrics.queries - beforeMetrics.queries,
+                originClaims: afterMetrics.originClaims - beforeMetrics.originClaims,
+              },
+            }
+          : {}),
+      });
       let json: any;
       try {
         json = JSON.parse(text);
@@ -344,6 +365,8 @@ async function main() {
       sessionB,
     );
     assert(!foreign.text.includes('render-fixture-'));
+    await call('Capacity homepage data', '/api/user/home');
+    await call('Capacity profile data', '/api/user/preferences');
     const command = crypto.randomUUID();
     const createOptions = {
       method: 'POST',
@@ -356,10 +379,27 @@ async function main() {
       },
       body: JSON.stringify({ teamAbbr: 'KC', fresh: true }),
     };
+    if (process.env.DD_GATEWAY_PROFILE_OUT)
+      process.env.DD_GATEWAY_PROFILE_PHASE = 'first-front-office';
+    const createBefore = { calls: f.calls, metrics: 'metrics' in f ? f.metrics : undefined };
     const created = await originalFetch(edgeUrl + '/api/saves/create', createOptions);
+    delete process.env.DD_GATEWAY_PROFILE_PHASE;
     const createdBody = await created.json();
     await record('Front Office full durable creation', created.status === 200, {
       status: created.status,
+      path: '/api/saves/create',
+      method: 'POST',
+      gatewayCalls: f.calls - createBefore.calls,
+      ...('metrics' in f && createBefore.metrics
+        ? {
+            database: {
+              rowsRead: f.metrics.rowsRead - createBefore.metrics.rowsRead,
+              rowsWritten: f.metrics.rowsWritten - createBefore.metrics.rowsWritten,
+              queries: f.metrics.queries - createBefore.metrics.queries,
+              originClaims: f.metrics.originClaims - createBefore.metrics.originClaims,
+            },
+          }
+        : {}),
     });
     const saveId = createdBody.saveId;
     const replay = await originalFetch(edgeUrl + '/api/saves/create', createOptions);
@@ -375,6 +415,20 @@ async function main() {
     await record('Front Office conflicting command rejected', changed.status === 409, {
       status: changed.status,
     });
+    if (process.env.DD_GATEWAY_PROFILE_OUT)
+      for (let i = 0; i < 2; i++) {
+        process.env.DD_GATEWAY_PROFILE_PHASE = 'warm-front-office-' + i;
+        const warm = await originalFetch(edgeUrl + '/api/saves/create', {
+          ...createOptions,
+          headers: { ...createOptions.headers, 'X-Franchise-Command-Id': crypto.randomUUID() },
+        });
+        const value = await warm.json();
+        delete process.env.DD_GATEWAY_PROFILE_PHASE;
+        await record(
+          'Warm synthetic Front Office creation ' + i,
+          warm.status === 200 && !!value.saveId,
+        );
+      }
     const front = await call('Front Office readback', '/api/front-office/state?saveId=' + saveId);
     assert(front.text.includes(saveId));
     await call(
@@ -384,6 +438,20 @@ async function main() {
       undefined,
       sessionB,
     );
+    if (nativeBoundary) {
+      await (f as Awaited<ReturnType<typeof nativeFixture>>).restart();
+      const persisted = await call(
+        'Front Office persists across local Worker restart',
+        '/api/front-office/state?saveId=' + saveId,
+      );
+      assert(persisted.text.includes(saveId));
+      const afterRestart = await originalFetch(edgeUrl + '/api/saves/create', createOptions);
+      const receipt = await afterRestart.json();
+      await record(
+        'Front Office original receipt survives Worker restart',
+        afterRestart.status === 200 && receipt.saveId === saveId,
+      );
+    }
     for (const p of [
       '/api/parlay-lab/events',
       '/api/parlay-lab/props?team=KC',

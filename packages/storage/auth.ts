@@ -260,6 +260,43 @@ export class D1AuthRepository {
     await this.s.batch(statements);
     return { id, familyId, expiresAt };
   }
+  /** Initial ciphertext lookup only; never an authorization decision. */
+  async firebaseSessionContext(input: { tokenHash?: string; sessionId?: string; userId?: string }) {
+    const byToken = input.tokenHash !== undefined;
+    if (byToken ? !/^[a-f0-9]{64}$/.test(input.tokenHash!) : !input.sessionId || !input.userId)
+      return null;
+    return (
+      (
+        await this.s.rows<{ session_id: string; user_id: string; id_token_ciphertext: string }>(
+          `SELECT s.id AS session_id,s.user_id,f.id_token_ciphertext FROM app_sessions s JOIN app_firebase_sessions f ON f.session_id=s.id AND f.user_id=s.user_id WHERE ${byToken ? 's.refresh_token_hash=?' : 's.id=? AND s.user_id=?'} AND s.revoked_at IS NULL AND s.expires_at>?`,
+          [...(byToken ? [input.tokenHash] : [input.sessionId, input.userId]), Date.now()],
+        )
+      )[0] ?? null
+    );
+  }
+  /** Fresh final DB snapshot AFTER live Firebase verification. Session, user,
+   * identity binding, ciphertext and erasure/revocation remain authoritative. */
+  async verifiedFirebaseSessionUser(input: {
+    sessionId: string;
+    userId: string;
+    identityHash: string;
+    providerSubject: string;
+    authTime: number;
+    ciphertext: string;
+  }) {
+    return this.one(
+      `SELECT u.* FROM app_sessions s JOIN app_users u ON u.id=s.user_id JOIN app_firebase_sessions f ON f.session_id=s.id AND f.user_id=u.id JOIN app_identities i ON i.user_id=u.id AND i.provider='FIREBASE' AND i.provider_subject=? LEFT JOIN app_firebase_revocations r ON r.identity_hash=f.identity_hash WHERE s.id=? AND s.user_id=? AND s.revoked_at IS NULL AND s.expires_at>? AND f.identity_hash=? AND f.id_token_ciphertext=? AND u.status IN ('ACTIVE','PENDING') AND coalesce(r.deleted,0)=0 AND (r.revoked_before IS NULL OR ?>r.revoked_before)`,
+      [
+        input.providerSubject,
+        input.sessionId,
+        input.userId,
+        Date.now(),
+        input.identityHash,
+        input.ciphertext,
+        input.authTime,
+      ],
+    );
+  }
   async findSessionByToken(token: string) {
     return this.one(
       'SELECT id,user_id,token_family_id,expires_at,revoked_at FROM app_sessions WHERE refresh_token_hash=?',

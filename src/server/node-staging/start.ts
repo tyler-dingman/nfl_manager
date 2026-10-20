@@ -57,7 +57,15 @@ async function main() {
   if (process.env.D1_REST_TOKEN || process.env.CLOUDFLARE_API_TOKEN)
     throw Error('Node must not possess Cloudflare account database credentials');
   const transaction = transactionConfiguration(process.env);
-  const bindings = createWorkerBindings({ configuration: transaction });
+  const bindings = createWorkerBindings({
+    configuration: transaction,
+    ...(process.env.DD_PAYLOAD_ENCODING
+      ? { payloadEncoding: process.env.DD_PAYLOAD_ENCODING as 'hex' }
+      : {}),
+    ...(process.env.DD_PAYLOAD_CHUNK_BYTES
+      ? { payloadChunkBytes: Number(process.env.DD_PAYLOAD_CHUNK_BYTES) }
+      : {}),
+  });
   const port = Number(process.env.PORT ?? 3000);
   if (!Number.isInteger(port) || port < 1024 || port > 65535) throw Error('Invalid port');
   process.env.DD_NODE_INTERNAL_URL = 'http://127.0.0.1:' + port;

@@ -9,20 +9,21 @@ export async function claimOriginNonce(db: SqlDatabase, nonce: string, expires: 
     expires >= 10000000000
   )
     throw Error('Origin denied');
-  const id = `origin:v1:${expires}:${nonce}`,
-    guard = 'origin-claim:' + crypto.randomUUID();
-  await db.batch([
+  const id = `origin:v1:${expires}:${nonce}`;
+  // CHECK(ok=1) makes a missing/locked epoch fail the nonce INSERT itself.
+  // This preserves the previous guard's rollback semantics without inserting
+  // and deleting an extra guard row on every signed read/write request.
+  const results = await db.batch([
     db
       .prepare(
-        'INSERT INTO app_assertions(nonce,ok) SELECT ?,1 FROM app_storage_epoch WHERE id=1 AND locked=0',
+        'INSERT INTO app_assertions(nonce,ok) VALUES(?,CASE WHEN (SELECT locked FROM app_storage_epoch WHERE id=1)=0 THEN 1 ELSE 0 END)',
       )
       .bind(id),
-    db.prepare('INSERT INTO app_assertions(nonce,ok) VALUES(?,changes())').bind(guard),
-    db.prepare('DELETE FROM app_assertions WHERE nonce=?').bind(guard),
     db
       .prepare(
-        "DELETE FROM app_assertions WHERE nonce IN (SELECT nonce FROM app_assertions WHERE nonce LIKE 'origin:v1:%' AND substr(nonce,11,10)<? LIMIT 64)",
+        'DELETE FROM app_assertions WHERE nonce IN (SELECT nonce FROM app_assertions WHERE nonce>=? AND nonce<? ORDER BY nonce LIMIT 64)',
       )
-      .bind(String(now)),
+      .bind('origin:v1:', `origin:v1:${now}:`),
   ]);
+  if (results.some((r) => !r.success)) throw Error('Origin nonce claim failed');
 }

@@ -11,7 +11,12 @@ import {
   TRANSACTION_PATH,
   TRANSACTION_AUDIENCE,
 } from '../../../packages/security/transaction-boundary';
-export type WorkerDatabaseOptions = { configuration: OriginConfiguration; request?: typeof fetch };
+export type WorkerDatabaseOptions = {
+  configuration: OriginConfiguration;
+  request?: typeof fetch;
+  payloadChunkBytes?: number;
+  payloadEncoding?: 'hex';
+};
 type Query = { sql: string; params: unknown[] };
 export class NativeBoundaryError extends Error {
   constructor() {
@@ -51,6 +56,12 @@ class Prepared implements Statement {
   }
 }
 class NativeDatabase implements SqlDatabase {
+  get payloadEncoding() {
+    return this.options.payloadEncoding;
+  }
+  get payloadChunkBytes() {
+    return this.options.payloadChunkBytes;
+  }
   constructor(
     readonly owner: DatabaseOwner,
     readonly options: WorkerDatabaseOptions,
@@ -148,6 +159,13 @@ export function createWorkerBindings(
     configuration.secret.length < 64
   )
     throw Error('Invalid staging boundary');
+  if (
+    options.payloadChunkBytes !== undefined &&
+    ![4096, 8192, 16384, 32768, 65536].includes(options.payloadChunkBytes)
+  )
+    throw Error('Unqualified payload candidate size');
+  if (options.payloadEncoding !== undefined && options.payloadEncoding !== 'hex')
+    throw Error('Invalid payload transport');
   const snapshot = Object.freeze({ ...options, configuration });
   return Object.fromEntries(
     DATABASE_OWNERS.map((o) => [o, new NativeDatabase(o, snapshot)]),

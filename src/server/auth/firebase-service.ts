@@ -1,6 +1,11 @@
 import { authStage, authStageSync } from './performance';
 import { createHmac } from 'node:crypto';
-import { applicationStorage } from '../persistence/bindings';
+import {
+  applicationStorage,
+  applicationBackend,
+  applicationEnvironment,
+} from '../persistence/bindings';
+import { digest, utf8 } from '../../../packages/storage/core';
 import { requireAuthConfig } from './config';
 import { firebaseConfiguration, firebaseSelected } from './firebase-config';
 import {
@@ -26,15 +31,54 @@ async function checkTombstone(identity: FirebaseIdentity) {
   if (row && (row.deleted || identity.authTime <= row.revoked_before))
     throw Error('Sign in again.');
 }
-export async function verifiedFirebaseIdentity(token: string) {
+async function verifiedProviderIdentity(token: string) {
   const configuration = firebaseConfiguration();
   const identity = await verifyFirebaseSignature(token, configuration.projectId);
   const body = await authStage('provider.lookup', () =>
     firebaseAccountRequest('lookup', configuration.apiKey, token),
   );
   assertFirebaseAccount(identity, body.users?.[0]);
+  return identity;
+}
+export async function verifiedFirebaseIdentity(token: string) {
+  const identity = await verifiedProviderIdentity(token);
   await authStage('d1.revocation', () => checkTombstone(identity));
   return identity;
+}
+export function coalescedFirebaseSessions() {
+  const env = applicationEnvironment();
+  return (
+    firebaseSelected() &&
+    applicationBackend() === 'd1' &&
+    env.APP_RUNTIME === 'node' &&
+    env.DD_COALESCED_FIREBASE_SESSION === 'true'
+  );
+}
+export async function firebaseSessionUser(input: {
+  refreshToken?: string;
+  sessionId?: string;
+  userId?: string;
+}) {
+  try {
+    const repo = new D1AuthRepository(storage());
+    const context = await repo.firebaseSessionContext(
+      input.refreshToken !== undefined
+        ? { tokenHash: await digest(utf8.encode(input.refreshToken)) }
+        : input,
+    );
+    if (!context) return null;
+    const identity = await verifiedProviderIdentity(decryptSecret(context.id_token_ciphertext));
+    return await repo.verifiedFirebaseSessionUser({
+      sessionId: context.session_id,
+      userId: context.user_id,
+      identityHash: firebaseIdentityHash(identity),
+      providerSubject: `${identity.projectId}:${identity.uid}`,
+      authTime: identity.authTime,
+      ciphertext: context.id_token_ciphertext,
+    });
+  } catch {
+    return null;
+  }
 }
 export async function firebaseSessionValid(sessionId: string, userId: string) {
   if (!firebaseSelected()) return true;

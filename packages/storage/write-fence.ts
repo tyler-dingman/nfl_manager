@@ -7,25 +7,51 @@ export class StorageMaintenanceError extends Error {
 /** All D1 application adapters share this request-scoped fence through Objects.
  * A writer that read/uploaded before maintenance cannot publish after GC.
  * Owner SQL/imports must be stopped: raw database access bypasses this SDK. */
-export function writeFencedDatabase(raw: SqlDatabase): SqlDatabase {
-  let captured: Promise<number> | undefined;
-  async function epoch() {
-    captured ??= (async () => {
-      let row = await raw
+export type WriteFenceContext = { captured?: Promise<number> };
+export function writeFencedDatabase(
+  raw: SqlDatabase,
+  context: WriteFenceContext = {},
+): SqlDatabase {
+  async function loadEpoch() {
+    let row = await raw
+      .prepare('SELECT epoch,locked FROM app_storage_epoch WHERE id=1')
+      .first<{ epoch: number; locked: number }>();
+    if (!row) {
+      await raw
+        .prepare('INSERT OR IGNORE INTO app_storage_epoch(id,epoch,locked) VALUES(1,0,0)')
+        .run();
+      row = await raw
         .prepare('SELECT epoch,locked FROM app_storage_epoch WHERE id=1')
         .first<{ epoch: number; locked: number }>();
-      if (!row) {
-        await raw
-          .prepare('INSERT OR IGNORE INTO app_storage_epoch(id,epoch,locked) VALUES(1,0,0)')
-          .run();
-        row = await raw
-          .prepare('SELECT epoch,locked FROM app_storage_epoch WHERE id=1')
-          .first<{ epoch: number; locked: number }>();
-      }
-      if (!row || row.locked) throw new StorageMaintenanceError();
-      return row.epoch;
-    })();
-    return captured;
+    }
+    if (!row || row.locked) throw new StorageMaintenanceError();
+    return row.epoch;
+  }
+  async function epoch() {
+    context.captured ??= loadEpoch();
+    return context.captured;
+  }
+  async function read<T>(statement: Statement) {
+    // Native gateway only: capture the same epoch and first read in ONE native
+    // read-only batch. No cached authorization and no extra statement budget.
+    if (raw.payloadChunkBytes !== undefined && !context.captured) {
+      const combined = raw.batch([
+        raw.prepare('SELECT epoch,locked FROM app_storage_epoch WHERE id=1'),
+        statement,
+      ]);
+      context.captured = combined.then(async (rows) => {
+        if (rows.some((r) => !r.success)) throw new StorageMaintenanceError();
+        const row = rows[0].results[0] as { epoch: number; locked: number } | undefined;
+        if (!row) return loadEpoch();
+        if (row.locked) throw new StorageMaintenanceError();
+        return row.epoch;
+      });
+      await context.captured;
+      const results = await combined;
+      return results[1] as Awaited<ReturnType<Statement['all']>> & { results: T[] };
+    }
+    await epoch();
+    return statement.all<T>();
   }
   const native = new WeakMap<Statement, { statement: Statement; sql: string }>();
   const readOnly = (sql: string) => /^\s*(SELECT\b|EXPLAIN\b)/i.test(sql);
@@ -58,16 +84,11 @@ export function writeFencedDatabase(raw: SqlDatabase): SqlDatabase {
   function wrap(statement: Statement, sql: string): Statement {
     const wrapped: Statement = {
       bind: (...values) => wrap(statement.bind(...values), sql),
-      all: async <T>() => {
-        await epoch();
-        return (
-          readOnly(sql) ? await statement.all<T>() : (await commit([statement]))[0]
-        ) as Awaited<ReturnType<Statement['all']>> & { results: T[] };
-      },
-      run: async () => {
-        await epoch();
-        return readOnly(sql) ? statement.run() : (await commit([statement]))[0];
-      },
+      all: async <T>() =>
+        (readOnly(sql) ? await read<T>(statement) : (await commit([statement]))[0]) as Awaited<
+          ReturnType<Statement['all']>
+        > & { results: T[] },
+      run: async () => (readOnly(sql) ? read(statement) : (await commit([statement]))[0]),
       first: async <T>() => (await wrapped.all<T>()).results[0] ?? null,
     };
     native.set(wrapped, { statement, sql });

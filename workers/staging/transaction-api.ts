@@ -1,3 +1,4 @@
+import { Buffer } from 'node:buffer';
 import { DATABASE_OWNERS, type DatabaseOwner } from '../../packages/storage/multi-d1';
 import { splitSql } from '../../packages/storage/sql-script';
 import { verifyOriginRequest } from '../../packages/security/origin-assertion';
@@ -58,11 +59,14 @@ export default {
             Object.keys(v).length === 1 &&
             typeof v.blob === 'string' &&
             v.blob.length <= 2666668 &&
+            v.blob.length % 4 === 0 &&
             /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/.test(v.blob)
           ) {
-            const bytes = Uint8Array.from(atob(v.blob), (c) => c.charCodeAt(0));
+            // Native decoder avoids one JavaScript callback/allocation per byte.
+            // Validate first: Buffer's permissive base64 decoder alone is insufficient.
+            const bytes = Buffer.from(v.blob, 'base64');
             if (bytes.length > 2000000) throw Error('Blob budget exceeded');
-            return bytes.buffer;
+            return bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength);
           }
           throw Error('Invalid bound value');
         });
@@ -70,14 +74,16 @@ export default {
       });
       // Exactly ONE native batch. Never sequential execution or splitting on failure.
       const result = body.batch ? await db.batch(statements) : [await statements[0].all()];
-      return new Response(
-        JSON.stringify({ success: true, result }, (_k, v) =>
-          v instanceof ArrayBuffer ? Array.from(new Uint8Array(v)) : v,
-        ),
-        {
-          headers: { 'content-type': 'application/json', 'cache-control': 'private, no-store' },
-        },
-      );
+      // D1 rows contain scalar columns; BLOBs normally arrive as numeric arrays.
+      // Normalize only buffer columns, instead of invoking a JSON replacer once
+      // per BLOB byte (hundreds of thousands of callbacks for a franchise read).
+      for (const item of result)
+        for (const row of item.results ?? [])
+          for (const key of Object.keys(row))
+            if (row[key] instanceof ArrayBuffer) row[key] = Array.from(new Uint8Array(row[key]));
+      return new Response(JSON.stringify({ success: true, result }), {
+        headers: { 'content-type': 'application/json', 'cache-control': 'private, no-store' },
+      });
     } catch (error) {
       const message =
         /CHECK constraint failed.*app_assertions|CHECK constraint failed.*ok.?=.?1/i.test(

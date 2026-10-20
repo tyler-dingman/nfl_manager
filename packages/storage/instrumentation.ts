@@ -4,6 +4,7 @@ export interface RequestMetrics {
   statements: number;
   rowsRead: number;
   rowsWritten: number;
+  payloadStatements?: number;
 }
 export const requestMetrics = (): RequestMetrics => ({
   d1Calls: 0,
@@ -22,10 +23,17 @@ export function instrumentDatabase(
   db: SqlDatabase,
   metrics: RequestMetrics,
   maxStatements?: number,
+  payload = false,
 ): SqlDatabase {
   const reserve = (count: number) => {
-    if (maxStatements !== undefined && metrics.statements + count > maxStatements)
+    if (payload && (metrics.payloadStatements ?? 0) + count > 20000) throw new QueryBudgetError();
+    if (
+      !payload &&
+      maxStatements !== undefined &&
+      metrics.statements - (metrics.payloadStatements ?? 0) + count > maxStatements
+    )
       throw new QueryBudgetError();
+    if (payload) metrics.payloadStatements = (metrics.payloadStatements ?? 0) + count;
     metrics.d1Calls++;
     metrics.statements += count;
   };
@@ -55,6 +63,8 @@ export function instrumentDatabase(
     return wrapped;
   }
   return {
+    payloadChunkBytes: db.payloadChunkBytes,
+    payloadEncoding: db.payloadEncoding,
     prepare: (sql) => wrap(db.prepare(sql)),
     batch: async (statements) => {
       reserve(statements.length);

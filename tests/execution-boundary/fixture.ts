@@ -31,6 +31,7 @@ export async function nativeFixture(initialize = true) {
   };
   const databases = Object.fromEntries(DATABASE_OWNERS.map((o) => [o, 'native-boundary-' + o]));
   const options = convertV4MiniflareOptions({
+    ...(process.env.DD_GATEWAY_PROFILE_OUT ? { inspectorPort: 0 } : {}),
     resourcePersistencePath: directory,
     telemetry: { enabled: false },
     workers: [
@@ -44,7 +45,25 @@ export async function nativeFixture(initialize = true) {
       {
         ...common,
         name: 'boundary-api',
-        scriptPath: process.cwd() + '/.staging/transaction-boundary/api.mjs',
+        ...(process.env.DD_GATEWAY_PROFILE_LAZY === 'true'
+          ? {
+              modules: [
+                {
+                  type: 'ESModule' as const,
+                  path: 'entry.mjs',
+                  contents: `let api; export default {async fetch(r,e,c){api??=await import('./worker.mjs'); return api.default.fetch(r,e,c)}}`,
+                },
+                {
+                  type: 'ESModule' as const,
+                  path: 'worker.mjs',
+                  contents: await readFile(
+                    process.cwd() + '/.staging/transaction-boundary/api.mjs',
+                    'utf8',
+                  ),
+                },
+              ],
+            }
+          : { scriptPath: process.cwd() + '/.staging/transaction-boundary/api.mjs' }),
         d1Databases: databases,
       },
     ],
@@ -53,6 +72,7 @@ export async function nativeFixture(initialize = true) {
     calls = 0,
     batches = 0;
   let db: Record<DatabaseOwner, SqlDatabase>;
+  const metrics = { rowsRead: 0, rowsWritten: 0, queries: 0, originClaims: 0 };
   const load = async () =>
     Object.fromEntries(
       await Promise.all(
@@ -77,9 +97,18 @@ export async function nativeFixture(initialize = true) {
     await rm(directory, { recursive: true, force: true });
     throw e;
   }
+  const profiler = process.env.DD_GATEWAY_PROFILE_OUT
+    ? await (
+        await import('../gateway-cpu/profiler')
+      ).gatewayProfiler(await mf.getInspectorURL(), process.env.DD_GATEWAY_PROFILE_OUT)
+    : undefined;
   const dispatch = (async (input: any, init?: RequestInit) => {
     const r = input instanceof Request ? input : new Request(input, init);
     calls++;
+    let nativeCommand: any;
+    try {
+      nativeCommand = await r.clone().json();
+    } catch {}
     // Fixture metrics contain counts only; no SQL, parameters, assertions or tokens.
     const response = await mf.dispatchFetch(r.url, {
       method: r.method,
@@ -87,20 +116,63 @@ export async function nativeFixture(initialize = true) {
       ...(!['GET', 'HEAD'].includes(r.method) ? { body: await r.arrayBuffer() } : {}),
       redirect: 'manual',
     });
-    return new Response(await response.arrayBuffer(), {
+    const reply = new Response(await response.arrayBuffer(), {
       status: response.status,
       headers: response.headers as any,
     });
+    try {
+      const result = await reply.clone().json();
+      if (result.success && Array.isArray(result.result)) {
+        for (const item of result.result) {
+          metrics.rowsRead += item.meta?.rows_read ?? 0;
+          metrics.rowsWritten += item.meta?.rows_written ?? 0;
+          metrics.queries++;
+        }
+        metrics.originClaims += (nativeCommand?.queries ?? []).filter((q: any) =>
+          q.sql.startsWith('INSERT INTO app_assertions(nonce,ok) VALUES(?,CASE WHEN'),
+        ).length;
+      }
+    } catch {}
+    return reply;
   }) as typeof fetch;
   const bindings = createWorkerBindings({
     configuration,
+    ...(process.env.DD_TEST_PAYLOAD_ENCODING
+      ? { payloadEncoding: process.env.DD_TEST_PAYLOAD_ENCODING as 'hex' }
+      : {}),
+    ...(process.env.DD_TEST_PAYLOAD_CHUNK_BYTES
+      ? { payloadChunkBytes: Number(process.env.DD_TEST_PAYLOAD_CHUNK_BYTES) }
+      : {}),
     request: async (input, init) => {
       const r = input instanceof Request ? input : new Request(input, init);
-      if ((await r.clone().json()).batch === true) batches++;
+      const command = await r.clone().json();
+      if (command.batch === true) batches++;
+      if (profiler && process.env.DD_GATEWAY_PROFILE_PHASE) {
+        const params = command.queries.flatMap((q: any) => q.params);
+        return profiler.measure(
+          {
+            phase: process.env.DD_GATEWAY_PROFILE_PHASE,
+            owner: command.owner,
+            batch: command.batch,
+            queries: command.queries.length,
+            sqlBytes: command.queries.reduce(
+              (n: number, q: any) => n + Buffer.byteLength(q.sql),
+              0,
+            ),
+            blobBase64Bytes: params.reduce((n: number, p: any) => n + (p?.blob?.length ?? 0), 0),
+            bodyBytes:
+              Number(r.headers.get('content-length')) || Buffer.byteLength(await r.clone().text()),
+          },
+          () => dispatch(r),
+        );
+      }
       return dispatch(r);
     },
   });
   return {
+    get metrics() {
+      return { ...metrics };
+    },
     bindings,
     configuration,
     dispatch,
@@ -121,6 +193,7 @@ export async function nativeFixture(initialize = true) {
       db = await load();
     },
     async close() {
+      profiler?.close();
       await mf.dispose();
       await rm(directory, { recursive: true, force: true });
     },
