@@ -97,11 +97,6 @@ export async function nativeFixture(initialize = true) {
     await rm(directory, { recursive: true, force: true });
     throw e;
   }
-  const profiler = process.env.DD_GATEWAY_PROFILE_OUT
-    ? await (
-        await import('../gateway-cpu/profiler')
-      ).gatewayProfiler(await mf.getInspectorURL(), process.env.DD_GATEWAY_PROFILE_OUT)
-    : undefined;
   const dispatch = (async (input: any, init?: RequestInit) => {
     const r = input instanceof Request ? input : new Request(input, init);
     calls++;
@@ -147,25 +142,6 @@ export async function nativeFixture(initialize = true) {
       const r = input instanceof Request ? input : new Request(input, init);
       const command = await r.clone().json();
       if (command.batch === true) batches++;
-      if (profiler && process.env.DD_GATEWAY_PROFILE_PHASE) {
-        const params = command.queries.flatMap((q: any) => q.params);
-        return profiler.measure(
-          {
-            phase: process.env.DD_GATEWAY_PROFILE_PHASE,
-            owner: command.owner,
-            batch: command.batch,
-            queries: command.queries.length,
-            sqlBytes: command.queries.reduce(
-              (n: number, q: any) => n + Buffer.byteLength(q.sql),
-              0,
-            ),
-            blobBase64Bytes: params.reduce((n: number, p: any) => n + (p?.blob?.length ?? 0), 0),
-            bodyBytes:
-              Number(r.headers.get('content-length')) || Buffer.byteLength(await r.clone().text()),
-          },
-          () => dispatch(r),
-        );
-      }
       return dispatch(r);
     },
   });
@@ -193,7 +169,6 @@ export async function nativeFixture(initialize = true) {
       db = await load();
     },
     async close() {
-      profiler?.close();
       await mf.dispose();
       await rm(directory, { recursive: true, force: true });
     },
