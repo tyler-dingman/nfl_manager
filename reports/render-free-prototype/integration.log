@@ -1,0 +1,164 @@
+PASS Direct origin denied
+PASS Anonymous edge denied
+PASS Direct origin denied /
+PASS Anonymous edge denied /
+PASS Direct origin denied /account
+PASS Anonymous edge denied /account
+PASS Direct origin denied /favicon.ico
+PASS Anonymous edge denied /favicon.ico
+PASS Direct origin denied /api/auth/me
+PASS Anonymous edge denied /api/auth/me
+PASS Invalid staging credential denied
+{"metric":"application_headers","routePattern":"^\\/api\\/auth\\/firebase\\/session\\/?$","method":"POST","route":"/api/auth","status":200,"wallMs":78.64316700000018,"d1Calls":7,"statements":14,"rowsRead":7,"rowsWritten":21,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Registration and real RSA identity exchange
+{"metric":"application_headers","routePattern":"^\\/api\\/auth\\/me\\/?$","method":"GET","route":"/api/auth","status":200,"wallMs":31.411334000000352,"d1Calls":6,"statements":6,"rowsRead":6,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Node session lookup
+{"metric":"application_headers","routePattern":"^\\/api\\/auth\\/firebase\\/session\\/?$","method":"POST","route":"/api/auth","status":200,"wallMs":54.34199999999964,"d1Calls":7,"statements":14,"rowsRead":14,"rowsWritten":15,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Firebase login exchange preserves application UUID
+{"metric":"application_headers","routePattern":"^\\/api\\/auth\\/firebase\\/session\\/?$","method":"POST","route":"/api/auth","status":200,"wallMs":38.740749999999935,"d1Calls":7,"statements":14,"rowsRead":7,"rowsWritten":21,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Second synthetic account
+{"metric":"application_headers","routePattern":"^\\/api\\/auth\\/firebase\\/session\\/?$","method":"POST","route":"/api/auth","status":200,"wallMs":40.7494999999999,"d1Calls":7,"statements":13,"rowsRead":12,"rowsWritten":14,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Native Firebase exchange retains bearer session
+{"metric":"application_headers","routePattern":"^\\/api\\/auth\\/me\\/?$","method":"GET","route":"/api/auth","status":200,"wallMs":26.98266599999988,"d1Calls":6,"statements":6,"rowsRead":6,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Native bearer verified on Node API
+{"metric":"application_headers","routePattern":"^\\/api\\/content\\/huddle\\/?$","method":"GET","route":"other","status":200,"wallMs":94.80445900000086,"d1Calls":6,"statements":6,"rowsRead":11,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Team/global feed KC
+{"metric":"application_headers","routePattern":"^\\/api\\/content\\/huddle\\/?$","method":"GET","route":"other","status":200,"wallMs":99.07729199999994,"d1Calls":6,"statements":6,"rowsRead":11,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Team/global feed DEN
+{"metric":"application_headers","routePattern":"^\\/api\\/content\\/huddle\\/?$","method":"GET","route":"other","status":200,"wallMs":27.401499999999942,"d1Calls":6,"statements":6,"rowsRead":9,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Team/global feed LV
+{"metric":"application_headers","routePattern":"^\\/api\\/content\\/huddle\\/?$","method":"GET","route":"other","status":200,"wallMs":30.246750000000247,"d1Calls":6,"statements":6,"rowsRead":11,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Team/global feed LAC
+{"metric":"application_headers","routePattern":"^\\/api\\/content\\/huddle\\/?$","method":"GET","route":"other","status":200,"wallMs":26.518833999998606,"d1Calls":6,"statements":6,"rowsRead":11,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Team/global feed DAL
+{"metric":"application_headers","routePattern":"^\\/api\\/content\\/huddle\\/?$","method":"GET","route":"other","status":200,"wallMs":26.515917000000627,"d1Calls":6,"statements":6,"rowsRead":11,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Team/global feed PHI
+{"metric":"application_headers","routePattern":"^\\/api\\/content\\/huddle\\/?$","method":"GET","route":"other","status":200,"wallMs":25.202250000000276,"d1Calls":6,"statements":6,"rowsRead":11,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Team/global feed NYG
+{"metric":"application_headers","routePattern":"^\\/api\\/content\\/huddle\\/?$","method":"GET","route":"other","status":200,"wallMs":25.68683299999975,"d1Calls":6,"statements":6,"rowsRead":9,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Team/global feed WAS
+{"metric":"application_headers","routePattern":"^\\/api\\/content\\/huddle\\/?$","method":"GET","route":"other","status":200,"wallMs":27.32799999999952,"d1Calls":6,"statements":6,"rowsRead":11,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Team/global feed GB
+{"metric":"application_headers","routePattern":"^\\/api\\/content\\/huddle\\/?$","method":"GET","route":"other","status":200,"wallMs":26.947791999999026,"d1Calls":6,"statements":6,"rowsRead":11,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Team/global feed CHI
+{"metric":"application_headers","routePattern":"^\\/api\\/content\\/huddle\\/?$","method":"GET","route":"other","status":200,"wallMs":29.20874999999978,"d1Calls":6,"statements":6,"rowsRead":11,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Team/global feed DET
+{"metric":"application_headers","routePattern":"^\\/api\\/content\\/huddle\\/?$","method":"GET","route":"other","status":200,"wallMs":24.988250000000335,"d1Calls":6,"statements":6,"rowsRead":9,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Team/global feed MIN
+{"metric":"application_headers","routePattern":"^\\/api\\/content\\/huddle\\/?$","method":"GET","route":"other","status":200,"wallMs":25.547749999999724,"d1Calls":6,"statements":6,"rowsRead":9,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Team/global feed SF
+{"metric":"application_headers","routePattern":"^\\/api\\/content\\/huddle\\/?$","method":"GET","route":"other","status":200,"wallMs":25.562292000000525,"d1Calls":6,"statements":6,"rowsRead":11,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Team/global feed SEA
+{"metric":"application_headers","routePattern":"^\\/api\\/content\\/huddle\\/?$","method":"GET","route":"other","status":200,"wallMs":27.06487500000003,"d1Calls":6,"statements":6,"rowsRead":11,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Team/global feed LAR
+{"metric":"application_headers","routePattern":"^\\/api\\/content\\/huddle\\/?$","method":"GET","route":"other","status":200,"wallMs":23.112082999999984,"d1Calls":6,"statements":6,"rowsRead":11,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Team/global feed ARI
+{"metric":"application_headers","routePattern":"^\\/api\\/content\\/huddle\\/?$","method":"GET","route":"other","status":200,"wallMs":23.19050000000061,"d1Calls":6,"statements":6,"rowsRead":11,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Team/global feed BUF
+{"metric":"application_headers","routePattern":"^\\/api\\/content\\/huddle\\/?$","method":"GET","route":"other","status":200,"wallMs":45.458708000000115,"d1Calls":6,"statements":6,"rowsRead":11,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Team/global feed MIA
+{"metric":"application_headers","routePattern":"^\\/api\\/content\\/huddle\\/?$","method":"GET","route":"other","status":200,"wallMs":24.880290999999488,"d1Calls":6,"statements":6,"rowsRead":11,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Team/global feed NE
+{"metric":"application_headers","routePattern":"^\\/api\\/content\\/huddle\\/?$","method":"GET","route":"other","status":200,"wallMs":26.71612500000083,"d1Calls":6,"statements":6,"rowsRead":9,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Team/global feed NYJ
+{"metric":"application_headers","routePattern":"^\\/api\\/content\\/huddle\\/?$","method":"GET","route":"other","status":200,"wallMs":30.20183300000099,"d1Calls":6,"statements":6,"rowsRead":11,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Team/global feed BAL
+{"metric":"application_headers","routePattern":"^\\/api\\/content\\/huddle\\/?$","method":"GET","route":"other","status":200,"wallMs":217.69062499999927,"d1Calls":6,"statements":6,"rowsRead":11,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Team/global feed CIN
+{"metric":"application_headers","routePattern":"^\\/api\\/content\\/huddle\\/?$","method":"GET","route":"other","status":200,"wallMs":27.64979200000016,"d1Calls":6,"statements":6,"rowsRead":11,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Team/global feed CLE
+{"metric":"application_headers","routePattern":"^\\/api\\/content\\/huddle\\/?$","method":"GET","route":"other","status":200,"wallMs":28.732874999999694,"d1Calls":6,"statements":6,"rowsRead":9,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Team/global feed PIT
+{"metric":"application_headers","routePattern":"^\\/api\\/content\\/huddle\\/?$","method":"GET","route":"other","status":200,"wallMs":32.0530830000007,"d1Calls":6,"statements":6,"rowsRead":11,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Team/global feed HOU
+{"metric":"application_headers","routePattern":"^\\/api\\/content\\/huddle\\/?$","method":"GET","route":"other","status":200,"wallMs":26.490708000001177,"d1Calls":6,"statements":6,"rowsRead":11,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Team/global feed IND
+{"metric":"application_headers","routePattern":"^\\/api\\/content\\/huddle\\/?$","method":"GET","route":"other","status":200,"wallMs":24.183583,"d1Calls":6,"statements":6,"rowsRead":11,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Team/global feed JAX
+{"metric":"application_headers","routePattern":"^\\/api\\/content\\/huddle\\/?$","method":"GET","route":"other","status":200,"wallMs":24.922457999999097,"d1Calls":6,"statements":6,"rowsRead":9,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Team/global feed TEN
+{"metric":"application_headers","routePattern":"^\\/api\\/content\\/huddle\\/?$","method":"GET","route":"other","status":200,"wallMs":30.46216699999968,"d1Calls":6,"statements":6,"rowsRead":11,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Team/global feed ATL
+{"metric":"application_headers","routePattern":"^\\/api\\/content\\/huddle\\/?$","method":"GET","route":"other","status":200,"wallMs":25.816875000000437,"d1Calls":6,"statements":6,"rowsRead":11,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Team/global feed CAR
+{"metric":"application_headers","routePattern":"^\\/api\\/content\\/huddle\\/?$","method":"GET","route":"other","status":200,"wallMs":24.153333000000202,"d1Calls":6,"statements":6,"rowsRead":11,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Team/global feed NO
+{"metric":"application_headers","routePattern":"^\\/api\\/content\\/huddle\\/?$","method":"GET","route":"other","status":200,"wallMs":24.0955840000006,"d1Calls":6,"statements":6,"rowsRead":9,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Team/global feed TB
+{"metric":"application_headers","routePattern":"^\\/api\\/content\\/huddle\\/?$","method":"GET","route":"other","status":200,"wallMs":44.013582999999926,"d1Calls":5,"statements":5,"rowsRead":8,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Team/global feed NFL
+{"metric":"application_headers","routePattern":"^\\/api\\/user\\/saved-content\\/?$","method":"POST","route":"/api/user","status":201,"wallMs":70.6629580000008,"d1Calls":16,"statements":23,"rowsRead":23,"rowsWritten":13,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Cross-shard save KC
+{"metric":"application_headers","routePattern":"^\\/api\\/user\\/saved-content\\/?$","method":"POST","route":"/api/user","status":201,"wallMs":65.62437499999942,"d1Calls":16,"statements":23,"rowsRead":23,"rowsWritten":13,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Cross-shard save BUF
+{"metric":"application_headers","routePattern":"^\\/api\\/user\\/saved-content\\/?$","method":"POST","route":"/api/user","status":201,"wallMs":60.41516600000068,"d1Calls":15,"statements":22,"rowsRead":22,"rowsWritten":13,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Cross-shard save NFL
+{"metric":"application_headers","routePattern":"^\\/api\\/user\\/saved-content\\/?$","method":"GET","route":"/api/user","status":200,"wallMs":25.24791699999878,"d1Calls":7,"statements":7,"rowsRead":12,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Saved cross-shard identities preserved
+{"metric":"application_headers","routePattern":"^\\/api\\/user\\/saved-content\\/?$","method":"GET","route":"/api/user","status":200,"wallMs":25.36762500000077,"d1Calls":7,"statements":7,"rowsRead":8,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Cross-user saves isolated
+{"metric":"application_headers","routePattern":"^\\/api\\/saves\\/create\\/?$","method":"POST","route":"other","status":200,"wallMs":533.1591669999998,"d1Calls":17,"statements":38,"rowsRead":36,"rowsWritten":29,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Front Office full durable creation
+{"metric":"application_headers","routePattern":"^\\/api\\/saves\\/create\\/?$","method":"POST","route":"other","status":200,"wallMs":31.800625000001673,"d1Calls":8,"statements":8,"rowsRead":9,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Front Office idempotent command replay
+{"metric":"application_headers","routePattern":"^\\/api\\/saves\\/create\\/?$","method":"POST","route":"other","status":409,"wallMs":27.305709000000206,"d1Calls":7,"statements":7,"rowsRead":8,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Front Office conflicting command rejected
+{"metric":"application_headers","routePattern":"^\\/api\\/front-office\\/state\\/?$","method":"GET","route":"/api/front-office","status":200,"wallMs":311.54412500000035,"d1Calls":9,"statements":9,"rowsRead":14,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Front Office readback
+{"metric":"application_headers","routePattern":"^\\/api\\/front-office\\/state\\/?$","method":"GET","route":"/api/front-office","status":404,"wallMs":29.235749999999825,"d1Calls":7,"statements":7,"rowsRead":7,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Front Office cross-user isolation
+{"metric":"application_headers","routePattern":"^\\/api\\/parlay-lab\\/events\\/?$","method":"GET","route":"other","status":200,"wallMs":9.311792000000423,"d1Calls":2,"statements":2,"rowsRead":2,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Parlay Lab synthetic API /api/parlay-lab/events
+{"metric":"application_headers","routePattern":"^\\/api\\/parlay-lab\\/props\\/?$","method":"GET","route":"other","status":200,"wallMs":8.466374999999971,"d1Calls":2,"statements":2,"rowsRead":2,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Parlay Lab synthetic API /api/parlay-lab/props?team=KC
+{"metric":"application_headers","routePattern":"^\\/api\\/parlay-lab\\/freshness\\/?$","method":"GET","route":"other","status":200,"wallMs":7.4707909999997355,"d1Calls":2,"statements":2,"rowsRead":2,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Parlay Lab synthetic API /api/parlay-lab/freshness
+{"metric":"application_headers","routePattern":"^\\/api\\/user\\/saved-content\\/?$","method":"POST","route":"/api/user","status":201,"wallMs":37.89350000000013,"d1Calls":9,"statements":12,"rowsRead":16,"rowsWritten":6,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Saved synthetic bet
+{"metric":"application_headers","routePattern":"^\\/api\\/auth\\/firebase\\/session\\/?$","method":"POST","route":"/api/auth","status":401,"wallMs":0.732332999999926,"d1Calls":0,"statements":0,"rowsRead":0,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Invalid Firebase token denied
+{"metric":"application_headers","routePattern":"^\\/api\\/auth\\/me\\/?$","method":"GET","route":"/api/auth","status":200,"wallMs":28.601457999999184,"d1Calls":6,"statements":6,"rowsRead":6,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Authenticated Node SSR /
+{"metric":"application_headers","routePattern":"^\\/api\\/auth\\/me\\/?$","method":"GET","route":"/api/auth","status":200,"wallMs":23.480875000001106,"d1Calls":6,"statements":6,"rowsRead":6,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Authenticated Node SSR /front-office
+{"metric":"application_headers","routePattern":"^\\/api\\/auth\\/me\\/?$","method":"GET","route":"/api/auth","status":200,"wallMs":29.94908299999952,"d1Calls":6,"statements":6,"rowsRead":6,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Authenticated Node SSR /parlay-lab
+{"metric":"application_headers","routePattern":"^\\/api\\/auth\\/me\\/?$","method":"GET","route":"/api/auth","status":200,"wallMs":31.654124999999112,"d1Calls":6,"statements":6,"rowsRead":6,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Authenticated Node SSR /account
+PASS Signed-out redirect
+{"metric":"application_headers","routePattern":"^\\/api\\/auth\\/me\\/?$","method":"GET","route":"/api/auth","status":200,"wallMs":53.87995799999953,"d1Calls":6,"statements":6,"rowsRead":6,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+{"metric":"application_headers","routePattern":"^\\/api\\/auth\\/config\\/?$","method":"GET","route":"/api/auth","status":200,"wallMs":0.634875000001557,"d1Calls":0,"statements":0,"rowsRead":0,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+{"metric":"application_headers","routePattern":"^\\/api\\/user\\/home\\/?$","method":"GET","route":"/api/user","status":200,"wallMs":217.55662499999926,"d1Calls":7,"statements":7,"rowsRead":7,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+{"metric":"application_headers","routePattern":"^\\/api\\/auth\\/me\\/?$","method":"GET","route":"/api/auth","status":200,"wallMs":173.37766600000032,"d1Calls":6,"statements":6,"rowsRead":6,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+{"metric":"application_headers","routePattern":"^\\/api\\/auth\\/me\\/?$","method":"GET","route":"/api/auth","status":200,"wallMs":155.5484579999993,"d1Calls":6,"statements":6,"rowsRead":6,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+{"metric":"application_headers","routePattern":"^\\/api\\/auth\\/me\\/?$","method":"GET","route":"/api/auth","status":200,"wallMs":149.46124999999847,"d1Calls":6,"statements":6,"rowsRead":6,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+{"metric":"application_headers","routePattern":"^\\/api\\/auth\\/me\\/?$","method":"GET","route":"/api/auth","status":200,"wallMs":144.79508299999907,"d1Calls":6,"statements":6,"rowsRead":6,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+{"metric":"application_headers","routePattern":"^\\/api\\/auth\\/me\\/?$","method":"GET","route":"/api/auth","status":200,"wallMs":153.4369170000009,"d1Calls":6,"statements":6,"rowsRead":6,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+{"metric":"application_headers","routePattern":"^\\/api\\/auth\\/me\\/?$","method":"GET","route":"/api/auth","status":200,"wallMs":152.03070800000023,"d1Calls":6,"statements":6,"rowsRead":6,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+{"metric":"application_headers","routePattern":"^\\/api\\/trivia\\/leaderboard\\/?$","method":"GET","route":"other","status":200,"wallMs":57.14845800000148,"d1Calls":2,"statements":2,"rowsRead":5,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+{"metric":"application_headers","routePattern":"^\\/api\\/auth\\/identities\\/?$","method":"GET","route":"/api/auth","status":404,"wallMs":0.5204169999997248,"d1Calls":0,"statements":0,"rowsRead":0,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+{"metric":"application_headers","routePattern":"^\\/api\\/auth\\/config\\/?$","method":"GET","route":"/api/auth","status":200,"wallMs":0.4538749999992433,"d1Calls":0,"statements":0,"rowsRead":0,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+{"metric":"application_headers","routePattern":"^\\/api\\/user\\/notifications\\/unread-count\\/?$","method":"GET","route":"/api/user","status":200,"wallMs":254.21654200000012,"d1Calls":7,"statements":7,"rowsRead":6,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+{"metric":"application_headers","routePattern":"^\\/api\\/trivia\\/stats\\/?$","method":"GET","route":"other","status":200,"wallMs":258.948042,"d1Calls":8,"statements":8,"rowsRead":6,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+{"metric":"application_headers","routePattern":"^\\/api\\/crew\\/?$","method":"GET","route":"other","status":200,"wallMs":246.12804200000028,"d1Calls":7,"statements":7,"rowsRead":6,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+{"metric":"application_headers","routePattern":"^\\/api\\/user\\/preferences\\/?$","method":"GET","route":"/api/user","status":200,"wallMs":230.7641249999997,"d1Calls":7,"statements":7,"rowsRead":7,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+{"metric":"application_headers","routePattern":"^\\/api\\/auth\\/me\\/?$","method":"GET","route":"/api/auth","status":200,"wallMs":66.6152089999996,"d1Calls":6,"statements":6,"rowsRead":6,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+{"metric":"application_headers","routePattern":"^\\/api\\/auth\\/me\\/?$","method":"GET","route":"/api/auth","status":200,"wallMs":53.36354199999914,"d1Calls":6,"statements":6,"rowsRead":6,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+{"metric":"application_headers","routePattern":"^\\/api\\/auth\\/me\\/?$","method":"GET","route":"/api/auth","status":200,"wallMs":76.72891700000037,"d1Calls":6,"statements":6,"rowsRead":6,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+{"metric":"application_headers","routePattern":"^\\/api\\/auth\\/me\\/?$","method":"GET","route":"/api/auth","status":200,"wallMs":72.70779200000106,"d1Calls":6,"statements":6,"rowsRead":6,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+{"metric":"application_headers","routePattern":"^\\/api\\/auth\\/me\\/?$","method":"GET","route":"/api/auth","status":200,"wallMs":73.42541600000004,"d1Calls":6,"statements":6,"rowsRead":6,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Responsive browser protected account renders
+{"metric":"application_headers","routePattern":"^\\/api\\/auth\\/logout\\/?$","method":"POST","route":"/api/auth","status":200,"wallMs":11.673041000000012,"d1Calls":2,"statements":4,"rowsRead":5,"rowsWritten":3,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Logout
+{"metric":"application_headers","routePattern":"^\\/api\\/auth\\/me\\/?$","method":"GET","route":"/api/auth","status":401,"wallMs":8.463665999999648,"d1Calls":2,"statements":2,"rowsRead":2,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Revoked session denied
+{"metric":"application_headers","routePattern":"^\\/api\\/auth\\/me\\/?$","method":"GET","route":"/api/auth","status":200,"wallMs":23.255957999999737,"d1Calls":6,"statements":6,"rowsRead":7,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Other user session survives logout
+{"metric":"application_headers","routePattern":"^\\/api\\/user\\/account\\/delete\\/?$","method":"POST","route":"/api/user","status":500,"wallMs":33.109167000000525,"d1Calls":8,"statements":8,"rowsRead":8,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Cross-user deletion proof rejected
+{"metric":"application_headers","routePattern":"^\\/api\\/auth\\/me\\/?$","method":"GET","route":"/api/auth","status":200,"wallMs":21.435333999999784,"d1Calls":6,"statements":6,"rowsRead":7,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Other user survives foreign deletion proof
+{"metric":"application_headers","routePattern":"^\\/api\\/user\\/account\\/delete\\/?$","method":"POST","route":"/api/user","status":202,"wallMs":71.88795800000116,"d1Calls":12,"statements":25,"rowsRead":29,"rowsWritten":20,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Synthetic account deletion journal
+{"metric":"application_headers","routePattern":"^\\/api\\/auth\\/me\\/?$","method":"GET","route":"/api/auth","status":401,"wallMs":6.94104200000038,"d1Calls":2,"statements":2,"rowsRead":2,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+PASS Deleted account session denied

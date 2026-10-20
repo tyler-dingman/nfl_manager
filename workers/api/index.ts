@@ -31,7 +31,7 @@ export default {
           objects,
           ai: env.AI,
           password: env.PASSWORD_SERVICE,
-          env: { ...env, APP_RUNTIME: 'cloudflare' },
+          env: { ...env, APP_RUNTIME: env.APP_RUNTIME ?? 'cloudflare' },
           cacheNamespace: 'api:' + String(env.APP_CACHE_VERSION ?? 'default'),
         },
         async () => {

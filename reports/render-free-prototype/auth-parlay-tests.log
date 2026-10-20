@@ -1,0 +1,401 @@
+TAP version 13
+# Subtest: account save uses existing authenticated saved-content schema and preserves snapshots
+ok 1 - account save uses existing authenticated saved-content schema and preserves snapshots
+  ---
+  duration_ms: 67.586291
+  ...
+# Subtest: signed-out saves fail honestly and account-load failures are not successful empties
+ok 2 - signed-out saves fail honestly and account-load failures are not successful empties
+  ---
+  duration_ms: 24.75325
+  ...
+# Subtest: binary anytime TD discovery preserves original selection and excludes alternate/partial-game markets
+ok 3 - binary anytime TD discovery preserves original selection and excludes alternate/partial-game markets
+  ---
+  duration_ms: 1.241834
+  ...
+# Subtest: mode, actual price boundaries, distinct thresholds and best book price
+ok 4 - mode, actual price boundaries, distinct thresholds and best book price
+  ---
+  duration_ms: 3.062541
+  ...
+# Subtest: preferences survive new screen subscriptions and fresh stores; hidden limit retained
+ok 5 - preferences survive new screen subscriptions and fresh stores; hidden limit retained
+  ---
+  duration_ms: 0.670791
+  ...
+# Subtest: late hydration cannot overwrite user action; unavailable storage stays usable
+ok 6 - late hydration cannot overwrite user action; unavailable storage stays usable
+  ---
+  duration_ms: 0.448208
+  ...
+# Subtest: request cache reuses inflight and fresh mode requests, expires and retries errors
+ok 7 - request cache reuses inflight and fresh mode requests, expires and retries errors
+  ---
+  duration_ms: 0.614167
+  ...
+# Subtest: display lift preserves missing evidence and caps the scale
+ok 8 - display lift preserves missing evidence and caps the scale
+  ---
+  duration_ms: 0.9655
+  ...
+# Subtest: display lift does not alter betting rank or discovery eligibility
+ok 9 - display lift does not alter betting rank or discovery eligibility
+  ---
+  duration_ms: 0.489125
+  ...
+# Subtest: root defaults to all and URL casing is normalized
+ok 10 - root defaults to all and URL casing is normalized
+  ---
+  duration_ms: 11.790209
+  ...
+# Subtest: actual available facets validate secondary markets without inventing markets
+ok 11 - actual available facets validate secondary markets without inventing markets
+  ---
+  duration_ms: 0.712792
+  ...
+# Subtest: category transitions and back preserve unrelated query parameters
+ok 12 - category transitions and back preserve unrelated query parameters
+  ---
+  duration_ms: 0.254042
+  ...
+# Subtest: perfect history does not become model confidence and debug text stays out
+ok 13 - perfect history does not become model confidence and debug text stays out
+  ---
+  duration_ms: 1.797458
+  ...
+# Subtest: missing model remains unavailable and unchanged roles use a real insight
+ok 14 - missing model remains unavailable and unchanged roles use a real insight
+  ---
+  duration_ms: 0.355292
+  ...
+# Subtest: opposing projection is disclosed without relabeling the selected-side score
+ok 15 - opposing projection is disclosed without relabeling the selected-side score
+  ---
+  duration_ms: 0.279708
+  ...
+# Subtest: right rail does not invent weather or a second matchup score
+ok 16 - right rail does not invent weather or a second matchup score
+  ---
+  duration_ms: 0.839791
+  ...
+# Subtest: unrated and low scores remain in catalog; unavailable and locked events excluded
+ok 17 - unrated and low scores remain in catalog; unavailable and locked events excluded
+  ---
+  duration_ms: 2.229125
+  ...
+# Subtest: Anytime TD retains identity with standard and alternate discovery and in slip
+ok 18 - Anytime TD retains identity with standard and alternate discovery and in slip
+  ---
+  duration_ms: 15.621167
+  ...
+# Subtest: pagination, filters, best-book dedup and actual universe counts
+ok 19 - pagination, filters, best-book dedup and actual universe counts
+  ---
+  duration_ms: 2.397291
+  ...
+# Subtest: score sorts put unrated last in both directions and odds limits preserve positive odds
+ok 20 - score sorts put unrated last in both directions and odds limits preserve positive odds
+  ---
+  duration_ms: 2.543959
+  ...
+# Subtest: group ranking follows highest eligible score but standard remains primary
+ok 21 - group ranking follows highest eligible score but standard remains primary
+  ---
+  duration_ms: 3.088416
+  ...
+# Subtest: ineligible alternate is absent and cannot rank a trending group
+ok 22 - ineligible alternate is absent and cannot rank a trending group
+  ---
+  duration_ms: 84.281
+  ...
+# Subtest: alternate-only group leads with best eligible selection and keeps exact identity
+ok 23 - alternate-only group leads with best eligible selection and keeps exact identity
+  ---
+  duration_ms: 33.022792
+  ...
+# Subtest: group pagination never splits player markets and respects side/book filters
+ok 24 - group pagination never splits player markets and respects side/book filters
+  ---
+  duration_ms: 7.195208
+  ...
+# Subtest: facets contain only offered markets, matching navigation on both views
+ok 25 - facets contain only offered markets, matching navigation on both views
+  ---
+  duration_ms: 8.229291
+  ...
+# Subtest: partial builds coalesce in flight but are polled again; completed data is cached
+ok 26 - partial builds coalesce in flight but are polled again; completed data is cached
+  ---
+  duration_ms: 1.497292
+  ...
+# Subtest: grading duplicate market IDs applies each result once and preserves saved prices
+ok 27 - grading duplicate market IDs applies each result once and preserves saved prices
+  ---
+  duration_ms: 3.706292
+  ...
+# Subtest: missing result preserves the saved snapshot
+ok 28 - missing result preserves the saved snapshot
+  ---
+  duration_ms: 0.21175
+  ...
+# Subtest: duplicates across books and conflicting direction or threshold cannot coexist
+ok 29 - duplicates across books and conflicting direction or threshold cannot coexist
+  ---
+  duration_ms: 1.617417
+  ...
+# Subtest: combined odds use selected prices and unknown odds remain unknown
+ok 30 - combined odds use selected prices and unknown odds remain unknown
+  ---
+  duration_ms: 0.328375
+  ...
+# Subtest: no configured integration means no CTA even with every offer present
+ok 31 - no configured integration means no CTA even with every offer present
+  ---
+  duration_ms: 0.506833
+  ...
+# Subtest: full-slip gating requires every exact market and complete transfer acknowledgement
+ok 32 - full-slip gating requires every exact market and complete transfer acknowledgement
+  ---
+  duration_ms: 0.423291
+  ...
+# Subtest: single FanDuel selection transfers the exact provider URL
+ok 33 - single FanDuel selection transfers the exact provider URL
+  ---
+  duration_ms: 0.607042
+  ...
+# Subtest: missing, generic, wrong-host, and multi-selection links cannot transfer
+ok 34 - missing, generic, wrong-host, and multi-selection links cannot transfer
+  ---
+  duration_ms: 0.585042
+  ...
+# Subtest: exact matches and book-specific prices, either book or neither
+ok 35 - exact matches and book-specific prices, either book or neither
+  ---
+  duration_ms: 1.724416
+  ...
+# Subtest: closest threshold first, favorable direction breaks ties, original unchanged
+ok 36 - closest threshold first, favorable direction breaks ties, original unchanged
+  ---
+  duration_ms: 0.732583
+  ...
+# Subtest: reject wrong identity, period, game, side, market and invalid availability
+ok 37 - reject wrong identity, period, game, side, market and invalid availability
+  ---
+  duration_ms: 0.258917
+  ...
+# Subtest: market-specific limits, extreme odds and unknown alternate classifications
+ok 38 - market-specific limits, extreme odds and unknown alternate classifications
+  ---
+  duration_ms: 0.207917
+  ...
+# Subtest: available score then freshness rank equal candidates; complete slip estimate uses matched odds
+ok 39 - available score then freshness rank equal candidates; complete slip estimate uses matched odds
+  ---
+  duration_ms: 0.207208
+  ...
+# Subtest: four books match only their stored prices and independently require complete availability
+ok 40 - four books match only their stored prices and independently require complete availability
+  ---
+  duration_ms: 117.326959
+  ...
+# Subtest: Unabated eligibility never depends on a stored provider deep link
+ok 41 - Unabated eligibility never depends on a stored provider deep link
+  ---
+  duration_ms: 72.99725
+  ...
+# Subtest: complete-slip intersection follows adds/removes and never invents missing prices
+ok 42 - complete-slip intersection follows adds/removes and never invents missing prices
+  ---
+  duration_ms: 1.389958
+  ...
+# Subtest: combined-yard stored availability is distinct from unverified transfer support
+ok 43 - combined-yard stored availability is distinct from unverified transfer support
+  ---
+  duration_ms: 0.436
+  ...
+# Subtest: partial slip, unmapped players and expired events are ineligible
+ok 44 - partial slip, unmapped players and expired events are ineligible
+  ---
+  duration_ms: 3.245083
+  ...
+# Subtest: same-game and mixed-game QA slips require complete book coverage and no independent combined price
+ok 45 - same-game and mixed-game QA slips require complete book coverage and no independent combined price
+  ---
+  duration_ms: 0.426375
+  ...
+# Subtest: mixed feed targets 7 overs and 3 unders without altering scores or input order
+ok 46 - mixed feed targets 7 overs and 3 unders without altering scores or input order
+  ---
+  duration_ms: 30.250042
+  ...
+# Subtest: single-sided and sparse pools fill naturally without inventing qualifying props
+ok 47 - single-sided and sparse pools fill naturally without inventing qualifying props
+  ---
+  duration_ms: 1.173542
+  ...
+# Subtest: unsupported, unavailable, and zero-score projections cannot displace supported picks
+ok 48 - unsupported, unavailable, and zero-score projections cannot displace supported picks
+  ---
+  duration_ms: 0.188875
+  ...
+# Subtest: representative selection collapses books and alternate lines before balancing
+ok 49 - representative selection collapses books and alternate lines before balancing
+  ---
+  duration_ms: 2.012542
+  ...
+# Subtest: weak and extreme-priced props are excluded even when the feed cannot reach 70/30
+ok 50 - weak and extreme-priced props are excluded even when the feed cannot reach 70/30
+  ---
+  duration_ms: 0.340875
+  ...
+# Subtest: better value outranks a higher hit probability in the same direction
+ok 51 - better value outranks a higher hit probability in the same direction
+  ---
+  duration_ms: 0.848833
+  ...
+# Subtest: unconfirmed current roles remain research-only even with high scores and attractive odds
+ok 52 - unconfirmed current roles remain research-only even with high scores and attractive odds
+  ---
+  duration_ms: 0.1745
+  ...
+# Subtest: refresh rejects changed prices, lines, lower research scores, and locked games
+ok 53 - refresh rejects changed prices, lines, lower research scores, and locked games
+  ---
+  duration_ms: 2.21075
+  ...
+# Subtest: refresh returns the fresh market only while its game is upcoming
+ok 54 - refresh returns the fresh market only while its game is upcoming
+  ---
+  duration_ms: 2.374084
+  ...
+# [application-auth] Session lookup unavailable { pathname: '/front-office' }
+# [application-auth] Session lookup unavailable { pathname: '/front-office' }
+# [application-auth] Session lookup unavailable { pathname: '/front-office' }
+# [application-auth] Session lookup unavailable { pathname: '/front-office' }
+# [application-auth] Session lookup unavailable { pathname: '/front-office' }
+# [application-auth] Session lookup unavailable { pathname: '/front-office' }
+# Subtest: Cloudflare SSR uses private API transport, isolates credentials and preserves fail-closed behavior
+ok 55 - Cloudflare SSR uses private API transport, isolates credentials and preserves fail-closed behavior
+  ---
+  duration_ms: 104.107292
+  ...
+# Subtest: concurrent OpenNext request contexts never share an API service or cookie
+ok 56 - concurrent OpenNext request contexts never share an API service or cookie
+  ---
+  duration_ms: 11.069208
+  ...
+# Subtest: Argon2id hashes and verifies passwords without storing plaintext
+ok 57 - Argon2id hashes and verifies passwords without storing plaintext
+  ---
+  duration_ms: 182.152541
+  ...
+# Subtest: opaque tokens are random and stored as deterministic hashes
+ok 58 - opaque tokens are random and stored as deterministic hashes
+  ---
+  duration_ms: 0.879334
+  ...
+# Subtest: redirect validation rejects absolute and protocol-relative URLs
+ok 59 - redirect validation rejects absolute and protocol-relative URLs
+  ---
+  duration_ms: 0.219708
+  ...
+# Subtest: Firebase signatures pin issuer, audience, algorithm, expiration, UID, auth time and tenant
+ok 60 - Firebase signatures pin issuer, audience, algorithm, expiration, UID, auth time and tenant
+  ---
+  duration_ms: 674.567875
+  ...
+# Subtest: online account state fails closed for disabled, deleted, revoked, wrong UID and missing metadata
+ok 61 - online account state fails closed for disabled, deleted, revoked, wrong UID and missing metadata
+  ---
+  duration_ms: 1.887333
+  ...
+# Subtest: account operations use fixed HTTPS, reject redirects/errors, and never send a password
+ok 62 - account operations use fixed HTTPS, reject redirects/errors, and never send a password
+  ---
+  duration_ms: 4.406209
+  ...
+# Subtest: Google profile picture is normalized into the canonical avatar URL
+ok 63 - Google profile picture is normalized into the canonical avatar URL
+  ---
+  duration_ms: 1.463667
+  ...
+# Subtest: Google profile without a picture has a null canonical avatar URL
+ok 64 - Google profile without a picture has a null canonical avatar URL
+  ---
+  duration_ms: 0.180334
+  ...
+# Subtest: PKCE accepts the RFC 7636 example and rejects a different verifier
+ok 65 - PKCE accepts the RFC 7636 example and rejects a different verifier
+  ---
+  duration_ms: 154.659584
+  ...
+# Subtest: handoff rejects expired, wrong-audience, and wrong-verifier tickets before database use
+ok 66 - handoff rejects expired, wrong-audience, and wrong-verifier tickets before database use
+  ---
+  duration_ms: 14.603333
+  ...
+# Subtest: mobile OAuth state keeps the challenge and client state in the signed cookie
+ok 67 - mobile OAuth state keeps the challenge and client state in the signed cookie
+  ---
+  duration_ms: 9.506709
+  ...
+# Subtest: preview exemption is limited to login bootstraps and signed API access tokens
+ok 68 - preview exemption is limited to login bootstraps and signed API access tokens
+  ---
+  duration_ms: 2.085708
+  ...
+# Subtest: timings are bounded, numeric, failure-aware and isolated across concurrent requests
+ok 69 - timings are bounded, numeric, failure-aware and isolated across concurrent requests
+  ---
+  duration_ms: 6.900416
+  ...
+# Subtest: configuration snapshots never cross request boundaries even when binding input is reused
+ok 70 - configuration snapshots never cross request boundaries even when binding input is reused
+  ---
+  duration_ms: 1.43825
+  ...
+# Subtest: auth rejects short or whitespace-padded signing secrets
+ok 71 - auth rejects short or whitespace-padded signing secrets
+  ---
+  duration_ms: 1.187875
+  ...
+# Subtest: Facebook is enabled only with both required values
+ok 72 - Facebook is enabled only with both required values
+  ---
+  duration_ms: 1.123125
+  ...
+# Subtest: Apple is enabled only with the complete web credential set
+ok 73 - Apple is enabled only with the complete web credential set
+  ---
+  duration_ms: 0.319625
+  ...
+# Subtest: Facebook profiles support normal and missing-email responses safely
+ok 74 - Facebook profiles support normal and missing-email responses safely
+  ---
+  duration_ms: 0.735583
+  ...
+# Subtest: Apple captures first-login data, relay email, and tolerates later sparse responses
+ok 75 - Apple captures first-login data, relay email, and tolerates later sparse responses
+  ---
+  duration_ms: 0.268458
+  ...
+# Subtest: web callbacks reject denial/state failures and identities require explicit safe linking
+ok 76 - web callbacks reject denial/state failures and identities require explicit safe linking
+  ---
+  duration_ms: 0.3805
+  ...
+# Subtest: provider implementations retain minimal scopes and server-side validation
+ok 77 - provider implementations retain minimal scopes and server-side validation
+  ---
+  duration_ms: 0.470292
+  ...
+1..77
+# tests 77
+# suites 0
+# pass 77
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2514.8215

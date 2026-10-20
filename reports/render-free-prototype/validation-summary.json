@@ -1,0 +1,20 @@
+{
+  "localOnly": true,
+  "deployed": false,
+  "remoteResourcesCreated": false,
+  "branch": "release/down-distance-firebase-auth",
+  "baselineCommit": "e9f8aff9",
+  "regressionTestsPassed": 80,
+  "endToEndAssertionsPassed": 78,
+  "nodeProductionBuild": "PASS",
+  "typecheck": "PASS",
+  "format": "PASS",
+  "offlineWorkerDryRuns": [
+    "api",
+    "edge"
+  ],
+  "remoteD1RestAtomicity": "UNVERIFIED; mutations and batches fail closed",
+  "hostedReadiness": "NO",
+  "nativeDeviceValidation": "UNVERIFIED",
+  "renderIsolatedServiceMemory": "UNVERIFIED; combined fixture harness RSS exceeds 512 MB"
+}
