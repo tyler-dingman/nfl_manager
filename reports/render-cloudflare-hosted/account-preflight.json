@@ -1,0 +1,21 @@
+{
+  "checkedAtUtc": "2026-10-20T19:16:49.905613+00:00",
+  "baselineCommit": "5aa1c1c1",
+  "branch": "staging/render-cloudflare-hosted-preflight",
+  "renderDashboardRequested": "https://dashboard.render.com/",
+  "renderDashboardObserved": "https://dashboard.render.com/login",
+  "visibleHeading": "Sign In to Render",
+  "authenticatedRenderAccountAvailable": false,
+  "renderCliAvailable": false,
+  "renderEnvironmentVariableNames": [],
+  "renderConfigLocationsFound": [],
+  "accountRemainingHours": "UNVERIFIED",
+  "accountPaymentMethodRequirement": "UNVERIFIED",
+  "remoteResourcesCreated": 0,
+  "servicesDeployed": 0,
+  "cloudflareResourcesChanged": 0,
+  "billingActivatedByAgent": false,
+  "stopReason": "Owner Phase 1: if Render account access unavailable, prepare owner setup instructions and stop before remote creation.",
+  "cloudflareExposure": "not changed or freshly verified; no activation performed",
+  "securityAndHostedTestsThisMission": "NOT RUN; stopped at account access gate"
+}
