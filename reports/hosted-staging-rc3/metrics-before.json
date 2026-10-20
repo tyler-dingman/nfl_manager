@@ -1,0 +1,33 @@
+{
+  "checkedAtUtc": "2026-10-20T12:16:06.719Z",
+  "httpStatus": 200,
+  "readOnlyGraphQLQuery": true,
+  "response": {
+    "data": {
+      "viewer": {
+        "accounts": [
+          {
+            "d1AnalyticsAdaptiveGroups": [],
+            "workersInvocationsAdaptive": [
+              {
+                "dimensions": {
+                  "scriptName": "dnd-content-scheduler"
+                },
+                "quantiles": {
+                  "cpuTimeP50": 1134,
+                  "cpuTimeP99": 1441
+                },
+                "sum": {
+                  "errors": 3,
+                  "requests": 3,
+                  "subrequests": 3
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "errors": null
+  }
+}

@@ -1,0 +1,662 @@
+{
+  "checkedAtUtc": "2026-10-20T12:25:45.641Z",
+  "results": [
+    {
+      "binding": "D1_TEAM_1",
+      "id": "a9c0c979-0333-41cc-8ecf-704c6eadf853",
+      "role": "team",
+      "foreignKeyViolations": 0,
+      "quickCheck": "ok",
+      "logicalSchemaHash": "ea6cd579f1585c7e91f0acbdd1df46cdd7ed1b247dbb729ab275cbc5d75dd468",
+      "expectedHash": "ea6cd579f1585c7e91f0acbdd1df46cdd7ed1b247dbb729ab275cbc5d75dd468",
+      "tables": 39,
+      "queryMetadata": [
+        {
+          "served_by": "v3-prod",
+          "served_by_region": "ENAM",
+          "served_by_colo": "ORD",
+          "served_by_primary": true,
+          "timings": {
+            "sql_duration_ms": 2.0725
+          },
+          "duration": 2.0725,
+          "changes": 0,
+          "last_row_id": 0,
+          "changed_db": false,
+          "size_after": 409600,
+          "rows_read": 13,
+          "rows_written": 0,
+          "total_attempts": 1
+        },
+        {
+          "served_by": "v3-prod",
+          "served_by_region": "ENAM",
+          "served_by_colo": "ORD",
+          "served_by_primary": true,
+          "timings": {
+            "sql_duration_ms": 7.5699
+          },
+          "duration": 7.5699,
+          "changes": 0,
+          "last_row_id": 0,
+          "changed_db": false,
+          "size_after": 409600,
+          "rows_read": 146,
+          "rows_written": 0,
+          "total_attempts": 1
+        },
+        {
+          "served_by": "v3-prod",
+          "served_by_region": "ENAM",
+          "served_by_colo": "ORD",
+          "served_by_primary": true,
+          "timings": {
+            "sql_duration_ms": 1.2078
+          },
+          "duration": 1.2078,
+          "changes": 0,
+          "last_row_id": 0,
+          "changed_db": false,
+          "size_after": 409600,
+          "rows_read": 263,
+          "rows_written": 0,
+          "total_attempts": 1
+        }
+      ]
+    },
+    {
+      "binding": "D1_TEAM_2",
+      "id": "6c49d183-0979-4617-ac9e-3410900eb926",
+      "role": "team",
+      "foreignKeyViolations": 0,
+      "quickCheck": "ok",
+      "logicalSchemaHash": "ea6cd579f1585c7e91f0acbdd1df46cdd7ed1b247dbb729ab275cbc5d75dd468",
+      "expectedHash": "ea6cd579f1585c7e91f0acbdd1df46cdd7ed1b247dbb729ab275cbc5d75dd468",
+      "tables": 39,
+      "queryMetadata": [
+        {
+          "served_by": "v3-prod",
+          "served_by_region": "ENAM",
+          "served_by_colo": "ORD",
+          "served_by_primary": true,
+          "timings": {
+            "sql_duration_ms": 0.2672
+          },
+          "duration": 0.2672,
+          "changes": 0,
+          "last_row_id": 0,
+          "changed_db": false,
+          "size_after": 409600,
+          "rows_read": 13,
+          "rows_written": 0,
+          "total_attempts": 1
+        },
+        {
+          "served_by": "v3-prod",
+          "served_by_region": "ENAM",
+          "served_by_colo": "ORD",
+          "served_by_primary": true,
+          "timings": {
+            "sql_duration_ms": 2.0883
+          },
+          "duration": 2.0883,
+          "changes": 0,
+          "last_row_id": 0,
+          "changed_db": false,
+          "size_after": 409600,
+          "rows_read": 146,
+          "rows_written": 0,
+          "total_attempts": 1
+        },
+        {
+          "served_by": "v3-prod",
+          "served_by_region": "ENAM",
+          "served_by_colo": "ORD",
+          "served_by_primary": true,
+          "timings": {
+            "sql_duration_ms": 1.2206
+          },
+          "duration": 1.2206,
+          "changes": 0,
+          "last_row_id": 0,
+          "changed_db": false,
+          "size_after": 409600,
+          "rows_read": 263,
+          "rows_written": 0,
+          "total_attempts": 1
+        }
+      ]
+    },
+    {
+      "binding": "D1_TEAM_3",
+      "id": "2986d54f-7c04-453b-9ce2-835cf491af54",
+      "role": "team",
+      "foreignKeyViolations": 0,
+      "quickCheck": "ok",
+      "logicalSchemaHash": "ea6cd579f1585c7e91f0acbdd1df46cdd7ed1b247dbb729ab275cbc5d75dd468",
+      "expectedHash": "ea6cd579f1585c7e91f0acbdd1df46cdd7ed1b247dbb729ab275cbc5d75dd468",
+      "tables": 39,
+      "queryMetadata": [
+        {
+          "served_by": "v3-prod",
+          "served_by_region": "ENAM",
+          "served_by_colo": "ORD",
+          "served_by_primary": true,
+          "timings": {
+            "sql_duration_ms": 2.3358
+          },
+          "duration": 2.3358,
+          "changes": 0,
+          "last_row_id": 0,
+          "changed_db": false,
+          "size_after": 409600,
+          "rows_read": 13,
+          "rows_written": 0,
+          "total_attempts": 1
+        },
+        {
+          "served_by": "v3-prod",
+          "served_by_region": "ENAM",
+          "served_by_colo": "ORD",
+          "served_by_primary": true,
+          "timings": {
+            "sql_duration_ms": 16.2232
+          },
+          "duration": 16.2232,
+          "changes": 0,
+          "last_row_id": 0,
+          "changed_db": false,
+          "size_after": 409600,
+          "rows_read": 146,
+          "rows_written": 0,
+          "total_attempts": 1
+        },
+        {
+          "served_by": "v3-prod",
+          "served_by_region": "ENAM",
+          "served_by_colo": "ORD",
+          "served_by_primary": true,
+          "timings": {
+            "sql_duration_ms": 1.4799
+          },
+          "duration": 1.4799,
+          "changes": 0,
+          "last_row_id": 0,
+          "changed_db": false,
+          "size_after": 409600,
+          "rows_read": 263,
+          "rows_written": 0,
+          "total_attempts": 1
+        }
+      ]
+    },
+    {
+      "binding": "D1_TEAM_4",
+      "id": "0b72b9ac-e934-46c6-aa07-4576a083d06f",
+      "role": "team",
+      "foreignKeyViolations": 0,
+      "quickCheck": "ok",
+      "logicalSchemaHash": "ea6cd579f1585c7e91f0acbdd1df46cdd7ed1b247dbb729ab275cbc5d75dd468",
+      "expectedHash": "ea6cd579f1585c7e91f0acbdd1df46cdd7ed1b247dbb729ab275cbc5d75dd468",
+      "tables": 39,
+      "queryMetadata": [
+        {
+          "served_by": "v3-prod",
+          "served_by_region": "ENAM",
+          "served_by_colo": "ORD",
+          "served_by_primary": true,
+          "timings": {
+            "sql_duration_ms": 1.185
+          },
+          "duration": 1.185,
+          "changes": 0,
+          "last_row_id": 0,
+          "changed_db": false,
+          "size_after": 409600,
+          "rows_read": 13,
+          "rows_written": 0,
+          "total_attempts": 1
+        },
+        {
+          "served_by": "v3-prod",
+          "served_by_region": "ENAM",
+          "served_by_colo": "ORD",
+          "served_by_primary": true,
+          "timings": {
+            "sql_duration_ms": 4.495
+          },
+          "duration": 4.495,
+          "changes": 0,
+          "last_row_id": 0,
+          "changed_db": false,
+          "size_after": 409600,
+          "rows_read": 146,
+          "rows_written": 0,
+          "total_attempts": 1
+        },
+        {
+          "served_by": "v3-prod",
+          "served_by_region": "ENAM",
+          "served_by_colo": "ORD",
+          "served_by_primary": true,
+          "timings": {
+            "sql_duration_ms": 0.5237
+          },
+          "duration": 0.5237,
+          "changes": 0,
+          "last_row_id": 0,
+          "changed_db": false,
+          "size_after": 409600,
+          "rows_read": 263,
+          "rows_written": 0,
+          "total_attempts": 1
+        }
+      ]
+    },
+    {
+      "binding": "D1_TEAM_5",
+      "id": "b06b0f48-630a-462a-ab7d-53793721df90",
+      "role": "team",
+      "foreignKeyViolations": 0,
+      "quickCheck": "ok",
+      "logicalSchemaHash": "ea6cd579f1585c7e91f0acbdd1df46cdd7ed1b247dbb729ab275cbc5d75dd468",
+      "expectedHash": "ea6cd579f1585c7e91f0acbdd1df46cdd7ed1b247dbb729ab275cbc5d75dd468",
+      "tables": 39,
+      "queryMetadata": [
+        {
+          "served_by": "v3-prod",
+          "served_by_region": "ENAM",
+          "served_by_colo": "ORD",
+          "served_by_primary": true,
+          "timings": {
+            "sql_duration_ms": 2.4673
+          },
+          "duration": 2.4673,
+          "changes": 0,
+          "last_row_id": 0,
+          "changed_db": false,
+          "size_after": 409600,
+          "rows_read": 13,
+          "rows_written": 0,
+          "total_attempts": 1
+        },
+        {
+          "served_by": "v3-prod",
+          "served_by_region": "ENAM",
+          "served_by_colo": "ORD",
+          "served_by_primary": true,
+          "timings": {
+            "sql_duration_ms": 5.872
+          },
+          "duration": 5.872,
+          "changes": 0,
+          "last_row_id": 0,
+          "changed_db": false,
+          "size_after": 409600,
+          "rows_read": 146,
+          "rows_written": 0,
+          "total_attempts": 1
+        },
+        {
+          "served_by": "v3-prod",
+          "served_by_region": "ENAM",
+          "served_by_colo": "ORD",
+          "served_by_primary": true,
+          "timings": {
+            "sql_duration_ms": 0.6359
+          },
+          "duration": 0.6359,
+          "changes": 0,
+          "last_row_id": 0,
+          "changed_db": false,
+          "size_after": 409600,
+          "rows_read": 263,
+          "rows_written": 0,
+          "total_attempts": 1
+        }
+      ]
+    },
+    {
+      "binding": "D1_TEAM_6",
+      "id": "ee6416b9-8f20-428a-8a91-a7eab928e9d7",
+      "role": "team",
+      "foreignKeyViolations": 0,
+      "quickCheck": "ok",
+      "logicalSchemaHash": "ea6cd579f1585c7e91f0acbdd1df46cdd7ed1b247dbb729ab275cbc5d75dd468",
+      "expectedHash": "ea6cd579f1585c7e91f0acbdd1df46cdd7ed1b247dbb729ab275cbc5d75dd468",
+      "tables": 39,
+      "queryMetadata": [
+        {
+          "served_by": "v3-prod",
+          "served_by_region": "ENAM",
+          "served_by_colo": "ORD",
+          "served_by_primary": true,
+          "timings": {
+            "sql_duration_ms": 0.347
+          },
+          "duration": 0.347,
+          "changes": 0,
+          "last_row_id": 0,
+          "changed_db": false,
+          "size_after": 409600,
+          "rows_read": 13,
+          "rows_written": 0,
+          "total_attempts": 1
+        },
+        {
+          "served_by": "v3-prod",
+          "served_by_region": "ENAM",
+          "served_by_colo": "ORD",
+          "served_by_primary": true,
+          "timings": {
+            "sql_duration_ms": 1.9004
+          },
+          "duration": 1.9004,
+          "changes": 0,
+          "last_row_id": 0,
+          "changed_db": false,
+          "size_after": 409600,
+          "rows_read": 146,
+          "rows_written": 0,
+          "total_attempts": 1
+        },
+        {
+          "served_by": "v3-prod",
+          "served_by_region": "ENAM",
+          "served_by_colo": "ORD",
+          "served_by_primary": true,
+          "timings": {
+            "sql_duration_ms": 1.1987
+          },
+          "duration": 1.1987,
+          "changes": 0,
+          "last_row_id": 0,
+          "changed_db": false,
+          "size_after": 409600,
+          "rows_read": 263,
+          "rows_written": 0,
+          "total_attempts": 1
+        }
+      ]
+    },
+    {
+      "binding": "D1_TEAM_7",
+      "id": "e1e885bf-b002-4580-929b-39a8dedf882f",
+      "role": "team",
+      "foreignKeyViolations": 0,
+      "quickCheck": "ok",
+      "logicalSchemaHash": "ea6cd579f1585c7e91f0acbdd1df46cdd7ed1b247dbb729ab275cbc5d75dd468",
+      "expectedHash": "ea6cd579f1585c7e91f0acbdd1df46cdd7ed1b247dbb729ab275cbc5d75dd468",
+      "tables": 39,
+      "queryMetadata": [
+        {
+          "served_by": "v3-prod",
+          "served_by_region": "ENAM",
+          "served_by_colo": "ORD",
+          "served_by_primary": true,
+          "timings": {
+            "sql_duration_ms": 0.4221
+          },
+          "duration": 0.4221,
+          "changes": 0,
+          "last_row_id": 0,
+          "changed_db": false,
+          "size_after": 409600,
+          "rows_read": 13,
+          "rows_written": 0,
+          "total_attempts": 1
+        },
+        {
+          "served_by": "v3-prod",
+          "served_by_region": "ENAM",
+          "served_by_colo": "ORD",
+          "served_by_primary": true,
+          "timings": {
+            "sql_duration_ms": 1.1428
+          },
+          "duration": 1.1428,
+          "changes": 0,
+          "last_row_id": 0,
+          "changed_db": false,
+          "size_after": 409600,
+          "rows_read": 146,
+          "rows_written": 0,
+          "total_attempts": 1
+        },
+        {
+          "served_by": "v3-prod",
+          "served_by_region": "ENAM",
+          "served_by_colo": "ORD",
+          "served_by_primary": true,
+          "timings": {
+            "sql_duration_ms": 0.6075
+          },
+          "duration": 0.6075,
+          "changes": 0,
+          "last_row_id": 0,
+          "changed_db": false,
+          "size_after": 409600,
+          "rows_read": 263,
+          "rows_written": 0,
+          "total_attempts": 1
+        }
+      ]
+    },
+    {
+      "binding": "D1_TEAM_8",
+      "id": "ddc482ad-d64f-4af3-b6ec-b6596fb3a5fd",
+      "role": "team",
+      "foreignKeyViolations": 0,
+      "quickCheck": "ok",
+      "logicalSchemaHash": "ea6cd579f1585c7e91f0acbdd1df46cdd7ed1b247dbb729ab275cbc5d75dd468",
+      "expectedHash": "ea6cd579f1585c7e91f0acbdd1df46cdd7ed1b247dbb729ab275cbc5d75dd468",
+      "tables": 39,
+      "queryMetadata": [
+        {
+          "served_by": "v3-prod",
+          "served_by_region": "ENAM",
+          "served_by_colo": "ORD",
+          "served_by_primary": true,
+          "timings": {
+            "sql_duration_ms": 1.1349
+          },
+          "duration": 1.1349,
+          "changes": 0,
+          "last_row_id": 0,
+          "changed_db": false,
+          "size_after": 409600,
+          "rows_read": 13,
+          "rows_written": 0,
+          "total_attempts": 1
+        },
+        {
+          "served_by": "v3-prod",
+          "served_by_region": "ENAM",
+          "served_by_colo": "ORD",
+          "served_by_primary": true,
+          "timings": {
+            "sql_duration_ms": 10.1355
+          },
+          "duration": 10.1355,
+          "changes": 0,
+          "last_row_id": 0,
+          "changed_db": false,
+          "size_after": 409600,
+          "rows_read": 146,
+          "rows_written": 0,
+          "total_attempts": 1
+        },
+        {
+          "served_by": "v3-prod",
+          "served_by_region": "ENAM",
+          "served_by_colo": "ORD",
+          "served_by_primary": true,
+          "timings": {
+            "sql_duration_ms": 0.8543
+          },
+          "duration": 0.8543,
+          "changes": 0,
+          "last_row_id": 0,
+          "changed_db": false,
+          "size_after": 409600,
+          "rows_read": 263,
+          "rows_written": 0,
+          "total_attempts": 1
+        }
+      ]
+    },
+    {
+      "binding": "D1_USERS",
+      "id": "e8dd0780-47a4-47d5-8b52-b5d018825c57",
+      "role": "users",
+      "foreignKeyViolations": 0,
+      "quickCheck": "ok",
+      "logicalSchemaHash": "0133a77917d49bd47c2953358a6e4d0397c3cef300ff197749bfbf6963708bea",
+      "expectedHash": "0133a77917d49bd47c2953358a6e4d0397c3cef300ff197749bfbf6963708bea",
+      "tables": 109,
+      "queryMetadata": [
+        {
+          "served_by": "v3-prod",
+          "served_by_region": "ENAM",
+          "served_by_colo": "ORD",
+          "served_by_primary": true,
+          "timings": {
+            "sql_duration_ms": 9.5611
+          },
+          "duration": 9.5611,
+          "changes": 0,
+          "last_row_id": 0,
+          "changed_db": false,
+          "size_after": 1331200,
+          "rows_read": 84,
+          "rows_written": 0,
+          "total_attempts": 1
+        },
+        {
+          "served_by": "v3-prod",
+          "served_by_region": "ENAM",
+          "served_by_colo": "ORD",
+          "served_by_primary": true,
+          "timings": {
+            "sql_duration_ms": 17.254
+          },
+          "duration": 17.254,
+          "changes": 0,
+          "last_row_id": 0,
+          "changed_db": false,
+          "size_after": 1331200,
+          "rows_read": 565,
+          "rows_written": 0,
+          "total_attempts": 1
+        },
+        {
+          "served_by": "v3-prod",
+          "served_by_region": "ENAM",
+          "served_by_colo": "ORD",
+          "served_by_primary": true,
+          "timings": {
+            "sql_duration_ms": 1.5005
+          },
+          "duration": 1.5005,
+          "changes": 0,
+          "last_row_id": 0,
+          "changed_db": false,
+          "size_after": 1331200,
+          "rows_read": 888,
+          "rows_written": 0,
+          "total_attempts": 1
+        }
+      ],
+      "privateRows": {
+        "results": [
+          {
+            "users": 0,
+            "crossShardReferences": 0,
+            "savedBetReceipts": 0
+          }
+        ],
+        "success": true,
+        "meta": {
+          "served_by": "v3-prod",
+          "served_by_region": "ENAM",
+          "served_by_colo": "ORD",
+          "served_by_primary": true,
+          "timings": {
+            "sql_duration_ms": 0.1969
+          },
+          "duration": 0.1969,
+          "changes": 0,
+          "last_row_id": 0,
+          "changed_db": false,
+          "size_after": 1331200,
+          "rows_read": 0,
+          "rows_written": 0,
+          "total_attempts": 1
+        }
+      }
+    },
+    {
+      "binding": "D1_SHARED",
+      "id": "8bdf4c63-5545-44e2-aa3f-e65e709ee6ea",
+      "role": "shared",
+      "foreignKeyViolations": 0,
+      "quickCheck": "ok",
+      "logicalSchemaHash": "ba5106e05d04f357a5260680c88b81f34d6fc4e656e573e402aeef9b8fb98531",
+      "expectedHash": "ba5106e05d04f357a5260680c88b81f34d6fc4e656e573e402aeef9b8fb98531",
+      "tables": 60,
+      "queryMetadata": [
+        {
+          "served_by": "v3-prod",
+          "served_by_region": "ENAM",
+          "served_by_colo": "ORD",
+          "served_by_primary": true,
+          "timings": {
+            "sql_duration_ms": 2.0622
+          },
+          "duration": 2.0622,
+          "changes": 0,
+          "last_row_id": 0,
+          "changed_db": false,
+          "size_after": 561152,
+          "rows_read": 16,
+          "rows_written": 0,
+          "total_attempts": 1
+        },
+        {
+          "served_by": "v3-prod",
+          "served_by_region": "ENAM",
+          "served_by_colo": "ORD",
+          "served_by_primary": true,
+          "timings": {
+            "sql_duration_ms": 10.3949
+          },
+          "duration": 10.3949,
+          "changes": 0,
+          "last_row_id": 0,
+          "changed_db": false,
+          "size_after": 561152,
+          "rows_read": 208,
+          "rows_written": 0,
+          "total_attempts": 1
+        },
+        {
+          "served_by": "v3-prod",
+          "served_by_region": "ENAM",
+          "served_by_colo": "ORD",
+          "served_by_primary": true,
+          "timings": {
+            "sql_duration_ms": 1.2034
+          },
+          "duration": 1.2034,
+          "changes": 0,
+          "last_row_id": 0,
+          "changed_db": false,
+          "size_after": 561152,
+          "rows_read": 382,
+          "rows_written": 0,
+          "total_attempts": 1
+        }
+      ]
+    }
+  ]
+}

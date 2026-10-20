@@ -1,0 +1,42 @@
+{
+  "checkedAtUtc": "2026-10-20T12:27:27.858Z",
+  "httpStatus": 200,
+  "readOnlyGraphQLQuery": true,
+  "response": {
+    "data": {
+      "viewer": {
+        "accounts": [
+          {
+            "d1AnalyticsAdaptiveGroups": [
+              {
+                "sum": {
+                  "readQueries": 453,
+                  "rowsRead": 58921,
+                  "rowsWritten": 2113,
+                  "writeQueries": 767
+                }
+              }
+            ],
+            "workersInvocationsAdaptive": [
+              {
+                "dimensions": {
+                  "scriptName": "dnd-content-scheduler"
+                },
+                "quantiles": {
+                  "cpuTimeP50": 1134,
+                  "cpuTimeP99": 1441
+                },
+                "sum": {
+                  "errors": 3,
+                  "requests": 3,
+                  "subrequests": 3
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "errors": null
+  }
+}

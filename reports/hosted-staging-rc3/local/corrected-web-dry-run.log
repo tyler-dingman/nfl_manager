@@ -1,0 +1,36 @@
+
+ ⛅️ wrangler 4.151.1 (update available 4.151.2)
+───────────────────────────────────────────────
+✨ Read 1808 files from the assets directory /private/tmp/down-distance-rc3/.open-next/assets
+Total Upload: 12177.59 KiB / gzip: 2349.83 KiB
+Your Worker has access to the following bindings:
+Binding                                                                                 Resource
+env.D1_TEAM_1 (dd-rc3-staging-1)                                                        D1 Database
+env.D1_TEAM_2 (dd-rc3-staging-2)                                                        D1 Database
+env.D1_TEAM_3 (dd-rc3-staging-3)                                                        D1 Database
+env.D1_TEAM_4 (dd-rc3-staging-4)                                                        D1 Database
+env.D1_TEAM_5 (dd-rc3-staging-5)                                                        D1 Database
+env.D1_TEAM_6 (dd-rc3-staging-6)                                                        D1 Database
+env.D1_TEAM_7 (dd-rc3-staging-7)                                                        D1 Database
+env.D1_TEAM_8 (dd-rc3-staging-8)                                                        D1 Database
+env.D1_USERS (dd-rc3-staging-9)                                                         D1 Database
+env.D1_SHARED (dd-rc3-staging-10)                                                       D1 Database
+env.API_SERVICE (down-distance-rc3-staging-api)                                         Worker
+env.ASSETS                                                                              Assets
+env.STAGING_ACCESS_HOST ("down-distance-rc3-staging-web.tdingma...")                    Environment Variable
+env.STAGING_ACCESS_EXPIRES_AT ("2026-10-22T12:20:33Z")                                  Environment Variable
+env.AUTH_BASE_URL ("https://down-distance-rc3-staging-web...")                          Environment Variable
+env.APP_PASSWORD_ENABLED ("true")                                                       Environment Variable
+env.APP_MAIL_ENABLED ("false")                                                          Environment Variable
+env.SEARCH_ANSWER_PROVIDER ("deterministic")                                            Environment Variable
+env.APP_PUBLIC_CACHE_ENABLED ("false")                                                  Environment Variable
+env.CONTENT_AUTOMATION_GLOBAL_ENABLED ("false")                                         Environment Variable
+env.APP_ODDS_FETCH_ENABLED ("false")                                                    Environment Variable
+env.APP_EDITORIAL_EMAIL_ENABLED ("false")                                               Environment Variable
+env.APP_MULTI_D1 ("true")                                                               Environment Variable
+env.APP_OBJECT_BACKEND ("d1")                                                           Environment Variable
+env.APP_DATA_BACKEND ("d1")                                                             Environment Variable
+env.APP_RUNTIME ("cloudflare")                                                          Environment Variable
+env.INFRASTRUCTURE_COST_POLICY ("zero-cost")                                            Environment Variable
+
+--dry-run: exiting now.

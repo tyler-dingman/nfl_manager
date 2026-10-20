@@ -1,0 +1,38 @@
+TAP version 13
+# Subtest: workers.dev gate protects assets/pages/auth/APIs, verifies host-bound expiring cookies, and fails closed
+not ok 1 - workers.dev gate protects assets/pages/auth/APIs, verifies host-bound expiring cookies, and fails closed
+  ---
+  duration_ms: 1791.885083
+  location: '/private/tmp/down-distance-rc3/workers/content-engine/test-node/staging-access.test.ts:1:293'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+
+    + 'protected app'
+    - 'authorized static asset'
+
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'authorized static asset'
+  actual: 'protected app'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (/private/tmp/down-distance-rc3/workers/content-engine/test-node/staging-access.test.ts:92:16)
+    async Test.run (node:internal/test_runner/test:980:9)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: staging credential attempts are durably limited across gate instances; D1 failure denies access
+ok 2 - staging credential attempts are durably limited across gate instances; D1 failure denies access
+  ---
+  duration_ms: 1760.842792
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 1
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3987.97975

@@ -1,0 +1,102 @@
+[
+  {
+    "binding": "D1_TEAM_1",
+    "mode": "apply",
+    "exitCode": 0
+  },
+  {
+    "binding": "D1_TEAM_1",
+    "mode": "repeat",
+    "exitCode": 0
+  },
+  {
+    "binding": "D1_TEAM_2",
+    "mode": "apply",
+    "exitCode": 0
+  },
+  {
+    "binding": "D1_TEAM_2",
+    "mode": "repeat",
+    "exitCode": 0
+  },
+  {
+    "binding": "D1_TEAM_3",
+    "mode": "apply",
+    "exitCode": 0
+  },
+  {
+    "binding": "D1_TEAM_3",
+    "mode": "repeat",
+    "exitCode": 0
+  },
+  {
+    "binding": "D1_TEAM_4",
+    "mode": "apply",
+    "exitCode": 0
+  },
+  {
+    "binding": "D1_TEAM_4",
+    "mode": "repeat",
+    "exitCode": 0
+  },
+  {
+    "binding": "D1_TEAM_5",
+    "mode": "apply",
+    "exitCode": 0
+  },
+  {
+    "binding": "D1_TEAM_5",
+    "mode": "repeat",
+    "exitCode": 0
+  },
+  {
+    "binding": "D1_TEAM_6",
+    "mode": "apply",
+    "exitCode": 0
+  },
+  {
+    "binding": "D1_TEAM_6",
+    "mode": "repeat",
+    "exitCode": 0
+  },
+  {
+    "binding": "D1_TEAM_7",
+    "mode": "apply",
+    "exitCode": 0
+  },
+  {
+    "binding": "D1_TEAM_7",
+    "mode": "repeat",
+    "exitCode": 0
+  },
+  {
+    "binding": "D1_TEAM_8",
+    "mode": "apply",
+    "exitCode": 0
+  },
+  {
+    "binding": "D1_TEAM_8",
+    "mode": "repeat",
+    "exitCode": 0
+  },
+  {
+    "binding": "D1_USERS",
+    "mode": "apply",
+    "exitCode": 0
+  },
+  {
+    "binding": "D1_USERS",
+    "mode": "repeat",
+    "exitCode": 0
+  },
+  {
+    "binding": "D1_SHARED",
+    "mode": "apply",
+    "exitCode": 0
+  },
+  {
+    "binding": "D1_SHARED",
+    "mode": "repeat",
+    "exitCode": 0
+  }
+]

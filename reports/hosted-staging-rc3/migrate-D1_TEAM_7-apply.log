@@ -1,0 +1,102 @@
+
+ ⛅️ wrangler 4.151.1 (update available 4.151.2)
+───────────────────────────────────────────────
+Resource location: remote
+
+Migrations to be applied:
+┌──────────────────────────────┐
+│ name                         │
+├──────────────────────────────┤
+│ 0001_role_bootstrap.sql      │
+├──────────────────────────────┤
+│ 0002_editorial_directory.sql │
+├──────────────────────────────┤
+│ 0003_editorial_dispatch.sql  │
+├──────────────────────────────┤
+│ 0005_briefing_outbox.sql     │
+├──────────────────────────────┤
+│ 0006_editorial_handoffs.sql  │
+└──────────────────────────────┘
+? About to apply 5 migration(s)
+Your database may not be available to serve requests during the migration, continue?
+🤖 Using fallback value in non-interactive context: yes
+🌀 Executing on remote database D1_TEAM_7 (e1e885bf-b002-4580-929b-39a8dedf882f):
+🌀 To execute on your local development database, remove the --remote flag from your wrangler command.
+🚣 Executed 46 commands in 5.81ms
+┌──────────────────────────────┬────────┐
+│ name                         │ status │
+├──────────────────────────────┼────────┤
+│ 0001_role_bootstrap.sql      │ ✅     │
+├──────────────────────────────┼────────┤
+│ 0002_editorial_directory.sql │ 🕒️    │
+├──────────────────────────────┼────────┤
+│ 0003_editorial_dispatch.sql  │ 🕒️    │
+├──────────────────────────────┼────────┤
+│ 0005_briefing_outbox.sql     │ 🕒️    │
+├──────────────────────────────┼────────┤
+│ 0006_editorial_handoffs.sql  │ 🕒️    │
+└──────────────────────────────┴────────┘
+🌀 Executing on remote database D1_TEAM_7 (e1e885bf-b002-4580-929b-39a8dedf882f):
+🌀 To execute on your local development database, remove the --remote flag from your wrangler command.
+🚣 Executed 1 command in 0.13ms
+┌──────────────────────────────┬────────┐
+│ name                         │ status │
+├──────────────────────────────┼────────┤
+│ 0001_role_bootstrap.sql      │ ✅     │
+├──────────────────────────────┼────────┤
+│ 0002_editorial_directory.sql │ ✅     │
+├──────────────────────────────┼────────┤
+│ 0003_editorial_dispatch.sql  │ 🕒️    │
+├──────────────────────────────┼────────┤
+│ 0005_briefing_outbox.sql     │ 🕒️    │
+├──────────────────────────────┼────────┤
+│ 0006_editorial_handoffs.sql  │ 🕒️    │
+└──────────────────────────────┴────────┘
+🌀 Executing on remote database D1_TEAM_7 (e1e885bf-b002-4580-929b-39a8dedf882f):
+🌀 To execute on your local development database, remove the --remote flag from your wrangler command.
+🚣 Executed 3 commands in 0.53ms
+┌──────────────────────────────┬────────┐
+│ name                         │ status │
+├──────────────────────────────┼────────┤
+│ 0001_role_bootstrap.sql      │ ✅     │
+├──────────────────────────────┼────────┤
+│ 0002_editorial_directory.sql │ ✅     │
+├──────────────────────────────┼────────┤
+│ 0003_editorial_dispatch.sql  │ ✅     │
+├──────────────────────────────┼────────┤
+│ 0005_briefing_outbox.sql     │ 🕒️    │
+├──────────────────────────────┼────────┤
+│ 0006_editorial_handoffs.sql  │ 🕒️    │
+└──────────────────────────────┴────────┘
+🌀 Executing on remote database D1_TEAM_7 (e1e885bf-b002-4580-929b-39a8dedf882f):
+🌀 To execute on your local development database, remove the --remote flag from your wrangler command.
+🚣 Executed 2 commands in 0.48ms
+┌──────────────────────────────┬────────┐
+│ name                         │ status │
+├──────────────────────────────┼────────┤
+│ 0001_role_bootstrap.sql      │ ✅     │
+├──────────────────────────────┼────────┤
+│ 0002_editorial_directory.sql │ ✅     │
+├──────────────────────────────┼────────┤
+│ 0003_editorial_dispatch.sql  │ ✅     │
+├──────────────────────────────┼────────┤
+│ 0005_briefing_outbox.sql     │ ✅     │
+├──────────────────────────────┼────────┤
+│ 0006_editorial_handoffs.sql  │ 🕒️    │
+└──────────────────────────────┴────────┘
+🌀 Executing on remote database D1_TEAM_7 (e1e885bf-b002-4580-929b-39a8dedf882f):
+🌀 To execute on your local development database, remove the --remote flag from your wrangler command.
+🚣 Executed 4 commands in 0.69ms
+┌──────────────────────────────┬────────┐
+│ name                         │ status │
+├──────────────────────────────┼────────┤
+│ 0001_role_bootstrap.sql      │ ✅     │
+├──────────────────────────────┼────────┤
+│ 0002_editorial_directory.sql │ ✅     │
+├──────────────────────────────┼────────┤
+│ 0003_editorial_dispatch.sql  │ ✅     │
+├──────────────────────────────┼────────┤
+│ 0005_briefing_outbox.sql     │ ✅     │
+├──────────────────────────────┼────────┤
+│ 0006_editorial_handoffs.sql  │ ✅     │
+└──────────────────────────────┴────────┘

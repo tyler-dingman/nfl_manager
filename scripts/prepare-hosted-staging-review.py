@@ -5,6 +5,9 @@ out = root / 'reports/hosted-staging'
 out.mkdir(parents=True, exist_ok=True)
 account = '6e8c301360ab628706dcf3acf55f0dbb'
 roles = ['password', 'api', 'odds-processor', 'application', 'web']
+# Never regenerate historical mTLS templates over the authorized server-gated deployment.
+if (root/'config/rc3-hosted.web.toml').exists() and 'access-index.ts' in (root/'config/rc3-hosted.web.toml').read_text():
+    raise SystemExit('Current hosted configurations use the authorized server-side gate; do not overwrite them with historical mTLS review templates.')
 configs = {}
 for role in roles:
     text = (root / f'config/rc2.{role}.toml').read_text()

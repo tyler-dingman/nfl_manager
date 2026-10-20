@@ -1,0 +1,64 @@
+{
+  "checkedAtUtc": "2026-10-20T12:15:50.337Z",
+  "accountId": "6e8c301360ab628706dcf3acf55f0dbb",
+  "requestMethods": [
+    "GET"
+  ],
+  "remoteMutations": false,
+  "checks": {
+    "subscriptions": {
+      "httpStatus": 403,
+      "success": false,
+      "errors": [
+        {
+          "code": 10000,
+          "message": "Authentication error",
+          "documentation_url": "https://developers.cloudflare.com/api/resources/accounts/subresources/subscriptions/methods/get"
+        }
+      ]
+    },
+    "workerSettings": {
+      "httpStatus": 200,
+      "success": true,
+      "errors": [],
+      "settings": {
+        "default_usage_model": "standard",
+        "green_compute": false
+      }
+    },
+    "d1Databases": {
+      "httpStatus": 200,
+      "success": true,
+      "errors": [],
+      "resultInfo": {
+        "count": 0,
+        "page": 1,
+        "per_page": 100,
+        "total_count": 0
+      },
+      "databases": [],
+      "count": 0
+    },
+    "workerScripts": {
+      "httpStatus": 200,
+      "success": true,
+      "errors": [],
+      "scripts": [
+        {
+          "id": "dnd-content-scheduler",
+          "created_on": "2026-09-07T17:14:15.810716Z",
+          "modified_on": "2026-09-17T16:04:07.950039Z"
+        }
+      ],
+      "count": 1
+    },
+    "subdomain": {
+      "httpStatus": 200,
+      "success": true,
+      "errors": [],
+      "subdomain": {
+        "subdomain": "tdingman5"
+      }
+    }
+  }
+}

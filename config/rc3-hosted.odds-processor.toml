@@ -1,4 +1,4 @@
-# LOCAL REVIEW ONLY: account safety and owner deployment approval are outstanding.
+# Authorized synthetic Free staging; production resources and schedules are excluded.
 account_id = "6e8c301360ab628706dcf3acf55f0dbb"
 name = "down-distance-rc3-staging-odds-processor"
 main = "../workers/application/odds-processor.ts"
@@ -24,6 +24,6 @@ crons = []
 [[d1_databases]]
 binding = "D1_SHARED"
 database_name = "dd-rc3-staging-10"
-database_id = "00000000-0000-0000-0000-000000000010"
+database_id = "8bdf4c63-5545-44e2-aa3f-e65e709ee6ea"
 migrations_dir = "../workers/multi-d1/migrations/shared"
 remote = false

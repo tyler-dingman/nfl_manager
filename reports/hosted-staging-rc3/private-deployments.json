@@ -1,0 +1,50 @@
+[
+  {
+    "role": "password",
+    "name": "down-distance-rc3-staging-password",
+    "exitCode": 0,
+    "publicRoute": false
+  },
+  {
+    "role": "api",
+    "name": "down-distance-rc3-staging-api",
+    "exitCode": 0,
+    "publicRoute": false,
+    "atomicStagingSecretNames": [
+      "AUTH_JWT_SECRET",
+      "APP_MAIL_ENCRYPTION_KEY",
+      "CONTENT_AUTOMATION_SECRET",
+      "APP_MAIL_JOB_SECRET"
+    ]
+  },
+  {
+    "role": "odds-processor",
+    "name": "down-distance-rc3-staging-odds-processor",
+    "exitCode": 0,
+    "publicRoute": false,
+    "atomicStagingSecretNames": [
+      "AUTH_JWT_SECRET"
+    ]
+  },
+  {
+    "role": "application",
+    "name": "down-distance-rc3-staging-application",
+    "exitCode": 0,
+    "publicRoute": false,
+    "atomicStagingSecretNames": [
+      "AUTH_JWT_SECRET",
+      "CONTENT_AUTOMATION_SECRET",
+      "APP_MAIL_JOB_SECRET"
+    ]
+  },
+  {
+    "role": "web",
+    "name": "down-distance-rc3-staging-web",
+    "exitCode": 0,
+    "publicRoute": false,
+    "atomicStagingSecretNames": [
+      "AUTH_JWT_SECRET",
+      "STAGING_ACCESS_SECRET"
+    ]
+  }
+]

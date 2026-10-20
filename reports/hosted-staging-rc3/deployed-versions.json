@@ -1,0 +1,27 @@
+{
+  "password": {
+    "worker": "down-distance-rc3-staging-password",
+    "versionId": "b709bf5f-9dd9-4e4b-ac77-1ecc19b3a5ea",
+    "startupTimeMs": 6
+  },
+  "api": {
+    "worker": "down-distance-rc3-staging-api",
+    "versionId": "c88ab9a6-c7a5-49db-9974-04677bfdf542",
+    "startupTimeMs": 97
+  },
+  "odds-processor": {
+    "worker": "down-distance-rc3-staging-odds-processor",
+    "versionId": "7fa830d1-1e22-4a9a-8319-d7e0841c1efc",
+    "startupTimeMs": 20
+  },
+  "application": {
+    "worker": "down-distance-rc3-staging-application",
+    "versionId": "18175de3-b705-456a-8a3a-a8ec11851f8f",
+    "startupTimeMs": 10
+  },
+  "web": {
+    "worker": "down-distance-rc3-staging-web",
+    "versionId": "c8f06c1d-4b53-47f1-bc7d-73b5c49beb03",
+    "startupTimeMs": 16
+  }
+}

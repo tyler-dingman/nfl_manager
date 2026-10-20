@@ -1,0 +1,14 @@
+[
+  {
+    "role": "password",
+    "name": "down-distance-rc3-staging-password",
+    "exitCode": 0,
+    "publicRoute": false
+  },
+  {
+    "role": "api",
+    "name": "down-distance-rc3-staging-api",
+    "exitCode": 1,
+    "publicRoute": false
+  }
+]

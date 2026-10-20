@@ -1,0 +1,12 @@
+
+ ⛅️ wrangler 4.151.1 (update available 4.151.2)
+───────────────────────────────────────────────
+✅ Successfully created DB 'dd-rc3-staging-9' in region ENAM
+Created your new D1 database.
+
+To access your new D1 Database in your Worker, add the following snippet to your configuration file:
+[[d1_databases]]
+binding = "dd_rc3_staging_9"
+database_name = "dd-rc3-staging-9"
+database_id = "e8dd0780-47a4-47d5-8b52-b5d018825c57"
+

@@ -1,0 +1,3 @@
+import application from '../web/index';
+import { stagingAccessGate } from './credential-access';
+export default stagingAccessGate(application);

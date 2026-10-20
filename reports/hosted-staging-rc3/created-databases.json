@@ -1,0 +1,65 @@
+{
+  "accountId": "6e8c301360ab628706dcf3acf55f0dbb",
+  "databases": [
+    {
+      "binding": "D1_TEAM_1",
+      "name": "dd-rc3-staging-1",
+      "id": "a9c0c979-0333-41cc-8ecf-704c6eadf853",
+      "migrationRole": "team"
+    },
+    {
+      "binding": "D1_TEAM_2",
+      "name": "dd-rc3-staging-2",
+      "id": "6c49d183-0979-4617-ac9e-3410900eb926",
+      "migrationRole": "team"
+    },
+    {
+      "binding": "D1_TEAM_3",
+      "name": "dd-rc3-staging-3",
+      "id": "2986d54f-7c04-453b-9ce2-835cf491af54",
+      "migrationRole": "team"
+    },
+    {
+      "binding": "D1_TEAM_4",
+      "name": "dd-rc3-staging-4",
+      "id": "0b72b9ac-e934-46c6-aa07-4576a083d06f",
+      "migrationRole": "team"
+    },
+    {
+      "binding": "D1_TEAM_5",
+      "name": "dd-rc3-staging-5",
+      "id": "b06b0f48-630a-462a-ab7d-53793721df90",
+      "migrationRole": "team"
+    },
+    {
+      "binding": "D1_TEAM_6",
+      "name": "dd-rc3-staging-6",
+      "id": "ee6416b9-8f20-428a-8a91-a7eab928e9d7",
+      "migrationRole": "team"
+    },
+    {
+      "binding": "D1_TEAM_7",
+      "name": "dd-rc3-staging-7",
+      "id": "e1e885bf-b002-4580-929b-39a8dedf882f",
+      "migrationRole": "team"
+    },
+    {
+      "binding": "D1_TEAM_8",
+      "name": "dd-rc3-staging-8",
+      "id": "ddc482ad-d64f-4af3-b6ec-b6596fb3a5fd",
+      "migrationRole": "team"
+    },
+    {
+      "binding": "D1_USERS",
+      "name": "dd-rc3-staging-9",
+      "id": "e8dd0780-47a4-47d5-8b52-b5d018825c57",
+      "migrationRole": "users"
+    },
+    {
+      "binding": "D1_SHARED",
+      "name": "dd-rc3-staging-10",
+      "id": "8bdf4c63-5545-44e2-aa3f-e65e709ee6ea",
+      "migrationRole": "shared"
+    }
+  ]
+}

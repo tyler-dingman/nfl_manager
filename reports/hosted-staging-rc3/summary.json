@@ -1,0 +1,51 @@
+{
+  "baseline": "d6d3ff10",
+  "ownerAuthorizedFreeStaging": true,
+  "workersFreeEvidence": "Owner dashboard observations on 2026-10-20; D1/API operations accepted without upgrade; subscription GET remains 403, not a paid-plan indication",
+  "databasesCreated": 10,
+  "roleSchemaIntegrity": "PASS all ten, repeat migrations no-op",
+  "workersDeployed": 5,
+  "workerVersionIds": {
+    "password": "b709bf5f-9dd9-4e4b-ac77-1ecc19b3a5ea",
+    "api": "c88ab9a6-c7a5-49db-9974-04677bfdf542",
+    "odds-processor": "7fa830d1-1e22-4a9a-8319-d7e0841c1efc",
+    "application": "18175de3-b705-456a-8a3a-a8ec11851f8f",
+    "web": "c8f06c1d-4b53-47f1-bc7d-73b5c49beb03"
+  },
+  "stagingURL": "https://down-distance-rc3-staging-web.tdingman5.workers.dev",
+  "publicExposure": "DISABLED after failed authorized static-asset test",
+  "exposureDisabledVerifiedAt": "2026-10-20T12:34:36.280Z",
+  "allSchedulesDisabled": true,
+  "providersDisabled": true,
+  "billingActivated": false,
+  "paymentMethodAdded": false,
+  "r2Activated": false,
+  "productionResourcesModified": false,
+  "security": {
+    "negativeAccessTestsPassed": true,
+    "authorizedCredentialAccepted": true,
+    "authorizedAssetStatus": 404,
+    "qualification": "FAIL: authorized static content unavailable; no unauthorized bypass observed",
+    "internalWorkers": "workers.dev/previews disabled verified via actual settings; direct URL probes not reached"
+  },
+  "hostedAuthentication": "UNVERIFIED; signup/login/hash/reset not attempted",
+  "hostedRequestCPU": "UNVERIFIED; Worker startup timings are separate and not per-request CPU",
+  "D1SnapshotBeforeSecurity": {
+    "checkedAtUtc": "2026-10-20T12:27:27.858Z",
+    "readQueries": 453,
+    "rowsRead": 58921,
+    "rowsWritten": 2113,
+    "writeQueries": 767
+  },
+  "applicationSmokeTests": "NOT RUN: stopped at security gate",
+  "recovery": "UNVERIFIED; no approved empty-target strategy; no destructive action",
+  "localCorrection": {
+    "explicitAuthenticatedAssetDispatch": true,
+    "targetedTestsPassed": 2,
+    "releaseTypecheck": "PASS",
+    "webDryRun": "PASS",
+    "deployed": false
+  },
+  "productionReadiness": "NO-GO",
+  "nextOwnerAction": "Review the local authenticated asset-dispatch correction and explicitly resume the stopped hosted qualification; first redeploy the corrected Web adapter while private and repeat security tests before further product traffic."
+}
