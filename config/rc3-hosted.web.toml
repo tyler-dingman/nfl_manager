@@ -15,9 +15,9 @@ run_worker_first = true
 binding = "ASSETS"
 
 [vars]
-# Fail closed until an owner-created Spark project is configured and reviewed.
+# Existing owner-confirmed Spark project; actual public SDK values supplied via private staging config.
 AUTH_PROVIDER = "firebase"
-FIREBASE_AUTH_ENABLED = "false"
+FIREBASE_AUTH_ENABLED = "true"
 STAGING_ACCESS_HOST = "down-distance-rc3-staging-web.tdingman5.workers.dev"
 STAGING_ACCESS_EXPIRES_AT = "2026-10-22T12:20:33Z"
 AUTH_BASE_URL = "https://down-distance-rc3-staging-web.tdingman5.workers.dev"

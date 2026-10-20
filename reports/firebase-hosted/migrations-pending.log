@@ -1,0 +1,11 @@
+
+ ⛅️ wrangler 4.151.1 (update available 4.151.3)
+───────────────────────────────────────────────
+Resource location: remote 
+
+Migrations to be applied:
+┌────────────────────────┐
+│ Name                   │
+├────────────────────────┤
+│ 0010_firebase_auth.sql │
+└────────────────────────┘

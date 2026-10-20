@@ -1,0 +1,18 @@
+{
+  "verifiedAtUtc": "2026-10-20T16:03:57.548275+00:00",
+  "projectId": "down-and-distance-8526c",
+  "authDomain": "down-and-distance-8526c.firebaseapp.com",
+  "appId": "1:953719724874:web:a5d1a0d02ad191166b7fb3",
+  "apiKeySource": "actual registered Web app; private staging secret files",
+  "firebaseSpark": "VERIFIED via signed-in console",
+  "emailPassword": "ENABLED verified",
+  "otherProviders": "none enabled in provider list",
+  "authorizedDomains": [
+    "localhost",
+    "down-and-distance-8526c.firebaseapp.com",
+    "down-and-distance-8526c.web.app"
+  ],
+  "requiredOAuthDomainChange": false,
+  "cloudflareWorkersFree": "VERIFIED current Free plan in signed-in dashboard",
+  "resourcesCreated": 0
+}

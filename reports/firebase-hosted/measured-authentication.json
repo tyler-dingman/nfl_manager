@@ -1,0 +1,52 @@
+{
+  "source": "Actual Cloudflare live tail trace-v1 cpuTime milliseconds; not local timing",
+  "operations": [
+    {
+      "label": "Firebase registration-related identity exchange",
+      "path": "/api/auth/firebase/session",
+      "status": 200,
+      "expected": 200,
+      "startedAtUtc": "2026-10-20T16:07:04.654Z",
+      "pass": true,
+      "cpuSamples": [
+        {
+          "role": "api",
+          "cpuTimeMs": 47
+        }
+      ]
+    }
+  ],
+  "traces": [
+    {
+      "role": "api",
+      "path": "/api/auth/firebase/session",
+      "receivedAt": 1792512425735,
+      "eventTimestamp": 1792512424956,
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 47,
+      "wallTimeMs": 708,
+      "metrics": [
+        {
+          "metric": "application_headers",
+          "routePattern": "^\\/api\\/auth\\/firebase\\/session\\/?$",
+          "method": "POST",
+          "route": "/api/auth",
+          "status": 200,
+          "wallMs": 632,
+          "d1Calls": 9,
+          "statements": 18,
+          "rowsRead": 12,
+          "rowsWritten": 24,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ],
+      "exceptionNames": []
+    }
+  ],
+  "stopReason": "Workers Free CPU exceeded during Firebase registration-related identity exchange: api 47 ms > 10 ms",
+  "legacyPasswordInvocations": 0
+}

@@ -1,0 +1,23 @@
+{
+  "checkedAtUtc": "2026-10-20T16:02:45.577Z",
+  "projectId": "down-and-distance-8526c",
+  "realProvider": true,
+  "stagingWorkerInvoked": false,
+  "registration": "PASS",
+  "signature": "PASS",
+  "issuerAudienceExpirationUid": "PASS",
+  "revocationMetadata": "PASS",
+  "lookupFieldNames": [
+    "localId",
+    "email",
+    "passwordHash",
+    "emailVerified",
+    "passwordUpdatedAt",
+    "providerUserInfo",
+    "validSince",
+    "lastLoginAt",
+    "createdAt",
+    "lastRefreshAt"
+  ],
+  "userId": "U9PRaJxvqSfD3MfenTyKWHRqt223"
+}

@@ -1,0 +1,22 @@
+
+ ⛅️ wrangler 4.151.1 (update available 4.151.3)
+───────────────────────────────────────────────
+Resource location: remote 
+
+Migrations to be applied:
+┌────────────────────────┐
+│ name                   │
+├────────────────────────┤
+│ 0010_firebase_auth.sql │
+└────────────────────────┘
+? About to apply 1 migration(s)
+Your database may not be available to serve requests during the migration, continue?
+🤖 Using fallback value in non-interactive context: yes
+🌀 Executing on remote database D1_USERS (e8dd0780-47a4-47d5-8b52-b5d018825c57):
+🌀 To execute on your local development database, remove the --remote flag from your wrangler command.
+🚣 Executed 5 commands in 1.10ms
+┌────────────────────────┬────────┐
+│ name                   │ status │
+├────────────────────────┼────────┤
+│ 0010_firebase_auth.sql │ ✅     │
+└────────────────────────┴────────┘

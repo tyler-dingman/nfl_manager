@@ -1,0 +1,29 @@
+{
+  "stoppedForCpu": true,
+  "stopReason": "First Firebase identity exchange API Worker used 47 ms actual Cloudflare CPU versus 10 ms Free allowance",
+  "applicationTestsAfterStop": 0,
+  "allFiveWorkersPrivate": true,
+  "noArgonInvocationsDuringMeasuredWindow": true,
+  "latestD1Analytics": {
+    "readQueries": 1087,
+    "rowsRead": 66285,
+    "rowsWritten": 2787,
+    "writeQueries": 1198
+  },
+  "analyticsHeadroomRowsRead": 4933715,
+  "analyticsHeadroomRowsWritten": 97213,
+  "analyticsWorkerRequests": 378,
+  "analyticsWorkerRequestHeadroom": 99622,
+  "analyticsLagCaveat": "Latest account aggregates do not yet include all measured exchange D1 writes; direct returned D1 metadata is reported separately.",
+  "baselineStorageBytes": 5525504,
+  "finalStorageBytes": "UNMEASURED after stop; additive migration and one synthetic user/session were written",
+  "databaseOrWorkerResourcesCreated": 0,
+  "firebaseSyntheticAccountsCreated": 1,
+  "existingAccountsDeleted": 0,
+  "syntheticAccountDeletionTested": false,
+  "firebaseProviderLiveEmailDeliveryTested": false,
+  "cloudflareVersions": {
+    "api": "07fda894-e4bd-4ec0-b929-88e5b31e5631",
+    "web": "063f7456-4c3f-484f-8eb7-e26c49b5d363"
+  }
+}

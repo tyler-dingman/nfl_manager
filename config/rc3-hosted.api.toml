@@ -8,9 +8,9 @@ workers_dev = false
 preview_urls = false
 send_metrics = false
 [vars]
-# Fail closed until an owner-created Spark project is configured and reviewed.
+# Existing owner-confirmed Spark project; actual public SDK values supplied via private staging config.
 AUTH_PROVIDER = "firebase"
-FIREBASE_AUTH_ENABLED = "false"
+FIREBASE_AUTH_ENABLED = "true"
 AUTH_BASE_URL = "https://down-distance-rc3-staging-web.tdingman5.workers.dev"
 APP_PASSWORD_ENABLED = "false"
 APP_PUBLIC_CACHE_ENABLED = "false"

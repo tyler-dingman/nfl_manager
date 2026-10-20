@@ -1,0 +1,156 @@
+
+ ⛅️ wrangler 4.151.1 (update available 4.151.3)
+───────────────────────────────────────────────
+🌀 Building list of assets...
+✨ Read 1809 files from the assets directory /private/tmp/down-distance-rc3/.open-next/assets
+🌀 Starting asset upload...
+🌀 Found 129 new or modified static assets to upload. Proceeding with upload...
++ /BUILD_ID
++ /_next/static/chunks/app/front-office/ownership/fans/page-debabdc915de2836.js
++ /_next/static/chunks/app/front-office/ownership/report-card/page-3ddbd37eaa2bb1a3.js
++ /_next/static/chunks/app/merch/accessories/page-feedbed654d4436f.js
++ /_next/static/chunks/app/merch/men/page-1fe9293db25631fe.js
++ /_next/static/chunks/app/offseasonmanager/page-1f76214bb5dd0fbd.js
++ /_next/static/chunks/app/account/page-290733308e7f6956.js
++ /_next/static/chunks/app/parlay-lab/games/page-3d9b4a543d93f848.js
++ /_next/static/chunks/app/parlay-lab/players/page-130bd2c9e946dcce.js
++ /_next/static/chunks/app/parlay-lab/trends/page-08aa0584160a6b5e.js
++ /_next/static/chunks/app/front-office/draft/history/page-62353d6cecc2bf9a.js
++ /_next/static/chunks/app/the-beat/page-cae0e2fa8627aaff.js
++ /_next/static/chunks/app/wire/page-0bbd3ba63da74d8a.js
++ /_next/static/chunks/app/huddle/page-41251c15647842a5.js
++ /_next/static/chunks/app/front-office/draft/room/page-7bf7007605c4e020.js
++ /_next/static/chunks/main-app-27b77e73760a69d5.js
++ /_next/static/chunks/app/huddle/archive/page-6061fd326b202c78.js
++ /_next/static/chunks/app/editorial-visuals/page-41eedf1db60c8667.js
++ /_next/static/chunks/app/dev/parlay-lab-test/page-9ac90e0ea1bdaab9.js
++ /_next/static/chunks/app/cap-space/page-86c8987bb0a7a29c.js
++ /_next/static/chunks/9708-d75e0eaf4092c595.js
++ /_next/static/chunks/app/admin/sources/page-27676d93a82ad3f2.js
++ /_next/static/chunks/app/front-office/development/page-ff11726bde7c10e0.js
++ /_next/static/chunks/1947-188792d9ef8f044b.js
++ /_next/static/chunks/app/catch-up/page-fb742b57e78fd006.js
++ /_next/static/chunks/app/onboarding/page-76c0001a33db82c2.js
++ /_next/static/chunks/app/merch/[productId]/page-298a1e5ce651af9d.js
++ /_next/static/chunks/app/rewards/page-b5999e04df9da993.js
++ /_next/static/chunks/app/parlay-lab/alt-stack/page-ca20a0eaa223ce76.js
++ /_next/static/chunks/app/game-day/page-8ed1a22b4186d385.js
++ /_next/static/chunks/app/front-office/trade-hub/player/[playerId]/page-f51ee2b2af38a693.js
++ /_next/static/chunks/app/content/[id]/page-e415efe8e876ae41.js
++ /_next/static/chunks/app/offseason-recap/page-1efbc2e820ea7906.js
++ /_next/static/chunks/app/front-office/league/news/[storyId]/page-be68c098e39bdae9.js
++ /_next/static/chunks/5790-6e893e8b2612a1de.js
++ /_next/static/chunks/app/front-office/draft/scouting/page-12904825579c09d0.js
++ /_next/static/chunks/3834-f40c22a7189939bd.js
++ /_next/static/chunks/668-2b3cdd26a67ab38e.js
++ /_next/static/chunks/2618-acc88594fdc694c8.js
++ /_next/static/chunks/4396-bab5069a048e5172.js
++ /_next/static/chunks/app/page-da65eda01067c25f.js
++ /_next/static/chunks/app/roster/page-3bbeae84e368d52b.js
++ /_next/static/css/882d52c97e783782.css
++ /_next/static/chunks/app/front-office/ownership/business/page-bd02d2a832871e9d.js
++ /_next/static/chunks/app/front-office/ownership/legacy/page-bddfcea6b4346ea8.js
++ /_next/static/chunks/app/front-office/ownership/stadium/page-f75cbadd05f20212.js
++ /_next/static/chunks/app/merch/hats/page-3f55abeb67c15bc3.js
++ /_next/static/chunks/app/merch/sale/page-ad57e7fa04f0dcfc.js
++ /_next/static/chunks/app/teams/page-e0a05566366a5037.js
++ /_next/static/chunks/app/parlay-lab/all-props/page-7d4c13270d6eed48.js
++ /_next/static/chunks/app/parlay-lab/generator/page-c8694a3020cd1502.js
++ /_next/static/chunks/app/parlay-lab/settings/page-7ea47bcaeb1d36e5.js
++ /_next/static/chunks/app/briefings/page-404e578ba3c89034.js
++ /_next/static/chunks/app/front-office/draft/team-needs/page-fa13e1b0b8737174.js
++ /_next/static/chunks/app/three-and-out/page-40d8a4a1105cdbb6.js
++ /_next/static/chunks/app/orders/[orderId]/page-2e680ed11abea9f7.js
++ /_next/static/chunks/app/front-office/trade-hub/new/page-0a32ff32b800f76d.js
++ /_next/static/chunks/app/draft/room/page-dd2460a0edfd5fb0.js
++ /_next/static/chunks/app/error-b5a9939f906e23ba.js
++ /_next/static/chunks/app/dev/front-office-story-graphics/page-5171eda61e9024e6.js
++ /_next/static/chunks/app/league/page-3dfa142e62df514f.js
++ /_next/static/chunks/app/promos/page-490a05669e13b053.js
++ /_next/static/chunks/6634-b114d6d3004e557f.js
++ /_next/static/chunks/9583-a8045189df91a177.js
++ /_next/static/chunks/app/front-office/messages/page-7b98b3e88fec9791.js
++ /_next/static/chunks/app/admin/observer/page-e45689b70fa83341.js
++ /_next/static/chunks/5480-cf4a7f15538ede72.js
++ /_next/static/chunks/app/front-office/ownership/layout-ae324cae4d18280e.js
++ /_next/static/chunks/app/dev-hero-visual/page-9dccbf5afd0d28cd.js
++ /_next/static/chunks/app/front-office/draft/prospects/page-ef7ba884f4042567.js
++ /_next/static/chunks/app/parlay-lab/my-plays/page-df5aac4aaea9cdf7.js
++ /_next/static/chunks/5583-ee12c223823f1d16.js
++ /_next/static/chunks/app/preview/page-642a1d04ef531e62.js
++ /_next/static/chunks/app/front-office/trade-hub/[tool]/page-426daa4d92a73783.js
++ /_next/static/chunks/app/layout-9e54b9fc7cf3b6eb.js
++ /_next/static/chunks/7903-473d42936a2d14c3.js
++ /_next/static/chunks/3614-019a79fc51b79e0c.js
++ /_next/static/chunks/app/login/page-972d9686391c69f0.js
++ /_next/static/chunks/app/front-office/draft/page-91a0a99bc9b255ac.js
++ /_next/static/chunks/app/dev/huddle-cards/page-5ca665f72e4aae1e.js
++ /_next/static/chunks/1394-4a02c76ada38c437.js
++ /_next/static/css/06f3a4adc4642f9a.css
++ /_next/static/chunks/app/trivia/page-be1dde614f4638e6.js
++ /_next/static/chunks/app/labs/realtime/page-0b86cdfdd8c64d21.js
++ /_next/static/chunks/d8adc87b-bf0e1a253b9878a7.js
++ /_next/static/chunks/2564-bac6aa8f3f533edc.js
++ /_next/static/chunks/app/front-office/ownership/facilities/page-2bafcd4b4b6a0eb1.js
++ /_next/static/chunks/app/front-office/ownership/page-4916393e55c6c24b.js
++ /_next/static/chunks/app/merch/page-87ab4e356466c623.js
++ /_next/static/chunks/app/merch/kids/page-26c9a29ef4d93568.js
++ /_next/static/chunks/app/merch/women/page-c473240d2a8b1c60.js
++ /_next/static/chunks/app/account/[section]/page-29ee154a3c933dbf.js
++ /_next/static/chunks/app/parlay-lab/game/[eventId]/markets/page-03b136cc53d3ee5f.js
++ /_next/static/chunks/app/parlay-lab/page-0f18bbf6a55e127c.js
++ /_next/static/chunks/app/parlay-lab/teams/page-45a81c8478b0ee1e.js
++ /_next/static/chunks/app/front-office/draft/[section]/page-4faad3d4c4414dd4.js
++ /_next/static/chunks/app/front-office/page-c86700cd1048c5c3.js
++ /_next/static/chunks/app/watch/page-5bfbb6f1c78d18b2.js
++ /_next/static/chunks/app/orders/page-47322f707920a617.js
++ /_next/static/chunks/app/manage/trades/page-653d3101aa1147c0.js
+   (truncating changed assets log, set `WRANGLER_LOG=debug` environment variable to see full diff)
+Uploaded 43 of 129 assets
+Uploaded 86 of 129 assets
+Uploaded 129 of 129 assets
+✨ Success! Uploaded 129 files (1267 already uploaded) (2.31 sec)
+
+Total Upload: 12283.23 KiB / gzip: 2370.33 KiB
+Worker Startup Time: 17 ms
+Your Worker has access to the following bindings:
+Binding                                                                                 Resource                  
+env.D1_TEAM_1 (dd-rc3-staging-1)                                                        D1 Database               
+env.D1_TEAM_2 (dd-rc3-staging-2)                                                        D1 Database               
+env.D1_TEAM_3 (dd-rc3-staging-3)                                                        D1 Database               
+env.D1_TEAM_4 (dd-rc3-staging-4)                                                        D1 Database               
+env.D1_TEAM_5 (dd-rc3-staging-5)                                                        D1 Database               
+env.D1_TEAM_6 (dd-rc3-staging-6)                                                        D1 Database               
+env.D1_TEAM_7 (dd-rc3-staging-7)                                                        D1 Database               
+env.D1_TEAM_8 (dd-rc3-staging-8)                                                        D1 Database               
+env.D1_USERS (dd-rc3-staging-9)                                                         D1 Database               
+env.D1_SHARED (dd-rc3-staging-10)                                                       D1 Database               
+env.API_SERVICE (down-distance-rc3-staging-api)                                         Worker                    
+env.ASSETS                                                                              Assets                    
+env.AUTH_PROVIDER ("firebase")                                                          Environment Variable      
+env.FIREBASE_AUTH_ENABLED ("true")                                                      Environment Variable      
+env.STAGING_ACCESS_HOST ("down-distance-rc3-staging-web.tdingma...")                    Environment Variable      
+env.STAGING_ACCESS_EXPIRES_AT ("2026-10-22T12:20:33Z")                                  Environment Variable      
+env.AUTH_BASE_URL ("https://down-distance-rc3-staging-web...")                          Environment Variable      
+env.APP_PASSWORD_ENABLED ("false")                                                      Environment Variable      
+env.APP_MAIL_ENABLED ("false")                                                          Environment Variable      
+env.SEARCH_ANSWER_PROVIDER ("deterministic")                                            Environment Variable      
+env.APP_PUBLIC_CACHE_ENABLED ("false")                                                  Environment Variable      
+env.CONTENT_AUTOMATION_GLOBAL_ENABLED ("false")                                         Environment Variable      
+env.APP_ODDS_FETCH_ENABLED ("false")                                                    Environment Variable      
+env.APP_EDITORIAL_EMAIL_ENABLED ("false")                                               Environment Variable      
+env.APP_MULTI_D1 ("true")                                                               Environment Variable      
+env.APP_OBJECT_BACKEND ("d1")                                                           Environment Variable      
+env.APP_DATA_BACKEND ("d1")                                                             Environment Variable      
+env.APP_RUNTIME ("cloudflare")                                                          Environment Variable      
+env.INFRASTRUCTURE_COST_POLICY ("zero-cost")                                            Environment Variable      
+env.AUTH_JWT_SECRET ("(hidden)")                                                        Environment Variable      
+env.STAGING_ACCESS_SECRET ("(hidden)")                                                  Environment Variable      
+env.FIREBASE_PROJECT_ID ("(hidden)")                                                    Environment Variable      
+env.FIREBASE_API_KEY ("(hidden)")                                                       Environment Variable      
+env.FIREBASE_AUTH_DOMAIN ("(hidden)")                                                   Environment Variable      
+env.FIREBASE_APP_ID ("(hidden)")                                                        Environment Variable      
+
+Uploaded down-distance-rc3-staging-web (25.50 sec)
+No targets deployed for down-distance-rc3-staging-web (0.81 sec)
+Current Version ID: 063f7456-4c3f-484f-8eb7-e26c49b5d363
