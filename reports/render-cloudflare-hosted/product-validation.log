@@ -1,0 +1,50 @@
+Product preflight anonymous denied: HTTP 403 CPU samples 1
+Product preflight direct origin denied: HTTP 403 CPU samples 0
+Product account login: HTTP 200 CPU samples 17
+Second isolated synthetic account: HTTP 200 CPU samples 7
+Synthetic team/global feed KC: HTTP 200 CPU samples 5
+Synthetic team/global feed DEN: HTTP 200 CPU samples 5
+Synthetic team/global feed LV: HTTP 200 CPU samples 5
+Synthetic team/global feed LAC: HTTP 200 CPU samples 5
+Synthetic team/global feed DAL: HTTP 200 CPU samples 7
+Synthetic team/global feed PHI: HTTP 200 CPU samples 3
+Synthetic team/global feed NYG: HTTP 200 CPU samples 5
+Synthetic team/global feed WAS: HTTP 200 CPU samples 3
+Synthetic team/global feed GB: HTTP 200 CPU samples 5
+Synthetic team/global feed CHI: HTTP 200 CPU samples 5
+Synthetic team/global feed DET: HTTP 200 CPU samples 5
+Synthetic team/global feed MIN: HTTP 200 CPU samples 5
+Synthetic team/global feed SF: HTTP 200 CPU samples 5
+Synthetic team/global feed SEA: HTTP 200 CPU samples 5
+Synthetic team/global feed LAR: HTTP 200 CPU samples 5
+Synthetic team/global feed ARI: HTTP 200 CPU samples 5
+Synthetic team/global feed BUF: HTTP 200 CPU samples 5
+Synthetic team/global feed MIA: HTTP 200 CPU samples 5
+Synthetic team/global feed NE: HTTP 200 CPU samples 3
+Synthetic team/global feed NYJ: HTTP 200 CPU samples 5
+Synthetic team/global feed BAL: HTTP 200 CPU samples 5
+Synthetic team/global feed CIN: HTTP 200 CPU samples 5
+Synthetic team/global feed CLE: HTTP 200 CPU samples 5
+Synthetic team/global feed PIT: HTTP 200 CPU samples 5
+Synthetic team/global feed HOU: HTTP 200 CPU samples 5
+Synthetic team/global feed IND: HTTP 200 CPU samples 7
+Synthetic team/global feed JAX: HTTP 200 CPU samples 3
+Synthetic team/global feed TEN: HTTP 200 CPU samples 5
+Synthetic team/global feed ATL: HTTP 200 CPU samples 5
+Synthetic team/global feed CAR: HTTP 200 CPU samples 5
+Synthetic team/global feed NO: HTTP 200 CPU samples 5
+Synthetic team/global feed TB: HTTP 200 CPU samples 5
+Synthetic team/global feed NFL: HTTP 200 CPU samples 3
+Authorized static asset: HTTP 200 CPU samples 1
+Product SSR /the-beat: HTTP 200 CPU samples 9
+Product SSR /watch: HTTP 200 CPU samples 5
+Product SSR /three-and-out: HTTP 200 CPU samples 3
+Product SSR /huddle: HTTP 200 CPU samples 6
+Product SSR /trivia: HTTP 200 CPU samples 6
+Product SSR /game-day: HTTP 200 CPU samples 5
+Product SSR /parlay-lab/trends: HTTP 200 CPU samples 6
+Product SSR /parlay-lab/my-plays: HTTP 200 CPU samples 3
+Product API /api/content/homepage?team=KC: HTTP 200 CPU samples 13
+Product API /api/three-and-out?team=KC: HTTP 503 CPU samples 5
+Hosted validation stopped: Unexpected status: Product API /api/three-and-out?team=KC 503
+Existing gated staging Web exposure disable verified

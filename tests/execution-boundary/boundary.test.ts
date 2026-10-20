@@ -117,6 +117,19 @@ test(
         });
       };
       assert.equal((await f.dispatch(source())).status, 403);
+      const form = await f.dispatch(publicOrigin + '/__staging/access');
+      assert.equal(form.status, 200);
+      assert.equal(form.headers.get('referrer-policy'), 'same-origin');
+      for (const origin of ['null', 'https://untrusted.example']) {
+        const denied = await f.dispatch(publicOrigin + '/__staging/access', {
+          method: 'POST',
+          headers: { origin, 'content-type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({
+            credential: 'synthetic-boundary-browser-gate-secret-independent-64-characters-only',
+          }),
+        });
+        assert.equal(denied.status, 403);
+      }
       const gate = await f.dispatch(publicOrigin + '/__staging/access', {
         method: 'POST',
         redirect: 'manual',

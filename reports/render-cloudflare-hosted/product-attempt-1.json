@@ -1,0 +1,107 @@
+{
+  "checkedAtUtc": "2026-10-20T20:38:50.452Z",
+  "source": "Actual Cloudflare live-tail trace-v1 CPU milliseconds; HTTP latency and Node process CPU are separate measurements",
+  "operations": [
+    {
+      "label": "Product preflight anonymous denied",
+      "path": "/api/user/saved-content",
+      "status": 403,
+      "expected": 403,
+      "pass": true,
+      "latencyMs": 242,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/api/user/saved-content",
+          "cpuTimeMs": 0,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Product preflight direct origin denied",
+      "path": "/account",
+      "status": 403,
+      "expected": 403,
+      "pass": true,
+      "latencyMs": 205,
+      "cacheControl": "private, no-store",
+      "cpuSamples": []
+    },
+    {
+      "label": "Product account login",
+      "path": "/api/auth/firebase/session",
+      "status": 401,
+      "expected": 200,
+      "pass": false,
+      "latencyMs": 660,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/api/auth/firebase/session",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        }
+      ]
+    }
+  ],
+  "traces": [
+    {
+      "role": "web",
+      "path": "/api/user/saved-content",
+      "operation": "Product preflight anonymous denied",
+      "outcome": "ok",
+      "status": 403,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 0,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/api/auth/firebase/session",
+      "operation": "Product account login",
+      "outcome": "ok",
+      "status": 401,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 568,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product account login",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 46,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product account login",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 257,
+      "exceptions": []
+    }
+  ],
+  "stopReason": "Unexpected status: Product account login 401",
+  "thresholdMs": 10,
+  "passed": false
+}

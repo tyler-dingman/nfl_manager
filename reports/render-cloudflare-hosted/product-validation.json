@@ -1,0 +1,4474 @@
+{
+  "checkedAtUtc": "2026-10-20T20:44:01.761Z",
+  "source": "Actual Cloudflare live-tail trace-v1 CPU milliseconds; HTTP latency and Node process CPU are separate measurements",
+  "operations": [
+    {
+      "label": "Product preflight anonymous denied",
+      "path": "/api/user/saved-content",
+      "status": 403,
+      "expected": 403,
+      "pass": true,
+      "latencyMs": 300,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/api/user/saved-content",
+          "cpuTimeMs": 0,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Product preflight direct origin denied",
+      "path": "/account",
+      "status": 403,
+      "expected": 403,
+      "pass": true,
+      "latencyMs": 178,
+      "cacheControl": "private, no-store",
+      "cpuSamples": []
+    },
+    {
+      "label": "Product account login",
+      "path": "/api/auth/firebase/session",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 1364,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 3,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 6,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 3,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/auth/firebase/session",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Second isolated synthetic account",
+      "path": "/api/auth/firebase/session",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 1075,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/auth/firebase/session",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Synthetic team/global feed KC",
+      "path": "/api/content/huddle",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 1624,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/content/huddle",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Synthetic team/global feed DEN",
+      "path": "/api/content/huddle",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 889,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/content/huddle",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Synthetic team/global feed LV",
+      "path": "/api/content/huddle",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 859,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/content/huddle",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Synthetic team/global feed LAC",
+      "path": "/api/content/huddle",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 850,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/content/huddle",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Synthetic team/global feed DAL",
+      "path": "/api/content/huddle",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 1258,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/content/huddle",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Synthetic team/global feed PHI",
+      "path": "/api/content/huddle",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 797,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/content/huddle",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Synthetic team/global feed NYG",
+      "path": "/api/content/huddle",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 836,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/content/huddle",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Synthetic team/global feed WAS",
+      "path": "/api/content/huddle",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 785,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/content/huddle",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Synthetic team/global feed GB",
+      "path": "/api/content/huddle",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 1201,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/content/huddle",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Synthetic team/global feed CHI",
+      "path": "/api/content/huddle",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 801,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/content/huddle",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Synthetic team/global feed DET",
+      "path": "/api/content/huddle",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 801,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/content/huddle",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Synthetic team/global feed MIN",
+      "path": "/api/content/huddle",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 782,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/content/huddle",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Synthetic team/global feed SF",
+      "path": "/api/content/huddle",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 1134,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/content/huddle",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Synthetic team/global feed SEA",
+      "path": "/api/content/huddle",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 881,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/content/huddle",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Synthetic team/global feed LAR",
+      "path": "/api/content/huddle",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 839,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/content/huddle",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Synthetic team/global feed ARI",
+      "path": "/api/content/huddle",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 773,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/content/huddle",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Synthetic team/global feed BUF",
+      "path": "/api/content/huddle",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 1165,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/content/huddle",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Synthetic team/global feed MIA",
+      "path": "/api/content/huddle",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 887,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/content/huddle",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Synthetic team/global feed NE",
+      "path": "/api/content/huddle",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 840,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/content/huddle",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Synthetic team/global feed NYJ",
+      "path": "/api/content/huddle",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 787,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/content/huddle",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Synthetic team/global feed BAL",
+      "path": "/api/content/huddle",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 1141,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/content/huddle",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Synthetic team/global feed CIN",
+      "path": "/api/content/huddle",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 895,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/content/huddle",
+          "cpuTimeMs": 0,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Synthetic team/global feed CLE",
+      "path": "/api/content/huddle",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 839,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/content/huddle",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Synthetic team/global feed PIT",
+      "path": "/api/content/huddle",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 921,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 4,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/content/huddle",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Synthetic team/global feed HOU",
+      "path": "/api/content/huddle",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 1376,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/content/huddle",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Synthetic team/global feed IND",
+      "path": "/api/content/huddle",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 2135,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/content/huddle",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Synthetic team/global feed JAX",
+      "path": "/api/content/huddle",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 770,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/content/huddle",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Synthetic team/global feed TEN",
+      "path": "/api/content/huddle",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 748,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/content/huddle",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Synthetic team/global feed ATL",
+      "path": "/api/content/huddle",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 1120,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/content/huddle",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Synthetic team/global feed CAR",
+      "path": "/api/content/huddle",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 807,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/content/huddle",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Synthetic team/global feed NO",
+      "path": "/api/content/huddle",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 839,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 3,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/content/huddle",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Synthetic team/global feed TB",
+      "path": "/api/content/huddle",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 758,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/content/huddle",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Synthetic team/global feed NFL",
+      "path": "/api/content/huddle",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 758,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/content/huddle",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Authorized static asset",
+      "path": "/images/down_distance_logo.png",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 629,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/images/down_distance_logo.png",
+          "cpuTimeMs": 0,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Product SSR /the-beat",
+      "path": "/the-beat",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 1542,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/the-beat",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Product SSR /watch",
+      "path": "/watch",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 924,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 0,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/watch",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Product SSR /three-and-out",
+      "path": "/three-and-out",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 934,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/three-and-out",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Product SSR /huddle",
+      "path": "/huddle",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 902,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/huddle",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/access",
+          "cpuTimeMs": 0,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Product SSR /trivia",
+      "path": "/trivia",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 1023,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/trivia",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/access",
+          "cpuTimeMs": 0,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Product SSR /game-day",
+      "path": "/game-day",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 1043,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/game-day",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Product SSR /parlay-lab/trends",
+      "path": "/parlay-lab/trends",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 913,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/parlay-lab/trends",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/access",
+          "cpuTimeMs": 0,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Product SSR /parlay-lab/my-plays",
+      "path": "/parlay-lab/my-plays",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 969,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/parlay-lab/my-plays",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Product API /api/content/homepage?team=KC",
+      "path": "/api/content/homepage",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 1261,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 0,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 0,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/content/homepage",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Product API /api/three-and-out?team=KC",
+      "path": "/api/three-and-out",
+      "status": 503,
+      "expected": 200,
+      "pass": false,
+      "latencyMs": 949,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/three-and-out",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    }
+  ],
+  "traces": [
+    {
+      "role": "web",
+      "path": "/api/user/saved-content",
+      "operation": "Product preflight anonymous denied",
+      "outcome": "ok",
+      "status": 403,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 1,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product account login",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 3,
+      "wallTimeMs": 196,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product account login",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 6,
+      "wallTimeMs": 58,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product account login",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 78,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product account login",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 28,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product account login",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 73,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product account login",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 26,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product account login",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 73,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product account login",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 28,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product account login",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 24,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product account login",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 68,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product account login",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 3,
+      "wallTimeMs": 45,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product account login",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 94,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product account login",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 29,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product account login",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 82,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product account login",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 58,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product account login",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 109,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/api/auth/firebase/session",
+      "operation": "Product account login",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 1268,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Second isolated synthetic account",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 101,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Second isolated synthetic account",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 50,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Second isolated synthetic account",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 26,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Second isolated synthetic account",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 70,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Second isolated synthetic account",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 26,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Second isolated synthetic account",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 71,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/api/auth/firebase/session",
+      "operation": "Second isolated synthetic account",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 985,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed KC",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 46,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed KC",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 94,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed KC",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 134,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed KC",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 89,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/api/content/huddle",
+      "operation": "Synthetic team/global feed KC",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 1528,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed DEN",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 49,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed DEN",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 96,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed DEN",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 35,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed DEN",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 84,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/api/content/huddle",
+      "operation": "Synthetic team/global feed DEN",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 740,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed LV",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 98,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed LV",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 47,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed LV",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 31,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed LV",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 78,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/api/content/huddle",
+      "operation": "Synthetic team/global feed LV",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 758,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed LAC",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 46,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed LAC",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 96,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed LAC",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 27,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed LAC",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 77,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/api/content/huddle",
+      "operation": "Synthetic team/global feed LAC",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 758,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed DAL",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 44,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed DAL",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 89,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed DAL",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 34,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed DAL",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 79,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed DAL",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 86,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed DAL",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 35,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/api/content/huddle",
+      "operation": "Synthetic team/global feed DAL",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 1168,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed PHI",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 77,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed PHI",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 30,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/api/content/huddle",
+      "operation": "Synthetic team/global feed PHI",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 728,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed NYG",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 51,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed NYG",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 99,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed NYG",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 31,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed NYG",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 76,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/api/content/huddle",
+      "operation": "Synthetic team/global feed NYG",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 726,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed WAS",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 47,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed WAS",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 101,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/api/content/huddle",
+      "operation": "Synthetic team/global feed WAS",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 712,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed GB",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 94,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed GB",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 46,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed GB",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 453,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed GB",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 408,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/api/content/huddle",
+      "operation": "Synthetic team/global feed GB",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 1086,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed CHI",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 47,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed CHI",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 92,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed CHI",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 32,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed CHI",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 81,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/api/content/huddle",
+      "operation": "Synthetic team/global feed CHI",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 726,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed DET",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 49,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed DET",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 114,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed DET",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 80,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed DET",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 32,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/api/content/huddle",
+      "operation": "Synthetic team/global feed DET",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 726,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed MIN",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 99,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed MIN",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 45,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed MIN",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 26,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed MIN",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 73,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/api/content/huddle",
+      "operation": "Synthetic team/global feed MIN",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 708,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed SF",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 44,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed SF",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 93,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed SF",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 389,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed SF",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 433,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/api/content/huddle",
+      "operation": "Synthetic team/global feed SF",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 1066,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed SEA",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 93,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed SEA",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 43,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed SEA",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 75,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed SEA",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 26,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/api/content/huddle",
+      "operation": "Synthetic team/global feed SEA",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 715,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed LAR",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 91,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed LAR",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 44,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed LAR",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 31,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed LAR",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 83,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/api/content/huddle",
+      "operation": "Synthetic team/global feed LAR",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 682,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed ARI",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 43,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed ARI",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 95,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed ARI",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 29,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed ARI",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 87,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/api/content/huddle",
+      "operation": "Synthetic team/global feed ARI",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 705,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed BUF",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 47,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed BUF",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 95,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed BUF",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 40,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed BUF",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 86,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/api/content/huddle",
+      "operation": "Synthetic team/global feed BUF",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 1094,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed MIA",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 51,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed MIA",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 98,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed MIA",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 26,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed MIA",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 69,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/api/content/huddle",
+      "operation": "Synthetic team/global feed MIA",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 706,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed NE",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 52,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed NE",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 108,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/api/content/huddle",
+      "operation": "Synthetic team/global feed NE",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 705,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed NYJ",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 47,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed NYJ",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 95,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed NYJ",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 28,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed NYJ",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 78,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/api/content/huddle",
+      "operation": "Synthetic team/global feed NYJ",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 691,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed BAL",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 92,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed BAL",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 41,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed BAL",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 412,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed BAL",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 459,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/api/content/huddle",
+      "operation": "Synthetic team/global feed BAL",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 1073,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed CIN",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 92,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed CIN",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 71,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed CIN",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 44,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed CIN",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 26,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/api/content/huddle",
+      "operation": "Synthetic team/global feed CIN",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 702,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed CLE",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 45,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed CLE",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 94,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed CLE",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 81,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed CLE",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 32,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/api/content/huddle",
+      "operation": "Synthetic team/global feed CLE",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 700,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed PIT",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 225,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed PIT",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 4,
+      "wallTimeMs": 173,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed PIT",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 29,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed PIT",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 88,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/api/content/huddle",
+      "operation": "Synthetic team/global feed PIT",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 850,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed HOU",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 49,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed HOU",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 95,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed HOU",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 589,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed HOU",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 638,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/api/content/huddle",
+      "operation": "Synthetic team/global feed HOU",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 1244,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed IND",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 46,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed IND",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 96,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed IND",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 83,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed IND",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 34,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed IND",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 30,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed IND",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 77,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/api/content/huddle",
+      "operation": "Synthetic team/global feed IND",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 2065,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed JAX",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 46,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed JAX",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 93,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/api/content/huddle",
+      "operation": "Synthetic team/global feed JAX",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 680,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed TEN",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 101,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed TEN",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 75,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed TEN",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 51,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed TEN",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 25,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/api/content/huddle",
+      "operation": "Synthetic team/global feed TEN",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 678,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed ATL",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 44,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed ATL",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 92,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed ATL",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 396,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed ATL",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 441,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/api/content/huddle",
+      "operation": "Synthetic team/global feed ATL",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 1047,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed CAR",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 92,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed CAR",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 46,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed CAR",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 31,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed CAR",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 82,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/api/content/huddle",
+      "operation": "Synthetic team/global feed CAR",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 711,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed NO",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 3,
+      "wallTimeMs": 45,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed NO",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 90,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed NO",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 29,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed NO",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 72,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/api/content/huddle",
+      "operation": "Synthetic team/global feed NO",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 682,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed TB",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 42,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed TB",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 90,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed TB",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 34,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed TB",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 79,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/api/content/huddle",
+      "operation": "Synthetic team/global feed TB",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 684,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed NFL",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 45,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Synthetic team/global feed NFL",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 91,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/api/content/huddle",
+      "operation": "Synthetic team/global feed NFL",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 594,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/images/down_distance_logo.png",
+      "operation": "Authorized static asset",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 311,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product SSR /the-beat",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 98,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product SSR /the-beat",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 50,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product SSR /the-beat",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 47,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product SSR /the-beat",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 98,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product SSR /the-beat",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 26,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product SSR /the-beat",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 80,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product SSR /the-beat",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 25,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product SSR /the-beat",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 73,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/the-beat",
+      "operation": "Product SSR /the-beat",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 1375,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product SSR /watch",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 102,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product SSR /watch",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 44,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product SSR /watch",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 44,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product SSR /watch",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 89,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/watch",
+      "operation": "Product SSR /watch",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 850,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product SSR /three-and-out",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 43,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product SSR /three-and-out",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 89,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/three-and-out",
+      "operation": "Product SSR /three-and-out",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 864,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product SSR /huddle",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 96,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product SSR /huddle",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 47,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product SSR /huddle",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 41,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product SSR /huddle",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 91,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/huddle",
+      "operation": "Product SSR /huddle",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 829,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/access",
+      "operation": "Product SSR /huddle",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 0,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product SSR /trivia",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 90,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product SSR /trivia",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 45,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product SSR /trivia",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 109,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product SSR /trivia",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 46,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/trivia",
+      "operation": "Product SSR /trivia",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 856,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/access",
+      "operation": "Product SSR /trivia",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 0,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product SSR /game-day",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 95,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product SSR /game-day",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 42,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product SSR /game-day",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 98,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product SSR /game-day",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 45,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/game-day",
+      "operation": "Product SSR /game-day",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 845,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product SSR /parlay-lab/trends",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 94,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product SSR /parlay-lab/trends",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 45,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product SSR /parlay-lab/trends",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 90,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product SSR /parlay-lab/trends",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 45,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/parlay-lab/trends",
+      "operation": "Product SSR /parlay-lab/trends",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 836,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/access",
+      "operation": "Product SSR /parlay-lab/trends",
+      "outcome": "ok",
+      "status": 403,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 1,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product SSR /parlay-lab/my-plays",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 91,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product SSR /parlay-lab/my-plays",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 43,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/parlay-lab/my-plays",
+      "operation": "Product SSR /parlay-lab/my-plays",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 895,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product API /api/content/homepage?team=KC",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 87,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product API /api/content/homepage?team=KC",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 41,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product API /api/content/homepage?team=KC",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 126,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product API /api/content/homepage?team=KC",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 75,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product API /api/content/homepage?team=KC",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 78,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product API /api/content/homepage?team=KC",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 68,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product API /api/content/homepage?team=KC",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 27,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product API /api/content/homepage?team=KC",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 24,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product API /api/content/homepage?team=KC",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 79,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product API /api/content/homepage?team=KC",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 21,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product API /api/content/homepage?team=KC",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 87,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product API /api/content/homepage?team=KC",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 41,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/api/content/homepage",
+      "operation": "Product API /api/content/homepage?team=KC",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 1189,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product API /api/three-and-out?team=KC",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 92,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product API /api/three-and-out?team=KC",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 43,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product API /api/three-and-out?team=KC",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 72,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/api/three-and-out",
+      "operation": "Product API /api/three-and-out?team=KC",
+      "outcome": "ok",
+      "status": 503,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 878,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product API /api/three-and-out?team=KC",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 23,
+      "exceptions": []
+    }
+  ],
+  "stopReason": "Unexpected status: Product API /api/three-and-out?team=KC 503",
+  "thresholdMs": 10,
+  "passed": false
+}

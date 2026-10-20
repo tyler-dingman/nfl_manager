@@ -1,0 +1,31 @@
+{
+  "source": "npm audit --omit=dev against current package lock; metadata-only registry request",
+  "counts": {
+    "info": 0,
+    "low": 0,
+    "moderate": 18,
+    "high": 51,
+    "critical": 2,
+    "total": 71
+  },
+  "criticalDependencyPaths": {
+    "shell-quote": "react-native -> react-devtools-core -> shell-quote",
+    "tar": "expo -> @expo/cli -> tar / cacache"
+  },
+  "assessment": "Critical findings originate in installed mobile developer tooling, not the Node staging starter or API route imports. No Expo/React Native tool is executed by the Node start command. This is not a clean dependency audit or a beta-readiness PASS. No dependency was modified; shared native upgrades require separate validation.",
+  "directAffectedPackages": {
+    "next": {
+      "severity": "moderate",
+      "via": [
+        "postcss"
+      ]
+    },
+    "firebase": {
+      "severity": "high",
+      "via": [
+        "@firebase/firestore",
+        "@firebase/firestore-compat"
+      ]
+    }
+  }
+}

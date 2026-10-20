@@ -1,0 +1,5 @@
+Product preflight anonymous denied: HTTP 403 CPU samples 1
+Product preflight direct origin denied: HTTP 403 CPU samples 0
+Product account login: HTTP 401 CPU samples 3
+Hosted validation stopped: Unexpected status: Product account login 401
+Existing gated staging Web exposure disable verified

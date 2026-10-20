@@ -1,0 +1,24 @@
+
+ ⛅️ wrangler 4.151.1 (update available 4.151.3)
+───────────────────────────────────────────────
+Total Upload: 5.76 KiB / gzip: 2.76 KiB
+Worker Startup Time: 1 ms
+Your Worker has access to the following bindings:
+Binding                                                                       Resource
+env.D1_TEAM_1 (dd-rc3-staging-1)                                              D1 Database
+env.D1_TEAM_2 (dd-rc3-staging-2)                                              D1 Database
+env.D1_TEAM_3 (dd-rc3-staging-3)                                              D1 Database
+env.D1_TEAM_4 (dd-rc3-staging-4)                                              D1 Database
+env.D1_TEAM_5 (dd-rc3-staging-5)                                              D1 Database
+env.D1_TEAM_6 (dd-rc3-staging-6)                                              D1 Database
+env.D1_TEAM_7 (dd-rc3-staging-7)                                              D1 Database
+env.D1_TEAM_8 (dd-rc3-staging-8)                                              D1 Database
+env.D1_USERS (dd-rc3-staging-9)                                               D1 Database
+env.D1_SHARED (dd-rc3-staging-10)                                             D1 Database
+env.DD_TRANSACTION_BOUNDARY ("true")                                          Environment Variable
+env.STAGING_ACCESS_HOST ("down-distance-rc3-staging-web.tdingma...")          Environment Variable
+env.DD_TRANSACTION_SECRET ("(hidden)")                                        Environment Variable
+
+Uploaded down-distance-rc3-staging-api (2.66 sec)
+No targets deployed for down-distance-rc3-staging-api (1.16 sec)
+Current Version ID: 9ddd70d2-9728-4bc0-8914-fe328e3c002e

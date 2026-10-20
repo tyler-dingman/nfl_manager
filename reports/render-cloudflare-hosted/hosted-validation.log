@@ -1,0 +1,36 @@
+Direct origin denied /: HTTP 403 CPU samples 0
+Direct origin denied /account: HTTP 403 CPU samples 0
+Direct origin denied /api/auth/me: HTTP 403 CPU samples 0
+Direct origin denied /_next/static/test.js: HTTP 403 CPU samples 0
+Forged signing key denied: HTTP 403 CPU samples 0
+Expired origin assertion denied: HTTP 403 CPU samples 0
+Anonymous edge denied /: HTTP 403 CPU samples 1
+Anonymous edge denied /account: HTTP 403 CPU samples 1
+Anonymous edge denied /api/auth/me: HTTP 403 CPU samples 1
+Anonymous edge denied /logos/nfl.png: HTTP 403 CPU samples 1
+Anonymous edge denied /__staging/transaction: HTTP 403 CPU samples 1
+Invalid staging credential denied: HTTP 401 CPU samples 1
+Valid staging credential accepted: HTTP 303 CPU samples 1
+Valid origin transport with signed-out identity: HTTP 401 CPU samples 2
+Replayed origin assertion denied: HTTP 403 CPU samples 2
+Runtime observer normal audience denied: HTTP 403 CPU samples 0
+Runtime observation before auth: HTTP 200 CPU samples 2
+Signed-out protected page redirect: HTTP 307 CPU samples 3
+Authorized login page: HTTP 200 CPU samples 3
+Firebase identity exchange: HTTP 200 CPU samples 15
+Session lookup sample 1: HTTP 200 CPU samples 3
+Session lookup sample 2: HTTP 200 CPU samples 1
+Session lookup sample 3: HTTP 200 CPU samples 5
+Refreshed identity exchange 1: HTTP 200 CPU samples 5
+Refreshed identity exchange 2: HTTP 200 CPU samples 5
+Refreshed identity exchange 3: HTTP 200 CPU samples 5
+Authenticated SSR /: HTTP 200 CPU samples 5
+Authenticated SSR /front-office: HTTP 200 CPU samples 5
+Authenticated SSR /parlay-lab: HTTP 200 CPU samples 5
+Authenticated SSR /account: HTTP 200 CPU samples 5
+Invalid Firebase token rejected: HTTP 401 CPU samples 3
+Global NFL feed: HTTP 200 CPU samples 9
+Runtime observation after auth: HTTP 200 CPU samples 2
+Logout: HTTP 200 CPU samples 5
+Revoked session rejected: HTTP 401 CPU samples 5
+Existing gated staging Web exposure disable verified

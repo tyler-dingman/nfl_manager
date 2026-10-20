@@ -23,7 +23,9 @@ const headers = {
     "default-src 'none'; form-action 'self'; base-uri 'none'; frame-ancestors 'none'",
   'X-Content-Type-Options': 'nosniff',
   'X-Frame-Options': 'DENY',
-  'Referrer-Policy': 'no-referrer',
+  // Preserve the Origin on same-origin HTML form POSTs. no-referrer makes
+  // browsers send Origin:null, which the strict CSRF check correctly rejects.
+  'Referrer-Policy': 'same-origin',
   'X-Robots-Tag': 'noindex, nofollow, noarchive',
 };
 const reply = (status: number, text = 'Private staging access required') =>

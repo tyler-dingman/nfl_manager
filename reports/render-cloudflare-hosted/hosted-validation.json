@@ -1,0 +1,2067 @@
+{
+  "checkedAtUtc": "2026-10-20T20:36:49.788Z",
+  "source": "Actual Cloudflare live-tail trace-v1 CPU milliseconds; HTTP latency and Node process CPU are separate measurements",
+  "operations": [
+    {
+      "label": "Direct origin denied /",
+      "path": "/",
+      "status": 403,
+      "expected": 403,
+      "pass": true,
+      "latencyMs": 201,
+      "cacheControl": "private, no-store",
+      "cpuSamples": []
+    },
+    {
+      "label": "Direct origin denied /account",
+      "path": "/account",
+      "status": 403,
+      "expected": 403,
+      "pass": true,
+      "latencyMs": 95,
+      "cacheControl": "private, no-store",
+      "cpuSamples": []
+    },
+    {
+      "label": "Direct origin denied /api/auth/me",
+      "path": "/api/auth/me",
+      "status": 403,
+      "expected": 403,
+      "pass": true,
+      "latencyMs": 66,
+      "cacheControl": "private, no-store",
+      "cpuSamples": []
+    },
+    {
+      "label": "Direct origin denied /_next/static/test.js",
+      "path": "/_next/static/test.js",
+      "status": 403,
+      "expected": 403,
+      "pass": true,
+      "latencyMs": 95,
+      "cacheControl": "private, no-store",
+      "cpuSamples": []
+    },
+    {
+      "label": "Forged signing key denied",
+      "path": "/api/auth/me",
+      "status": 403,
+      "expected": 403,
+      "pass": true,
+      "latencyMs": 83,
+      "cacheControl": "private, no-store",
+      "cpuSamples": []
+    },
+    {
+      "label": "Expired origin assertion denied",
+      "path": "/api/auth/me",
+      "status": 403,
+      "expected": 403,
+      "pass": true,
+      "latencyMs": 71,
+      "cacheControl": "private, no-store",
+      "cpuSamples": []
+    },
+    {
+      "label": "Anonymous edge denied /",
+      "path": "/",
+      "status": 403,
+      "expected": 403,
+      "pass": true,
+      "latencyMs": 313,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/",
+          "cpuTimeMs": 0,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Anonymous edge denied /account",
+      "path": "/account",
+      "status": 403,
+      "expected": 403,
+      "pass": true,
+      "latencyMs": 75,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/account",
+          "cpuTimeMs": 0,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Anonymous edge denied /api/auth/me",
+      "path": "/api/auth/me",
+      "status": 403,
+      "expected": 403,
+      "pass": true,
+      "latencyMs": 84,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/api/auth/me",
+          "cpuTimeMs": 0,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Anonymous edge denied /logos/nfl.png",
+      "path": "/logos/nfl.png",
+      "status": 403,
+      "expected": 403,
+      "pass": true,
+      "latencyMs": 85,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/logos/nfl.png",
+          "cpuTimeMs": 0,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Anonymous edge denied /__staging/transaction",
+      "path": "/__staging/transaction",
+      "status": 403,
+      "expected": 403,
+      "pass": true,
+      "latencyMs": 93,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 0,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Internal Worker private api",
+      "status": 404,
+      "pass": true
+    },
+    {
+      "label": "Internal Worker private password",
+      "status": 404,
+      "pass": true
+    },
+    {
+      "label": "Internal Worker private application",
+      "status": 404,
+      "pass": true
+    },
+    {
+      "label": "Internal Worker private odds-processor",
+      "status": 404,
+      "pass": true
+    },
+    {
+      "label": "Invalid staging credential denied",
+      "path": "/__staging/access",
+      "status": 401,
+      "expected": 401,
+      "pass": true,
+      "latencyMs": 677,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/__staging/access",
+          "cpuTimeMs": 3,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Valid staging credential accepted",
+      "path": "/__staging/access",
+      "status": 303,
+      "expected": 303,
+      "pass": true,
+      "latencyMs": 257,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/__staging/access",
+          "cpuTimeMs": 3,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Valid origin transport with signed-out identity",
+      "path": "/api/auth/me",
+      "status": 401,
+      "expected": 401,
+      "pass": true,
+      "latencyMs": 486,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 3,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 3,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Replayed origin assertion denied",
+      "path": "/api/auth/me",
+      "status": 403,
+      "expected": 403,
+      "pass": true,
+      "latencyMs": 190,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Runtime observer normal audience denied",
+      "path": "/__staging/runtime-observation",
+      "status": 403,
+      "expected": 403,
+      "pass": true,
+      "latencyMs": 70,
+      "cacheControl": "private, no-store",
+      "cpuSamples": []
+    },
+    {
+      "label": "Runtime observation before auth",
+      "path": "/__staging/runtime-observation",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 235,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ],
+      "runtime": {
+        "rssBytes": 300945408,
+        "heapUsedBytes": 176076616,
+        "heapTotalBytes": 186060800,
+        "externalBytes": 3994921,
+        "processCpuUserUs": 4424049,
+        "processCpuSystemUs": 403461,
+        "uptimeSeconds": 115.804176853,
+        "nodeVersion": "v22.23.3"
+      }
+    },
+    {
+      "label": "Signed-out protected page redirect",
+      "path": "/",
+      "status": 307,
+      "expected": 307,
+      "pass": true,
+      "latencyMs": 1108,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/",
+          "cpuTimeMs": 3,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Authorized login page",
+      "path": "/login",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 395,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/login",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Firebase Spark synthetic registration",
+      "pass": true,
+      "latencyMs": 635,
+      "cloudflareCpuMs": null
+    },
+    {
+      "label": "Firebase identity exchange",
+      "path": "/api/auth/firebase/session",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 1284,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 0,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/auth/firebase/session",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Session lookup sample 1",
+      "path": "/api/auth/me",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 802,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 3,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/auth/me",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Session lookup sample 2",
+      "path": "/api/auth/me",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 819,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/api/auth/me",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Session lookup sample 3",
+      "path": "/api/auth/me",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 803,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 0,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/auth/me",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Refreshed identity exchange 1",
+      "path": "/api/auth/firebase/session",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 948,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 0,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 0,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/auth/firebase/session",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Refreshed identity exchange 2",
+      "path": "/api/auth/firebase/session",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 913,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/auth/firebase/session",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Refreshed identity exchange 3",
+      "path": "/api/auth/firebase/session",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 975,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/auth/firebase/session",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Authenticated SSR /",
+      "path": "/",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 940,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 0,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Authenticated SSR /front-office",
+      "path": "/front-office",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 939,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 0,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 0,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/front-office",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Authenticated SSR /parlay-lab",
+      "path": "/parlay-lab",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 933,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/parlay-lab",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Authenticated SSR /account",
+      "path": "/account",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 957,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/account",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Invalid Firebase token rejected",
+      "path": "/api/auth/firebase/session",
+      "status": 401,
+      "expected": 401,
+      "pass": true,
+      "latencyMs": 212,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/auth/firebase/session",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Global NFL feed",
+      "path": "/api/content/huddle",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 3301,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/content/huddle",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Runtime observation after auth",
+      "path": "/__staging/runtime-observation",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 285,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ],
+      "runtime": {
+        "rssBytes": 312217600,
+        "heapUsedBytes": 182224744,
+        "heapTotalBytes": 197017600,
+        "externalBytes": 4377058,
+        "processCpuUserUs": 5562589,
+        "processCpuSystemUs": 465213,
+        "uptimeSeconds": 148.721894881,
+        "nodeVersion": "v22.23.3"
+      }
+    },
+    {
+      "label": "Logout",
+      "path": "/api/auth/logout",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 418,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 0,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/auth/logout",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Revoked session rejected",
+      "path": "/api/auth/me",
+      "status": 401,
+      "expected": 401,
+      "pass": true,
+      "latencyMs": 416,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 0,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/auth/me",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    }
+  ],
+  "traces": [
+    {
+      "role": "web",
+      "path": "/",
+      "operation": "Anonymous edge denied /",
+      "outcome": "ok",
+      "status": 403,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 0,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/account",
+      "operation": "Anonymous edge denied /account",
+      "outcome": "ok",
+      "status": 403,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 0,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/api/auth/me",
+      "operation": "Anonymous edge denied /api/auth/me",
+      "outcome": "ok",
+      "status": 403,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 0,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/logos/nfl.png",
+      "operation": "Anonymous edge denied /logos/nfl.png",
+      "outcome": "ok",
+      "status": 403,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 0,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Anonymous edge denied /__staging/transaction",
+      "outcome": "ok",
+      "status": 403,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 0,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/access",
+      "operation": "Invalid staging credential denied",
+      "outcome": "ok",
+      "status": 401,
+      "cpuTimeMs": 3,
+      "wallTimeMs": 587,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/access",
+      "operation": "Valid staging credential accepted",
+      "outcome": "ok",
+      "status": 303,
+      "cpuTimeMs": 3,
+      "wallTimeMs": 178,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Valid origin transport with signed-out identity",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 3,
+      "wallTimeMs": 46,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Valid origin transport with signed-out identity",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 3,
+      "wallTimeMs": 110,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Replayed origin assertion denied",
+      "outcome": "ok",
+      "status": 409,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 30,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Replayed origin assertion denied",
+      "outcome": "ok",
+      "status": 409,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 86,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Runtime observation before auth",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 63,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Runtime observation before auth",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 114,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Signed-out protected page redirect",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 51,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Signed-out protected page redirect",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 102,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/",
+      "operation": "Signed-out protected page redirect",
+      "outcome": "ok",
+      "status": 307,
+      "cpuTimeMs": 3,
+      "wallTimeMs": 894,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Authorized login page",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 45,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Authorized login page",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 90,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/login",
+      "operation": "Authorized login page",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 305,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Firebase identity exchange",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 102,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Firebase identity exchange",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 46,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Firebase identity exchange",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 23,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Firebase identity exchange",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 72,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Firebase identity exchange",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 20,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Firebase identity exchange",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 67,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Firebase identity exchange",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 77,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Firebase identity exchange",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 27,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Firebase identity exchange",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 28,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Firebase identity exchange",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 79,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Firebase identity exchange",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 48,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Firebase identity exchange",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 95,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Firebase identity exchange",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 73,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Firebase identity exchange",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 27,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/api/auth/firebase/session",
+      "operation": "Firebase identity exchange",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 1198,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Session lookup sample 1",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 45,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Session lookup sample 1",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 3,
+      "wallTimeMs": 102,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/api/auth/me",
+      "operation": "Session lookup sample 1",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 730,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/api/auth/me",
+      "operation": "Session lookup sample 2",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 753,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Session lookup sample 3",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 93,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Session lookup sample 3",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 46,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Session lookup sample 3",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 69,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Session lookup sample 3",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 21,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/api/auth/me",
+      "operation": "Session lookup sample 3",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 722,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Refreshed identity exchange 1",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 89,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Refreshed identity exchange 1",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 43,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Refreshed identity exchange 1",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 25,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Refreshed identity exchange 1",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 79,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/api/auth/firebase/session",
+      "operation": "Refreshed identity exchange 1",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 859,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Refreshed identity exchange 2",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 42,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Refreshed identity exchange 2",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 91,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Refreshed identity exchange 2",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 77,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Refreshed identity exchange 2",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 27,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/api/auth/firebase/session",
+      "operation": "Refreshed identity exchange 2",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 815,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Refreshed identity exchange 3",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 89,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Refreshed identity exchange 3",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 45,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Refreshed identity exchange 3",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 23,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Refreshed identity exchange 3",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 72,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/api/auth/firebase/session",
+      "operation": "Refreshed identity exchange 3",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 853,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Authenticated SSR /",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 45,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Authenticated SSR /",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 92,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Authenticated SSR /",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 95,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Authenticated SSR /",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 45,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/",
+      "operation": "Authenticated SSR /",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 838,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Authenticated SSR /front-office",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 91,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Authenticated SSR /front-office",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 44,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Authenticated SSR /front-office",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 44,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Authenticated SSR /front-office",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 93,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/front-office",
+      "operation": "Authenticated SSR /front-office",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 854,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Authenticated SSR /parlay-lab",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 47,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Authenticated SSR /parlay-lab",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 99,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Authenticated SSR /parlay-lab",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 45,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Authenticated SSR /parlay-lab",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 93,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/parlay-lab",
+      "operation": "Authenticated SSR /parlay-lab",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 863,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Authenticated SSR /account",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 100,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Authenticated SSR /account",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 55,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Authenticated SSR /account",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 95,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Authenticated SSR /account",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 43,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/account",
+      "operation": "Authenticated SSR /account",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 863,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Invalid Firebase token rejected",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 43,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Invalid Firebase token rejected",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 90,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/api/auth/firebase/session",
+      "operation": "Invalid Firebase token rejected",
+      "outcome": "ok",
+      "status": 401,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 147,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Global NFL feed",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 98,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Global NFL feed",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 51,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Global NFL feed",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 461,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Global NFL feed",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 414,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Global NFL feed",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 77,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Global NFL feed",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 28,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Global NFL feed",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 83,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Global NFL feed",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 35,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/api/content/huddle",
+      "operation": "Global NFL feed",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 3220,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Runtime observation after auth",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 97,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Runtime observation after auth",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 47,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Logout",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 58,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Logout",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 104,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Logout",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 74,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Logout",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 21,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/api/auth/logout",
+      "operation": "Logout",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 344,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Revoked session rejected",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 44,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Revoked session rejected",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 93,
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Revoked session rejected",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 27,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Revoked session rejected",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 79,
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "path": "/api/auth/me",
+      "operation": "Revoked session rejected",
+      "outcome": "ok",
+      "status": 401,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 335,
+      "exceptions": []
+    }
+  ],
+  "stopReason": null,
+  "thresholdMs": 10,
+  "passed": true
+}

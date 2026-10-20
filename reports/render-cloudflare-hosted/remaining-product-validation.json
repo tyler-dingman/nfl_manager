@@ -1,0 +1,936 @@
+{
+  "checkedAtUtc": "2026-10-20T20:46:45.266Z",
+  "source": "Actual Cloudflare live-tail trace-v1 CPU milliseconds; HTTP latency and Node process CPU are separate measurements",
+  "operations": [
+    {
+      "label": "Product preflight anonymous denied",
+      "path": "/api/user/saved-content",
+      "status": 403,
+      "expected": 403,
+      "pass": true,
+      "latencyMs": 218,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/api/user/saved-content",
+          "cpuTimeMs": 0,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Product preflight direct origin denied",
+      "path": "/account",
+      "status": 403,
+      "expected": 403,
+      "pass": true,
+      "latencyMs": 203,
+      "cacheControl": "private, no-store",
+      "cpuSamples": []
+    },
+    {
+      "label": "Product account login",
+      "path": "/api/auth/firebase/session",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 1294,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 0,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/auth/firebase/session",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Second isolated synthetic account",
+      "path": "/api/auth/firebase/session",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 1074,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/auth/firebase/session",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Product API /api/trivia/daily?team=KC",
+      "path": "/api/trivia/daily",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 1220,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 0,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/trivia/daily",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Product API /api/parlay-lab/events",
+      "path": "/api/parlay-lab/events",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 487,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 0,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/parlay-lab/events",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Product API /api/parlay-lab/props?team=KC",
+      "path": "/api/parlay-lab/props",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 521,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/api/parlay-lab/props",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Product API /api/parlay-lab/movement",
+      "path": "/api/parlay-lab/movement",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 399,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 0,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/parlay-lab/movement",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Product API /api/parlay-lab/freshness",
+      "path": "/api/parlay-lab/freshness",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 461,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/parlay-lab/freshness",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Product API /api/huddle",
+      "path": "/api/huddle",
+      "status": 503,
+      "expected": 200,
+      "pass": false,
+      "latencyMs": 205,
+      "cacheControl": "private, no-store",
+      "cpuSamples": [
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/huddle",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/access",
+          "cpuTimeMs": 0,
+          "outcome": "ok"
+        }
+      ]
+    }
+  ],
+  "traces": [
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/api/user/saved-content",
+      "operation": "Product preflight anonymous denied",
+      "outcome": "ok",
+      "status": 403,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 0,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product account login",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 166,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product account login",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 50,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product account login",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 74,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product account login",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 23,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product account login",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 24,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product account login",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 77,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product account login",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 71,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product account login",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 23,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product account login",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 23,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product account login",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 70,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product account login",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 43,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product account login",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 90,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product account login",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 30,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product account login",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 78,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product account login",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 94,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product account login",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 50,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "https://down-distance-rc3-staging-web.tdingman5.workers.dev",
+      "role": "web",
+      "path": "/api/auth/firebase/session",
+      "operation": "Product account login",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 1218,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Second isolated synthetic account",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 40,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Second isolated synthetic account",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 84,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Second isolated synthetic account",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 70,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Second isolated synthetic account",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 23,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Second isolated synthetic account",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 21,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Second isolated synthetic account",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 79,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "https://down-distance-rc3-staging-web.tdingman5.workers.dev",
+      "role": "web",
+      "path": "/api/auth/firebase/session",
+      "operation": "Second isolated synthetic account",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 906,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product API /api/trivia/daily?team=KC",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 42,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product API /api/trivia/daily?team=KC",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 86,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product API /api/trivia/daily?team=KC",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 77,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product API /api/trivia/daily?team=KC",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 24,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "https://down-distance-rc3-staging-web.tdingman5.workers.dev",
+      "role": "web",
+      "path": "/api/trivia/daily",
+      "operation": "Product API /api/trivia/daily?team=KC",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 1058,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product API /api/parlay-lab/events",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 50,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product API /api/parlay-lab/events",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 95,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product API /api/parlay-lab/events",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 70,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product API /api/parlay-lab/events",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 115,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "https://down-distance-rc3-staging-web.tdingman5.workers.dev",
+      "role": "web",
+      "path": "/api/parlay-lab/events",
+      "operation": "Product API /api/parlay-lab/events",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 405,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "https://down-distance-rc3-staging-web.tdingman5.workers.dev",
+      "role": "web",
+      "path": "/api/parlay-lab/props",
+      "operation": "Product API /api/parlay-lab/props?team=KC",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 361,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product API /api/parlay-lab/movement",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 43,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product API /api/parlay-lab/movement",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 88,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product API /api/parlay-lab/movement",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 66,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product API /api/parlay-lab/movement",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 23,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "https://down-distance-rc3-staging-web.tdingman5.workers.dev",
+      "role": "web",
+      "path": "/api/parlay-lab/movement",
+      "operation": "Product API /api/parlay-lab/movement",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 314,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product API /api/parlay-lab/freshness",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 93,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "https://down-distance-rc3-staging-web.tdingman5.workers.dev",
+      "role": "web",
+      "path": "/api/parlay-lab/freshness",
+      "operation": "Product API /api/parlay-lab/freshness",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 375,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product API /api/parlay-lab/freshness",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 47,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product API /api/huddle",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 41,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product API /api/huddle",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 84,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "https://down-distance-rc3-staging-web.tdingman5.workers.dev",
+      "role": "web",
+      "path": "/api/huddle",
+      "operation": "Product API /api/huddle",
+      "outcome": "ok",
+      "status": 503,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 139,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "null",
+      "role": "web",
+      "path": "/__staging/access",
+      "operation": "Product API /api/huddle",
+      "outcome": "ok",
+      "status": 403,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 0,
+      "exceptions": []
+    }
+  ],
+  "stopReason": "Unexpected status: Product API /api/huddle 503",
+  "thresholdMs": 10,
+  "passed": false
+}

@@ -1,0 +1,12 @@
+Product preflight anonymous denied: HTTP 403 CPU samples 1
+Product preflight direct origin denied: HTTP 403 CPU samples 0
+Product account login: HTTP 200 CPU samples 17
+Second isolated synthetic account: HTTP 200 CPU samples 7
+Product API /api/trivia/daily?team=KC: HTTP 200 CPU samples 5
+Product API /api/parlay-lab/events: HTTP 200 CPU samples 5
+Product API /api/parlay-lab/props?team=KC: HTTP 200 CPU samples 1
+Product API /api/parlay-lab/movement: HTTP 200 CPU samples 5
+Product API /api/parlay-lab/freshness: HTTP 200 CPU samples 3
+Product API /api/huddle: HTTP 503 CPU samples 4
+Hosted validation stopped: Unexpected status: Product API /api/huddle 503
+Existing gated staging Web exposure disable verified

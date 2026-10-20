@@ -1,0 +1,819 @@
+[
+  {
+    "metric": "application_headers",
+    "routePattern": "^\\/api\\/auth\\/me\\/?$",
+    "method": "GET",
+    "route": "/api/auth",
+    "status": 401,
+    "wallMs": 45.06239000000642,
+    "d1Calls": 0,
+    "statements": 0,
+    "rowsRead": 0,
+    "rowsWritten": 0,
+    "cpuMs": null,
+    "cpuSource": "Cloudflare TraceEvent CPUTimeMs required",
+    "authTimings": [
+      {
+        "stage": "middleware",
+        "elapsedMs": 1.1306150000018533,
+        "ok": true
+      }
+    ]
+  },
+  {
+    "metric": "application_headers",
+    "routePattern": "^\\/api\\/auth\\/firebase\\/session\\/?$",
+    "method": "POST",
+    "route": "/api/auth",
+    "status": 200,
+    "wallMs": 1030.1737229999999,
+    "d1Calls": 7,
+    "statements": 14,
+    "rowsRead": 7,
+    "rowsWritten": 21,
+    "cpuMs": null,
+    "cpuSource": "Cloudflare TraceEvent CPUTimeMs required",
+    "authTimings": [
+      {
+        "stage": "middleware",
+        "elapsedMs": 0.11385700000391807,
+        "ok": true
+      },
+      {
+        "stage": "request.parse",
+        "elapsedMs": 0.4243949999945471,
+        "ok": true
+      },
+      {
+        "stage": "jwt.key_fetch",
+        "elapsedMs": 107.99019700000645,
+        "ok": true
+      },
+      {
+        "stage": "jwt.public_key",
+        "elapsedMs": 111.54459200000565,
+        "ok": true
+      },
+      {
+        "stage": "jwt.signature",
+        "elapsedMs": 113.41891899998882,
+        "ok": true
+      },
+      {
+        "stage": "jwt.claims",
+        "elapsedMs": 0.06489300000248477,
+        "ok": true
+      },
+      {
+        "stage": "provider.lookup",
+        "elapsedMs": 130.86910199999693,
+        "ok": true
+      },
+      {
+        "stage": "d1.revocation",
+        "elapsedMs": 178.22246400000586,
+        "ok": true
+      },
+      {
+        "stage": "d1.provision",
+        "elapsedMs": 406.10832200000004,
+        "ok": true
+      },
+      {
+        "stage": "session.encrypt",
+        "elapsedMs": 0.3721010000008391,
+        "ok": true
+      },
+      {
+        "stage": "session.create",
+        "elapsedMs": 195.05039099999703,
+        "ok": true
+      },
+      {
+        "stage": "json.serialization",
+        "elapsedMs": 0.22396200000366662,
+        "ok": true
+      }
+    ]
+  },
+  {
+    "metric": "application_headers",
+    "routePattern": "^\\/api\\/auth\\/me\\/?$",
+    "method": "GET",
+    "route": "/api/auth",
+    "status": 200,
+    "wallMs": 570.447902999993,
+    "d1Calls": 6,
+    "statements": 6,
+    "rowsRead": 7,
+    "rowsWritten": 0,
+    "cpuMs": null,
+    "cpuSource": "Cloudflare TraceEvent CPUTimeMs required",
+    "authTimings": [
+      {
+        "stage": "middleware",
+        "elapsedMs": 0.17386999999871477,
+        "ok": true
+      },
+      {
+        "stage": "session.lookup",
+        "elapsedMs": 189.6091199999937,
+        "ok": true
+      },
+      {
+        "stage": "jwt.public_key",
+        "elapsedMs": 0.0813650000054622,
+        "ok": true
+      },
+      {
+        "stage": "jwt.signature",
+        "elapsedMs": 0.4962590000068303,
+        "ok": true
+      },
+      {
+        "stage": "jwt.claims",
+        "elapsedMs": 0.017040999999153428,
+        "ok": true
+      },
+      {
+        "stage": "provider.lookup",
+        "elapsedMs": 49.27052200000617,
+        "ok": true
+      },
+      {
+        "stage": "d1.revocation",
+        "elapsedMs": 80.28420500000357,
+        "ok": true
+      }
+    ]
+  },
+  {
+    "metric": "application_headers",
+    "routePattern": "^\\/api\\/auth\\/me\\/?$",
+    "method": "GET",
+    "route": "/api/auth",
+    "status": 200,
+    "wallMs": 599.8408730000083,
+    "d1Calls": 6,
+    "statements": 6,
+    "rowsRead": 7,
+    "rowsWritten": 0,
+    "cpuMs": null,
+    "cpuSource": "Cloudflare TraceEvent CPUTimeMs required",
+    "authTimings": [
+      {
+        "stage": "middleware",
+        "elapsedMs": 0.11571600000024773,
+        "ok": true
+      },
+      {
+        "stage": "session.lookup",
+        "elapsedMs": 191.65519800000766,
+        "ok": true
+      },
+      {
+        "stage": "jwt.public_key",
+        "elapsedMs": 0.16783000000577886,
+        "ok": true
+      },
+      {
+        "stage": "jwt.signature",
+        "elapsedMs": 1.5997820000047795,
+        "ok": true
+      },
+      {
+        "stage": "jwt.claims",
+        "elapsedMs": 0.013751000005868264,
+        "ok": true
+      },
+      {
+        "stage": "provider.lookup",
+        "elapsedMs": 54.2467089999991,
+        "ok": true
+      },
+      {
+        "stage": "d1.revocation",
+        "elapsedMs": 79.54884200000379,
+        "ok": true
+      }
+    ]
+  },
+  {
+    "metric": "application_headers",
+    "routePattern": "^\\/api\\/auth\\/me\\/?$",
+    "method": "GET",
+    "route": "/api/auth",
+    "status": 200,
+    "wallMs": 572.6691500000015,
+    "d1Calls": 6,
+    "statements": 6,
+    "rowsRead": 7,
+    "rowsWritten": 0,
+    "cpuMs": null,
+    "cpuSource": "Cloudflare TraceEvent CPUTimeMs required",
+    "authTimings": [
+      {
+        "stage": "middleware",
+        "elapsedMs": 0.1635999999998603,
+        "ok": true
+      },
+      {
+        "stage": "session.lookup",
+        "elapsedMs": 161.5246749999933,
+        "ok": true
+      },
+      {
+        "stage": "jwt.public_key",
+        "elapsedMs": 0.03594200000225101,
+        "ok": true
+      },
+      {
+        "stage": "jwt.signature",
+        "elapsedMs": 0.4447059999947669,
+        "ok": true
+      },
+      {
+        "stage": "jwt.claims",
+        "elapsedMs": 0.014121000000159256,
+        "ok": true
+      },
+      {
+        "stage": "provider.lookup",
+        "elapsedMs": 49.59653100000287,
+        "ok": true
+      },
+      {
+        "stage": "d1.revocation",
+        "elapsedMs": 98.40652699999919,
+        "ok": true
+      }
+    ]
+  },
+  {
+    "metric": "application_headers",
+    "routePattern": "^\\/api\\/auth\\/firebase\\/session\\/?$",
+    "method": "POST",
+    "route": "/api/auth",
+    "status": 200,
+    "wallMs": 689.3975009999995,
+    "d1Calls": 7,
+    "statements": 14,
+    "rowsRead": 14,
+    "rowsWritten": 15,
+    "cpuMs": null,
+    "cpuSource": "Cloudflare TraceEvent CPUTimeMs required",
+    "authTimings": [
+      {
+        "stage": "middleware",
+        "elapsedMs": 0.08589500001107808,
+        "ok": true
+      },
+      {
+        "stage": "request.parse",
+        "elapsedMs": 0.1436180000018794,
+        "ok": true
+      },
+      {
+        "stage": "jwt.public_key",
+        "elapsedMs": 0.031902000002446584,
+        "ok": true
+      },
+      {
+        "stage": "jwt.signature",
+        "elapsedMs": 0.4080939999985276,
+        "ok": true
+      },
+      {
+        "stage": "jwt.claims",
+        "elapsedMs": 0.011440000002039596,
+        "ok": true
+      },
+      {
+        "stage": "provider.lookup",
+        "elapsedMs": 46.05296699999599,
+        "ok": true
+      },
+      {
+        "stage": "d1.revocation",
+        "elapsedMs": 167.24409399999422,
+        "ok": true
+      },
+      {
+        "stage": "d1.provision",
+        "elapsedMs": 352.9664410000114,
+        "ok": true
+      },
+      {
+        "stage": "session.encrypt",
+        "elapsedMs": 0.10692599999310914,
+        "ok": true
+      },
+      {
+        "stage": "session.create",
+        "elapsedMs": 120.8822380000056,
+        "ok": true
+      },
+      {
+        "stage": "json.serialization",
+        "elapsedMs": 0.16903999999340158,
+        "ok": true
+      }
+    ]
+  },
+  {
+    "metric": "application_headers",
+    "routePattern": "^\\/api\\/auth\\/firebase\\/session\\/?$",
+    "method": "POST",
+    "route": "/api/auth",
+    "status": 200,
+    "wallMs": 669.4545550000039,
+    "d1Calls": 7,
+    "statements": 14,
+    "rowsRead": 14,
+    "rowsWritten": 15,
+    "cpuMs": null,
+    "cpuSource": "Cloudflare TraceEvent CPUTimeMs required",
+    "authTimings": [
+      {
+        "stage": "middleware",
+        "elapsedMs": 0.1881709999870509,
+        "ok": true
+      },
+      {
+        "stage": "request.parse",
+        "elapsedMs": 0.09323500000755303,
+        "ok": true
+      },
+      {
+        "stage": "jwt.public_key",
+        "elapsedMs": 0.03191200000583194,
+        "ok": true
+      },
+      {
+        "stage": "jwt.signature",
+        "elapsedMs": 1.3831000000063796,
+        "ok": true
+      },
+      {
+        "stage": "jwt.claims",
+        "elapsedMs": 0.01515099999960512,
+        "ok": true
+      },
+      {
+        "stage": "provider.lookup",
+        "elapsedMs": 50.2042369999981,
+        "ok": true
+      },
+      {
+        "stage": "d1.revocation",
+        "elapsedMs": 169.5933190000069,
+        "ok": true
+      },
+      {
+        "stage": "d1.provision",
+        "elapsedMs": 342.4997690000164,
+        "ok": true
+      },
+      {
+        "stage": "session.encrypt",
+        "elapsedMs": 0.21717300001182593,
+        "ok": true
+      },
+      {
+        "stage": "session.create",
+        "elapsedMs": 103.85403999997652,
+        "ok": true
+      },
+      {
+        "stage": "json.serialization",
+        "elapsedMs": 0.14684899998246692,
+        "ok": true
+      }
+    ]
+  },
+  {
+    "metric": "application_headers",
+    "routePattern": "^\\/api\\/auth\\/firebase\\/session\\/?$",
+    "method": "POST",
+    "route": "/api/auth",
+    "status": 200,
+    "wallMs": 696.5809840000002,
+    "d1Calls": 7,
+    "statements": 14,
+    "rowsRead": 14,
+    "rowsWritten": 15,
+    "cpuMs": null,
+    "cpuSource": "Cloudflare TraceEvent CPUTimeMs required",
+    "authTimings": [
+      {
+        "stage": "middleware",
+        "elapsedMs": 0.08776499997475185,
+        "ok": true
+      },
+      {
+        "stage": "request.parse",
+        "elapsedMs": 0.10573599999770522,
+        "ok": true
+      },
+      {
+        "stage": "jwt.public_key",
+        "elapsedMs": 0.0416630000108853,
+        "ok": true
+      },
+      {
+        "stage": "jwt.signature",
+        "elapsedMs": 0.5765729999984615,
+        "ok": true
+      },
+      {
+        "stage": "jwt.claims",
+        "elapsedMs": 0.02042100002290681,
+        "ok": true
+      },
+      {
+        "stage": "provider.lookup",
+        "elapsedMs": 48.42779399998835,
+        "ok": true
+      },
+      {
+        "stage": "d1.revocation",
+        "elapsedMs": 171.84829900000477,
+        "ok": true
+      },
+      {
+        "stage": "d1.provision",
+        "elapsedMs": 369.61682799999835,
+        "ok": true
+      },
+      {
+        "stage": "session.encrypt",
+        "elapsedMs": 0.16325899999355897,
+        "ok": true
+      },
+      {
+        "stage": "session.create",
+        "elapsedMs": 103.9559860000154,
+        "ok": true
+      },
+      {
+        "stage": "json.serialization",
+        "elapsedMs": 0.18328999998630024,
+        "ok": true
+      }
+    ]
+  },
+  {
+    "metric": "application_headers",
+    "routePattern": "^\\/api\\/auth\\/me\\/?$",
+    "method": "GET",
+    "route": "/api/auth",
+    "status": 200,
+    "wallMs": 551.776039999997,
+    "d1Calls": 6,
+    "statements": 6,
+    "rowsRead": 7,
+    "rowsWritten": 0,
+    "cpuMs": null,
+    "cpuSource": "Cloudflare TraceEvent CPUTimeMs required",
+    "authTimings": [
+      {
+        "stage": "middleware",
+        "elapsedMs": 0.16958000001613982,
+        "ok": true
+      },
+      {
+        "stage": "session.lookup",
+        "elapsedMs": 179.0359119999921,
+        "ok": true
+      },
+      {
+        "stage": "jwt.public_key",
+        "elapsedMs": 0.03617199999280274,
+        "ok": true
+      },
+      {
+        "stage": "jwt.signature",
+        "elapsedMs": 0.7231610000017099,
+        "ok": true
+      },
+      {
+        "stage": "jwt.claims",
+        "elapsedMs": 0.015299999999115244,
+        "ok": true
+      },
+      {
+        "stage": "provider.lookup",
+        "elapsedMs": 42.93960799998604,
+        "ok": true
+      },
+      {
+        "stage": "d1.revocation",
+        "elapsedMs": 83.4642580000218,
+        "ok": true
+      }
+    ]
+  },
+  {
+    "metric": "application_headers",
+    "routePattern": "^\\/api\\/auth\\/me\\/?$",
+    "method": "GET",
+    "route": "/api/auth",
+    "status": 200,
+    "wallMs": 546.6931179999956,
+    "d1Calls": 6,
+    "statements": 6,
+    "rowsRead": 7,
+    "rowsWritten": 0,
+    "cpuMs": null,
+    "cpuSource": "Cloudflare TraceEvent CPUTimeMs required",
+    "authTimings": [
+      {
+        "stage": "middleware",
+        "elapsedMs": 0.13308700002380647,
+        "ok": true
+      },
+      {
+        "stage": "session.lookup",
+        "elapsedMs": 162.4517690000066,
+        "ok": true
+      },
+      {
+        "stage": "jwt.public_key",
+        "elapsedMs": 0.09985599998617545,
+        "ok": true
+      },
+      {
+        "stage": "jwt.signature",
+        "elapsedMs": 0.6899900000134949,
+        "ok": true
+      },
+      {
+        "stage": "jwt.claims",
+        "elapsedMs": 0.018210999987786636,
+        "ok": true
+      },
+      {
+        "stage": "provider.lookup",
+        "elapsedMs": 45.21635899998364,
+        "ok": true
+      },
+      {
+        "stage": "d1.revocation",
+        "elapsedMs": 84.98866599999019,
+        "ok": true
+      }
+    ]
+  },
+  {
+    "metric": "application_headers",
+    "routePattern": "^\\/api\\/auth\\/me\\/?$",
+    "method": "GET",
+    "route": "/api/auth",
+    "status": 200,
+    "wallMs": 573.2235550000041,
+    "d1Calls": 6,
+    "statements": 6,
+    "rowsRead": 7,
+    "rowsWritten": 0,
+    "cpuMs": null,
+    "cpuSource": "Cloudflare TraceEvent CPUTimeMs required",
+    "authTimings": [
+      {
+        "stage": "middleware",
+        "elapsedMs": 0.0656240000098478,
+        "ok": true
+      },
+      {
+        "stage": "session.lookup",
+        "elapsedMs": 178.19749699998647,
+        "ok": true
+      },
+      {
+        "stage": "jwt.public_key",
+        "elapsedMs": 0.08164499999838881,
+        "ok": true
+      },
+      {
+        "stage": "jwt.signature",
+        "elapsedMs": 0.9792469999811146,
+        "ok": true
+      },
+      {
+        "stage": "jwt.claims",
+        "elapsedMs": 0.020291000022552907,
+        "ok": true
+      },
+      {
+        "stage": "provider.lookup",
+        "elapsedMs": 53.16398699997808,
+        "ok": true
+      },
+      {
+        "stage": "d1.revocation",
+        "elapsedMs": 82.85605500001111,
+        "ok": true
+      }
+    ]
+  },
+  {
+    "metric": "application_headers",
+    "routePattern": "^\\/api\\/auth\\/me\\/?$",
+    "method": "GET",
+    "route": "/api/auth",
+    "status": 200,
+    "wallMs": 521.6435490000003,
+    "d1Calls": 6,
+    "statements": 6,
+    "rowsRead": 7,
+    "rowsWritten": 0,
+    "cpuMs": null,
+    "cpuSource": "Cloudflare TraceEvent CPUTimeMs required",
+    "authTimings": [
+      {
+        "stage": "middleware",
+        "elapsedMs": 0.09703499998431653,
+        "ok": true
+      },
+      {
+        "stage": "session.lookup",
+        "elapsedMs": 157.56822099999408,
+        "ok": true
+      },
+      {
+        "stage": "jwt.public_key",
+        "elapsedMs": 0.04065200002514757,
+        "ok": true
+      },
+      {
+        "stage": "jwt.signature",
+        "elapsedMs": 0.3978930000157561,
+        "ok": true
+      },
+      {
+        "stage": "jwt.claims",
+        "elapsedMs": 0.007529999973485246,
+        "ok": true
+      },
+      {
+        "stage": "provider.lookup",
+        "elapsedMs": 40.93157399998745,
+        "ok": true
+      },
+      {
+        "stage": "d1.revocation",
+        "elapsedMs": 77.54640999998082,
+        "ok": true
+      }
+    ]
+  },
+  {
+    "metric": "application_headers",
+    "routePattern": "^\\/api\\/auth\\/firebase\\/session\\/?$",
+    "method": "POST",
+    "route": "/api/auth",
+    "status": 401,
+    "wallMs": 1.5581189999938942,
+    "d1Calls": 0,
+    "statements": 0,
+    "rowsRead": 0,
+    "rowsWritten": 0,
+    "cpuMs": null,
+    "cpuSource": "Cloudflare TraceEvent CPUTimeMs required",
+    "authTimings": [
+      {
+        "stage": "middleware",
+        "elapsedMs": 0.07963399999425747,
+        "ok": true
+      },
+      {
+        "stage": "request.parse",
+        "elapsedMs": 0.0868250000057742,
+        "ok": true
+      },
+      {
+        "stage": "jwt.signature",
+        "elapsedMs": 0.25235399999655783,
+        "ok": false
+      }
+    ]
+  },
+  {
+    "metric": "application_headers",
+    "routePattern": "^\\/api\\/content\\/huddle\\/?$",
+    "method": "GET",
+    "route": "other",
+    "status": 200,
+    "wallMs": 3060.3031619999965,
+    "d1Calls": 5,
+    "statements": 5,
+    "rowsRead": 8,
+    "rowsWritten": 0,
+    "cpuMs": null,
+    "cpuSource": "Cloudflare TraceEvent CPUTimeMs required",
+    "authTimings": [
+      {
+        "stage": "middleware",
+        "elapsedMs": 0.07135399998514913,
+        "ok": true
+      }
+    ]
+  },
+  {
+    "metric": "application_headers",
+    "routePattern": "^\\/api\\/auth\\/logout\\/?$",
+    "method": "POST",
+    "route": "/api/auth",
+    "status": 200,
+    "wallMs": 186.37684799998533,
+    "d1Calls": 2,
+    "statements": 4,
+    "rowsRead": 5,
+    "rowsWritten": 3,
+    "cpuMs": null,
+    "cpuSource": "Cloudflare TraceEvent CPUTimeMs required",
+    "authTimings": [
+      {
+        "stage": "middleware",
+        "elapsedMs": 0.06520300000556745,
+        "ok": true
+      }
+    ]
+  },
+  {
+    "metric": "application_headers",
+    "routePattern": "^\\/api\\/auth\\/me\\/?$",
+    "method": "GET",
+    "route": "/api/auth",
+    "status": 401,
+    "wallMs": 186.90102799999295,
+    "d1Calls": 2,
+    "statements": 2,
+    "rowsRead": 2,
+    "rowsWritten": 0,
+    "cpuMs": null,
+    "cpuSource": "Cloudflare TraceEvent CPUTimeMs required",
+    "authTimings": [
+      {
+        "stage": "middleware",
+        "elapsedMs": 0.06278300000121817,
+        "ok": true
+      },
+      {
+        "stage": "session.lookup",
+        "elapsedMs": 186.29849400001694,
+        "ok": true
+      }
+    ]
+  },
+  {
+    "metric": "application_headers",
+    "routePattern": "^\\/api\\/auth\\/firebase\\/session\\/?$",
+    "method": "POST",
+    "route": "/api/auth",
+    "status": 401,
+    "wallMs": 111.68596299999626,
+    "d1Calls": 1,
+    "statements": 1,
+    "rowsRead": 0,
+    "rowsWritten": 0,
+    "cpuMs": null,
+    "cpuSource": "Cloudflare TraceEvent CPUTimeMs required",
+    "authTimings": [
+      {
+        "stage": "middleware",
+        "elapsedMs": 0.06493399996543303,
+        "ok": true
+      },
+      {
+        "stage": "request.parse",
+        "elapsedMs": 0.08830599999055266,
+        "ok": true
+      },
+      {
+        "stage": "jwt.public_key",
+        "elapsedMs": 0.030990999948699027,
+        "ok": true
+      },
+      {
+        "stage": "jwt.signature",
+        "elapsedMs": 0.6869489999953657,
+        "ok": true
+      },
+      {
+        "stage": "jwt.claims",
+        "elapsedMs": 0.006930999981705099,
+        "ok": true
+      },
+      {
+        "stage": "provider.lookup",
+        "elapsedMs": 87.08001800003694,
+        "ok": true
+      },
+      {
+        "stage": "d1.revocation",
+        "elapsedMs": 22.566557999991346,
+        "ok": false
+      }
+    ]
+  }
+]
