@@ -1,0 +1,23 @@
+{
+  "checkedAt": "2026-10-20T13:25:40.974Z",
+  "records": [
+    {
+      "role": "api",
+      "listStatus": 200,
+      "listed": 0,
+      "removed": 0
+    },
+    {
+      "role": "password",
+      "listStatus": 200,
+      "listed": 0,
+      "removed": 0
+    },
+    {
+      "role": "web",
+      "listStatus": 200,
+      "listed": 0,
+      "removed": 0
+    }
+  ]
+}

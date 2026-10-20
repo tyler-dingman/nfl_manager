@@ -1,0 +1,303 @@
+{
+  "source": "actual Cloudflare live tail trace-v1 CPU milliseconds",
+  "operations": [
+    {
+      "label": "session survives private API redeployment",
+      "path": "/api/auth/me",
+      "start": 1792502502635,
+      "end": 1792502503159,
+      "status": 200,
+      "pass": true,
+      "bodyBytes": 321
+    },
+    {
+      "label": "profile survives private API redeployment",
+      "path": "/api/user/profile",
+      "start": 1792502503159,
+      "end": 1792502503315,
+      "status": 200,
+      "pass": true,
+      "bodyBytes": 396
+    },
+    {
+      "label": "saved articles and bet survive private API redeployment",
+      "path": "/api/user/saved-content",
+      "start": 1792502503316,
+      "end": 1792502503447,
+      "status": 200,
+      "pass": true,
+      "bodyBytes": 1153
+    },
+    {
+      "label": "Front Office survives private API redeployment",
+      "path": "/api/front-office/state?saveId=4ccfdfed-991a-4ab5-9f22-7a9a7435da51",
+      "start": 1792502503447,
+      "end": 1792502503823,
+      "status": 200,
+      "pass": true,
+      "bodyBytes": 201
+    },
+    {
+      "label": "authenticated home diagnosis",
+      "path": "/",
+      "start": 1792502503823,
+      "end": 1792502503897,
+      "status": 503,
+      "pass": false,
+      "bodyBytes": 62
+    },
+    {
+      "label": "global story feed diagnosis",
+      "path": "/api/content/huddle?team=NFL",
+      "start": 1792502503898,
+      "end": 1792502504725,
+      "status": 500,
+      "pass": false,
+      "bodyBytes": 43
+    },
+    {
+      "label": "team story feed CPU/query sample",
+      "path": "/api/content/huddle?team=KC",
+      "start": 1792502504725,
+      "end": 1792502505291,
+      "status": 200,
+      "pass": true,
+      "bodyBytes": 1382
+    },
+    {
+      "label": "home API CPU/query sample",
+      "path": "/api/content/homepage?team=KC",
+      "start": 1792502505291,
+      "end": 1792502505557,
+      "status": 200,
+      "pass": true,
+      "bodyBytes": 1248
+    }
+  ],
+  "traces": [
+    {
+      "role": "api",
+      "path": "/api/auth/me",
+      "eventTimestamp": 1792502502895,
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 6,
+      "wallTimeMs": 108,
+      "metrics": [
+        {
+          "metric": "application_headers",
+          "routePattern": "^\\/api\\/auth\\/me\\/?$",
+          "method": "GET",
+          "route": "/api/auth",
+          "status": 200,
+          "wallMs": 102,
+          "d1Calls": 3,
+          "statements": 3,
+          "rowsRead": 3,
+          "rowsWritten": 0,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ],
+      "exceptionNames": []
+    },
+    {
+      "role": "api",
+      "path": "/api/user/profile",
+      "eventTimestamp": 1792502503316,
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 4,
+      "wallTimeMs": 100,
+      "metrics": [
+        {
+          "metric": "application_headers",
+          "routePattern": "^\\/api\\/user\\/profile\\/?$",
+          "method": "GET",
+          "route": "/api/user",
+          "status": 200,
+          "wallMs": 96,
+          "d1Calls": 5,
+          "statements": 5,
+          "rowsRead": 5,
+          "rowsWritten": 0,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ],
+      "exceptionNames": []
+    },
+    {
+      "role": "api",
+      "path": "/api/user/saved-content",
+      "eventTimestamp": 1792502503467,
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 3,
+      "wallTimeMs": 80,
+      "metrics": [
+        {
+          "metric": "application_headers",
+          "routePattern": "^\\/api\\/user\\/saved-content\\/?$",
+          "method": "GET",
+          "route": "/api/user",
+          "status": 200,
+          "wallMs": 78,
+          "d1Calls": 4,
+          "statements": 4,
+          "rowsRead": 11,
+          "rowsWritten": 0,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ],
+      "exceptionNames": []
+    },
+    {
+      "role": "api",
+      "path": "/api/front-office/state",
+      "eventTimestamp": 1792502503601,
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 111,
+      "wallTimeMs": 323,
+      "metrics": [
+        {
+          "metric": "application_headers",
+          "routePattern": "^\\/api\\/front-office\\/state\\/?$",
+          "method": "GET",
+          "route": "/api/front-office",
+          "status": 200,
+          "wallMs": 191,
+          "d1Calls": 6,
+          "statements": 6,
+          "rowsRead": 11,
+          "rowsWritten": 0,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ],
+      "exceptionNames": []
+    },
+    {
+      "role": "api",
+      "path": "/api/content/huddle",
+      "eventTimestamp": 1792502504225,
+      "outcome": "ok",
+      "status": 500,
+      "cpuTimeMs": 9,
+      "wallTimeMs": 9,
+      "metrics": [
+        {
+          "metric": "application_headers",
+          "routePattern": "^\\/api\\/content\\/huddle\\/?$",
+          "method": "GET",
+          "route": "other",
+          "status": 500,
+          "wallMs": 0,
+          "d1Calls": 0,
+          "statements": 0,
+          "rowsRead": 0,
+          "rowsWritten": 0,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ],
+      "exceptionNames": []
+    },
+    {
+      "role": "api",
+      "path": "/api/content/huddle",
+      "eventTimestamp": 1792502505107,
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 71,
+      "wallTimeMs": 284,
+      "metrics": [
+        {
+          "metric": "application_headers",
+          "routePattern": "^\\/api\\/content\\/huddle\\/?$",
+          "method": "GET",
+          "route": "other",
+          "status": 200,
+          "wallMs": 214,
+          "d1Calls": 6,
+          "statements": 6,
+          "rowsRead": 11,
+          "rowsWritten": 0,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ],
+      "exceptionNames": []
+    },
+    {
+      "role": "api",
+      "path": "/api/auth/config",
+      "eventTimestamp": 1792502505502,
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 1,
+      "metrics": [
+        {
+          "metric": "application_headers",
+          "routePattern": "^\\/api\\/auth\\/config\\/?$",
+          "method": "GET",
+          "route": "/api/auth",
+          "status": 200,
+          "wallMs": 0,
+          "d1Calls": 0,
+          "statements": 0,
+          "rowsRead": 0,
+          "rowsWritten": 0,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ],
+      "exceptionNames": []
+    },
+    {
+      "role": "api",
+      "path": "/api/content/homepage",
+      "eventTimestamp": 1792502505451,
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 16,
+      "wallTimeMs": 203,
+      "metrics": [
+        {
+          "metric": "application_headers",
+          "routePattern": "^\\/api\\/content\\/homepage\\/?$",
+          "method": "GET",
+          "route": "other",
+          "status": 200,
+          "wallMs": 188,
+          "d1Calls": 14,
+          "statements": 14,
+          "rowsRead": 19,
+          "rowsWritten": 0,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ],
+      "exceptionNames": []
+    }
+  ]
+}

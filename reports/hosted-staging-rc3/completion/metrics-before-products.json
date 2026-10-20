@@ -1,0 +1,56 @@
+{
+  "checkedAtUtc": "2026-10-20T13:13:14.573Z",
+  "httpStatus": 200,
+  "readOnlyGraphQLQuery": true,
+  "response": {
+    "data": {
+      "viewer": {
+        "accounts": [
+          {
+            "d1AnalyticsAdaptiveGroups": [
+              {
+                "sum": {
+                  "readQueries": 481,
+                  "rowsRead": 63786,
+                  "rowsWritten": 2131,
+                  "writeQueries": 785
+                }
+              }
+            ],
+            "workersInvocationsAdaptive": [
+              {
+                "dimensions": {
+                  "scriptName": "dnd-content-scheduler"
+                },
+                "quantiles": {
+                  "cpuTimeP50": 1134,
+                  "cpuTimeP99": 1441
+                },
+                "sum": {
+                  "errors": 3,
+                  "requests": 3,
+                  "subrequests": 3
+                }
+              },
+              {
+                "dimensions": {
+                  "scriptName": "__unknown__"
+                },
+                "quantiles": {
+                  "cpuTimeP50": 1016,
+                  "cpuTimeP99": 1264751
+                },
+                "sum": {
+                  "errors": 0,
+                  "requests": 57,
+                  "subrequests": 9
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "errors": null
+  }
+}

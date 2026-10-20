@@ -1,0 +1,268 @@
+{
+  "records": [
+    {
+      "operation": "registration",
+      "start": "2026-10-20T13:13:35.298Z",
+      "end": "2026-10-20T13:13:36.997Z",
+      "status": 201,
+      "ok": true,
+      "error": null,
+      "bodyBytes": 340,
+      "resourceLimit": false,
+      "setSessionCookie": true
+    },
+    {
+      "operation": "registered session",
+      "path": "/api/auth/me",
+      "start": "2026-10-20T13:14:10.210Z",
+      "end": "2026-10-20T13:14:11.305Z",
+      "status": 200,
+      "expected": 200,
+      "ok": true,
+      "error": null,
+      "resourceLimit": false
+    },
+    {
+      "operation": "incorrect password",
+      "path": "/api/auth/login",
+      "start": "2026-10-20T13:14:11.306Z",
+      "end": "2026-10-20T13:14:11.812Z",
+      "status": 401,
+      "expected": 401,
+      "ok": false,
+      "error": "The email or password is incorrect.",
+      "resourceLimit": false
+    },
+    {
+      "operation": "login",
+      "path": "/api/auth/login",
+      "start": "2026-10-20T13:14:11.813Z",
+      "end": "2026-10-20T13:14:12.559Z",
+      "status": 200,
+      "expected": 200,
+      "ok": true,
+      "error": null,
+      "resourceLimit": false
+    },
+    {
+      "operation": "concurrent sessions",
+      "path": "/api/auth/sessions",
+      "start": "2026-10-20T13:14:12.562Z",
+      "end": "2026-10-20T13:14:12.779Z",
+      "status": 200,
+      "expected": 200,
+      "ok": true,
+      "error": null,
+      "resourceLimit": false
+    },
+    {
+      "operation": "second session active",
+      "path": "/api/auth/me",
+      "start": "2026-10-20T13:14:12.780Z",
+      "end": "2026-10-20T13:14:12.986Z",
+      "status": 200,
+      "expected": 200,
+      "ok": true,
+      "error": null,
+      "resourceLimit": false
+    },
+    {
+      "operation": "logout first session",
+      "path": "/api/auth/logout",
+      "start": "2026-10-20T13:14:12.987Z",
+      "end": "2026-10-20T13:14:13.155Z",
+      "status": 200,
+      "expected": 200,
+      "ok": true,
+      "error": null,
+      "resourceLimit": false
+    },
+    {
+      "operation": "logged out token denied",
+      "path": "/api/auth/me",
+      "start": "2026-10-20T13:14:13.156Z",
+      "end": "2026-10-20T13:14:13.421Z",
+      "status": 401,
+      "expected": 401,
+      "ok": false,
+      "error": null,
+      "resourceLimit": false
+    },
+    {
+      "operation": "other concurrent session retained",
+      "path": "/api/auth/me",
+      "start": "2026-10-20T13:14:13.422Z",
+      "end": "2026-10-20T13:14:13.610Z",
+      "status": 200,
+      "expected": 200,
+      "ok": true,
+      "error": null,
+      "resourceLimit": false
+    },
+    {
+      "operation": "invalid reset token",
+      "path": "/api/auth/reset-password",
+      "start": "2026-10-20T13:14:13.611Z",
+      "end": "2026-10-20T13:14:13.748Z",
+      "status": 400,
+      "expected": 400,
+      "ok": false,
+      "error": "This password reset link is invalid or expired.",
+      "resourceLimit": false
+    },
+    {
+      "operation": "reset request non-enumerating",
+      "path": "/api/auth/forgot-password",
+      "start": "2026-10-20T13:14:13.749Z",
+      "end": "2026-10-20T13:14:14.163Z",
+      "status": 200,
+      "expected": 200,
+      "ok": true,
+      "error": null,
+      "resourceLimit": false
+    },
+    {
+      "operation": "second synthetic isolation user registration",
+      "path": "/api/auth/signup",
+      "start": "2026-10-20T13:18:39.907Z",
+      "end": "2026-10-20T13:18:40.552Z",
+      "status": 201,
+      "expected": 201,
+      "pass": true,
+      "ok": true,
+      "error": null
+    },
+    {
+      "operation": "other user cannot see saved data",
+      "path": "/api/user/saved-content",
+      "start": "2026-10-20T13:18:40.555Z",
+      "end": "2026-10-20T13:18:40.698Z",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "ok": true,
+      "error": null
+    },
+    {
+      "operation": "other user profile isolated",
+      "path": "/api/user/profile",
+      "start": "2026-10-20T13:18:40.699Z",
+      "end": "2026-10-20T13:18:40.844Z",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "ok": true,
+      "error": null
+    },
+    {
+      "operation": "Front Office create with command/version",
+      "path": "/api/saves/create",
+      "start": "2026-10-20T13:18:40.845Z",
+      "end": "2026-10-20T13:18:41.834Z",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "ok": true,
+      "error": null
+    },
+    {
+      "operation": "Front Office persisted read",
+      "path": "/api/front-office/state?saveId=4ccfdfed-991a-4ab5-9f22-7a9a7435da51",
+      "start": "2026-10-20T13:18:41.835Z",
+      "end": "2026-10-20T13:18:42.154Z",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "ok": true,
+      "error": null
+    },
+    {
+      "operation": "other user cannot read franchise",
+      "path": "/api/front-office/state?saveId=4ccfdfed-991a-4ab5-9f22-7a9a7435da51",
+      "start": "2026-10-20T13:18:42.155Z",
+      "end": "2026-10-20T13:18:42.297Z",
+      "status": 404,
+      "expected": 404,
+      "pass": true,
+      "ok": false,
+      "error": "Franchise not found."
+    },
+    {
+      "operation": "expired product session denied",
+      "path": "/api/auth/me",
+      "start": "2026-10-20T13:18:43.166Z",
+      "end": "2026-10-20T13:18:43.262Z",
+      "status": 401,
+      "expected": 401,
+      "pass": true,
+      "ok": false,
+      "error": null
+    },
+    {
+      "operation": "forgot-password unknown account indistinguishable",
+      "path": "/api/auth/forgot-password",
+      "start": "2026-10-20T13:18:43.264Z",
+      "end": "2026-10-20T13:18:43.363Z",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "ok": true,
+      "error": null
+    },
+    {
+      "operation": "expired reset denied",
+      "path": "/api/auth/reset-password",
+      "start": "2026-10-20T13:18:44.051Z",
+      "end": "2026-10-20T13:18:44.153Z",
+      "status": 400,
+      "expected": 400,
+      "pass": true,
+      "ok": false,
+      "error": "This password reset link is invalid or expired."
+    },
+    {
+      "operation": "valid synthetic reset",
+      "path": "/api/auth/reset-password",
+      "start": "2026-10-20T13:18:44.154Z",
+      "end": "2026-10-20T13:18:44.392Z",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "ok": true,
+      "error": null
+    },
+    {
+      "operation": "consumed reset replay denied",
+      "path": "/api/auth/reset-password",
+      "start": "2026-10-20T13:18:44.393Z",
+      "end": "2026-10-20T13:18:44.500Z",
+      "status": 400,
+      "expected": 400,
+      "pass": true,
+      "ok": false,
+      "error": "This password reset link is invalid or expired."
+    },
+    {
+      "operation": "old password after reset rejected",
+      "path": "/api/auth/login",
+      "start": "2026-10-20T13:18:44.501Z",
+      "end": "2026-10-20T13:18:44.755Z",
+      "status": 401,
+      "expected": 401,
+      "pass": true,
+      "ok": false,
+      "error": "The email or password is incorrect."
+    },
+    {
+      "operation": "new password after reset accepted",
+      "path": "/api/auth/login",
+      "start": "2026-10-20T13:18:44.756Z",
+      "end": "2026-10-20T13:18:45.133Z",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "ok": true,
+      "error": null
+    }
+  ]
+}

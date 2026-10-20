@@ -1,0 +1,152 @@
+{
+  "source": "Cloudflare live tail trace-v1",
+  "records": [
+    {
+      "role": "password",
+      "receivedAt": "2026-10-20T13:13:36.988Z",
+      "eventTimestamp": 1792502016445,
+      "outcome": "ok",
+      "status": 200,
+      "path": "/password",
+      "topLevelKeys": [
+        "wallTime",
+        "cpuTime",
+        "truncated",
+        "executionModel",
+        "outcome",
+        "scriptVersion",
+        "scriptName",
+        "diagnosticsChannelEvents",
+        "exceptions",
+        "logs",
+        "eventTimestamp",
+        "event"
+      ],
+      "cpuTime": 200,
+      "wallTime": 207,
+      "metrics": [],
+      "exceptions": []
+    },
+    {
+      "role": "api",
+      "receivedAt": "2026-10-20T13:13:37.250Z",
+      "eventTimestamp": 1792502015733,
+      "outcome": "ok",
+      "status": 201,
+      "path": "/api/auth/signup",
+      "topLevelKeys": [
+        "wallTime",
+        "cpuTime",
+        "truncated",
+        "executionModel",
+        "outcome",
+        "scriptVersion",
+        "scriptName",
+        "diagnosticsChannelEvents",
+        "exceptions",
+        "logs",
+        "eventTimestamp",
+        "event"
+      ],
+      "cpuTime": 41,
+      "wallTime": 769,
+      "metrics": [
+        {
+          "metric": "application_headers",
+          "routePattern": "^\\/api\\/auth\\/signup\\/?$",
+          "method": "POST",
+          "route": "/api/auth",
+          "status": 201,
+          "wallMs": 707,
+          "d1Calls": 13,
+          "statements": 27,
+          "rowsRead": 19,
+          "rowsWritten": 34,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ],
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "receivedAt": "2026-10-20T13:13:37.354Z",
+      "eventTimestamp": 1792502015720,
+      "outcome": "ok",
+      "status": 201,
+      "path": "/api/auth/signup",
+      "topLevelKeys": [
+        "wallTime",
+        "cpuTime",
+        "truncated",
+        "executionModel",
+        "outcome",
+        "scriptVersion",
+        "scriptName",
+        "diagnosticsChannelEvents",
+        "exceptions",
+        "logs",
+        "eventTimestamp",
+        "event"
+      ],
+      "cpuTime": 2,
+      "wallTime": 1335,
+      "metrics": [],
+      "exceptions": []
+    },
+    {
+      "role": "web",
+      "receivedAt": "2026-10-20T13:14:11.536Z",
+      "eventTimestamp": 1792502050643,
+      "outcome": "ok",
+      "status": 200,
+      "path": "/api/auth/me",
+      "topLevelKeys": [
+        "wallTime",
+        "cpuTime",
+        "truncated",
+        "executionModel",
+        "outcome",
+        "scriptVersion",
+        "scriptName",
+        "diagnosticsChannelEvents",
+        "exceptions",
+        "logs",
+        "eventTimestamp",
+        "event"
+      ],
+      "cpuTime": 1,
+      "wallTime": 722,
+      "metrics": [],
+      "exceptions": []
+    },
+    {
+      "role": "password",
+      "receivedAt": "2026-10-20T13:14:11.790Z",
+      "eventTimestamp": 1792502051621,
+      "outcome": "ok",
+      "status": 200,
+      "path": "/password",
+      "topLevelKeys": [
+        "wallTime",
+        "cpuTime",
+        "truncated",
+        "executionModel",
+        "outcome",
+        "scriptVersion",
+        "scriptName",
+        "diagnosticsChannelEvents",
+        "exceptions",
+        "logs",
+        "eventTimestamp",
+        "event"
+      ],
+      "cpuTime": 178,
+      "wallTime": 180,
+      "metrics": [],
+      "exceptions": []
+    }
+  ]
+}

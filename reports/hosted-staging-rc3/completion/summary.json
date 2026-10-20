@@ -1,0 +1,95 @@
+{
+  "baseline": "436a894d",
+  "branch": "release/down-distance-rc3",
+  "redirectHarness": {
+    "result": "PASS",
+    "localTests": 15
+  },
+  "stagingSecurity": "PASS",
+  "staticAssetCorrection": "PASS",
+  "authorizedAccess": "FAIL: staging gate/assets/login/API pass, signed-in web pages 503",
+  "hostedAuthentication": "PASS functional synthetic API flows; CPU eligibility fails separately",
+  "hostedWorkerCPU": "FAIL Workers Free 10ms compatibility",
+  "passwordCPUms": [
+    200,
+    178,
+    90,
+    52,
+    54,
+    61,
+    66
+  ],
+  "tenD1Routing": "FAIL overall: 32/32 team feeds and cross-shard saves pass; global NFL feed 500",
+  "productSmoke": "FAIL",
+  "syntheticTeamFeedsPassed": 32,
+  "syntheticAccounts": 3,
+  "savedStoryReferences": 3,
+  "savedBetReceipts": 1,
+  "persistenceAcrossUnchangedAPIRedeployment": "PASS session/profile/saves/Front Office",
+  "triviaAndMoveTheChains": "PASS synthetic correct answer, replay denial and isolated progress",
+  "accountD1SnapshotAt": "2026-10-20T13:27:33.073Z",
+  "d1Usage": {
+    "readQueries": 1083,
+    "rowsRead": 66261,
+    "rowsWritten": 2776,
+    "writeQueries": 1193
+  },
+  "d1DeltaSinceBeforeProductSnapshot": {
+    "readQueries": 602,
+    "rowsRead": 2475,
+    "rowsWritten": 645,
+    "writeQueries": 408
+  },
+  "dailyD1Headroom": {
+    "rowsRead": 4933739,
+    "rowsWritten": 97224
+  },
+  "workerRequestSnapshot": [
+    {
+      "dimensions": {
+        "scriptName": "dnd-content-scheduler"
+      },
+      "quantiles": {
+        "cpuTimeP50": 1134,
+        "cpuTimeP99": 1441
+      },
+      "sum": {
+        "errors": 3,
+        "requests": 3,
+        "subrequests": 3
+      }
+    },
+    {
+      "dimensions": {
+        "scriptName": "__unknown__"
+      },
+      "quantiles": {
+        "cpuTimeP50": 1195,
+        "cpuTimeP99": 462973
+      },
+      "sum": {
+        "errors": 0,
+        "requests": 352,
+        "subrequests": 220
+      }
+    }
+  ],
+  "d1StorageBytes": 5525504,
+  "d1StorageCheckedAt": "2026-10-20T13:27:34.495Z",
+  "productBatch": {
+    "requests": 65,
+    "http5xx": 15
+  },
+  "traceMetricsCoverage": "Selected measured invocations only; no full-workload CPU or DAU capacity claim",
+  "hostedRecovery": "UNVERIFIED: ten occupied slots; no restore performed",
+  "externalIntegrations": "UNVERIFIED and disabled",
+  "controlledBeta": "NO-GO",
+  "publicExposure": "DISABLED",
+  "disableVerifiedAt": "2026-10-20T13:25:08.756Z",
+  "newResourcesCreated": 0,
+  "unchangedAPIRedeployedVersion": "2c9bdb4a-570e-416e-814e-a813ebf7a608",
+  "webVersion": "128d76b3-4e45-46f8-8060-104c0f984859",
+  "billingActivated": false,
+  "productionModified": false,
+  "nextOwnerAction": "Keep staging disabled; authorize narrowly scoped remediation of session verification/global feed routing and demonstrate unchanged Argon2id fits Free CPU before beta; approve empty-target recovery separately."
+}

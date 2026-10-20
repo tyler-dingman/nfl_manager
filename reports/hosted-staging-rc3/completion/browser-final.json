@@ -1,0 +1,24 @@
+{
+  "records": [
+    {
+      "label": "signed-out home redirect",
+      "path": "/login",
+      "loginOptionsVisible": 1,
+      "bodyBytes": 318
+    },
+    {
+      "label": "email login form hydrated",
+      "passwordFields": 1
+    },
+    {
+      "label": "authenticated browser page",
+      "requestedPath": "/",
+      "finalPath": "/",
+      "status": 503,
+      "title": "",
+      "bodyBytes": 62
+    }
+  ],
+  "externalBrowserRequestsBlocked": [],
+  "nativeDeviceValidation": false
+}

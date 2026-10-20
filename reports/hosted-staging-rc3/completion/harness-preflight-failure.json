@@ -1,0 +1,114 @@
+{
+  "message": "Login UI missing",
+  "publicExposureDisabled": true,
+  "records": [
+    {
+      "label": "anonymous home",
+      "path": "/",
+      "status": 403,
+      "expected": 403,
+      "bytes": 31,
+      "bodySha256": "00c2495e1a1bcc5bb5c35534c66e297b52dee4a691437ff5ce9351b47b2b1e3c",
+      "cacheControl": "private, no-store"
+    },
+    {
+      "label": "static JS",
+      "path": "/_next/static/MH_pT_jgkhF565FI-vRj_/_buildManifest.js",
+      "status": 403,
+      "expected": 403,
+      "bytes": 31,
+      "bodySha256": "00c2495e1a1bcc5bb5c35534c66e297b52dee4a691437ff5ce9351b47b2b1e3c",
+      "cacheControl": "private, no-store"
+    },
+    {
+      "label": "favicon",
+      "path": "/favicon.ico",
+      "status": 403,
+      "expected": 403,
+      "bytes": 31,
+      "bodySha256": "00c2495e1a1bcc5bb5c35534c66e297b52dee4a691437ff5ce9351b47b2b1e3c",
+      "cacheControl": "private, no-store"
+    },
+    {
+      "label": "API",
+      "path": "/api/auth/config",
+      "status": 403,
+      "expected": 403,
+      "bytes": 31,
+      "bodySha256": "00c2495e1a1bcc5bb5c35534c66e297b52dee4a691437ff5ce9351b47b2b1e3c",
+      "cacheControl": "private, no-store"
+    },
+    {
+      "label": "authentication endpoint",
+      "path": "/api/auth/login",
+      "status": 403,
+      "expected": 403,
+      "bytes": 31,
+      "bodySha256": "00c2495e1a1bcc5bb5c35534c66e297b52dee4a691437ff5ce9351b47b2b1e3c",
+      "cacheControl": "private, no-store"
+    },
+    {
+      "label": "invalid cookie",
+      "path": "/",
+      "status": 403,
+      "expected": 403,
+      "bytes": 31,
+      "bodySha256": "00c2495e1a1bcc5bb5c35534c66e297b52dee4a691437ff5ce9351b47b2b1e3c",
+      "cacheControl": "private, no-store"
+    },
+    {
+      "label": "spoofed header",
+      "path": "/api/auth/config",
+      "status": 403,
+      "expected": 403,
+      "bytes": 31,
+      "bodySha256": "00c2495e1a1bcc5bb5c35534c66e297b52dee4a691437ff5ce9351b47b2b1e3c",
+      "cacheControl": "private, no-store"
+    },
+    {
+      "label": "expired signed cookie",
+      "path": "/",
+      "status": 403,
+      "expected": 403,
+      "bytes": 31,
+      "bodySha256": "00c2495e1a1bcc5bb5c35534c66e297b52dee4a691437ff5ce9351b47b2b1e3c",
+      "cacheControl": "private, no-store"
+    },
+    {
+      "label": "generic credential form",
+      "path": "/__staging/access",
+      "status": 200,
+      "expected": 200,
+      "bytes": 325,
+      "bodySha256": "989f14d2da697581c1f2a3fc555f08275906283916d9bf0487f62df3c25da66b",
+      "cacheControl": "private, no-store"
+    },
+    {
+      "label": "invalid staging credential",
+      "path": "/__staging/access",
+      "status": 401,
+      "expected": 401,
+      "bytes": 31,
+      "bodySha256": "00c2495e1a1bcc5bb5c35534c66e297b52dee4a691437ff5ce9351b47b2b1e3c",
+      "cacheControl": "private, no-store"
+    },
+    {
+      "label": "authorized credential",
+      "path": "/__staging/access",
+      "status": 303,
+      "expected": 303,
+      "bytes": 0,
+      "bodySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "cacheControl": "private, no-store"
+    },
+    {
+      "label": "authorized asset",
+      "path": "/_next/static/MH_pT_jgkhF565FI-vRj_/_buildManifest.js",
+      "status": 200,
+      "expected": 200,
+      "bytes": 4502,
+      "bodySha256": "5f571f7056348fea095eb044da227c5863d3a345d2fe3f85d50308d097ab7bcb",
+      "cacheControl": "private, no-store"
+    }
+  ]
+}

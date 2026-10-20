@@ -1,0 +1,542 @@
+{
+  "source": "actual Cloudflare live tail trace-v1 cpuTime (milliseconds)",
+  "operations": [
+    {
+      "label": "registration",
+      "path": "/api/auth/signup",
+      "start": 1792502425434,
+      "end": 1792502426627,
+      "status": 201,
+      "expected": 201,
+      "pass": true
+    },
+    {
+      "label": "password verification incorrect",
+      "path": "/api/auth/login",
+      "start": 1792502426628,
+      "end": 1792502426994,
+      "status": 401,
+      "expected": 401,
+      "pass": true
+    },
+    {
+      "label": "login",
+      "path": "/api/auth/login",
+      "start": 1792502426994,
+      "end": 1792502427393,
+      "status": 200,
+      "expected": 200,
+      "pass": true
+    },
+    {
+      "label": "session read",
+      "path": "/api/auth/me",
+      "start": 1792502427393,
+      "end": 1792502427516,
+      "status": 200,
+      "expected": 200,
+      "pass": true
+    },
+    {
+      "label": "sessions list",
+      "path": "/api/auth/sessions",
+      "start": 1792502427516,
+      "end": 1792502427646,
+      "status": 200,
+      "expected": 200,
+      "pass": true
+    },
+    {
+      "label": "password reset",
+      "path": "/api/auth/reset-password",
+      "start": 1792502428195,
+      "end": 1792502428401,
+      "status": 200,
+      "expected": 200,
+      "pass": true
+    },
+    {
+      "label": "reset revokes sessions",
+      "path": "/api/auth/me",
+      "start": 1792502428401,
+      "end": 1792502428507,
+      "status": 401,
+      "expected": 401,
+      "pass": true
+    },
+    {
+      "label": "login reset password",
+      "path": "/api/auth/login",
+      "start": 1792502428508,
+      "end": 1792502428886,
+      "status": 200,
+      "expected": 200,
+      "pass": true
+    },
+    {
+      "label": "logout",
+      "path": "/api/auth/logout",
+      "start": 1792502428886,
+      "end": 1792502429010,
+      "status": 200,
+      "expected": 200,
+      "pass": true
+    },
+    {
+      "label": "revoked session",
+      "path": "/api/auth/me",
+      "start": 1792502429011,
+      "end": 1792502429120,
+      "status": 401,
+      "expected": 401,
+      "pass": true
+    }
+  ],
+  "traces": [
+    {
+      "role": "password",
+      "path": "/password",
+      "eventTimestamp": 1792502426332,
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 90,
+      "wallTimeMs": 92,
+      "metrics": [],
+      "exceptionNames": []
+    },
+    {
+      "role": "web",
+      "path": "/api/auth/signup",
+      "eventTimestamp": 1792502425735,
+      "outcome": "ok",
+      "status": 201,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 764,
+      "metrics": [],
+      "exceptionNames": []
+    },
+    {
+      "role": "api",
+      "path": "/api/auth/signup",
+      "eventTimestamp": 1792502425963,
+      "outcome": "ok",
+      "status": 201,
+      "cpuTimeMs": 18,
+      "wallTimeMs": 502,
+      "metrics": [
+        {
+          "metric": "application_headers",
+          "routePattern": "^\\/api\\/auth\\/signup\\/?$",
+          "method": "POST",
+          "route": "/api/auth",
+          "status": 201,
+          "wallMs": 378,
+          "d1Calls": 11,
+          "statements": 25,
+          "rowsRead": 17,
+          "rowsWritten": 32,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ],
+      "exceptionNames": []
+    },
+    {
+      "role": "password",
+      "path": "/password",
+      "eventTimestamp": 1792502426999,
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 52,
+      "wallTimeMs": 53,
+      "metrics": [],
+      "exceptionNames": []
+    },
+    {
+      "role": "web",
+      "path": "/api/auth/login",
+      "eventTimestamp": 1792502426935,
+      "outcome": "ok",
+      "status": 401,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 159,
+      "metrics": [],
+      "exceptionNames": []
+    },
+    {
+      "role": "api",
+      "path": "/api/auth/login",
+      "eventTimestamp": 1792502426938,
+      "outcome": "ok",
+      "status": 401,
+      "cpuTimeMs": 5,
+      "wallTimeMs": 154,
+      "metrics": [
+        {
+          "metric": "application_headers",
+          "routePattern": "^\\/api\\/auth\\/login\\/?$",
+          "method": "POST",
+          "route": "/api/auth",
+          "status": 401,
+          "wallMs": 150,
+          "d1Calls": 4,
+          "statements": 6,
+          "rowsRead": 7,
+          "rowsWritten": 3,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ],
+      "exceptionNames": []
+    },
+    {
+      "role": "password",
+      "path": "/password",
+      "eventTimestamp": 1792502427264,
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 54,
+      "wallTimeMs": 54,
+      "metrics": [],
+      "exceptionNames": []
+    },
+    {
+      "role": "api",
+      "path": "/api/auth/login",
+      "eventTimestamp": 1792502427186,
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 9,
+      "wallTimeMs": 304,
+      "metrics": [
+        {
+          "metric": "application_headers",
+          "routePattern": "^\\/api\\/auth\\/login\\/?$",
+          "method": "POST",
+          "route": "/api/auth",
+          "status": 200,
+          "wallMs": 297,
+          "d1Calls": 9,
+          "statements": 16,
+          "rowsRead": 16,
+          "rowsWritten": 16,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ],
+      "exceptionNames": []
+    },
+    {
+      "role": "web",
+      "path": "/api/auth/login",
+      "eventTimestamp": 1792502427185,
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 307,
+      "metrics": [],
+      "exceptionNames": []
+    },
+    {
+      "role": "api",
+      "path": "/api/auth/me",
+      "eventTimestamp": 1792502427560,
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 3,
+      "wallTimeMs": 54,
+      "metrics": [
+        {
+          "metric": "application_headers",
+          "routePattern": "^\\/api\\/auth\\/me\\/?$",
+          "method": "GET",
+          "route": "/api/auth",
+          "status": 200,
+          "wallMs": 52,
+          "d1Calls": 3,
+          "statements": 3,
+          "rowsRead": 3,
+          "rowsWritten": 0,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ],
+      "exceptionNames": []
+    },
+    {
+      "role": "web",
+      "path": "/api/auth/me",
+      "eventTimestamp": 1792502427559,
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 56,
+      "metrics": [],
+      "exceptionNames": []
+    },
+    {
+      "role": "api",
+      "path": "/api/auth/sessions",
+      "eventTimestamp": 1792502427671,
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 3,
+      "wallTimeMs": 74,
+      "metrics": [
+        {
+          "metric": "application_headers",
+          "routePattern": "^\\/api\\/auth\\/sessions\\/?$",
+          "method": "GET",
+          "route": "/api/auth",
+          "status": 200,
+          "wallMs": 71,
+          "d1Calls": 4,
+          "statements": 4,
+          "rowsRead": 8,
+          "rowsWritten": 0,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ],
+      "exceptionNames": []
+    },
+    {
+      "role": "web",
+      "path": "/api/auth/sessions",
+      "eventTimestamp": 1792502427670,
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 76,
+      "metrics": [],
+      "exceptionNames": []
+    },
+    {
+      "role": "password",
+      "path": "/password",
+      "eventTimestamp": 1792502428398,
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 61,
+      "wallTimeMs": 61,
+      "metrics": [],
+      "exceptionNames": []
+    },
+    {
+      "role": "api",
+      "path": "/api/auth/reset-password",
+      "eventTimestamp": 1792502428356,
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 3,
+      "wallTimeMs": 144,
+      "metrics": [
+        {
+          "metric": "application_headers",
+          "routePattern": "^\\/api\\/auth\\/reset-password\\/?$",
+          "method": "POST",
+          "route": "/api/auth",
+          "status": 200,
+          "wallMs": 142,
+          "d1Calls": 3,
+          "statements": 11,
+          "rowsRead": 33,
+          "rowsWritten": 13,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ],
+      "exceptionNames": []
+    },
+    {
+      "role": "web",
+      "path": "/api/auth/reset-password",
+      "eventTimestamp": 1792502428355,
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 147,
+      "metrics": [],
+      "exceptionNames": []
+    },
+    {
+      "role": "api",
+      "path": "/api/auth/me",
+      "eventTimestamp": 1792502428574,
+      "outcome": "ok",
+      "status": 401,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 34,
+      "metrics": [
+        {
+          "metric": "application_headers",
+          "routePattern": "^\\/api\\/auth\\/me\\/?$",
+          "method": "GET",
+          "route": "/api/auth",
+          "status": 401,
+          "wallMs": 33,
+          "d1Calls": 2,
+          "statements": 2,
+          "rowsRead": 2,
+          "rowsWritten": 0,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ],
+      "exceptionNames": []
+    },
+    {
+      "role": "web",
+      "path": "/api/auth/me",
+      "eventTimestamp": 1792502428572,
+      "outcome": "ok",
+      "status": 401,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 37,
+      "metrics": [],
+      "exceptionNames": []
+    },
+    {
+      "role": "password",
+      "path": "/password",
+      "eventTimestamp": 1792502428748,
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 66,
+      "wallTimeMs": 66,
+      "metrics": [],
+      "exceptionNames": []
+    },
+    {
+      "role": "api",
+      "path": "/api/auth/login",
+      "eventTimestamp": 1792502428694,
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 7,
+      "wallTimeMs": 291,
+      "metrics": [
+        {
+          "metric": "application_headers",
+          "routePattern": "^\\/api\\/auth\\/login\\/?$",
+          "method": "POST",
+          "route": "/api/auth",
+          "status": 200,
+          "wallMs": 284,
+          "d1Calls": 9,
+          "statements": 16,
+          "rowsRead": 16,
+          "rowsWritten": 16,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ],
+      "exceptionNames": []
+    },
+    {
+      "role": "web",
+      "path": "/api/auth/login",
+      "eventTimestamp": 1792502428691,
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 294,
+      "metrics": [],
+      "exceptionNames": []
+    },
+    {
+      "role": "api",
+      "path": "/api/auth/logout",
+      "eventTimestamp": 1792502429054,
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 56,
+      "metrics": [
+        {
+          "metric": "application_headers",
+          "routePattern": "^\\/api\\/auth\\/logout\\/?$",
+          "method": "POST",
+          "route": "/api/auth",
+          "status": 200,
+          "wallMs": 54,
+          "d1Calls": 2,
+          "statements": 4,
+          "rowsRead": 5,
+          "rowsWritten": 3,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ],
+      "exceptionNames": []
+    },
+    {
+      "role": "web",
+      "path": "/api/auth/logout",
+      "eventTimestamp": 1792502429053,
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 58,
+      "metrics": [],
+      "exceptionNames": []
+    },
+    {
+      "role": "web",
+      "path": "/api/auth/me",
+      "eventTimestamp": 1792502429181,
+      "outcome": "ok",
+      "status": 401,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 40,
+      "metrics": [],
+      "exceptionNames": []
+    },
+    {
+      "role": "api",
+      "path": "/api/auth/me",
+      "eventTimestamp": 1792502429183,
+      "outcome": "ok",
+      "status": 401,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 38,
+      "metrics": [
+        {
+          "metric": "application_headers",
+          "routePattern": "^\\/api\\/auth\\/me\\/?$",
+          "method": "GET",
+          "route": "/api/auth",
+          "status": 401,
+          "wallMs": 37,
+          "d1Calls": 2,
+          "statements": 2,
+          "rowsRead": 2,
+          "rowsWritten": 0,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ],
+      "exceptionNames": []
+    }
+  ]
+}

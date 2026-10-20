@@ -1,0 +1,92 @@
+{
+  "syntheticOnly": true,
+  "records": [
+    {
+      "label": "Move the Chains baseline",
+      "path": "/api/rewards",
+      "status": 200,
+      "ok": true,
+      "progress": {
+        "currentDriveYards": 0,
+        "touchdowns": 0,
+        "lifetimeYards": 0
+      },
+      "error": null
+    },
+    {
+      "label": "Trivia synthetic question",
+      "path": "/api/trivia/daily?team=KC",
+      "status": 200,
+      "progress": {
+        "currentDriveYards": 0,
+        "touchdowns": 0,
+        "lifetimeYards": 0
+      },
+      "error": null
+    },
+    {
+      "label": "Trivia answer",
+      "path": "/api/trivia/daily/answer",
+      "status": 200,
+      "ok": true,
+      "accepted": true,
+      "correct": true,
+      "progress": {
+        "currentDriveYards": 1,
+        "touchdowns": 0,
+        "lifetimeYards": 1
+      },
+      "error": null
+    },
+    {
+      "label": "Trivia replay cannot duplicate credit",
+      "path": "/api/trivia/daily/answer",
+      "status": 200,
+      "ok": true,
+      "accepted": false,
+      "correct": true,
+      "progress": {
+        "currentDriveYards": 1,
+        "touchdowns": 0,
+        "lifetimeYards": 1
+      },
+      "error": null
+    },
+    {
+      "label": "Move the Chains progress readback",
+      "path": "/api/rewards",
+      "status": 200,
+      "ok": true,
+      "progress": {
+        "currentDriveYards": 1,
+        "touchdowns": 0,
+        "lifetimeYards": 1
+      },
+      "error": null
+    },
+    {
+      "label": "Trivia and chains persisted stats",
+      "path": "/api/trivia/stats",
+      "status": 200,
+      "ok": true,
+      "progress": {
+        "currentDriveYards": 1,
+        "touchdowns": 0,
+        "lifetimeYards": 1
+      },
+      "error": null
+    },
+    {
+      "label": "other user chains remain isolated",
+      "path": "/api/trivia/stats",
+      "status": 200,
+      "ok": true,
+      "progress": {
+        "currentDriveYards": 0,
+        "touchdowns": 0,
+        "lifetimeYards": 0
+      },
+      "error": null
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "records": [
+    {
+      "label": "signed-out home redirect",
+      "path": "/login",
+      "loginOptionsVisible": 1,
+      "bodyBytes": 318
+    },
+    {
+      "label": "authenticated browser page",
+      "requestedPath": "/",
+      "finalPath": "/",
+      "status": 503,
+      "title": "",
+      "bodyBytes": 62
+    },
+    {
+      "label": "authenticated browser page",
+      "requestedPath": "/front-office",
+      "finalPath": "/front-office",
+      "status": 503,
+      "title": "",
+      "bodyBytes": 62
+    },
+    {
+      "label": "authenticated browser page",
+      "requestedPath": "/parlay-lab",
+      "finalPath": "/parlay-lab",
+      "status": 503,
+      "title": "",
+      "bodyBytes": 62
+    },
+    {
+      "label": "authenticated browser page",
+      "requestedPath": "/account",
+      "finalPath": "/account",
+      "status": 503,
+      "title": "",
+      "bodyBytes": 62
+    }
+  ],
+  "externalBrowserRequestsBlocked": [],
+  "nativeDeviceValidation": false
+}

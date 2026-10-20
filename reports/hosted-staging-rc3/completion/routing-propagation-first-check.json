@@ -1,0 +1,15 @@
+{
+  "message": "anonymous home: expected 403, got 404",
+  "publicExposureDisabled": true,
+  "records": [
+    {
+      "label": "anonymous home",
+      "path": "/",
+      "status": 404,
+      "expected": 403,
+      "bytes": 19984,
+      "bodySha256": "2000e6b28a1517ba1268e1649cd3163326ef839492edfdba31e8959830580976",
+      "cacheControl": "private, max-age=0, no-store, no-cache, must-revalidate, post-check=0, pre-check=0"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+[
+  {
+    "role": "api",
+    "name": "down-distance-rc3-staging-api",
+    "exitCode": 0,
+    "publicRoute": false,
+    "atomicStagingSecretNames": [
+      "AUTH_JWT_SECRET",
+      "APP_MAIL_ENCRYPTION_KEY",
+      "CONTENT_AUTOMATION_SECRET",
+      "APP_MAIL_JOB_SECRET"
+    ]
+  }
+]

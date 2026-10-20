@@ -1,0 +1,71 @@
+[
+  {
+    "binding": "D1_USERS",
+    "label": "expire only synthetic session for hosted expiry check",
+    "metadata": [
+      {
+        "served_by": "v3-prod",
+        "served_by_region": "ENAM",
+        "served_by_colo": "ORD",
+        "served_by_primary": true,
+        "timings": {
+          "sql_duration_ms": 0.2146
+        },
+        "duration": 0.2146,
+        "changes": 1,
+        "last_row_id": 1,
+        "changed_db": true,
+        "size_after": 1552384,
+        "rows_read": 2,
+        "rows_written": 1,
+        "total_attempts": 1
+      }
+    ]
+  },
+  {
+    "binding": "D1_USERS",
+    "label": "seed isolated synthetic reset token hash without delivery",
+    "metadata": [
+      {
+        "served_by": "v3-prod",
+        "served_by_region": "ENAM",
+        "served_by_colo": "ORD",
+        "served_by_primary": true,
+        "timings": {
+          "sql_duration_ms": 0.1858
+        },
+        "duration": 0.1858,
+        "changes": 1,
+        "last_row_id": 4,
+        "changed_db": true,
+        "size_after": 1552384,
+        "rows_read": 0,
+        "rows_written": 4,
+        "total_attempts": 1
+      }
+    ]
+  },
+  {
+    "binding": "D1_USERS",
+    "label": "seed isolated synthetic reset token hash without delivery",
+    "metadata": [
+      {
+        "served_by": "v3-prod",
+        "served_by_region": "ENAM",
+        "served_by_colo": "ORD",
+        "served_by_primary": true,
+        "timings": {
+          "sql_duration_ms": 0.21
+        },
+        "duration": 0.21,
+        "changes": 1,
+        "last_row_id": 5,
+        "changed_db": true,
+        "size_after": 1552384,
+        "rows_read": 0,
+        "rows_written": 4,
+        "total_attempts": 1
+      }
+    ]
+  }
+]
