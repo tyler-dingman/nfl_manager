@@ -1,0 +1,191 @@
+TAP version 13
+# [application-auth] Session lookup unavailable { pathname: '/front-office' }
+# [application-auth] Session lookup unavailable { pathname: '/front-office' }
+# [application-auth] Session lookup unavailable { pathname: '/front-office' }
+# [application-auth] Session lookup unavailable { pathname: '/front-office' }
+# [application-auth] Session lookup unavailable { pathname: '/front-office' }
+# [application-auth] Session lookup unavailable { pathname: '/front-office' }
+# Subtest: Cloudflare SSR uses private API transport, isolates credentials and preserves fail-closed behavior
+ok 1 - Cloudflare SSR uses private API transport, isolates credentials and preserves fail-closed behavior
+  ---
+  duration_ms: 23.106458
+  ...
+# Subtest: concurrent OpenNext request contexts never share an API service or cookie
+ok 2 - concurrent OpenNext request contexts never share an API service or cookie
+  ---
+  duration_ms: 9.653708
+  ...
+# Subtest: Argon2id hashes and verifies passwords without storing plaintext
+ok 3 - Argon2id hashes and verifies passwords without storing plaintext
+  ---
+  duration_ms: 102.447334
+  ...
+# Subtest: opaque tokens are random and stored as deterministic hashes
+ok 4 - opaque tokens are random and stored as deterministic hashes
+  ---
+  duration_ms: 0.481958
+  ...
+# Subtest: redirect validation rejects absolute and protocol-relative URLs
+ok 5 - redirect validation rejects absolute and protocol-relative URLs
+  ---
+  duration_ms: 0.133875
+  ...
+# Subtest: Firebase signatures pin issuer, audience, algorithm, expiration, UID, auth time and tenant
+ok 6 - Firebase signatures pin issuer, audience, algorithm, expiration, UID, auth time and tenant
+  ---
+  duration_ms: 565.763625
+  ...
+# Subtest: online account state fails closed for disabled, deleted, revoked, wrong UID and missing metadata
+ok 7 - online account state fails closed for disabled, deleted, revoked, wrong UID and missing metadata
+  ---
+  duration_ms: 1.295416
+  ...
+# Subtest: account operations use fixed HTTPS, reject redirects/errors, and never send a password
+ok 8 - account operations use fixed HTTPS, reject redirects/errors, and never send a password
+  ---
+  duration_ms: 3.027542
+  ...
+# Subtest: Google profile picture is normalized into the canonical avatar URL
+ok 9 - Google profile picture is normalized into the canonical avatar URL
+  ---
+  duration_ms: 0.868084
+  ...
+# Subtest: Google profile without a picture has a null canonical avatar URL
+ok 10 - Google profile without a picture has a null canonical avatar URL
+  ---
+  duration_ms: 0.12825
+  ...
+# Subtest: PKCE accepts the RFC 7636 example and rejects a different verifier
+ok 11 - PKCE accepts the RFC 7636 example and rejects a different verifier
+  ---
+  duration_ms: 148.083667
+  ...
+# Subtest: handoff rejects expired, wrong-audience, and wrong-verifier tickets before database use
+ok 12 - handoff rejects expired, wrong-audience, and wrong-verifier tickets before database use
+  ---
+  duration_ms: 16.903791
+  ...
+# Subtest: mobile OAuth state keeps the challenge and client state in the signed cookie
+ok 13 - mobile OAuth state keeps the challenge and client state in the signed cookie
+  ---
+  duration_ms: 13.245666
+  ...
+# Subtest: preview exemption is limited to login bootstraps and signed API access tokens
+ok 14 - preview exemption is limited to login bootstraps and signed API access tokens
+  ---
+  duration_ms: 2.572333
+  ...
+# Subtest: auth rejects short or whitespace-padded signing secrets
+ok 15 - auth rejects short or whitespace-padded signing secrets
+  ---
+  duration_ms: 0.785417
+  ...
+# Subtest: Facebook is enabled only with both required values
+ok 16 - Facebook is enabled only with both required values
+  ---
+  duration_ms: 0.699542
+  ...
+# Subtest: Apple is enabled only with the complete web credential set
+ok 17 - Apple is enabled only with the complete web credential set
+  ---
+  duration_ms: 0.142917
+  ...
+# Subtest: Facebook profiles support normal and missing-email responses safely
+ok 18 - Facebook profiles support normal and missing-email responses safely
+  ---
+  duration_ms: 0.4715
+  ...
+# Subtest: Apple captures first-login data, relay email, and tolerates later sparse responses
+ok 19 - Apple captures first-login data, relay email, and tolerates later sparse responses
+  ---
+  duration_ms: 0.192292
+  ...
+# Subtest: web callbacks reject denial/state failures and identities require explicit safe linking
+ok 20 - web callbacks reject denial/state failures and identities require explicit safe linking
+  ---
+  duration_ms: 0.699958
+  ...
+# Subtest: provider implementations retain minimal scopes and server-side validation
+ok 21 - provider implementations retain minimal scopes and server-side validation
+  ---
+  duration_ms: 0.404459
+  ...
+# Subtest: Catch Me Up counts only material changes after the previous visit
+ok 22 - Catch Me Up counts only material changes after the previous visit
+  ---
+  duration_ms: 1.481125
+  ...
+# Subtest: a first visit has no Catch Me Up banner
+ok 23 - a first visit has no Catch Me Up banner
+  ---
+  duration_ms: 0.32825
+  ...
+# Subtest: user preference defaults are cross-platform and strongly typed
+ok 24 - user preference defaults are cross-platform and strongly typed
+  ---
+  duration_ms: 1.076208
+  ...
+# Subtest: team identifiers normalize consistently
+ok 25 - team identifiers normalize consistently
+  ---
+  duration_ms: 0.606166
+  ...
+# Subtest: preference validation rejects unsupported values
+ok 26 - preference validation rejects unsupported values
+  ---
+  duration_ms: 4.288917
+  ...
+# Subtest: profile validation accepts minimal data and rejects invalid avatar URLs
+ok 27 - profile validation accepts minimal data and rejects invalid avatar URLs
+  ---
+  duration_ms: 0.988667
+  ...
+# Subtest: preferred team is accepted as a typed user preference
+ok 28 - preferred team is accepted as a typed user preference
+  ---
+  duration_ms: 0.3635
+  ...
+# Subtest: Access request protects the entire staging hostname including APIs/assets with named IdP identities
+ok 29 - Access request protects the entire staging hostname including APIs/assets with named IdP identities
+  ---
+  duration_ms: 1.797375
+  ...
+# Subtest: Access request rejects wildcard, empty and duplicate identity policies
+ok 30 - Access request rejects wildcard, empty and duplicate identity policies
+  ---
+  duration_ms: 2.43
+  ...
+# Subtest: Access gate verifies signatures, claims and API/assets; identities alone cannot bypass
+ok 31 - Access gate verifies signatures, claims and API/assets; identities alone cannot bypass
+  ---
+  duration_ms: 250.100583
+  ...
+# Subtest: staging graph is private, isolated, cron-free, and provider-free
+ok 32 - staging graph is private, isolated, cron-free, and provider-free
+  ---
+  duration_ms: 3.884417
+  ...
+# Subtest: generator rejects placeholder IDs and unsafe URL input
+ok 33 - generator rejects placeholder IDs and unsafe URL input
+  ---
+  duration_ms: 2.603625
+  ...
+# Subtest: offline guard emits only private staging commands after complete operator evidence
+ok 34 - offline guard emits only private staging commands after complete operator evidence
+  ---
+  duration_ms: 3.875708
+  ...
+# Subtest: guard denies stale, paid, unprotected, mismatched and production targets
+ok 35 - guard denies stale, paid, unprotected, mismatched and production targets
+  ---
+  duration_ms: 6.601917
+  ...
+1..35
+# tests 35
+# suites 0
+# pass 35
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1056.609833

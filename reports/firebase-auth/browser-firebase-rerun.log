@@ -1,0 +1,15 @@
+
+Running 3 tests using 1 worker
+
+[1A[2K(node:19058) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1A[2K(node:19058) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1A[2K[1/3] [Local Chrome] › tests/mobile/firebase-auth.spec.ts:21:7 › Firebase SDK login preserves web form flow without legacy password API calls
+[1A[2K[2/3] [Local Chrome] › tests/mobile/firebase-auth.spec.ts:21:7 › Firebase SDK signup preserves web form flow without legacy password API calls
+[1A[2K[3/3] [Local Chrome] › tests/mobile/firebase-auth.spec.ts:21:7 › Firebase SDK reset preserves web form flow without legacy password API calls
+[1A[2K  3 passed (7.2s)

@@ -1,3 +1,4 @@
+import { firebaseSessionValid } from './firebase-service';
 import { createD1EmailSignup } from './d1-mail';
 import { jwtVerify, SignJWT } from 'jose';
 import { secureToken, hashPassword, verifyPassword } from './crypto';
@@ -78,13 +79,14 @@ export async function issueSession(
     .setIssuedAt()
     .setExpirationTime('15m')
     .sign(new TextEncoder().encode(requireAuthConfig().AUTH_JWT_SECRET));
-  return { refreshToken, accessToken, expiresAt: session.expiresAt };
+  return { refreshToken, accessToken, expiresAt: session.expiresAt, sessionId: session.id };
 }
 
 export async function userFromSessionToken(token?: string | null) {
   if (!token) return null;
   const session = await findSessionByToken(token);
   if (!session || session.revoked_at || session.expires_at <= new Date()) return null;
+  if (!(await firebaseSessionValid(session.id, session.user_id))) return null;
   const user = await findUserById(session.user_id);
   return user?.status === 'ACTIVE' || user?.status === 'PENDING' ? toPublicUser(user) : null;
 }
@@ -99,6 +101,7 @@ export async function userFromAccessToken(token?: string | null) {
     );
     if (!payload.sub || typeof payload.sid !== 'string') return null;
     if (!(await findActiveSessionById(payload.sid, payload.sub))) return null;
+    if (!(await firebaseSessionValid(payload.sid, payload.sub))) return null;
     const user = await findUserById(payload.sub);
     return user?.status === 'ACTIVE' || user?.status === 'PENDING' ? toPublicUser(user) : null;
   } catch {

@@ -1,3 +1,4 @@
+import { firebaseSelected, publicFirebaseConfiguration } from './firebase-config';
 import { z } from 'zod';
 import {
   applicationBackend,
@@ -84,14 +85,22 @@ export function requireAuthConfig() {
 }
 
 export function publicAuthConfig() {
+  const selected = firebaseSelected();
+  const firebase = publicFirebaseConfiguration();
   return {
+    mode: selected ? 'firebase' : 'legacy',
+    firebase,
     database: Boolean(authConfig.DATABASE_URL) || applicationBackend() === 'd1',
-    email: Boolean(
-      (authConfig.DATABASE_URL || applicationBackend() === 'd1') &&
-      authConfig.AUTH_JWT_SECRET &&
-      passwordRuntimeAvailable(),
-    ),
-    providers: configuredSocialProviders(),
+    email: selected
+      ? Boolean(firebase)
+      : Boolean(
+          (authConfig.DATABASE_URL || applicationBackend() === 'd1') &&
+          authConfig.AUTH_JWT_SECRET &&
+          passwordRuntimeAvailable(),
+        ),
+    providers: selected
+      ? { apple: false, google: false, facebook: false }
+      : configuredSocialProviders(),
   };
 }
 

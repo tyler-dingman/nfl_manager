@@ -1,5 +1,10 @@
 'use client';
 
+import {
+  firebaseWebSignIn,
+  firebaseWebReset,
+  startFirebaseWebSession,
+} from '@/features/auth/firebase-client';
 import { FormEvent, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -11,7 +16,11 @@ import { notifyAuthChanged } from '@/features/auth/auth-session';
 import { recoveryLink, passwordError } from '../../../packages/auth/recovery';
 
 type Mode = 'options' | 'email-login' | 'email-signup' | 'forgot' | 'new-password' | 'verify';
-type Config = { email: boolean; providers: { apple: boolean; google: boolean; facebook: boolean } };
+type Config = {
+  mode?: 'firebase' | 'legacy';
+  email: boolean;
+  providers: { apple: boolean; google: boolean; facebook: boolean };
+};
 const inputClass =
   'mt-2 h-14 w-full rounded-2xl border border-[#00172B]/15 px-4 text-base font-semibold normal-case tracking-normal outline-none focus:border-[#FF3D38]';
 const providerClass =
@@ -36,11 +45,25 @@ export default function LoginScreen() {
   const next = requested?.startsWith('/') && !requested.startsWith('//') ? requested : '/';
 
   useEffect(() => {
+    const restore = () => {
+      void fetch('/api/auth/me', { cache: 'no-store' })
+        .then((response) => {
+          if (response.ok) {
+            notifyAuthChanged();
+            router.replace(next);
+            router.refresh();
+          }
+        })
+        .catch(() => {});
+    };
+    window.addEventListener('dd-firebase-session-refresh', restore);
+    void startFirebaseWebSession().catch(() => {});
     if (recovery) window.history.replaceState(null, '', '/login');
     void fetch('/api/auth/config')
       .then((response) => response.json())
       .then(setConfig)
       .catch(() => setConfig(null));
+    return () => window.removeEventListener('dd-firebase-session-refresh', restore);
   }, []);
   useEffect(() => {
     const link = recoveryLink(searchParams?.get('resetToken'), searchParams?.get('verifyToken'));
@@ -88,6 +111,22 @@ export default function LoginScreen() {
             ? 'Email verified. Sign in to continue.'
             : 'Password updated. Sign in with your new password.',
         );
+        return;
+      }
+      if (config?.mode === 'firebase') {
+        if (mode === 'forgot') {
+          await firebaseWebReset(email);
+          setMessage('If an account exists, a reset link will be sent.');
+          return;
+        }
+        if (mode === 'email-signup') {
+          const error = passwordError(password, confirmPassword);
+          if (error) throw Error(error);
+        }
+        await firebaseWebSignIn(email, password, mode === 'email-signup' ? name : undefined);
+        notifyAuthChanged();
+        router.push(next);
+        router.refresh();
         return;
       }
       if (mode === 'forgot') {

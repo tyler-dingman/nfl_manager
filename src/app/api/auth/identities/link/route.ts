@@ -1,8 +1,10 @@
+import { firebaseSelected } from '@/server/auth/firebase-config';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { assertSameOrigin, authError, safeRedirect } from '@/server/auth/http';
 import { currentUser } from '@/server/auth/request';
 export async function POST(request: NextRequest) {
+  if (firebaseSelected()) return new Response(null, { status: 404 });
   try {
     assertSameOrigin(request);
   } catch {

@@ -1,9 +1,14 @@
+import { firebaseSelected } from '@/server/auth/firebase-config';
 import { NextRequest, NextResponse } from 'next/server';
 import { assertSameOrigin, authError } from '@/server/auth/http';
 import { unlinkIdentity } from '@/server/auth/repository';
 import { currentUser } from '@/server/auth/request';
-export async function DELETE(request: NextRequest, { params: asyncparams }: { params: Promise<{ identityId: string }> }) {
-const params = await asyncparams;
+export async function DELETE(
+  request: NextRequest,
+  { params: asyncparams }: { params: Promise<{ identityId: string }> },
+) {
+  if (firebaseSelected()) return new Response(null, { status: 404 });
+  const params = await asyncparams;
 
   try {
     assertSameOrigin(request);

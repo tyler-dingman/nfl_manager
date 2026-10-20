@@ -1,3 +1,4 @@
+import { firebaseSelected } from '@/server/auth/firebase-config';
 import { NextRequest, NextResponse } from 'next/server';
 import { OAUTH_COOKIE, safeRedirect } from '@/server/auth/http';
 import { createOAuthState } from '@/server/auth/oauth-state';
@@ -5,8 +6,12 @@ import { authConfig } from '@/server/auth/config';
 import { getAuthProvider } from '@/server/auth/providers';
 import { validMobileChallenge } from '@/server/auth/mobile-handoff';
 import { currentUser } from '@/server/auth/request';
-export async function GET(request: NextRequest, { params: asyncparams }: { params: Promise<{ provider: string }> }) {
-const params = await asyncparams;
+export async function GET(
+  request: NextRequest,
+  { params: asyncparams }: { params: Promise<{ provider: string }> },
+) {
+  if (firebaseSelected()) return new Response(null, { status: 404 });
+  const params = await asyncparams;
 
   try {
     const provider = getAuthProvider(params.provider);

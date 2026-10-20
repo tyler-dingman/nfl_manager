@@ -1,0 +1,48 @@
+
+Running 3 tests using 1 worker
+
+[1A[2K(node:13047) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1A[2K(node:13047) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1A[2K[1/3] [Mobile Chrome] › tests/mobile/firebase-auth.spec.ts:12:59 › Firebase SDK login preserves web form flow without legacy password API calls
+[1A[2K[Mobile Chrome] › tests/mobile/firebase-auth.spec.ts:12:59 › Firebase SDK login preserves web form flow without legacy password API calls
+✘ [ERROR] No matching export in "tests/mobile/fixtures/firebase-login-navigation.ts" for import "usePathname"
+
+    src/components/branding/fivewide-logo.tsx:5:9:
+      5 │ import { usePathname } from 'next/navigation';
+        ╵          ~~~~~~~~~~~
+
+
+
+[1A[2K  1) [Mobile Chrome] › tests/mobile/firebase-auth.spec.ts:12:59 › Firebase SDK login preserves web form flow without legacy password API calls 
+
+    Error: Build failed with 1 error:
+    src/components/branding/fivewide-logo.tsx:5:9: ERROR: No matching export in "tests/mobile/fixtures/firebase-login-navigation.ts" for import "usePathname"
+        at failureErrorWithLog (/private/tmp/down-distance-rc3/node_modules/esbuild/lib/main.js:1467:15)
+        at /private/tmp/down-distance-rc3/node_modules/esbuild/lib/main.js:926:25
+        at /private/tmp/down-distance-rc3/node_modules/esbuild/lib/main.js:878:52
+        at buildResponseToResult (/private/tmp/down-distance-rc3/node_modules/esbuild/lib/main.js:924:7)
+        at /private/tmp/down-distance-rc3/node_modules/esbuild/lib/main.js:951:16
+        at responseCallbacks.<computed> (/private/tmp/down-distance-rc3/node_modules/esbuild/lib/main.js:603:9)
+        at handleIncomingPacket (/private/tmp/down-distance-rc3/node_modules/esbuild/lib/main.js:658:12)
+        at Socket.readFromStdout (/private/tmp/down-distance-rc3/node_modules/esbuild/lib/main.js:581:7)
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/firebase-auth-Firebase-SDK-c9f38-t-legacy-password-API-calls-Mobile-Chrome/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/firebase-auth-Firebase-SDK-c9f38-t-legacy-password-API-calls-Mobile-Chrome/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+[1A[2K[2/3] [Mobile Chrome] › tests/mobile/firebase-auth.spec.ts:12:59 › Firebase SDK signup preserves web form flow without legacy password API calls
+[1A[2K[3/3] [Mobile Chrome] › tests/mobile/firebase-auth.spec.ts:12:59 › Firebase SDK reset preserves web form flow without legacy password API calls
+[1A[2K  1 failed
+    [Mobile Chrome] › tests/mobile/firebase-auth.spec.ts:12:59 › Firebase SDK login preserves web form flow without legacy password API calls 
+  2 did not run

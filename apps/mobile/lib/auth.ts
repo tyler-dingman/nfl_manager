@@ -1,3 +1,5 @@
+import { mobileFirebaseAuth, mobileFirebaseConfiguration } from './firebase-auth';
+import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { createFranchiseTransport } from '../../../packages/front-office/command-transport';
 import { DEMO_LOGIN_ENABLED } from './demo-config';
 import { demoSession } from './demo-session';
@@ -62,6 +64,14 @@ async function refreshAccessToken() {
   refreshInFlight = (async () => {
     const refreshToken = await getItem(REFRESH);
     if (!refreshToken) return null;
+    if ((await mobileFirebaseConfiguration()).mode === 'firebase') {
+      const user = (await mobileFirebaseAuth()).currentUser;
+      if (!user) {
+        await clearSession();
+        return null;
+      }
+      return (await exchangeFirebase(await user.getIdToken(true), refreshToken)).accessToken;
+    }
     const response = await apiFetch('/api/auth/refresh', {
       method: 'POST',
       headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
@@ -100,7 +110,12 @@ export async function authenticatedFetch(path: string, init: RequestInit = {}) {
 export async function currentUser(): Promise<PublicUser | null> {
   if (demoSession.isActive()) return demoSession.user;
   try {
-    if (!(await getItem(ACCESS)) && !(await getItem(REFRESH))) return null;
+    if (!(await getItem(ACCESS)) && !(await getItem(REFRESH))) {
+      if ((await mobileFirebaseConfiguration()).mode !== 'firebase') return null;
+      const user = (await mobileFirebaseAuth()).currentUser;
+      if (!user) return null;
+      await exchangeFirebase(await user.getIdToken());
+    }
     const response = await authenticatedFetch('/api/auth/me');
     if (!response.ok) return null;
     return ((await response.json()) as { user: PublicUser }).user;
@@ -132,6 +147,15 @@ export async function exchangeNativeIdentity(input: NativeIdentityExchange) {
 export async function loginWithEmail(email: string, password: string) {
   const demoUser = demoSession.login(DEMO_LOGIN_ENABLED, email, password);
   if (demoUser) return demoUser;
+  if ((await mobileFirebaseConfiguration()).mode === 'firebase') {
+    const credential = await signInWithEmailAndPassword(
+      await mobileFirebaseAuth(),
+      email.trim(),
+      password,
+    );
+    return (await exchangeFirebase(await credential.user.getIdToken(true), await getItem(REFRESH)))
+      .user;
+  }
   const response = await apiFetch('/api/auth/login', {
     method: 'POST',
     headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
@@ -156,8 +180,13 @@ export async function logoutSession() {
     demoSession.logout();
     return;
   }
-  const refreshToken = await getItem(REFRESH);
+  let refreshToken = await getItem(REFRESH);
   try {
+    if ((await mobileFirebaseConfiguration()).mode === 'firebase') {
+      await signOut(await mobileFirebaseAuth());
+      await refreshInFlight?.catch(() => {});
+      refreshToken = await getItem(REFRESH);
+    }
     if (refreshToken)
       await apiFetch('/api/auth/logout', {
         method: 'POST',
@@ -215,4 +244,21 @@ export async function loginWithBrowser(provider: 'apple' | 'google'): Promise<Pu
   if (!response.ok || !body?.ok) throw new Error(body?.error ?? 'Sign-in failed.');
   await saveSession(body);
   return body.user;
+}
+
+async function exchangeFirebase(idToken: string, refreshToken?: string | null) {
+  const response = await apiFetch('/api/auth/firebase/session', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({
+      idToken,
+      refreshToken: refreshToken ?? undefined,
+      mobile: true,
+      deviceId: await deviceId(),
+    }),
+  });
+  if (!response.ok) throw Error('Unable to establish your application session. Sign in again.');
+  const body = (await response.json()) as MobileTokenPair & { user: PublicUser };
+  await saveSession(body);
+  return body;
 }

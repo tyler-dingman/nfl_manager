@@ -1,8 +1,10 @@
+import { firebaseSelected } from '@/server/auth/firebase-config';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { assertSameOrigin, authError } from '@/server/auth/http';
 import { confirmEmail } from '@/server/auth/service';
 export async function POST(request: NextRequest) {
+  if (firebaseSelected()) return new Response(null, { status: 404 });
   try {
     assertSameOrigin(request);
     const { token } = z.object({ token: z.string().min(20) }).parse(await request.json());

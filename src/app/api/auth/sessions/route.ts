@@ -1,3 +1,4 @@
+import { revokeFirebaseUserSessions } from '@/server/auth/firebase-service';
 import { NextRequest, NextResponse } from 'next/server';
 import { assertSameOrigin, authError } from '@/server/auth/http';
 import { listSessions, revokeAllSessions } from '@/server/auth/repository';
@@ -16,6 +17,7 @@ export async function DELETE(request: NextRequest) {
   }
   const user = await currentUser(request);
   if (!user) return authError('Unauthorized.', 401);
+  await revokeFirebaseUserSessions(user.id);
   await revokeAllSessions(user.id);
   return NextResponse.json({ ok: true });
 }

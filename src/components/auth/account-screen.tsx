@@ -1,4 +1,5 @@
 'use client';
+import { firebaseWebDeletionToken } from '@/features/auth/firebase-client';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
@@ -414,18 +415,30 @@ function SecuritySection() {
             type="button"
             disabled={deleting}
             onClick={async () => {
-              if (window.prompt('Type DELETE to end account access and request permanent data cleanup.') !== 'DELETE')
+              if (
+                window.prompt(
+                  'Type DELETE to end account access and request permanent data cleanup.',
+                ) !== 'DELETE'
+              )
                 return;
               setDeleting(true);
               const response = await fetch('/api/user/account/delete', {
                 method: 'POST',
                 headers: { 'content-type': 'application/json' },
-                body: JSON.stringify({ confirmation: 'DELETE' }),
+                body: JSON.stringify({
+                  confirmation: 'DELETE',
+                  idToken: await firebaseWebDeletionToken(),
+                }),
               });
               if (response.ok) {
                 await clearPreviewSession();
                 router.replace('/');
-              } else setDeleting(false);
+              } else {
+                window.alert(
+                  'Unable to delete the account. Sign out and sign in again, then retry.',
+                );
+                setDeleting(false);
+              }
             }}
             className="inline-flex items-center gap-2 rounded-full border border-red-200 px-5 py-3 text-sm font-black text-red-600 disabled:opacity-50"
           >

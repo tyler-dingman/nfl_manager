@@ -1,3 +1,8 @@
+import {
+  mobileFirebaseConfiguration,
+  mobileFirebaseRegister,
+  mobileFirebaseReset,
+} from '../lib/firebase-auth';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import * as AppleAuthentication from 'expo-apple-authentication';
 import { useEffect, useRef, useState } from 'react';
@@ -155,6 +160,17 @@ export default function SignIn() {
     }
     setWorking(true);
     try {
+      if ((await mobileFirebaseConfiguration()).mode === 'firebase') {
+        if (mode === 'reset') {
+          await mobileFirebaseReset(email);
+          setMessage('If an account exists, a reset link will be sent.');
+        } else {
+          if (password !== confirmPassword) throw Error('Passwords do not match.');
+          await mobileFirebaseRegister(email, password, displayName.trim());
+          await auth.signInWithEmail(email.trim(), password);
+        }
+        return;
+      }
       const result = await apiFetch(
         mode === 'reset' ? '/api/auth/forgot-password' : '/api/auth/signup',
         {

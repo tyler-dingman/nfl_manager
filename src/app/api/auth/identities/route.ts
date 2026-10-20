@@ -1,8 +1,10 @@
+import { firebaseSelected } from '@/server/auth/firebase-config';
 import { NextRequest, NextResponse } from 'next/server';
 import { authError } from '@/server/auth/http';
 import { listIdentities } from '@/server/auth/repository';
 import { currentUser } from '@/server/auth/request';
 export async function GET(request: NextRequest) {
+  if (firebaseSelected()) return new Response(null, { status: 404 });
   const user = await currentUser(request);
   return user
     ? NextResponse.json({ ok: true, identities: await listIdentities(user.id) })

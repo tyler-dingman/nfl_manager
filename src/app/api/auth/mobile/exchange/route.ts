@@ -1,3 +1,4 @@
+import { firebaseSelected } from '@/server/auth/firebase-config';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { consumeMobileHandoff } from '@/server/auth/mobile-handoff';
@@ -13,6 +14,7 @@ const schema = z.object({
   deviceId: z.string().uuid(),
 });
 export async function POST(request: NextRequest) {
+  if (firebaseSelected()) return new Response(null, { status: 404 });
   try {
     const metadata = requestMetadata(request);
     if (!checkRateLimit(`mobile-exchange:${metadata.ip ?? 'unknown'}`, 20, 15 * 60_000))

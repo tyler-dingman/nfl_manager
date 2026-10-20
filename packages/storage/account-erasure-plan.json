@@ -2,6 +2,10 @@
   "schema": 2,
   "operations": [
     {
+      "table": "app_firebase_sessions",
+      "sql": "DELETE FROM \"app_firebase_sessions\" WHERE \"session_id\" IN(SELECT \"session_id\" FROM \"app_firebase_sessions\" WHERE \"user_id\"=:user LIMIT 25)"
+    },
+    {
       "table": "app_credentials",
       "sql": "DELETE FROM \"app_credentials\" WHERE (\"user_id\") IN(SELECT \"user_id\" FROM \"app_credentials\" WHERE \"user_id\"=:user LIMIT 25)"
     },

@@ -1,0 +1,93 @@
+
+Running 4 tests using 1 worker
+
+[1A[2K(node:16184) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1A[2K(node:16184) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1A[2K[1/4] [Local Chrome] › tests/mobile/account.spec.ts:4:5 › account fits mobile, persists switches, edits profile and confirms deletion
+[1A[2K[2/4] [Local Chrome] › tests/mobile/firebase-auth.spec.ts:12:59 › Firebase SDK login preserves web form flow without legacy password API calls
+[1A[2K  1) [Local Chrome] › tests/mobile/firebase-auth.spec.ts:12:59 › Firebase SDK login preserves web form flow without legacy password API calls 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for getByRole('button', { name: 'Continue with email', exact: true })[22m
+
+
+      38 |             identities: { email: ['browser@example.invalid'] },
+      39 |           },
+    > 40 |         },
+         |           ^
+      41 |       ]
+      42 |         .map((x) => Buffer.from(JSON.stringify(x)).toString('base64url'))
+      43 |         .join('.') + '.fixture-signature';
+        at /private/tmp/down-distance-rc3/tests/mobile/firebase-auth.spec.ts:40:73
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/firebase-auth-Firebase-SDK-c9f38-t-legacy-password-API-calls-Local-Chrome/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/firebase-auth-Firebase-SDK-c9f38-t-legacy-password-API-calls-Local-Chrome/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/firebase-auth-Firebase-SDK-c9f38-t-legacy-password-API-calls-Local-Chrome/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+[1A[2K(node:17722) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1A[2K(node:17722) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1A[2K[3/4] [Local Chrome] › tests/mobile/firebase-auth.spec.ts:12:59 › Firebase SDK signup preserves web form flow without legacy password API calls
+[1A[2K  2) [Local Chrome] › tests/mobile/firebase-auth.spec.ts:12:59 › Firebase SDK signup preserves web form flow without legacy password API calls 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+    [2m  - waiting for getByRole('button', { name: 'Continue with email', exact: true })[22m
+
+
+      38 |             sign_in_provider: 'password',
+      39 |             identities: { email: ['browser@example.invalid'] },
+    > 40 |           },
+         |             ^
+      41 |         },
+      42 |       ]
+      43 |         .map((x) => Buffer.from(JSON.stringify(x)).toString('base64url'))
+        at /private/tmp/down-distance-rc3/tests/mobile/firebase-auth.spec.ts:40:73
+
+    Error: ENOENT: no such file or directory, open '/private/tmp/down-distance-rc3/test-results/.playwright-artifacts-1/3be0197fb13bc2210da79e7d6c8205a9.zip'
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/firebase-auth-Firebase-SDK-aa868-t-legacy-password-API-calls-Local-Chrome/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+[1A[2K(node:21336) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1A[2K(node:21336) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1A[2K[4/4] [Local Chrome] › tests/mobile/firebase-auth.spec.ts:12:59 › Firebase SDK reset preserves web form flow without legacy password API calls
+[1A[2K  2 failed
+    [Local Chrome] › tests/mobile/firebase-auth.spec.ts:12:59 › Firebase SDK login preserves web form flow without legacy password API calls 
+    [Local Chrome] › tests/mobile/firebase-auth.spec.ts:12:59 › Firebase SDK signup preserves web form flow without legacy password API calls 
+  2 passed (2.1m)

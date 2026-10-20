@@ -17,6 +17,8 @@ const owners = [
   'D1_SHARED',
 ];
 const bindings = {
+  AUTH_PROVIDER: 'legacy',
+  APP_LEGACY_AUTH_ENABLED: 'true',
   APP_MULTI_D1: 'true',
   APP_DATA_BACKEND: 'd1',
   APP_OBJECT_BACKEND: 'd1',

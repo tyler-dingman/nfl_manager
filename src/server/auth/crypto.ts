@@ -1,3 +1,4 @@
+import { firebaseSelected } from './firebase-config';
 import { createCipheriv, createDecipheriv, createHash, randomBytes } from 'node:crypto';
 import { applicationEnvironment } from '../persistence/bindings';
 import { assertAuthSecret } from './secret-policy';
@@ -28,6 +29,7 @@ export function decryptSecret(value: string) {
 }
 
 async function nativeArgon() {
+  if (firebaseSelected()) throw Error('Legacy password authentication is disabled.');
   if (applicationEnvironment().APP_RUNTIME === 'cloudflare') return await import('./argon-worker');
   return await import('./argon-node');
 }

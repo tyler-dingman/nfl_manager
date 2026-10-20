@@ -106,7 +106,8 @@ try {
         !/^(\.git|node_modules|\.next|\.open-next|workers\/.*\/node_modules)(\/|$)/.test(rel) &&
         !rel.split(path.sep).includes('node_modules') &&
         !rel.startsWith('src/app/api') &&
-        !rel.startsWith('.staging')
+        !rel.startsWith('.staging') &&
+        !/^(test-results|playwright-report)(\/|$)/.test(rel)
       );
     },
   });

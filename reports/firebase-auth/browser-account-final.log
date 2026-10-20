@@ -1,0 +1,55 @@
+
+Running 1 test using 1 worker
+
+[1A[2K(node:35556) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1A[2K(node:35556) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1A[2K[1/1] [Local Chrome] › tests/mobile/account.spec.ts:4:5 › account fits mobile, persists switches, edits profile and confirms deletion
+[1A[2K  1) [Local Chrome] › tests/mobile/account.spec.ts:4:5 › account fits mobile, persists switches, edits profile and confirms deletion 
+
+    Error: locator.uncheck: Clicking the checkbox did not change its state
+    Call log:
+    [2m  - waiting for getByRole('switch', { name: 'Email Notifications', exact: true })[22m
+    [2m    - locator resolved to <input checked role="switch" type="checkbox" aria-label="Email Notifications"/>[22m
+    [2m  - attempting click action[22m
+    [2m    - waiting for element to be visible, enabled and stable[22m
+    [2m    - element is visible, enabled and stable[22m
+    [2m    - scrolling into view if needed[22m
+    [2m    - done scrolling[22m
+    [2m    - performing click action[22m
+    [2m    - click action done[22m
+    [2m    - waiting for scheduled navigations to finish[22m
+    [2m    - navigations have finished[22m
+
+
+      31 |   }
+      32 |   await page.setViewportSize({ width: 390, height: 960 });
+    > 33 |   await page.getByRole('switch', { name: 'Email Notifications', exact: true }).uncheck();
+         |                                                                                ^
+      34 |   expect(await page.evaluate(() => document.body.dataset.mutation)).toBe('{"emailEnabled":false}');
+      35 |   await page.getByRole('button', { name: 'Edit Profile', exact: true }).click();
+      36 |   await page.getByLabel('Display Name', { exact: true }).fill('Updated Fan');
+        at /private/tmp/down-distance-rc3/tests/mobile/account.spec.ts:33:80
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/account-account-fits-mobil-bcc91-ofile-and-confirms-deletion-Local-Chrome/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/account-account-fits-mobil-bcc91-ofile-and-confirms-deletion-Local-Chrome/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/account-account-fits-mobil-bcc91-ofile-and-confirms-deletion-Local-Chrome/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/account-account-fits-mobil-bcc91-ofile-and-confirms-deletion-Local-Chrome/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+[1A[2K  1 failed
+    [Local Chrome] › tests/mobile/account.spec.ts:4:5 › account fits mobile, persists switches, edits profile and confirms deletion 

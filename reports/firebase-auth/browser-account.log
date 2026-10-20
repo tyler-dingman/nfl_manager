@@ -1,0 +1,35 @@
+
+Running 1 test using 1 worker
+
+[1A[2K(node:12024) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1A[2K(node:12024) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1A[2K[1/1] [Mobile Chrome] › tests/mobile/account.spec.ts:4:5 › account fits mobile, persists switches, edits profile and confirms deletion
+[1A[2K  1) [Mobile Chrome] › tests/mobile/account.spec.ts:4:5 › account fits mobile, persists switches, edits profile and confirms deletion 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/tylerdingman/Library/Caches/ms-playwright/chromium_headless_shell-1208/chrome-headless-shell-mac-arm64/chrome-headless-shell
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/account-account-fits-mobil-bcc91-ofile-and-confirms-deletion-Mobile-Chrome/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/account-account-fits-mobil-bcc91-ofile-and-confirms-deletion-Mobile-Chrome/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+[1A[2K  1 failed
+    [Mobile Chrome] › tests/mobile/account.spec.ts:4:5 › account fits mobile, persists switches, edits profile and confirms deletion 

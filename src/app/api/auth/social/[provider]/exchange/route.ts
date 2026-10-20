@@ -1,3 +1,4 @@
+import { firebaseSelected } from '@/server/auth/firebase-config';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { authError } from '@/server/auth/http';
@@ -21,8 +22,12 @@ const schema = z
   .refine((input) => requiresPkce(input.authorizationCode, input.codeVerifier), {
     message: 'codeVerifier is required when exchanging an authorization code.',
   });
-export async function POST(request: NextRequest, { params: asyncparams }: { params: Promise<{ provider: string }> }) {
-const params = await asyncparams;
+export async function POST(
+  request: NextRequest,
+  { params: asyncparams }: { params: Promise<{ provider: string }> },
+) {
+  if (firebaseSelected()) return new Response(null, { status: 404 });
+  const params = await asyncparams;
 
   try {
     const ip = requestMetadata(request).ip ?? 'unknown';

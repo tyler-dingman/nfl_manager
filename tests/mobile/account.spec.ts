@@ -30,7 +30,9 @@ test('account fits mobile, persists switches, edits profile and confirms deletio
     );
   }
   await page.setViewportSize({ width: 390, height: 960 });
-  await page.getByRole('switch', { name: 'Email Notifications', exact: true }).uncheck();
+  const emailSwitch = page.getByRole('switch', { name: 'Email Notifications', exact: true });
+  await emailSwitch.click();
+  await expect(emailSwitch).not.toBeChecked();
   expect(await page.evaluate(() => document.body.dataset.mutation)).toBe('{"emailEnabled":false}');
   await page.getByRole('button', { name: 'Edit Profile', exact: true }).click();
   await page.getByLabel('Display Name', { exact: true }).fill('Updated Fan');

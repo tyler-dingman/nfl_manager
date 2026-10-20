@@ -1,3 +1,4 @@
+import { firebaseSelected } from '@/server/auth/firebase-config';
 import { passwordRuntimeAvailable } from '@/server/persistence/bindings';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
@@ -13,6 +14,7 @@ const inputSchema = z.object({
   displayName: z.string().trim().max(100).optional(),
 });
 export async function POST(request: NextRequest) {
+  if (firebaseSelected()) return new Response(null, { status: 404 });
   if (!passwordRuntimeAvailable())
     return authError('Email password authentication is temporarily unavailable.', 503);
   try {

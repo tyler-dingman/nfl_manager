@@ -1,3 +1,4 @@
+import { firebaseSelected } from '@/server/auth/firebase-config';
 import { NextRequest, NextResponse } from 'next/server';
 import { OAUTH_COOKIE, safeRedirect, setSessionCookie } from '@/server/auth/http';
 import { authConfig } from '@/server/auth/config';
@@ -66,13 +67,21 @@ async function callback(request: NextRequest, providerName: string, values: URLS
     return response;
   }
 }
-export async function GET(request: NextRequest, { params: asyncparams }: { params: Promise<{ provider: string }> }) {
-const params = await asyncparams;
+export async function GET(
+  request: NextRequest,
+  { params: asyncparams }: { params: Promise<{ provider: string }> },
+) {
+  if (firebaseSelected()) return new Response(null, { status: 404 });
+  const params = await asyncparams;
 
   return callback(request, params.provider, request.nextUrl.searchParams);
 }
-export async function POST(request: NextRequest, { params: asyncparams }: { params: Promise<{ provider: string }> }) {
-const params = await asyncparams;
+export async function POST(
+  request: NextRequest,
+  { params: asyncparams }: { params: Promise<{ provider: string }> },
+) {
+  if (firebaseSelected()) return new Response(null, { status: 404 });
+  const params = await asyncparams;
 
   return callback(request, params.provider, new URLSearchParams(await request.text()));
 }

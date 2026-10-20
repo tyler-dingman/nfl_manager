@@ -1,3 +1,4 @@
+import { firebaseSelected } from '@/server/auth/firebase-config';
 import { NextRequest, NextResponse } from 'next/server';
 import { SignJWT } from 'jose';
 import { z } from 'zod';
@@ -11,6 +12,7 @@ const schema = z.object({
   mobile: z.boolean().optional(),
 });
 export async function POST(request: NextRequest) {
+  if (firebaseSelected()) return new Response(null, { status: 404 });
   try {
     const body = schema.parse(await request.json().catch(() => ({})));
     const oldToken = body.refreshToken ?? request.cookies.get(SESSION_COOKIE)?.value;

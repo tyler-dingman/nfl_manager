@@ -1,0 +1,20 @@
+SYNTHETIC_LOCAL_DIAGNOSTIC TypeError Invalid redirect value, must be one of "follow" or "manual" ("error" won't be implemented since it does not make sense at the edge; use "manual" and check the response status code).
+{"metric":"application_headers","routePattern":"^\\/api\\/auth\\/firebase\\/session\\/?$","method":"POST","route":"/api/auth","status":401,"wallMs":15,"d1Calls":0,"statements":0,"rowsRead":0,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Cloudflare TraceEvent CPUTimeMs required"}
+node:internal/modules/run_main:122
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: {"ok":false,"error":"Unable to authenticate. Sign in again or contact the owner if this test email already exists."}
+
+401 !== 200
+
+    at file:///private/tmp/down-distance-rc3/scripts/firebase-auth/probe-workerd.mjs:172:12
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 401,
+  expected: 200,
+  operator: 'strictEqual'
+}
+
+Node.js v22.14.0

@@ -1,3 +1,4 @@
+import { mobileFirebaseDeletionToken } from '../../lib/firebase-auth';
 import { useCallback, useEffect, useState } from 'react';
 import { Alert, Image, Linking, Pressable, StyleSheet, Switch, Text, View } from 'react-native';
 import { Feather } from '@expo/vector-icons';
@@ -297,7 +298,10 @@ export default function Account() {
           <View style={s.card}>
             <Text style={s.heading}>Danger Zone</Text>
             <Text style={[s.strong, { color: '#d81934', marginTop: 12 }]}>Delete Account</Text>
-            <Text style={s.muted}>Account access ends immediately. Personal data cleanup continues securely in the background.</Text>
+            <Text style={s.muted}>
+              Account access ends immediately. Personal data cleanup continues securely in the
+              background.
+            </Text>
             <Pressable
               disabled={busy}
               style={s.button}
@@ -316,7 +320,10 @@ export default function Account() {
                             authenticatedFetch,
                             '/api/user/account/delete',
                             'POST',
-                            { confirmation: 'DELETE' },
+                            {
+                              confirmation: 'DELETE',
+                              idToken: await mobileFirebaseDeletionToken(),
+                            },
                           );
                           await logout();
                         }),

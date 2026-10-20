@@ -1,3 +1,4 @@
+import { mobileFirebaseConfiguration } from './firebase-auth';
 import { completeIntro } from './intro-state';
 import { demoSession } from './demo-session';
 import * as AppleAuthentication from 'expo-apple-authentication';
@@ -46,10 +47,17 @@ export function AuthProvider({ children }: PropsWithChildren) {
   const [appleAvailable, setAppleAvailable] = useState(false);
   const googleClientId = process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID;
   const googleIosClientId = process.env.EXPO_PUBLIC_GOOGLE_IOS_CLIENT_ID;
+  const [firebaseMode, setFirebaseMode] = useState(true);
   const googleAvailable =
-    Platform.OS === 'android' || (Platform.OS === 'ios' && Boolean(googleClientId));
-  useEffect(() => { if (user) void completeIntro(); }, [user]);
+    !firebaseMode &&
+    (Platform.OS === 'android' || (Platform.OS === 'ios' && Boolean(googleClientId)));
   useEffect(() => {
+    if (user) void completeIntro();
+  }, [user]);
+  useEffect(() => {
+    void mobileFirebaseConfiguration()
+      .then((c) => setFirebaseMode(c.mode === 'firebase'))
+      .catch(() => setFirebaseMode(true));
     void currentUser()
       .then(setUser)
       .catch(() => setUser(null))
@@ -89,7 +97,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
       loading,
       busy,
       error,
-      appleAvailable,
+      appleAvailable: !firebaseMode && appleAvailable,
       googleAvailable,
       refreshUser: async () => {
         setUser(await currentUser());
@@ -138,7 +146,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
           return null;
         }),
     }),
-    [appleAvailable, busy, error, googleAvailable, loading, user],
+    [appleAvailable, firebaseMode, busy, error, googleAvailable, loading, user],
   );
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

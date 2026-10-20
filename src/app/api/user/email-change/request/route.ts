@@ -1,9 +1,18 @@
+import { firebaseSelected } from '@/server/auth/firebase-config';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { assertSameOrigin, authError } from '@/server/auth/http';
 import { currentUser } from '@/server/auth/request';
 import { requestEmailChange } from '@/server/user/repository';
 export async function POST(r: NextRequest) {
+  if (firebaseSelected())
+    return new Response(
+      JSON.stringify({
+        error:
+          'Email changes require the identity provider and are not enabled in this staging integration.',
+      }),
+      { status: 409, headers: { 'content-type': 'application/json' } },
+    );
   try {
     assertSameOrigin(r);
     const u = await currentUser(r);

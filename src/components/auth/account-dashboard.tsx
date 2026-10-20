@@ -1,4 +1,5 @@
 'use client';
+import { firebaseWebDeletionToken } from '@/features/auth/firebase-client';
 import {
   useCallback,
   useEffect,
@@ -404,15 +405,23 @@ export default function AccountDashboard({
           </Card>
           <Card title="Danger Zone" icon={Trash2} className={styles.danger}>
             <strong>Delete Account</strong>
-            <p className={styles.muted}>Account access ends immediately. Personal data cleanup continues securely in the background.</p>
+            <p className={styles.muted}>
+              Account access ends immediately. Personal data cleanup continues securely in the
+              background.
+            </p>
             <button
               disabled={busy}
               onClick={() => {
-                if (window.prompt('Type DELETE to end account access and request permanent data cleanup.') !== 'DELETE')
+                if (
+                  window.prompt(
+                    'Type DELETE to end account access and request permanent data cleanup.',
+                  ) !== 'DELETE'
+                )
                   return;
                 void run(async () => {
                   await accountMutation(fetch, '/api/user/account/delete', 'POST', {
                     confirmation: 'DELETE',
+                    idToken: await firebaseWebDeletionToken(),
                   });
                   await clearPreviewSession();
                   router.replace('/');

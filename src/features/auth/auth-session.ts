@@ -3,6 +3,7 @@
 import { useSaveStore, resetPrivateSaveMemory } from '@/features/save/save-store';
 import { webFranchiseTransport } from '../../../packages/front-office/command-transport';
 
+import { firebaseWebSignOut, startFirebaseWebSession } from './firebase-client';
 import { useCallback, useEffect, useState } from 'react';
 
 export type AuthUser = {
@@ -83,6 +84,7 @@ export function notifyAuthChanged() {
 
 export async function clearPreviewSession() {
   webFranchiseTransport.reset();
+  await firebaseWebSignOut().catch(() => {});
   await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
   clearPrivateFranchiseView(cachedUser?.id ?? null);
   cachedUser = null;
@@ -115,13 +117,18 @@ export function useAuthUser() {
     setHydrated(true);
   }, []);
   useEffect(() => {
+    void startFirebaseWebSession().catch(() => {});
     if (!loaded) void sync();
     else {
       setUser(cachedUser);
       setHydrated(true);
     }
     window.addEventListener(EVENT_NAME, sync);
-    return () => window.removeEventListener(EVENT_NAME, sync);
+    window.addEventListener('dd-firebase-session-refresh', notifyAuthChanged);
+    return () => {
+      window.removeEventListener(EVENT_NAME, sync);
+      window.removeEventListener('dd-firebase-session-refresh', notifyAuthChanged);
+    };
   }, [sync]);
   return { user, hydrated, refresh: sync };
 }
