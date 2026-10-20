@@ -231,3 +231,31 @@ test(
     }
   },
 );
+
+test('coordinated origin/transaction key rotation rejects old and cross-audience assertions before nonce access', async () => {
+  const { verifyOriginRequest } = await import('../../packages/security/origin-assertion');
+  for (const audience of ['dd-render-staging', configuration.audience]) {
+    const before = { ...configuration, audience },
+      after = {
+        ...before,
+        secret: 'synthetic-replacement-key-64-characters-independent-for-rotation-only',
+      };
+    const source = new Request(publicOrigin + '/api/auth/me');
+    const signed = async (key: typeof before) => {
+      const s = await signOriginRequest(source, key);
+      return new Request(source.url, { headers: { [ORIGIN_HEADER]: s.assertion } });
+    };
+    let claims = 0;
+    const claim = async () => {
+      claims++;
+    };
+    await verifyOriginRequest(await signed(before), before, claim);
+    await assert.rejects(verifyOriginRequest(await signed(before), after, claim));
+    await verifyOriginRequest(await signed(after), after, claim);
+    await assert.rejects(verifyOriginRequest(await signed(after), before, claim));
+    await assert.rejects(
+      verifyOriginRequest(await signed(after), { ...after, audience: 'wrong-audience' }, claim),
+    );
+    assert.equal(claims, 2);
+  }
+});

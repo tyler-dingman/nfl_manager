@@ -1,0 +1,451 @@
+{
+  "passed": true,
+  "records": [
+    {
+      "label": "Direct origin denied",
+      "pass": true
+    },
+    {
+      "label": "Anonymous edge denied",
+      "pass": true
+    },
+    {
+      "label": "Direct origin denied /",
+      "pass": true
+    },
+    {
+      "label": "Anonymous edge denied /",
+      "pass": true
+    },
+    {
+      "label": "Direct origin denied /account",
+      "pass": true
+    },
+    {
+      "label": "Anonymous edge denied /account",
+      "pass": true
+    },
+    {
+      "label": "Direct origin denied /favicon.ico",
+      "pass": true
+    },
+    {
+      "label": "Anonymous edge denied /favicon.ico",
+      "pass": true
+    },
+    {
+      "label": "Direct origin denied /api/auth/me",
+      "pass": true
+    },
+    {
+      "label": "Anonymous edge denied /api/auth/me",
+      "pass": true
+    },
+    {
+      "label": "Invalid staging credential denied",
+      "pass": true
+    },
+    {
+      "label": "Registration and real RSA identity exchange",
+      "pass": true,
+      "path": "/api/auth/firebase/session",
+      "status": 200
+    },
+    {
+      "label": "Node session lookup",
+      "pass": true,
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "label": "Firebase login exchange preserves application UUID",
+      "pass": true,
+      "path": "/api/auth/firebase/session",
+      "status": 200
+    },
+    {
+      "label": "Second synthetic account",
+      "pass": true,
+      "path": "/api/auth/firebase/session",
+      "status": 200
+    },
+    {
+      "label": "Native Firebase exchange retains bearer session",
+      "pass": true,
+      "path": "/api/auth/firebase/session",
+      "status": 200
+    },
+    {
+      "label": "Native bearer verified on Node API",
+      "pass": true
+    },
+    {
+      "label": "Team/global feed KC",
+      "pass": true,
+      "path": "/api/content/huddle?team=KC",
+      "status": 200
+    },
+    {
+      "label": "Team/global feed DEN",
+      "pass": true,
+      "path": "/api/content/huddle?team=DEN",
+      "status": 200
+    },
+    {
+      "label": "Team/global feed LV",
+      "pass": true,
+      "path": "/api/content/huddle?team=LV",
+      "status": 200
+    },
+    {
+      "label": "Team/global feed LAC",
+      "pass": true,
+      "path": "/api/content/huddle?team=LAC",
+      "status": 200
+    },
+    {
+      "label": "Team/global feed DAL",
+      "pass": true,
+      "path": "/api/content/huddle?team=DAL",
+      "status": 200
+    },
+    {
+      "label": "Team/global feed PHI",
+      "pass": true,
+      "path": "/api/content/huddle?team=PHI",
+      "status": 200
+    },
+    {
+      "label": "Team/global feed NYG",
+      "pass": true,
+      "path": "/api/content/huddle?team=NYG",
+      "status": 200
+    },
+    {
+      "label": "Team/global feed WAS",
+      "pass": true,
+      "path": "/api/content/huddle?team=WAS",
+      "status": 200
+    },
+    {
+      "label": "Team/global feed GB",
+      "pass": true,
+      "path": "/api/content/huddle?team=GB",
+      "status": 200
+    },
+    {
+      "label": "Team/global feed CHI",
+      "pass": true,
+      "path": "/api/content/huddle?team=CHI",
+      "status": 200
+    },
+    {
+      "label": "Team/global feed DET",
+      "pass": true,
+      "path": "/api/content/huddle?team=DET",
+      "status": 200
+    },
+    {
+      "label": "Team/global feed MIN",
+      "pass": true,
+      "path": "/api/content/huddle?team=MIN",
+      "status": 200
+    },
+    {
+      "label": "Team/global feed SF",
+      "pass": true,
+      "path": "/api/content/huddle?team=SF",
+      "status": 200
+    },
+    {
+      "label": "Team/global feed SEA",
+      "pass": true,
+      "path": "/api/content/huddle?team=SEA",
+      "status": 200
+    },
+    {
+      "label": "Team/global feed LAR",
+      "pass": true,
+      "path": "/api/content/huddle?team=LAR",
+      "status": 200
+    },
+    {
+      "label": "Team/global feed ARI",
+      "pass": true,
+      "path": "/api/content/huddle?team=ARI",
+      "status": 200
+    },
+    {
+      "label": "Team/global feed BUF",
+      "pass": true,
+      "path": "/api/content/huddle?team=BUF",
+      "status": 200
+    },
+    {
+      "label": "Team/global feed MIA",
+      "pass": true,
+      "path": "/api/content/huddle?team=MIA",
+      "status": 200
+    },
+    {
+      "label": "Team/global feed NE",
+      "pass": true,
+      "path": "/api/content/huddle?team=NE",
+      "status": 200
+    },
+    {
+      "label": "Team/global feed NYJ",
+      "pass": true,
+      "path": "/api/content/huddle?team=NYJ",
+      "status": 200
+    },
+    {
+      "label": "Team/global feed BAL",
+      "pass": true,
+      "path": "/api/content/huddle?team=BAL",
+      "status": 200
+    },
+    {
+      "label": "Team/global feed CIN",
+      "pass": true,
+      "path": "/api/content/huddle?team=CIN",
+      "status": 200
+    },
+    {
+      "label": "Team/global feed CLE",
+      "pass": true,
+      "path": "/api/content/huddle?team=CLE",
+      "status": 200
+    },
+    {
+      "label": "Team/global feed PIT",
+      "pass": true,
+      "path": "/api/content/huddle?team=PIT",
+      "status": 200
+    },
+    {
+      "label": "Team/global feed HOU",
+      "pass": true,
+      "path": "/api/content/huddle?team=HOU",
+      "status": 200
+    },
+    {
+      "label": "Team/global feed IND",
+      "pass": true,
+      "path": "/api/content/huddle?team=IND",
+      "status": 200
+    },
+    {
+      "label": "Team/global feed JAX",
+      "pass": true,
+      "path": "/api/content/huddle?team=JAX",
+      "status": 200
+    },
+    {
+      "label": "Team/global feed TEN",
+      "pass": true,
+      "path": "/api/content/huddle?team=TEN",
+      "status": 200
+    },
+    {
+      "label": "Team/global feed ATL",
+      "pass": true,
+      "path": "/api/content/huddle?team=ATL",
+      "status": 200
+    },
+    {
+      "label": "Team/global feed CAR",
+      "pass": true,
+      "path": "/api/content/huddle?team=CAR",
+      "status": 200
+    },
+    {
+      "label": "Team/global feed NO",
+      "pass": true,
+      "path": "/api/content/huddle?team=NO",
+      "status": 200
+    },
+    {
+      "label": "Team/global feed TB",
+      "pass": true,
+      "path": "/api/content/huddle?team=TB",
+      "status": 200
+    },
+    {
+      "label": "Team/global feed NFL",
+      "pass": true,
+      "path": "/api/content/huddle?team=NFL",
+      "status": 200
+    },
+    {
+      "label": "Cross-shard save KC",
+      "pass": true,
+      "path": "/api/user/saved-content",
+      "status": 201
+    },
+    {
+      "label": "Cross-shard save BUF",
+      "pass": true,
+      "path": "/api/user/saved-content",
+      "status": 201
+    },
+    {
+      "label": "Cross-shard save NFL",
+      "pass": true,
+      "path": "/api/user/saved-content",
+      "status": 201
+    },
+    {
+      "label": "Saved cross-shard identities preserved",
+      "pass": true,
+      "path": "/api/user/saved-content",
+      "status": 200
+    },
+    {
+      "label": "Cross-user saves isolated",
+      "pass": true,
+      "path": "/api/user/saved-content",
+      "status": 200
+    },
+    {
+      "label": "Front Office full durable creation",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "label": "Front Office idempotent command replay",
+      "pass": true
+    },
+    {
+      "label": "Front Office conflicting command rejected",
+      "pass": true,
+      "status": 409
+    },
+    {
+      "label": "Front Office readback",
+      "pass": true,
+      "path": "/api/front-office/state?saveId=a4d4fbbc-5447-4923-bbac-28196fe8ae49",
+      "status": 200
+    },
+    {
+      "label": "Front Office cross-user isolation",
+      "pass": true,
+      "path": "/api/front-office/state?saveId=a4d4fbbc-5447-4923-bbac-28196fe8ae49",
+      "status": 404
+    },
+    {
+      "label": "Parlay Lab synthetic API /api/parlay-lab/events",
+      "pass": true,
+      "path": "/api/parlay-lab/events",
+      "status": 200
+    },
+    {
+      "label": "Parlay Lab synthetic API /api/parlay-lab/props?team=KC",
+      "pass": true,
+      "path": "/api/parlay-lab/props?team=KC",
+      "status": 200
+    },
+    {
+      "label": "Parlay Lab synthetic API /api/parlay-lab/freshness",
+      "pass": true,
+      "path": "/api/parlay-lab/freshness",
+      "status": 200
+    },
+    {
+      "label": "Saved synthetic bet",
+      "pass": true,
+      "path": "/api/user/saved-content",
+      "status": 201
+    },
+    {
+      "label": "Invalid Firebase token denied",
+      "pass": true,
+      "path": "/api/auth/firebase/session",
+      "status": 401
+    },
+    {
+      "label": "Authenticated Node SSR /",
+      "pass": true,
+      "path": "/",
+      "status": 200
+    },
+    {
+      "label": "Authenticated Node SSR /front-office",
+      "pass": true,
+      "path": "/front-office",
+      "status": 200
+    },
+    {
+      "label": "Authenticated Node SSR /parlay-lab",
+      "pass": true,
+      "path": "/parlay-lab",
+      "status": 200
+    },
+    {
+      "label": "Authenticated Node SSR /account",
+      "pass": true,
+      "path": "/account",
+      "status": 200
+    },
+    {
+      "label": "Signed-out redirect",
+      "pass": true,
+      "path": "/",
+      "status": 307
+    },
+    {
+      "label": "Responsive browser protected account renders",
+      "pass": true
+    },
+    {
+      "label": "Logout",
+      "pass": true,
+      "path": "/api/auth/logout",
+      "status": 200
+    },
+    {
+      "label": "Revoked session denied",
+      "pass": true,
+      "path": "/api/auth/me",
+      "status": 401
+    },
+    {
+      "label": "Other user session survives logout",
+      "pass": true,
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "label": "Cross-user deletion proof rejected",
+      "pass": true,
+      "path": "/api/user/account/delete",
+      "status": 500
+    },
+    {
+      "label": "Other user survives foreign deletion proof",
+      "pass": true,
+      "path": "/api/auth/me",
+      "status": 200
+    },
+    {
+      "label": "Synthetic account deletion journal",
+      "pass": true,
+      "path": "/api/user/account/delete",
+      "status": 202
+    },
+    {
+      "label": "Deleted account session denied",
+      "pass": true,
+      "path": "/api/auth/me",
+      "status": 401
+    }
+  ],
+  "gatewayRequests": 867,
+  "nativeBatches": 229,
+  "firebaseKeyFetches": 1,
+  "firebaseLiveLookups": 47,
+  "providerMode": "synthetic intercepted SDK; no live Firebase project",
+  "databaseTransport": "signed Web to private API service binding; actual workerd native D1",
+  "browserExternalRequestsBlocked": 1,
+  "rssBytes": 715948032
+}

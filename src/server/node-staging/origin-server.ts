@@ -16,6 +16,7 @@ export type OriginOptions = {
   api: { fetch(r: Request, e: any): Promise<Response> };
   next: (r: IncomingMessage, s: ServerResponse) => Promise<unknown>;
 };
+export const RUNTIME_OBSERVATION_PATH = '/__staging/runtime-observation';
 const denied = (res: ServerResponse, status: number) => {
   res.writeHead(status, {
     'Cache-Control': 'private, no-store',
@@ -28,6 +29,43 @@ export function createNodeOrigin(options: OriginOptions) {
   if (options.configuration.secret === options.env.AUTH_JWT_SECRET)
     throw Error('Origin and application secrets must be independent');
   return createServer({ maxHeaderSize: 20000, requestTimeout: 30000 }, async (req, res) => {
+    // Next can overwrite cache headers while serving chunks. Lock privacy at the
+    // actual header write so a CDN cannot cache an authenticated origin response.
+    const writeHead = res.writeHead.bind(res);
+    res.writeHead = ((status: number, reasonOrHeaders?: any, suppliedHeaders?: any) => {
+      const source = typeof reasonOrHeaders === 'string' ? suppliedHeaders : reasonOrHeaders;
+      const headers = Array.isArray(source)
+        ? [
+            ...source.flatMap((v: any, i: number) =>
+              i % 2 === 0 &&
+              !['cache-control', 'cdn-cache-control', 'cloudflare-cdn-cache-control'].includes(
+                String(v).toLowerCase(),
+              )
+                ? [v, source[i + 1]]
+                : [],
+            ),
+            'Cache-Control',
+            'private, no-store',
+          ]
+        : {
+            ...Object.fromEntries(
+              Object.entries(source ?? {}).filter(
+                ([k]) =>
+                  !['cache-control', 'cdn-cache-control', 'cloudflare-cdn-cache-control'].includes(
+                    k.toLowerCase(),
+                  ),
+              ),
+            ),
+            'Cache-Control': 'private, no-store',
+          };
+      res.setHeader('Cache-Control', 'private, no-store');
+      res.setHeader('CDN-Cache-Control', 'private, no-store');
+      res.setHeader('Cloudflare-CDN-Cache-Control', 'private, no-store');
+      return typeof reasonOrHeaders === 'string'
+        ? writeHead(status, reasonOrHeaders, headers)
+        : writeHead(status, headers);
+    }) as typeof res.writeHead;
+    const runtimeObservation = req.url === RUNTIME_OBSERVATION_PATH && req.method === 'GET';
     let verified: Request;
     try {
       // Never read an unauthenticated large body or trust Host/Forwarded/user headers.
@@ -43,8 +81,15 @@ export function createNodeOrigin(options: OriginOptions) {
           ? { body: Readable.toWeb(req) as ReadableStream<Uint8Array>, duplex: 'half' }
           : {}),
       } as RequestInit);
-      verified = await verifyOriginRequest(source, options.configuration, (nonce, expires) =>
-        claimOriginNonce(options.bindings.D1_USERS, nonce, expires),
+      verified = await verifyOriginRequest(
+        source,
+        runtimeObservation
+          ? {
+              ...options.configuration,
+              audience: options.configuration.audience + '-runtime-observer',
+            }
+          : options.configuration,
+        (nonce, expires) => claimOriginNonce(options.bindings.D1_USERS, nonce, expires),
       );
     } catch (error) {
       denied(
@@ -54,6 +99,24 @@ export function createNodeOrigin(options: OriginOptions) {
           (error as Error).name === 'NativeBoundaryError'
           ? 503
           : 403,
+      );
+      return;
+    }
+    if (runtimeObservation) {
+      const memory = process.memoryUsage(),
+        cpu = process.cpuUsage();
+      res.setHeader('content-type', 'application/json');
+      res.end(
+        JSON.stringify({
+          rssBytes: memory.rss,
+          heapUsedBytes: memory.heapUsed,
+          heapTotalBytes: memory.heapTotal,
+          externalBytes: memory.external,
+          processCpuUserUs: cpu.user,
+          processCpuSystemUs: cpu.system,
+          uptimeSeconds: process.uptime(),
+          nodeVersion: process.version,
+        }),
       );
       return;
     }

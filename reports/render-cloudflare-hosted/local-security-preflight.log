@@ -1,0 +1,35 @@
+TAP version 13
+# Subtest: actual workerd native gateway: rollback, concurrent CAS, ownership,50-statement batch and stale write fence
+ok 1 - actual workerd native gateway: rollback, concurrent CAS, ownership,50-statement batch and stale write fence
+  ---
+  duration_ms: 6155.764583
+  ...
+# Subtest: actual workerd gateway: no browser SQL capability; missing, forged, expired, replayed and reflected origin assertions denied
+ok 2 - actual workerd gateway: no browser SQL capability; missing, forged, expired, replayed and reflected origin assertions denied
+  ---
+  duration_ms: 4163.864417
+  ...
+# Subtest: coordinated origin/transaction key rotation rejects old and cross-audience assertions before nonce access
+ok 3 - coordinated origin/transaction key rotation rejects old and cross-audience assertions before nonce access
+  ---
+  duration_ms: 6.831542
+  ...
+# Subtest: Native boundary cross-shard identities, saved synthetic bets and isolated coordinated recovery retain original IDs
+ok 4 - Native boundary cross-shard identities, saved synthetic bets and isolated coordinated recovery retain original IDs
+  ---
+  duration_ms: 13709.625125
+  ...
+# Subtest: origin response caching is private and runtime observations require a separate operator audience
+ok 5 - origin response caching is private and runtime observations require a separate operator audience
+  ---
+  duration_ms: 5527.835333
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 5
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 14270.571083

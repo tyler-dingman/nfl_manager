@@ -2,6 +2,7 @@ import { symlink, realpath } from 'node:fs/promises';
 /** Isolated Node build only. No Cloudflare/Render credentials or deployment commands. */
 import { readFile, writeFile, mkdir, cp, rm, mkdtemp } from 'node:fs/promises';
 import path from 'node:path';
+import os from 'node:os';
 import { spawnSync } from 'node:child_process';
 import { constants } from 'node:fs';
 import { build } from 'esbuild';
@@ -52,7 +53,7 @@ await build({
   ],
 });
 if (process.argv.includes('--api-only')) process.exit(0);
-const stage = await mkdtemp('/private/tmp/dd-node-build-');
+const stage = await mkdtemp(path.join(os.tmpdir(), 'dd-node-build-'));
 try {
   await cp(root, stage, {
     recursive: true,
@@ -61,12 +62,17 @@ try {
       const rel = path.relative(root, src);
       return (
         !/^(\.git|node_modules|\.next|\.open-next|\.staging)(\/|$)/.test(rel) &&
-        !rel.split(path.sep).includes('node_modules')
+        !rel.split(path.sep).includes('node_modules') &&
+        !rel
+          .split(path.sep)
+          .some((part) => part.startsWith('.env') || ['.aws', '.codex'].includes(part))
       );
     },
   });
-  const copy = spawnSync('cp', ['-cR', root + '/node_modules', stage + '/node_modules']);
-  if (copy.status) throw Error('Dependency clone failed');
+  await cp(root + '/node_modules', stage + '/node_modules', {
+    recursive: true,
+    mode: constants.COPYFILE_FICLONE,
+  });
   await mkdir(stage + '/workers/content-engine', { recursive: true });
   await symlink(
     await realpath(root + '/workers/content-engine/node_modules'),

@@ -2,7 +2,7 @@
 
 Current decision: [EXECUTION_BOUNDARY_DECISION.md](../../EXECUTION_BOUNDARY_DECISION.md). The earlier REST prototype remains available for regression comparison; its remote write/batch refusal is unchanged. The current Node starter uses only the signed native binding gateway and refuses Cloudflare account API credentials.
 
-No existing deployment configuration references the new entrypoints. This directory has no resource-creation or deployment command. All work stops locally.
+The authorized hosted retest uses `config/rc3-hybrid.web.toml` and `config/rc3-hybrid.api.toml`, referencing only the existing staging resources. Exposure remains disabled until security qualification.
 
 ## Local reproduction
 
@@ -17,7 +17,7 @@ DD_TEST_NATIVE_BOUNDARY=true TSX_TSCONFIG_PATH=tsconfig.test.json NODE_OPTIONS='
 
 The legacy flags apply only to offline regression coverage of retained Argon rollback code. Firebase staging still disables those endpoints. The full integration explicitly selects Firebase, uses genuinely RSA-signed synthetic identity tokens and intercepts all provider/browser requests. Tests run two actual workerd Workers with a private service binding and ten disposable D1 databases; no Cloudflare REST or production database request occurs.
 
-Build outputs are ignored: `.staging/render-node/{start.mjs,api.mjs,app/,assets/}` and `.staging/transaction-boundary/{web,api}.mjs`. Edge assets must come from the same Node Next build. The API executor bundle contains no Firebase verification or application framework. Evidence is under `reports/execution-boundary/`.
+Build outputs are ignored: `.staging/render-node/{start.mjs,api.mjs,app/,assets/}` and `.staging/transaction-boundary/{web,api}.mjs`. Build-specific Next chunks must come from the same Node Next build. The hosted configuration serves source `public/` files at the edge and proxies build-specific chunks to their own authenticated Render build. The API executor bundle contains no Firebase verification or application framework. Evidence is under `reports/execution-boundary/`.
 
 ## Future wiring for review only
 
@@ -40,7 +40,7 @@ The future Node start command is `node .staging/render-node/start.mjs`, with ins
 - Explicitly false: `APP_PASSWORD_ENABLED`, `APP_MAIL_ENABLED`, `APP_ODDS_FETCH_ENABLED`, `APP_ODDS_ENABLED`, `APP_ODDS_PROCESSING_ENABLED`, `APP_EDITORIAL_EMAIL_ENABLED`, `APP_MAINTENANCE_ENABLED`, `CONTENT_AUTOMATION_GLOBAL_ENABLED`, `APP_PUBLIC_CACHE_ENABLED`. `SEARCH_ANSWER_PROVIDER=deterministic`; no AI, email, sportsbook, push or ingestion credentials.
 - Node must have **no** `D1_REST_TOKEN` or `CLOUDFLARE_API_TOKEN`; startup rejects them. It has no database UUID mapping. Worker deployment bindings alone own the databases. Startup pins the staging/Firebase identities, disables telemetry and derives loopback SSR session transport. Default port 3000; accept only platform port 1024–65535.
 
-No deployment config was changed in this mission. Before any future approval, review exact account/resource IDs against `config/render-staging/databases.json`, confirm existing Worker exposure and disabled schedules/providers, and confirm no production binding or billing requirement.
+Before deployment, review exact account/resource IDs against `config/render-staging/databases.json`, confirm existing Worker exposure and disabled schedules/providers, and confirm no production binding or billing requirement.
 
 ## Failure, recovery and limits
 
@@ -49,3 +49,9 @@ Assertions bind audience, method, public URL/path/query, headers and body digest
 Maintenance locks stop runtime gateway traffic, including reads. Schema/restore/admin SQL is deliberately outside this application gateway. The existing owner-only native recovery tools remain the supported path: stop writers, coordinate all ten databases, retain the current independent erasure ledger, restore only into empty isolated targets, verify references/integrity, and unlock only after completion. Wait at least 30 seconds after restoring nonce history before reopening traffic. No migration or recovery against occupied hosted databases is authorized here.
 
 The protocol tests prove rollback and concurrent CAS on the actual native binding, not public REST atomicity. They do not establish hosted CPU or Render memory fit. Hosted validation must measure both Web/API Worker CPU, D1 rows (including roughly3 nonce-ledger writes per gateway request plus expiry cleanup), Worker request amplification, origin service memory/concurrency and cold starts. A Render cold start can exceed the 15 second proxy timeout/20 second assertion; fail closed and require a fresh request. No paid workaround or automatic mutation replay is enabled. Raw client IP headers remain discarded, so Node uses a conservative shared unknown-client rate bucket.
+
+## Portable hosted packaging and observation
+
+Render uses Node 22, `npm ci --include=dev && npm --prefix workers/content-engine ci --include=dev && node scripts/render-staging/build.mjs`, then `node .staging/render-node/start.mjs`. Temporary builds use the OS temporary directory and portable copy-on-write copying, excluding environment files and credential directories. Auto-deploy stays off.
+
+Origin responses enforce private/no-store cache headers even when Next supplies public static cache headers. Operator-only `GET /__staging/runtime-observation` requires a fresh signed assertion with audience `dd-render-staging-runtime-observer`; the normal edge audience is rejected. It exposes numeric process memory, cumulative process CPU and uptime only. CPU deltas include concurrent process activity and are not Cloudflare billed CPU. Cloudflare live-tail CPU must be captured separately for both gateway hops. No authorization decisions are cached.

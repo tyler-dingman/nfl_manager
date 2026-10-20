@@ -1,0 +1,77 @@
+# Existing isolated staging resources only; manual reviewed deployment; exposure disabled.
+account_id = "6e8c301360ab628706dcf3acf55f0dbb"
+name = "down-distance-rc3-staging-api"
+main = "../workers/staging/transaction-api.ts"
+compatibility_date = "2026-10-18"
+compatibility_flags = ["nodejs_compat"]
+workers_dev = false
+preview_urls = false
+send_metrics = false
+minify = true
+[vars]
+DD_TRANSACTION_BOUNDARY = "true"
+STAGING_ACCESS_HOST = "down-distance-rc3-staging-web.tdingman5.workers.dev"
+[triggers]
+crons = []
+[observability]
+enabled = false
+
+[[d1_databases]]
+binding = "D1_TEAM_1"
+database_name = "dd-rc3-staging-1"
+database_id = "a9c0c979-0333-41cc-8ecf-704c6eadf853"
+remote = false
+
+[[d1_databases]]
+binding = "D1_TEAM_2"
+database_name = "dd-rc3-staging-2"
+database_id = "6c49d183-0979-4617-ac9e-3410900eb926"
+remote = false
+
+[[d1_databases]]
+binding = "D1_TEAM_3"
+database_name = "dd-rc3-staging-3"
+database_id = "2986d54f-7c04-453b-9ce2-835cf491af54"
+remote = false
+
+[[d1_databases]]
+binding = "D1_TEAM_4"
+database_name = "dd-rc3-staging-4"
+database_id = "0b72b9ac-e934-46c6-aa07-4576a083d06f"
+remote = false
+
+[[d1_databases]]
+binding = "D1_TEAM_5"
+database_name = "dd-rc3-staging-5"
+database_id = "b06b0f48-630a-462a-ab7d-53793721df90"
+remote = false
+
+[[d1_databases]]
+binding = "D1_TEAM_6"
+database_name = "dd-rc3-staging-6"
+database_id = "ee6416b9-8f20-428a-8a91-a7eab928e9d7"
+remote = false
+
+[[d1_databases]]
+binding = "D1_TEAM_7"
+database_name = "dd-rc3-staging-7"
+database_id = "e1e885bf-b002-4580-929b-39a8dedf882f"
+remote = false
+
+[[d1_databases]]
+binding = "D1_TEAM_8"
+database_name = "dd-rc3-staging-8"
+database_id = "ddc482ad-d64f-4af3-b6ec-b6596fb3a5fd"
+remote = false
+
+[[d1_databases]]
+binding = "D1_USERS"
+database_name = "dd-rc3-staging-9"
+database_id = "e8dd0780-47a4-47d5-8b52-b5d018825c57"
+remote = false
+
+[[d1_databases]]
+binding = "D1_SHARED"
+database_name = "dd-rc3-staging-10"
+database_id = "8bdf4c63-5545-44e2-aa3f-e65e709ee6ea"
+remote = false

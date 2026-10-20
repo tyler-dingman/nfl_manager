@@ -1,0 +1,43 @@
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mFailed to write to log file Error: EPERM: operation not permitted, open '/Users/tylerdingman/Library/Preferences/.wrangler/logs/wrangler-2026-10-20_20-20-18_046.log'[0m
+
+      at async open (node:internal/fs/promises:638:25)
+      at async writeFile (node:internal/fs/promises:1212:14)
+      at async /private/tmp/down-distance-rc3/node_modules/wrangler/wrangler-dist/cli.js:69714:7
+      at async Mutex.runWith (/private/tmp/down-distance-rc3/node_modules/miniflare/dist/src/index.js:80704:16)
+      at async appendToDebugLogFile (/private/tmp/down-distance-rc3/node_modules/wrangler/wrangler-dist/cli.js:69711:3) {
+    errno: -1,
+    code: 'EPERM',
+    syscall: 'open',
+    path: '/Users/tylerdingman/Library/Preferences/.wrangler/logs/wrangler-2026-10-20_20-20-18_046.log'
+  }
+
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mWould have written: [0m
+
+  --- 2026-10-20T20:20:18.216Z debug
+  🪵  Writing logs to "/Users/tylerdingman/Library/Preferences/.wrangler/logs/wrangler-2026-10-20_20-20-18_046.log"
+  ---
+
+
+
+
+ ⛅️ wrangler 4.151.1 (update available 4.151.3)
+───────────────────────────────────────────────
+Total Upload: 5.76 KiB / gzip: 2.76 KiB
+Your Worker has access to the following bindings:
+Binding                                                                       Resource
+env.D1_TEAM_1 (dd-rc3-staging-1)                                              D1 Database
+env.D1_TEAM_2 (dd-rc3-staging-2)                                              D1 Database
+env.D1_TEAM_3 (dd-rc3-staging-3)                                              D1 Database
+env.D1_TEAM_4 (dd-rc3-staging-4)                                              D1 Database
+env.D1_TEAM_5 (dd-rc3-staging-5)                                              D1 Database
+env.D1_TEAM_6 (dd-rc3-staging-6)                                              D1 Database
+env.D1_TEAM_7 (dd-rc3-staging-7)                                              D1 Database
+env.D1_TEAM_8 (dd-rc3-staging-8)                                              D1 Database
+env.D1_USERS (dd-rc3-staging-9)                                               D1 Database
+env.D1_SHARED (dd-rc3-staging-10)                                             D1 Database
+env.DD_TRANSACTION_BOUNDARY ("true")                                          Environment Variable
+env.STAGING_ACCESS_HOST ("down-distance-rc3-staging-web.tdingma...")          Environment Variable
+
+--dry-run: exiting now.
+🪵  Logs were written to "/Users/tylerdingman/Library/Preferences/.wrangler/logs/wrangler-2026-10-20_20-20-18_046.log"
