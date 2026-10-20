@@ -1,0 +1,19 @@
+{
+  "sourceCommit": "4cea12e914a6ab693bd7884a615f2cc15a021bfa",
+  "buildPassed": true,
+  "apiDryRunPassed": true,
+  "webDryRunPassed": true,
+  "noSourceChanges": true,
+  "files": [
+    {
+      "path": "workers/api/dist/worker.mjs",
+      "bytes": 4583289,
+      "sha256": "5754d5640647706d6d45c608407a3b29e0d605c8d145e5ffed5289545ac82e26"
+    },
+    {
+      "path": "workers/web/dist/access-index.js",
+      "bytes": 12579205,
+      "sha256": "90714552f6d191be3701c6f7d6031d7cff93be04880893b0456d9f1a2e35d3d8"
+    }
+  ]
+}

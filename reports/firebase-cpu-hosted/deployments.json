@@ -1,0 +1,30 @@
+[
+  {
+    "role": "api",
+    "exitCode": 0,
+    "private": true,
+    "secretNames": [
+      "APP_MAIL_ENCRYPTION_KEY",
+      "APP_MAIL_JOB_SECRET",
+      "AUTH_JWT_SECRET",
+      "CONTENT_AUTOMATION_SECRET",
+      "FIREBASE_API_KEY",
+      "FIREBASE_APP_ID",
+      "FIREBASE_AUTH_DOMAIN",
+      "FIREBASE_PROJECT_ID"
+    ]
+  },
+  {
+    "role": "web",
+    "exitCode": 0,
+    "private": true,
+    "secretNames": [
+      "AUTH_JWT_SECRET",
+      "FIREBASE_API_KEY",
+      "FIREBASE_APP_ID",
+      "FIREBASE_AUTH_DOMAIN",
+      "FIREBASE_PROJECT_ID",
+      "STAGING_ACCESS_SECRET"
+    ]
+  }
+]

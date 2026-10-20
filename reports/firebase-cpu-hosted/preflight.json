@@ -1,0 +1,26 @@
+{
+  "checkedAtUtc": "2026-10-20T16:44:10.546092+00:00",
+  "branch": "release/down-distance-firebase-auth",
+  "commit": "4cea12e914a6ab693bd7884a615f2cc15a021bfa",
+  "tenDatabaseIdsMatched": true,
+  "fiveExistingStagingWorkersMatched": true,
+  "allPrivate": true,
+  "allStagingCronsEmpty": true,
+  "onlyStagingBindings": true,
+  "externalProvidersDisabled": true,
+  "firebaseProjectUnchanged": true,
+  "workersFree": "VERIFIED signed-in Cloudflare console: Current plan Free, 10 ms/request",
+  "firebaseSpark": "VERIFIED signed-in Firebase console: Spark No-cost $0/month",
+  "subscriptionsApi": "403; console used instead",
+  "billingActivated": false,
+  "d1StorageBytes": 5545984,
+  "accountWorkerRequests": 378,
+  "d1Usage": {
+    "readQueries": 1093,
+    "rowsRead": 66303,
+    "rowsWritten": 2817,
+    "writeQueries": 1216
+  },
+  "deploymentDiff": "75e6910d..4cea12e9: reviewed Firebase CPU code, attribution, tests/evidence; no migrations/resource changes; API/Web only",
+  "untouchedUnrelatedWorker": "dnd-content-scheduler"
+}

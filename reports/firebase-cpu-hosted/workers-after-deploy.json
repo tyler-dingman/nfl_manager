@@ -1,0 +1,572 @@
+[
+  {
+    "role": "password",
+    "name": "down-distance-rc3-staging-password",
+    "exposure": {
+      "enabled": false,
+      "previews_enabled": false
+    },
+    "bindings": [],
+    "assetConfig": null,
+    "schedules": {
+      "schedules": []
+    }
+  },
+  {
+    "role": "api",
+    "name": "down-distance-rc3-staging-api",
+    "exposure": {
+      "enabled": false,
+      "previews_enabled": false
+    },
+    "bindings": [
+      {
+        "name": "APP_AUTH_TIMINGS",
+        "type": "plain_text",
+        "value": "true"
+      },
+      {
+        "name": "APP_CACHE_VERSION",
+        "type": "plain_text",
+        "value": "rc3-hosted-review"
+      },
+      {
+        "name": "APP_DATA_BACKEND",
+        "type": "plain_text",
+        "value": "d1"
+      },
+      {
+        "name": "APP_EDITORIAL_EMAIL_ENABLED",
+        "type": "plain_text",
+        "value": "false"
+      },
+      {
+        "name": "APP_MAIL_ENABLED",
+        "type": "plain_text",
+        "value": "false"
+      },
+      {
+        "name": "APP_MAIL_ENCRYPTION_KEY",
+        "type": "secret_text"
+      },
+      {
+        "name": "APP_MAIL_JOB_SECRET",
+        "type": "secret_text"
+      },
+      {
+        "name": "APP_MULTI_D1",
+        "type": "plain_text",
+        "value": "true"
+      },
+      {
+        "name": "APP_OBJECT_BACKEND",
+        "type": "plain_text",
+        "value": "d1"
+      },
+      {
+        "name": "APP_ODDS_FETCH_ENABLED",
+        "type": "plain_text",
+        "value": "false"
+      },
+      {
+        "name": "APP_PASSWORD_ENABLED",
+        "type": "plain_text",
+        "value": "false"
+      },
+      {
+        "name": "APP_PUBLIC_CACHE_ENABLED",
+        "type": "plain_text",
+        "value": "false"
+      },
+      {
+        "name": "APP_RUNTIME",
+        "type": "plain_text",
+        "value": "cloudflare"
+      },
+      {
+        "name": "AUTH_BASE_URL",
+        "type": "plain_text",
+        "value": "https://down-distance-rc3-staging-web.tdingman5.workers.dev"
+      },
+      {
+        "name": "AUTH_JWT_SECRET",
+        "type": "secret_text"
+      },
+      {
+        "name": "AUTH_PROVIDER",
+        "type": "plain_text",
+        "value": "firebase"
+      },
+      {
+        "name": "CONTENT_AUTOMATION_GLOBAL_ENABLED",
+        "type": "plain_text",
+        "value": "false"
+      },
+      {
+        "name": "CONTENT_AUTOMATION_SECRET",
+        "type": "secret_text"
+      },
+      {
+        "name": "D1_SHARED",
+        "type": "d1",
+        "id": "8bdf4c63-5545-44e2-aa3f-e65e709ee6ea"
+      },
+      {
+        "name": "D1_TEAM_1",
+        "type": "d1",
+        "id": "a9c0c979-0333-41cc-8ecf-704c6eadf853"
+      },
+      {
+        "name": "D1_TEAM_2",
+        "type": "d1",
+        "id": "6c49d183-0979-4617-ac9e-3410900eb926"
+      },
+      {
+        "name": "D1_TEAM_3",
+        "type": "d1",
+        "id": "2986d54f-7c04-453b-9ce2-835cf491af54"
+      },
+      {
+        "name": "D1_TEAM_4",
+        "type": "d1",
+        "id": "0b72b9ac-e934-46c6-aa07-4576a083d06f"
+      },
+      {
+        "name": "D1_TEAM_5",
+        "type": "d1",
+        "id": "b06b0f48-630a-462a-ab7d-53793721df90"
+      },
+      {
+        "name": "D1_TEAM_6",
+        "type": "d1",
+        "id": "ee6416b9-8f20-428a-8a91-a7eab928e9d7"
+      },
+      {
+        "name": "D1_TEAM_7",
+        "type": "d1",
+        "id": "e1e885bf-b002-4580-929b-39a8dedf882f"
+      },
+      {
+        "name": "D1_TEAM_8",
+        "type": "d1",
+        "id": "ddc482ad-d64f-4af3-b6ec-b6596fb3a5fd"
+      },
+      {
+        "name": "D1_USERS",
+        "type": "d1",
+        "id": "e8dd0780-47a4-47d5-8b52-b5d018825c57"
+      },
+      {
+        "name": "FIREBASE_API_KEY",
+        "type": "secret_text"
+      },
+      {
+        "name": "FIREBASE_APP_ID",
+        "type": "secret_text"
+      },
+      {
+        "name": "FIREBASE_AUTH_DOMAIN",
+        "type": "secret_text"
+      },
+      {
+        "name": "FIREBASE_AUTH_ENABLED",
+        "type": "plain_text",
+        "value": "true"
+      },
+      {
+        "name": "FIREBASE_PROJECT_ID",
+        "type": "secret_text"
+      },
+      {
+        "name": "INFRASTRUCTURE_COST_POLICY",
+        "type": "plain_text",
+        "value": "zero-cost"
+      },
+      {
+        "name": "PASSWORD_SERVICE",
+        "type": "service",
+        "service": "down-distance-rc3-staging-password"
+      },
+      {
+        "name": "PRELAUNCH_MODE",
+        "type": "plain_text",
+        "value": "false"
+      },
+      {
+        "name": "SEARCH_ANSWER_PROVIDER",
+        "type": "plain_text",
+        "value": "deterministic"
+      }
+    ],
+    "assetConfig": null,
+    "schedules": {
+      "schedules": []
+    }
+  },
+  {
+    "role": "odds-processor",
+    "name": "down-distance-rc3-staging-odds-processor",
+    "exposure": {
+      "enabled": false,
+      "previews_enabled": false
+    },
+    "bindings": [
+      {
+        "name": "APP_BRIEFINGS_ENABLED",
+        "type": "plain_text",
+        "value": "false"
+      },
+      {
+        "name": "APP_CONTENT_ENABLED",
+        "type": "plain_text",
+        "value": "false"
+      },
+      {
+        "name": "APP_DATA_BACKEND",
+        "type": "plain_text",
+        "value": "d1"
+      },
+      {
+        "name": "APP_MAIL_ENABLED",
+        "type": "plain_text",
+        "value": "false"
+      },
+      {
+        "name": "APP_MAINTENANCE_ENABLED",
+        "type": "plain_text",
+        "value": "false"
+      },
+      {
+        "name": "APP_OBJECT_BACKEND",
+        "type": "plain_text",
+        "value": "d1"
+      },
+      {
+        "name": "APP_ODDS_ENABLED",
+        "type": "plain_text",
+        "value": "false"
+      },
+      {
+        "name": "APP_ODDS_FETCH_ENABLED",
+        "type": "plain_text",
+        "value": "false"
+      },
+      {
+        "name": "APP_ODDS_PROCESSING_ENABLED",
+        "type": "plain_text",
+        "value": "false"
+      },
+      {
+        "name": "APP_SOCIAL_NOTIFICATIONS_ENABLED",
+        "type": "plain_text",
+        "value": "false"
+      },
+      {
+        "name": "AUTH_JWT_SECRET",
+        "type": "secret_text"
+      },
+      {
+        "name": "D1_SHARED",
+        "type": "d1",
+        "id": "8bdf4c63-5545-44e2-aa3f-e65e709ee6ea"
+      },
+      {
+        "name": "INFRASTRUCTURE_COST_POLICY",
+        "type": "plain_text",
+        "value": "zero-cost"
+      }
+    ],
+    "assetConfig": null,
+    "schedules": {
+      "schedules": []
+    }
+  },
+  {
+    "role": "application",
+    "name": "down-distance-rc3-staging-application",
+    "exposure": {
+      "enabled": false,
+      "previews_enabled": false
+    },
+    "bindings": [
+      {
+        "name": "API_SERVICE",
+        "type": "service",
+        "service": "down-distance-rc3-staging-api"
+      },
+      {
+        "name": "APP_BRIEFINGS_ENABLED",
+        "type": "plain_text",
+        "value": "false"
+      },
+      {
+        "name": "APP_CONTENT_ENABLED",
+        "type": "plain_text",
+        "value": "false"
+      },
+      {
+        "name": "APP_DATA_BACKEND",
+        "type": "plain_text",
+        "value": "d1"
+      },
+      {
+        "name": "APP_MAIL_ENABLED",
+        "type": "plain_text",
+        "value": "false"
+      },
+      {
+        "name": "APP_MAIL_JOB_SECRET",
+        "type": "secret_text"
+      },
+      {
+        "name": "APP_MAINTENANCE_ENABLED",
+        "type": "plain_text",
+        "value": "false"
+      },
+      {
+        "name": "APP_OBJECT_BACKEND",
+        "type": "plain_text",
+        "value": "d1"
+      },
+      {
+        "name": "APP_ODDS_ENABLED",
+        "type": "plain_text",
+        "value": "false"
+      },
+      {
+        "name": "APP_ODDS_FETCH_ENABLED",
+        "type": "plain_text",
+        "value": "false"
+      },
+      {
+        "name": "APP_ODDS_PROCESSING_ENABLED",
+        "type": "plain_text",
+        "value": "false"
+      },
+      {
+        "name": "APP_SOCIAL_NOTIFICATIONS_ENABLED",
+        "type": "plain_text",
+        "value": "false"
+      },
+      {
+        "name": "AUTH_JWT_SECRET",
+        "type": "secret_text"
+      },
+      {
+        "name": "CONTENT_AUTOMATION_SECRET",
+        "type": "secret_text"
+      },
+      {
+        "name": "D1_SHARED",
+        "type": "d1",
+        "id": "8bdf4c63-5545-44e2-aa3f-e65e709ee6ea"
+      },
+      {
+        "name": "D1_USERS",
+        "type": "d1",
+        "id": "e8dd0780-47a4-47d5-8b52-b5d018825c57"
+      },
+      {
+        "name": "INFRASTRUCTURE_COST_POLICY",
+        "type": "plain_text",
+        "value": "zero-cost"
+      },
+      {
+        "name": "ODDS_PROCESSOR",
+        "type": "service",
+        "service": "down-distance-rc3-staging-odds-processor"
+      }
+    ],
+    "assetConfig": null,
+    "schedules": {
+      "schedules": []
+    }
+  },
+  {
+    "role": "web",
+    "name": "down-distance-rc3-staging-web",
+    "exposure": {
+      "enabled": false,
+      "previews_enabled": false
+    },
+    "bindings": [
+      {
+        "name": "API_SERVICE",
+        "type": "service",
+        "service": "down-distance-rc3-staging-api"
+      },
+      {
+        "name": "APP_AUTH_TIMINGS",
+        "type": "plain_text",
+        "value": "true"
+      },
+      {
+        "name": "APP_DATA_BACKEND",
+        "type": "plain_text",
+        "value": "d1"
+      },
+      {
+        "name": "APP_EDITORIAL_EMAIL_ENABLED",
+        "type": "plain_text",
+        "value": "false"
+      },
+      {
+        "name": "APP_MAIL_ENABLED",
+        "type": "plain_text",
+        "value": "false"
+      },
+      {
+        "name": "APP_MULTI_D1",
+        "type": "plain_text",
+        "value": "true"
+      },
+      {
+        "name": "APP_OBJECT_BACKEND",
+        "type": "plain_text",
+        "value": "d1"
+      },
+      {
+        "name": "APP_ODDS_FETCH_ENABLED",
+        "type": "plain_text",
+        "value": "false"
+      },
+      {
+        "name": "APP_PASSWORD_ENABLED",
+        "type": "plain_text",
+        "value": "false"
+      },
+      {
+        "name": "APP_PUBLIC_CACHE_ENABLED",
+        "type": "plain_text",
+        "value": "false"
+      },
+      {
+        "name": "APP_RUNTIME",
+        "type": "plain_text",
+        "value": "cloudflare"
+      },
+      {
+        "name": "ASSETS",
+        "type": "assets"
+      },
+      {
+        "name": "AUTH_BASE_URL",
+        "type": "plain_text",
+        "value": "https://down-distance-rc3-staging-web.tdingman5.workers.dev"
+      },
+      {
+        "name": "AUTH_JWT_SECRET",
+        "type": "secret_text"
+      },
+      {
+        "name": "AUTH_PROVIDER",
+        "type": "plain_text",
+        "value": "firebase"
+      },
+      {
+        "name": "CONTENT_AUTOMATION_GLOBAL_ENABLED",
+        "type": "plain_text",
+        "value": "false"
+      },
+      {
+        "name": "D1_SHARED",
+        "type": "d1",
+        "id": "8bdf4c63-5545-44e2-aa3f-e65e709ee6ea"
+      },
+      {
+        "name": "D1_TEAM_1",
+        "type": "d1",
+        "id": "a9c0c979-0333-41cc-8ecf-704c6eadf853"
+      },
+      {
+        "name": "D1_TEAM_2",
+        "type": "d1",
+        "id": "6c49d183-0979-4617-ac9e-3410900eb926"
+      },
+      {
+        "name": "D1_TEAM_3",
+        "type": "d1",
+        "id": "2986d54f-7c04-453b-9ce2-835cf491af54"
+      },
+      {
+        "name": "D1_TEAM_4",
+        "type": "d1",
+        "id": "0b72b9ac-e934-46c6-aa07-4576a083d06f"
+      },
+      {
+        "name": "D1_TEAM_5",
+        "type": "d1",
+        "id": "b06b0f48-630a-462a-ab7d-53793721df90"
+      },
+      {
+        "name": "D1_TEAM_6",
+        "type": "d1",
+        "id": "ee6416b9-8f20-428a-8a91-a7eab928e9d7"
+      },
+      {
+        "name": "D1_TEAM_7",
+        "type": "d1",
+        "id": "e1e885bf-b002-4580-929b-39a8dedf882f"
+      },
+      {
+        "name": "D1_TEAM_8",
+        "type": "d1",
+        "id": "ddc482ad-d64f-4af3-b6ec-b6596fb3a5fd"
+      },
+      {
+        "name": "D1_USERS",
+        "type": "d1",
+        "id": "e8dd0780-47a4-47d5-8b52-b5d018825c57"
+      },
+      {
+        "name": "FIREBASE_API_KEY",
+        "type": "secret_text"
+      },
+      {
+        "name": "FIREBASE_APP_ID",
+        "type": "secret_text"
+      },
+      {
+        "name": "FIREBASE_AUTH_DOMAIN",
+        "type": "secret_text"
+      },
+      {
+        "name": "FIREBASE_AUTH_ENABLED",
+        "type": "plain_text",
+        "value": "true"
+      },
+      {
+        "name": "FIREBASE_PROJECT_ID",
+        "type": "secret_text"
+      },
+      {
+        "name": "INFRASTRUCTURE_COST_POLICY",
+        "type": "plain_text",
+        "value": "zero-cost"
+      },
+      {
+        "name": "SEARCH_ANSWER_PROVIDER",
+        "type": "plain_text",
+        "value": "deterministic"
+      },
+      {
+        "name": "STAGING_ACCESS_EXPIRES_AT",
+        "type": "plain_text",
+        "value": "2026-10-22T12:20:33Z"
+      },
+      {
+        "name": "STAGING_ACCESS_HOST",
+        "type": "plain_text",
+        "value": "down-distance-rc3-staging-web.tdingman5.workers.dev"
+      },
+      {
+        "name": "STAGING_ACCESS_SECRET",
+        "type": "secret_text"
+      }
+    ],
+    "assetConfig": null,
+    "schedules": {
+      "schedules": []
+    }
+  }
+]

@@ -1,0 +1,15 @@
+{
+  "startedAtUtc": "2026-10-20T16:49:36.584Z",
+  "finishedAtUtc": "2026-10-20T16:49:36.848Z",
+  "worker": "down-distance-rc3-staging-api",
+  "httpStatus": 404,
+  "bytes": 179,
+  "durationMs": 3000,
+  "additionalTrafficGenerated": false,
+  "errors": [
+    {
+      "code": 10393,
+      "message": "No recent executions were found for this Worker."
+    }
+  ]
+}

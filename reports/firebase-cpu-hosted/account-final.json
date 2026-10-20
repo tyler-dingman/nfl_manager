@@ -1,0 +1,150 @@
+{
+  "checkedAtUtc": "2026-10-20T16:50:15.625Z",
+  "accountId": "6e8c301360ab628706dcf3acf55f0dbb",
+  "requestMethods": [
+    "GET"
+  ],
+  "remoteMutations": false,
+  "checks": {
+    "subscriptions": {
+      "httpStatus": 403,
+      "success": false,
+      "errors": [
+        {
+          "code": 10000,
+          "message": "Authentication error",
+          "documentation_url": "https://developers.cloudflare.com/api/resources/accounts/subresources/subscriptions/methods/get"
+        }
+      ]
+    },
+    "workerSettings": {
+      "httpStatus": 200,
+      "success": true,
+      "errors": [],
+      "settings": {
+        "default_usage_model": "standard",
+        "green_compute": false
+      }
+    },
+    "d1Databases": {
+      "httpStatus": 200,
+      "success": true,
+      "errors": [],
+      "resultInfo": {
+        "count": 10,
+        "page": 1,
+        "per_page": 100,
+        "total_count": 10
+      },
+      "databases": [
+        {
+          "uuid": "8bdf4c63-5545-44e2-aa3f-e65e709ee6ea",
+          "name": "dd-rc3-staging-10",
+          "file_size": 565248,
+          "version": "production"
+        },
+        {
+          "uuid": "e8dd0780-47a4-47d5-8b52-b5d018825c57",
+          "name": "dd-rc3-staging-9",
+          "file_size": 1572864,
+          "version": "production"
+        },
+        {
+          "uuid": "ddc482ad-d64f-4af3-b6ec-b6596fb3a5fd",
+          "name": "dd-rc3-staging-8",
+          "file_size": 425984,
+          "version": "production"
+        },
+        {
+          "uuid": "e1e885bf-b002-4580-929b-39a8dedf882f",
+          "name": "dd-rc3-staging-7",
+          "file_size": 425984,
+          "version": "production"
+        },
+        {
+          "uuid": "ee6416b9-8f20-428a-8a91-a7eab928e9d7",
+          "name": "dd-rc3-staging-6",
+          "file_size": 425984,
+          "version": "production"
+        },
+        {
+          "uuid": "b06b0f48-630a-462a-ab7d-53793721df90",
+          "name": "dd-rc3-staging-5",
+          "file_size": 425984,
+          "version": "production"
+        },
+        {
+          "uuid": "0b72b9ac-e934-46c6-aa07-4576a083d06f",
+          "name": "dd-rc3-staging-4",
+          "file_size": 425984,
+          "version": "production"
+        },
+        {
+          "uuid": "2986d54f-7c04-453b-9ce2-835cf491af54",
+          "name": "dd-rc3-staging-3",
+          "file_size": 425984,
+          "version": "production"
+        },
+        {
+          "uuid": "6c49d183-0979-4617-ac9e-3410900eb926",
+          "name": "dd-rc3-staging-2",
+          "file_size": 425984,
+          "version": "production"
+        },
+        {
+          "uuid": "a9c0c979-0333-41cc-8ecf-704c6eadf853",
+          "name": "dd-rc3-staging-1",
+          "file_size": 425984,
+          "version": "production"
+        }
+      ],
+      "count": 10
+    },
+    "workerScripts": {
+      "httpStatus": 200,
+      "success": true,
+      "errors": [],
+      "scripts": [
+        {
+          "id": "dnd-content-scheduler",
+          "created_on": "2026-09-07T17:14:15.810716Z",
+          "modified_on": "2026-09-17T16:04:07.950039Z"
+        },
+        {
+          "id": "down-distance-rc3-staging-api",
+          "created_on": "2026-10-20T12:29:10.881499Z",
+          "modified_on": "2026-10-20T16:48:18.424576Z"
+        },
+        {
+          "id": "down-distance-rc3-staging-application",
+          "created_on": "2026-10-20T12:29:22.943714Z",
+          "modified_on": "2026-10-20T12:29:23.889713Z"
+        },
+        {
+          "id": "down-distance-rc3-staging-odds-processor",
+          "created_on": "2026-10-20T12:29:18.829964Z",
+          "modified_on": "2026-10-20T12:29:20.426042Z"
+        },
+        {
+          "id": "down-distance-rc3-staging-password",
+          "created_on": "2026-10-20T12:26:45.841163Z",
+          "modified_on": "2026-10-20T12:26:47.156539Z"
+        },
+        {
+          "id": "down-distance-rc3-staging-web",
+          "created_on": "2026-10-20T12:29:28.087396Z",
+          "modified_on": "2026-10-20T16:49:38.783859Z"
+        }
+      ],
+      "count": 6
+    },
+    "subdomain": {
+      "httpStatus": 200,
+      "success": true,
+      "errors": [],
+      "subdomain": {
+        "subdomain": "tdingman5"
+      }
+    }
+  }
+}

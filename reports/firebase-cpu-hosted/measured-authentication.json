@@ -1,0 +1,146 @@
+{
+  "source": "Actual Cloudflare live tail trace-v1 cpuTime milliseconds; numeric stages are elapsed only",
+  "operations": [
+    {
+      "label": "Firebase SDK registration",
+      "provider": "Firebase Spark",
+      "status": "PASS",
+      "latencyMs": 567,
+      "cloudflareCpuMs": null,
+      "cloudflareInvoked": false
+    },
+    {
+      "label": "First registration-related web identity exchange",
+      "path": "/api/auth/firebase/session",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "startedAtUtc": "2026-10-20T16:49:36.583Z",
+      "latencyMs": 1738,
+      "cpuSamples": [
+        {
+          "role": "api",
+          "path": "/api/auth/firebase/session",
+          "cpuTimeMs": 40,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/auth/firebase/session",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        }
+      ]
+    }
+  ],
+  "traces": [
+    {
+      "role": "api",
+      "path": "/api/auth/firebase/session",
+      "operation": "First registration-related web identity exchange",
+      "receivedAtUtc": "2026-10-20T16:49:38.439Z",
+      "eventTimestamp": 1792514977291,
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 40,
+      "wallTimeMs": 495,
+      "metrics": [
+        {
+          "metric": "application_headers",
+          "method": "POST",
+          "route": "/api/auth",
+          "routePattern": "^\\/api\\/auth\\/firebase\\/session\\/?$",
+          "status": 200,
+          "wallMs": 436,
+          "d1Calls": 7,
+          "statements": 14,
+          "rowsRead": 7,
+          "rowsWritten": 21,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required",
+          "authTimings": [
+            {
+              "stage": "middleware",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "request.parse",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.key_fetch",
+              "elapsedMs": 90,
+              "ok": true
+            },
+            {
+              "stage": "jwt.public_key",
+              "elapsedMs": 90,
+              "ok": true
+            },
+            {
+              "stage": "jwt.signature",
+              "elapsedMs": 90,
+              "ok": true
+            },
+            {
+              "stage": "jwt.claims",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "provider.lookup",
+              "elapsedMs": 105,
+              "ok": true
+            },
+            {
+              "stage": "d1.revocation",
+              "elapsedMs": 56,
+              "ok": true
+            },
+            {
+              "stage": "d1.provision",
+              "elapsedMs": 132,
+              "ok": true
+            },
+            {
+              "stage": "session.encrypt",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "session.create",
+              "elapsedMs": 53,
+              "ok": true
+            },
+            {
+              "stage": "json.serialization",
+              "elapsedMs": 0,
+              "ok": true
+            }
+          ]
+        }
+      ],
+      "exceptionNames": []
+    },
+    {
+      "role": "web",
+      "path": "/api/auth/firebase/session",
+      "operation": "First registration-related web identity exchange",
+      "receivedAtUtc": "2026-10-20T16:49:39.259Z",
+      "eventTimestamp": 1792514976799,
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 1021,
+      "metrics": [],
+      "exceptionNames": []
+    }
+  ],
+  "stopReason": "Workers Free CPU exceeded: api /api/auth/firebase/session 40 ms > 10 ms",
+  "legacyPasswordInvocations": 0,
+  "thresholdMs": 10
+}

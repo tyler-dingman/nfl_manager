@@ -1,0 +1,49 @@
+{
+  "checkedAtUtc": "2026-10-20T16:51:13.271439+00:00",
+  "deployedSourceCommit": "4cea12e914a6ab693bd7884a615f2cc15a021bfa",
+  "previousApiCpuMs": 47,
+  "newApiCpuMs": 40,
+  "newWebCpuMs": 2,
+  "actualCpuSource": "Cloudflare trace-v1 cpuTime",
+  "cpuQualified": false,
+  "cpuQualification": "FAIL; first sample >10 ms; repeated tests prohibited after stop",
+  "componentCpuAttribution": "UNATTRIBUTED; elapsed spans are not CPU; profiler returned code10393 no recent executions",
+  "securityExecuted": "PASS",
+  "authenticatedSSR": "UNVERIFIED; stopped",
+  "globalNflFeed": "UNVERIFIED; stopped",
+  "legacyPasswordInvocations": 0,
+  "allFiveWorkersPrivate": true,
+  "allStagingSchedulesEmpty": true,
+  "activeTelemetryTails": 0,
+  "databaseIdsUnchanged": true,
+  "workerIdsUnchanged": true,
+  "unrelatedWorkersUnchanged": [
+    "dnd-content-scheduler",
+    "down-distance-rc3-staging-application",
+    "down-distance-rc3-staging-odds-processor",
+    "down-distance-rc3-staging-password"
+  ],
+  "resourcesCreated": 0,
+  "migrationsApplied": 0,
+  "billingActivated": false,
+  "productionModified": false,
+  "finalAvailableAccountWorkerRequests": 398,
+  "workerRequestHeadroom": 99602,
+  "finalAvailableD1": {
+    "readQueries": 1093,
+    "rowsRead": 66303,
+    "rowsWritten": 2817,
+    "writeQueries": 1216
+  },
+  "d1ReadHeadroom": 4933697,
+  "d1WriteHeadroom": 97183,
+  "directExchangeD1": {
+    "calls": 7,
+    "statements": 14,
+    "rowsRead": 7,
+    "rowsWritten": 21
+  },
+  "storageBytes": 5545984,
+  "analyticsLagCaveat": true,
+  "controlledBetaReadiness": "NO-GO"
+}

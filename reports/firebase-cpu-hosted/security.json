@@ -1,0 +1,174 @@
+{
+  "url": "https://down-distance-rc3-staging-web.tdingman5.workers.dev",
+  "checkedAtUtc": "2026-10-20T16:49:27.282Z",
+  "records": [
+    {
+      "label": "anonymous home",
+      "path": "/",
+      "status": 403,
+      "expected": 403,
+      "bytes": 31,
+      "bodySha256": "00c2495e1a1bcc5bb5c35534c66e297b52dee4a691437ff5ce9351b47b2b1e3c",
+      "cacheControl": "private, no-store"
+    },
+    {
+      "label": "static JS",
+      "path": "/_next/static/chunks/1255-60d8dc7c8c9309a1.js",
+      "status": 403,
+      "expected": 403,
+      "bytes": 31,
+      "bodySha256": "00c2495e1a1bcc5bb5c35534c66e297b52dee4a691437ff5ce9351b47b2b1e3c",
+      "cacheControl": "private, no-store"
+    },
+    {
+      "label": "favicon",
+      "path": "/favicon.ico",
+      "status": 403,
+      "expected": 403,
+      "bytes": 31,
+      "bodySha256": "00c2495e1a1bcc5bb5c35534c66e297b52dee4a691437ff5ce9351b47b2b1e3c",
+      "cacheControl": "private, no-store"
+    },
+    {
+      "label": "API",
+      "path": "/api/auth/config",
+      "status": 403,
+      "expected": 403,
+      "bytes": 31,
+      "bodySha256": "00c2495e1a1bcc5bb5c35534c66e297b52dee4a691437ff5ce9351b47b2b1e3c",
+      "cacheControl": "private, no-store"
+    },
+    {
+      "label": "authentication endpoint",
+      "path": "/api/auth/login",
+      "status": 403,
+      "expected": 403,
+      "bytes": 31,
+      "bodySha256": "00c2495e1a1bcc5bb5c35534c66e297b52dee4a691437ff5ce9351b47b2b1e3c",
+      "cacheControl": "private, no-store"
+    },
+    {
+      "label": "invalid cookie",
+      "path": "/",
+      "status": 403,
+      "expected": 403,
+      "bytes": 31,
+      "bodySha256": "00c2495e1a1bcc5bb5c35534c66e297b52dee4a691437ff5ce9351b47b2b1e3c",
+      "cacheControl": "private, no-store"
+    },
+    {
+      "label": "spoofed header",
+      "path": "/api/auth/config",
+      "status": 403,
+      "expected": 403,
+      "bytes": 31,
+      "bodySha256": "00c2495e1a1bcc5bb5c35534c66e297b52dee4a691437ff5ce9351b47b2b1e3c",
+      "cacheControl": "private, no-store"
+    },
+    {
+      "label": "expired signed cookie",
+      "path": "/",
+      "status": 403,
+      "expected": 403,
+      "bytes": 31,
+      "bodySha256": "00c2495e1a1bcc5bb5c35534c66e297b52dee4a691437ff5ce9351b47b2b1e3c",
+      "cacheControl": "private, no-store"
+    },
+    {
+      "label": "generic credential form",
+      "path": "/__staging/access",
+      "status": 200,
+      "expected": 200,
+      "bytes": 325,
+      "bodySha256": "989f14d2da697581c1f2a3fc555f08275906283916d9bf0487f62df3c25da66b",
+      "cacheControl": "private, no-store"
+    },
+    {
+      "label": "invalid staging credential",
+      "path": "/__staging/access",
+      "status": 401,
+      "expected": 401,
+      "bytes": 31,
+      "bodySha256": "00c2495e1a1bcc5bb5c35534c66e297b52dee4a691437ff5ce9351b47b2b1e3c",
+      "cacheControl": "private, no-store"
+    },
+    {
+      "label": "authorized credential",
+      "path": "/__staging/access",
+      "status": 303,
+      "expected": 303,
+      "bytes": 0,
+      "bodySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "cacheControl": "private, no-store"
+    },
+    {
+      "label": "authorized asset",
+      "path": "/_next/static/chunks/1255-60d8dc7c8c9309a1.js",
+      "status": 200,
+      "expected": 200,
+      "bytes": 174644,
+      "bodySha256": "e4d8c5c6049bb57c1efb5600248c3a8b3de621c4ed75d0e01160757f9c295b7f",
+      "cacheControl": "private, no-store"
+    },
+    {
+      "label": "signed-out page and login render",
+      "chain": [
+        {
+          "path": "/",
+          "status": 307
+        },
+        {
+          "path": "/login?next=%2F",
+          "status": 200
+        }
+      ],
+      "applicationAuthenticated": false,
+      "finalPath": "/login",
+      "htmlBytes": 12237
+    },
+    {
+      "label": "product session absent",
+      "path": "/api/auth/me",
+      "status": 401,
+      "expected": 401,
+      "bytes": 24,
+      "bodySha256": "eb034864648164f4a05d69bed942929a286d53ade212ed08c3ee4f72f9779f14",
+      "cacheControl": "private, no-store"
+    },
+    {
+      "label": "authorized auth configuration",
+      "path": "/api/auth/config",
+      "status": 200,
+      "expected": 200,
+      "bytes": 353,
+      "bodySha256": "d1f0a4be9201cafbdcd62a3e959351b5ef4e68ab7ad77c69e2ee686fd9b42ea8",
+      "cacheControl": "private, no-store"
+    },
+    {
+      "label": "internal password public URL",
+      "url": "https://down-distance-rc3-staging-password.tdingman5.workers.dev/",
+      "status": 404,
+      "bytes": 19984
+    },
+    {
+      "label": "internal api public URL",
+      "url": "https://down-distance-rc3-staging-api.tdingman5.workers.dev/",
+      "status": 404,
+      "bytes": 19984
+    },
+    {
+      "label": "internal odds-processor public URL",
+      "url": "https://down-distance-rc3-staging-odds-processor.tdingman5.workers.dev/",
+      "status": 404,
+      "bytes": 19984
+    },
+    {
+      "label": "internal application public URL",
+      "url": "https://down-distance-rc3-staging-application.tdingman5.workers.dev/",
+      "status": 404,
+      "bytes": 19984
+    }
+  ],
+  "passed": true,
+  "credentialValuesRecorded": false
+}

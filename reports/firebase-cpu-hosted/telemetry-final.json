@@ -1,0 +1,26 @@
+{
+  "checkedAtUtc": "2026-10-20T16:50:39.841Z",
+  "rows": [
+    {
+      "role": "api",
+      "status": 200,
+      "success": true,
+      "activeTails": 0,
+      "errors": []
+    },
+    {
+      "role": "web",
+      "status": 200,
+      "success": true,
+      "activeTails": 0,
+      "errors": []
+    },
+    {
+      "role": "password",
+      "status": 200,
+      "success": true,
+      "activeTails": 0,
+      "errors": []
+    }
+  ]
+}

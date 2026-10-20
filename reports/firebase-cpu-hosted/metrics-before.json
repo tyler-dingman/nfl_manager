@@ -1,0 +1,84 @@
+{
+  "checkedAtUtc": "2026-10-20T16:43:18.142Z",
+  "httpStatus": 200,
+  "readOnlyGraphQLQuery": true,
+  "response": {
+    "data": {
+      "viewer": {
+        "accounts": [
+          {
+            "d1AnalyticsAdaptiveGroups": [
+              {
+                "sum": {
+                  "readQueries": 1093,
+                  "rowsRead": 66303,
+                  "rowsWritten": 2817,
+                  "writeQueries": 1216
+                }
+              }
+            ],
+            "workersInvocationsAdaptive": [
+              {
+                "dimensions": {
+                  "scriptName": "dnd-content-scheduler"
+                },
+                "quantiles": {
+                  "cpuTimeP50": 1371,
+                  "cpuTimeP99": 1589
+                },
+                "sum": {
+                  "errors": 5,
+                  "requests": 5,
+                  "subrequests": 5
+                }
+              },
+              {
+                "dimensions": {
+                  "scriptName": "down-distance-rc3-staging-web"
+                },
+                "quantiles": {
+                  "cpuTimeP50": 822,
+                  "cpuTimeP99": 825858
+                },
+                "sum": {
+                  "errors": 0,
+                  "requests": 254,
+                  "subrequests": 214
+                }
+              },
+              {
+                "dimensions": {
+                  "scriptName": "down-distance-rc3-staging-password"
+                },
+                "quantiles": {
+                  "cpuTimeP50": 69720,
+                  "cpuTimeP99": 200558
+                },
+                "sum": {
+                  "errors": 0,
+                  "requests": 12,
+                  "subrequests": 0
+                }
+              },
+              {
+                "dimensions": {
+                  "scriptName": "down-distance-rc3-staging-api"
+                },
+                "quantiles": {
+                  "cpuTimeP50": 6925,
+                  "cpuTimeP99": 111585
+                },
+                "sum": {
+                  "errors": 0,
+                  "requests": 107,
+                  "subrequests": 14
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "errors": null
+  }
+}
