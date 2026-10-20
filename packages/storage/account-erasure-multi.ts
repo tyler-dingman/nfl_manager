@@ -32,8 +32,8 @@ export async function requestMultiD1Erasure(s: Storage, user: string, transferAc
 }
 /** One bounded owner-only continuation. At most 25 explicit target rows, never
  * introspection. A CAS and deletion share a transaction; interruption is retryable.
- * Shared containers and legal/security records require explicit reviewed policies,
- * so this phase deliberately ends REVIEW_REQUIRED, never falsely reports erasure.
+ * Immutable payloads are reclaimed only in coordinated offline maintenance.
+ * Uncertain transfers and unfinished commerce fail closed for operator review.
  */
 export async function continueMultiD1Erasure(s: Storage) {
   if (s.owner !== 'D1_USERS') throw Error('Private owner required');
@@ -43,14 +43,21 @@ export async function continueMultiD1Erasure(s: Storage) {
   if (!job) return { idle: true };
   const op = plan.operations[job.cursor];
   if (!op) {
-    await s
-      .statement(
-        "UPDATE app_account_erasure SET status='REVIEW_REQUIRED',updated_at=? WHERE user_id=? AND cursor=? AND status='RUNNING'",
-        [Date.now(), job.user_id, job.cursor],
-      )
-      .run();
-    return { reviewRequired: true };
+    const [state] = await s.rows<{ status: string }>(
+      `UPDATE app_account_erasure SET status=CASE WHEN
+        EXISTS(SELECT 1 FROM app_commerce_orders WHERE user_id=?) OR
+        EXISTS(SELECT 1 FROM app_commerce_refunds WHERE created_by_user_id=?) OR
+        EXISTS(SELECT 1 FROM app_sportsbook_transfer_jobs WHERE actor=app_account_erasure.transfer_actor)
+        THEN 'REVIEW_REQUIRED' ELSE 'AWAITING_GC' END,updated_at=?
+       WHERE user_id=? AND cursor=? AND status='RUNNING' RETURNING status`,
+      [job.user_id, job.user_id, Date.now(), job.user_id, job.cursor],
+    );
+    return {
+      reviewRequired: state?.status === 'REVIEW_REQUIRED',
+      awaitingGc: state?.status === 'AWAITING_GC',
+    };
   }
+  if (op.table === 'app_security_audit') await s.put({});
   const parameters: unknown[] = [];
   const sql = op.sql.replace(/:user/g, () => {
     parameters.push(job.user_id);

@@ -1,0 +1,21 @@
+TAP version 13
+# RC3_ERASURE {"maximumQueries":15,"databases":10,"oldArchiveRevoked":true,"privateMailDeleted":true}
+# Subtest: erasure survives an older archive, deletes private ciphertext, and preserves populated ten-owner data
+ok 1 - erasure survives an older archive, deletes private ciphertext, and preserves populated ten-owner data
+  ---
+  duration_ms: 14783.62175
+  ...
+# Subtest: uncertain external transfers remain protected and cannot be mistaken for completed erasure
+ok 2 - uncertain external transfers remain protected and cannot be mistaken for completed erasure
+  ---
+  duration_ms: 2146.598958
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 17318.719209

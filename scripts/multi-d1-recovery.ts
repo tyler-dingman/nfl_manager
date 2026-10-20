@@ -1,3 +1,4 @@
+import { openErasureLedger, replayErasureLedger } from './erasure-ledger';
 /** Offline owner maintenance only. Never imported by a public Worker route. */
 import { DATABASE_OWNERS, MAPPING_VERSION, type DatabaseOwner } from '../packages/storage/multi-d1';
 import type { SqlDatabase } from '../packages/storage/core';
@@ -89,6 +90,7 @@ export async function restoreDatabases(
   secret: string,
   destinations: Databases,
   options: {
+    currentErasureLedger: unknown;
     isolatedEmptyTargets: boolean;
     execute: (owner: DatabaseOwner, sql: string) => Promise<void>;
     verifyReferences: (databases: Databases) => Promise<void>;
@@ -96,6 +98,7 @@ export async function restoreDatabases(
 ) {
   if (!options.isolatedEmptyTargets) throw Error('Isolated empty restore targets required');
   // Authenticate every shard before issuing ANY destination mutation.
+  const entries = await openErasureLedger(options.currentErasureLedger, secret);
   const decoded = await openMultiD1Archive(archive, secret);
   for (const owner of DATABASE_OWNERS) {
     if (!destinations[owner]) throw Error(`Missing destination: ${owner}`);
@@ -121,6 +124,7 @@ export async function restoreDatabases(
     if (integrity.results.some((r) => r.quick_check !== 'ok'))
       throw Error('Restore integrity failed');
   }
+  await replayErasureLedger(destinations.D1_USERS, entries);
   await options.verifyReferences(destinations);
   // Unlock only after every schema, payload and cross-database reference has been verified.
   for (const owner of DATABASE_OWNERS)

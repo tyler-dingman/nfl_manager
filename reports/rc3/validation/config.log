@@ -1,0 +1,1 @@
+{"status": "PASS", "scope": "local review templates only", "workers": 5, "distinctD1Databases": 10, "r2Bindings": 0, "cronTriggers": 0, "publicWorkersDev": false, "resourcesCreated": false, "deployableWithoutOwnerConfiguration": false}

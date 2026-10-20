@@ -1,3 +1,4 @@
+import { sealErasureLedger } from '../../../scripts/erasure-ledger';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { multiHarness, splitSql } from '../test/multi-harness';
@@ -29,6 +30,7 @@ test(
         verifyReferences: verifyCrossShardReferences,
       });
       await restoreDatabases(archive, secret, target.db, {
+        currentErasureLedger: await sealErasureLedger(source.db.D1_USERS, secret),
         isolatedEmptyTargets: true,
         verifyReferences: verifyCrossShardReferences,
         execute: async (owner, sql) => {

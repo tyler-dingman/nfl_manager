@@ -1,0 +1,586 @@
+{
+  "rootCause": "Completion-time-based next_check_at permanently rebased deadlines when the bounded serial owner runner delayed polling. Durable inbox/cursor recovery emptied work without restoring skipped due slots. No sources or intervals were missing.",
+  "fix": "On success advance the stored due slot by one source interval. Keep overdue slots due until a real fetch completes each one; initial epoch-zero sources start at the first real check. Failure backoff is unchanged.",
+  "baselineCompleted": 18344,
+  "expected": 18504,
+  "rc3Completed": 18504,
+  "recoveredChecks": 160,
+  "sources": [
+    {
+      "sourceId": "DEN_FANSIDED",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "ARROWHEAD_ADDICT_WEB",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "LV_FANSIDED",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "LAC_FANSIDED",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "DEN_SB_NATION",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "ARROWHEAD_PRIDE_WEB",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "LV_SB_NATION",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "LAC_SB_NATION",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "DEN_OFFICIAL_NEWS",
+      "baselineCompleted": 285,
+      "rc3Completed": 288,
+      "recovered": 3
+    },
+    {
+      "sourceId": "CHIEFS_COM",
+      "baselineCompleted": 285,
+      "rc3Completed": 288,
+      "recovered": 3
+    },
+    {
+      "sourceId": "LV_OFFICIAL_NEWS",
+      "baselineCompleted": 285,
+      "rc3Completed": 288,
+      "recovered": 3
+    },
+    {
+      "sourceId": "LAC_OFFICIAL_NEWS",
+      "baselineCompleted": 285,
+      "rc3Completed": 288,
+      "recovered": 3
+    },
+    {
+      "sourceId": "DAL_FANSIDED",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "NYG_FANSIDED",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "PHI_FANSIDED",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "WAS_FANSIDED",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "DAL_SB_NATION",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "NYG_SB_NATION",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "PHI_SB_NATION",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "WAS_SB_NATION",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "DAL_OFFICIAL_NEWS",
+      "baselineCompleted": 285,
+      "rc3Completed": 288,
+      "recovered": 3
+    },
+    {
+      "sourceId": "NYG_OFFICIAL_NEWS",
+      "baselineCompleted": 285,
+      "rc3Completed": 288,
+      "recovered": 3
+    },
+    {
+      "sourceId": "PHI_OFFICIAL_NEWS",
+      "baselineCompleted": 285,
+      "rc3Completed": 288,
+      "recovered": 3
+    },
+    {
+      "sourceId": "WAS_OFFICIAL_NEWS",
+      "baselineCompleted": 285,
+      "rc3Completed": 288,
+      "recovered": 3
+    },
+    {
+      "sourceId": "CHI_FANSIDED",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "DET_FANSIDED",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "GB_FANSIDED",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "MIN_FANSIDED",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "CHI_SB_NATION",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "DET_SB_NATION",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "GB_SB_NATION",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "MIN_SB_NATION",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "CHI_OFFICIAL_NEWS",
+      "baselineCompleted": 285,
+      "rc3Completed": 288,
+      "recovered": 3
+    },
+    {
+      "sourceId": "DET_OFFICIAL_NEWS",
+      "baselineCompleted": 285,
+      "rc3Completed": 288,
+      "recovered": 3
+    },
+    {
+      "sourceId": "GB_OFFICIAL_NEWS",
+      "baselineCompleted": 285,
+      "rc3Completed": 288,
+      "recovered": 3
+    },
+    {
+      "sourceId": "MIN_OFFICIAL_NEWS",
+      "baselineCompleted": 285,
+      "rc3Completed": 288,
+      "recovered": 3
+    },
+    {
+      "sourceId": "ARI_FANSIDED",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "LAR_FANSIDED",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "SF_FANSIDED",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "SEA_FANSIDED",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "ARI_SB_NATION",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "LAR_SB_NATION",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "SF_SB_NATION",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "SEA_SB_NATION",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "ARI_OFFICIAL_NEWS",
+      "baselineCompleted": 285,
+      "rc3Completed": 288,
+      "recovered": 3
+    },
+    {
+      "sourceId": "LAR_OFFICIAL_NEWS",
+      "baselineCompleted": 285,
+      "rc3Completed": 288,
+      "recovered": 3
+    },
+    {
+      "sourceId": "SF_OFFICIAL_NEWS",
+      "baselineCompleted": 285,
+      "rc3Completed": 288,
+      "recovered": 3
+    },
+    {
+      "sourceId": "SEA_OFFICIAL_NEWS",
+      "baselineCompleted": 285,
+      "rc3Completed": 288,
+      "recovered": 3
+    },
+    {
+      "sourceId": "BUF_FANSIDED",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "MIA_FANSIDED",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "NE_FANSIDED",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "NYJ_FANSIDED",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "BUF_SB_NATION",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "MIA_SB_NATION",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "NE_SB_NATION",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "NYJ_SB_NATION",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "BUF_OFFICIAL_NEWS",
+      "baselineCompleted": 285,
+      "rc3Completed": 288,
+      "recovered": 3
+    },
+    {
+      "sourceId": "MIA_OFFICIAL_NEWS",
+      "baselineCompleted": 285,
+      "rc3Completed": 288,
+      "recovered": 3
+    },
+    {
+      "sourceId": "NE_OFFICIAL_NEWS",
+      "baselineCompleted": 285,
+      "rc3Completed": 288,
+      "recovered": 3
+    },
+    {
+      "sourceId": "NYJ_OFFICIAL_NEWS",
+      "baselineCompleted": 285,
+      "rc3Completed": 288,
+      "recovered": 3
+    },
+    {
+      "sourceId": "BAL_FANSIDED",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "CIN_FANSIDED",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "CLE_FANSIDED",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "PIT_FANSIDED",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "BAL_SB_NATION",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "CIN_SB_NATION",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "CLE_SB_NATION",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "PIT_SB_NATION",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "BAL_OFFICIAL_NEWS",
+      "baselineCompleted": 285,
+      "rc3Completed": 288,
+      "recovered": 3
+    },
+    {
+      "sourceId": "CIN_OFFICIAL_NEWS",
+      "baselineCompleted": 285,
+      "rc3Completed": 288,
+      "recovered": 3
+    },
+    {
+      "sourceId": "CLE_OFFICIAL_NEWS",
+      "baselineCompleted": 285,
+      "rc3Completed": 288,
+      "recovered": 3
+    },
+    {
+      "sourceId": "PIT_OFFICIAL_NEWS",
+      "baselineCompleted": 285,
+      "rc3Completed": 288,
+      "recovered": 3
+    },
+    {
+      "sourceId": "HOU_FANSIDED",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "IND_FANSIDED",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "JAX_FANSIDED",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "TEN_FANSIDED",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "HOU_SB_NATION",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "IND_SB_NATION",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "JAX_SB_NATION",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "TEN_SB_NATION",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "HOU_OFFICIAL_NEWS",
+      "baselineCompleted": 285,
+      "rc3Completed": 288,
+      "recovered": 3
+    },
+    {
+      "sourceId": "IND_OFFICIAL_NEWS",
+      "baselineCompleted": 285,
+      "rc3Completed": 288,
+      "recovered": 3
+    },
+    {
+      "sourceId": "JAX_OFFICIAL_NEWS",
+      "baselineCompleted": 285,
+      "rc3Completed": 288,
+      "recovered": 3
+    },
+    {
+      "sourceId": "TEN_OFFICIAL_NEWS",
+      "baselineCompleted": 285,
+      "rc3Completed": 288,
+      "recovered": 3
+    },
+    {
+      "sourceId": "ATL_FANSIDED",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "CAR_FANSIDED",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "NO_FANSIDED",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "TB_FANSIDED",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "ATL_SB_NATION",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "CAR_SB_NATION",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "NO_SB_NATION",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "TB_SB_NATION",
+      "baselineCompleted": 143,
+      "rc3Completed": 144,
+      "recovered": 1
+    },
+    {
+      "sourceId": "ATL_OFFICIAL_NEWS",
+      "baselineCompleted": 285,
+      "rc3Completed": 288,
+      "recovered": 3
+    },
+    {
+      "sourceId": "CAR_OFFICIAL_NEWS",
+      "baselineCompleted": 285,
+      "rc3Completed": 288,
+      "recovered": 3
+    },
+    {
+      "sourceId": "NO_OFFICIAL_NEWS",
+      "baselineCompleted": 285,
+      "rc3Completed": 288,
+      "recovered": 3
+    },
+    {
+      "sourceId": "TB_OFFICIAL_NEWS",
+      "baselineCompleted": 285,
+      "rc3Completed": 288,
+      "recovered": 3
+    }
+  ]
+}

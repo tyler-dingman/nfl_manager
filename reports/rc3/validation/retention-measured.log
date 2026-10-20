@@ -1,0 +1,21 @@
+TAP version 13
+# RC3_RETENTION {"maxStepQueries":14,"interruptedRollback":true}
+# Subtest: completed odds payload compaction resumes atomically and preserves active/uncertain work and replay IDs
+ok 1 - completed odds payload compaction resumes atomically and preserves active/uncertain work and replay IDs
+  ---
+  duration_ms: 3503.207584
+  ...
+# Subtest: completed handoff bodies retire only with verified destination receipts; interrupted audit rolls back
+ok 2 - completed handoff bodies retire only with verified destination receipts; interrupted audit rolls back
+  ---
+  duration_ms: 1793.106958
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 5681.2235

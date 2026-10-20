@@ -404,11 +404,11 @@ export default function AccountDashboard({
           </Card>
           <Card title="Danger Zone" icon={Trash2} className={styles.danger}>
             <strong>Delete Account</strong>
-            <p className={styles.muted}>Permanently delete your account and associated data.</p>
+            <p className={styles.muted}>Account access ends immediately. Personal data cleanup continues securely in the background.</p>
             <button
               disabled={busy}
               onClick={() => {
-                if (window.prompt('Type DELETE to permanently remove your account.') !== 'DELETE')
+                if (window.prompt('Type DELETE to end account access and request permanent data cleanup.') !== 'DELETE')
                   return;
                 void run(async () => {
                   await accountMutation(fetch, '/api/user/account/delete', 'POST', {

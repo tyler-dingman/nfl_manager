@@ -297,14 +297,14 @@ export default function Account() {
           <View style={s.card}>
             <Text style={s.heading}>Danger Zone</Text>
             <Text style={[s.strong, { color: '#d81934', marginTop: 12 }]}>Delete Account</Text>
-            <Text style={s.muted}>Permanently delete your account and associated data.</Text>
+            <Text style={s.muted}>Account access ends immediately. Personal data cleanup continues securely in the background.</Text>
             <Pressable
               disabled={busy}
               style={s.button}
               onPress={() =>
                 Alert.alert(
                   'Permanently delete account?',
-                  'Your account and associated data will be deleted. This cannot be undone.',
+                  'Account access ends immediately. Personal data cleanup continues securely in the background. This cannot be undone.',
                   [
                     { text: 'Cancel', style: 'cancel' },
                     {

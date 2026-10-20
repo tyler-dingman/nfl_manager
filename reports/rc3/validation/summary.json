@@ -1,0 +1,74 @@
+{
+  "baseline": "4ebdf17e",
+  "branch": "release/down-distance-rc3",
+  "accountErasure": "PASS locally; complete only after verified coordinated GC; unresolved transfers and commerce remain REVIEW_REQUIRED",
+  "retentionCleanup": "PASS locally",
+  "scheduler": {
+    "completed": 18504,
+    "expected": 18504,
+    "sources": 97,
+    "teams": 32,
+    "scheduledInvocations": 1440,
+    "intervalSeconds": 60,
+    "childCallBound": 32,
+    "backlogReplay": {
+      "missedTicks": 30,
+      "completed": 18504,
+      "expected": 18504
+    }
+  },
+  "multiD1": "PASS locally; ten physical D1 databases",
+  "authentication": "PASS locally",
+  "recovery": "PASS locally; latest independent encrypted erasure ledger required",
+  "maximumWorkerD1Queries": 49,
+  "maximumErasureD1Queries": 15,
+  "maximumRetentionStepD1Queries": 14,
+  "dailyD1Writes": {
+    "syntheticApplicationReplay": 77038,
+    "offlineMaintenance": 70,
+    "totalMeasured": 77108,
+    "ownerMaintenanceQueries": 5015,
+    "scope": "synthetic 24h replay including verified stopped-writer archive/export/maintenance; excludes live providers, real delivery and general HTTP user traffic"
+  },
+  "automatedTests": {
+    "applicationPassed": 1079,
+    "workerFullSuitePassed": 168,
+    "additionalUncertainTransferPassed": 1,
+    "mtlsPassed": 1,
+    "uniquePassed": 1249,
+    "failed": 0,
+    "existingSkips": 2
+  },
+  "browserTests": {
+    "passed": 48,
+    "teams": [
+      "KC",
+      "SEA"
+    ],
+    "widths": [
+      390,
+      1440
+    ],
+    "nativeDevicesValidated": false
+  },
+  "productionBuild": {
+    "passed": true,
+    "pages": 95,
+    "apiRoutes": 200
+  },
+  "workerDryRuns": {
+    "passed": 5,
+    "deployed": false
+  },
+  "releaseTypeChecks": {
+    "root": "PASS",
+    "completion": "PASS",
+    "extraLegacyWorkerProject": "FAIL: inherited path/lib config; preserved diagnostic log, not represented as a passing release check"
+  },
+  "localReleaseQualification": "PASS for scoped synthetic private staging",
+  "readyForHostedStaging": "YES; owner-gated synthetic trial only, not hosted qualification",
+  "remoteResourcesCreated": false,
+  "billingActivated": false,
+  "cronTriggersEnabled": false,
+  "productionAccessed": false
+}

@@ -134,6 +134,8 @@ export async function collectPayloadGarbage(
     const tables = await all<{ name: string; sql: string; without_rowid: number }>(
       "SELECT s.name,s.sql,p.wr AS without_rowid FROM sqlite_schema s JOIN pragma_table_list p ON p.name=s.name AND p.schema='main' WHERE s.type='table' AND p.type IN ('table','virtual') AND s.name NOT LIKE 'sqlite_%' AND s.name NOT LIKE '_cf_%' AND s.name NOT LIKE 'd1_%' ORDER BY s.name",
     );
+    if (options.role === 'users')
+      for (const row of await all<{hash: string}>('SELECT hash FROM app_storage_erased_mail')) mailRoots.add(row.hash);
     const rootSchema = tables
       .filter((t) => !internal(t.name))
       .map((t) => ({ name: t.name, sql: t.sql }));

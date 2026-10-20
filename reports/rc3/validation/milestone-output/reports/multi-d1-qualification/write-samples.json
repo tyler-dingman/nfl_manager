@@ -1,0 +1,2342 @@
+{
+  "runtime": "local workerd D1; no R2 bindings; cold adapter caches per retry",
+  "scope": "adapter invocation, not complete HTTP; local rows_written metadata is not a production index-cost certificate",
+  "samples": [
+    {
+      "name": "candidate-first",
+      "statements": 12,
+      "rowsRead": 9,
+      "rowsWritten": 11,
+      "calls": [
+        {
+          "sql": "SELECT id FROM app_storage_candidate_receipts WHERE canonical_url=? OR (source_id=? AND external_id=?)",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 1
+          },
+          "duration": 1,
+          "changes": 0,
+          "last_row_id": 1,
+          "changed_db": false,
+          "size_after": 2117632,
+          "rows_read": 0,
+          "rows_written": 0
+        },
+        {
+          "sql": "SELECT id FROM app_editorial_candidates WHERE id=? OR canonical_url=? OR (source_id=? AND external_id=?) LIMIT 1",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 0,
+          "last_row_id": 1,
+          "changed_db": false,
+          "size_after": 2117632,
+          "rows_read": 0,
+          "rows_written": 0
+        },
+        {
+          "sql": "SELECT o.bytes,o.chunks,o.complete,o.inline_data,c.ordinal,c.body,c.data\n    FROM app_payload_objects o LEFT JOIN app_payload_chunks c ON c.hash=o.hash\n    WHERE o.hash=? ORDER BY c.ordinal",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 0,
+          "last_row_id": 1,
+          "changed_db": false,
+          "size_after": 2117632,
+          "rows_read": 0,
+          "rows_written": 0
+        },
+        {
+          "sql": "INSERT INTO app_storage_guards(id,ok) SELECT ?,CASE WHEN epoch=? AND locked=0 THEN 1 ELSE 0 END FROM app_storage_epoch WHERE id=1",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 1,
+          "changed_db": true,
+          "size_after": 2117632,
+          "rows_read": 1,
+          "rows_written": 1
+        },
+        {
+          "sql": "INSERT OR IGNORE INTO app_payload_capacity(id,used_bytes) VALUES(1,0)",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 0,
+          "last_row_id": 1,
+          "changed_db": false,
+          "size_after": 2117632,
+          "rows_read": 1,
+          "rows_written": 0
+        },
+        {
+          "sql": "INSERT OR IGNORE INTO app_payload_objects(hash,bytes,chunks,complete,inline_data)\n    SELECT ?,?,?,?,? WHERE (SELECT used_bytes FROM app_payload_capacity WHERE id=1)+?<=?",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 1,
+          "changed_db": true,
+          "size_after": 2117632,
+          "rows_read": 1,
+          "rows_written": 1
+        },
+        {
+          "sql": "UPDATE app_payload_capacity SET used_bytes=used_bytes+? WHERE id=1 AND changes()=1",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 1,
+          "changed_db": true,
+          "size_after": 2117632,
+          "rows_read": 1,
+          "rows_written": 1
+        },
+        {
+          "sql": "DELETE FROM app_storage_guards WHERE id=?",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 1,
+          "changed_db": true,
+          "size_after": 2117632,
+          "rows_read": 1,
+          "rows_written": 1
+        },
+        {
+          "sql": "SELECT o.bytes,o.chunks,o.complete,o.inline_data,c.ordinal,c.body,c.data\n    FROM app_payload_objects o LEFT JOIN app_payload_chunks c ON c.hash=o.hash\n    WHERE o.hash=? ORDER BY c.ordinal",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 0,
+          "last_row_id": 1,
+          "changed_db": false,
+          "size_after": 2117632,
+          "rows_read": 1,
+          "rows_written": 0
+        },
+        {
+          "sql": "INSERT INTO app_storage_guards(id,ok) SELECT ?,CASE WHEN epoch=? AND locked=0 THEN 1 ELSE 0 END FROM app_storage_epoch WHERE id=1",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 1,
+          "changed_db": true,
+          "size_after": 2117632,
+          "rows_read": 1,
+          "rows_written": 1
+        },
+        {
+          "sql": "INSERT INTO app_editorial_candidates(id,source_id,external_id,canonical_url,fingerprint,published_at,discovered_at,teams,status,object_hash) VALUES(?,?,?,?,?,?,?,?,?,?) ON CONFLICT DO NOTHING RETURNING id",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 1,
+          "changed_db": true,
+          "size_after": 2117632,
+          "rows_read": 1,
+          "rows_written": 5
+        },
+        {
+          "sql": "DELETE FROM app_storage_guards WHERE id=?",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 1,
+          "changed_db": true,
+          "size_after": 2117632,
+          "rows_read": 1,
+          "rows_written": 1
+        }
+      ]
+    },
+    {
+      "name": "candidate-retry-new-random-id",
+      "statements": 3,
+      "rowsRead": 2,
+      "rowsWritten": 0,
+      "calls": [
+        {
+          "sql": "SELECT epoch,locked FROM app_storage_epoch WHERE id=1",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 0,
+          "last_row_id": 1,
+          "changed_db": false,
+          "size_after": 2117632,
+          "rows_read": 1,
+          "rows_written": 0
+        },
+        {
+          "sql": "SELECT id FROM app_storage_candidate_receipts WHERE canonical_url=? OR (source_id=? AND external_id=?)",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 0,
+          "last_row_id": 1,
+          "changed_db": false,
+          "size_after": 2117632,
+          "rows_read": 0,
+          "rows_written": 0
+        },
+        {
+          "sql": "SELECT id FROM app_editorial_candidates WHERE id=? OR canonical_url=? OR (source_id=? AND external_id=?) LIMIT 1",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 0,
+          "last_row_id": 1,
+          "changed_db": false,
+          "size_after": 2117632,
+          "rows_read": 1,
+          "rows_written": 0
+        }
+      ]
+    },
+    {
+      "name": "candidate-status-first",
+      "statements": 3,
+      "rowsRead": 3,
+      "rowsWritten": 3,
+      "calls": [
+        {
+          "sql": "INSERT INTO app_storage_guards(id,ok) SELECT ?,CASE WHEN epoch=? AND locked=0 THEN 1 ELSE 0 END FROM app_storage_epoch WHERE id=1",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 1,
+          "changed_db": true,
+          "size_after": 2117632,
+          "rows_read": 1,
+          "rows_written": 1
+        },
+        {
+          "sql": "UPDATE app_editorial_candidates SET status=?,rejection_reason=? WHERE id=? AND (status IS NOT ? OR rejection_reason IS NOT ?)",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 1,
+          "changed_db": true,
+          "size_after": 2117632,
+          "rows_read": 1,
+          "rows_written": 1
+        },
+        {
+          "sql": "DELETE FROM app_storage_guards WHERE id=?",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 1,
+          "changed_db": true,
+          "size_after": 2117632,
+          "rows_read": 1,
+          "rows_written": 1
+        }
+      ]
+    },
+    {
+      "name": "candidate-status-retry",
+      "statements": 4,
+      "rowsRead": 4,
+      "rowsWritten": 2,
+      "calls": [
+        {
+          "sql": "SELECT epoch,locked FROM app_storage_epoch WHERE id=1",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 0,
+          "last_row_id": 1,
+          "changed_db": false,
+          "size_after": 2117632,
+          "rows_read": 1,
+          "rows_written": 0
+        },
+        {
+          "sql": "INSERT INTO app_storage_guards(id,ok) SELECT ?,CASE WHEN epoch=? AND locked=0 THEN 1 ELSE 0 END FROM app_storage_epoch WHERE id=1",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 1,
+          "changed_db": true,
+          "size_after": 2117632,
+          "rows_read": 1,
+          "rows_written": 1
+        },
+        {
+          "sql": "UPDATE app_editorial_candidates SET status=?,rejection_reason=? WHERE id=? AND (status IS NOT ? OR rejection_reason IS NOT ?)",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 0,
+          "last_row_id": 1,
+          "changed_db": false,
+          "size_after": 2117632,
+          "rows_read": 1,
+          "rows_written": 0
+        },
+        {
+          "sql": "DELETE FROM app_storage_guards WHERE id=?",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 1
+          },
+          "duration": 1,
+          "changes": 1,
+          "last_row_id": 1,
+          "changed_db": true,
+          "size_after": 2117632,
+          "rows_read": 1,
+          "rows_written": 1
+        }
+      ]
+    },
+    {
+      "name": "article-first-published",
+      "statements": 22,
+      "rowsRead": 46,
+      "rowsWritten": 35,
+      "calls": [
+        {
+          "sql": "SELECT version,object_hash FROM app_public_stories WHERE id=?",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 0,
+          "last_row_id": 1,
+          "changed_db": false,
+          "size_after": 2117632,
+          "rows_read": 0,
+          "rows_written": 0
+        },
+        {
+          "sql": "SELECT hash,bytes,chunks,inline_data FROM app_payload_objects WHERE hash IN (SELECT value FROM json_each(?)) AND complete=1",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 0,
+          "last_row_id": 1,
+          "changed_db": false,
+          "size_after": 2117632,
+          "rows_read": 10,
+          "rows_written": 0
+        },
+        {
+          "sql": "INSERT INTO app_storage_guards(id,ok) SELECT ?,CASE WHEN epoch=? AND locked=0 THEN 1 ELSE 0 END FROM app_storage_epoch WHERE id=1",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 1,
+          "changed_db": true,
+          "size_after": 2117632,
+          "rows_read": 1,
+          "rows_written": 1
+        },
+        {
+          "sql": "INSERT OR IGNORE INTO app_payload_capacity(id,used_bytes) VALUES(1,0)",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 0,
+          "last_row_id": 1,
+          "changed_db": false,
+          "size_after": 2117632,
+          "rows_read": 1,
+          "rows_written": 0
+        },
+        {
+          "sql": "UPDATE app_payload_capacity SET used_bytes=used_bytes+(SELECT coalesce(sum(json_extract(j.value,'$.bytes')),0) FROM json_each(?) j WHERE NOT EXISTS(SELECT 1 FROM app_payload_objects o WHERE o.hash=json_extract(j.value,'$.hash'))) WHERE id=1 AND used_bytes+(SELECT coalesce(sum(json_extract(j.value,'$.bytes')),0) FROM json_each(?) j WHERE NOT EXISTS(SELECT 1 FROM app_payload_objects o WHERE o.hash=json_extract(j.value,'$.hash')))<=?",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 1
+          },
+          "duration": 1,
+          "changes": 1,
+          "last_row_id": 1,
+          "changed_db": true,
+          "size_after": 2117632,
+          "rows_read": 11,
+          "rows_written": 1
+        },
+        {
+          "sql": "WITH incoming(hash,bytes,data) AS (VALUES (?,?,?),(?,?,?),(?,?,?),(?,?,?),(?,?,?)) INSERT OR IGNORE INTO app_payload_objects(hash,bytes,inline_data,chunks,complete) SELECT hash,bytes,data,0,1 FROM incoming WHERE changes()=1",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 5,
+          "last_row_id": 1,
+          "changed_db": true,
+          "size_after": 2121728,
+          "rows_read": 0,
+          "rows_written": 5
+        },
+        {
+          "sql": "DELETE FROM app_storage_guards WHERE id=?",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 1,
+          "changed_db": true,
+          "size_after": 2121728,
+          "rows_read": 1,
+          "rows_written": 1
+        },
+        {
+          "sql": "SELECT hash,bytes,chunks,inline_data FROM app_payload_objects WHERE hash IN (SELECT value FROM json_each(?)) AND complete=1",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 0,
+          "last_row_id": 1,
+          "changed_db": false,
+          "size_after": 2121728,
+          "rows_read": 15,
+          "rows_written": 0
+        },
+        {
+          "sql": "INSERT INTO app_storage_guards(id,ok) SELECT ?,CASE WHEN epoch=? AND locked=0 THEN 1 ELSE 0 END FROM app_storage_epoch WHERE id=1",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 1,
+          "changed_db": true,
+          "size_after": 2121728,
+          "rows_read": 1,
+          "rows_written": 1
+        },
+        {
+          "sql": "INSERT INTO app_assertions(nonce,ok) SELECT ?,CASE WHEN ((NOT EXISTS(SELECT 1 FROM app_editorial_stories WHERE id=?)) AND (NOT EXISTS(SELECT 1 FROM app_editorial_evidence WHERE candidate_id=? AND story_id<>?)) AND (NOT EXISTS(SELECT 1 FROM app_public_stories WHERE id=?))) THEN 1 ELSE 0 END",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 1,
+          "changed_db": true,
+          "size_after": 2121728,
+          "rows_read": 1,
+          "rows_written": 2
+        },
+        {
+          "sql": "INSERT INTO app_editorial_stories(id,team_id,story_type,publication_state,status,version,object_hash,first_reported_at,last_meaningful_update_at,created_at,updated_at) VALUES(?,?,?,?,?,?,?,?,?,?,?) ON CONFLICT(id) DO UPDATE SET publication_state=excluded.publication_state,status=excluded.status,version=excluded.version,object_hash=excluded.object_hash,last_meaningful_update_at=excluded.last_meaningful_update_at,updated_at=excluded.updated_at",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 1,
+          "changed_db": true,
+          "size_after": 2121728,
+          "rows_read": 0,
+          "rows_written": 3
+        },
+        {
+          "sql": "INSERT INTO app_editorial_evidence(id,story_id,candidate_id,source_id,first_seen_at) VALUES(?,?,?,?,?) ON CONFLICT(story_id,candidate_id) DO NOTHING",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 1,
+          "changed_db": true,
+          "size_after": 2121728,
+          "rows_read": 0,
+          "rows_written": 3
+        },
+        {
+          "sql": "UPDATE app_editorial_candidates SET status='CLUSTERED' WHERE id=?",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 1,
+          "changed_db": true,
+          "size_after": 2121728,
+          "rows_read": 1,
+          "rows_written": 1
+        },
+        {
+          "sql": "INSERT INTO app_editorial_versions(id,story_id,version,object_hash,created_at) VALUES(?,?,?,?,?)",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 1,
+          "changed_db": true,
+          "size_after": 2121728,
+          "rows_read": 0,
+          "rows_written": 3
+        },
+        {
+          "sql": "INSERT INTO app_editorial_events(id,event_type,story_id,team_id,story_version,idempotency_key,object_hash,occurred_at) VALUES(?,?,?,?,?,?,?,?)",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 1,
+          "changed_db": true,
+          "size_after": 2121728,
+          "rows_read": 0,
+          "rows_written": 3
+        },
+        {
+          "sql": "INSERT INTO app_public_wire(id,event_type,story_id,team_id,story_version,object_hash,occurred_at) VALUES(?,?,?,?,?,?,?)",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 1,
+          "changed_db": true,
+          "size_after": 2121728,
+          "rows_read": 0,
+          "rows_written": 3
+        },
+        {
+          "sql": "INSERT INTO app_public_stories(id,search_rowid,team_id,story_type,importance,first_at,updated_at,evidence_at,hot_until,version,visible,object_hash) VALUES(?,?,?,?,?,?,?,?,?,?,?,?) ON CONFLICT(id) DO UPDATE SET team_id=excluded.team_id,story_type=excluded.story_type,importance=excluded.importance,first_at=excluded.first_at,updated_at=excluded.updated_at,evidence_at=excluded.evidence_at,hot_until=excluded.hot_until,version=excluded.version,visible=excluded.visible,object_hash=excluded.object_hash WHERE version=? AND object_hash=?",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 1,
+          "changed_db": true,
+          "size_after": 2121728,
+          "rows_read": 0,
+          "rows_written": 4
+        },
+        {
+          "sql": "INSERT INTO app_public_story_versions(id,version,object_hash) VALUES(?,?,?)",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 1,
+          "changed_db": true,
+          "size_after": 2121728,
+          "rows_read": 0,
+          "rows_written": 1
+        },
+        {
+          "sql": "DELETE FROM app_search WHERE rowid=(SELECT search_rowid FROM app_public_stories WHERE id=?)",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 0,
+          "last_row_id": 1,
+          "changed_db": false,
+          "size_after": 2121728,
+          "rows_read": 1,
+          "rows_written": 0
+        },
+        {
+          "sql": "INSERT INTO app_search(rowid,id,team_id,title,content,source_id,source_url) SELECT search_rowid,id,team_id,?,?,?,? FROM app_public_stories WHERE id=? AND visible=1",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 3,
+          "last_row_id": -3923474812080145,
+          "changed_db": true,
+          "size_after": 2121728,
+          "rows_read": 1,
+          "rows_written": 1
+        },
+        {
+          "sql": "DELETE FROM app_assertions WHERE nonce=?",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": -3923474812080145,
+          "changed_db": true,
+          "size_after": 2121728,
+          "rows_read": 1,
+          "rows_written": 1
+        },
+        {
+          "sql": "DELETE FROM app_storage_guards WHERE id=?",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": -3923474812080145,
+          "changed_db": true,
+          "size_after": 2121728,
+          "rows_read": 1,
+          "rows_written": 1
+        }
+      ]
+    },
+    {
+      "name": "article-correction",
+      "statements": 25,
+      "rowsRead": 56,
+      "rowsWritten": 32,
+      "calls": [
+        {
+          "sql": "SELECT e.id,e.candidate_id,e.source_id,c.object_hash candidate_hash,c.source_id candidate_source_id,c.status candidate_status,s.object_hash source_hash,s.next_check_at,s.last_checked_at,s.last_successful_at,s.etag,s.last_modified,s.failure_count,s.last_error FROM app_editorial_evidence e LEFT JOIN app_editorial_candidates c ON c.id=e.candidate_id LEFT JOIN app_editorial_sources s ON s.id=e.source_id WHERE e.story_id=? ORDER BY e.first_seen_at,e.id",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 0,
+          "last_row_id": -3923474812080145,
+          "changed_db": false,
+          "size_after": 2121728,
+          "rows_read": 4,
+          "rows_written": 0
+        },
+        {
+          "sql": "SELECT object_hash FROM app_editorial_stories WHERE id=?",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 0,
+          "last_row_id": -3923474812080145,
+          "changed_db": false,
+          "size_after": 2121728,
+          "rows_read": 1,
+          "rows_written": 0
+        },
+        {
+          "sql": "SELECT * FROM app_editorial_stories WHERE id=?",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 0,
+          "last_row_id": -3923474812080145,
+          "changed_db": false,
+          "size_after": 2121728,
+          "rows_read": 1,
+          "rows_written": 0
+        },
+        {
+          "sql": "SELECT u.id FROM app_users u JOIN app_settings p ON p.user_id=u.id WHERE u.status='ACTIVE' AND json_extract(p.preferences_json,'$.preferredTeamId')=? AND NOT EXISTS(SELECT 1 FROM app_notification_preferences np WHERE np.user_id=u.id AND np.category IN('BREAKING_NEWS','BREAKING','HOT_READ') AND np.channel='IN_APP' AND np.enabled=0)",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 0,
+          "last_row_id": -3923474812080145,
+          "changed_db": false,
+          "size_after": 2121728,
+          "rows_read": 1,
+          "rows_written": 0
+        },
+        {
+          "sql": "SELECT version,object_hash FROM app_public_stories WHERE id=?",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 0,
+          "last_row_id": -3923474812080145,
+          "changed_db": false,
+          "size_after": 2121728,
+          "rows_read": 1,
+          "rows_written": 0
+        },
+        {
+          "sql": "SELECT hash,bytes,chunks,inline_data FROM app_payload_objects WHERE hash IN (SELECT value FROM json_each(?)) AND complete=1",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 0,
+          "last_row_id": -3923474812080145,
+          "changed_db": false,
+          "size_after": 2121728,
+          "rows_read": 10,
+          "rows_written": 0
+        },
+        {
+          "sql": "INSERT INTO app_storage_guards(id,ok) SELECT ?,CASE WHEN epoch=? AND locked=0 THEN 1 ELSE 0 END FROM app_storage_epoch WHERE id=1",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": -3923474812080145,
+          "changed_db": true,
+          "size_after": 2121728,
+          "rows_read": 1,
+          "rows_written": 1
+        },
+        {
+          "sql": "INSERT OR IGNORE INTO app_payload_capacity(id,used_bytes) VALUES(1,0)",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 0,
+          "last_row_id": -3923474812080145,
+          "changed_db": false,
+          "size_after": 2121728,
+          "rows_read": 1,
+          "rows_written": 0
+        },
+        {
+          "sql": "UPDATE app_payload_capacity SET used_bytes=used_bytes+(SELECT coalesce(sum(json_extract(j.value,'$.bytes')),0) FROM json_each(?) j WHERE NOT EXISTS(SELECT 1 FROM app_payload_objects o WHERE o.hash=json_extract(j.value,'$.hash'))) WHERE id=1 AND used_bytes+(SELECT coalesce(sum(json_extract(j.value,'$.bytes')),0) FROM json_each(?) j WHERE NOT EXISTS(SELECT 1 FROM app_payload_objects o WHERE o.hash=json_extract(j.value,'$.hash')))<=?",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": -3923474812080145,
+          "changed_db": true,
+          "size_after": 2121728,
+          "rows_read": 11,
+          "rows_written": 1
+        },
+        {
+          "sql": "WITH incoming(hash,bytes,data) AS (VALUES (?,?,?),(?,?,?),(?,?,?),(?,?,?),(?,?,?)) INSERT OR IGNORE INTO app_payload_objects(hash,bytes,inline_data,chunks,complete) SELECT hash,bytes,data,0,1 FROM incoming WHERE changes()=1",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 5,
+          "last_row_id": -3923474812080145,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 0,
+          "rows_written": 5
+        },
+        {
+          "sql": "DELETE FROM app_storage_guards WHERE id=?",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": -3923474812080145,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 1
+        },
+        {
+          "sql": "SELECT hash,bytes,chunks,inline_data FROM app_payload_objects WHERE hash IN (SELECT value FROM json_each(?)) AND complete=1",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 0,
+          "last_row_id": -3923474812080145,
+          "changed_db": false,
+          "size_after": 2129920,
+          "rows_read": 15,
+          "rows_written": 0
+        },
+        {
+          "sql": "INSERT INTO app_storage_guards(id,ok) SELECT ?,CASE WHEN epoch=? AND locked=0 THEN 1 ELSE 0 END FROM app_storage_epoch WHERE id=1",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": -3923474812080145,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 1
+        },
+        {
+          "sql": "INSERT INTO app_assertions(nonce,ok) SELECT ?,CASE WHEN ((EXISTS(SELECT 1 FROM app_editorial_stories WHERE id=? AND version=? AND object_hash=?)) AND (EXISTS(SELECT 1 FROM app_public_stories WHERE id=? AND version=? AND object_hash=?))) THEN 1 ELSE 0 END",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 1,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 2,
+          "rows_written": 2
+        },
+        {
+          "sql": "INSERT INTO app_editorial_stories(id,team_id,story_type,publication_state,status,version,object_hash,first_reported_at,last_meaningful_update_at,created_at,updated_at) VALUES(?,?,?,?,?,?,?,?,?,?,?) ON CONFLICT(id) DO UPDATE SET publication_state=excluded.publication_state,status=excluded.status,version=excluded.version,object_hash=excluded.object_hash,last_meaningful_update_at=excluded.last_meaningful_update_at,updated_at=excluded.updated_at",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 1,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 2
+        },
+        {
+          "sql": "INSERT INTO app_editorial_versions(id,story_id,version,object_hash,created_at) VALUES(?,?,?,?,?)",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 2,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 0,
+          "rows_written": 3
+        },
+        {
+          "sql": "INSERT INTO app_editorial_decisions(id,story_id,story_version,action,reason,confidence,created_at) VALUES(?,?,?,?,?,?,?)",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 1,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 0,
+          "rows_written": 3
+        },
+        {
+          "sql": "INSERT INTO app_editorial_events(id,event_type,story_id,team_id,story_version,idempotency_key,object_hash,occurred_at) VALUES(?,?,?,?,?,?,?,?)",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 2,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 0,
+          "rows_written": 3
+        },
+        {
+          "sql": "INSERT INTO app_public_wire(id,event_type,story_id,team_id,story_version,object_hash,occurred_at) VALUES(?,?,?,?,?,?,?)",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 2,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 0,
+          "rows_written": 3
+        },
+        {
+          "sql": "INSERT INTO app_public_stories(id,search_rowid,team_id,story_type,importance,first_at,updated_at,evidence_at,hot_until,version,visible,object_hash) VALUES(?,?,?,?,?,?,?,?,?,?,?,?) ON CONFLICT(id) DO UPDATE SET team_id=excluded.team_id,story_type=excluded.story_type,importance=excluded.importance,first_at=excluded.first_at,updated_at=excluded.updated_at,evidence_at=excluded.evidence_at,hot_until=excluded.hot_until,version=excluded.version,visible=excluded.visible,object_hash=excluded.object_hash WHERE version=? AND object_hash=?",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 2,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 2
+        },
+        {
+          "sql": "INSERT INTO app_public_story_versions(id,version,object_hash) VALUES(?,?,?)",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 2,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 0,
+          "rows_written": 1
+        },
+        {
+          "sql": "DELETE FROM app_search WHERE rowid=(SELECT search_rowid FROM app_public_stories WHERE id=?)",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 3,
+          "last_row_id": 2,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 1
+        },
+        {
+          "sql": "INSERT INTO app_search(rowid,id,team_id,title,content,source_id,source_url) SELECT search_rowid,id,team_id,?,?,?,? FROM app_public_stories WHERE id=? AND visible=1",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 7,
+          "last_row_id": -3923474812080145,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 1
+        },
+        {
+          "sql": "DELETE FROM app_assertions WHERE nonce=?",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 1
+          },
+          "duration": 1,
+          "changes": 1,
+          "last_row_id": -3923474812080145,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 1
+        },
+        {
+          "sql": "DELETE FROM app_storage_guards WHERE id=?",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": -3923474812080145,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 1
+        }
+      ]
+    },
+    {
+      "name": "source-check-success",
+      "statements": 3,
+      "rowsRead": 3,
+      "rowsWritten": 4,
+      "calls": [
+        {
+          "sql": "INSERT INTO app_storage_guards(id,ok) SELECT ?,CASE WHEN epoch=? AND locked=0 THEN 1 ELSE 0 END FROM app_storage_epoch WHERE id=1",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": -3923474812080145,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 1
+        },
+        {
+          "sql": "UPDATE app_editorial_sources SET etag=?,last_modified=?,last_checked_at=?,last_successful_at=?,last_item_at=coalesce(?,last_item_at),next_check_at=?,failure_count=0,consecutive_failures=0,average_latency_ms=CASE WHEN ? IS NULL THEN average_latency_ms ELSE(coalesce(average_latency_ms,0)*request_count+?)/(request_count+1) END,request_count=request_count+1,last_error=NULL,updated_at=? WHERE id=?",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": -3923474812080145,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 2
+        },
+        {
+          "sql": "DELETE FROM app_storage_guards WHERE id=?",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": -3923474812080145,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 1
+        }
+      ]
+    },
+    {
+      "name": "job-enqueue",
+      "statements": 3,
+      "rowsRead": 3,
+      "rowsWritten": 6,
+      "calls": [
+        {
+          "sql": "INSERT INTO app_storage_guards(id,ok) SELECT ?,CASE WHEN epoch=? AND locked=0 THEN 1 ELSE 0 END FROM app_storage_epoch WHERE id=1",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": -3923474812080145,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 1
+        },
+        {
+          "sql": "INSERT INTO app_editorial_jobs(id,job_type,idempotency_key,payload,available_at,created_at,updated_at) VALUES(?,?,?,?,?,?,?) ON CONFLICT(idempotency_key) DO NOTHING RETURNING id",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 1,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 4
+        },
+        {
+          "sql": "DELETE FROM app_storage_guards WHERE id=?",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 1,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 1
+        }
+      ]
+    },
+    {
+      "name": "odds-first",
+      "statements": 15,
+      "rowsRead": 36,
+      "rowsWritten": 17,
+      "calls": [
+        {
+          "sql": "SELECT epoch,locked FROM app_storage_epoch WHERE id=1",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 0,
+          "last_row_id": 1,
+          "changed_db": false,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 0
+        },
+        {
+          "sql": "SELECT * FROM app_sportsbook_events WHERE provider_event_id=?",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 0,
+          "last_row_id": 1,
+          "changed_db": false,
+          "size_after": 2129920,
+          "rows_read": 0,
+          "rows_written": 0
+        },
+        {
+          "sql": "SELECT hash,bytes,chunks,inline_data FROM app_payload_objects WHERE hash IN (SELECT value FROM json_each(?)) AND complete=1",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 0,
+          "last_row_id": 1,
+          "changed_db": false,
+          "size_after": 2129920,
+          "rows_read": 8,
+          "rows_written": 0
+        },
+        {
+          "sql": "INSERT INTO app_storage_guards(id,ok) SELECT ?,CASE WHEN epoch=? AND locked=0 THEN 1 ELSE 0 END FROM app_storage_epoch WHERE id=1",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 1,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 1
+        },
+        {
+          "sql": "INSERT OR IGNORE INTO app_payload_capacity(id,used_bytes) VALUES(1,0)",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 0,
+          "last_row_id": 1,
+          "changed_db": false,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 0
+        },
+        {
+          "sql": "UPDATE app_payload_capacity SET used_bytes=used_bytes+(SELECT coalesce(sum(json_extract(j.value,'$.bytes')),0) FROM json_each(?) j WHERE NOT EXISTS(SELECT 1 FROM app_payload_objects o WHERE o.hash=json_extract(j.value,'$.hash'))) WHERE id=1 AND used_bytes+(SELECT coalesce(sum(json_extract(j.value,'$.bytes')),0) FROM json_each(?) j WHERE NOT EXISTS(SELECT 1 FROM app_payload_objects o WHERE o.hash=json_extract(j.value,'$.hash')))<=?",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 1,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 9,
+          "rows_written": 1
+        },
+        {
+          "sql": "WITH incoming(hash,bytes,data) AS (VALUES (?,?,?),(?,?,?),(?,?,?),(?,?,?)) INSERT OR IGNORE INTO app_payload_objects(hash,bytes,inline_data,chunks,complete) SELECT hash,bytes,data,0,1 FROM incoming WHERE changes()=1",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 4,
+          "last_row_id": 1,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 0,
+          "rows_written": 4
+        },
+        {
+          "sql": "DELETE FROM app_storage_guards WHERE id=?",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 1,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 1
+        },
+        {
+          "sql": "SELECT hash,bytes,chunks,inline_data FROM app_payload_objects WHERE hash IN (SELECT value FROM json_each(?)) AND complete=1",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 0,
+          "last_row_id": 1,
+          "changed_db": false,
+          "size_after": 2129920,
+          "rows_read": 12,
+          "rows_written": 0
+        },
+        {
+          "sql": "INSERT INTO app_storage_guards(id,ok) SELECT ?,CASE WHEN epoch=? AND locked=0 THEN 1 ELSE 0 END FROM app_storage_epoch WHERE id=1",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 1,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 1
+        },
+        {
+          "sql": "INSERT INTO app_sportsbook_events(id,provider_event_id,season,week,home_team_id,away_team_id,kickoff_at,status,markets_locked,last_imported_at,markets_hash,as_of,market_ids_hash,version) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,1) ON CONFLICT(provider_event_id) DO UPDATE SET season=excluded.season,week=excluded.week,home_team_id=excluded.home_team_id,away_team_id=excluded.away_team_id,kickoff_at=excluded.kickoff_at,status=excluded.status,last_imported_at=excluded.last_imported_at,markets_hash=excluded.markets_hash,as_of=excluded.as_of,market_ids_hash=excluded.market_ids_hash,version=version+1 WHERE version=? AND as_of<=excluded.as_of",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 1,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 0,
+          "rows_written": 4
+        },
+        {
+          "sql": "INSERT INTO app_assertions(nonce,ok) VALUES(?,changes())",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 1,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 0,
+          "rows_written": 2
+        },
+        {
+          "sql": "DELETE FROM app_assertions WHERE nonce=?",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 1,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 1
+        },
+        {
+          "sql": "INSERT INTO app_odds_board_history(event_id,as_of,object_hash) VALUES(?,?,?) ON CONFLICT DO NOTHING",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 1,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 0,
+          "rows_written": 1
+        },
+        {
+          "sql": "DELETE FROM app_storage_guards WHERE id=?",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 1,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 1
+        }
+      ]
+    },
+    {
+      "name": "odds-identical-observation-retry",
+      "statements": 5,
+      "rowsRead": 10,
+      "rowsWritten": 0,
+      "calls": [
+        {
+          "sql": "SELECT epoch,locked FROM app_storage_epoch WHERE id=1",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 0,
+          "last_row_id": 1,
+          "changed_db": false,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 0
+        },
+        {
+          "sql": "SELECT * FROM app_sportsbook_events WHERE provider_event_id=?",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 0,
+          "last_row_id": 1,
+          "changed_db": false,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 0
+        },
+        {
+          "sql": "SELECT o.bytes,o.chunks,o.complete,o.inline_data,c.ordinal,c.body,c.data\n    FROM app_payload_objects o LEFT JOIN app_payload_chunks c ON c.hash=o.hash\n    WHERE o.hash=? ORDER BY c.ordinal",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 0,
+          "last_row_id": 1,
+          "changed_db": false,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 0
+        },
+        {
+          "sql": "SELECT o.bytes,o.chunks,o.complete,o.inline_data,c.ordinal,c.body,c.data\n    FROM app_payload_objects o LEFT JOIN app_payload_chunks c ON c.hash=o.hash\n    WHERE o.hash=? ORDER BY c.ordinal",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 0,
+          "last_row_id": 1,
+          "changed_db": false,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 0
+        },
+        {
+          "sql": "SELECT hash,bytes,chunks,inline_data FROM app_payload_objects WHERE hash IN (SELECT value FROM json_each(?)) AND complete=1",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 0,
+          "last_row_id": 1,
+          "changed_db": false,
+          "size_after": 2129920,
+          "rows_read": 6,
+          "rows_written": 0
+        }
+      ]
+    },
+    {
+      "name": "odds-new-timestamp-unchanged-price",
+      "statements": 17,
+      "rowsRead": 22,
+      "rowsWritten": 12,
+      "calls": [
+        {
+          "sql": "SELECT epoch,locked FROM app_storage_epoch WHERE id=1",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 0,
+          "last_row_id": 1,
+          "changed_db": false,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 0
+        },
+        {
+          "sql": "SELECT * FROM app_sportsbook_events WHERE provider_event_id=?",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 0,
+          "last_row_id": 1,
+          "changed_db": false,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 0
+        },
+        {
+          "sql": "SELECT o.bytes,o.chunks,o.complete,o.inline_data,c.ordinal,c.body,c.data\n    FROM app_payload_objects o LEFT JOIN app_payload_chunks c ON c.hash=o.hash\n    WHERE o.hash=? ORDER BY c.ordinal",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 0,
+          "last_row_id": 1,
+          "changed_db": false,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 0
+        },
+        {
+          "sql": "SELECT o.bytes,o.chunks,o.complete,o.inline_data,c.ordinal,c.body,c.data\n    FROM app_payload_objects o LEFT JOIN app_payload_chunks c ON c.hash=o.hash\n    WHERE o.hash=? ORDER BY c.ordinal",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 0,
+          "last_row_id": 1,
+          "changed_db": false,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 0
+        },
+        {
+          "sql": "SELECT hash,bytes,chunks,inline_data FROM app_payload_objects WHERE hash IN (SELECT value FROM json_each(?)) AND complete=1",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 1
+          },
+          "duration": 1,
+          "changes": 0,
+          "last_row_id": 1,
+          "changed_db": false,
+          "size_after": 2129920,
+          "rows_read": 5,
+          "rows_written": 0
+        },
+        {
+          "sql": "INSERT INTO app_storage_guards(id,ok) SELECT ?,CASE WHEN epoch=? AND locked=0 THEN 1 ELSE 0 END FROM app_storage_epoch WHERE id=1",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 1,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 1
+        },
+        {
+          "sql": "INSERT OR IGNORE INTO app_payload_capacity(id,used_bytes) VALUES(1,0)",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 0,
+          "last_row_id": 1,
+          "changed_db": false,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 0
+        },
+        {
+          "sql": "UPDATE app_payload_capacity SET used_bytes=used_bytes+(SELECT coalesce(sum(json_extract(j.value,'$.bytes')),0) FROM json_each(?) j WHERE NOT EXISTS(SELECT 1 FROM app_payload_objects o WHERE o.hash=json_extract(j.value,'$.hash'))) WHERE id=1 AND used_bytes+(SELECT coalesce(sum(json_extract(j.value,'$.bytes')),0) FROM json_each(?) j WHERE NOT EXISTS(SELECT 1 FROM app_payload_objects o WHERE o.hash=json_extract(j.value,'$.hash')))<=?",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 1,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 3,
+          "rows_written": 1
+        },
+        {
+          "sql": "WITH incoming(hash,bytes,data) AS (VALUES (?,?,?)) INSERT OR IGNORE INTO app_payload_objects(hash,bytes,inline_data,chunks,complete) SELECT hash,bytes,data,0,1 FROM incoming WHERE changes()=1",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 1,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 0,
+          "rows_written": 1
+        },
+        {
+          "sql": "DELETE FROM app_storage_guards WHERE id=?",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 1,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 1
+        },
+        {
+          "sql": "SELECT hash,bytes,chunks,inline_data FROM app_payload_objects WHERE hash IN (SELECT value FROM json_each(?)) AND complete=1",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 0,
+          "last_row_id": 1,
+          "changed_db": false,
+          "size_after": 2129920,
+          "rows_read": 3,
+          "rows_written": 0
+        },
+        {
+          "sql": "INSERT INTO app_storage_guards(id,ok) SELECT ?,CASE WHEN epoch=? AND locked=0 THEN 1 ELSE 0 END FROM app_storage_epoch WHERE id=1",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 1,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 1
+        },
+        {
+          "sql": "INSERT INTO app_sportsbook_events(id,provider_event_id,season,week,home_team_id,away_team_id,kickoff_at,status,markets_locked,last_imported_at,markets_hash,as_of,market_ids_hash,version) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,1) ON CONFLICT(provider_event_id) DO UPDATE SET season=excluded.season,week=excluded.week,home_team_id=excluded.home_team_id,away_team_id=excluded.away_team_id,kickoff_at=excluded.kickoff_at,status=excluded.status,last_imported_at=excluded.last_imported_at,markets_hash=excluded.markets_hash,as_of=excluded.as_of,market_ids_hash=excluded.market_ids_hash,version=version+1 WHERE version=? AND as_of<=excluded.as_of",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 1,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 2
+        },
+        {
+          "sql": "INSERT INTO app_assertions(nonce,ok) VALUES(?,changes())",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 1,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 0,
+          "rows_written": 2
+        },
+        {
+          "sql": "DELETE FROM app_assertions WHERE nonce=?",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 1,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 1
+        },
+        {
+          "sql": "INSERT INTO app_odds_board_history(event_id,as_of,object_hash) VALUES(?,?,?) ON CONFLICT DO NOTHING",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 1,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 0,
+          "rows_written": 1
+        },
+        {
+          "sql": "DELETE FROM app_storage_guards WHERE id=?",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 1,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 1
+        }
+      ]
+    },
+    {
+      "name": "scores-first",
+      "statements": 12,
+      "rowsRead": 11,
+      "rowsWritten": 7,
+      "calls": [
+        {
+          "sql": "SELECT epoch,locked FROM app_storage_epoch WHERE id=1",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 0,
+          "last_row_id": 2,
+          "changed_db": false,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 0
+        },
+        {
+          "sql": "SELECT p.object_hash FROM app_parlay_scores p JOIN app_sportsbook_events e ON e.id=p.event_id WHERE p.event_id=? AND p.model_version=? AND p.context_key=? AND p.board_hash=? AND e.markets_hash=p.board_hash AND p.reference_version=? AND p.reference_version=coalesce((SELECT version FROM app_reference_version WHERE id=1),0)",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 0,
+          "last_row_id": 2,
+          "changed_db": false,
+          "size_after": 2129920,
+          "rows_read": 0,
+          "rows_written": 0
+        },
+        {
+          "sql": "SELECT o.bytes,o.chunks,o.complete,o.inline_data,c.ordinal,c.body,c.data\n    FROM app_payload_objects o LEFT JOIN app_payload_chunks c ON c.hash=o.hash\n    WHERE o.hash=? ORDER BY c.ordinal",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 0,
+          "last_row_id": 2,
+          "changed_db": false,
+          "size_after": 2129920,
+          "rows_read": 0,
+          "rows_written": 0
+        },
+        {
+          "sql": "INSERT INTO app_storage_guards(id,ok) SELECT ?,CASE WHEN epoch=? AND locked=0 THEN 1 ELSE 0 END FROM app_storage_epoch WHERE id=1",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 2,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 1
+        },
+        {
+          "sql": "INSERT OR IGNORE INTO app_payload_capacity(id,used_bytes) VALUES(1,0)",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 0,
+          "last_row_id": 2,
+          "changed_db": false,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 0
+        },
+        {
+          "sql": "INSERT OR IGNORE INTO app_payload_objects(hash,bytes,chunks,complete,inline_data)\n    SELECT ?,?,?,?,? WHERE (SELECT used_bytes FROM app_payload_capacity WHERE id=1)+?<=?",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 2,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 1
+        },
+        {
+          "sql": "UPDATE app_payload_capacity SET used_bytes=used_bytes+? WHERE id=1 AND changes()=1",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 2,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 1
+        },
+        {
+          "sql": "DELETE FROM app_storage_guards WHERE id=?",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 2,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 1
+        },
+        {
+          "sql": "SELECT o.bytes,o.chunks,o.complete,o.inline_data,c.ordinal,c.body,c.data\n    FROM app_payload_objects o LEFT JOIN app_payload_chunks c ON c.hash=o.hash\n    WHERE o.hash=? ORDER BY c.ordinal",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 0,
+          "last_row_id": 2,
+          "changed_db": false,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 0
+        },
+        {
+          "sql": "INSERT INTO app_storage_guards(id,ok) SELECT ?,CASE WHEN epoch=? AND locked=0 THEN 1 ELSE 0 END FROM app_storage_epoch WHERE id=1",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 2,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 1
+        },
+        {
+          "sql": "INSERT INTO app_parlay_scores(event_id,model_version,context_key,board_hash,reference_version,object_hash,computed_at) SELECT ?,?,?,?,?,?,? WHERE EXISTS(SELECT 1 FROM app_sportsbook_events WHERE id=? AND markets_hash=?) AND coalesce((SELECT version FROM app_reference_version WHERE id=1),0)=? ON CONFLICT(event_id,model_version,context_key) DO UPDATE SET board_hash=excluded.board_hash,reference_version=excluded.reference_version,object_hash=excluded.object_hash,computed_at=excluded.computed_at",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 2,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 2,
+          "rows_written": 1
+        },
+        {
+          "sql": "DELETE FROM app_storage_guards WHERE id=?",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 2,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 1
+        }
+      ]
+    },
+    {
+      "name": "scores-identical-retry",
+      "statements": 3,
+      "rowsRead": 5,
+      "rowsWritten": 0,
+      "calls": [
+        {
+          "sql": "SELECT epoch,locked FROM app_storage_epoch WHERE id=1",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 0,
+          "last_row_id": 2,
+          "changed_db": false,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 0
+        },
+        {
+          "sql": "SELECT p.object_hash FROM app_parlay_scores p JOIN app_sportsbook_events e ON e.id=p.event_id WHERE p.event_id=? AND p.model_version=? AND p.context_key=? AND p.board_hash=? AND e.markets_hash=p.board_hash AND p.reference_version=? AND p.reference_version=coalesce((SELECT version FROM app_reference_version WHERE id=1),0)",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 0,
+          "last_row_id": 2,
+          "changed_db": false,
+          "size_after": 2129920,
+          "rows_read": 3,
+          "rows_written": 0
+        },
+        {
+          "sql": "SELECT o.bytes,o.chunks,o.complete,o.inline_data,c.ordinal,c.body,c.data\n    FROM app_payload_objects o LEFT JOIN app_payload_chunks c ON c.hash=o.hash\n    WHERE o.hash=? ORDER BY c.ordinal",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 0,
+          "last_row_id": 2,
+          "changed_db": false,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 0
+        }
+      ]
+    },
+    {
+      "name": "scores-changed",
+      "statements": 12,
+      "rowsRead": 14,
+      "rowsWritten": 7,
+      "calls": [
+        {
+          "sql": "SELECT epoch,locked FROM app_storage_epoch WHERE id=1",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 0,
+          "last_row_id": 2,
+          "changed_db": false,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 0
+        },
+        {
+          "sql": "SELECT p.object_hash FROM app_parlay_scores p JOIN app_sportsbook_events e ON e.id=p.event_id WHERE p.event_id=? AND p.model_version=? AND p.context_key=? AND p.board_hash=? AND e.markets_hash=p.board_hash AND p.reference_version=? AND p.reference_version=coalesce((SELECT version FROM app_reference_version WHERE id=1),0)",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 0,
+          "last_row_id": 2,
+          "changed_db": false,
+          "size_after": 2129920,
+          "rows_read": 3,
+          "rows_written": 0
+        },
+        {
+          "sql": "SELECT o.bytes,o.chunks,o.complete,o.inline_data,c.ordinal,c.body,c.data\n    FROM app_payload_objects o LEFT JOIN app_payload_chunks c ON c.hash=o.hash\n    WHERE o.hash=? ORDER BY c.ordinal",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 0,
+          "last_row_id": 2,
+          "changed_db": false,
+          "size_after": 2129920,
+          "rows_read": 0,
+          "rows_written": 0
+        },
+        {
+          "sql": "INSERT INTO app_storage_guards(id,ok) SELECT ?,CASE WHEN epoch=? AND locked=0 THEN 1 ELSE 0 END FROM app_storage_epoch WHERE id=1",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 2,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 1
+        },
+        {
+          "sql": "INSERT OR IGNORE INTO app_payload_capacity(id,used_bytes) VALUES(1,0)",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 0,
+          "last_row_id": 2,
+          "changed_db": false,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 0
+        },
+        {
+          "sql": "INSERT OR IGNORE INTO app_payload_objects(hash,bytes,chunks,complete,inline_data)\n    SELECT ?,?,?,?,? WHERE (SELECT used_bytes FROM app_payload_capacity WHERE id=1)+?<=?",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 2,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 1
+        },
+        {
+          "sql": "UPDATE app_payload_capacity SET used_bytes=used_bytes+? WHERE id=1 AND changes()=1",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 2,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 1
+        },
+        {
+          "sql": "DELETE FROM app_storage_guards WHERE id=?",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 2,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 1
+        },
+        {
+          "sql": "SELECT o.bytes,o.chunks,o.complete,o.inline_data,c.ordinal,c.body,c.data\n    FROM app_payload_objects o LEFT JOIN app_payload_chunks c ON c.hash=o.hash\n    WHERE o.hash=? ORDER BY c.ordinal",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 0,
+          "last_row_id": 2,
+          "changed_db": false,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 0
+        },
+        {
+          "sql": "INSERT INTO app_storage_guards(id,ok) SELECT ?,CASE WHEN epoch=? AND locked=0 THEN 1 ELSE 0 END FROM app_storage_epoch WHERE id=1",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 2,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 1
+        },
+        {
+          "sql": "INSERT INTO app_parlay_scores(event_id,model_version,context_key,board_hash,reference_version,object_hash,computed_at) SELECT ?,?,?,?,?,?,? WHERE EXISTS(SELECT 1 FROM app_sportsbook_events WHERE id=? AND markets_hash=?) AND coalesce((SELECT version FROM app_reference_version WHERE id=1),0)=? ON CONFLICT(event_id,model_version,context_key) DO UPDATE SET board_hash=excluded.board_hash,reference_version=excluded.reference_version,object_hash=excluded.object_hash,computed_at=excluded.computed_at",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 2,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 2,
+          "rows_written": 1
+        },
+        {
+          "sql": "DELETE FROM app_storage_guards WHERE id=?",
+          "served_by": "miniflare.db",
+          "served_by_primary": true,
+          "total_attempts": 1,
+          "timings": {
+            "sql_duration_ms": 0
+          },
+          "duration": 0,
+          "changes": 1,
+          "last_row_id": 2,
+          "changed_db": true,
+          "size_after": 2129920,
+          "rows_read": 1,
+          "rows_written": 1
+        }
+      ]
+    }
+  ]
+}

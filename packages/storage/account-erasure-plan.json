@@ -1,5 +1,5 @@
 {
-  "schema": 1,
+  "schema": 2,
   "operations": [
     {
       "table": "app_credentials",
@@ -44,6 +44,10 @@
     {
       "table": "app_receipts",
       "sql": "DELETE FROM \"app_receipts\" WHERE (\"owner_id\",\"command_id\") IN(SELECT \"owner_id\",\"command_id\" FROM \"app_receipts\" WHERE \"owner_id\"=:user LIMIT 25)"
+    },
+    {
+      "table": "app_storage_erased_mail",
+      "sql": "INSERT INTO app_storage_erased_mail(hash) SELECT DISTINCT object_hash FROM app_mail WHERE user_id=:user AND object_hash NOT IN(SELECT hash FROM app_storage_erased_mail) LIMIT 25 ON CONFLICT DO NOTHING"
     },
     {
       "table": "app_mail",
@@ -252,13 +256,52 @@
     {
       "table": "app_game_day_activity",
       "sql": "UPDATE app_game_day_activity SET body='[deleted]',payload='{}',user_id=NULL WHERE id IN(SELECT id FROM app_game_day_activity WHERE user_id=:user LIMIT 25)"
+    },
+    {
+      "table": "app_security_audit",
+      "sql": "UPDATE app_security_audit SET user_id=NULL,ip_hash=NULL,user_agent_family=NULL,metadata_hash='44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a' WHERE id IN(SELECT id FROM app_security_audit WHERE user_id=:user LIMIT 25)"
+    },
+    {
+      "table": "app_consents",
+      "sql": "DELETE FROM app_consents WHERE id IN(SELECT id FROM app_consents WHERE user_id=:user LIMIT 25)"
+    },
+    {
+      "table": "app_commerce_orders",
+      "sql": "UPDATE app_commerce_orders SET user_id=NULL,email='erased@invalid.example',phone=NULL,customer_first_name='Deleted',customer_last_name='Account',shipping_address='{}',tracking_number=NULL,internal_note=NULL WHERE id IN(SELECT id FROM app_commerce_orders WHERE user_id=:user AND status IN('DELIVERED','CANCELED') AND NOT EXISTS(SELECT 1 FROM app_commerce_refunds r WHERE r.order_id=app_commerce_orders.id AND r.status IN('PENDING','REQUIRES_ACTION')) LIMIT 25)"
+    },
+    {
+      "table": "app_commerce_refunds",
+      "sql": "UPDATE app_commerce_refunds SET created_by_user_id=NULL,reason=NULL,failure_reason=NULL WHERE id IN(SELECT id FROM app_commerce_refunds WHERE created_by_user_id=:user AND status NOT IN('PENDING','REQUIRES_ACTION') LIMIT 25)"
+    },
+    {
+      "table": "app_commerce_inventory_adjustments",
+      "sql": "UPDATE app_commerce_inventory_adjustments SET admin_user_id=NULL,reason='Account erased' WHERE id IN(SELECT id FROM app_commerce_inventory_adjustments WHERE admin_user_id=:user LIMIT 25)"
+    },
+    {
+      "table": "app_trivia_games",
+      "sql": "UPDATE app_trivia_games SET created_by_user_id=NULL WHERE id IN(SELECT id FROM app_trivia_games WHERE created_by_user_id=:user LIMIT 25)"
+    },
+    {
+      "table": "app_trivia_groups",
+      "sql": "UPDATE app_trivia_groups SET host_user_id=NULL WHERE id IN(SELECT id FROM app_trivia_groups WHERE host_user_id=:user LIMIT 25)"
+    },
+    {
+      "table": "app_crews",
+      "sql": "UPDATE app_crews SET name='Deleted account crew',photo_url=NULL WHERE id IN(SELECT id FROM app_crews WHERE owner_user_id=:user AND (name<>'Deleted account crew' OR photo_url IS NOT NULL) LIMIT 25)"
+    },
+    {
+      "table": "app_game_day_rooms",
+      "sql": "UPDATE app_game_day_rooms SET name='Deleted account room' WHERE id IN(SELECT id FROM app_game_day_rooms WHERE host_user_id=:user AND name<>'Deleted account room' LIMIT 25)"
+    },
+    {
+      "table": "app_sportsbook_transfer_jobs",
+      "sql": "DELETE FROM app_sportsbook_transfer_jobs WHERE id IN(SELECT id FROM app_sportsbook_transfer_jobs WHERE actor=(SELECT transfer_actor FROM app_account_erasure WHERE user_id=:user) AND status IN('complete','failed') LIMIT 25)"
     }
   ],
   "retainedTables": [
     "app_commerce_inventory_adjustments",
     "app_commerce_orders",
     "app_commerce_refunds",
-    "app_consents",
     "app_crew_activity",
     "app_crews",
     "app_game_day_activity",

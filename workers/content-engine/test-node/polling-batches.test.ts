@@ -414,3 +414,37 @@ test(
     }
   },
 );
+
+test(
+  'late bounded continuations perform every overdue due slot without cadence drift',
+  { timeout: 60000 },
+  async () => {
+    const h = await seeded(1);
+    try {
+      const due = Date.now() - 600000;
+      await h.binding.prepare('UPDATE app_editorial_sources SET next_check_at=?').bind(due).run();
+      let fetches = 0;
+      const fetcher = {
+        async fetch(s: any) {
+          fetches++;
+          return empty.fetch(s);
+        },
+      };
+      for (let i = 1; i <= 3; i++) {
+        const b = new PollingBatches(setup(h.binding));
+        const lease = await b.claim();
+        assert.ok(lease, 'overdue slot must remain claimable');
+        await b.step(lease.token, fetcher);
+        const row = await h.binding
+          .prepare('SELECT request_count,next_check_at FROM app_editorial_sources')
+          .first<any>();
+        assert.equal(row.request_count, i);
+        assert.equal(row.next_check_at, due + i * 300000);
+      }
+      assert.equal(fetches, 3, 'catch-up must fetch, never fabricate completed checks');
+      assert.equal(await new PollingBatches(setup(h.binding)).claim(), null);
+    } finally {
+      await h.close();
+    }
+  },
+);

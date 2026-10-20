@@ -1,3 +1,4 @@
+import { maintainMultiD1 } from '../../../scripts/maintain-multi-d1';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { multiHarness } from '../test/multi-harness';
@@ -8,7 +9,7 @@ import {
 } from '../../../packages/storage/account-erasure-multi';
 
 test(
-  'bounded multi-D1 erasure revokes immediately, survives restart, isolates users and requires shared/legal review',
+  'bounded multi-D1 erasure revokes immediately, survives restart, isolates users and waits for verified payload cleanup',
   { timeout: 120000 },
   async () => {
     const h = await multiHarness();
@@ -83,7 +84,7 @@ test(
         r = new MultiD1(h.db);
         const step = await continueMultiD1Erasure(r.users());
         max = Math.max(max, r.metrics.statements);
-        if ('reviewRequired' in step) {
+        if ('awaitingGc' in step && step.awaitingGc) {
           done = true;
           break;
         }
@@ -134,11 +135,35 @@ test(
       assert.equal(
         (await h.db.D1_USERS.prepare("SELECT name FROM app_crews WHERE id='crew'").first<any>())
           ?.name,
-        'Shared crew',
+        'Deleted account crew',
       );
       assert.deepEqual(await continueMultiD1Erasure(new MultiD1(h.db).users()), { idle: true });
+      assert.equal(
+        (
+          await h.db.D1_USERS.prepare(
+            "SELECT status FROM app_account_erasure WHERE user_id='erase-me'",
+          ).first<any>()
+        )?.status,
+        'AWAITING_GC',
+      );
+      await maintainMultiD1(h.db, 'synthetic-rc3-test-backup-key-at-least-32-characters', {
+        rawWritersStopped: true,
+        now: Date.now(),
+        persistAndReadBack: async (archive) => ({
+          path: '/synthetic/test-encrypted-archive',
+          archive,
+        }),
+      });
+      assert.equal(
+        (
+          await h.db.D1_USERS.prepare(
+            "SELECT status FROM app_account_erasure WHERE user_id='erase-me'",
+          ).first<any>()
+        )?.status,
+        'COMPLETE',
+      );
       console.log(
-        JSON.stringify({ maxQueries: max, erasedSavedRows: 101, finalStatus: 'REVIEW_REQUIRED' }),
+        JSON.stringify({ maxQueries: max, erasedSavedRows: 101, finalStatus: 'COMPLETE' }),
       );
     } finally {
       await h.close();

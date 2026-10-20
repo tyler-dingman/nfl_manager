@@ -16,8 +16,6 @@ const env = Object.fromEntries(
 );
 Object.assign(env, {
   NODE_ENV: 'test',
-  DATABASE_URL: '',
-  PRODUCTION_DATABASE_URL: '',
   AUTH_JWT_SECRET: 'synthetic-worker-test-key-at-least-32-characters',
   TSX_TSCONFIG_PATH: root + 'tsconfig.test.json',
   NEXT_TELEMETRY_DISABLED: '1',

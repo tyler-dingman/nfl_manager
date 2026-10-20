@@ -7,6 +7,7 @@ import type { SqlDatabase } from './core';
 export async function reconcileMultiD1References(
   databases: Record<DatabaseOwner, SqlDatabase>,
   now: number,
+  archiveDigest?: string,
 ) {
   for (const owner of DATABASE_OWNERS) {
     const epoch = await databases[owner]
@@ -42,7 +43,8 @@ export async function reconcileMultiD1References(
       throw Error('Invalid permanent saved-bet receipt');
     hashes.forEach((h: string) => betHashes.add(h));
   }
-  let removedPins = 0;
+  let removedPins = 0,
+    retiredHandoffPayloads = 0;
   for (const owner of DATABASE_OWNERS.filter((o) => o !== 'D1_USERS')) {
     const db = databases[owner];
     const pins = await db
@@ -60,12 +62,54 @@ export async function reconcileMultiD1References(
         .run();
       removedPins++;
     }
+    // A DONE outbox retains its original source/external/url identity forever.
+    // Retire the duplicate body only after independently verifying destination
+    // evidence. Missing/unknown ownership conservatively keeps the payload.
+    if (archiveDigest && /^[a-f0-9]{64}$/.test(archiveDigest)) {
+      let after = '';
+      for (;;) {
+        const handoffs = await db
+          .prepare(
+            "SELECT * FROM app_editorial_handoffs WHERE status='DONE' AND object_hash IS NOT NULL AND id>? ORDER BY id LIMIT 100",
+          )
+          .bind(after)
+          .all<any>();
+        for (const handoff of handoffs.results) {
+          if (!/^D1_(TEAM_[1-8]|SHARED)$/.test(handoff.target)) continue;
+          const target = databases[handoff.target as DatabaseOwner];
+          const receipt = await target
+            .prepare(
+              "SELECT id FROM app_storage_candidate_receipts WHERE canonical_url=? UNION SELECT id FROM app_editorial_candidates WHERE canonical_url=? AND status IN('CLUSTERED','PROCESSED','REJECTED') LIMIT 1",
+            )
+            .bind(handoff.canonical_url, handoff.canonical_url)
+            .first();
+          if (!receipt) continue;
+          const run = crypto.randomUUID();
+          await db.batch([
+            db
+              .prepare(
+                "UPDATE app_editorial_handoffs SET object_hash=NULL WHERE id=? AND status='DONE' AND object_hash=?",
+              )
+              .bind(handoff.id, handoff.object_hash),
+            db
+              .prepare(
+                "INSERT INTO app_storage_retention_audit(run_id,ordinal,kind,original_id,archive_digest,retired_at) VALUES(?,1,'HANDOFF_PAYLOAD',?,?,?)",
+              )
+              .bind(run, handoff.id, archiveDigest, now),
+          ]);
+          retiredHandoffPayloads++;
+        }
+        if (handoffs.results.length < 100) break;
+        after = handoffs.results.at(-1).id;
+      }
+    }
     // Completed delivery is acknowledged; this compact intent has no unfinished recipients.
     await db.prepare('DELETE FROM app_editorial_dispatch WHERE done=1').run();
   }
   return {
     retiredEditorialReferences: stale.results.length,
     removedPins,
+    retiredHandoffPayloads,
     permanentBetReceipts: bets.results.length,
   };
 }

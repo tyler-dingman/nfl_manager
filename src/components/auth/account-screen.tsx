@@ -414,7 +414,7 @@ function SecuritySection() {
             type="button"
             disabled={deleting}
             onClick={async () => {
-              if (window.prompt('Type DELETE to permanently remove your account.') !== 'DELETE')
+              if (window.prompt('Type DELETE to end account access and request permanent data cleanup.') !== 'DELETE')
                 return;
               setDeleting(true);
               const response = await fetch('/api/user/account/delete', {

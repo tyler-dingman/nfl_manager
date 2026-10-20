@@ -27,6 +27,7 @@ test('owner CLI backs up and restores all ten local databases without remote cre
     Object.assign(env, {
       TSX_TSCONFIG_PATH: root + 'tsconfig.test.json',
       DD_OFFLINE_BACKUP_KEY: 'synthetic-cli-owner-key-at-least-32-characters',
+      DD_ERASURE_LEDGER_PATH: archive + '.erasures.json',
     });
     assert(!('DATABASE_URL' in env));
     for (const [mode, dir] of [

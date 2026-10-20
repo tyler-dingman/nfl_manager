@@ -1,0 +1,215 @@
+{
+  "scope": "MEASURED Next handler calls on local Miniflare D1/R2. Node wall time; not HTTP bundle isolation or production Worker CPU.",
+  "measurements": [
+    {
+      "path": "/api/auth/signup",
+      "status": 201,
+      "localWallMs": 73.1037080000001,
+      "d1Calls": 7,
+      "rowsRead": 5,
+      "rowsWritten": 24,
+      "statements": 13,
+      "workerCpuMs": null
+    },
+    {
+      "path": "/api/auth/me",
+      "status": 200,
+      "localWallMs": 7.287458000000015,
+      "d1Calls": 2,
+      "rowsRead": 2,
+      "rowsWritten": 0,
+      "statements": 2,
+      "workerCpuMs": null
+    },
+    {
+      "path": "/api/auth/verify-email",
+      "status": 200,
+      "localWallMs": 15.579124999999976,
+      "d1Calls": 1,
+      "rowsRead": 10,
+      "rowsWritten": 10,
+      "statements": 7,
+      "workerCpuMs": null
+    },
+    {
+      "path": "/api/user/preferences",
+      "status": 200,
+      "localWallMs": 13.953416000000061,
+      "d1Calls": 4,
+      "rowsRead": 4,
+      "rowsWritten": 1,
+      "statements": 4,
+      "workerCpuMs": null
+    },
+    {
+      "path": "/api/user/preferences",
+      "status": 401,
+      "localWallMs": 0.36716599999999744,
+      "d1Calls": 0,
+      "rowsRead": 0,
+      "rowsWritten": 0,
+      "statements": 0,
+      "workerCpuMs": null
+    },
+    {
+      "path": "/api/user/email-subscriptions",
+      "status": 200,
+      "localWallMs": 9.199792000000116,
+      "d1Calls": 3,
+      "rowsRead": 2,
+      "rowsWritten": 1,
+      "statements": 3,
+      "workerCpuMs": null
+    },
+    {
+      "path": "/api/user/email-subscriptions",
+      "status": 200,
+      "localWallMs": 11.04929100000004,
+      "d1Calls": 4,
+      "rowsRead": 4,
+      "rowsWritten": 0,
+      "statements": 4,
+      "workerCpuMs": null
+    },
+    {
+      "path": "/api/auth/login",
+      "status": 200,
+      "localWallMs": 43.90762500000005,
+      "d1Calls": 7,
+      "rowsRead": 6,
+      "rowsWritten": 10,
+      "statements": 8,
+      "workerCpuMs": null
+    },
+    {
+      "path": "/api/auth/forgot-password",
+      "status": 200,
+      "localWallMs": 28.62433299999998,
+      "d1Calls": 4,
+      "rowsRead": 3,
+      "rowsWritten": 8,
+      "statements": 6,
+      "workerCpuMs": null
+    },
+    {
+      "path": "/api/auth/reset-password",
+      "status": 200,
+      "localWallMs": 24.636999999999944,
+      "d1Calls": 2,
+      "rowsRead": 15,
+      "rowsWritten": 11,
+      "statements": 8,
+      "workerCpuMs": null
+    },
+    {
+      "path": "/api/auth/me",
+      "status": 401,
+      "localWallMs": 2.6028329999999187,
+      "d1Calls": 1,
+      "rowsRead": 1,
+      "rowsWritten": 0,
+      "statements": 1,
+      "workerCpuMs": null
+    },
+    {
+      "path": "/api/auth/reset-password",
+      "status": 400,
+      "localWallMs": 3.29300000000012,
+      "d1Calls": 1,
+      "rowsRead": 1,
+      "rowsWritten": 0,
+      "statements": 1,
+      "workerCpuMs": null
+    },
+    {
+      "path": "/api/auth/login",
+      "status": 200,
+      "localWallMs": 43.024458000000095,
+      "d1Calls": 7,
+      "rowsRead": 6,
+      "rowsWritten": 10,
+      "statements": 8,
+      "workerCpuMs": null
+    },
+    {
+      "path": "/api/user/saved-content",
+      "status": 201,
+      "localWallMs": 8.844291999999996,
+      "d1Calls": 3,
+      "rowsRead": 3,
+      "rowsWritten": 3,
+      "statements": 3,
+      "workerCpuMs": null
+    },
+    {
+      "path": "/api/user/saved-content",
+      "status": 200,
+      "localWallMs": 9.008207999999968,
+      "d1Calls": 3,
+      "rowsRead": 4,
+      "rowsWritten": 0,
+      "statements": 3,
+      "workerCpuMs": null
+    },
+    {
+      "path": "/api/user/saved-content",
+      "status": 200,
+      "localWallMs": 25.9040829999999,
+      "d1Calls": 3,
+      "rowsRead": 4,
+      "rowsWritten": 0,
+      "statements": 3,
+      "workerCpuMs": null
+    },
+    {
+      "path": "/api/user/preferences",
+      "status": 200,
+      "localWallMs": 10.787166999999954,
+      "d1Calls": 3,
+      "rowsRead": 3,
+      "rowsWritten": 0,
+      "statements": 3,
+      "workerCpuMs": null
+    },
+    {
+      "path": "/api/search",
+      "status": 200,
+      "localWallMs": 5.495374999999967,
+      "d1Calls": 1,
+      "rowsRead": 1,
+      "rowsWritten": 0,
+      "statements": 1,
+      "workerCpuMs": null
+    },
+    {
+      "path": "/api/search",
+      "status": 200,
+      "localWallMs": 8.669542000000092,
+      "d1Calls": 1,
+      "rowsRead": 1,
+      "rowsWritten": 0,
+      "statements": 1,
+      "workerCpuMs": null
+    },
+    {
+      "path": "/api/auth/logout",
+      "status": 200,
+      "localWallMs": 4.234125000000404,
+      "d1Calls": 1,
+      "rowsRead": 1,
+      "rowsWritten": 1,
+      "statements": 1,
+      "workerCpuMs": null
+    },
+    {
+      "path": "/api/auth/me",
+      "status": 401,
+      "localWallMs": 3.2390000000000327,
+      "d1Calls": 1,
+      "rowsRead": 1,
+      "rowsWritten": 0,
+      "statements": 1,
+      "workerCpuMs": null
+    }
+  ]
+}

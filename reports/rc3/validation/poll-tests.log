@@ -1,0 +1,45 @@
+TAP version 13
+# Subtest: eight-source batch bounds queries, intervals, validators and duplicate scheduler ownership
+ok 1 - eight-source batch bounds queries, intervals, validators and duplicate scheduler ownership
+  ---
+  duration_ms: 1002.392125
+  ...
+# Subtest: termination, expired lease, independent timeout and failed checkpoint transaction
+ok 2 - termination, expired lease, independent timeout and failed checkpoint transaction
+  ---
+  duration_ms: 730.206042
+  ...
+# Subtest: durable inbox survives restart and repairs interrupted candidate job with original attribution
+ok 3 - durable inbox survives restart and repairs interrupted candidate job with original attribution
+  ---
+  duration_ms: 907.273625
+  ...
+# Subtest: failed item processing retains evidence separately while healthy source checkpoints advance
+ok 4 - failed item processing retains evidence separately while healthy source checkpoints advance
+  ---
+  duration_ms: 779.505208
+  ...
+# Subtest: large simultaneous feeds use independent bounded inbox rows rather than one oversized batch row
+ok 5 - large simultaneous feeds use independent bounded inbox rows rather than one oversized batch row
+  ---
+  duration_ms: 838.780625
+  ...
+# Subtest: concurrent stale candidate processing cannot publish two canonical articles
+ok 6 - concurrent stale candidate processing cannot publish two canonical articles
+  ---
+  duration_ms: 701.648917
+  ...
+# Subtest: late bounded continuations perform every overdue due slot without cadence drift
+ok 7 - late bounded continuations perform every overdue due slot without cadence drift
+  ---
+  duration_ms: 862.699125
+  ...
+1..7
+# tests 7
+# suites 0
+# pass 7
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 6596.142333

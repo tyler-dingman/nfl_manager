@@ -1,0 +1,125 @@
+{
+  "scope": "MEASURED synthetic Next handlers on D1/R2, DATABASE_URL empty; local wall time not production CPU",
+  "measurements": [
+    {
+      "path": "saves/create",
+      "status": 200,
+      "localWallMs": 1405.2032080000001,
+      "d1Calls": 4,
+      "statements": 7,
+      "rowsRead": 4,
+      "rowsWritten": 6
+    },
+    {
+      "path": "front-office/test",
+      "status": 404,
+      "localWallMs": 13.363667000000078,
+      "d1Calls": 3,
+      "statements": 3,
+      "rowsRead": 2,
+      "rowsWritten": 0
+    },
+    {
+      "path": "front-office/test",
+      "status": 200,
+      "localWallMs": 281.0631669999998,
+      "d1Calls": 3,
+      "statements": 3,
+      "rowsRead": 3,
+      "rowsWritten": 0
+    },
+    {
+      "path": "front-office/test",
+      "status": 200,
+      "localWallMs": 1495.958208,
+      "d1Calls": 5,
+      "statements": 8,
+      "rowsRead": 5,
+      "rowsWritten": 6
+    },
+    {
+      "path": "front-office/test",
+      "status": 200,
+      "localWallMs": 1521.0145840000005,
+      "d1Calls": 5,
+      "statements": 8,
+      "rowsRead": 5,
+      "rowsWritten": 6
+    },
+    {
+      "path": "front-office/test",
+      "status": 200,
+      "localWallMs": 18.886500000000524,
+      "d1Calls": 3,
+      "statements": 3,
+      "rowsRead": 4,
+      "rowsWritten": 0
+    },
+    {
+      "path": "front-office/test",
+      "status": 409,
+      "localWallMs": 11.22229200000038,
+      "d1Calls": 3,
+      "statements": 3,
+      "rowsRead": 4,
+      "rowsWritten": 0
+    },
+    {
+      "path": "front-office/test",
+      "status": 200,
+      "localWallMs": 1587.7703339999998,
+      "d1Calls": 5,
+      "statements": 8,
+      "rowsRead": 5,
+      "rowsWritten": 6
+    },
+    {
+      "path": "front-office/test",
+      "status": 422,
+      "localWallMs": 269.0510409999988,
+      "d1Calls": 4,
+      "statements": 4,
+      "rowsRead": 3,
+      "rowsWritten": 0
+    },
+    {
+      "path": "front-office/test",
+      "status": 200,
+      "localWallMs": 2399.3442919999998,
+      "d1Calls": 5,
+      "statements": 8,
+      "rowsRead": 5,
+      "rowsWritten": 6
+    },
+    {
+      "path": "front-office/test",
+      "status": 409,
+      "localWallMs": 2408.5994169999994,
+      "d1Calls": 7,
+      "statements": 10,
+      "rowsRead": 4,
+      "rowsWritten": 0
+    },
+    {
+      "path": "saves",
+      "status": 200,
+      "localWallMs": 13.546374999999898,
+      "d1Calls": 3,
+      "statements": 3,
+      "rowsRead": 4,
+      "rowsWritten": 0
+    },
+    {
+      "path": "front-office/test",
+      "status": 200,
+      "localWallMs": 331.7021659999991,
+      "d1Calls": 3,
+      "statements": 3,
+      "rowsRead": 3,
+      "rowsWritten": 0
+    }
+  ],
+  "r2Reads": 100,
+  "r2Writes": 0,
+  "postgresUsed": false
+}

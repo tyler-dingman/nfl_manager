@@ -1,0 +1,1183 @@
+{
+  "scope": "MEASURED local workerd actual automation route + 32-call scheduler, 32 RSS XML feeds with 96 arrivals, 50 followers, paced corrections, synthetic odds/scoring, briefing publications, stopped-writer offline retention. No live provider, push/email delivery, HTTP user activity or hosted CPU.",
+  "minutes": 1440,
+  "wallTimeMs": 126200.93045799999,
+  "publishedStories": 96,
+  "pendingJobs": [],
+  "pendingInbox": [],
+  "maintenance": [
+    {
+      "owner": "D1_TEAM_1",
+      "retention": {
+        "runId": "9b082380-a4c8-4000-8b21-394cbb8ba296",
+        "planned": 0,
+        "candidates": 0,
+        "protected": 0,
+        "oversized": 0
+      },
+      "retentionPlans": [
+        {
+          "runId": "9b082380-a4c8-4000-8b21-394cbb8ba296",
+          "planned": 0,
+          "candidates": 0,
+          "protected": 0,
+          "oversized": 0
+        }
+      ],
+      "gc": {
+        "runId": "5563874e-4ed7-4fcc-ae7a-fc45354c446d",
+        "dryRun": false,
+        "rootReferences": 132,
+        "reachable": 144,
+        "objects": 144,
+        "candidateObjects": 0,
+        "candidateEncodedBytes": 0,
+        "deletedObjects": 0,
+        "releasedEncodedBytes": 0,
+        "queries": 175,
+        "rowsRead": 640,
+        "rowsWritten": 0,
+        "physicalBytesReclaimed": null
+      },
+      "gcSteps": [
+        {
+          "runId": "5563874e-4ed7-4fcc-ae7a-fc45354c446d",
+          "dryRun": false,
+          "rootReferences": 132,
+          "reachable": 144,
+          "objects": 144,
+          "candidateObjects": 0,
+          "candidateEncodedBytes": 0,
+          "deletedObjects": 0,
+          "releasedEncodedBytes": 0,
+          "queries": 175,
+          "rowsRead": 640,
+          "rowsWritten": 0,
+          "physicalBytesReclaimed": null
+        }
+      ]
+    },
+    {
+      "owner": "D1_TEAM_2",
+      "retention": {
+        "runId": "f81c57e9-f207-4e48-ab79-102b56a85ba4",
+        "planned": 0,
+        "candidates": 0,
+        "protected": 0,
+        "oversized": 0
+      },
+      "retentionPlans": [
+        {
+          "runId": "f81c57e9-f207-4e48-ab79-102b56a85ba4",
+          "planned": 0,
+          "candidates": 0,
+          "protected": 0,
+          "oversized": 0
+        }
+      ],
+      "gc": {
+        "runId": "7df24c26-8ca0-48a9-a317-efff96c91b3f",
+        "dryRun": false,
+        "rootReferences": 114,
+        "reachable": 126,
+        "objects": 126,
+        "candidateObjects": 0,
+        "candidateEncodedBytes": 0,
+        "deletedObjects": 0,
+        "releasedEncodedBytes": 0,
+        "queries": 157,
+        "rowsRead": 604,
+        "rowsWritten": 0,
+        "physicalBytesReclaimed": null
+      },
+      "gcSteps": [
+        {
+          "runId": "7df24c26-8ca0-48a9-a317-efff96c91b3f",
+          "dryRun": false,
+          "rootReferences": 114,
+          "reachable": 126,
+          "objects": 126,
+          "candidateObjects": 0,
+          "candidateEncodedBytes": 0,
+          "deletedObjects": 0,
+          "releasedEncodedBytes": 0,
+          "queries": 157,
+          "rowsRead": 604,
+          "rowsWritten": 0,
+          "physicalBytesReclaimed": null
+        }
+      ]
+    },
+    {
+      "owner": "D1_TEAM_3",
+      "retention": {
+        "runId": "09881736-758f-4a36-b81c-11e86dc538e4",
+        "planned": 0,
+        "candidates": 0,
+        "protected": 0,
+        "oversized": 0
+      },
+      "retentionPlans": [
+        {
+          "runId": "09881736-758f-4a36-b81c-11e86dc538e4",
+          "planned": 0,
+          "candidates": 0,
+          "protected": 0,
+          "oversized": 0
+        }
+      ],
+      "gc": {
+        "runId": "674772ca-ad3f-4856-aa8c-b7046055c17b",
+        "dryRun": false,
+        "rootReferences": 114,
+        "reachable": 126,
+        "objects": 126,
+        "candidateObjects": 0,
+        "candidateEncodedBytes": 0,
+        "deletedObjects": 0,
+        "releasedEncodedBytes": 0,
+        "queries": 157,
+        "rowsRead": 604,
+        "rowsWritten": 0,
+        "physicalBytesReclaimed": null
+      },
+      "gcSteps": [
+        {
+          "runId": "674772ca-ad3f-4856-aa8c-b7046055c17b",
+          "dryRun": false,
+          "rootReferences": 114,
+          "reachable": 126,
+          "objects": 126,
+          "candidateObjects": 0,
+          "candidateEncodedBytes": 0,
+          "deletedObjects": 0,
+          "releasedEncodedBytes": 0,
+          "queries": 157,
+          "rowsRead": 604,
+          "rowsWritten": 0,
+          "physicalBytesReclaimed": null
+        }
+      ]
+    },
+    {
+      "owner": "D1_TEAM_4",
+      "retention": {
+        "runId": "06cacd00-ca00-4f1f-8ad4-5c2cc72faefb",
+        "planned": 0,
+        "candidates": 0,
+        "protected": 0,
+        "oversized": 0
+      },
+      "retentionPlans": [
+        {
+          "runId": "06cacd00-ca00-4f1f-8ad4-5c2cc72faefb",
+          "planned": 0,
+          "candidates": 0,
+          "protected": 0,
+          "oversized": 0
+        }
+      ],
+      "gc": {
+        "runId": "4b68cdba-7c03-42c1-ad94-52bb2350cf16",
+        "dryRun": false,
+        "rootReferences": 114,
+        "reachable": 126,
+        "objects": 126,
+        "candidateObjects": 0,
+        "candidateEncodedBytes": 0,
+        "deletedObjects": 0,
+        "releasedEncodedBytes": 0,
+        "queries": 157,
+        "rowsRead": 604,
+        "rowsWritten": 0,
+        "physicalBytesReclaimed": null
+      },
+      "gcSteps": [
+        {
+          "runId": "4b68cdba-7c03-42c1-ad94-52bb2350cf16",
+          "dryRun": false,
+          "rootReferences": 114,
+          "reachable": 126,
+          "objects": 126,
+          "candidateObjects": 0,
+          "candidateEncodedBytes": 0,
+          "deletedObjects": 0,
+          "releasedEncodedBytes": 0,
+          "queries": 157,
+          "rowsRead": 604,
+          "rowsWritten": 0,
+          "physicalBytesReclaimed": null
+        }
+      ]
+    },
+    {
+      "owner": "D1_TEAM_5",
+      "retention": {
+        "runId": "313ee06d-74eb-4a52-a2b8-e24f2b502cff",
+        "planned": 0,
+        "candidates": 0,
+        "protected": 0,
+        "oversized": 0
+      },
+      "retentionPlans": [
+        {
+          "runId": "313ee06d-74eb-4a52-a2b8-e24f2b502cff",
+          "planned": 0,
+          "candidates": 0,
+          "protected": 0,
+          "oversized": 0
+        }
+      ],
+      "gc": {
+        "runId": "294cbe5d-3e54-4d92-bb72-0eb95ac60ba2",
+        "dryRun": false,
+        "rootReferences": 114,
+        "reachable": 126,
+        "objects": 126,
+        "candidateObjects": 0,
+        "candidateEncodedBytes": 0,
+        "deletedObjects": 0,
+        "releasedEncodedBytes": 0,
+        "queries": 157,
+        "rowsRead": 604,
+        "rowsWritten": 0,
+        "physicalBytesReclaimed": null
+      },
+      "gcSteps": [
+        {
+          "runId": "294cbe5d-3e54-4d92-bb72-0eb95ac60ba2",
+          "dryRun": false,
+          "rootReferences": 114,
+          "reachable": 126,
+          "objects": 126,
+          "candidateObjects": 0,
+          "candidateEncodedBytes": 0,
+          "deletedObjects": 0,
+          "releasedEncodedBytes": 0,
+          "queries": 157,
+          "rowsRead": 604,
+          "rowsWritten": 0,
+          "physicalBytesReclaimed": null
+        }
+      ]
+    },
+    {
+      "owner": "D1_TEAM_6",
+      "retention": {
+        "runId": "e9f5f495-3313-461d-8849-45e19df10a1d",
+        "planned": 0,
+        "candidates": 0,
+        "protected": 0,
+        "oversized": 0
+      },
+      "retentionPlans": [
+        {
+          "runId": "e9f5f495-3313-461d-8849-45e19df10a1d",
+          "planned": 0,
+          "candidates": 0,
+          "protected": 0,
+          "oversized": 0
+        }
+      ],
+      "gc": {
+        "runId": "a51ca8d6-2575-492a-bc35-f6baf8158e84",
+        "dryRun": false,
+        "rootReferences": 114,
+        "reachable": 126,
+        "objects": 126,
+        "candidateObjects": 0,
+        "candidateEncodedBytes": 0,
+        "deletedObjects": 0,
+        "releasedEncodedBytes": 0,
+        "queries": 157,
+        "rowsRead": 604,
+        "rowsWritten": 0,
+        "physicalBytesReclaimed": null
+      },
+      "gcSteps": [
+        {
+          "runId": "a51ca8d6-2575-492a-bc35-f6baf8158e84",
+          "dryRun": false,
+          "rootReferences": 114,
+          "reachable": 126,
+          "objects": 126,
+          "candidateObjects": 0,
+          "candidateEncodedBytes": 0,
+          "deletedObjects": 0,
+          "releasedEncodedBytes": 0,
+          "queries": 157,
+          "rowsRead": 604,
+          "rowsWritten": 0,
+          "physicalBytesReclaimed": null
+        }
+      ]
+    },
+    {
+      "owner": "D1_TEAM_7",
+      "retention": {
+        "runId": "53923e32-53d5-460f-b133-0e2e0b285d74",
+        "planned": 0,
+        "candidates": 0,
+        "protected": 0,
+        "oversized": 0
+      },
+      "retentionPlans": [
+        {
+          "runId": "53923e32-53d5-460f-b133-0e2e0b285d74",
+          "planned": 0,
+          "candidates": 0,
+          "protected": 0,
+          "oversized": 0
+        }
+      ],
+      "gc": {
+        "runId": "e9b2ee3e-5767-473d-be31-3e2d96a650c7",
+        "dryRun": false,
+        "rootReferences": 114,
+        "reachable": 126,
+        "objects": 126,
+        "candidateObjects": 0,
+        "candidateEncodedBytes": 0,
+        "deletedObjects": 0,
+        "releasedEncodedBytes": 0,
+        "queries": 157,
+        "rowsRead": 604,
+        "rowsWritten": 0,
+        "physicalBytesReclaimed": null
+      },
+      "gcSteps": [
+        {
+          "runId": "e9b2ee3e-5767-473d-be31-3e2d96a650c7",
+          "dryRun": false,
+          "rootReferences": 114,
+          "reachable": 126,
+          "objects": 126,
+          "candidateObjects": 0,
+          "candidateEncodedBytes": 0,
+          "deletedObjects": 0,
+          "releasedEncodedBytes": 0,
+          "queries": 157,
+          "rowsRead": 604,
+          "rowsWritten": 0,
+          "physicalBytesReclaimed": null
+        }
+      ]
+    },
+    {
+      "owner": "D1_TEAM_8",
+      "retention": {
+        "runId": "94e6a236-021a-4592-b3e8-6586bb3076fe",
+        "planned": 0,
+        "candidates": 0,
+        "protected": 0,
+        "oversized": 0
+      },
+      "retentionPlans": [
+        {
+          "runId": "94e6a236-021a-4592-b3e8-6586bb3076fe",
+          "planned": 0,
+          "candidates": 0,
+          "protected": 0,
+          "oversized": 0
+        }
+      ],
+      "gc": {
+        "runId": "66f8494c-e242-49f5-9e28-bf54bddb14b8",
+        "dryRun": false,
+        "rootReferences": 114,
+        "reachable": 126,
+        "objects": 126,
+        "candidateObjects": 0,
+        "candidateEncodedBytes": 0,
+        "deletedObjects": 0,
+        "releasedEncodedBytes": 0,
+        "queries": 157,
+        "rowsRead": 604,
+        "rowsWritten": 0,
+        "physicalBytesReclaimed": null
+      },
+      "gcSteps": [
+        {
+          "runId": "66f8494c-e242-49f5-9e28-bf54bddb14b8",
+          "dryRun": false,
+          "rootReferences": 114,
+          "reachable": 126,
+          "objects": 126,
+          "candidateObjects": 0,
+          "candidateEncodedBytes": 0,
+          "deletedObjects": 0,
+          "releasedEncodedBytes": 0,
+          "queries": 157,
+          "rowsRead": 604,
+          "rowsWritten": 0,
+          "physicalBytesReclaimed": null
+        }
+      ]
+    },
+    {
+      "owner": "D1_USERS",
+      "retention": {
+        "runId": "90d4e724-a6f8-49d9-abbf-48039eeecee3",
+        "planned": 0,
+        "candidates": 0,
+        "protected": 0,
+        "oversized": 0
+      },
+      "retentionPlans": [
+        {
+          "runId": "90d4e724-a6f8-49d9-abbf-48039eeecee3",
+          "planned": 0,
+          "candidates": 0,
+          "protected": 0,
+          "oversized": 0
+        }
+      ],
+      "gc": {
+        "runId": "6376b912-3cc2-4db8-908f-dac161d95442",
+        "dryRun": false,
+        "rootReferences": 300,
+        "reachable": 300,
+        "objects": 300,
+        "candidateObjects": 0,
+        "candidateEncodedBytes": 0,
+        "deletedObjects": 0,
+        "releasedEncodedBytes": 0,
+        "queries": 418,
+        "rowsRead": 1771,
+        "rowsWritten": 0,
+        "physicalBytesReclaimed": null
+      },
+      "gcSteps": [
+        {
+          "runId": "6376b912-3cc2-4db8-908f-dac161d95442",
+          "dryRun": false,
+          "rootReferences": 300,
+          "reachable": 300,
+          "objects": 300,
+          "candidateObjects": 0,
+          "candidateEncodedBytes": 0,
+          "deletedObjects": 0,
+          "releasedEncodedBytes": 0,
+          "queries": 418,
+          "rowsRead": 1771,
+          "rowsWritten": 0,
+          "physicalBytesReclaimed": null
+        }
+      ],
+      "reconciliation": {
+        "retiredEditorialReferences": 0,
+        "removedPins": 0,
+        "retiredHandoffPayloads": 0,
+        "permanentBetReceipts": 0
+      }
+    },
+    {
+      "owner": "D1_SHARED",
+      "retention": {
+        "runId": "bc937983-0785-4aa8-b8b5-31f5c971c65d",
+        "planned": 0,
+        "candidates": 0,
+        "protected": 0,
+        "oversized": 0
+      },
+      "retentionPlans": [
+        {
+          "runId": "bc937983-0785-4aa8-b8b5-31f5c971c65d",
+          "planned": 0,
+          "candidates": 0,
+          "protected": 0,
+          "oversized": 0
+        }
+      ],
+      "gc": {
+        "runId": "f436bf04-b27e-46d4-950c-a7b4f797f72e",
+        "dryRun": false,
+        "rootReferences": 55,
+        "reachable": 87,
+        "objects": 87,
+        "candidateObjects": 0,
+        "candidateEncodedBytes": 0,
+        "deletedObjects": 0,
+        "releasedEncodedBytes": 0,
+        "queries": 154,
+        "rowsRead": 846,
+        "rowsWritten": 0,
+        "physicalBytesReclaimed": null
+      },
+      "gcSteps": [
+        {
+          "runId": "f436bf04-b27e-46d4-950c-a7b4f797f72e",
+          "dryRun": false,
+          "rootReferences": 55,
+          "reachable": 87,
+          "objects": 87,
+          "candidateObjects": 0,
+          "candidateEncodedBytes": 0,
+          "deletedObjects": 0,
+          "releasedEncodedBytes": 0,
+          "queries": 154,
+          "rowsRead": 846,
+          "rowsWritten": 0,
+          "physicalBytesReclaimed": null
+        }
+      ]
+    }
+  ],
+  "activeSources": 97,
+  "expectedChecks": 18504,
+  "actualChecks": 18504,
+  "checksPreserved": true,
+  "cappedTicks": 27,
+  "scheduledInvocations": 1440,
+  "skippedInvocations": 0,
+  "nominalFrequencySeconds": 60,
+  "childInvocationLimitPerTick": 32,
+  "maximumQueries": 49,
+  "requests": 26215,
+  "rowsRead": 539293,
+  "applicationRowsWritten": 77038,
+  "rowsWritten": 77108,
+  "maintenanceMetrics": {
+    "d1Calls": 4995,
+    "statements": 5015,
+    "rowsRead": 33708,
+    "rowsWritten": 70
+  },
+  "checkpoints": [
+    {
+      "id": "DEN_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "ARROWHEAD_ADDICT_WEB",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "LV_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "LAC_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "DEN_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "ARROWHEAD_PRIDE_WEB",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "LV_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "LAC_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "DEN_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "CHIEFS_COM",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "LV_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "LAC_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "DAL_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "NYG_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "PHI_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "WAS_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "DAL_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "NYG_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "PHI_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "WAS_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "DAL_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "NYG_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "PHI_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "WAS_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "CHI_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "DET_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "GB_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "MIN_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "CHI_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "DET_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "GB_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "MIN_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "CHI_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "DET_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "GB_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "MIN_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "ARI_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "LAR_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "SF_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "SEA_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "ARI_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "LAR_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "SF_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "SEA_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "ARI_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "LAR_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "SF_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "SEA_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "BUF_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "MIA_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "NE_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "NYJ_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "BUF_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "MIA_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "NE_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "NYJ_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "BUF_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "MIA_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "NE_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "NYJ_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "BAL_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "CIN_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "CLE_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "PIT_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "BAL_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "CIN_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "CLE_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "PIT_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "BAL_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "CIN_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "CLE_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "PIT_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "HOU_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "IND_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "JAX_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "TEN_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "HOU_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "IND_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "JAX_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "TEN_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "HOU_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "IND_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "JAX_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "TEN_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "ATL_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "CAR_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "NO_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "TB_FANSIDED",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "ATL_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "CAR_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "NO_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "TB_SB_NATION",
+      "request_count": 144,
+      "last_checked_at": 1792453800000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "ATL_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "CAR_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "NO_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "TB_OFFICIAL_NEWS",
+      "request_count": 288,
+      "last_checked_at": 1792454100000,
+      "next_check_at": 1792454400000
+    },
+    {
+      "id": "PRO_FOOTBALL_RUMORS",
+      "request_count": 72,
+      "last_checked_at": 1792453200000,
+      "next_check_at": 1792454400000
+    }
+  ],
+  "subsystems": {
+    "registry": {
+      "requests": 1,
+      "rowsRead": 0,
+      "rowsWritten": 0,
+      "maxQueries": 0
+    },
+    "sync": {
+      "requests": 5760,
+      "rowsRead": 18018,
+      "rowsWritten": 1098,
+      "maxQueries": 14
+    },
+    "automation-http": {
+      "requests": 20189,
+      "rowsRead": 510175,
+      "rowsWritten": 71964,
+      "maxQueries": 49
+    },
+    "inspect": {
+      "requests": 105,
+      "rowsRead": 4062,
+      "rowsWritten": 0,
+      "maxQueries": 6
+    },
+    "correct": {
+      "requests": 96,
+      "rowsRead": 5880,
+      "rowsWritten": 3272,
+      "maxQueries": 29
+    },
+    "odds": {
+      "requests": 16,
+      "rowsRead": 576,
+      "rowsWritten": 272,
+      "maxQueries": 15
+    },
+    "scores": {
+      "requests": 16,
+      "rowsRead": 294,
+      "rowsWritten": 112,
+      "maxQueries": 19
+    },
+    "brief-publish": {
+      "requests": 32,
+      "rowsRead": 288,
+      "rowsWritten": 320,
+      "maxQueries": 11
+    }
+  },
+  "failedSourceCheckpoints": [],
+  "maintenanceOperationsMeasured": true,
+  "hostedCpuMeasured": false
+}

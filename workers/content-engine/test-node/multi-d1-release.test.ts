@@ -1,3 +1,4 @@
+import { sealErasureLedger } from '../../../scripts/erasure-ledger';
 import { maintainMultiD1 } from '../../../scripts/maintain-multi-d1';
 import { readFile, writeFile } from 'node:fs/promises';
 import {
@@ -152,6 +153,7 @@ test('all 32 public story IDs resolve without shard parameters and survive direc
         verifyReferences: verifyCrossShardReferences,
       });
       await restoreDatabases(archive, secret, target.db, {
+        currentErasureLedger: await sealErasureLedger(h.db.D1_USERS, secret),
         isolatedEmptyTargets: true,
         execute: async (owner, sql) => {
           for (const statement of splitSql(sql)) await target.db[owner].prepare(statement).run();
@@ -247,6 +249,7 @@ test('coordinated encrypted ten-database recovery rejects missing/corrupt inputs
     delete corrupt.shards.D1_TEAM_1;
     await assert.rejects(
       restoreDatabases(corrupt, secret, target.db, {
+        currentErasureLedger: await sealErasureLedger(source.db.D1_USERS, secret),
         isolatedEmptyTargets: true,
         execute,
         verifyReferences: verify,
@@ -258,6 +261,7 @@ test('coordinated encrypted ten-database recovery rejects missing/corrupt inputs
       'AAAA' + (tampered.shards.D1_TEAM_1 as any).cipher.slice(4);
     await assert.rejects(
       restoreDatabases(tampered, secret, target.db, {
+        currentErasureLedger: await sealErasureLedger(source.db.D1_USERS, secret),
         isolatedEmptyTargets: true,
         execute,
         verifyReferences: verify,
@@ -292,6 +296,7 @@ test('coordinated encrypted ten-database recovery rejects missing/corrupt inputs
     let calls = 0;
     await assert.rejects(
       restoreDatabases(archive, secret, interrupted.db, {
+        currentErasureLedger: await sealErasureLedger(source.db.D1_USERS, secret),
         isolatedEmptyTargets: true,
         execute: async (owner, sql) => {
           if (++calls === 2) throw Error('Interrupted restore');
@@ -311,6 +316,7 @@ test('coordinated encrypted ten-database recovery rejects missing/corrupt inputs
       1,
     );
     const result = await restoreDatabases(archive, secret, target.db, {
+      currentErasureLedger: await sealErasureLedger(source.db.D1_USERS, secret),
       isolatedEmptyTargets: true,
       execute,
       verifyReferences: verify,

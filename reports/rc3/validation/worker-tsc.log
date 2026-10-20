@@ -1,0 +1,140 @@
+packages/rewards/presentation.ts(11,30): error TS2551: Property 'findLastIndex' does not exist on type 'readonly [{ readonly name: "Rookie"; readonly min: 0; readonly range: "0–100"; readonly color: "#19344a"; }, { readonly name: "Starter"; readonly min: 101; readonly range: "101–250"; readonly color: "#315b7c"; }, { ...; }, { ...; }, { ...; }]'. Did you mean 'findIndex'?
+packages/rewards/presentation.ts(11,45): error TS7006: Parameter 'tier' implicitly has an 'any' type.
+packages/storage/reference.ts(101,15): error TS2550: Property 'findLastIndex' does not exist on type 'HistoricalPlayerGame[]'. Do you need to change your target library? Try changing the 'lib' compiler option to 'es2023' or later.
+packages/storage/reference.ts(101,30): error TS7006: Parameter 'x' implicitly has an 'any' type.
+packages/storage/reference.ts(126,15): error TS2550: Property 'findLastIndex' does not exist on type 'HistoricalPlayerGame[]'. Do you need to change your target library? Try changing the 'lib' compiler option to 'es2023' or later.
+packages/storage/reference.ts(126,30): error TS7006: Parameter 'x' implicitly has an 'any' type.
+src/app/api/automation/content/global/route.ts(4,8): error TS2307: Cannot find module '@/server/film-room/video-source-sync' or its corresponding type declarations.
+src/app/api/automation/content/global/route.ts(15,8): error TS2307: Cannot find module '@/server/persistence/bindings' or its corresponding type declarations.
+src/app/api/automation/content/global/route.ts(17,25): error TS2307: Cannot find module '@/server/story-engine/service' or its corresponding type declarations.
+src/app/api/automation/content/global/route.ts(18,37): error TS2307: Cannot find module '@/server/content-automation/auth' or its corresponding type declarations.
+src/app/api/automation/content/global/route.ts(21,63): error TS2307: Cannot find module '@/data/sources/monitoring' or its corresponding type declarations.
+src/app/api/automation/content/global/route.ts(22,55): error TS2307: Cannot find module '@/features/story-engine/synthesis' or its corresponding type declarations.
+src/app/api/automation/content/global/route.ts(26,8): error TS2307: Cannot find module '@/server/content-automation/global' or its corresponding type declarations.
+src/app/api/automation/content/global/route.ts(30,8): error TS2307: Cannot find module '@/server/content-automation/global-repository' or its corresponding type declarations.
+src/app/api/automation/content/global/route.ts(35,8): error TS2307: Cannot find module '@/server/monitoring/observer' or its corresponding type declarations.
+src/app/api/automation/content/global/route.ts(36,47): error TS2307: Cannot find module '@/server/story-engine/service' or its corresponding type declarations.
+src/app/api/automation/content/global/route.ts(37,42): error TS2307: Cannot find module '@/server/film-room/video-source-sync' or its corresponding type declarations.
+src/app/api/automation/content/global/route.ts(38,27): error TS2307: Cannot find module '@/server/story-engine/repository' or its corresponding type declarations.
+src/app/api/automation/content/global/route.ts(39,42): error TS2307: Cannot find module '@/server/three-and-out/daily-service' or its corresponding type declarations.
+src/app/api/automation/content/global/route.ts(306,34): error TS7006: Parameter 'job' implicitly has an 'any' type.
+src/app/api/automation/content/global/route.ts(309,41): error TS7006: Parameter 'job' implicitly has an 'any' type.
+src/app/api/automation/content/global/route.ts(334,35): error TS7006: Parameter 'job' implicitly has an 'any' type.
+src/app/api/automation/content/global/route.ts(335,56): error TS7006: Parameter 'job' implicitly has an 'any' type.
+src/data/sources/monitoring/index.ts(1,27): error TS2307: Cannot find module '@/data/teams' or its corresponding type declarations.
+src/data/sources/monitoring/index.ts(2,39): error TS2307: Cannot find module '@/features/monitoring/types' or its corresponding type declarations.
+src/data/sources/monitoring/index.ts(9,18): error TS7006: Parameter 'team' implicitly has an 'any' type.
+src/data/sources/monitoring/index.ts(20,35): error TS7006: Parameter 'team' implicitly has an 'any' type.
+src/data/sources/monitoring/index.ts(22,36): error TS7006: Parameter 'teamId' implicitly has an 'any' type.
+src/data/sources/monitoring/index.ts(24,39): error TS7006: Parameter 'teamId' implicitly has an 'any' type.
+src/data/sources/monitoring/kc.ts(1,39): error TS2307: Cannot find module '@/features/monitoring/types' or its corresponding type declarations.
+src/data/sources/monitoring/kc.ts(7,50): error TS7006: Parameter 'key' implicitly has an 'any' type.
+src/data/sources/monitoring/team-baselines.ts(1,39): error TS2307: Cannot find module '@/features/monitoring/types' or its corresponding type declarations.
+src/features/story-engine/normalization.ts(2,27): error TS2307: Cannot find module '@/data/teams' or its corresponding type declarations.
+src/features/story-engine/normalization.ts(3,32): error TS2307: Cannot find module '@/features/source-engine/types' or its corresponding type declarations.
+src/features/story-engine/normalization.ts(128,32): error TS7006: Parameter 'team' implicitly has an 'any' type.
+src/features/story-engine/normalization.ts(144,27): error TS7006: Parameter 'alias' implicitly has an 'any' type.
+src/features/story-engine/ollama-synthesis.ts(1,39): error TS2307: Cannot find module '@/features/content/ollama-summarizer' or its corresponding type declarations.
+src/features/story-engine/ollama-synthesis.ts(2,55): error TS2307: Cannot find module '@/features/content/types' or its corresponding type declarations.
+src/features/story-engine/ollama-synthesis.ts(3,27): error TS2307: Cannot find module '@/data/teams' or its corresponding type declarations.
+src/features/story-engine/ollama-synthesis.ts(32,23): error TS7006: Parameter 'team' implicitly has an 'any' type.
+src/features/story-engine/surface-selectors.ts(2,48): error TS2307: Cannot find module '@/features/content/team-story-importance-service' or its corresponding type declarations.
+src/features/story-engine/surface-selectors.ts(73,31): error TS7006: Parameter 's' implicitly has an 'any' type.
+src/features/story-engine/synthesis.ts(8,42): error TS2307: Cannot find module '@/features/three-and-out/ranking' or its corresponding type declarations.
+src/features/story-engine/synthesis.ts(10,36): error TS2307: Cannot find module '@/features/content/ai-provider' or its corresponding type declarations.
+src/features/story-engine/types.ts(1,32): error TS2307: Cannot find module '@/features/source-engine/types' or its corresponding type declarations.
+src/server/front-office/d1-context.ts(6,8): error TS2307: Cannot find module '@/types/front-office' or its corresponding type declarations.
+src/server/front-office/d1-context.ts(7,36): error TS2307: Cannot find module '@/types/trade-offers' or its corresponding type declarations.
+src/server/front-office/d1-context.ts(11,24): error TS2307: Cannot find module '@/types/front-office' or its corresponding type declarations.
+src/server/front-office/durable-codec.ts(3,27): error TS2307: Cannot find module '@/data/teams' or its corresponding type declarations.
+src/server/front-office/durable-codec.ts(4,32): error TS2307: Cannot find module '@/server/api/store' or its corresponding type declarations.
+src/server/historical-stats/repository.ts(7,33): error TS2307: Cannot find module '@/server/cache/public-read-cache' or its corresponding type declarations.
+src/server/historical-stats/repository.ts(8,24): error TS2307: Cannot find module '@/server/auth/database' or its corresponding type declarations.
+src/server/historical-stats/role-repository.ts(8,24): error TS2307: Cannot find module '@/server/auth/database' or its corresponding type declarations.
+src/server/historical-stats/role-repository.ts(9,33): error TS2307: Cannot find module '@/server/cache/public-read-cache' or its corresponding type declarations.
+src/server/historical-stats/role-repository.ts(33,33): error TS7006: Parameter 'r' implicitly has an 'any' type.
+src/server/historical-stats/role-repository.ts(56,22): error TS7006: Parameter 'r' implicitly has an 'any' type.
+src/server/historical-stats/trending-props-service.ts(8,33): error TS2307: Cannot find module '@/server/cache/public-read-cache' or its corresponding type declarations.
+src/server/historical-stats/trending-props-service.ts(11,38): error TS2307: Cannot find module '@/server/odds/repository' or its corresponding type declarations.
+src/server/historical-stats/trending-props-service.ts(12,33): error TS2307: Cannot find module '@/server/data/nfl-data' or its corresponding type declarations.
+src/server/historical-stats/trending-props-service.ts(23,33): error TS2307: Cannot find module '@/server/odds/sportsbooks' or its corresponding type declarations.
+src/server/historical-stats/trending-props-service.ts(92,38): error TS7006: Parameter 'g' implicitly has an 'any' type.
+src/server/historical-stats/trending-props-service.ts(114,59): error TS7006: Parameter 'p' implicitly has an 'any' type.
+src/server/historical-stats/trending-props-service.ts(139,40): error TS2339: Property 'teamAbbr' does not exist on type '{}'.
+src/server/historical-stats/trending-props-service.ts(157,45): error TS2339: Property 'position' does not exist on type '{}'.
+src/server/historical-stats/trending-props-service.ts(159,29): error TS2339: Property 'position' does not exist on type '{}'.
+src/server/historical-stats/trending-props-service.ts(218,29): error TS2339: Property 'position' does not exist on type '{}'.
+src/server/historical-stats/trending-props-service.ts(219,32): error TS2339: Property 'headshotUrl' does not exist on type '{}'.
+src/server/notifications/repository-postgres.ts(3,24): error TS2307: Cannot find module '@/server/auth/database' or its corresponding type declarations.
+src/server/notifications/repository-postgres.ts(4,57): error TS2307: Cannot find module '@/server/auth/crypto' or its corresponding type declarations.
+src/server/notifications/repository-postgres.ts(50,32): error TS7006: Parameter 'tx' implicitly has an 'any' type.
+src/server/notifications/repository-postgres.ts(83,20): error TS7006: Parameter 'row' implicitly has an 'any' type.
+src/server/odds/normalization.ts(1,27): error TS2307: Cannot find module '@/data/teams' or its corresponding type declarations.
+src/server/odds/normalization.ts(2,33): error TS2307: Cannot find module '@/server/data/nfl-data' or its corresponding type declarations.
+src/server/odds/normalization.ts(6,8): error TS2307: Cannot find module '@/server/providers/sportsGameOdds' or its corresponding type declarations.
+src/server/odds/normalization.ts(88,23): error TS7006: Parameter 'team' implicitly has an 'any' type.
+src/server/odds/normalization.ts(140,51): error TS7006: Parameter 'player' implicitly has an 'any' type.
+src/server/odds/normalization.ts(143,8): error TS7006: Parameter 'player' implicitly has an 'any' type.
+src/server/odds/normalization.ts(158,38): error TS18046: 'odd' is of type 'unknown'.
+src/server/odds/normalization.ts(158,50): error TS18046: 'odd' is of type 'unknown'.
+src/server/odds/normalization.ts(159,20): error TS18046: 'odd' is of type 'unknown'.
+src/server/odds/normalization.ts(170,20): error TS18046: 'odd' is of type 'unknown'.
+src/server/odds/normalization.ts(174,30): error TS18046: 'odd' is of type 'unknown'.
+src/server/odds/normalization.ts(175,23): error TS18046: 'odd' is of type 'unknown'.
+src/server/odds/normalization.ts(176,24): error TS18046: 'odd' is of type 'unknown'.
+src/server/odds/normalization.ts(186,29): error TS18046: 'odd' is of type 'unknown'.
+src/server/odds/normalization.ts(188,19): error TS18046: 'odd' is of type 'unknown'.
+src/server/odds/normalization.ts(197,31): error TS18046: 'odd' is of type 'unknown'.
+src/server/odds/normalization.ts(211,22): error TS18046: 'odd' is of type 'unknown'.
+src/server/odds/normalization.ts(222,54): error TS2345: Argument of type '{ odds: number | null; line: number | null; available: boolean; deeplink: any; originalProviderSelectionId?: any; sportsbook: "FANDUEL" | "DRAFTKINGS" | "BETMGM" | "CAESARS"; providerSelectionId: string; }' is not assignable to parameter of type 'never'.
+src/server/odds/repository.ts(7,33): error TS2307: Cannot find module '@/server/cache/public-read-cache' or its corresponding type declarations.
+src/server/odds/repository.ts(9,24): error TS2307: Cannot find module '@/server/auth/database' or its corresponding type declarations.
+src/server/odds/repository.ts(149,14): error TS7006: Parameter 'row' implicitly has an 'any' type.
+src/server/odds/repository.ts(150,11): error TS7006: Parameter 'row' implicitly has an 'any' type.
+src/server/story-engine/fetcher.ts(2,41): error TS2307: Cannot find module '@/features/story-engine/config' or its corresponding type declarations.
+src/server/story-engine/fetcher.ts(3,32): error TS2307: Cannot find module '@/features/story-engine/rss' or its corresponding type declarations.
+src/server/story-engine/fetcher.ts(4,54): error TS2307: Cannot find module '@/features/story-engine/types' or its corresponding type declarations.
+src/server/story-engine/projections.ts(9,42): error TS2307: Cannot find module '@/lib/display-headline' or its corresponding type declarations.
+src/server/story-engine/projections.ts(10,24): error TS2307: Cannot find module '@/server/auth/database' or its corresponding type declarations.
+src/server/story-engine/projections.ts(16,8): error TS2307: Cannot find module '@/features/story-engine/public-story' or its corresponding type declarations.
+src/server/story-engine/projections.ts(17,34): error TS2307: Cannot find module '@/features/story-engine/types' or its corresponding type declarations.
+src/server/story-engine/projections.ts(18,34): error TS2307: Cannot find module '@/features/story-engine/surface-selectors' or its corresponding type declarations.
+src/server/story-engine/projections.ts(19,40): error TS2307: Cannot find module '@/features/content/pagination' or its corresponding type declarations.
+src/server/story-engine/projections.ts(295,28): error TS7006: Parameter 'event' implicitly has an 'any' type.
+src/server/story-engine/repository.ts(7,38): error TS2307: Cannot find module '@/features/story-engine/clustering' or its corresponding type declarations.
+src/server/story-engine/repository.ts(9,24): error TS2307: Cannot find module '@/server/auth/database' or its corresponding type declarations.
+src/server/story-engine/repository.ts(16,8): error TS2307: Cannot find module '@/features/story-engine/types' or its corresponding type declarations.
+src/server/story-engine/repository.ts(20,8): error TS2307: Cannot find module '@/features/story-engine/publishing-policy' or its corresponding type declarations.
+src/server/story-engine/repository.ts(119,32): error TS7006: Parameter 'sql' implicitly has an 'any' type.
+src/server/story-engine/repository.ts(259,20): error TS7006: Parameter 'r' implicitly has an 'any' type.
+src/server/story-engine/service.ts(11,36): error TS2307: Cannot find module '@/features/story-engine/clustering' or its corresponding type declarations.
+src/server/story-engine/service.ts(17,8): error TS2307: Cannot find module '@/features/story-engine/config' or its corresponding type declarations.
+src/server/story-engine/service.ts(18,40): error TS2307: Cannot find module '@/features/story-engine/material-change' or its corresponding type declarations.
+src/server/story-engine/service.ts(19,58): error TS2307: Cannot find module '@/features/story-engine/normalization' or its corresponding type declarations.
+src/server/story-engine/service.ts(24,8): error TS2307: Cannot find module '@/features/story-engine/synthesis' or its corresponding type declarations.
+src/server/story-engine/service.ts(28,8): error TS2307: Cannot find module '@/features/story-engine/publishing-policy' or its corresponding type declarations.
+src/server/story-engine/service.ts(29,39): error TS2307: Cannot find module '@/features/story-engine/types' or its corresponding type declarations.
+src/server/story-engine/service.ts(32,36): error TS2307: Cannot find module '@/features/content/ai-provider' or its corresponding type declarations.
+src/server/story-engine/service.ts(36,8): error TS2307: Cannot find module '@/features/story-engine/generation-policy' or its corresponding type declarations.
+src/server/story-engine/service.ts(338,45): error TS7031: Binding element 'source' implicitly has an 'any' type.
+src/server/story-engine/service.ts(340,10): error TS7031: Binding element 'candidate' implicitly has an 'any' type.
+src/server/story-engine/service.ts(340,21): error TS7031: Binding element 'source' implicitly has an 'any' type.
+workers/content-engine/test/content-day-worker.ts(332,55): error TS2554: Expected 2 arguments, but got 1.
+workers/content-engine/test/multi-harness.ts(46,43): error TS2769: No overload matches this call.
+  Overload 1 of 5, '(path: PathLike, options?: BufferEncoding | (ObjectEncodingOptions & { withFileTypes?: false | undefined; recursive?: boolean | undefined; }) | null | undefined): Promise<...>', gave the following error.
+    Argument of type 'URL' is not assignable to parameter of type 'PathLike'.
+      Type 'URL' is not assignable to type 'import("node:url").URL'.
+        The types returned by 'searchParams.entries()' are incompatible between these types.
+          Property '[Symbol.dispose]' is missing in type 'IterableIterator<[key: string, value: string]>' but required in type 'URLSearchParamsIterator<[string, string]>'.
+  Overload 2 of 5, '(path: PathLike, options?: BufferEncoding | (ObjectEncodingOptions & { withFileTypes?: false | undefined; recursive?: boolean | undefined; }) | null | undefined): Promise<...>', gave the following error.
+    Argument of type 'URL' is not assignable to parameter of type 'PathLike'.
+      Type 'URL' is not assignable to type 'import("node:url").URL'.
+        The types returned by 'searchParams.entries()' are incompatible between these types.
+          Property '[Symbol.dispose]' is missing in type 'IterableIterator<[key: string, value: string]>' but required in type 'URLSearchParamsIterator<[string, string]>'.
+workers/content-engine/test/multi-harness.ts(47,38): error TS2345: Argument of type 'Buffer<ArrayBufferLike>' is not assignable to parameter of type 'string'.
+workers/content-engine/test/multi-harness.ts(47,53): error TS2769: No overload matches this call.
+  The last overload gave the following error.
+    Argument of type 'URL' is not assignable to parameter of type 'PathLike | FileHandle'.
+      Type 'URL' is not assignable to type 'import("node:url").URL'.
+        The types returned by 'searchParams.entries()' are incompatible between these types.
+          Property '[Symbol.dispose]' is missing in type 'IterableIterator<[key: string, value: string]>' but required in type 'URLSearchParamsIterator<[string, string]>'.

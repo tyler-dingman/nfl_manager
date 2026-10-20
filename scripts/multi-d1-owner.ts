@@ -1,17 +1,18 @@
+import { sealErasureLedger } from './erasure-ledger';
 /** Explicit LOCAL owner tool. No remote mode, credential discovery, email or provider calls. */
 import { Miniflare, convertV4MiniflareOptions } from 'miniflare';
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { DATABASE_OWNERS } from '../packages/storage/multi-d1';
 import { backupDatabases, restoreDatabases, type Databases } from './multi-d1-recovery';
-import { maintainMultiD1 } from './maintain-multi-d1';
+import { maintainMultiD1, resumeMultiD1Maintenance } from './maintain-multi-d1';
 import { verifyCrossShardReferences } from '../packages/storage/cross-shard-saves';
 import { splitSql } from '../packages/storage/sql-script';
 async function main() {
   const [mode, local, persist, file, ack] = process.argv.slice(2),
     key = process.env.DD_OFFLINE_BACKUP_KEY ?? '';
   if (
-    !['backup', 'restore', 'maintain'].includes(mode) ||
+    !['backup', 'restore', 'maintain', 'resume-maintain'].includes(mode) ||
     local !== '--local' ||
     !persist ||
     !file ||
@@ -19,7 +20,7 @@ async function main() {
     key.length < 32
   )
     throw Error(
-      'Usage: backup|restore|maintain --local PERSIST_DIR ARCHIVE_JSON WRITERS_STOPPED; set DD_OFFLINE_BACKUP_KEY (32+ characters).',
+      'Usage: backup|restore|maintain|resume-maintain --local PERSIST_DIR ARCHIVE_JSON WRITERS_STOPPED; set DD_OFFLINE_BACKUP_KEY (32+ characters).',
     );
   if (process.env.DATABASE_URL) throw Error('DATABASE_URL must be absent');
   const text = await readFile('wrangler.api-multi-d1-local.toml', 'utf8'),
@@ -52,6 +53,15 @@ async function main() {
       await writeFile(file, JSON.stringify(archive), { flag: 'wx', mode: 0o600 });
       return { path: resolve(file), archive: JSON.parse(await readFile(file, 'utf8')) };
     };
+    if (mode === 'restore' && !process.env.DD_ERASURE_LEDGER_PATH)
+      throw Error(
+        'Restore requires DD_ERASURE_LEDGER_PATH pointing to the latest independent encrypted ledger',
+      );
+    const ledgerPath = process.env.DD_ERASURE_LEDGER_PATH ?? file + '.erasures.json';
+    if (mode === 'backup' || mode === 'maintain') {
+      const ledger = await sealErasureLedger(databases.D1_USERS, key);
+      await writeFile(ledgerPath, JSON.stringify(ledger), { flag: 'wx', mode: 0o600 });
+    }
     if (mode === 'backup') {
       const archive = await backupDatabases(databases, key, {
         rawWritersStopped: true,
@@ -76,9 +86,20 @@ async function main() {
         }),
       );
     }
+    if (mode === 'resume-maintain') {
+      const archive = JSON.parse(await readFile(file, 'utf8'));
+      const result = await resumeMultiD1Maintenance(
+        databases,
+        key,
+        { path: resolve(file), archive },
+        { rawWritersStopped: true, now: Date.now() },
+      );
+      console.log(JSON.stringify({ status: 'maintenance-resumed', databases: result.length }));
+    }
     if (mode === 'restore') {
       const archive = JSON.parse(await readFile(file, 'utf8'));
       const result = await restoreDatabases(archive, key, databases, {
+        currentErasureLedger: JSON.parse(await readFile(ledgerPath, 'utf8')),
         isolatedEmptyTargets: true,
         execute: async (owner, sql) => {
           for (const statement of splitSql(sql)) await databases[owner].prepare(statement).run();

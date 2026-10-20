@@ -171,7 +171,13 @@ export class PollingBatches {
             ...prior,
             error: undefined,
             checked: Date.now(),
-            next: nextCheckAfterSuccess(registeredSourceIntervalSeconds(source)).getTime(),
+            next: nextCheckAfterSuccess(
+              registeredSourceIntervalSeconds(source),
+              // Advance the durable due slot, not completion time. A bounded
+              // continuation delayed by ingestion must perform the overdue
+              // fetches rather than permanently shifting this source's cadence.
+              source.nextCheckAt.getTime() > 0 ? source.nextCheckAt : new Date(),
+            ).getTime(),
           });
           continue;
         }
@@ -186,7 +192,13 @@ export class PollingBatches {
           results.push({
             id,
             checked: Date.now(),
-            next: nextCheckAfterSuccess(registeredSourceIntervalSeconds(source)).getTime(),
+            next: nextCheckAfterSuccess(
+              registeredSourceIntervalSeconds(source),
+              // Advance the durable due slot, not completion time. A bounded
+              // continuation delayed by ingestion must perform the overdue
+              // fetches rather than permanently shifting this source's cadence.
+              source.nextCheckAt.getTime() > 0 ? source.nextCheckAt : new Date(),
+            ).getTime(),
             etag: result.etag,
             modified: result.lastModified,
             latency: Date.now() - started,

@@ -129,6 +129,8 @@ async function payloadGraph(tables: FrozenTable[]) {
   const mailRoots = new Set(
     (tables.find((t) => t.name === 'app_mail')?.rows ?? []).map((r) => r.object_hash),
   );
+  for (const r of tables.find((t) => t.name === 'app_storage_erased_mail')?.rows ?? [])
+    mailRoots.add(r.hash);
   for (const head of objects) {
     if (!head.complete) continue;
     let stored: Uint8Array;
@@ -382,8 +384,68 @@ export async function planApprovedRetention(tables: FrozenTable[], now: number, 
     );
     clusters.push(c);
   }
+  // Completed operational roots retain compact identity receipts, not old raw
+  // provider bodies. Active publications, uncertain work and incomplete fetch
+  // runs remain roots. The same archive/audit/atomic cursor as editorial cleanup
+  // owns these transitions; no HTTP handler performs cross-shard deletion.
+  for (const task of rows('app_odds_processing')) {
+    if (
+      !['DONE', 'SUPERSEDED'].includes(task.status) ||
+      task.as_of > now - 30 * day ||
+      task.lease_until > now ||
+      rows('app_odds_publication').some((r) => r.slot === task.slot) ||
+      !rows('app_odds_fetch_runs').some((r) => r.slot === task.slot && r.state === 'COMPLETE')
+    )
+      continue;
+    if (graph.get(task.object_hash)?.value?.kind === 'ODDS_PROCESSING_RECEIPT') continue;
+    const c = make('PROCESSING_RECEIPT', task.slot + ':' + task.event_id);
+    c.referenceIds = new Set();
+    c.rows.add(task);
+    for (const h of hashes(task)) if (graph.has(h)) c.hashes.add(h);
+    const text = JSON.stringify({
+      schema: 1,
+      kind: 'ODDS_PROCESSING_RECEIPT',
+      provider: 'SPORTSGAMEODDS',
+      slot: task.slot,
+      eventId: task.event_id,
+      asOf: task.as_of,
+      status: task.status,
+      canonicalEventId: task.canonical_event_id,
+    });
+    const hash = await digest(utf8.encode(text));
+    const guard = crypto.randomUUID();
+    c.operations.push(
+      { sql: 'INSERT OR IGNORE INTO app_payload_capacity(id,used_bytes) VALUES(1,0)', values: [] },
+      {
+        sql: 'INSERT INTO app_payload_objects(hash,bytes,chunks,complete,inline_data) SELECT ?,?,0,1,CAST(? AS BLOB) WHERE (SELECT used_bytes FROM app_payload_capacity WHERE id=1)+?<=64000000 ON CONFLICT DO NOTHING',
+        values: [hash, utf8.encode(text).length, text, utf8.encode(text).length],
+      },
+      {
+        sql: 'UPDATE app_payload_capacity SET used_bytes=used_bytes+? WHERE id=1 AND changes()=1',
+        values: [utf8.encode(text).length],
+      },
+      {
+        sql: 'INSERT INTO app_storage_guards(id,ok) SELECT ?,CASE WHEN EXISTS(SELECT 1 FROM app_payload_objects WHERE hash=? AND complete=1) THEN 1 ELSE 0 END',
+        values: [guard, hash],
+      },
+      {
+        sql: "UPDATE app_odds_processing SET object_hash=?,reference_json=?,lease_nonce=NULL,last_error=NULL WHERE slot=? AND event_id=? AND status IN('DONE','SUPERSEDED')",
+        values: [
+          hash,
+          JSON.stringify({ id: task.event_id, archived: true }),
+          task.slot,
+          task.event_id,
+        ],
+      },
+      { sql: 'DELETE FROM app_storage_guards WHERE id=?', values: [guard] },
+    );
+    clusters.push(c);
+  }
   // Any permanent/non-odds root mentioning an event or market conservatively
   // preserves that event's historical boards. A timestamp is not guessed.
+  const compactedRows = new Set(
+    clusters.filter((c) => c.kind === 'PROCESSING_RECEIPT').flatMap((c) => [...c.rows]),
+  );
   const permanentStrings: string[] = [];
   const permanentSeen = new Set<string>(),
     permanentQueue: string[] = [];
@@ -400,6 +462,7 @@ export async function planApprovedRetention(tables: FrozenTable[], now: number, 
       !table.name.startsWith('app_storage_')
     )
       for (const row of table.rows) {
+        if (compactedRows.has(row)) continue;
         permanentStrings.push(...strings(row));
         for (const h of hashes(row)) if (graph.has(h)) permanentQueue.push(h);
       }

@@ -1,3 +1,5 @@
+import { instrumentDatabase, requestMetrics } from '../packages/storage/instrumentation';
+import { DATABASE_OWNERS } from '../packages/storage/multi-d1';
 /** Local synthetic schedule qualification: actual HTTP route and bounded runner. */
 import { build } from 'esbuild';
 import { resolve } from 'node:path';
@@ -11,7 +13,7 @@ import { EDITORIAL_OWNERS } from '../packages/storage/editorial-directory';
 async function main() {
   if (process.env.DATABASE_URL) throw Error('DATABASE_URL must be absent');
   const wallStart = performance.now();
-  const out = 'reports/rc2/combined-day';
+  const out = process.env.DD_QUALIFICATION_OUT ?? 'reports/rc3/combined-day';
   await mkdir(out, { recursive: true });
   const bundle = await build({
     entryPoints: ['workers/content-engine/test/content-day-worker.ts'],
@@ -81,14 +83,22 @@ async function main() {
     }
     await rpc('fixture-rss', { feeds });
     const minutes = Number(process.env.DD_SCHEDULER_MINUTES ?? 1440);
-    let capped = 0;
+    const skipFrom = Number(process.env.DD_SCHEDULER_SKIP_FROM ?? -1);
+    const skipMinutes = Number(process.env.DD_SCHEDULER_SKIP_MINUTES ?? 0);
+    let capped = 0,
+      scheduledInvocations = 0,
+      skippedInvocations = 0;
     for (let minute = 0; minute < minutes; minute++) {
       clock = Date.parse('2026-10-19T00:00:00Z') + minute * 60000;
-      const result = await runContentContinuations(
-        (q) => rpc('automation-http', { query: q.toString() }),
-        32,
-      );
-      if (!result.complete) capped++;
+      if (minute >= skipFrom && minute < skipFrom + skipMinutes) skippedInvocations++;
+      else {
+        scheduledInvocations++;
+        const result = await runContentContinuations(
+          (q) => rpc('automation-http', { query: q.toString() }),
+          32,
+        );
+        if (!result.complete) capped++;
+      }
       // Registry refreshes retain existing cadence and are distinct bounded requests.
       if (minute && minute % 30 === 0)
         for (const source of registry) await rpc('sync', { id: source.id });
@@ -180,8 +190,12 @@ async function main() {
         },
       });
     }
+    const maintenanceMetrics = requestMetrics();
+    const maintenanceDatabases = Object.fromEntries(
+      DATABASE_OWNERS.map((owner) => [owner, instrumentDatabase(h.db[owner], maintenanceMetrics)]),
+    ) as typeof h.db;
     const maintenance = await maintainMultiD1(
-      h.db,
+      maintenanceDatabases,
       'synthetic-rc2-offline-backup-key-at-least-32-characters',
       {
         rawWritersStopped: true,
@@ -225,21 +239,28 @@ async function main() {
       actualChecks: actual,
       checksPreserved: actual === expected,
       cappedTicks: capped,
+      scheduledInvocations,
+      skippedInvocations,
+      nominalFrequencySeconds: 60,
+      childInvocationLimitPerTick: 32,
       maximumQueries: maximum,
       requests: measured.length,
       rowsRead: measured.reduce((n, s) => n + s.rowsRead, 0),
-      rowsWritten: measured.reduce((n, s) => n + s.rowsWritten, 0),
+      applicationRowsWritten: measured.reduce((n, s) => n + s.rowsWritten, 0),
+      rowsWritten: measured.reduce((n, s) => n + s.rowsWritten, 0) + maintenanceMetrics.rowsWritten,
+      maintenanceMetrics,
       checkpoints,
       subsystems,
       failedSourceCheckpoints: states
         .flatMap((x: any) => x.sourceCheckpoints)
         .filter((x: any) => x.failure_count > 0),
-      maintenanceOperationsMeasured: false,
+      maintenanceOperationsMeasured: true,
       hostedCpuMeasured: false,
     };
     await writeFile(out + '/combined-schedule.json', JSON.stringify(report, null, 2) + '\n');
     console.log(JSON.stringify(report));
-    if (maximum > 50) throw Error('Query limit exceeded');
+    if (maximum >= 50) throw Error('Query limit exceeded');
+    if (actual !== expected) throw Error(`Incomplete scheduler: ${actual}/${expected}`);
   } finally {
     await h.close();
   }

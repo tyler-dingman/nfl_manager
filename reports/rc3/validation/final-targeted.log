@@ -1,0 +1,26 @@
+TAP version 13
+# RC3_ERASURE {"maximumQueries":15,"databases":10,"oldArchiveRevoked":true,"privateMailDeleted":true}
+# Subtest: erasure survives an older archive, deletes private ciphertext, and preserves populated ten-owner data
+ok 1 - erasure survives an older archive, deletes private ciphertext, and preserves populated ten-owner data
+  ---
+  duration_ms: 25026.133959
+  ...
+# Subtest: completed odds payload compaction resumes atomically and preserves active/uncertain work and replay IDs
+ok 2 - completed odds payload compaction resumes atomically and preserves active/uncertain work and replay IDs
+  ---
+  duration_ms: 8287.326291
+  ...
+# Subtest: completed handoff bodies retire only with verified destination receipts; interrupted audit rolls back
+ok 3 - completed handoff bodies retire only with verified destination receipts; interrupted audit rolls back
+  ---
+  duration_ms: 3950.620667
+  ...
+1..3
+# tests 3
+# suites 0
+# pass 3
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 25606.259167
