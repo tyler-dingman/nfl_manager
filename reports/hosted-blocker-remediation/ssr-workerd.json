@@ -1,0 +1,85 @@
+{
+  "runtime": "actual local workerd/OpenNext with ten synthetic D1 databases",
+  "records": [
+    {
+      "label": "anonymous denied",
+      "path": "/",
+      "status": 403,
+      "expected": 403,
+      "htmlBytes": 31
+    },
+    {
+      "label": "signed out redirects",
+      "path": "/",
+      "status": 307,
+      "expected": 307,
+      "htmlBytes": 0
+    },
+    {
+      "label": "invalid session rejected",
+      "path": "/",
+      "status": 307,
+      "expected": 307,
+      "htmlBytes": 0
+    },
+    {
+      "label": "expired session rejected",
+      "path": "/",
+      "status": 307,
+      "expected": 307,
+      "htmlBytes": 0
+    },
+    {
+      "label": "revoked session rejected",
+      "path": "/",
+      "status": 307,
+      "expected": 307,
+      "htmlBytes": 0
+    },
+    {
+      "label": "signed-in HTML",
+      "path": "/",
+      "status": 200,
+      "expected": 200,
+      "htmlBytes": 15894
+    },
+    {
+      "label": "signed-in HTML",
+      "path": "/account",
+      "status": 200,
+      "expected": 200,
+      "htmlBytes": 15016
+    },
+    {
+      "label": "signed-in HTML",
+      "path": "/front-office",
+      "status": 200,
+      "expected": 200,
+      "htmlBytes": 16994
+    },
+    {
+      "label": "signed-in HTML",
+      "path": "/parlay-lab",
+      "status": 200,
+      "expected": 200,
+      "htmlBytes": 15834
+    },
+    {
+      "label": "isolated session a",
+      "path": "/api/auth/me",
+      "status": 200,
+      "expected": 200,
+      "htmlBytes": 256
+    },
+    {
+      "label": "isolated session b",
+      "path": "/api/auth/me",
+      "status": 200,
+      "expected": 200,
+      "htmlBytes": 256
+    }
+  ],
+  "outboundRequests": 0,
+  "hostedCPUQualified": false,
+  "passed": true
+}

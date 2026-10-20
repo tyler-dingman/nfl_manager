@@ -1,0 +1,127 @@
+TAP version 13
+# [application-auth] Session lookup unavailable { pathname: '/front-office' }
+# [application-auth] Session lookup unavailable { pathname: '/front-office' }
+# [application-auth] Session lookup unavailable { pathname: '/front-office' }
+# [application-auth] Session lookup unavailable { pathname: '/front-office' }
+# [application-auth] Session lookup unavailable { pathname: '/front-office' }
+# [application-auth] Session lookup unavailable { pathname: '/front-office' }
+# Subtest: Cloudflare SSR uses private API transport, isolates credentials and preserves fail-closed behavior
+ok 1 - Cloudflare SSR uses private API transport, isolates credentials and preserves fail-closed behavior
+  ---
+  duration_ms: 23.585584
+  ...
+# Subtest: concurrent OpenNext request contexts never share an API service or cookie
+ok 2 - concurrent OpenNext request contexts never share an API service or cookie
+  ---
+  duration_ms: 10.0585
+  ...
+# Subtest: preview gate lets automation reach route auth while protecting other routes
+ok 3 - preview gate lets automation reach route auth while protecting other routes
+  ---
+  duration_ms: 12.246333
+  ...
+# Subtest: application pages require a real session and preserve the destination
+ok 4 - application pages require a real session and preserve the destination
+  ---
+  duration_ms: 4.39025
+  ...
+# [application-auth] Session lookup unavailable { pathname: '/parlay-lab' }
+# Subtest: passing the site password alone does not authenticate an application user
+ok 5 - passing the site password alone does not authenticate an application user
+  ---
+  duration_ms: 10.523208
+  ...
+# Subtest: session endpoint controls access, including revoked sessions and lookup failures
+ok 6 - session endpoint controls access, including revoked sessions and lookup failures
+  ---
+  duration_ms: 4.17675
+  ...
+# Subtest: Argon2id hashes and verifies passwords without storing plaintext
+ok 7 - Argon2id hashes and verifies passwords without storing plaintext
+  ---
+  duration_ms: 168.986
+  ...
+# Subtest: opaque tokens are random and stored as deterministic hashes
+ok 8 - opaque tokens are random and stored as deterministic hashes
+  ---
+  duration_ms: 0.521625
+  ...
+# Subtest: redirect validation rejects absolute and protocol-relative URLs
+ok 9 - redirect validation rejects absolute and protocol-relative URLs
+  ---
+  duration_ms: 0.146666
+  ...
+# Subtest: Google profile picture is normalized into the canonical avatar URL
+ok 10 - Google profile picture is normalized into the canonical avatar URL
+  ---
+  duration_ms: 0.929625
+  ...
+# Subtest: Google profile without a picture has a null canonical avatar URL
+ok 11 - Google profile without a picture has a null canonical avatar URL
+  ---
+  duration_ms: 0.142333
+  ...
+# Subtest: PKCE accepts the RFC 7636 example and rejects a different verifier
+ok 12 - PKCE accepts the RFC 7636 example and rejects a different verifier
+  ---
+  duration_ms: 238.320541
+  ...
+# Subtest: handoff rejects expired, wrong-audience, and wrong-verifier tickets before database use
+ok 13 - handoff rejects expired, wrong-audience, and wrong-verifier tickets before database use
+  ---
+  duration_ms: 13.573209
+  ...
+# Subtest: mobile OAuth state keeps the challenge and client state in the signed cookie
+ok 14 - mobile OAuth state keeps the challenge and client state in the signed cookie
+  ---
+  duration_ms: 11.975375
+  ...
+# Subtest: preview exemption is limited to login bootstraps and signed API access tokens
+ok 15 - preview exemption is limited to login bootstraps and signed API access tokens
+  ---
+  duration_ms: 1.713416
+  ...
+# Subtest: auth rejects short or whitespace-padded signing secrets
+ok 16 - auth rejects short or whitespace-padded signing secrets
+  ---
+  duration_ms: 1.327125
+  ...
+# Subtest: Facebook is enabled only with both required values
+ok 17 - Facebook is enabled only with both required values
+  ---
+  duration_ms: 0.908
+  ...
+# Subtest: Apple is enabled only with the complete web credential set
+ok 18 - Apple is enabled only with the complete web credential set
+  ---
+  duration_ms: 0.149375
+  ...
+# Subtest: Facebook profiles support normal and missing-email responses safely
+ok 19 - Facebook profiles support normal and missing-email responses safely
+  ---
+  duration_ms: 0.563667
+  ...
+# Subtest: Apple captures first-login data, relay email, and tolerates later sparse responses
+ok 20 - Apple captures first-login data, relay email, and tolerates later sparse responses
+  ---
+  duration_ms: 0.228042
+  ...
+# Subtest: web callbacks reject denial/state failures and identities require explicit safe linking
+ok 21 - web callbacks reject denial/state failures and identities require explicit safe linking
+  ---
+  duration_ms: 0.562375
+  ...
+# Subtest: provider implementations retain minimal scopes and server-side validation
+ok 22 - provider implementations retain minimal scopes and server-side validation
+  ---
+  duration_ms: 0.325292
+  ...
+1..22
+# tests 22
+# suites 0
+# pass 22
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 738.359917

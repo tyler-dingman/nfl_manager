@@ -1,0 +1,23 @@
+
+ ⛅️ wrangler 4.151.1 (update available 4.151.3)
+───────────────────────────────────────────────
+Total Upload: 89.75 KiB / gzip: 21.79 KiB
+Your Worker has access to the following bindings:
+Binding                                                                              Resource
+env.D1_USERS (dd-rc3-staging-9)                                                      D1 Database
+env.D1_SHARED (dd-rc3-staging-10)                                                    D1 Database
+env.API_SERVICE (down-distance-rc3-staging-api)                                      Worker
+env.ODDS_PROCESSOR (down-distance-rc3-staging-odds-processor)                        Worker
+env.APP_DATA_BACKEND ("d1")                                                          Environment Variable
+env.APP_OBJECT_BACKEND ("d1")                                                        Environment Variable
+env.INFRASTRUCTURE_COST_POLICY ("zero-cost")                                         Environment Variable
+env.APP_CONTENT_ENABLED ("false")                                                    Environment Variable
+env.APP_BRIEFINGS_ENABLED ("false")                                                  Environment Variable
+env.APP_ODDS_ENABLED ("false")                                                       Environment Variable
+env.APP_ODDS_FETCH_ENABLED ("false")                                                 Environment Variable
+env.APP_ODDS_PROCESSING_ENABLED ("false")                                            Environment Variable
+env.APP_MAIL_ENABLED ("false")                                                       Environment Variable
+env.APP_SOCIAL_NOTIFICATIONS_ENABLED ("false")                                       Environment Variable
+env.APP_MAINTENANCE_ENABLED ("false")                                                Environment Variable
+
+--dry-run: exiting now.

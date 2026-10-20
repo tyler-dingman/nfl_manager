@@ -1,0 +1,54 @@
+{
+  "targetAccount": "6e8c301360ab628706dcf3acf55f0dbb",
+  "deploymentAuthorized": false,
+  "updateWorkers": [
+    "api",
+    "web"
+  ],
+  "retainWorkers": [
+    "password",
+    "application",
+    "odds-processor"
+  ],
+  "databaseMigrations": [],
+  "resourceCreations": [],
+  "workers": {
+    "api": {
+      "name": "down-distance-rc3-staging-api",
+      "configSha256": "16d6022bdc54d6cd4a81d0f1ec8c0eda9184e98000c46048c44c9e3d51639c06"
+    },
+    "web": {
+      "name": "down-distance-rc3-staging-web",
+      "configSha256": "ac7dc3a90cf8af507ab95b9c61c5b53cb46afecf6233e2aa125977f62fb643e5"
+    },
+    "password": {
+      "name": "down-distance-rc3-staging-password",
+      "configSha256": "2939b855c27c9119028aecab25fd5a22e6562485242873a15e2c5edee9031b72"
+    },
+    "application": {
+      "name": "down-distance-rc3-staging-application",
+      "configSha256": "59ada2000b79af7e2c1f1eac8ed36b51daa188287aa37b126f9a6bb7efc2d668"
+    },
+    "odds-processor": {
+      "name": "down-distance-rc3-staging-odds-processor",
+      "configSha256": "9352950bf2295cefc72508210b4d7ba865f553bafd42988545a4f79e7a1e4a79"
+    }
+  },
+  "artifacts": {
+    "workers/api/dist/worker.mjs": {
+      "bytes": 4571703,
+      "sha256": "9bb85b059fb6bf22ca66e57e638b1d6035dd499641208bd362a88204f7d6b61b"
+    },
+    "workers/web/dist/access-index.js": {
+      "bytes": 12471911,
+      "sha256": "ef5899da10f2995551d6e3d18ff32a9222fb978ac5dbe2f45f426ea57b6e79d7"
+    }
+  },
+  "assets": {
+    "files": 1395,
+    "bytes": 510309307,
+    "largestFileBytes": 5532574
+  },
+  "passwordCPU": "NOT QUALIFIED; unchanged existing path remains blocked",
+  "publicExposure": "Must remain disabled until explicit review/approval and deployment preflight"
+}

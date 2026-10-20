@@ -1,0 +1,24 @@
+{
+  "baseline": "d01e358a",
+  "branch": "release/down-distance-rc3",
+  "remoteDeployment": false,
+  "remoteResourcesCreated": 0,
+  "billingActivated": false,
+  "passwordImplementationChanged": false,
+  "credentialsMigrated": false,
+  "webSessionVerification": "LOCAL PASS; request-scoped API_SERVICE transport; hosted retest required",
+  "globalFeed": "LOCAL PASS; NFL shared store; 32 team feeds unchanged",
+  "authenticationCPU": "BLOCKED: hosted unchanged Argon2id remains 52\u2013200 ms vs 10ms Free; options researched, none activated/qualified",
+  "tests": {
+    "authAndMiddleware": 22,
+    "tenD1GlobalFeed": "PASS 32 teams+global+IDs/search/cross-shard saves",
+    "securityCrossShard": 5,
+    "workerdAuthentication": "PASS ten scenarios with native PHC compatibility",
+    "workerdSSR": "PASS staging denial, sign-in/out, expired/invalid/revoked, four HTML pages, user isolation, zero outbound",
+    "productionBuild": "PASS Next production/OpenNext",
+    "workerDryRuns": "PASS all five existing staging configs",
+    "typecheck": "PASS"
+  },
+  "hostedRetestRequired": true,
+  "controlledBeta": "NO-GO"
+}

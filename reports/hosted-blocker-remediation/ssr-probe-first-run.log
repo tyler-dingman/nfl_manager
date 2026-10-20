@@ -1,0 +1,14 @@
+{"metric":"application_headers","route":"/","status":307,"wallMs":16,"d1Calls":0,"statements":0,"rowsRead":0,"rowsWritten":0,"r2Reads":0,"r2Writes":0,"cpuMs":null,"cpuSource":"Use Cloudflare TraceEvent CPUTimeMs; wallMs is not CPU"}
+node:internal/url:818
+      href = bindingUrl.parse(input, base, true);
+                        ^
+
+TypeError: Invalid URL
+    at new URL (node:internal/url:818:25)
+    at file:///private/tmp/down-distance-rc3/scripts/hosted-remediation/probe-ssr-local.mjs:140:16
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5) {
+  code: 'ERR_INVALID_URL',
+  input: '/login?next=%2F'
+}
+
+Node.js v22.14.0

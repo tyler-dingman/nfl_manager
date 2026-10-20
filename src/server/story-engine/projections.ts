@@ -42,9 +42,14 @@ const storyRecord = (r: any): StoryRecord => ({
   hotReadUntil: r.hot_read_until,
   clusterReason: r.cluster_reason,
 });
+// NFL is a global editorial owner, never a canonical team shard.
+function publicEditorialStorage(teamId: string) {
+  return teamId === 'NFL' ? applicationStorage('D1_SHARED') : applicationTeamStorage(teamId);
+}
+
 export async function listPublicStories(teamId: string, limit = 30): Promise<StoryView[]> {
   if (applicationBackend() === 'd1')
-    return new PublicEditorial(applicationTeamStorage(teamId)).list(teamId, limit);
+    return new PublicEditorial(publicEditorialStorage(teamId)).list(teamId, limit);
   const sql = authDb();
   const rows =
     await sql`SELECT s.*,COUNT(e.id)::int AS source_count FROM canonical_stories s LEFT JOIN story_evidence e ON e.story_id=s.id WHERE s.team_id=${teamId} AND s.publication_state IN ('PUBLISHED','AUTO_PUBLISHED') AND s.status<>'HOLDING'
@@ -110,7 +115,7 @@ export type PublicStoryPageOptions = {
 
 export async function listPublicStoryPage(teamId: string, options: PublicStoryPageOptions) {
   if (applicationBackend() === 'd1')
-    return new PublicEditorial(applicationTeamStorage(teamId)).page(teamId, options);
+    return new PublicEditorial(publicEditorialStorage(teamId)).page(teamId, options);
   const sql = authDb();
   const pageSize = options.pageSize ?? DEFAULT_BEAT_PAGE_SIZE;
   const requestedPage = Math.max(1, Math.floor(options.page));
@@ -276,7 +281,7 @@ export type WireEntry = {
 };
 export async function listWireEntries(teamId: string, limit = 20): Promise<WireEntry[]> {
   if (applicationBackend() === 'd1')
-    return new PublicEditorial(applicationTeamStorage(teamId)).wire(teamId, limit);
+    return new PublicEditorial(publicEditorialStorage(teamId)).wire(teamId, limit);
   const stories = await listPublicStories(teamId, 50),
     byId = new Map(stories.map((s) => [s.id, s]));
   if (!stories.length) return [];

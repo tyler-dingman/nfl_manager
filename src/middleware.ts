@@ -3,6 +3,7 @@ import { PREVIEW_COOKIE, prelaunchEnabled, verifyPreviewToken } from '@/lib/prel
 import { hasMobilePreviewAccess, isMobileAuthRoute } from '@/lib/mobile-preview-access';
 import { requiresApplicationSession } from '@/lib/application-access';
 import { SESSION_COOKIE } from '@/server/auth/http';
+import { hasApplicationSession } from '@/lib/application-session';
 
 const TOOL_PREFIX = '/offseasonmanager';
 const TOOL_ROUTES = [
@@ -94,19 +95,7 @@ export async function middleware(request: NextRequest) {
     let authenticated = false;
     if (request.cookies.get(SESSION_COOKIE)?.value) {
       try {
-        // Session tokens are opaque and revocable. Let the existing Node auth handler
-        // validate them against the database rather than treating a cookie as proof.
-        const session = await fetch(new URL('/api/auth/me', request.url), {
-          headers: { cookie: request.headers.get('cookie') ?? '' },
-          cache: 'no-store',
-          redirect: 'manual',
-          signal: AbortSignal.timeout(10000),
-        });
-        if (session.status !== 401 && !session.ok) throw new Error('Session lookup failed');
-        if (session.ok) {
-          const body = await session.json();
-          authenticated = body.ok === true && Boolean(body.user?.id);
-        }
+        authenticated = await hasApplicationSession(request);
       } catch {
         console.error('[application-auth] Session lookup unavailable', { pathname });
         return noIndex(
