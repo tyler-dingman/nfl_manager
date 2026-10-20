@@ -1,0 +1,54 @@
+{
+  "dryRuns": [
+    {
+      "worker": "api",
+      "config": "config/rc3-hosted.api.toml",
+      "exitCode": 0,
+      "deployed": false
+    },
+    {
+      "worker": "web",
+      "config": "config/rc3-hosted.web.toml",
+      "exitCode": 0,
+      "deployed": false
+    },
+    {
+      "worker": "password",
+      "config": "config/rc3-hosted.password.toml",
+      "exitCode": 0,
+      "deployed": false
+    },
+    {
+      "worker": "application",
+      "config": "config/rc3-hosted.application.toml",
+      "exitCode": 0,
+      "deployed": false
+    },
+    {
+      "worker": "odds-processor",
+      "config": "config/rc3-hosted.odds-processor.toml",
+      "exitCode": 0,
+      "deployed": false
+    }
+  ],
+  "files": [
+    {
+      "path": "workers/api/dist/worker.mjs",
+      "sha256": "5754d5640647706d6d45c608407a3b29e0d605c8d145e5ffed5289545ac82e26",
+      "bytes": 4583289
+    },
+    {
+      "path": "workers/web/dist/access-index.js",
+      "sha256": "ac4c12b6ac551dd551e9757a90eb4262bc8512eebb2c7b0eb94f624aba9e5ed8",
+      "bytes": 12579172
+    },
+    {
+      "path": "workers/multi-d1/migrations/users/0010_firebase_auth.sql",
+      "sha256": "acda8fd87313aa0086a20122c66050801102b0b777ced0ae1672c9d52c10ea53",
+      "bytes": 1007
+    }
+  ],
+  "hostedCpuQualified": false,
+  "resourcesCreated": 0,
+  "deploymentPerformed": false
+}

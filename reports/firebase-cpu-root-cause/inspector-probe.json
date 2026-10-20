@@ -1,0 +1,16 @@
+[
+  {
+    "mode": "tiny-inspector",
+    "started": true,
+    "inspectorOrigin": "ws://127.0.0.1:62782"
+  },
+  {
+    "mode": "api-inspector",
+    "started": true,
+    "inspectorOrigin": "ws://127.0.0.1:62787"
+  },
+  {
+    "mode": "api-normal",
+    "started": true
+  }
+]

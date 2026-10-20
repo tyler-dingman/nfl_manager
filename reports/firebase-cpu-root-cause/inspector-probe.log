@@ -1,0 +1,5 @@
+Debugger targets: core:user:api, core:custom-fetch:0:$outbound, outbound:0, cache:0, cache:cache, d1:db:entry, d1:db, core:entry, MINIFLARE_DEV_CONTROL, email:store
+tiny-inspector: true
+Debugger targets: core:user:api, core:custom-fetch:0:$outbound, outbound:0, cache:0, cache:cache, d1:db:entry, d1:db, core:entry, MINIFLARE_DEV_CONTROL, email:store
+api-inspector: true
+api-normal: true

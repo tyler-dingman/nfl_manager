@@ -1,0 +1,7611 @@
+{
+  "source": "Actual local workerd V8 sampling profiler, API isolate only. Samples and elapsed wall time are NOT hosted CPU accounting. D1 service isolate and native crypto helper-thread CPU are not included.",
+  "bundle": "workers/api/dist/worker.mjs",
+  "samplingIntervalMicroseconds": 100,
+  "keyFetches": 1,
+  "providerLookups": 42,
+  "unexpectedOutbound": 0,
+  "rows": [
+    {
+      "operation": "0-first-web",
+      "status": 200,
+      "wallMs": 38.458292000000256,
+      "profile": "0-first-web.cpuprofile",
+      "samples": 127,
+      "profileDurationMs": 109.776,
+      "topSelf": [
+        {
+          "function": "(garbage collector)",
+          "url": "",
+          "line": 0,
+          "samples": 29
+        },
+        {
+          "function": "(program)",
+          "url": "",
+          "line": 0,
+          "samples": 4
+        },
+        {
+          "function": "rG",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 377,
+          "samples": 4
+        },
+        {
+          "function": "DI",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 12,
+          "samples": 3
+        },
+        {
+          "function": "",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 1327,
+          "samples": 3
+        },
+        {
+          "function": "run",
+          "url": "",
+          "line": 0,
+          "samples": 2
+        },
+        {
+          "function": "MF",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 5,
+          "samples": 2
+        },
+        {
+          "function": "aTe",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 806,
+          "samples": 2
+        },
+        {
+          "function": "createHmac",
+          "url": "node-internal:crypto_hash",
+          "line": 109,
+          "samples": 2
+        },
+        {
+          "function": "resolveSocialUser",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 95,
+          "samples": 2
+        },
+        {
+          "function": "lP",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 379,
+          "samples": 2
+        },
+        {
+          "function": "",
+          "url": "",
+          "line": 0,
+          "samples": 2
+        },
+        {
+          "function": "(idle)",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "users",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 5,
+          "samples": 1
+        },
+        {
+          "function": "storage",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 5,
+          "samples": 1
+        },
+        {
+          "function": "run",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "vpe",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 5,
+          "samples": 1
+        },
+        {
+          "function": "t",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 5,
+          "samples": 1
+        },
+        {
+          "function": "analyze",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 5,
+          "samples": 1
+        },
+        {
+          "function": "oue",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 5,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 1327,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 1327,
+          "samples": 1
+        },
+        {
+          "function": "Sde",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 1327,
+          "samples": 1
+        },
+        {
+          "function": "t",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 12,
+          "samples": 1
+        },
+        {
+          "function": "has",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 1327,
+          "samples": 1
+        },
+        {
+          "function": "aTe",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 806,
+          "samples": 1
+        },
+        {
+          "function": "get",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 39,
+          "samples": 1
+        },
+        {
+          "function": "un",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 377,
+          "samples": 1
+        },
+        {
+          "function": "yC",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 89,
+          "samples": 1
+        }
+      ],
+      "metrics": [
+        {
+          "operation": "0-first-web",
+          "metric": "application_headers",
+          "authTimings": [
+            {
+              "stage": "middleware",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "request.parse",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.key_fetch",
+              "elapsedMs": 5,
+              "ok": true
+            },
+            {
+              "stage": "jwt.public_key",
+              "elapsedMs": 5,
+              "ok": true
+            },
+            {
+              "stage": "jwt.signature",
+              "elapsedMs": 7,
+              "ok": true
+            },
+            {
+              "stage": "jwt.claims",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "provider.lookup",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "d1.revocation",
+              "elapsedMs": 4,
+              "ok": true
+            },
+            {
+              "stage": "d1.provision",
+              "elapsedMs": 4,
+              "ok": true
+            },
+            {
+              "stage": "session.encrypt",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "session.create",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "json.serialization",
+              "elapsedMs": 0,
+              "ok": true
+            }
+          ],
+          "routePattern": "^\\/api\\/auth\\/firebase\\/session\\/?$",
+          "method": "POST",
+          "route": "/api/auth",
+          "status": 200,
+          "wallMs": 28,
+          "d1Calls": 7,
+          "statements": 14,
+          "rowsRead": 7,
+          "rowsWritten": 21,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ]
+    },
+    {
+      "operation": "1-new-web",
+      "status": 200,
+      "wallMs": 10.825957999999446,
+      "profile": "1-new-web.cpuprofile",
+      "samples": 20,
+      "profileDurationMs": 29.476,
+      "topSelf": [
+        {
+          "function": "(idle)",
+          "url": "",
+          "line": 0,
+          "samples": 3
+        },
+        {
+          "function": "",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 1327,
+          "samples": 2
+        },
+        {
+          "function": "te",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 377,
+          "samples": 1
+        },
+        {
+          "function": "zE",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 39,
+          "samples": 1
+        },
+        {
+          "function": "zs",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 377,
+          "samples": 1
+        },
+        {
+          "function": "Hb",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 377,
+          "samples": 1
+        },
+        {
+          "function": "(program)",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "decodeString",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "enterSpan",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "URL",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "batch",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 5,
+          "samples": 1
+        },
+        {
+          "function": "addAggregatedD1MetaToSpan",
+          "url": "cloudflare-internal:d1-api",
+          "line": 625,
+          "samples": 1
+        },
+        {
+          "function": "toString",
+          "url": "node-internal:internal_buffer",
+          "line": 348,
+          "samples": 1
+        },
+        {
+          "function": "createSecretKey",
+          "url": "node-internal:crypto_keys",
+          "line": 243,
+          "samples": 1
+        },
+        {
+          "function": "Ze",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 2,
+          "samples": 1
+        },
+        {
+          "function": "getAll",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 12,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        }
+      ],
+      "metrics": [
+        {
+          "operation": "1-new-web",
+          "metric": "application_headers",
+          "authTimings": [
+            {
+              "stage": "middleware",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "request.parse",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.public_key",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.signature",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "jwt.claims",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "provider.lookup",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "d1.revocation",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "d1.provision",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "session.encrypt",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "session.create",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "json.serialization",
+              "elapsedMs": 0,
+              "ok": true
+            }
+          ],
+          "routePattern": "^\\/api\\/auth\\/firebase\\/session\\/?$",
+          "method": "POST",
+          "route": "/api/auth",
+          "status": 200,
+          "wallMs": 7,
+          "d1Calls": 7,
+          "statements": 14,
+          "rowsRead": 7,
+          "rowsWritten": 21,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ]
+    },
+    {
+      "operation": "2-new-web",
+      "status": 200,
+      "wallMs": 10.423749999999927,
+      "profile": "2-new-web.cpuprofile",
+      "samples": 25,
+      "profileDurationMs": 28.692,
+      "topSelf": [
+        {
+          "function": "(idle)",
+          "url": "",
+          "line": 0,
+          "samples": 3
+        },
+        {
+          "function": "wf",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 5,
+          "samples": 1
+        },
+        {
+          "function": "Request",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "t",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 5,
+          "samples": 1
+        },
+        {
+          "function": "analyze",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 5,
+          "samples": 1
+        },
+        {
+          "function": "Me",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 39,
+          "samples": 1
+        },
+        {
+          "function": "aTe",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 806,
+          "samples": 1
+        },
+        {
+          "function": "fRe",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 377,
+          "samples": 1
+        },
+        {
+          "function": "Hb",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 377,
+          "samples": 1
+        },
+        {
+          "function": "fetch",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "vR",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 44,
+          "samples": 1
+        },
+        {
+          "function": "fromString",
+          "url": "node-internal:internal_buffer",
+          "line": 147,
+          "samples": 1
+        },
+        {
+          "function": "_wrappedFetch",
+          "url": "cloudflare-internal:d1-api",
+          "line": 167,
+          "samples": 1
+        },
+        {
+          "function": "fetch",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "set",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "all",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 5,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "Readable.on",
+          "url": "node-internal:streams_readable",
+          "line": 1129,
+          "samples": 1
+        },
+        {
+          "function": "eJ",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 447,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "cloudflare-internal:d1-api",
+          "line": 122,
+          "samples": 1
+        },
+        {
+          "function": "json",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 1327,
+          "samples": 1
+        },
+        {
+          "function": "formatLog",
+          "url": "node-internal:internal_inspect",
+          "line": 2381,
+          "samples": 1
+        }
+      ],
+      "metrics": [
+        {
+          "operation": "2-new-web",
+          "metric": "application_headers",
+          "authTimings": [
+            {
+              "stage": "middleware",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "request.parse",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.public_key",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.signature",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.claims",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "provider.lookup",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "d1.revocation",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "d1.provision",
+              "elapsedMs": 3,
+              "ok": true
+            },
+            {
+              "stage": "session.encrypt",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "session.create",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "json.serialization",
+              "elapsedMs": 0,
+              "ok": true
+            }
+          ],
+          "routePattern": "^\\/api\\/auth\\/firebase\\/session\\/?$",
+          "method": "POST",
+          "route": "/api/auth",
+          "status": 200,
+          "wallMs": 8,
+          "d1Calls": 7,
+          "statements": 14,
+          "rowsRead": 7,
+          "rowsWritten": 21,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ]
+    },
+    {
+      "operation": "3-new-web",
+      "status": 200,
+      "wallMs": 9.111291000000165,
+      "profile": "3-new-web.cpuprofile",
+      "samples": 19,
+      "profileDurationMs": 27.698,
+      "topSelf": [
+        {
+          "function": "toJson",
+          "url": "cloudflare-internal:d1-api",
+          "line": 616,
+          "samples": 2
+        },
+        {
+          "function": "(idle)",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 1327,
+          "samples": 1
+        },
+        {
+          "function": "Sde",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 1327,
+          "samples": 1
+        },
+        {
+          "function": "Me",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 39,
+          "samples": 1
+        },
+        {
+          "function": "t._zod.run",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 44,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 377,
+          "samples": 1
+        },
+        {
+          "function": "I3",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 377,
+          "samples": 1
+        },
+        {
+          "function": "Hmac",
+          "url": "node-internal:crypto_hash",
+          "line": 112,
+          "samples": 1
+        },
+        {
+          "function": "fetch",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "fetch",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "resolveSocialUser",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 95,
+          "samples": 1
+        },
+        {
+          "function": "_wrappedFetch",
+          "url": "cloudflare-internal:d1-api",
+          "line": 167,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "cloudflare-internal:d1-api",
+          "line": 598,
+          "samples": 1
+        },
+        {
+          "function": "Cipheriv",
+          "url": "node-internal:crypto_cipher",
+          "line": 68,
+          "samples": 1
+        },
+        {
+          "function": "batch",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 5,
+          "samples": 1
+        },
+        {
+          "function": "toArrayOfObjects",
+          "url": "cloudflare-internal:d1-api",
+          "line": 583,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        }
+      ],
+      "metrics": [
+        {
+          "operation": "3-new-web",
+          "metric": "application_headers",
+          "authTimings": [
+            {
+              "stage": "middleware",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "request.parse",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.public_key",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.signature",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.claims",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "provider.lookup",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "d1.revocation",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "d1.provision",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "session.encrypt",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "session.create",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "json.serialization",
+              "elapsedMs": 0,
+              "ok": true
+            }
+          ],
+          "routePattern": "^\\/api\\/auth\\/firebase\\/session\\/?$",
+          "method": "POST",
+          "route": "/api/auth",
+          "status": 200,
+          "wallMs": 6,
+          "d1Calls": 7,
+          "statements": 14,
+          "rowsRead": 7,
+          "rowsWritten": 21,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ]
+    },
+    {
+      "operation": "4-new-web",
+      "status": 200,
+      "wallMs": 10.902083999999377,
+      "profile": "4-new-web.cpuprofile",
+      "samples": 20,
+      "profileDurationMs": 29.752,
+      "topSelf": [
+        {
+          "function": "(idle)",
+          "url": "",
+          "line": 0,
+          "samples": 2
+        },
+        {
+          "function": "Ape",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 5,
+          "samples": 1
+        },
+        {
+          "function": "Kde",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 5,
+          "samples": 1
+        },
+        {
+          "function": "get origin",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 5,
+          "samples": 1
+        },
+        {
+          "function": "qW",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 377,
+          "samples": 1
+        },
+        {
+          "function": "hs",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 377,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 377,
+          "samples": 1
+        },
+        {
+          "function": "Readable.on",
+          "url": "node-internal:streams_readable",
+          "line": 1129,
+          "samples": 1
+        },
+        {
+          "function": "text",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "fetch",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "enterSpan",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "_send",
+          "url": "cloudflare-internal:d1-api",
+          "line": 201,
+          "samples": 1
+        },
+        {
+          "function": "addAggregatedD1MetaToSpan",
+          "url": "cloudflare-internal:d1-api",
+          "line": 625,
+          "samples": 1
+        },
+        {
+          "function": "toString",
+          "url": "node-internal:internal_buffer",
+          "line": 348,
+          "samples": 1
+        },
+        {
+          "function": "fromArrayBuffer",
+          "url": "node-internal:internal_buffer",
+          "line": 165,
+          "samples": 1
+        },
+        {
+          "function": "createSession",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 95,
+          "samples": 1
+        },
+        {
+          "function": "_send",
+          "url": "cloudflare-internal:d1-api",
+          "line": 201,
+          "samples": 1
+        },
+        {
+          "function": "(program)",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "formatWithOptions",
+          "url": "node-internal:internal_inspect",
+          "line": 2157,
+          "samples": 1
+        }
+      ],
+      "metrics": [
+        {
+          "operation": "4-new-web",
+          "metric": "application_headers",
+          "authTimings": [
+            {
+              "stage": "middleware",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "request.parse",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.public_key",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.signature",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.claims",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "provider.lookup",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "d1.revocation",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "d1.provision",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "session.encrypt",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "session.create",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "json.serialization",
+              "elapsedMs": 0,
+              "ok": true
+            }
+          ],
+          "routePattern": "^\\/api\\/auth\\/firebase\\/session\\/?$",
+          "method": "POST",
+          "route": "/api/auth",
+          "status": 200,
+          "wallMs": 7,
+          "d1Calls": 7,
+          "statements": 14,
+          "rowsRead": 7,
+          "rowsWritten": 21,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ]
+    },
+    {
+      "operation": "5-new-web",
+      "status": 200,
+      "wallMs": 8.940291999999317,
+      "profile": "5-new-web.cpuprofile",
+      "samples": 20,
+      "profileDurationMs": 28.281,
+      "topSelf": [
+        {
+          "function": "(idle)",
+          "url": "",
+          "line": 0,
+          "samples": 3
+        },
+        {
+          "function": "fetch",
+          "url": "",
+          "line": 0,
+          "samples": 2
+        },
+        {
+          "function": "run",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "Sde",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 1327,
+          "samples": 1
+        },
+        {
+          "function": "json",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "Pb",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 377,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "fetch",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "t._zod.run",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 44,
+          "samples": 1
+        },
+        {
+          "function": "_send",
+          "url": "cloudflare-internal:d1-api",
+          "line": 201,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 447,
+          "samples": 1
+        },
+        {
+          "function": "prepare",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 2,
+          "samples": 1
+        },
+        {
+          "function": "firstIfArray",
+          "url": "cloudflare-internal:d1-api",
+          "line": 578,
+          "samples": 1
+        },
+        {
+          "function": "createSecretKey",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "enterSpan",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "lP",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 379,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        }
+      ],
+      "metrics": [
+        {
+          "operation": "5-new-web",
+          "metric": "application_headers",
+          "authTimings": [
+            {
+              "stage": "middleware",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "request.parse",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.public_key",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.signature",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.claims",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "provider.lookup",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "d1.revocation",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "d1.provision",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "session.encrypt",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "session.create",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "json.serialization",
+              "elapsedMs": 0,
+              "ok": true
+            }
+          ],
+          "routePattern": "^\\/api\\/auth\\/firebase\\/session\\/?$",
+          "method": "POST",
+          "route": "/api/auth",
+          "status": 200,
+          "wallMs": 7,
+          "d1Calls": 7,
+          "statements": 14,
+          "rowsRead": 7,
+          "rowsWritten": 21,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ]
+    },
+    {
+      "operation": "6-new-web",
+      "status": 200,
+      "wallMs": 8.802083999999923,
+      "profile": "6-new-web.cpuprofile",
+      "samples": 18,
+      "profileDurationMs": 28.101,
+      "topSelf": [
+        {
+          "function": "(idle)",
+          "url": "",
+          "line": 0,
+          "samples": 2
+        },
+        {
+          "function": "",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 1327,
+          "samples": 1
+        },
+        {
+          "function": "(program)",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "ql",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 39,
+          "samples": 1
+        },
+        {
+          "function": "verify",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "fetch",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "AR",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 44,
+          "samples": 1
+        },
+        {
+          "function": "_send",
+          "url": "cloudflare-internal:d1-api",
+          "line": 201,
+          "samples": 1
+        },
+        {
+          "function": "all",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 2,
+          "samples": 1
+        },
+        {
+          "function": "fetch",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "identityStatement",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 95,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "cloudflare-internal:d1-api",
+          "line": 223,
+          "samples": 1
+        },
+        {
+          "function": "getRandomValues",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "update",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "_sendOrThrow",
+          "url": "cloudflare-internal:d1-api",
+          "line": 188,
+          "samples": 1
+        },
+        {
+          "function": "Response",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        }
+      ],
+      "metrics": [
+        {
+          "operation": "6-new-web",
+          "metric": "application_headers",
+          "authTimings": [
+            {
+              "stage": "middleware",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "request.parse",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "jwt.public_key",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.signature",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.claims",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "provider.lookup",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "d1.revocation",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "d1.provision",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "session.encrypt",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "session.create",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "json.serialization",
+              "elapsedMs": 0,
+              "ok": true
+            }
+          ],
+          "routePattern": "^\\/api\\/auth\\/firebase\\/session\\/?$",
+          "method": "POST",
+          "route": "/api/auth",
+          "status": 200,
+          "wallMs": 7,
+          "d1Calls": 7,
+          "statements": 14,
+          "rowsRead": 7,
+          "rowsWritten": 21,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ]
+    },
+    {
+      "operation": "7-new-web",
+      "status": 200,
+      "wallMs": 12.09033400000044,
+      "profile": "7-new-web.cpuprofile",
+      "samples": 21,
+      "profileDurationMs": 32.775,
+      "topSelf": [
+        {
+          "function": "(idle)",
+          "url": "",
+          "line": 0,
+          "samples": 2
+        },
+        {
+          "function": "",
+          "url": "",
+          "line": 0,
+          "samples": 2
+        },
+        {
+          "function": "DI",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 12,
+          "samples": 1
+        },
+        {
+          "function": "Response",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 806,
+          "samples": 1
+        },
+        {
+          "function": "fRe",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 377,
+          "samples": 1
+        },
+        {
+          "function": "verify",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "json",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "(program)",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "Hash.update",
+          "url": "node-internal:crypto_hash",
+          "line": 77,
+          "samples": 1
+        },
+        {
+          "function": "enterSpan",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "_send",
+          "url": "cloudflare-internal:d1-api",
+          "line": 201,
+          "samples": 1
+        },
+        {
+          "function": "bind",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 5,
+          "samples": 1
+        },
+        {
+          "function": "fetch",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "createBuffer",
+          "url": "node-internal:internal_buffer",
+          "line": 44,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "node-internal:crypto_keys",
+          "line": 112,
+          "samples": 1
+        },
+        {
+          "function": "withSpan",
+          "url": "cloudflare-internal:tracing-helpers",
+          "line": 34,
+          "samples": 1
+        },
+        {
+          "function": "toJson",
+          "url": "cloudflare-internal:d1-api",
+          "line": 616,
+          "samples": 1
+        },
+        {
+          "function": "Bpe",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 12,
+          "samples": 1
+        }
+      ],
+      "metrics": [
+        {
+          "operation": "7-new-web",
+          "metric": "application_headers",
+          "authTimings": [
+            {
+              "stage": "middleware",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "request.parse",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.public_key",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.signature",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "jwt.claims",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "provider.lookup",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "d1.revocation",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "d1.provision",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "session.encrypt",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "session.create",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "json.serialization",
+              "elapsedMs": 0,
+              "ok": true
+            }
+          ],
+          "routePattern": "^\\/api\\/auth\\/firebase\\/session\\/?$",
+          "method": "POST",
+          "route": "/api/auth",
+          "status": 200,
+          "wallMs": 9,
+          "d1Calls": 7,
+          "statements": 14,
+          "rowsRead": 7,
+          "rowsWritten": 21,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ]
+    },
+    {
+      "operation": "8-new-web",
+      "status": 200,
+      "wallMs": 11.996833000000152,
+      "profile": "8-new-web.cpuprofile",
+      "samples": 24,
+      "profileDurationMs": 33.304,
+      "topSelf": [
+        {
+          "function": "",
+          "url": "",
+          "line": 0,
+          "samples": 5
+        },
+        {
+          "function": "(program)",
+          "url": "",
+          "line": 0,
+          "samples": 3
+        },
+        {
+          "function": "(idle)",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "l",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 1327,
+          "samples": 1
+        },
+        {
+          "function": "Vde",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 5,
+          "samples": 1
+        },
+        {
+          "function": "get pathname",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 5,
+          "samples": 1
+        },
+        {
+          "function": "b3",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 377,
+          "samples": 1
+        },
+        {
+          "function": "verify",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "t._zod.parse",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 89,
+          "samples": 1
+        },
+        {
+          "function": "digest",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "fetch",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "toJson",
+          "url": "cloudflare-internal:d1-api",
+          "line": 616,
+          "samples": 1
+        },
+        {
+          "function": "_sendOrThrow",
+          "url": "cloudflare-internal:d1-api",
+          "line": 188,
+          "samples": 1
+        },
+        {
+          "function": "resolveSocialUser",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 95,
+          "samples": 1
+        },
+        {
+          "function": "_send",
+          "url": "cloudflare-internal:d1-api",
+          "line": 201,
+          "samples": 1
+        },
+        {
+          "function": "Transform",
+          "url": "node-internal:streams_transform",
+          "line": 85,
+          "samples": 1
+        },
+        {
+          "function": "digest",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "lP",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 379,
+          "samples": 1
+        }
+      ],
+      "metrics": [
+        {
+          "operation": "8-new-web",
+          "metric": "application_headers",
+          "authTimings": [
+            {
+              "stage": "middleware",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "request.parse",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.public_key",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.signature",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.claims",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "provider.lookup",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "d1.revocation",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "d1.provision",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "session.encrypt",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "session.create",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "json.serialization",
+              "elapsedMs": 0,
+              "ok": true
+            }
+          ],
+          "routePattern": "^\\/api\\/auth\\/firebase\\/session\\/?$",
+          "method": "POST",
+          "route": "/api/auth",
+          "status": 200,
+          "wallMs": 8,
+          "d1Calls": 7,
+          "statements": 14,
+          "rowsRead": 7,
+          "rowsWritten": 21,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ]
+    },
+    {
+      "operation": "9-new-web",
+      "status": 200,
+      "wallMs": 10.846083999999792,
+      "profile": "9-new-web.cpuprofile",
+      "samples": 21,
+      "profileDurationMs": 33.141,
+      "topSelf": [
+        {
+          "function": "(idle)",
+          "url": "",
+          "line": 0,
+          "samples": 2
+        },
+        {
+          "function": "get process",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "formatPathname",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 5,
+          "samples": 1
+        },
+        {
+          "function": "Me",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 39,
+          "samples": 1
+        },
+        {
+          "function": "eJ",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 447,
+          "samples": 1
+        },
+        {
+          "function": "fRe",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 377,
+          "samples": 1
+        },
+        {
+          "function": "rG",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 377,
+          "samples": 1
+        },
+        {
+          "function": "(program)",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "MS",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 447,
+          "samples": 1
+        },
+        {
+          "function": "addD1MetaToSpan",
+          "url": "cloudflare-internal:d1-api",
+          "line": 632,
+          "samples": 1
+        },
+        {
+          "function": "get",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "Headers",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "fetch",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "bind",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 5,
+          "samples": 1
+        },
+        {
+          "function": "HashHandle",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "Cipheriv.getAuthTag",
+          "url": "node-internal:crypto_cipher",
+          "line": 135,
+          "samples": 1
+        },
+        {
+          "function": "fetch",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "lP",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 379,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 1327,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        }
+      ],
+      "metrics": [
+        {
+          "operation": "9-new-web",
+          "metric": "application_headers",
+          "authTimings": [
+            {
+              "stage": "middleware",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "request.parse",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.public_key",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.signature",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "jwt.claims",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "provider.lookup",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "d1.revocation",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "d1.provision",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "session.encrypt",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "session.create",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "json.serialization",
+              "elapsedMs": 1,
+              "ok": true
+            }
+          ],
+          "routePattern": "^\\/api\\/auth\\/firebase\\/session\\/?$",
+          "method": "POST",
+          "route": "/api/auth",
+          "status": 200,
+          "wallMs": 8,
+          "d1Calls": 7,
+          "statements": 14,
+          "rowsRead": 7,
+          "rowsWritten": 21,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ]
+    },
+    {
+      "operation": "10-new-web",
+      "status": 200,
+      "wallMs": 10.295541999999841,
+      "profile": "10-new-web.cpuprofile",
+      "samples": 20,
+      "profileDurationMs": 31.848,
+      "topSelf": [
+        {
+          "function": "(program)",
+          "url": "",
+          "line": 0,
+          "samples": 3
+        },
+        {
+          "function": "(idle)",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "fetch",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 1327,
+          "samples": 1
+        },
+        {
+          "function": "analyze",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 5,
+          "samples": 1
+        },
+        {
+          "function": "t._zod.parse",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 89,
+          "samples": 1
+        },
+        {
+          "function": "fRe",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 377,
+          "samples": 1
+        },
+        {
+          "function": "timeout",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "ReadableState",
+          "url": "node-internal:streams_readable",
+          "line": 260,
+          "samples": 1
+        },
+        {
+          "function": "enterSpan",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "enterSpan",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "now",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "all",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 2,
+          "samples": 1
+        },
+        {
+          "function": "createHmac",
+          "url": "node-internal:crypto_hash",
+          "line": 109,
+          "samples": 1
+        },
+        {
+          "function": "Cipheriv.update",
+          "url": "node-internal:crypto_cipher",
+          "line": 81,
+          "samples": 1
+        },
+        {
+          "function": "fetch",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "setAttributes",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "Response",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        }
+      ],
+      "metrics": [
+        {
+          "operation": "10-new-web",
+          "metric": "application_headers",
+          "authTimings": [
+            {
+              "stage": "middleware",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "request.parse",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.public_key",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.signature",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.claims",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "provider.lookup",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "d1.revocation",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "d1.provision",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "session.encrypt",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "session.create",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "json.serialization",
+              "elapsedMs": 0,
+              "ok": true
+            }
+          ],
+          "routePattern": "^\\/api\\/auth\\/firebase\\/session\\/?$",
+          "method": "POST",
+          "route": "/api/auth",
+          "status": 200,
+          "wallMs": 7,
+          "d1Calls": 7,
+          "statements": 14,
+          "rowsRead": 7,
+          "rowsWritten": 21,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ]
+    },
+    {
+      "operation": "11-new-web",
+      "status": 200,
+      "wallMs": 9.860125000000153,
+      "profile": "11-new-web.cpuprofile",
+      "samples": 20,
+      "profileDurationMs": 31.922,
+      "topSelf": [
+        {
+          "function": "(program)",
+          "url": "",
+          "line": 0,
+          "samples": 2
+        },
+        {
+          "function": "(idle)",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "wf",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 5,
+          "samples": 1
+        },
+        {
+          "function": "vpe",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 5,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 1327,
+          "samples": 1
+        },
+        {
+          "function": "t._zod.parse",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 89,
+          "samples": 1
+        },
+        {
+          "function": "get type",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "fetch",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "fromString",
+          "url": "node-internal:internal_buffer",
+          "line": 147,
+          "samples": 1
+        },
+        {
+          "function": "withSpan",
+          "url": "cloudflare-internal:tracing-helpers",
+          "line": 34,
+          "samples": 1
+        },
+        {
+          "function": "withSpan",
+          "url": "cloudflare-internal:tracing-helpers",
+          "line": 34,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "cloudflare-internal:d1-api",
+          "line": 464,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "fetch",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "toString",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "newHandle",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "setAttributes",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "cloudflare-internal:d1-api",
+          "line": 122,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        }
+      ],
+      "metrics": [
+        {
+          "operation": "11-new-web",
+          "metric": "application_headers",
+          "authTimings": [
+            {
+              "stage": "middleware",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "request.parse",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.public_key",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.signature",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.claims",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "provider.lookup",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "d1.revocation",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "d1.provision",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "session.encrypt",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "session.create",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "json.serialization",
+              "elapsedMs": 0,
+              "ok": true
+            }
+          ],
+          "routePattern": "^\\/api\\/auth\\/firebase\\/session\\/?$",
+          "method": "POST",
+          "route": "/api/auth",
+          "status": 200,
+          "wallMs": 7,
+          "d1Calls": 7,
+          "statements": 14,
+          "rowsRead": 7,
+          "rowsWritten": 21,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ]
+    },
+    {
+      "operation": "12-new-web",
+      "status": 200,
+      "wallMs": 14.220000000000255,
+      "profile": "12-new-web.cpuprofile",
+      "samples": 51,
+      "profileDurationMs": 36.874,
+      "topSelf": [
+        {
+          "function": "(garbage collector)",
+          "url": "",
+          "line": 0,
+          "samples": 29
+        },
+        {
+          "function": "(program)",
+          "url": "",
+          "line": 0,
+          "samples": 5
+        },
+        {
+          "function": "(idle)",
+          "url": "",
+          "line": 0,
+          "samples": 3
+        },
+        {
+          "function": "analyze",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 5,
+          "samples": 1
+        },
+        {
+          "function": "aTe",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 806,
+          "samples": 1
+        },
+        {
+          "function": "F4",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 40,
+          "samples": 1
+        },
+        {
+          "function": "get type",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "timeout",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "t._zod.parse",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 89,
+          "samples": 1
+        },
+        {
+          "function": "digest",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "_send",
+          "url": "cloudflare-internal:d1-api",
+          "line": 201,
+          "samples": 1
+        },
+        {
+          "function": "_wrappedFetch",
+          "url": "cloudflare-internal:d1-api",
+          "line": 167,
+          "samples": 1
+        },
+        {
+          "function": "batch",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 5,
+          "samples": 1
+        },
+        {
+          "function": "Qn",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 95,
+          "samples": 1
+        },
+        {
+          "function": "update",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "Tf",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 12,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        }
+      ],
+      "metrics": [
+        {
+          "operation": "12-new-web",
+          "metric": "application_headers",
+          "authTimings": [
+            {
+              "stage": "middleware",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "request.parse",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.public_key",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.signature",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.claims",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "provider.lookup",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "d1.revocation",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "d1.provision",
+              "elapsedMs": 6,
+              "ok": true
+            },
+            {
+              "stage": "session.encrypt",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "session.create",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "json.serialization",
+              "elapsedMs": 0,
+              "ok": true
+            }
+          ],
+          "routePattern": "^\\/api\\/auth\\/firebase\\/session\\/?$",
+          "method": "POST",
+          "route": "/api/auth",
+          "status": 200,
+          "wallMs": 11,
+          "d1Calls": 7,
+          "statements": 14,
+          "rowsRead": 7,
+          "rowsWritten": 21,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ]
+    },
+    {
+      "operation": "13-new-web",
+      "status": 200,
+      "wallMs": 8.604792000000089,
+      "profile": "13-new-web.cpuprofile",
+      "samples": 15,
+      "profileDurationMs": 27.824,
+      "topSelf": [
+        {
+          "function": "(idle)",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "vpe",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 5,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 1327,
+          "samples": 1
+        },
+        {
+          "function": "(program)",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "gRe",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 377,
+          "samples": 1
+        },
+        {
+          "function": "JW",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 377,
+          "samples": 1
+        },
+        {
+          "function": "n",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 89,
+          "samples": 1
+        },
+        {
+          "function": "fetch",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "fetch",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "text",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "fetch",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "Transform",
+          "url": "node-internal:streams_transform",
+          "line": 85,
+          "samples": 1
+        },
+        {
+          "function": "encode",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "set",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        }
+      ],
+      "metrics": [
+        {
+          "operation": "13-new-web",
+          "metric": "application_headers",
+          "authTimings": [
+            {
+              "stage": "middleware",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "request.parse",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.public_key",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.signature",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.claims",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "provider.lookup",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "d1.revocation",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "d1.provision",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "session.encrypt",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "session.create",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "json.serialization",
+              "elapsedMs": 0,
+              "ok": true
+            }
+          ],
+          "routePattern": "^\\/api\\/auth\\/firebase\\/session\\/?$",
+          "method": "POST",
+          "route": "/api/auth",
+          "status": 200,
+          "wallMs": 6,
+          "d1Calls": 7,
+          "statements": 14,
+          "rowsRead": 7,
+          "rowsWritten": 21,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ]
+    },
+    {
+      "operation": "14-new-web",
+      "status": 200,
+      "wallMs": 7.7364159999997355,
+      "profile": "14-new-web.cpuprofile",
+      "samples": 13,
+      "profileDurationMs": 27.162,
+      "topSelf": [
+        {
+          "function": "(program)",
+          "url": "",
+          "line": 0,
+          "samples": 2
+        },
+        {
+          "function": "(idle)",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "entries",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "Pb",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 377,
+          "samples": 1
+        },
+        {
+          "function": "AE",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 377,
+          "samples": 1
+        },
+        {
+          "function": "fromArrayLike",
+          "url": "node-internal:internal_buffer",
+          "line": 161,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 447,
+          "samples": 1
+        },
+        {
+          "function": "setAttributes",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "fetch",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "wB",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 39,
+          "samples": 1
+        },
+        {
+          "function": "Ze",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 2,
+          "samples": 1
+        },
+        {
+          "function": "get pathname",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 5,
+          "samples": 1
+        }
+      ],
+      "metrics": [
+        {
+          "operation": "14-new-web",
+          "metric": "application_headers",
+          "authTimings": [
+            {
+              "stage": "middleware",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "request.parse",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.public_key",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.signature",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.claims",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "provider.lookup",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "d1.revocation",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "d1.provision",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "session.encrypt",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "session.create",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "json.serialization",
+              "elapsedMs": 0,
+              "ok": true
+            }
+          ],
+          "routePattern": "^\\/api\\/auth\\/firebase\\/session\\/?$",
+          "method": "POST",
+          "route": "/api/auth",
+          "status": 200,
+          "wallMs": 5,
+          "d1Calls": 7,
+          "statements": 14,
+          "rowsRead": 7,
+          "rowsWritten": 21,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ]
+    },
+    {
+      "operation": "15-new-web",
+      "status": 200,
+      "wallMs": 7.823957999999948,
+      "profile": "15-new-web.cpuprofile",
+      "samples": 14,
+      "profileDurationMs": 27.597,
+      "topSelf": [
+        {
+          "function": "(program)",
+          "url": "",
+          "line": 0,
+          "samples": 4
+        },
+        {
+          "function": "(idle)",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 1327,
+          "samples": 1
+        },
+        {
+          "function": "decode",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "bind",
+          "url": "cloudflare-internal:d1-api",
+          "line": 370,
+          "samples": 1
+        },
+        {
+          "function": "fetch",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "resolveSocialUser",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 95,
+          "samples": 1
+        },
+        {
+          "function": "toJson",
+          "url": "cloudflare-internal:d1-api",
+          "line": 616,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "Duplex",
+          "url": "node-internal:streams_duplex",
+          "line": 89,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        }
+      ],
+      "metrics": [
+        {
+          "operation": "15-new-web",
+          "metric": "application_headers",
+          "authTimings": [
+            {
+              "stage": "middleware",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "request.parse",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.public_key",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.signature",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "jwt.claims",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "provider.lookup",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "d1.revocation",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "d1.provision",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "session.encrypt",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "session.create",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "json.serialization",
+              "elapsedMs": 0,
+              "ok": true
+            }
+          ],
+          "routePattern": "^\\/api\\/auth\\/firebase\\/session\\/?$",
+          "method": "POST",
+          "route": "/api/auth",
+          "status": 200,
+          "wallMs": 6,
+          "d1Calls": 7,
+          "statements": 14,
+          "rowsRead": 7,
+          "rowsWritten": 21,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ]
+    },
+    {
+      "operation": "16-new-web",
+      "status": 200,
+      "wallMs": 8.255291000000398,
+      "profile": "16-new-web.cpuprofile",
+      "samples": 16,
+      "profileDurationMs": 28.737,
+      "topSelf": [
+        {
+          "function": "(program)",
+          "url": "",
+          "line": 0,
+          "samples": 2
+        },
+        {
+          "function": "(idle)",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "Response",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "Pb",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 377,
+          "samples": 1
+        },
+        {
+          "function": "timeout",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "vR",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 44,
+          "samples": 1
+        },
+        {
+          "function": "fetch",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "J_e",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 447,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "cloudflare-internal:d1-api",
+          "line": 180,
+          "samples": 1
+        },
+        {
+          "function": "toJson",
+          "url": "cloudflare-internal:d1-api",
+          "line": 616,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "cloudflare-internal:d1-api",
+          "line": 223,
+          "samples": 1
+        },
+        {
+          "function": "Duplex",
+          "url": "node-internal:streams_duplex",
+          "line": 89,
+          "samples": 1
+        },
+        {
+          "function": "fetch",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "lP",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 379,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        }
+      ],
+      "metrics": [
+        {
+          "operation": "16-new-web",
+          "metric": "application_headers",
+          "authTimings": [
+            {
+              "stage": "middleware",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "request.parse",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.public_key",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.signature",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.claims",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "provider.lookup",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "d1.revocation",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "d1.provision",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "session.encrypt",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "session.create",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "json.serialization",
+              "elapsedMs": 0,
+              "ok": true
+            }
+          ],
+          "routePattern": "^\\/api\\/auth\\/firebase\\/session\\/?$",
+          "method": "POST",
+          "route": "/api/auth",
+          "status": 200,
+          "wallMs": 7,
+          "d1Calls": 7,
+          "statements": 14,
+          "rowsRead": 7,
+          "rowsWritten": 21,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ]
+    },
+    {
+      "operation": "17-new-web",
+      "status": 200,
+      "wallMs": 7.805208000000675,
+      "profile": "17-new-web.cpuprofile",
+      "samples": 13,
+      "profileDurationMs": 28.531,
+      "topSelf": [
+        {
+          "function": "(idle)",
+          "url": "",
+          "line": 0,
+          "samples": 2
+        },
+        {
+          "function": "wf",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 5,
+          "samples": 1
+        },
+        {
+          "function": "iE",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 1205,
+          "samples": 1
+        },
+        {
+          "function": "verify",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "setAttributes",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "toJson",
+          "url": "cloudflare-internal:d1-api",
+          "line": 616,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "cloudflare-internal:d1-api",
+          "line": 464,
+          "samples": 1
+        },
+        {
+          "function": "i",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 2,
+          "samples": 1
+        },
+        {
+          "function": "fetch",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "Duplex",
+          "url": "node-internal:streams_duplex",
+          "line": 89,
+          "samples": 1
+        },
+        {
+          "function": "json",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        }
+      ],
+      "metrics": [
+        {
+          "operation": "17-new-web",
+          "metric": "application_headers",
+          "authTimings": [
+            {
+              "stage": "middleware",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "request.parse",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.public_key",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.signature",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.claims",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "provider.lookup",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "d1.revocation",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "d1.provision",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "session.encrypt",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "session.create",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "json.serialization",
+              "elapsedMs": 0,
+              "ok": true
+            }
+          ],
+          "routePattern": "^\\/api\\/auth\\/firebase\\/session\\/?$",
+          "method": "POST",
+          "route": "/api/auth",
+          "status": 200,
+          "wallMs": 5,
+          "d1Calls": 7,
+          "statements": 14,
+          "rowsRead": 7,
+          "rowsWritten": 21,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ]
+    },
+    {
+      "operation": "18-new-web",
+      "status": 200,
+      "wallMs": 10.01220900000044,
+      "profile": "18-new-web.cpuprofile",
+      "samples": 19,
+      "profileDurationMs": 30.724,
+      "topSelf": [
+        {
+          "function": "(idle)",
+          "url": "",
+          "line": 0,
+          "samples": 2
+        },
+        {
+          "function": "(program)",
+          "url": "",
+          "line": 0,
+          "samples": 2
+        },
+        {
+          "function": "Request",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "t",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 95,
+          "samples": 1
+        },
+        {
+          "function": "verify",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "fetch",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "decodeString",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "URL",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "URL",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "cloudflare-internal:d1-api",
+          "line": 464,
+          "samples": 1
+        },
+        {
+          "function": "fetch",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "D1PreparedStatement",
+          "url": "cloudflare-internal:d1-api",
+          "line": 365,
+          "samples": 1
+        },
+        {
+          "function": "setAttributes",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "getIv",
+          "url": "node-internal:crypto_cipher",
+          "line": 59,
+          "samples": 1
+        },
+        {
+          "function": "_send",
+          "url": "cloudflare-internal:d1-api",
+          "line": 201,
+          "samples": 1
+        },
+        {
+          "function": "eJ",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 447,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        }
+      ],
+      "metrics": [
+        {
+          "operation": "18-new-web",
+          "metric": "application_headers",
+          "authTimings": [
+            {
+              "stage": "middleware",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "request.parse",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.public_key",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.signature",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.claims",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "provider.lookup",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "d1.revocation",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "d1.provision",
+              "elapsedMs": 3,
+              "ok": true
+            },
+            {
+              "stage": "session.encrypt",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "session.create",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "json.serialization",
+              "elapsedMs": 0,
+              "ok": true
+            }
+          ],
+          "routePattern": "^\\/api\\/auth\\/firebase\\/session\\/?$",
+          "method": "POST",
+          "route": "/api/auth",
+          "status": 200,
+          "wallMs": 8,
+          "d1Calls": 7,
+          "statements": 14,
+          "rowsRead": 7,
+          "rowsWritten": 21,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ]
+    },
+    {
+      "operation": "19-new-web",
+      "status": 200,
+      "wallMs": 9.488666999999623,
+      "profile": "19-new-web.cpuprofile",
+      "samples": 17,
+      "profileDurationMs": 30.936,
+      "topSelf": [
+        {
+          "function": "(idle)",
+          "url": "",
+          "line": 0,
+          "samples": 2
+        },
+        {
+          "function": "enterSpan",
+          "url": "",
+          "line": 0,
+          "samples": 2
+        },
+        {
+          "function": "fetch",
+          "url": "",
+          "line": 0,
+          "samples": 2
+        },
+        {
+          "function": "l",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 1327,
+          "samples": 1
+        },
+        {
+          "function": "gde",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 1311,
+          "samples": 1
+        },
+        {
+          "function": "json",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "zs",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 377,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 447,
+          "samples": 1
+        },
+        {
+          "function": "n",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 89,
+          "samples": 1
+        },
+        {
+          "function": "Headers",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "setAttributes",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "update",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "text",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 1327,
+          "samples": 1
+        }
+      ],
+      "metrics": [
+        {
+          "operation": "19-new-web",
+          "metric": "application_headers",
+          "authTimings": [
+            {
+              "stage": "middleware",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "request.parse",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.public_key",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.signature",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.claims",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "provider.lookup",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "d1.revocation",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "d1.provision",
+              "elapsedMs": 3,
+              "ok": true
+            },
+            {
+              "stage": "session.encrypt",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "session.create",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "json.serialization",
+              "elapsedMs": 0,
+              "ok": true
+            }
+          ],
+          "routePattern": "^\\/api\\/auth\\/firebase\\/session\\/?$",
+          "method": "POST",
+          "route": "/api/auth",
+          "status": 200,
+          "wallMs": 7,
+          "d1Calls": 7,
+          "statements": 14,
+          "rowsRead": 7,
+          "rowsWritten": 21,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ]
+    },
+    {
+      "operation": "20-new-web",
+      "status": 200,
+      "wallMs": 8.120665999999801,
+      "profile": "20-new-web.cpuprofile",
+      "samples": 15,
+      "profileDurationMs": 29.076,
+      "topSelf": [
+        {
+          "function": "(idle)",
+          "url": "",
+          "line": 0,
+          "samples": 2
+        },
+        {
+          "function": "fetch",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 1327,
+          "samples": 1
+        },
+        {
+          "function": "get protocol",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 5,
+          "samples": 1
+        },
+        {
+          "function": "get algorithm",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "fetch",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "fromArrayBuffer",
+          "url": "node-internal:internal_buffer",
+          "line": 165,
+          "samples": 1
+        },
+        {
+          "function": "enterSpan",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "fetch",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "setAttributes",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "Hash.update",
+          "url": "node-internal:crypto_hash",
+          "line": 77,
+          "samples": 1
+        },
+        {
+          "function": "Ze",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 2,
+          "samples": 1
+        },
+        {
+          "function": "aggregateD1Meta",
+          "url": "cloudflare-internal:d1-api",
+          "line": 650,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        }
+      ],
+      "metrics": [
+        {
+          "operation": "20-new-web",
+          "metric": "application_headers",
+          "authTimings": [
+            {
+              "stage": "middleware",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "request.parse",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.public_key",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.signature",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.claims",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "provider.lookup",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "d1.revocation",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "d1.provision",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "session.encrypt",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "session.create",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "json.serialization",
+              "elapsedMs": 0,
+              "ok": true
+            }
+          ],
+          "routePattern": "^\\/api\\/auth\\/firebase\\/session\\/?$",
+          "method": "POST",
+          "route": "/api/auth",
+          "status": 200,
+          "wallMs": 6,
+          "d1Calls": 7,
+          "statements": 14,
+          "rowsRead": 7,
+          "rowsWritten": 21,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ]
+    },
+    {
+      "operation": "21-existing-web",
+      "status": 200,
+      "wallMs": 9.21337500000027,
+      "profile": "21-existing-web.cpuprofile",
+      "samples": 18,
+      "profileDurationMs": 30.872,
+      "topSelf": [
+        {
+          "function": "",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 1327,
+          "samples": 2
+        },
+        {
+          "function": "",
+          "url": "",
+          "line": 0,
+          "samples": 2
+        },
+        {
+          "function": "fetch",
+          "url": "",
+          "line": 0,
+          "samples": 2
+        },
+        {
+          "function": "(idle)",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "DI",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 12,
+          "samples": 1
+        },
+        {
+          "function": "Ype",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 12,
+          "samples": 1
+        },
+        {
+          "function": "(garbage collector)",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "TI",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 12,
+          "samples": 1
+        },
+        {
+          "function": "zE",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 39,
+          "samples": 1
+        },
+        {
+          "function": "verify",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "MS",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 447,
+          "samples": 1
+        },
+        {
+          "function": "resolveSocialUser",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 95,
+          "samples": 1
+        },
+        {
+          "function": "toJson",
+          "url": "cloudflare-internal:d1-api",
+          "line": 616,
+          "samples": 1
+        },
+        {
+          "function": "toJson",
+          "url": "cloudflare-internal:d1-api",
+          "line": 616,
+          "samples": 1
+        },
+        {
+          "function": "final",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        }
+      ],
+      "metrics": [
+        {
+          "operation": "21-existing-web",
+          "metric": "application_headers",
+          "authTimings": [
+            {
+              "stage": "middleware",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "request.parse",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.public_key",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.signature",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.claims",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "provider.lookup",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "d1.revocation",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "d1.provision",
+              "elapsedMs": 3,
+              "ok": true
+            },
+            {
+              "stage": "session.encrypt",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "session.create",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "json.serialization",
+              "elapsedMs": 0,
+              "ok": true
+            }
+          ],
+          "routePattern": "^\\/api\\/auth\\/firebase\\/session\\/?$",
+          "method": "POST",
+          "route": "/api/auth",
+          "status": 200,
+          "wallMs": 7,
+          "d1Calls": 7,
+          "statements": 14,
+          "rowsRead": 14,
+          "rowsWritten": 15,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ]
+    },
+    {
+      "operation": "22-existing-web",
+      "status": 200,
+      "wallMs": 8.940042000000176,
+      "profile": "22-existing-web.cpuprofile",
+      "samples": 17,
+      "profileDurationMs": 31.102,
+      "topSelf": [
+        {
+          "function": "(idle)",
+          "url": "",
+          "line": 0,
+          "samples": 2
+        },
+        {
+          "function": "now",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "analyze",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 5,
+          "samples": 1
+        },
+        {
+          "function": "get pathname",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 5,
+          "samples": 1
+        },
+        {
+          "function": "rG",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 377,
+          "samples": 1
+        },
+        {
+          "function": "verify",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "prepare",
+          "url": "cloudflare-internal:d1-api",
+          "line": 30,
+          "samples": 1
+        },
+        {
+          "function": "toJson",
+          "url": "cloudflare-internal:d1-api",
+          "line": 616,
+          "samples": 1
+        },
+        {
+          "function": "getBookmark",
+          "url": "cloudflare-internal:d1-api",
+          "line": 271,
+          "samples": 1
+        },
+        {
+          "function": "fetch",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "_send",
+          "url": "cloudflare-internal:d1-api",
+          "line": 201,
+          "samples": 1
+        },
+        {
+          "function": "mapD1Result",
+          "url": "cloudflare-internal:d1-api",
+          "line": 602,
+          "samples": 1
+        },
+        {
+          "function": "Hash.update",
+          "url": "node-internal:crypto_hash",
+          "line": 77,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 2,
+          "samples": 1
+        },
+        {
+          "function": "set",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        }
+      ],
+      "metrics": [
+        {
+          "operation": "22-existing-web",
+          "metric": "application_headers",
+          "authTimings": [
+            {
+              "stage": "middleware",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "request.parse",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.public_key",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.signature",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.claims",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "provider.lookup",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "d1.revocation",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "d1.provision",
+              "elapsedMs": 3,
+              "ok": true
+            },
+            {
+              "stage": "session.encrypt",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "session.create",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "json.serialization",
+              "elapsedMs": 0,
+              "ok": true
+            }
+          ],
+          "routePattern": "^\\/api\\/auth\\/firebase\\/session\\/?$",
+          "method": "POST",
+          "route": "/api/auth",
+          "status": 200,
+          "wallMs": 7,
+          "d1Calls": 7,
+          "statements": 14,
+          "rowsRead": 14,
+          "rowsWritten": 15,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ]
+    },
+    {
+      "operation": "23-existing-web",
+      "status": 200,
+      "wallMs": 8.868208000000777,
+      "profile": "23-existing-web.cpuprofile",
+      "samples": 13,
+      "profileDurationMs": 31.271,
+      "topSelf": [
+        {
+          "function": "(idle)",
+          "url": "",
+          "line": 0,
+          "samples": 2
+        },
+        {
+          "function": "run",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "(program)",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "json",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 377,
+          "samples": 1
+        },
+        {
+          "function": "JW",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 377,
+          "samples": 1
+        },
+        {
+          "function": "t._zod.parse",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 89,
+          "samples": 1
+        },
+        {
+          "function": "withSpan",
+          "url": "cloudflare-internal:tracing-helpers",
+          "line": 34,
+          "samples": 1
+        },
+        {
+          "function": "randomFillSync",
+          "url": "node-internal:crypto_random",
+          "line": 43,
+          "samples": 1
+        },
+        {
+          "function": "Ze",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 2,
+          "samples": 1
+        },
+        {
+          "function": "lP",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 379,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        }
+      ],
+      "metrics": [
+        {
+          "operation": "23-existing-web",
+          "metric": "application_headers",
+          "authTimings": [
+            {
+              "stage": "middleware",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "request.parse",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.public_key",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.signature",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.claims",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "provider.lookup",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "d1.revocation",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "d1.provision",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "session.encrypt",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "session.create",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "json.serialization",
+              "elapsedMs": 0,
+              "ok": true
+            }
+          ],
+          "routePattern": "^\\/api\\/auth\\/firebase\\/session\\/?$",
+          "method": "POST",
+          "route": "/api/auth",
+          "status": 200,
+          "wallMs": 6,
+          "d1Calls": 7,
+          "statements": 14,
+          "rowsRead": 14,
+          "rowsWritten": 15,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ]
+    },
+    {
+      "operation": "24-existing-web",
+      "status": 200,
+      "wallMs": 8.840457999999671,
+      "profile": "24-existing-web.cpuprofile",
+      "samples": 14,
+      "profileDurationMs": 31.166,
+      "topSelf": [
+        {
+          "function": "(idle)",
+          "url": "",
+          "line": 0,
+          "samples": 2
+        },
+        {
+          "function": "entries",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "t",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 12,
+          "samples": 1
+        },
+        {
+          "function": "get algorithm",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "fetch",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "Hmac.digest",
+          "url": "node-internal:crypto_hash",
+          "line": 155,
+          "samples": 1
+        },
+        {
+          "function": "fetch",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "one",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 95,
+          "samples": 1
+        },
+        {
+          "function": "HashHandle",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "createSession",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 95,
+          "samples": 1
+        },
+        {
+          "function": "toJson",
+          "url": "cloudflare-internal:d1-api",
+          "line": 616,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 1327,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        }
+      ],
+      "metrics": [
+        {
+          "operation": "24-existing-web",
+          "metric": "application_headers",
+          "authTimings": [
+            {
+              "stage": "middleware",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "request.parse",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "jwt.public_key",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.signature",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.claims",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "provider.lookup",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "d1.revocation",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "d1.provision",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "session.encrypt",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "session.create",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "json.serialization",
+              "elapsedMs": 0,
+              "ok": true
+            }
+          ],
+          "routePattern": "^\\/api\\/auth\\/firebase\\/session\\/?$",
+          "method": "POST",
+          "route": "/api/auth",
+          "status": 200,
+          "wallMs": 7,
+          "d1Calls": 7,
+          "statements": 14,
+          "rowsRead": 14,
+          "rowsWritten": 15,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ]
+    },
+    {
+      "operation": "25-existing-web",
+      "status": 200,
+      "wallMs": 7.827291999999943,
+      "profile": "25-existing-web.cpuprofile",
+      "samples": 15,
+      "profileDurationMs": 30.017,
+      "topSelf": [
+        {
+          "function": "(idle)",
+          "url": "",
+          "line": 0,
+          "samples": 3
+        },
+        {
+          "function": "t",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 5,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 1327,
+          "samples": 1
+        },
+        {
+          "function": "(program)",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "get algorithm",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "fetch",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "t._zod.parse",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 44,
+          "samples": 1
+        },
+        {
+          "function": "enterSpan",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "text",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "fetch",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "decodeString",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "bind",
+          "url": "cloudflare-internal:d1-api",
+          "line": 370,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        }
+      ],
+      "metrics": [
+        {
+          "operation": "25-existing-web",
+          "metric": "application_headers",
+          "authTimings": [
+            {
+              "stage": "middleware",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "request.parse",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "jwt.public_key",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.signature",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.claims",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "provider.lookup",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "d1.revocation",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "d1.provision",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "session.encrypt",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "session.create",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "json.serialization",
+              "elapsedMs": 0,
+              "ok": true
+            }
+          ],
+          "routePattern": "^\\/api\\/auth\\/firebase\\/session\\/?$",
+          "method": "POST",
+          "route": "/api/auth",
+          "status": 200,
+          "wallMs": 6,
+          "d1Calls": 7,
+          "statements": 14,
+          "rowsRead": 14,
+          "rowsWritten": 15,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ]
+    },
+    {
+      "operation": "26-existing-web",
+      "status": 200,
+      "wallMs": 8.276625000000422,
+      "profile": "26-existing-web.cpuprofile",
+      "samples": 14,
+      "profileDurationMs": 30.703,
+      "topSelf": [
+        {
+          "function": "(idle)",
+          "url": "",
+          "line": 0,
+          "samples": 3
+        },
+        {
+          "function": "l",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 1327,
+          "samples": 1
+        },
+        {
+          "function": "formatPathname",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 5,
+          "samples": 1
+        },
+        {
+          "function": "verify",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "fromString",
+          "url": "node-internal:internal_buffer",
+          "line": 147,
+          "samples": 1
+        },
+        {
+          "function": "fetch",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "toJson",
+          "url": "cloudflare-internal:d1-api",
+          "line": 616,
+          "samples": 1
+        },
+        {
+          "function": "_wrappedFetch",
+          "url": "cloudflare-internal:d1-api",
+          "line": 167,
+          "samples": 1
+        },
+        {
+          "function": "set",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "Duplex",
+          "url": "node-internal:streams_duplex",
+          "line": 89,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 1327,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        }
+      ],
+      "metrics": [
+        {
+          "operation": "26-existing-web",
+          "metric": "application_headers",
+          "authTimings": [
+            {
+              "stage": "middleware",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "request.parse",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.public_key",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.signature",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.claims",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "provider.lookup",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "d1.revocation",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "d1.provision",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "session.encrypt",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "session.create",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "json.serialization",
+              "elapsedMs": 0,
+              "ok": true
+            }
+          ],
+          "routePattern": "^\\/api\\/auth\\/firebase\\/session\\/?$",
+          "method": "POST",
+          "route": "/api/auth",
+          "status": 200,
+          "wallMs": 6,
+          "d1Calls": 7,
+          "statements": 14,
+          "rowsRead": 14,
+          "rowsWritten": 15,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ]
+    },
+    {
+      "operation": "27-existing-web",
+      "status": 200,
+      "wallMs": 8.711999999999534,
+      "profile": "27-existing-web.cpuprofile",
+      "samples": 14,
+      "profileDurationMs": 31.177,
+      "topSelf": [
+        {
+          "function": "(idle)",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "DI",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 12,
+          "samples": 1
+        },
+        {
+          "function": "t",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 12,
+          "samples": 1
+        },
+        {
+          "function": "verify",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "Hmac.digest",
+          "url": "node-internal:crypto_hash",
+          "line": 155,
+          "samples": 1
+        },
+        {
+          "function": "fetch",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "setAttributes",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "cloudflare-internal:d1-api",
+          "line": 180,
+          "samples": 1
+        },
+        {
+          "function": "setAttributes",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "enterSpan",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "createSecretKey",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "cloudflare-internal:d1-api",
+          "line": 122,
+          "samples": 1
+        },
+        {
+          "function": "lP",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 379,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        }
+      ],
+      "metrics": [
+        {
+          "operation": "27-existing-web",
+          "metric": "application_headers",
+          "authTimings": [
+            {
+              "stage": "middleware",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "request.parse",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.public_key",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.signature",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.claims",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "provider.lookup",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "d1.revocation",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "d1.provision",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "session.encrypt",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "session.create",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "json.serialization",
+              "elapsedMs": 0,
+              "ok": true
+            }
+          ],
+          "routePattern": "^\\/api\\/auth\\/firebase\\/session\\/?$",
+          "method": "POST",
+          "route": "/api/auth",
+          "status": 200,
+          "wallMs": 7,
+          "d1Calls": 7,
+          "statements": 14,
+          "rowsRead": 14,
+          "rowsWritten": 15,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ]
+    },
+    {
+      "operation": "28-existing-web",
+      "status": 200,
+      "wallMs": 8.270166000000245,
+      "profile": "28-existing-web.cpuprofile",
+      "samples": 16,
+      "profileDurationMs": 31.708,
+      "topSelf": [
+        {
+          "function": "(idle)",
+          "url": "",
+          "line": 0,
+          "samples": 3
+        },
+        {
+          "function": "analyze",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 5,
+          "samples": 1
+        },
+        {
+          "function": "Me",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 39,
+          "samples": 1
+        },
+        {
+          "function": "decode",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "JW",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 377,
+          "samples": 1
+        },
+        {
+          "function": "toString",
+          "url": "node-internal:internal_buffer",
+          "line": 348,
+          "samples": 1
+        },
+        {
+          "function": "_wrappedFetch",
+          "url": "cloudflare-internal:d1-api",
+          "line": 167,
+          "samples": 1
+        },
+        {
+          "function": "_send",
+          "url": "cloudflare-internal:d1-api",
+          "line": 201,
+          "samples": 1
+        },
+        {
+          "function": "bind",
+          "url": "cloudflare-internal:d1-api",
+          "line": 370,
+          "samples": 1
+        },
+        {
+          "function": "addAggregatedD1MetaToSpan",
+          "url": "cloudflare-internal:d1-api",
+          "line": 625,
+          "samples": 1
+        },
+        {
+          "function": "HmacHandle",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "Ze",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 2,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 12,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 1327,
+          "samples": 1
+        }
+      ],
+      "metrics": [
+        {
+          "operation": "28-existing-web",
+          "metric": "application_headers",
+          "authTimings": [
+            {
+              "stage": "middleware",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "request.parse",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.public_key",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.signature",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.claims",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "provider.lookup",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "d1.revocation",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "d1.provision",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "session.encrypt",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "session.create",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "json.serialization",
+              "elapsedMs": 0,
+              "ok": true
+            }
+          ],
+          "routePattern": "^\\/api\\/auth\\/firebase\\/session\\/?$",
+          "method": "POST",
+          "route": "/api/auth",
+          "status": 200,
+          "wallMs": 6,
+          "d1Calls": 7,
+          "statements": 14,
+          "rowsRead": 14,
+          "rowsWritten": 15,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ]
+    },
+    {
+      "operation": "29-existing-web",
+      "status": 200,
+      "wallMs": 9.110791000000063,
+      "profile": "29-existing-web.cpuprofile",
+      "samples": 15,
+      "profileDurationMs": 33.285,
+      "topSelf": [
+        {
+          "function": "(idle)",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "(program)",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "TI",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 12,
+          "samples": 1
+        },
+        {
+          "function": "rn",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 447,
+          "samples": 1
+        },
+        {
+          "function": "Pb",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 377,
+          "samples": 1
+        },
+        {
+          "function": "JW",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 377,
+          "samples": 1
+        },
+        {
+          "function": "_from",
+          "url": "node-internal:internal_buffer",
+          "line": 101,
+          "samples": 1
+        },
+        {
+          "function": "fetch",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "_send",
+          "url": "cloudflare-internal:d1-api",
+          "line": 201,
+          "samples": 1
+        },
+        {
+          "function": "_wrappedFetch",
+          "url": "cloudflare-internal:d1-api",
+          "line": 167,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "cloudflare-internal:d1-api",
+          "line": 122,
+          "samples": 1
+        },
+        {
+          "function": "_from",
+          "url": "node-internal:internal_buffer",
+          "line": 101,
+          "samples": 1
+        },
+        {
+          "function": "Ze",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 2,
+          "samples": 1
+        },
+        {
+          "function": "set",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        }
+      ],
+      "metrics": [
+        {
+          "operation": "29-existing-web",
+          "metric": "application_headers",
+          "authTimings": [
+            {
+              "stage": "middleware",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "request.parse",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.public_key",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.signature",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.claims",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "provider.lookup",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "d1.revocation",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "d1.provision",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "session.encrypt",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "session.create",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "json.serialization",
+              "elapsedMs": 0,
+              "ok": true
+            }
+          ],
+          "routePattern": "^\\/api\\/auth\\/firebase\\/session\\/?$",
+          "method": "POST",
+          "route": "/api/auth",
+          "status": 200,
+          "wallMs": 7,
+          "d1Calls": 7,
+          "statements": 14,
+          "rowsRead": 14,
+          "rowsWritten": 15,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ]
+    },
+    {
+      "operation": "30-existing-web",
+      "status": 200,
+      "wallMs": 14.376417000000401,
+      "profile": "30-existing-web.cpuprofile",
+      "samples": 18,
+      "profileDurationMs": 37.366,
+      "topSelf": [
+        {
+          "function": "(idle)",
+          "url": "",
+          "line": 0,
+          "samples": 4
+        },
+        {
+          "function": "fetch",
+          "url": "",
+          "line": 0,
+          "samples": 2
+        },
+        {
+          "function": "l",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 1327,
+          "samples": 1
+        },
+        {
+          "function": "TI",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 12,
+          "samples": 1
+        },
+        {
+          "function": "json",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "zs",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 377,
+          "samples": 1
+        },
+        {
+          "function": "L3",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 377,
+          "samples": 1
+        },
+        {
+          "function": "json",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "Hmac",
+          "url": "node-internal:crypto_hash",
+          "line": 112,
+          "samples": 1
+        },
+        {
+          "function": "setAttributes",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "SW",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 95,
+          "samples": 1
+        },
+        {
+          "function": "digest",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "json",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 12,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        }
+      ],
+      "metrics": [
+        {
+          "operation": "30-existing-web",
+          "metric": "application_headers",
+          "authTimings": [
+            {
+              "stage": "middleware",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "request.parse",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.public_key",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.signature",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.claims",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "provider.lookup",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "d1.revocation",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "d1.provision",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "session.encrypt",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "session.create",
+              "elapsedMs": 6,
+              "ok": true
+            },
+            {
+              "stage": "json.serialization",
+              "elapsedMs": 0,
+              "ok": true
+            }
+          ],
+          "routePattern": "^\\/api\\/auth\\/firebase\\/session\\/?$",
+          "method": "POST",
+          "route": "/api/auth",
+          "status": 200,
+          "wallMs": 11,
+          "d1Calls": 7,
+          "statements": 14,
+          "rowsRead": 14,
+          "rowsWritten": 15,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ]
+    },
+    {
+      "operation": "31-existing-web",
+      "status": 200,
+      "wallMs": 8.508208000000195,
+      "profile": "31-existing-web.cpuprofile",
+      "samples": 17,
+      "profileDurationMs": 32.457,
+      "topSelf": [
+        {
+          "function": "(idle)",
+          "url": "",
+          "line": 0,
+          "samples": 2
+        },
+        {
+          "function": "users",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 5,
+          "samples": 1
+        },
+        {
+          "function": "lue",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 5,
+          "samples": 1
+        },
+        {
+          "function": "Me",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 39,
+          "samples": 1
+        },
+        {
+          "function": "Ln",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 377,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 377,
+          "samples": 1
+        },
+        {
+          "function": "t._zod.parse",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 44,
+          "samples": 1
+        },
+        {
+          "function": "setAttributes",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "toJson",
+          "url": "cloudflare-internal:d1-api",
+          "line": 616,
+          "samples": 1
+        },
+        {
+          "function": "text",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "Headers",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "fetch",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "getStore",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "Ze",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 2,
+          "samples": 1
+        },
+        {
+          "function": "t",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 12,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        }
+      ],
+      "metrics": [
+        {
+          "operation": "31-existing-web",
+          "metric": "application_headers",
+          "authTimings": [
+            {
+              "stage": "middleware",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "request.parse",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.public_key",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.signature",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.claims",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "provider.lookup",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "d1.revocation",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "d1.provision",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "session.encrypt",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "session.create",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "json.serialization",
+              "elapsedMs": 0,
+              "ok": true
+            }
+          ],
+          "routePattern": "^\\/api\\/auth\\/firebase\\/session\\/?$",
+          "method": "POST",
+          "route": "/api/auth",
+          "status": 200,
+          "wallMs": 7,
+          "d1Calls": 7,
+          "statements": 14,
+          "rowsRead": 14,
+          "rowsWritten": 15,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ]
+    },
+    {
+      "operation": "32-existing-web",
+      "status": 200,
+      "wallMs": 8.670500000000175,
+      "profile": "32-existing-web.cpuprofile",
+      "samples": 19,
+      "profileDurationMs": 32.907,
+      "topSelf": [
+        {
+          "function": "(idle)",
+          "url": "",
+          "line": 0,
+          "samples": 2
+        },
+        {
+          "function": "storage",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 5,
+          "samples": 1
+        },
+        {
+          "function": "analyze",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 5,
+          "samples": 1
+        },
+        {
+          "function": "te",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 377,
+          "samples": 1
+        },
+        {
+          "function": "b3",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 377,
+          "samples": 1
+        },
+        {
+          "function": "L3",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 377,
+          "samples": 1
+        },
+        {
+          "function": "t._zod.parse",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 89,
+          "samples": 1
+        },
+        {
+          "function": "_send",
+          "url": "cloudflare-internal:d1-api",
+          "line": 201,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "cloudflare-internal:d1-api",
+          "line": 598,
+          "samples": 1
+        },
+        {
+          "function": "addD1MetaToSpan",
+          "url": "cloudflare-internal:d1-api",
+          "line": 632,
+          "samples": 1
+        },
+        {
+          "function": "(program)",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "fetch",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "toJson",
+          "url": "cloudflare-internal:d1-api",
+          "line": 616,
+          "samples": 1
+        },
+        {
+          "function": "update",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "fetch",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "text",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "next",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "formatLog",
+          "url": "node-internal:internal_inspect",
+          "line": 2381,
+          "samples": 1
+        }
+      ],
+      "metrics": [
+        {
+          "operation": "32-existing-web",
+          "metric": "application_headers",
+          "authTimings": [
+            {
+              "stage": "middleware",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "request.parse",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.public_key",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.signature",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.claims",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "provider.lookup",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "d1.revocation",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "d1.provision",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "session.encrypt",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "session.create",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "json.serialization",
+              "elapsedMs": 0,
+              "ok": true
+            }
+          ],
+          "routePattern": "^\\/api\\/auth\\/firebase\\/session\\/?$",
+          "method": "POST",
+          "route": "/api/auth",
+          "status": 200,
+          "wallMs": 7,
+          "d1Calls": 7,
+          "statements": 14,
+          "rowsRead": 14,
+          "rowsWritten": 15,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ]
+    },
+    {
+      "operation": "33-existing-web",
+      "status": 200,
+      "wallMs": 8.515457999999853,
+      "profile": "33-existing-web.cpuprofile",
+      "samples": 13,
+      "profileDurationMs": 33.602,
+      "topSelf": [
+        {
+          "function": "(idle)",
+          "url": "",
+          "line": 0,
+          "samples": 3
+        },
+        {
+          "function": "entries",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 1327,
+          "samples": 1
+        },
+        {
+          "function": "aTe",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 806,
+          "samples": 1
+        },
+        {
+          "function": "verify",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "HmacHandle",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "_wrappedFetch",
+          "url": "cloudflare-internal:d1-api",
+          "line": 167,
+          "samples": 1
+        },
+        {
+          "function": "s",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 5,
+          "samples": 1
+        },
+        {
+          "function": "getSecretKey",
+          "url": "node-internal:crypto_cipher",
+          "line": 38,
+          "samples": 1
+        },
+        {
+          "function": "_send",
+          "url": "cloudflare-internal:d1-api",
+          "line": 201,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        }
+      ],
+      "metrics": [
+        {
+          "operation": "33-existing-web",
+          "metric": "application_headers",
+          "authTimings": [
+            {
+              "stage": "middleware",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "request.parse",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.public_key",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.signature",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "jwt.claims",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "provider.lookup",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "d1.revocation",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "d1.provision",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "session.encrypt",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "session.create",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "json.serialization",
+              "elapsedMs": 0,
+              "ok": true
+            }
+          ],
+          "routePattern": "^\\/api\\/auth\\/firebase\\/session\\/?$",
+          "method": "POST",
+          "route": "/api/auth",
+          "status": 200,
+          "wallMs": 6,
+          "d1Calls": 7,
+          "statements": 14,
+          "rowsRead": 14,
+          "rowsWritten": 15,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ]
+    },
+    {
+      "operation": "34-existing-web",
+      "status": 200,
+      "wallMs": 7.860332999999628,
+      "profile": "34-existing-web.cpuprofile",
+      "samples": 17,
+      "profileDurationMs": 32.454,
+      "topSelf": [
+        {
+          "function": "(idle)",
+          "url": "",
+          "line": 0,
+          "samples": 4
+        },
+        {
+          "function": "",
+          "url": "",
+          "line": 0,
+          "samples": 2
+        },
+        {
+          "function": "fetch",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 1327,
+          "samples": 1
+        },
+        {
+          "function": "analyze",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 5,
+          "samples": 1
+        },
+        {
+          "function": "aTe",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 806,
+          "samples": 1
+        },
+        {
+          "function": "oRe",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 377,
+          "samples": 1
+        },
+        {
+          "function": "fetch",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "s",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 44,
+          "samples": 1
+        },
+        {
+          "function": "fetch",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "enterSpan",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "get",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "ReadableState",
+          "url": "node-internal:streams_readable",
+          "line": 260,
+          "samples": 1
+        },
+        {
+          "function": "(program)",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        }
+      ],
+      "metrics": [
+        {
+          "operation": "34-existing-web",
+          "metric": "application_headers",
+          "authTimings": [
+            {
+              "stage": "middleware",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "request.parse",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.public_key",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.signature",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.claims",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "provider.lookup",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "d1.revocation",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "d1.provision",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "session.encrypt",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "session.create",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "json.serialization",
+              "elapsedMs": 0,
+              "ok": true
+            }
+          ],
+          "routePattern": "^\\/api\\/auth\\/firebase\\/session\\/?$",
+          "method": "POST",
+          "route": "/api/auth",
+          "status": 200,
+          "wallMs": 5,
+          "d1Calls": 7,
+          "statements": 14,
+          "rowsRead": 14,
+          "rowsWritten": 15,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ]
+    },
+    {
+      "operation": "35-existing-web",
+      "status": 200,
+      "wallMs": 11.390541000000667,
+      "profile": "35-existing-web.cpuprofile",
+      "samples": 45,
+      "profileDurationMs": 36.255,
+      "topSelf": [
+        {
+          "function": "(garbage collector)",
+          "url": "",
+          "line": 0,
+          "samples": 20
+        },
+        {
+          "function": "(program)",
+          "url": "",
+          "line": 0,
+          "samples": 6
+        },
+        {
+          "function": "(idle)",
+          "url": "",
+          "line": 0,
+          "samples": 5
+        },
+        {
+          "function": "lue",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 5,
+          "samples": 1
+        },
+        {
+          "function": "te",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 377,
+          "samples": 1
+        },
+        {
+          "function": "PRe",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 377,
+          "samples": 1
+        },
+        {
+          "function": "fetch",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "t._zod.parse",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 95,
+          "samples": 1
+        },
+        {
+          "function": "addD1MetaToSpan",
+          "url": "cloudflare-internal:d1-api",
+          "line": 632,
+          "samples": 1
+        },
+        {
+          "function": "text",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "linkSocialIdentity",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 95,
+          "samples": 1
+        },
+        {
+          "function": "mapD1Result",
+          "url": "cloudflare-internal:d1-api",
+          "line": 602,
+          "samples": 1
+        },
+        {
+          "function": "update",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "setAttributes",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "cloudflare-internal:d1-api",
+          "line": 223,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        }
+      ],
+      "metrics": [
+        {
+          "operation": "35-existing-web",
+          "metric": "application_headers",
+          "authTimings": [
+            {
+              "stage": "middleware",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "request.parse",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.public_key",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.signature",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.claims",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "provider.lookup",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "d1.revocation",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "d1.provision",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "session.encrypt",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "session.create",
+              "elapsedMs": 4,
+              "ok": true
+            },
+            {
+              "stage": "json.serialization",
+              "elapsedMs": 0,
+              "ok": true
+            }
+          ],
+          "routePattern": "^\\/api\\/auth\\/firebase\\/session\\/?$",
+          "method": "POST",
+          "route": "/api/auth",
+          "status": 200,
+          "wallMs": 9,
+          "d1Calls": 7,
+          "statements": 14,
+          "rowsRead": 14,
+          "rowsWritten": 15,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ]
+    },
+    {
+      "operation": "36-existing-web",
+      "status": 200,
+      "wallMs": 8.715833000000202,
+      "profile": "36-existing-web.cpuprofile",
+      "samples": 19,
+      "profileDurationMs": 30.472,
+      "topSelf": [
+        {
+          "function": "(idle)",
+          "url": "",
+          "line": 0,
+          "samples": 3
+        },
+        {
+          "function": "",
+          "url": "cloudflare-internal:d1-api",
+          "line": 464,
+          "samples": 2
+        },
+        {
+          "function": "DI",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 12,
+          "samples": 1
+        },
+        {
+          "function": "Response",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "verify",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "fetch",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "t._zod.parse",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 89,
+          "samples": 1
+        },
+        {
+          "function": "fetch",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "all",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 5,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "cloudflare-internal:d1-api",
+          "line": 122,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "cloudflare-internal:d1-api",
+          "line": 122,
+          "samples": 1
+        },
+        {
+          "function": "createSecretKey",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 2,
+          "samples": 1
+        },
+        {
+          "function": "firstIfArray",
+          "url": "cloudflare-internal:d1-api",
+          "line": 578,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        }
+      ],
+      "metrics": [
+        {
+          "operation": "36-existing-web",
+          "metric": "application_headers",
+          "authTimings": [
+            {
+              "stage": "middleware",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "request.parse",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.public_key",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.signature",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.claims",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "provider.lookup",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "d1.revocation",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "d1.provision",
+              "elapsedMs": 3,
+              "ok": true
+            },
+            {
+              "stage": "session.encrypt",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "session.create",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "json.serialization",
+              "elapsedMs": 0,
+              "ok": true
+            }
+          ],
+          "routePattern": "^\\/api\\/auth\\/firebase\\/session\\/?$",
+          "method": "POST",
+          "route": "/api/auth",
+          "status": 200,
+          "wallMs": 7,
+          "d1Calls": 7,
+          "statements": 14,
+          "rowsRead": 14,
+          "rowsWritten": 15,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ]
+    },
+    {
+      "operation": "37-existing-web",
+      "status": 200,
+      "wallMs": 8.11658399999942,
+      "profile": "37-existing-web.cpuprofile",
+      "samples": 15,
+      "profileDurationMs": 30.576,
+      "topSelf": [
+        {
+          "function": "(idle)",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "entries",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 1327,
+          "samples": 1
+        },
+        {
+          "function": "DW",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 377,
+          "samples": 1
+        },
+        {
+          "function": "JW",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 377,
+          "samples": 1
+        },
+        {
+          "function": "(program)",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "Qn",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 95,
+          "samples": 1
+        },
+        {
+          "function": "fetch",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "fetch",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "text",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "_sendOrThrow",
+          "url": "cloudflare-internal:d1-api",
+          "line": 188,
+          "samples": 1
+        },
+        {
+          "function": "_from",
+          "url": "node-internal:internal_buffer",
+          "line": 101,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 447,
+          "samples": 1
+        },
+        {
+          "function": "json",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 12,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        }
+      ],
+      "metrics": [
+        {
+          "operation": "37-existing-web",
+          "metric": "application_headers",
+          "authTimings": [
+            {
+              "stage": "middleware",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "request.parse",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.public_key",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.signature",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.claims",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "provider.lookup",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "d1.revocation",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "d1.provision",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "session.encrypt",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "session.create",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "json.serialization",
+              "elapsedMs": 0,
+              "ok": true
+            }
+          ],
+          "routePattern": "^\\/api\\/auth\\/firebase\\/session\\/?$",
+          "method": "POST",
+          "route": "/api/auth",
+          "status": 200,
+          "wallMs": 7,
+          "d1Calls": 7,
+          "statements": 14,
+          "rowsRead": 14,
+          "rowsWritten": 15,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ]
+    },
+    {
+      "operation": "38-existing-web",
+      "status": 200,
+      "wallMs": 8.100458000000799,
+      "profile": "38-existing-web.cpuprofile",
+      "samples": 14,
+      "profileDurationMs": 30.387,
+      "topSelf": [
+        {
+          "function": "(idle)",
+          "url": "",
+          "line": 0,
+          "samples": 2
+        },
+        {
+          "function": "Request",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "t._zod.parse",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 44,
+          "samples": 1
+        },
+        {
+          "function": "verify",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "t._zod.parse",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 44,
+          "samples": 1
+        },
+        {
+          "function": "fromArrayBuffer",
+          "url": "node-internal:internal_buffer",
+          "line": 165,
+          "samples": 1
+        },
+        {
+          "function": "addD1MetaToSpan",
+          "url": "cloudflare-internal:d1-api",
+          "line": 632,
+          "samples": 1
+        },
+        {
+          "function": "text",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "cloudflare-internal:d1-api",
+          "line": 180,
+          "samples": 1
+        },
+        {
+          "function": "cG",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 95,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 2,
+          "samples": 1
+        },
+        {
+          "function": "json",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        }
+      ],
+      "metrics": [
+        {
+          "operation": "38-existing-web",
+          "metric": "application_headers",
+          "authTimings": [
+            {
+              "stage": "middleware",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "request.parse",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.public_key",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.signature",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "jwt.claims",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "provider.lookup",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "d1.revocation",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "d1.provision",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "session.encrypt",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "session.create",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "json.serialization",
+              "elapsedMs": 0,
+              "ok": true
+            }
+          ],
+          "routePattern": "^\\/api\\/auth\\/firebase\\/session\\/?$",
+          "method": "POST",
+          "route": "/api/auth",
+          "status": 200,
+          "wallMs": 6,
+          "d1Calls": 7,
+          "statements": 14,
+          "rowsRead": 14,
+          "rowsWritten": 15,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ]
+    },
+    {
+      "operation": "39-existing-web",
+      "status": 200,
+      "wallMs": 7.97649999999976,
+      "profile": "39-existing-web.cpuprofile",
+      "samples": 11,
+      "profileDurationMs": 29.754,
+      "topSelf": [
+        {
+          "function": "(idle)",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "DI",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 12,
+          "samples": 1
+        },
+        {
+          "function": "(program)",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "zE",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 39,
+          "samples": 1
+        },
+        {
+          "function": "verify",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "enterSpan",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "bind",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 5,
+          "samples": 1
+        },
+        {
+          "function": "URL",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "newHandle",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "_send",
+          "url": "cloudflare-internal:d1-api",
+          "line": 201,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        }
+      ],
+      "metrics": [
+        {
+          "operation": "39-existing-web",
+          "metric": "application_headers",
+          "authTimings": [
+            {
+              "stage": "middleware",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "request.parse",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.public_key",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.signature",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.claims",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "provider.lookup",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "d1.revocation",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "d1.provision",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "session.encrypt",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "session.create",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "json.serialization",
+              "elapsedMs": 0,
+              "ok": true
+            }
+          ],
+          "routePattern": "^\\/api\\/auth\\/firebase\\/session\\/?$",
+          "method": "POST",
+          "route": "/api/auth",
+          "status": 200,
+          "wallMs": 6,
+          "d1Calls": 7,
+          "statements": 14,
+          "rowsRead": 14,
+          "rowsWritten": 15,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ]
+    },
+    {
+      "operation": "40-existing-web",
+      "status": 200,
+      "wallMs": 7.839791000000332,
+      "profile": "40-existing-web.cpuprofile",
+      "samples": 17,
+      "profileDurationMs": 30.304,
+      "topSelf": [
+        {
+          "function": "(program)",
+          "url": "",
+          "line": 0,
+          "samples": 3
+        },
+        {
+          "function": "_wrappedFetch",
+          "url": "cloudflare-internal:d1-api",
+          "line": 167,
+          "samples": 2
+        },
+        {
+          "function": "(idle)",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "get",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 5,
+          "samples": 1
+        },
+        {
+          "function": "za",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 806,
+          "samples": 1
+        },
+        {
+          "function": "Pb",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 377,
+          "samples": 1
+        },
+        {
+          "function": "fetch",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "t._zod.parse",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 44,
+          "samples": 1
+        },
+        {
+          "function": "fetch",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "cloudflare-internal:d1-api",
+          "line": 464,
+          "samples": 1
+        },
+        {
+          "function": "HmacHandle",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 2,
+          "samples": 1
+        },
+        {
+          "function": "lP",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 379,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        }
+      ],
+      "metrics": [
+        {
+          "operation": "40-existing-web",
+          "metric": "application_headers",
+          "authTimings": [
+            {
+              "stage": "middleware",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "request.parse",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.public_key",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.signature",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "jwt.claims",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "provider.lookup",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "d1.revocation",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "d1.provision",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "session.encrypt",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "session.create",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "json.serialization",
+              "elapsedMs": 0,
+              "ok": true
+            }
+          ],
+          "routePattern": "^\\/api\\/auth\\/firebase\\/session\\/?$",
+          "method": "POST",
+          "route": "/api/auth",
+          "status": 200,
+          "wallMs": 6,
+          "d1Calls": 7,
+          "statements": 14,
+          "rowsRead": 14,
+          "rowsWritten": 15,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ]
+    },
+    {
+      "operation": "41-native",
+      "status": 200,
+      "wallMs": 9.29320800000005,
+      "profile": "41-native.cpuprofile",
+      "samples": 23,
+      "profileDurationMs": 31.965,
+      "topSelf": [
+        {
+          "function": "(idle)",
+          "url": "",
+          "line": 0,
+          "samples": 2
+        },
+        {
+          "function": "eJ",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 447,
+          "samples": 2
+        },
+        {
+          "function": "",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 447,
+          "samples": 2
+        },
+        {
+          "function": "_S",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 377,
+          "samples": 2
+        },
+        {
+          "function": "DI",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 12,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 1327,
+          "samples": 1
+        },
+        {
+          "function": "Pb",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 377,
+          "samples": 1
+        },
+        {
+          "function": "JW",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 377,
+          "samples": 1
+        },
+        {
+          "function": "t._zod.parse",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 95,
+          "samples": 1
+        },
+        {
+          "function": "toJson",
+          "url": "cloudflare-internal:d1-api",
+          "line": 616,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "cloudflare-internal:d1-api",
+          "line": 180,
+          "samples": 1
+        },
+        {
+          "function": "bind",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 5,
+          "samples": 1
+        },
+        {
+          "function": "newHandle",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        },
+        {
+          "function": "ur",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 377,
+          "samples": 1
+        },
+        {
+          "function": "T3",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 377,
+          "samples": 1
+        },
+        {
+          "function": "_Re",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 377,
+          "samples": 1
+        },
+        {
+          "function": "oRe",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 377,
+          "samples": 1
+        },
+        {
+          "function": "Bpe",
+          "url": "workers/api/dist/worker.mjs",
+          "line": 12,
+          "samples": 1
+        },
+        {
+          "function": "",
+          "url": "",
+          "line": 0,
+          "samples": 1
+        }
+      ],
+      "metrics": [
+        {
+          "operation": "41-native",
+          "metric": "application_headers",
+          "authTimings": [
+            {
+              "stage": "middleware",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "request.parse",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.public_key",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "jwt.signature",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "jwt.claims",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "provider.lookup",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "d1.revocation",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "d1.provision",
+              "elapsedMs": 2,
+              "ok": true
+            },
+            {
+              "stage": "session.encrypt",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "session.create",
+              "elapsedMs": 0,
+              "ok": true
+            },
+            {
+              "stage": "session.sign",
+              "elapsedMs": 1,
+              "ok": true
+            },
+            {
+              "stage": "json.serialization",
+              "elapsedMs": 0,
+              "ok": true
+            }
+          ],
+          "routePattern": "^\\/api\\/auth\\/firebase\\/session\\/?$",
+          "method": "POST",
+          "route": "/api/auth",
+          "status": 200,
+          "wallMs": 7,
+          "d1Calls": 7,
+          "statements": 14,
+          "rowsRead": 7,
+          "rowsWritten": 21,
+          "r2Reads": 0,
+          "r2Writes": 0,
+          "cpuMs": null,
+          "cpuSource": "Cloudflare TraceEvent CPUTimeMs required"
+        }
+      ]
+    }
+  ],
+  "bundleSha256": "5754d5640647706d6d45c608407a3b29e0d605c8d145e5ffed5289545ac82e26"
+}

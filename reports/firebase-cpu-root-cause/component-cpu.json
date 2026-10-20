@@ -1,0 +1,1064 @@
+{
+  "source": "Sequential local Node process.cpuUsage. Includes Node transport/crypto-helper work, excludes D1 workerd child CPU. NOT Cloudflare or workerd CPU accounting. Nested spans overlap; no subtraction or summation as exclusive CPU.",
+  "microbenchmarks": [
+    {
+      "operation": "empty async loop control",
+      "iterationsPerBatch": 1000,
+      "batches": [
+        {
+          "cpuMs": 0.17000000000007276,
+          "elapsedMs": 0.13941700000009405
+        },
+        {
+          "cpuMs": 0.12800000000015643,
+          "elapsedMs": 0.12666699999999764
+        },
+        {
+          "cpuMs": 0.11799999999993815,
+          "elapsedMs": 0.11883299999999508
+        },
+        {
+          "cpuMs": 0.14200000000005275,
+          "elapsedMs": 0.14029200000004494
+        },
+        {
+          "cpuMs": 0.48099999999999454,
+          "elapsedMs": 0.11091699999997218
+        }
+      ],
+      "meanNodeCpuMsPerOperation": 0.00020780000000004292
+    },
+    {
+      "operation": "jose public JWK import (no retrieval/network)",
+      "iterationsPerBatch": 100,
+      "batches": [
+        {
+          "cpuMs": 3.7329999999999472,
+          "elapsedMs": 3.730874999999969
+        },
+        {
+          "cpuMs": 2.645999999999958,
+          "elapsedMs": 2.28320900000017
+        },
+        {
+          "cpuMs": 2.4279999999998836,
+          "elapsedMs": 2.4287500000000364
+        },
+        {
+          "cpuMs": 6.185000000000173,
+          "elapsedMs": 2.3395000000000437
+        },
+        {
+          "cpuMs": 2.1829999999999927,
+          "elapsedMs": 2.183416999999963
+        }
+      ],
+      "meanNodeCpuMsPerOperation": 0.03434999999999991
+    },
+    {
+      "operation": "actual verifyFirebaseSignature with imported key, including all claims",
+      "iterationsPerBatch": 100,
+      "batches": [
+        {
+          "cpuMs": 19.565000000000055,
+          "elapsedMs": 12.426791999999978
+        },
+        {
+          "cpuMs": 6.73700000000008,
+          "elapsedMs": 6.113416000000143
+        },
+        {
+          "cpuMs": 6.151000000000067,
+          "elapsedMs": 5.865000000000009
+        },
+        {
+          "cpuMs": 6.124000000000024,
+          "elapsedMs": 5.818040999999994
+        },
+        {
+          "cpuMs": 6.051999999999907,
+          "elapsedMs": 5.766708000000108
+        }
+      ],
+      "meanNodeCpuMsPerOperation": 0.08925800000000027
+    },
+    {
+      "operation": "actual AES-GCM encryptSecret (includes key derivation and randomness)",
+      "iterationsPerBatch": 300,
+      "batches": [
+        {
+          "cpuMs": 5.679999999999836,
+          "elapsedMs": 6.338958999999932
+        },
+        {
+          "cpuMs": 4.629999999999882,
+          "elapsedMs": 4.2754580000000715
+        },
+        {
+          "cpuMs": 9.143000000000029,
+          "elapsedMs": 4.117542000000185
+        },
+        {
+          "cpuMs": 6.629000000000133,
+          "elapsedMs": 3.9307079999998678
+        },
+        {
+          "cpuMs": 6.7590000000000146,
+          "elapsedMs": 3.7546669999999267
+        }
+      ],
+      "meanNodeCpuMsPerOperation": 0.02189399999999993
+    },
+    {
+      "operation": "actual secureToken(48)",
+      "iterationsPerBatch": 500,
+      "batches": [
+        {
+          "cpuMs": 5.748000000000047,
+          "elapsedMs": 1.727833000000146
+        },
+        {
+          "cpuMs": 7.565000000000055,
+          "elapsedMs": 1.663584000000128
+        },
+        {
+          "cpuMs": 1.8330000000000837,
+          "elapsedMs": 1.582208000000037
+        },
+        {
+          "cpuMs": 8.561999999999898,
+          "elapsedMs": 3.965458000000126
+        },
+        {
+          "cpuMs": 5.233999999999924,
+          "elapsedMs": 1.1315829999998641
+        }
+      ],
+      "meanNodeCpuMsPerOperation": 0.011576800000000003
+    },
+    {
+      "operation": "NextResponse JSON serialization control",
+      "iterationsPerBatch": 500,
+      "batches": [
+        {
+          "cpuMs": 20.229000000000042,
+          "elapsedMs": 10.813083000000006
+        },
+        {
+          "cpuMs": 10.186999999999898,
+          "elapsedMs": 6.617707999999993
+        },
+        {
+          "cpuMs": 7.50200000000018,
+          "elapsedMs": 6.607334000000037
+        },
+        {
+          "cpuMs": 22.57400000000007,
+          "elapsedMs": 6.916042000000061
+        },
+        {
+          "cpuMs": 14.56100000000015,
+          "elapsedMs": 4.329500000000053
+        }
+      ],
+      "meanNodeCpuMsPerOperation": 0.030021200000000137
+    },
+    {
+      "operation": "actual opaque session cookie serialization (NOT signing)",
+      "iterationsPerBatch": 500,
+      "batches": [
+        {
+          "cpuMs": 8.911000000000058,
+          "elapsedMs": 6.598291999999901
+        },
+        {
+          "cpuMs": 9.301999999999907,
+          "elapsedMs": 4.0128330000000005
+        },
+        {
+          "cpuMs": 7.592000000000098,
+          "elapsedMs": 3.6410419999999704
+        },
+        {
+          "cpuMs": 5.742999999999938,
+          "elapsedMs": 3.4664999999999964
+        },
+        {
+          "cpuMs": 6.365000000000009,
+          "elapsedMs": 3.4440420000000813
+        }
+      ],
+      "meanNodeCpuMsPerOperation": 0.015165200000000004
+    }
+  ],
+  "exchanges": [
+    {
+      "operation": "first-web-0",
+      "nodeCpuMs": 35.235999999999876,
+      "elapsedMs": 47.498999999999796,
+      "d1": {
+        "d1Calls": 7,
+        "statements": 14,
+        "rowsRead": 7,
+        "rowsWritten": 21
+      },
+      "stages": [
+        {
+          "stage": "jwt.key_fetch",
+          "elapsedMs": 0.2247910000005504,
+          "ok": true,
+          "localNodeCpuMs": 0.2359999999998763
+        },
+        {
+          "stage": "jwt.public_key",
+          "elapsedMs": 1.185457999999926,
+          "ok": true,
+          "localNodeCpuMs": 1.1869999999998981
+        },
+        {
+          "stage": "jwt.signature",
+          "elapsedMs": 3.3958339999999225,
+          "ok": true,
+          "localNodeCpuMs": 9.173999999999978
+        },
+        {
+          "stage": "jwt.claims",
+          "elapsedMs": 0.007499999999708962,
+          "ok": true,
+          "localNodeCpuMs": 0.009000000000014552
+        },
+        {
+          "stage": "provider.lookup",
+          "elapsedMs": 0.27416700000048877,
+          "ok": true,
+          "localNodeCpuMs": 0.5650000000000546
+        },
+        {
+          "stage": "d1.revocation",
+          "elapsedMs": 8.356249999999818,
+          "ok": true,
+          "localNodeCpuMs": 3.7469999999998436
+        },
+        {
+          "stage": "d1.provision",
+          "elapsedMs": 20.97283299999981,
+          "ok": true,
+          "localNodeCpuMs": 11.618000000000393
+        },
+        {
+          "stage": "session.encrypt",
+          "elapsedMs": 0.09575000000040745,
+          "ok": true,
+          "localNodeCpuMs": 0.09899999999970532
+        },
+        {
+          "stage": "session.create",
+          "elapsedMs": 13.093041000000085,
+          "ok": true,
+          "localNodeCpuMs": 8.721999999999753
+        }
+      ]
+    },
+    {
+      "operation": "new-web-1",
+      "nodeCpuMs": 45.00500000000011,
+      "elapsedMs": 37.46008300000085,
+      "d1": {
+        "d1Calls": 7,
+        "statements": 14,
+        "rowsRead": 7,
+        "rowsWritten": 21
+      },
+      "stages": [
+        {
+          "stage": "jwt.public_key",
+          "elapsedMs": 0.04908400000022084,
+          "ok": true,
+          "localNodeCpuMs": 0.04899999999997817
+        },
+        {
+          "stage": "jwt.signature",
+          "elapsedMs": 0.26395899999988615,
+          "ok": true,
+          "localNodeCpuMs": 0.26900000000023283
+        },
+        {
+          "stage": "jwt.claims",
+          "elapsedMs": 0.0032499999997526174,
+          "ok": true,
+          "localNodeCpuMs": 0.005000000000109139
+        },
+        {
+          "stage": "provider.lookup",
+          "elapsedMs": 0.151042000000416,
+          "ok": true,
+          "localNodeCpuMs": 0.15299999999979264
+        },
+        {
+          "stage": "d1.revocation",
+          "elapsedMs": 6.2007919999996375,
+          "ok": true,
+          "localNodeCpuMs": 6.277000000000044
+        },
+        {
+          "stage": "d1.provision",
+          "elapsedMs": 23.37445899999966,
+          "ok": true,
+          "localNodeCpuMs": 34.60200000000032
+        },
+        {
+          "stage": "session.encrypt",
+          "elapsedMs": 0.0439169999999649,
+          "ok": true,
+          "localNodeCpuMs": 0.04500000000007276
+        },
+        {
+          "stage": "session.create",
+          "elapsedMs": 6.977832999999919,
+          "ok": true,
+          "localNodeCpuMs": 3.2150000000001455
+        }
+      ]
+    },
+    {
+      "operation": "new-web-2",
+      "nodeCpuMs": 13.627999999999702,
+      "elapsedMs": 28.886709000000337,
+      "d1": {
+        "d1Calls": 7,
+        "statements": 14,
+        "rowsRead": 7,
+        "rowsWritten": 21
+      },
+      "stages": [
+        {
+          "stage": "jwt.public_key",
+          "elapsedMs": 0.021917000000030384,
+          "ok": true,
+          "localNodeCpuMs": 0.021000000000185537
+        },
+        {
+          "stage": "jwt.signature",
+          "elapsedMs": 0.17420800000036252,
+          "ok": true,
+          "localNodeCpuMs": 0.1790000000000873
+        },
+        {
+          "stage": "jwt.claims",
+          "elapsedMs": 0.0030419999993682723,
+          "ok": true,
+          "localNodeCpuMs": 0.0020000000004074536
+        },
+        {
+          "stage": "provider.lookup",
+          "elapsedMs": 0.13112499999988358,
+          "ok": true,
+          "localNodeCpuMs": 0.13100000000031287
+        },
+        {
+          "stage": "d1.revocation",
+          "elapsedMs": 5.249499999999898,
+          "ok": true,
+          "localNodeCpuMs": 2.160000000000764
+        },
+        {
+          "stage": "d1.provision",
+          "elapsedMs": 15.89470799999981,
+          "ok": true,
+          "localNodeCpuMs": 6.993999999999687
+        },
+        {
+          "stage": "session.encrypt",
+          "elapsedMs": 0.04729200000019773,
+          "ok": true,
+          "localNodeCpuMs": 0.047999999999774445
+        },
+        {
+          "stage": "session.create",
+          "elapsedMs": 6.949000000000524,
+          "ok": true,
+          "localNodeCpuMs": 3.6779999999998836
+        }
+      ]
+    },
+    {
+      "operation": "new-web-3",
+      "nodeCpuMs": 22.904999999999745,
+      "elapsedMs": 39.38354200000049,
+      "d1": {
+        "d1Calls": 7,
+        "statements": 14,
+        "rowsRead": 7,
+        "rowsWritten": 21
+      },
+      "stages": [
+        {
+          "stage": "jwt.public_key",
+          "elapsedMs": 0.022374999999556167,
+          "ok": true,
+          "localNodeCpuMs": 0.023000000000138243
+        },
+        {
+          "stage": "jwt.signature",
+          "elapsedMs": 0.1635420000002341,
+          "ok": true,
+          "localNodeCpuMs": 0.16899999999986903
+        },
+        {
+          "stage": "jwt.claims",
+          "elapsedMs": 0.0032090000004245667,
+          "ok": true,
+          "localNodeCpuMs": 0.0029999999997016857
+        },
+        {
+          "stage": "provider.lookup",
+          "elapsedMs": 0.13879200000064884,
+          "ok": true,
+          "localNodeCpuMs": 0.14000000000032742
+        },
+        {
+          "stage": "d1.revocation",
+          "elapsedMs": 4.806167000000642,
+          "ok": true,
+          "localNodeCpuMs": 6.489999999999782
+        },
+        {
+          "stage": "d1.provision",
+          "elapsedMs": 26.418542000000343,
+          "ok": true,
+          "localNodeCpuMs": 12.121000000000095
+        },
+        {
+          "stage": "session.encrypt",
+          "elapsedMs": 0.04620799999975134,
+          "ok": true,
+          "localNodeCpuMs": 0.04700000000048021
+        },
+        {
+          "stage": "session.create",
+          "elapsedMs": 7.453916999999819,
+          "ok": true,
+          "localNodeCpuMs": 3.58600000000024
+        }
+      ]
+    },
+    {
+      "operation": "new-web-4",
+      "nodeCpuMs": 20.14800000000014,
+      "elapsedMs": 29.827124999999796,
+      "d1": {
+        "d1Calls": 7,
+        "statements": 14,
+        "rowsRead": 7,
+        "rowsWritten": 21
+      },
+      "stages": [
+        {
+          "stage": "jwt.public_key",
+          "elapsedMs": 0.024875000000065484,
+          "ok": true,
+          "localNodeCpuMs": 0.025000000000545697
+        },
+        {
+          "stage": "jwt.signature",
+          "elapsedMs": 0.1716660000001866,
+          "ok": true,
+          "localNodeCpuMs": 0.17799999999988358
+        },
+        {
+          "stage": "jwt.claims",
+          "elapsedMs": 0.0030830000005153124,
+          "ok": true,
+          "localNodeCpuMs": 0.0029999999997016857
+        },
+        {
+          "stage": "provider.lookup",
+          "elapsedMs": 0.12712499999997817,
+          "ok": true,
+          "localNodeCpuMs": 0.12800000000061118
+        },
+        {
+          "stage": "d1.revocation",
+          "elapsedMs": 5.110541000000012,
+          "ok": true,
+          "localNodeCpuMs": 2.6500000000005457
+        },
+        {
+          "stage": "d1.provision",
+          "elapsedMs": 16.964625000000524,
+          "ok": true,
+          "localNodeCpuMs": 13.36199999999917
+        },
+        {
+          "stage": "session.encrypt",
+          "elapsedMs": 0.04666700000052515,
+          "ok": true,
+          "localNodeCpuMs": 0.04700000000048021
+        },
+        {
+          "stage": "session.create",
+          "elapsedMs": 7.02849999999944,
+          "ok": true,
+          "localNodeCpuMs": 3.4089999999996508
+        }
+      ]
+    },
+    {
+      "operation": "new-web-5",
+      "nodeCpuMs": 12.438999999999396,
+      "elapsedMs": 27.64270800000031,
+      "d1": {
+        "d1Calls": 7,
+        "statements": 14,
+        "rowsRead": 7,
+        "rowsWritten": 21
+      },
+      "stages": [
+        {
+          "stage": "jwt.public_key",
+          "elapsedMs": 0.020332999999482126,
+          "ok": true,
+          "localNodeCpuMs": 0.02099999999973079
+        },
+        {
+          "stage": "jwt.signature",
+          "elapsedMs": 0.16512499999953434,
+          "ok": true,
+          "localNodeCpuMs": 0.17199999999957072
+        },
+        {
+          "stage": "jwt.claims",
+          "elapsedMs": 0.0029580000000350992,
+          "ok": true,
+          "localNodeCpuMs": 0.0039999999999054126
+        },
+        {
+          "stage": "provider.lookup",
+          "elapsedMs": 0.12904100000014296,
+          "ok": true,
+          "localNodeCpuMs": 0.13000000000010914
+        },
+        {
+          "stage": "d1.revocation",
+          "elapsedMs": 4.894792000000052,
+          "ok": true,
+          "localNodeCpuMs": 2.0090000000000146
+        },
+        {
+          "stage": "d1.provision",
+          "elapsedMs": 15.872834000000694,
+          "ok": true,
+          "localNodeCpuMs": 7.072999999999411
+        },
+        {
+          "stage": "session.encrypt",
+          "elapsedMs": 0.046916000000237545,
+          "ok": true,
+          "localNodeCpuMs": 0.04699999999957072
+        },
+        {
+          "stage": "session.create",
+          "elapsedMs": 6.212165999999343,
+          "ok": true,
+          "localNodeCpuMs": 2.688000000000102
+        }
+      ]
+    },
+    {
+      "operation": "existing-web-6",
+      "nodeCpuMs": 28.851000000000568,
+      "elapsedMs": 29.789042000000336,
+      "d1": {
+        "d1Calls": 7,
+        "statements": 14,
+        "rowsRead": 14,
+        "rowsWritten": 15
+      },
+      "stages": [
+        {
+          "stage": "jwt.public_key",
+          "elapsedMs": 0.02158300000064628,
+          "ok": true,
+          "localNodeCpuMs": 0.021000000000640284
+        },
+        {
+          "stage": "jwt.signature",
+          "elapsedMs": 0.16679199999998673,
+          "ok": true,
+          "localNodeCpuMs": 0.17000000000007276
+        },
+        {
+          "stage": "jwt.claims",
+          "elapsedMs": 0.0033750000002328306,
+          "ok": true,
+          "localNodeCpuMs": 0.0039999999999054126
+        },
+        {
+          "stage": "provider.lookup",
+          "elapsedMs": 0.12479199999961565,
+          "ok": true,
+          "localNodeCpuMs": 0.12600000000020373
+        },
+        {
+          "stage": "d1.revocation",
+          "elapsedMs": 5.088042000000314,
+          "ok": true,
+          "localNodeCpuMs": 2.2150000000001455
+        },
+        {
+          "stage": "d1.provision",
+          "elapsedMs": 16.1514159999997,
+          "ok": true,
+          "localNodeCpuMs": 15.601000000000568
+        },
+        {
+          "stage": "session.encrypt",
+          "elapsedMs": 0.04749999999967258,
+          "ok": true,
+          "localNodeCpuMs": 0.04800000000068394
+        },
+        {
+          "stage": "session.create",
+          "elapsedMs": 7.848500000000058,
+          "ok": true,
+          "localNodeCpuMs": 10.334000000000742
+        }
+      ]
+    },
+    {
+      "operation": "existing-web-7",
+      "nodeCpuMs": 27.106000000000677,
+      "elapsedMs": 32.050999999999476,
+      "d1": {
+        "d1Calls": 7,
+        "statements": 14,
+        "rowsRead": 14,
+        "rowsWritten": 15
+      },
+      "stages": [
+        {
+          "stage": "jwt.public_key",
+          "elapsedMs": 0.020833999999922526,
+          "ok": true,
+          "localNodeCpuMs": 0.021999999999934516
+        },
+        {
+          "stage": "jwt.signature",
+          "elapsedMs": 0.17466699999931734,
+          "ok": true,
+          "localNodeCpuMs": 0.18100000000049477
+        },
+        {
+          "stage": "jwt.claims",
+          "elapsedMs": 0.0030839999999443535,
+          "ok": true,
+          "localNodeCpuMs": 0.0030000000006111804
+        },
+        {
+          "stage": "provider.lookup",
+          "elapsedMs": 0.240458000000217,
+          "ok": true,
+          "localNodeCpuMs": 0.23999999999978172
+        },
+        {
+          "stage": "d1.revocation",
+          "elapsedMs": 6.158416000000216,
+          "ok": true,
+          "localNodeCpuMs": 3.5289999999995416
+        },
+        {
+          "stage": "d1.provision",
+          "elapsedMs": 17.44037500000013,
+          "ok": true,
+          "localNodeCpuMs": 19.26300000000083
+        },
+        {
+          "stage": "session.encrypt",
+          "elapsedMs": 0.049459000000751985,
+          "ok": true,
+          "localNodeCpuMs": 0.0500000000001819
+        },
+        {
+          "stage": "session.create",
+          "elapsedMs": 7.628958999999668,
+          "ok": true,
+          "localNodeCpuMs": 3.4879999999993743
+        }
+      ]
+    },
+    {
+      "operation": "existing-web-8",
+      "nodeCpuMs": 36.1840000000002,
+      "elapsedMs": 42.165250000000015,
+      "d1": {
+        "d1Calls": 7,
+        "statements": 14,
+        "rowsRead": 14,
+        "rowsWritten": 15
+      },
+      "stages": [
+        {
+          "stage": "jwt.public_key",
+          "elapsedMs": 0.2108749999997599,
+          "ok": true,
+          "localNodeCpuMs": 0.21200000000044383
+        },
+        {
+          "stage": "jwt.signature",
+          "elapsedMs": 0.3592500000004293,
+          "ok": true,
+          "localNodeCpuMs": 0.3649999999997817
+        },
+        {
+          "stage": "jwt.claims",
+          "elapsedMs": 0.0032090000004245667,
+          "ok": true,
+          "localNodeCpuMs": 0.0029999999997016857
+        },
+        {
+          "stage": "provider.lookup",
+          "elapsedMs": 0.21237500000006548,
+          "ok": true,
+          "localNodeCpuMs": 0.2139999999999418
+        },
+        {
+          "stage": "d1.revocation",
+          "elapsedMs": 5.132583999999952,
+          "ok": true,
+          "localNodeCpuMs": 2.32300000000032
+        },
+        {
+          "stage": "d1.provision",
+          "elapsedMs": 26.96033299999999,
+          "ok": true,
+          "localNodeCpuMs": 28.92199999999957
+        },
+        {
+          "stage": "session.encrypt",
+          "elapsedMs": 0.046666999999615655,
+          "ok": true,
+          "localNodeCpuMs": 0.04700000000048021
+        },
+        {
+          "stage": "session.create",
+          "elapsedMs": 8.859958000000006,
+          "ok": true,
+          "localNodeCpuMs": 3.7229999999999563
+        }
+      ]
+    },
+    {
+      "operation": "existing-web-9",
+      "nodeCpuMs": 20.253999999999905,
+      "elapsedMs": 29.717666000000463,
+      "d1": {
+        "d1Calls": 7,
+        "statements": 14,
+        "rowsRead": 14,
+        "rowsWritten": 15
+      },
+      "stages": [
+        {
+          "stage": "jwt.public_key",
+          "elapsedMs": 0.03337499999997817,
+          "ok": true,
+          "localNodeCpuMs": 0.033999999999650754
+        },
+        {
+          "stage": "jwt.signature",
+          "elapsedMs": 0.18979200000012497,
+          "ok": true,
+          "localNodeCpuMs": 0.19700000000011642
+        },
+        {
+          "stage": "jwt.claims",
+          "elapsedMs": 0.003582999999707681,
+          "ok": true,
+          "localNodeCpuMs": 0.004000000000814907
+        },
+        {
+          "stage": "provider.lookup",
+          "elapsedMs": 0.14037499999994907,
+          "ok": true,
+          "localNodeCpuMs": 0.14099999999962165
+        },
+        {
+          "stage": "d1.revocation",
+          "elapsedMs": 5.622124999999869,
+          "ok": true,
+          "localNodeCpuMs": 10.260999999999513
+        },
+        {
+          "stage": "d1.provision",
+          "elapsedMs": 15.496291000000383,
+          "ok": true,
+          "localNodeCpuMs": 6.11200000000008
+        },
+        {
+          "stage": "session.encrypt",
+          "elapsedMs": 0.04937500000050932,
+          "ok": true,
+          "localNodeCpuMs": 0.049999999999272404
+        },
+        {
+          "stage": "session.create",
+          "elapsedMs": 7.826208000000406,
+          "ok": true,
+          "localNodeCpuMs": 3.104000000000269
+        }
+      ]
+    },
+    {
+      "operation": "existing-web-10",
+      "nodeCpuMs": 24.925999999999476,
+      "elapsedMs": 29.40583400000014,
+      "d1": {
+        "d1Calls": 7,
+        "statements": 14,
+        "rowsRead": 14,
+        "rowsWritten": 15
+      },
+      "stages": [
+        {
+          "stage": "jwt.public_key",
+          "elapsedMs": 0.02008300000034069,
+          "ok": true,
+          "localNodeCpuMs": 0.021000000000640284
+        },
+        {
+          "stage": "jwt.signature",
+          "elapsedMs": 0.16804099999990285,
+          "ok": true,
+          "localNodeCpuMs": 0.17399999999997817
+        },
+        {
+          "stage": "jwt.claims",
+          "elapsedMs": 0.0034580000001369626,
+          "ok": true,
+          "localNodeCpuMs": 0.0039999999999054126
+        },
+        {
+          "stage": "provider.lookup",
+          "elapsedMs": 0.10266699999920093,
+          "ok": true,
+          "localNodeCpuMs": 0.10199999999986176
+        },
+        {
+          "stage": "d1.revocation",
+          "elapsedMs": 4.906208000000333,
+          "ok": true,
+          "localNodeCpuMs": 2.5969999999997526
+        },
+        {
+          "stage": "d1.provision",
+          "elapsedMs": 16.725500000000466,
+          "ok": true,
+          "localNodeCpuMs": 18.78099999999995
+        },
+        {
+          "stage": "session.encrypt",
+          "elapsedMs": 0.058082999999896856,
+          "ok": true,
+          "localNodeCpuMs": 0.05900000000019645
+        },
+        {
+          "stage": "session.create",
+          "elapsedMs": 7.100583999999799,
+          "ok": true,
+          "localNodeCpuMs": 2.8690000000005966
+        }
+      ]
+    },
+    {
+      "operation": "existing-web-11",
+      "nodeCpuMs": 18.875,
+      "elapsedMs": 27.780249999999796,
+      "d1": {
+        "d1Calls": 7,
+        "statements": 14,
+        "rowsRead": 14,
+        "rowsWritten": 15
+      },
+      "stages": [
+        {
+          "stage": "jwt.public_key",
+          "elapsedMs": 0.018000000000029104,
+          "ok": true,
+          "localNodeCpuMs": 0.018000000000029104
+        },
+        {
+          "stage": "jwt.signature",
+          "elapsedMs": 0.15570799999932206,
+          "ok": true,
+          "localNodeCpuMs": 0.16300000000046566
+        },
+        {
+          "stage": "jwt.claims",
+          "elapsedMs": 0.0031669999998484855,
+          "ok": true,
+          "localNodeCpuMs": 0.0029999999997016857
+        },
+        {
+          "stage": "provider.lookup",
+          "elapsedMs": 0.0974580000001879,
+          "ok": true,
+          "localNodeCpuMs": 0.09699999999975262
+        },
+        {
+          "stage": "d1.revocation",
+          "elapsedMs": 5.194875000000138,
+          "ok": true,
+          "localNodeCpuMs": 1.970999999999549
+        },
+        {
+          "stage": "d1.provision",
+          "elapsedMs": 14.448167000000467,
+          "ok": true,
+          "localNodeCpuMs": 12.344999999999345
+        },
+        {
+          "stage": "session.encrypt",
+          "elapsedMs": 0.04283399999985704,
+          "ok": true,
+          "localNodeCpuMs": 0.042000000000371074
+        },
+        {
+          "stage": "session.create",
+          "elapsedMs": 7.532959000000119,
+          "ok": true,
+          "localNodeCpuMs": 3.949999999999818
+        }
+      ]
+    }
+  ],
+  "userLookups": [
+    {
+      "operation": "first-web-0",
+      "stage": "d1.user_lookup",
+      "method": "findUserByEmail",
+      "nodeCpuMs": 1.4850000000001273,
+      "elapsedMs": 3.3830840000000535
+    },
+    {
+      "operation": "first-web-0",
+      "stage": "d1.user_lookup",
+      "method": "findUserById",
+      "nodeCpuMs": 3.3299999999999272,
+      "elapsedMs": 3.8813329999993584
+    },
+    {
+      "operation": "new-web-1",
+      "stage": "d1.user_lookup",
+      "method": "findUserByEmail",
+      "nodeCpuMs": 1.163000000000011,
+      "elapsedMs": 2.8224169999994047
+    },
+    {
+      "operation": "new-web-1",
+      "stage": "d1.user_lookup",
+      "method": "findUserById",
+      "nodeCpuMs": 1.2550000000001091,
+      "elapsedMs": 2.968667000000096
+    },
+    {
+      "operation": "new-web-2",
+      "stage": "d1.user_lookup",
+      "method": "findUserByEmail",
+      "nodeCpuMs": 1.1499999999996362,
+      "elapsedMs": 2.667040999999699
+    },
+    {
+      "operation": "new-web-2",
+      "stage": "d1.user_lookup",
+      "method": "findUserById",
+      "nodeCpuMs": 1.1859999999996944,
+      "elapsedMs": 2.7359580000002097
+    },
+    {
+      "operation": "new-web-3",
+      "stage": "d1.user_lookup",
+      "method": "findUserByEmail",
+      "nodeCpuMs": 1.16399999999976,
+      "elapsedMs": 2.7047499999998763
+    },
+    {
+      "operation": "new-web-3",
+      "stage": "d1.user_lookup",
+      "method": "findUserById",
+      "nodeCpuMs": 3.8710000000000946,
+      "elapsedMs": 3.301249999999527
+    },
+    {
+      "operation": "new-web-4",
+      "stage": "d1.user_lookup",
+      "method": "findUserByEmail",
+      "nodeCpuMs": 1.1350000000002183,
+      "elapsedMs": 2.8387919999995574
+    },
+    {
+      "operation": "new-web-4",
+      "stage": "d1.user_lookup",
+      "method": "findUserById",
+      "nodeCpuMs": 6.143000000000029,
+      "elapsedMs": 2.945875000000342
+    },
+    {
+      "operation": "new-web-5",
+      "stage": "d1.user_lookup",
+      "method": "findUserByEmail",
+      "nodeCpuMs": 1.4669999999996435,
+      "elapsedMs": 2.6751249999997526
+    },
+    {
+      "operation": "new-web-5",
+      "stage": "d1.user_lookup",
+      "method": "findUserById",
+      "nodeCpuMs": 1.181999999999789,
+      "elapsedMs": 2.8254580000002534
+    },
+    {
+      "operation": "existing-web-6",
+      "stage": "d1.user_lookup",
+      "method": "findUserById",
+      "nodeCpuMs": 6.0600000000004,
+      "elapsedMs": 3.982125000000451
+    },
+    {
+      "operation": "existing-web-7",
+      "stage": "d1.user_lookup",
+      "method": "findUserById",
+      "nodeCpuMs": 1.231999999999971,
+      "elapsedMs": 2.932292000000416
+    },
+    {
+      "operation": "existing-web-8",
+      "stage": "d1.user_lookup",
+      "method": "findUserById",
+      "nodeCpuMs": 3.5029999999997017,
+      "elapsedMs": 3.144999999999527
+    },
+    {
+      "operation": "existing-web-9",
+      "stage": "d1.user_lookup",
+      "method": "findUserById",
+      "nodeCpuMs": 1.030999999999949,
+      "elapsedMs": 2.741541999999754
+    },
+    {
+      "operation": "existing-web-10",
+      "stage": "d1.user_lookup",
+      "method": "findUserById",
+      "nodeCpuMs": 1.1310000000003129,
+      "elapsedMs": 2.7096670000000813
+    },
+    {
+      "operation": "existing-web-11",
+      "stage": "d1.user_lookup",
+      "method": "findUserById",
+      "nodeCpuMs": 3.0529999999998836,
+      "elapsedMs": 2.950542000000496
+    }
+  ],
+  "keyFetches": 1,
+  "providerLookups": 12
+}

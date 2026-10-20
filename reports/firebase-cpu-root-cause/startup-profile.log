@@ -1,0 +1,14 @@
+
+ ⛅️ wrangler 4.151.1
+────────────────────
+├ Building your Worker
+│ Worker Built! 🎉
+│
+├ Analysing
+│ Startup phase analysed
+│
+
+[31m✘ [41;31m[[41;97mERROR[41;31m][0m [1mWorker startup profiling failed during module evaluation (status 500). The upload contains bindings that cannot be reproduced locally during startup profiling: "PASSWORD_SERVICE" ("service").[0m
+
+
+🪵  Logs were written to "/private/tmp/dd-startup-profiler.log"

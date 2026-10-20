@@ -1,0 +1,5415 @@
+{
+  "source": "Local V8 statistical sample COUNTS, not millisecond accounting. Coarse categories based on closest mapped synchronous stack. Async continuations/native off-thread work can be unattributed. No sum of elapsed stage spans.",
+  "sourceMapMatchesProductionBundle": true,
+  "rows": [
+    {
+      "operation": "0-first-web",
+      "totalSamples": 127,
+      "idleSamples": 1,
+      "nonIdleSamples": 126,
+      "categories": {
+        "idle": 1,
+        "unattributed-native/program": 4,
+        "D1 client/storage orchestration": 19,
+        "other runtime/application": 13,
+        "framework/request/runtime": 15,
+        "gc": 29,
+        "auth/session orchestration": 22,
+        "crypto/JWT": 17,
+        "key retrieval/import/parse": 5,
+        "JWT claim validation/decoding": 1,
+        "configuration": 1
+      },
+      "topSelf": [
+        {
+          "name": "(garbage collector)",
+          "source": "",
+          "line": 0,
+          "samples": 29,
+          "category": "gc"
+        },
+        {
+          "name": "(program)",
+          "source": "",
+          "line": 0,
+          "samples": 4,
+          "category": "unattributed-native/program"
+        },
+        {
+          "name": "verifyFirebaseSignature",
+          "source": "src/server/auth/firebase-token.ts",
+          "line": 24,
+          "samples": 4,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "constructor",
+          "source": "node_modules/next/src/server/web/spec-extension/request.ts",
+          "line": 22,
+          "samples": 3,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "r",
+          "source": "workers/api/index.ts",
+          "line": 77,
+          "samples": 3,
+          "category": "other runtime/application"
+        },
+        {
+          "name": "run",
+          "source": "",
+          "line": 0,
+          "samples": 2,
+          "category": "other runtime/application"
+        },
+        {
+          "name": "parseURL",
+          "source": "node_modules/next/src/server/web/next-url.ts",
+          "line": 25,
+          "samples": 2,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "POST",
+          "source": "src/app/api/auth/firebase/session/route.ts",
+          "line": 15,
+          "samples": 2,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "createHmac",
+          "source": "node-internal:crypto_hash",
+          "line": 109,
+          "samples": 2,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "resolveSocialUser",
+          "source": "packages/storage/auth.ts",
+          "line": 108,
+          "samples": 2,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "row",
+          "source": "src/server/auth/postgres-repository.ts",
+          "line": 19,
+          "samples": 2,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "",
+          "source": "",
+          "line": 0,
+          "samples": 2,
+          "category": "other runtime/application"
+        },
+        {
+          "name": "(idle)",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "idle"
+        },
+        {
+          "name": "users",
+          "source": "packages/storage/multi-d1.ts",
+          "line": 88,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "storage",
+          "source": "packages/storage/multi-d1.ts",
+          "line": 54,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "run",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "other runtime/application"
+        },
+        {
+          "name": "toNodeOutgoingHttpHeaders",
+          "source": "node_modules/next/src/server/web/utils.ts",
+          "line": 117,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "constructor",
+          "source": "node_modules/next/src/server/web/next-url.ts",
+          "line": 49,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "analyze",
+          "source": "node_modules/next/src/server/web/next-url.ts",
+          "line": 76,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "formatNextPathnameInfo",
+          "source": "node_modules/next/src/shared/lib/router/utils/format-next-pathname-info.ts",
+          "line": 12,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "",
+          "source": "workers/api/index.ts",
+          "line": 37,
+          "samples": 1,
+          "category": "other runtime/application"
+        },
+        {
+          "name": "",
+          "source": "workers/api/index.ts",
+          "line": 45,
+          "samples": 1,
+          "category": "other runtime/application"
+        },
+        {
+          "name": "middleware",
+          "source": "src/middleware.ts",
+          "line": 66,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "constructor",
+          "source": "node_modules/next/src/server/web/spec-extension/response.ts",
+          "line": 43,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "has",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "other runtime/application"
+        },
+        {
+          "name": "",
+          "source": "workers/api/index.ts",
+          "line": 37,
+          "samples": 1,
+          "category": "other runtime/application"
+        },
+        {
+          "name": "POST",
+          "source": "src/app/api/auth/firebase/session/route.ts",
+          "line": 15,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "get",
+          "source": "node_modules/zod/v4/core/util.js",
+          "line": 746,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "authStage",
+          "source": "src/server/auth/performance.ts",
+          "line": 32,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "isRecursive",
+          "source": "node_modules/zod/v4/core/memoizer.js",
+          "line": 16,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "t._zod.parse",
+          "source": "node_modules/zod/v4/core/schemas.js",
+          "line": 953,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "exchangeFirebaseSession",
+          "source": "src/server/auth/firebase-service.ts",
+          "line": 57,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "now",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "prepareVerify",
+          "source": "node_modules/jose/dist/webapi/lib/jws_verify.js",
+          "line": 39,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "parseJoseHeader",
+          "source": "node_modules/jose/dist/webapi/lib/helpers.js",
+          "line": 30,
+          "samples": 1,
+          "category": "crypto/JWT"
+        }
+      ]
+    },
+    {
+      "operation": "1-new-web",
+      "totalSamples": 20,
+      "idleSamples": 3,
+      "nonIdleSamples": 17,
+      "categories": {
+        "idle": 3,
+        "other runtime/application": 3,
+        "auth/session orchestration": 1,
+        "configuration": 1,
+        "crypto/JWT": 3,
+        "JWT claim validation/decoding": 1,
+        "unattributed-native/program": 1,
+        "framework/request/runtime": 3,
+        "D1 client/storage orchestration": 4
+      },
+      "topSelf": [
+        {
+          "name": "(idle)",
+          "source": "",
+          "line": 0,
+          "samples": 3,
+          "category": "idle"
+        },
+        {
+          "name": "",
+          "source": "workers/api/index.ts",
+          "line": 37,
+          "samples": 2,
+          "category": "other runtime/application"
+        },
+        {
+          "name": "assertSameOrigin",
+          "source": "src/server/auth/http.ts",
+          "line": 6,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "firebaseConfiguration",
+          "source": "src/server/auth/firebase-config.ts",
+          "line": 8,
+          "samples": 1,
+          "category": "configuration"
+        },
+        {
+          "name": "encode",
+          "source": "node_modules/jose/dist/webapi/lib/buffer_utils.js",
+          "line": 34,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "date",
+          "source": "node_modules/jose/dist/webapi/lib/jwt_claims_set.js",
+          "line": 4,
+          "samples": 1,
+          "category": "JWT claim validation/decoding"
+        },
+        {
+          "name": "(program)",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "unattributed-native/program"
+        },
+        {
+          "name": "decodeString",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "enterSpan",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "URL",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "batch",
+          "source": "packages/storage/instrumentation.ts",
+          "line": 59,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "addAggregatedD1MetaToSpan",
+          "source": "cloudflare-internal:d1-api",
+          "line": 625,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "toString",
+          "source": "node-internal:internal_buffer",
+          "line": 348,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "createSecretKey",
+          "source": "node-internal:crypto_keys",
+          "line": 243,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "digest",
+          "source": "packages/storage/core.ts",
+          "line": 35,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "getAll",
+          "source": "node_modules/next/dist/compiled/@edge-runtime/cookies/index.js",
+          "line": 277,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "other runtime/application"
+        }
+      ]
+    },
+    {
+      "operation": "2-new-web",
+      "totalSamples": 25,
+      "idleSamples": 3,
+      "nonIdleSamples": 22,
+      "categories": {
+        "idle": 3,
+        "D1 client/storage orchestration": 6,
+        "framework/request/runtime": 6,
+        "configuration": 2,
+        "auth/session orchestration": 3,
+        "crypto/JWT": 1,
+        "JWT claim validation/decoding": 1,
+        "other runtime/application": 3
+      },
+      "topSelf": [
+        {
+          "name": "(idle)",
+          "source": "",
+          "line": 0,
+          "samples": 3,
+          "category": "idle"
+        },
+        {
+          "name": "wf",
+          "source": "packages/storage/multi-d1.ts",
+          "line": 40,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "Request",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "constructor",
+          "source": "node_modules/next/src/server/web/next-url.ts",
+          "line": 49,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "analyze",
+          "source": "node_modules/next/src/server/web/next-url.ts",
+          "line": 76,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "applicationEnvironment",
+          "source": "src/server/persistence/bindings.ts",
+          "line": 39,
+          "samples": 1,
+          "category": "configuration"
+        },
+        {
+          "name": "POST",
+          "source": "src/app/api/auth/firebase/session/route.ts",
+          "line": 15,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "verifyPrepared",
+          "source": "node_modules/jose/dist/webapi/lib/jws_verify.js",
+          "line": 89,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "date",
+          "source": "node_modules/jose/dist/webapi/lib/jwt_claims_set.js",
+          "line": 4,
+          "samples": 1,
+          "category": "JWT claim validation/decoding"
+        },
+        {
+          "name": "fetch",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "parseURLObject",
+          "source": "node_modules/zod/v4/core/schemas.js",
+          "line": 206,
+          "samples": 1,
+          "category": "configuration"
+        },
+        {
+          "name": "fromString",
+          "source": "node-internal:internal_buffer",
+          "line": 147,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "_wrappedFetch",
+          "source": "cloudflare-internal:d1-api",
+          "line": 167,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "fetch",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "set",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "all",
+          "source": "packages/storage/instrumentation.ts",
+          "line": 40,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "other runtime/application"
+        },
+        {
+          "name": "Readable.on",
+          "source": "node-internal:streams_readable",
+          "line": 1129,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "exchangeFirebaseSession",
+          "source": "src/server/auth/firebase-service.ts",
+          "line": 57,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "",
+          "source": "cloudflare-internal:d1-api",
+          "line": 122,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "json",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "",
+          "source": "workers/api/index.ts",
+          "line": 37,
+          "samples": 1,
+          "category": "other runtime/application"
+        },
+        {
+          "name": "formatLog",
+          "source": "node-internal:internal_inspect",
+          "line": 2381,
+          "samples": 1,
+          "category": "other runtime/application"
+        }
+      ]
+    },
+    {
+      "operation": "3-new-web",
+      "totalSamples": 19,
+      "idleSamples": 1,
+      "nonIdleSamples": 18,
+      "categories": {
+        "idle": 1,
+        "other runtime/application": 2,
+        "framework/request/runtime": 1,
+        "configuration": 1,
+        "auth/session orchestration": 1,
+        "crypto/JWT": 3,
+        "JWT claim validation/decoding": 1,
+        "D1 client/storage orchestration": 9
+      },
+      "topSelf": [
+        {
+          "name": "toJson",
+          "source": "cloudflare-internal:d1-api",
+          "line": 616,
+          "samples": 2,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "(idle)",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "idle"
+        },
+        {
+          "name": "",
+          "source": "workers/api/index.ts",
+          "line": 37,
+          "samples": 1,
+          "category": "other runtime/application"
+        },
+        {
+          "name": "middleware",
+          "source": "src/middleware.ts",
+          "line": 66,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "applicationEnvironment",
+          "source": "src/server/persistence/bindings.ts",
+          "line": 39,
+          "samples": 1,
+          "category": "configuration"
+        },
+        {
+          "name": "t._zod.run",
+          "source": "node_modules/zod/v4/core/schemas.js",
+          "line": 97,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "",
+          "source": "node_modules/jose/dist/webapi/lib/buffer_utils.js",
+          "line": 6,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "validateNumericDate",
+          "source": "node_modules/jose/dist/webapi/lib/jwt_claims_set.js",
+          "line": 73,
+          "samples": 1,
+          "category": "JWT claim validation/decoding"
+        },
+        {
+          "name": "Hmac",
+          "source": "node-internal:crypto_hash",
+          "line": 112,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "fetch",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "fetch",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "resolveSocialUser",
+          "source": "packages/storage/auth.ts",
+          "line": 108,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "_wrappedFetch",
+          "source": "cloudflare-internal:d1-api",
+          "line": 167,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "",
+          "source": "cloudflare-internal:d1-api",
+          "line": 598,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "Cipheriv",
+          "source": "node-internal:crypto_cipher",
+          "line": 68,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "batch",
+          "source": "packages/storage/instrumentation.ts",
+          "line": 59,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "toArrayOfObjects",
+          "source": "cloudflare-internal:d1-api",
+          "line": 583,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "other runtime/application"
+        }
+      ]
+    },
+    {
+      "operation": "4-new-web",
+      "totalSamples": 20,
+      "idleSamples": 2,
+      "nonIdleSamples": 18,
+      "categories": {
+        "idle": 2,
+        "framework/request/runtime": 6,
+        "crypto/JWT": 2,
+        "auth/session orchestration": 1,
+        "D1 client/storage orchestration": 7,
+        "unattributed-native/program": 1,
+        "other runtime/application": 1
+      },
+      "topSelf": [
+        {
+          "name": "(idle)",
+          "source": "",
+          "line": 0,
+          "samples": 2,
+          "category": "idle"
+        },
+        {
+          "name": "validateURL",
+          "source": "node_modules/next/src/server/web/utils.ts",
+          "line": 141,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "removeTrailingSlash",
+          "source": "node_modules/next/src/shared/lib/router/utils/remove-trailing-slash.ts",
+          "line": 8,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "origin",
+          "source": "node_modules/next/src/server/web/next-url.ts",
+          "line": 203,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "prepareVerify",
+          "source": "node_modules/jose/dist/webapi/lib/jws_verify.js",
+          "line": 39,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "isObject",
+          "source": "node_modules/jose/dist/webapi/lib/type_checks.js",
+          "line": 6,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "",
+          "source": "src/server/auth/firebase-token.ts",
+          "line": 40,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "Readable.on",
+          "source": "node-internal:streams_readable",
+          "line": 1129,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "text",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "fetch",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "enterSpan",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "_send",
+          "source": "cloudflare-internal:d1-api",
+          "line": 201,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "addAggregatedD1MetaToSpan",
+          "source": "cloudflare-internal:d1-api",
+          "line": 625,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "toString",
+          "source": "node-internal:internal_buffer",
+          "line": 348,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "fromArrayBuffer",
+          "source": "node-internal:internal_buffer",
+          "line": 165,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "createSession",
+          "source": "packages/storage/auth.ts",
+          "line": 208,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "_send",
+          "source": "cloudflare-internal:d1-api",
+          "line": 201,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "(program)",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "unattributed-native/program"
+        },
+        {
+          "name": "formatWithOptions",
+          "source": "node-internal:internal_inspect",
+          "line": 2157,
+          "samples": 1,
+          "category": "other runtime/application"
+        }
+      ]
+    },
+    {
+      "operation": "5-new-web",
+      "totalSamples": 20,
+      "idleSamples": 3,
+      "nonIdleSamples": 17,
+      "categories": {
+        "idle": 3,
+        "other runtime/application": 3,
+        "framework/request/runtime": 1,
+        "auth/session orchestration": 4,
+        "crypto/JWT": 2,
+        "configuration": 1,
+        "D1 client/storage orchestration": 6
+      },
+      "topSelf": [
+        {
+          "name": "(idle)",
+          "source": "",
+          "line": 0,
+          "samples": 3,
+          "category": "idle"
+        },
+        {
+          "name": "fetch",
+          "source": "",
+          "line": 0,
+          "samples": 2,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "run",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "other runtime/application"
+        },
+        {
+          "name": "middleware",
+          "source": "src/middleware.ts",
+          "line": 66,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "json",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "decode",
+          "source": "node_modules/jose/dist/webapi/util/base64url.js",
+          "line": 4,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "other runtime/application"
+        },
+        {
+          "name": "fetch",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "t._zod.run",
+          "source": "node_modules/zod/v4/core/schemas.js",
+          "line": 97,
+          "samples": 1,
+          "category": "configuration"
+        },
+        {
+          "name": "_send",
+          "source": "cloudflare-internal:d1-api",
+          "line": 201,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "",
+          "source": "src/server/auth/firebase-service.ts",
+          "line": 64,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "sql",
+          "source": "packages/storage/write-fence.ts",
+          "line": 77,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "firstIfArray",
+          "source": "cloudflare-internal:d1-api",
+          "line": 578,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "createSecretKey",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "enterSpan",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "row",
+          "source": "src/server/auth/postgres-repository.ts",
+          "line": 19,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "other runtime/application"
+        }
+      ]
+    },
+    {
+      "operation": "6-new-web",
+      "totalSamples": 18,
+      "idleSamples": 2,
+      "nonIdleSamples": 16,
+      "categories": {
+        "idle": 2,
+        "other runtime/application": 2,
+        "unattributed-native/program": 1,
+        "auth/session orchestration": 2,
+        "crypto/JWT": 3,
+        "configuration": 1,
+        "D1 client/storage orchestration": 6,
+        "framework/request/runtime": 1
+      },
+      "topSelf": [
+        {
+          "name": "(idle)",
+          "source": "",
+          "line": 0,
+          "samples": 2,
+          "category": "idle"
+        },
+        {
+          "name": "",
+          "source": "workers/api/index.ts",
+          "line": 37,
+          "samples": 1,
+          "category": "other runtime/application"
+        },
+        {
+          "name": "(program)",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "unattributed-native/program"
+        },
+        {
+          "name": "isObject",
+          "source": "node_modules/zod/v4/core/util.js",
+          "line": 145,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "verify",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "fetch",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "stripTabAndNewline",
+          "source": "node_modules/zod/v4/core/schemas.js",
+          "line": 221,
+          "samples": 1,
+          "category": "configuration"
+        },
+        {
+          "name": "_send",
+          "source": "cloudflare-internal:d1-api",
+          "line": 201,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "all",
+          "source": "packages/storage/write-fence.ts",
+          "line": 61,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "fetch",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "identityStatement",
+          "source": "packages/storage/auth.ts",
+          "line": 153,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "",
+          "source": "cloudflare-internal:d1-api",
+          "line": 223,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "getRandomValues",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "update",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "_sendOrThrow",
+          "source": "cloudflare-internal:d1-api",
+          "line": 188,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "Response",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "other runtime/application"
+        }
+      ]
+    },
+    {
+      "operation": "7-new-web",
+      "totalSamples": 21,
+      "idleSamples": 2,
+      "nonIdleSamples": 19,
+      "categories": {
+        "idle": 2,
+        "framework/request/runtime": 4,
+        "auth/session orchestration": 2,
+        "crypto/JWT": 4,
+        "unattributed-native/program": 1,
+        "D1 client/storage orchestration": 6,
+        "other runtime/application": 2
+      },
+      "topSelf": [
+        {
+          "name": "(idle)",
+          "source": "",
+          "line": 0,
+          "samples": 2,
+          "category": "idle"
+        },
+        {
+          "name": "",
+          "source": "",
+          "line": 0,
+          "samples": 2,
+          "category": "other runtime/application"
+        },
+        {
+          "name": "constructor",
+          "source": "node_modules/next/src/server/web/spec-extension/request.ts",
+          "line": 22,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "Response",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "",
+          "source": "src/app/api/auth/firebase/session/route.ts",
+          "line": 22,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "verifyPrepared",
+          "source": "node_modules/jose/dist/webapi/lib/jws_verify.js",
+          "line": 89,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "verify",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "json",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "(program)",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "unattributed-native/program"
+        },
+        {
+          "name": "Hash.update",
+          "source": "node-internal:crypto_hash",
+          "line": 77,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "enterSpan",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "_send",
+          "source": "cloudflare-internal:d1-api",
+          "line": 201,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "bind",
+          "source": "packages/storage/instrumentation.ts",
+          "line": 39,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "fetch",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "createBuffer",
+          "source": "node-internal:internal_buffer",
+          "line": 44,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "",
+          "source": "node-internal:crypto_keys",
+          "line": 112,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "withSpan",
+          "source": "cloudflare-internal:tracing-helpers",
+          "line": 34,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "toJson",
+          "source": "cloudflare-internal:d1-api",
+          "line": 616,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "Bpe",
+          "source": "node_modules/next/dist/compiled/@edge-runtime/cookies/index.js",
+          "line": 254,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        }
+      ]
+    },
+    {
+      "operation": "8-new-web",
+      "totalSamples": 24,
+      "idleSamples": 1,
+      "nonIdleSamples": 23,
+      "categories": {
+        "idle": 1,
+        "other runtime/application": 6,
+        "framework/request/runtime": 3,
+        "unattributed-native/program": 3,
+        "crypto/JWT": 4,
+        "configuration": 1,
+        "D1 client/storage orchestration": 5,
+        "auth/session orchestration": 1
+      },
+      "topSelf": [
+        {
+          "name": "",
+          "source": "",
+          "line": 0,
+          "samples": 5,
+          "category": "other runtime/application"
+        },
+        {
+          "name": "(program)",
+          "source": "",
+          "line": 0,
+          "samples": 3,
+          "category": "unattributed-native/program"
+        },
+        {
+          "name": "(idle)",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "idle"
+        },
+        {
+          "name": "l",
+          "source": "workers/api/index.ts",
+          "line": 26,
+          "samples": 1,
+          "category": "other runtime/application"
+        },
+        {
+          "name": "detectDomainLocale",
+          "source": "node_modules/next/src/shared/lib/i18n/detect-domain-locale.ts",
+          "line": 3,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "pathname",
+          "source": "node_modules/next/src/server/web/next-url.ts",
+          "line": 207,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "snapshotJwk",
+          "source": "node_modules/jose/dist/webapi/lib/jwk_metadata.js",
+          "line": 1,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "verify",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "t._zod.parse",
+          "source": "node_modules/zod/v4/core/schemas.js",
+          "line": 1964,
+          "samples": 1,
+          "category": "configuration"
+        },
+        {
+          "name": "digest",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "fetch",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "toJson",
+          "source": "cloudflare-internal:d1-api",
+          "line": 616,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "_sendOrThrow",
+          "source": "cloudflare-internal:d1-api",
+          "line": 188,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "resolveSocialUser",
+          "source": "packages/storage/auth.ts",
+          "line": 108,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "_send",
+          "source": "cloudflare-internal:d1-api",
+          "line": 201,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "Transform",
+          "source": "node-internal:streams_transform",
+          "line": 85,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "digest",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "row",
+          "source": "src/server/auth/postgres-repository.ts",
+          "line": 19,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        }
+      ]
+    },
+    {
+      "operation": "9-new-web",
+      "totalSamples": 21,
+      "idleSamples": 2,
+      "nonIdleSamples": 19,
+      "categories": {
+        "idle": 2,
+        "framework/request/runtime": 2,
+        "configuration": 1,
+        "auth/session orchestration": 4,
+        "crypto/JWT": 3,
+        "unattributed-native/program": 1,
+        "D1 client/storage orchestration": 6,
+        "other runtime/application": 2
+      },
+      "topSelf": [
+        {
+          "name": "(idle)",
+          "source": "",
+          "line": 0,
+          "samples": 2,
+          "category": "idle"
+        },
+        {
+          "name": "get process",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "formatPathname",
+          "source": "node_modules/next/src/server/web/next-url.ts",
+          "line": 106,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "applicationEnvironment",
+          "source": "src/server/persistence/bindings.ts",
+          "line": 39,
+          "samples": 1,
+          "category": "configuration"
+        },
+        {
+          "name": "exchangeFirebaseSession",
+          "source": "src/server/auth/firebase-service.ts",
+          "line": 57,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "verifyPrepared",
+          "source": "node_modules/jose/dist/webapi/lib/jws_verify.js",
+          "line": 89,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "verifyFirebaseSignature",
+          "source": "src/server/auth/firebase-token.ts",
+          "line": 24,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "(program)",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "unattributed-native/program"
+        },
+        {
+          "name": "identity",
+          "source": "src/server/auth/firebase-service.ts",
+          "line": 17,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "addD1MetaToSpan",
+          "source": "cloudflare-internal:d1-api",
+          "line": 632,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "get",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "Headers",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "fetch",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "bind",
+          "source": "packages/storage/instrumentation.ts",
+          "line": 39,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "HashHandle",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "Cipheriv.getAuthTag",
+          "source": "node-internal:crypto_cipher",
+          "line": 135,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "fetch",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "row",
+          "source": "src/server/auth/postgres-repository.ts",
+          "line": 19,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "",
+          "source": "workers/api/index.ts",
+          "line": 37,
+          "samples": 1,
+          "category": "other runtime/application"
+        },
+        {
+          "name": "",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "other runtime/application"
+        }
+      ]
+    },
+    {
+      "operation": "10-new-web",
+      "totalSamples": 20,
+      "idleSamples": 1,
+      "nonIdleSamples": 19,
+      "categories": {
+        "idle": 1,
+        "other runtime/application": 4,
+        "framework/request/runtime": 2,
+        "unattributed-native/program": 3,
+        "auth/session orchestration": 2,
+        "crypto/JWT": 3,
+        "D1 client/storage orchestration": 5
+      },
+      "topSelf": [
+        {
+          "name": "(program)",
+          "source": "",
+          "line": 0,
+          "samples": 3,
+          "category": "unattributed-native/program"
+        },
+        {
+          "name": "(idle)",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "idle"
+        },
+        {
+          "name": "fetch",
+          "source": "workers/api/index.ts",
+          "line": 18,
+          "samples": 1,
+          "category": "other runtime/application"
+        },
+        {
+          "name": "analyze",
+          "source": "node_modules/next/src/server/web/next-url.ts",
+          "line": 76,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "t._zod.parse",
+          "source": "node_modules/zod/v4/core/schemas.js",
+          "line": 1090,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "verifyPrepared",
+          "source": "node_modules/jose/dist/webapi/lib/jws_verify.js",
+          "line": 89,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "timeout",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "ReadableState",
+          "source": "node-internal:streams_readable",
+          "line": 260,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "enterSpan",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "enterSpan",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "now",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "other runtime/application"
+        },
+        {
+          "name": "all",
+          "source": "packages/storage/write-fence.ts",
+          "line": 61,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "createHmac",
+          "source": "node-internal:crypto_hash",
+          "line": 109,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "Cipheriv.update",
+          "source": "node-internal:crypto_cipher",
+          "line": 81,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "fetch",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "setAttributes",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "Response",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "other runtime/application"
+        },
+        {
+          "name": "",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "other runtime/application"
+        }
+      ]
+    },
+    {
+      "operation": "11-new-web",
+      "totalSamples": 20,
+      "idleSamples": 1,
+      "nonIdleSamples": 19,
+      "categories": {
+        "idle": 1,
+        "D1 client/storage orchestration": 7,
+        "framework/request/runtime": 3,
+        "other runtime/application": 3,
+        "auth/session orchestration": 2,
+        "crypto/JWT": 2,
+        "unattributed-native/program": 2
+      },
+      "topSelf": [
+        {
+          "name": "(program)",
+          "source": "",
+          "line": 0,
+          "samples": 2,
+          "category": "unattributed-native/program"
+        },
+        {
+          "name": "(idle)",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "idle"
+        },
+        {
+          "name": "wf",
+          "source": "packages/storage/multi-d1.ts",
+          "line": 40,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "toNodeOutgoingHttpHeaders",
+          "source": "node_modules/next/src/server/web/utils.ts",
+          "line": 117,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "r",
+          "source": "workers/api/index.ts",
+          "line": 77,
+          "samples": 1,
+          "category": "other runtime/application"
+        },
+        {
+          "name": "t._zod.parse",
+          "source": "node_modules/zod/v4/core/schemas.js",
+          "line": 1090,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "get type",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "fetch",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "fromString",
+          "source": "node-internal:internal_buffer",
+          "line": 147,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "withSpan",
+          "source": "cloudflare-internal:tracing-helpers",
+          "line": 34,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "withSpan",
+          "source": "cloudflare-internal:tracing-helpers",
+          "line": 34,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "",
+          "source": "cloudflare-internal:d1-api",
+          "line": 464,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "other runtime/application"
+        },
+        {
+          "name": "fetch",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "toString",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "newHandle",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "setAttributes",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "",
+          "source": "cloudflare-internal:d1-api",
+          "line": 122,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "other runtime/application"
+        }
+      ]
+    },
+    {
+      "operation": "12-new-web",
+      "totalSamples": 51,
+      "idleSamples": 3,
+      "nonIdleSamples": 48,
+      "categories": {
+        "idle": 3,
+        "unattributed-native/program": 5,
+        "framework/request/runtime": 2,
+        "auth/session orchestration": 3,
+        "crypto/JWT": 3,
+        "configuration": 2,
+        "D1 client/storage orchestration": 3,
+        "gc": 29,
+        "other runtime/application": 1
+      },
+      "topSelf": [
+        {
+          "name": "(garbage collector)",
+          "source": "",
+          "line": 0,
+          "samples": 29,
+          "category": "gc"
+        },
+        {
+          "name": "(program)",
+          "source": "",
+          "line": 0,
+          "samples": 5,
+          "category": "unattributed-native/program"
+        },
+        {
+          "name": "(idle)",
+          "source": "",
+          "line": 0,
+          "samples": 3,
+          "category": "idle"
+        },
+        {
+          "name": "analyze",
+          "source": "node_modules/next/src/server/web/next-url.ts",
+          "line": 76,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "POST",
+          "source": "src/app/api/auth/firebase/session/route.ts",
+          "line": 15,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "payload",
+          "source": "node_modules/zod/v4/core/checks.js",
+          "line": 17,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "get type",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "timeout",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "t._zod.parse",
+          "source": "node_modules/zod/v4/core/schemas.js",
+          "line": 1090,
+          "samples": 1,
+          "category": "configuration"
+        },
+        {
+          "name": "digest",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "_send",
+          "source": "cloudflare-internal:d1-api",
+          "line": 201,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "_wrappedFetch",
+          "source": "cloudflare-internal:d1-api",
+          "line": 167,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "batch",
+          "source": "packages/storage/instrumentation.ts",
+          "line": 59,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "requireAuthConfig",
+          "source": "src/server/auth/config.ts",
+          "line": 92,
+          "samples": 1,
+          "category": "configuration"
+        },
+        {
+          "name": "update",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "stringifyCookie",
+          "source": "node_modules/next/dist/compiled/@edge-runtime/cookies/index.js",
+          "line": 32,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "other runtime/application"
+        }
+      ]
+    },
+    {
+      "operation": "13-new-web",
+      "totalSamples": 15,
+      "idleSamples": 1,
+      "nonIdleSamples": 14,
+      "categories": {
+        "idle": 1,
+        "framework/request/runtime": 2,
+        "other runtime/application": 3,
+        "unattributed-native/program": 1,
+        "crypto/JWT": 1,
+        "JWT claim validation/decoding": 1,
+        "configuration": 1,
+        "D1 client/storage orchestration": 5
+      },
+      "topSelf": [
+        {
+          "name": "(idle)",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "idle"
+        },
+        {
+          "name": "toNodeOutgoingHttpHeaders",
+          "source": "node_modules/next/src/server/web/utils.ts",
+          "line": 117,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "r",
+          "source": "workers/api/index.ts",
+          "line": 77,
+          "samples": 1,
+          "category": "other runtime/application"
+        },
+        {
+          "name": "(program)",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "unattributed-native/program"
+        },
+        {
+          "name": "validateJwsHeaders",
+          "source": "node_modules/jose/dist/webapi/lib/jws_verify.js",
+          "line": 47,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "validateClaimsSet",
+          "source": "node_modules/jose/dist/webapi/lib/jwt_claims_set.js",
+          "line": 85,
+          "samples": 1,
+          "category": "JWT claim validation/decoding"
+        },
+        {
+          "name": "n",
+          "source": "node_modules/zod/v4/core/memoizer.js",
+          "line": 169,
+          "samples": 1,
+          "category": "configuration"
+        },
+        {
+          "name": "fetch",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "fetch",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "text",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "fetch",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "Transform",
+          "source": "node-internal:streams_transform",
+          "line": 85,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "encode",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "set",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "other runtime/application"
+        },
+        {
+          "name": "",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "other runtime/application"
+        }
+      ]
+    },
+    {
+      "operation": "14-new-web",
+      "totalSamples": 13,
+      "idleSamples": 1,
+      "nonIdleSamples": 12,
+      "categories": {
+        "idle": 1,
+        "framework/request/runtime": 3,
+        "unattributed-native/program": 2,
+        "crypto/JWT": 2,
+        "auth/session orchestration": 2,
+        "D1 client/storage orchestration": 2,
+        "configuration": 1
+      },
+      "topSelf": [
+        {
+          "name": "(program)",
+          "source": "",
+          "line": 0,
+          "samples": 2,
+          "category": "unattributed-native/program"
+        },
+        {
+          "name": "(idle)",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "idle"
+        },
+        {
+          "name": "entries",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "decode",
+          "source": "node_modules/jose/dist/webapi/util/base64url.js",
+          "line": 4,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "authStageSync",
+          "source": "src/server/auth/performance.ts",
+          "line": 55,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "fromArrayLike",
+          "source": "node-internal:internal_buffer",
+          "line": 161,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "",
+          "source": "src/server/auth/firebase-service.ts",
+          "line": 64,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "setAttributes",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "fetch",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "wB",
+          "source": "src/server/persistence/bindings.ts",
+          "line": 37,
+          "samples": 1,
+          "category": "configuration"
+        },
+        {
+          "name": "digest",
+          "source": "packages/storage/core.ts",
+          "line": 35,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "pathname",
+          "source": "node_modules/next/src/server/web/next-url.ts",
+          "line": 207,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        }
+      ]
+    },
+    {
+      "operation": "15-new-web",
+      "totalSamples": 14,
+      "idleSamples": 1,
+      "nonIdleSamples": 13,
+      "categories": {
+        "idle": 1,
+        "other runtime/application": 3,
+        "unattributed-native/program": 4,
+        "crypto/JWT": 1,
+        "D1 client/storage orchestration": 4,
+        "framework/request/runtime": 1
+      },
+      "topSelf": [
+        {
+          "name": "(program)",
+          "source": "",
+          "line": 0,
+          "samples": 4,
+          "category": "unattributed-native/program"
+        },
+        {
+          "name": "(idle)",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "idle"
+        },
+        {
+          "name": "",
+          "source": "workers/api/index.ts",
+          "line": 37,
+          "samples": 1,
+          "category": "other runtime/application"
+        },
+        {
+          "name": "decode",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "bind",
+          "source": "cloudflare-internal:d1-api",
+          "line": 370,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "fetch",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "resolveSocialUser",
+          "source": "packages/storage/auth.ts",
+          "line": 108,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "toJson",
+          "source": "cloudflare-internal:d1-api",
+          "line": 616,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "other runtime/application"
+        },
+        {
+          "name": "Duplex",
+          "source": "node-internal:streams_duplex",
+          "line": 89,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "other runtime/application"
+        }
+      ]
+    },
+    {
+      "operation": "16-new-web",
+      "totalSamples": 16,
+      "idleSamples": 1,
+      "nonIdleSamples": 15,
+      "categories": {
+        "idle": 1,
+        "unattributed-native/program": 2,
+        "framework/request/runtime": 2,
+        "crypto/JWT": 1,
+        "auth/session orchestration": 3,
+        "configuration": 1,
+        "D1 client/storage orchestration": 5,
+        "other runtime/application": 1
+      },
+      "topSelf": [
+        {
+          "name": "(program)",
+          "source": "",
+          "line": 0,
+          "samples": 2,
+          "category": "unattributed-native/program"
+        },
+        {
+          "name": "(idle)",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "idle"
+        },
+        {
+          "name": "Response",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "decode",
+          "source": "node_modules/jose/dist/webapi/util/base64url.js",
+          "line": 4,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "timeout",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "parseURLObject",
+          "source": "node_modules/zod/v4/core/schemas.js",
+          "line": 206,
+          "samples": 1,
+          "category": "configuration"
+        },
+        {
+          "name": "fetch",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "checkTombstone",
+          "source": "src/server/auth/firebase-service.ts",
+          "line": 21,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "",
+          "source": "cloudflare-internal:d1-api",
+          "line": 180,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "toJson",
+          "source": "cloudflare-internal:d1-api",
+          "line": 616,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "",
+          "source": "cloudflare-internal:d1-api",
+          "line": 223,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "Duplex",
+          "source": "node-internal:streams_duplex",
+          "line": 89,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "fetch",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "row",
+          "source": "src/server/auth/postgres-repository.ts",
+          "line": 19,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "other runtime/application"
+        }
+      ]
+    },
+    {
+      "operation": "17-new-web",
+      "totalSamples": 13,
+      "idleSamples": 2,
+      "nonIdleSamples": 11,
+      "categories": {
+        "idle": 2,
+        "D1 client/storage orchestration": 6,
+        "other runtime/application": 2,
+        "crypto/JWT": 1,
+        "framework/request/runtime": 2
+      },
+      "topSelf": [
+        {
+          "name": "(idle)",
+          "source": "",
+          "line": 0,
+          "samples": 2,
+          "category": "idle"
+        },
+        {
+          "name": "wf",
+          "source": "packages/storage/multi-d1.ts",
+          "line": 40,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "prelaunchEnabled",
+          "source": "src/lib/prelaunch.ts",
+          "line": 31,
+          "samples": 1,
+          "category": "other runtime/application"
+        },
+        {
+          "name": "verify",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "setAttributes",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "toJson",
+          "source": "cloudflare-internal:d1-api",
+          "line": 616,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "",
+          "source": "cloudflare-internal:d1-api",
+          "line": 464,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "wrap",
+          "source": "packages/storage/write-fence.ts",
+          "line": 58,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "fetch",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "Duplex",
+          "source": "node-internal:streams_duplex",
+          "line": 89,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "json",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "other runtime/application"
+        }
+      ]
+    },
+    {
+      "operation": "18-new-web",
+      "totalSamples": 19,
+      "idleSamples": 2,
+      "nonIdleSamples": 17,
+      "categories": {
+        "idle": 2,
+        "framework/request/runtime": 2,
+        "unattributed-native/program": 2,
+        "auth/session orchestration": 3,
+        "crypto/JWT": 2,
+        "D1 client/storage orchestration": 7,
+        "other runtime/application": 1
+      },
+      "topSelf": [
+        {
+          "name": "(idle)",
+          "source": "",
+          "line": 0,
+          "samples": 2,
+          "category": "idle"
+        },
+        {
+          "name": "(program)",
+          "source": "",
+          "line": 0,
+          "samples": 2,
+          "category": "unattributed-native/program"
+        },
+        {
+          "name": "Request",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "_parse",
+          "source": "node_modules/zod/v4/classic/schemas.js",
+          "line": 133,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "verify",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "fetch",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "decodeString",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "URL",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "URL",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "",
+          "source": "cloudflare-internal:d1-api",
+          "line": 464,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "fetch",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "D1PreparedStatement",
+          "source": "cloudflare-internal:d1-api",
+          "line": 365,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "setAttributes",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "getIv",
+          "source": "node-internal:crypto_cipher",
+          "line": 59,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "_send",
+          "source": "cloudflare-internal:d1-api",
+          "line": 201,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "exchangeFirebaseSession",
+          "source": "src/server/auth/firebase-service.ts",
+          "line": 57,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "other runtime/application"
+        }
+      ]
+    },
+    {
+      "operation": "19-new-web",
+      "totalSamples": 17,
+      "idleSamples": 2,
+      "nonIdleSamples": 15,
+      "categories": {
+        "idle": 2,
+        "other runtime/application": 2,
+        "framework/request/runtime": 1,
+        "auth/session orchestration": 2,
+        "crypto/JWT": 2,
+        "configuration": 1,
+        "D1 client/storage orchestration": 7
+      },
+      "topSelf": [
+        {
+          "name": "(idle)",
+          "source": "",
+          "line": 0,
+          "samples": 2,
+          "category": "idle"
+        },
+        {
+          "name": "enterSpan",
+          "source": "",
+          "line": 0,
+          "samples": 2,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "fetch",
+          "source": "",
+          "line": 0,
+          "samples": 2,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "l",
+          "source": "workers/api/index.ts",
+          "line": 26,
+          "samples": 1,
+          "category": "other runtime/application"
+        },
+        {
+          "name": "requiresApplicationSession",
+          "source": "src/lib/application-access.ts",
+          "line": 2,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "json",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "encode",
+          "source": "node_modules/jose/dist/webapi/lib/buffer_utils.js",
+          "line": 34,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "",
+          "source": "src/server/auth/firebase-service.ts",
+          "line": 32,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "n",
+          "source": "node_modules/zod/v4/core/memoizer.js",
+          "line": 169,
+          "samples": 1,
+          "category": "configuration"
+        },
+        {
+          "name": "Headers",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "setAttributes",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "update",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "text",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "",
+          "source": "workers/api/index.ts",
+          "line": 37,
+          "samples": 1,
+          "category": "other runtime/application"
+        }
+      ]
+    },
+    {
+      "operation": "20-new-web",
+      "totalSamples": 15,
+      "idleSamples": 2,
+      "nonIdleSamples": 13,
+      "categories": {
+        "idle": 2,
+        "other runtime/application": 3,
+        "framework/request/runtime": 2,
+        "crypto/JWT": 3,
+        "auth/session orchestration": 1,
+        "D1 client/storage orchestration": 4
+      },
+      "topSelf": [
+        {
+          "name": "(idle)",
+          "source": "",
+          "line": 0,
+          "samples": 2,
+          "category": "idle"
+        },
+        {
+          "name": "fetch",
+          "source": "workers/api/index.ts",
+          "line": 18,
+          "samples": 1,
+          "category": "other runtime/application"
+        },
+        {
+          "name": "protocol",
+          "source": "node_modules/next/src/server/web/next-url.ts",
+          "line": 184,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "get algorithm",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "fetch",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "other runtime/application"
+        },
+        {
+          "name": "fromArrayBuffer",
+          "source": "node-internal:internal_buffer",
+          "line": 165,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "enterSpan",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "fetch",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "setAttributes",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "Hash.update",
+          "source": "node-internal:crypto_hash",
+          "line": 77,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "digest",
+          "source": "packages/storage/core.ts",
+          "line": 35,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "aggregateD1Meta",
+          "source": "cloudflare-internal:d1-api",
+          "line": 650,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "other runtime/application"
+        }
+      ]
+    },
+    {
+      "operation": "21-existing-web",
+      "totalSamples": 18,
+      "idleSamples": 1,
+      "nonIdleSamples": 17,
+      "categories": {
+        "idle": 1,
+        "framework/request/runtime": 3,
+        "gc": 1,
+        "other runtime/application": 4,
+        "configuration": 1,
+        "crypto/JWT": 2,
+        "auth/session orchestration": 1,
+        "D1 client/storage orchestration": 5
+      },
+      "topSelf": [
+        {
+          "name": "",
+          "source": "workers/api/index.ts",
+          "line": 37,
+          "samples": 2,
+          "category": "other runtime/application"
+        },
+        {
+          "name": "",
+          "source": "",
+          "line": 0,
+          "samples": 2,
+          "category": "other runtime/application"
+        },
+        {
+          "name": "fetch",
+          "source": "",
+          "line": 0,
+          "samples": 2,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "(idle)",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "idle"
+        },
+        {
+          "name": "constructor",
+          "source": "node_modules/next/src/server/web/spec-extension/request.ts",
+          "line": 22,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "Ype",
+          "source": "node_modules/next/dist/compiled/@edge-runtime/cookies/index.js",
+          "line": 175,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "(garbage collector)",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "gc"
+        },
+        {
+          "name": "parseCookie",
+          "source": "node_modules/next/dist/compiled/@edge-runtime/cookies/index.js",
+          "line": 48,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "firebaseConfiguration",
+          "source": "src/server/auth/firebase-config.ts",
+          "line": 8,
+          "samples": 1,
+          "category": "configuration"
+        },
+        {
+          "name": "verify",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "identity",
+          "source": "src/server/auth/firebase-service.ts",
+          "line": 17,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "resolveSocialUser",
+          "source": "packages/storage/auth.ts",
+          "line": 108,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "toJson",
+          "source": "cloudflare-internal:d1-api",
+          "line": 616,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "toJson",
+          "source": "cloudflare-internal:d1-api",
+          "line": 616,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "final",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "crypto/JWT"
+        }
+      ]
+    },
+    {
+      "operation": "22-existing-web",
+      "totalSamples": 17,
+      "idleSamples": 2,
+      "nonIdleSamples": 15,
+      "categories": {
+        "idle": 2,
+        "other runtime/application": 2,
+        "framework/request/runtime": 2,
+        "auth/session orchestration": 2,
+        "crypto/JWT": 2,
+        "D1 client/storage orchestration": 7
+      },
+      "topSelf": [
+        {
+          "name": "(idle)",
+          "source": "",
+          "line": 0,
+          "samples": 2,
+          "category": "idle"
+        },
+        {
+          "name": "now",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "other runtime/application"
+        },
+        {
+          "name": "analyze",
+          "source": "node_modules/next/src/server/web/next-url.ts",
+          "line": 76,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "pathname",
+          "source": "node_modules/next/src/server/web/next-url.ts",
+          "line": 207,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "verifyFirebaseSignature",
+          "source": "src/server/auth/firebase-token.ts",
+          "line": 24,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "verify",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "prepare",
+          "source": "cloudflare-internal:d1-api",
+          "line": 30,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "toJson",
+          "source": "cloudflare-internal:d1-api",
+          "line": 616,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "getBookmark",
+          "source": "cloudflare-internal:d1-api",
+          "line": 271,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "fetch",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "_send",
+          "source": "cloudflare-internal:d1-api",
+          "line": 201,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "mapD1Result",
+          "source": "cloudflare-internal:d1-api",
+          "line": 602,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "Hash.update",
+          "source": "node-internal:crypto_hash",
+          "line": 77,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "x",
+          "source": "packages/storage/core.ts",
+          "line": 38,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "set",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "other runtime/application"
+        }
+      ]
+    },
+    {
+      "operation": "23-existing-web",
+      "totalSamples": 13,
+      "idleSamples": 2,
+      "nonIdleSamples": 11,
+      "categories": {
+        "idle": 2,
+        "other runtime/application": 2,
+        "unattributed-native/program": 1,
+        "auth/session orchestration": 2,
+        "key retrieval/import/parse": 1,
+        "JWT claim validation/decoding": 1,
+        "configuration": 1,
+        "D1 client/storage orchestration": 1,
+        "crypto/JWT": 2
+      },
+      "topSelf": [
+        {
+          "name": "(idle)",
+          "source": "",
+          "line": 0,
+          "samples": 2,
+          "category": "idle"
+        },
+        {
+          "name": "run",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "other runtime/application"
+        },
+        {
+          "name": "(program)",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "unattributed-native/program"
+        },
+        {
+          "name": "json",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "",
+          "source": "node_modules/jose/dist/webapi/jwks/local.js",
+          "line": 42,
+          "samples": 1,
+          "category": "key retrieval/import/parse"
+        },
+        {
+          "name": "validateClaimsSet",
+          "source": "node_modules/jose/dist/webapi/lib/jwt_claims_set.js",
+          "line": 85,
+          "samples": 1,
+          "category": "JWT claim validation/decoding"
+        },
+        {
+          "name": "t._zod.parse",
+          "source": "node_modules/zod/v4/core/schemas.js",
+          "line": 1090,
+          "samples": 1,
+          "category": "configuration"
+        },
+        {
+          "name": "withSpan",
+          "source": "cloudflare-internal:tracing-helpers",
+          "line": 34,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "randomFillSync",
+          "source": "node-internal:crypto_random",
+          "line": 43,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "digest",
+          "source": "packages/storage/core.ts",
+          "line": 35,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "row",
+          "source": "src/server/auth/postgres-repository.ts",
+          "line": 19,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "other runtime/application"
+        }
+      ]
+    },
+    {
+      "operation": "24-existing-web",
+      "totalSamples": 14,
+      "idleSamples": 2,
+      "nonIdleSamples": 12,
+      "categories": {
+        "idle": 2,
+        "framework/request/runtime": 2,
+        "crypto/JWT": 3,
+        "auth/session orchestration": 1,
+        "D1 client/storage orchestration": 4,
+        "other runtime/application": 2
+      },
+      "topSelf": [
+        {
+          "name": "(idle)",
+          "source": "",
+          "line": 0,
+          "samples": 2,
+          "category": "idle"
+        },
+        {
+          "name": "entries",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "constructor",
+          "source": "node_modules/next/src/server/web/spec-extension/response.ts",
+          "line": 43,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "get algorithm",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "fetch",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "Hmac.digest",
+          "source": "node-internal:crypto_hash",
+          "line": 155,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "fetch",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "one",
+          "source": "packages/storage/auth.ts",
+          "line": 23,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "HashHandle",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "createSession",
+          "source": "packages/storage/auth.ts",
+          "line": 208,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "toJson",
+          "source": "cloudflare-internal:d1-api",
+          "line": 616,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "",
+          "source": "workers/api/index.ts",
+          "line": 37,
+          "samples": 1,
+          "category": "other runtime/application"
+        },
+        {
+          "name": "",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "other runtime/application"
+        }
+      ]
+    },
+    {
+      "operation": "25-existing-web",
+      "totalSamples": 15,
+      "idleSamples": 3,
+      "nonIdleSamples": 12,
+      "categories": {
+        "idle": 3,
+        "framework/request/runtime": 2,
+        "other runtime/application": 2,
+        "unattributed-native/program": 1,
+        "crypto/JWT": 1,
+        "auth/session orchestration": 1,
+        "configuration": 1,
+        "D1 client/storage orchestration": 4
+      },
+      "topSelf": [
+        {
+          "name": "(idle)",
+          "source": "",
+          "line": 0,
+          "samples": 3,
+          "category": "idle"
+        },
+        {
+          "name": "constructor",
+          "source": "node_modules/next/src/server/web/next-url.ts",
+          "line": 49,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "r",
+          "source": "workers/api/index.ts",
+          "line": 77,
+          "samples": 1,
+          "category": "other runtime/application"
+        },
+        {
+          "name": "(program)",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "unattributed-native/program"
+        },
+        {
+          "name": "get algorithm",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "fetch",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "t._zod.parse",
+          "source": "node_modules/zod/v4/core/schemas.js",
+          "line": 953,
+          "samples": 1,
+          "category": "configuration"
+        },
+        {
+          "name": "enterSpan",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "text",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "fetch",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "decodeString",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "bind",
+          "source": "cloudflare-internal:d1-api",
+          "line": 370,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "other runtime/application"
+        }
+      ]
+    },
+    {
+      "operation": "26-existing-web",
+      "totalSamples": 14,
+      "idleSamples": 3,
+      "nonIdleSamples": 11,
+      "categories": {
+        "idle": 3,
+        "other runtime/application": 3,
+        "framework/request/runtime": 3,
+        "crypto/JWT": 1,
+        "D1 client/storage orchestration": 4
+      },
+      "topSelf": [
+        {
+          "name": "(idle)",
+          "source": "",
+          "line": 0,
+          "samples": 3,
+          "category": "idle"
+        },
+        {
+          "name": "l",
+          "source": "workers/api/index.ts",
+          "line": 26,
+          "samples": 1,
+          "category": "other runtime/application"
+        },
+        {
+          "name": "formatPathname",
+          "source": "node_modules/next/src/server/web/next-url.ts",
+          "line": 106,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "verify",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "fromString",
+          "source": "node-internal:internal_buffer",
+          "line": 147,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "fetch",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "toJson",
+          "source": "cloudflare-internal:d1-api",
+          "line": 616,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "_wrappedFetch",
+          "source": "cloudflare-internal:d1-api",
+          "line": 167,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "set",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "Duplex",
+          "source": "node-internal:streams_duplex",
+          "line": 89,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "",
+          "source": "workers/api/index.ts",
+          "line": 37,
+          "samples": 1,
+          "category": "other runtime/application"
+        },
+        {
+          "name": "",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "other runtime/application"
+        }
+      ]
+    },
+    {
+      "operation": "27-existing-web",
+      "totalSamples": 14,
+      "idleSamples": 1,
+      "nonIdleSamples": 13,
+      "categories": {
+        "idle": 1,
+        "framework/request/runtime": 2,
+        "crypto/JWT": 3,
+        "D1 client/storage orchestration": 6,
+        "auth/session orchestration": 1,
+        "other runtime/application": 1
+      },
+      "topSelf": [
+        {
+          "name": "(idle)",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "idle"
+        },
+        {
+          "name": "constructor",
+          "source": "node_modules/next/src/server/web/spec-extension/request.ts",
+          "line": 22,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "constructor",
+          "source": "node_modules/next/src/server/web/spec-extension/response.ts",
+          "line": 43,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "verify",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "Hmac.digest",
+          "source": "node-internal:crypto_hash",
+          "line": 155,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "fetch",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "setAttributes",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "",
+          "source": "cloudflare-internal:d1-api",
+          "line": 180,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "setAttributes",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "enterSpan",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "createSecretKey",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "",
+          "source": "cloudflare-internal:d1-api",
+          "line": 122,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "row",
+          "source": "src/server/auth/postgres-repository.ts",
+          "line": 19,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "other runtime/application"
+        }
+      ]
+    },
+    {
+      "operation": "28-existing-web",
+      "totalSamples": 16,
+      "idleSamples": 3,
+      "nonIdleSamples": 13,
+      "categories": {
+        "idle": 3,
+        "framework/request/runtime": 3,
+        "configuration": 1,
+        "crypto/JWT": 3,
+        "JWT claim validation/decoding": 1,
+        "D1 client/storage orchestration": 4,
+        "other runtime/application": 1
+      },
+      "topSelf": [
+        {
+          "name": "(idle)",
+          "source": "",
+          "line": 0,
+          "samples": 3,
+          "category": "idle"
+        },
+        {
+          "name": "analyze",
+          "source": "node_modules/next/src/server/web/next-url.ts",
+          "line": 76,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "applicationEnvironment",
+          "source": "src/server/persistence/bindings.ts",
+          "line": 39,
+          "samples": 1,
+          "category": "configuration"
+        },
+        {
+          "name": "decode",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "validateClaimsSet",
+          "source": "node_modules/jose/dist/webapi/lib/jwt_claims_set.js",
+          "line": 85,
+          "samples": 1,
+          "category": "JWT claim validation/decoding"
+        },
+        {
+          "name": "toString",
+          "source": "node-internal:internal_buffer",
+          "line": 348,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "_wrappedFetch",
+          "source": "cloudflare-internal:d1-api",
+          "line": 167,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "_send",
+          "source": "cloudflare-internal:d1-api",
+          "line": 201,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "bind",
+          "source": "cloudflare-internal:d1-api",
+          "line": 370,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "addAggregatedD1MetaToSpan",
+          "source": "cloudflare-internal:d1-api",
+          "line": 625,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "HmacHandle",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "digest",
+          "source": "packages/storage/core.ts",
+          "line": 35,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "cookie",
+          "source": "node_modules/next/src/server/web/spec-extension/response.ts",
+          "line": 63,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "",
+          "source": "workers/api/index.ts",
+          "line": 37,
+          "samples": 1,
+          "category": "other runtime/application"
+        }
+      ]
+    },
+    {
+      "operation": "29-existing-web",
+      "totalSamples": 15,
+      "idleSamples": 1,
+      "nonIdleSamples": 14,
+      "categories": {
+        "idle": 1,
+        "unattributed-native/program": 1,
+        "framework/request/runtime": 3,
+        "auth/session orchestration": 1,
+        "crypto/JWT": 2,
+        "JWT claim validation/decoding": 1,
+        "D1 client/storage orchestration": 4,
+        "other runtime/application": 2
+      },
+      "topSelf": [
+        {
+          "name": "(idle)",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "idle"
+        },
+        {
+          "name": "(program)",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "unattributed-native/program"
+        },
+        {
+          "name": "parseCookie",
+          "source": "node_modules/next/dist/compiled/@edge-runtime/cookies/index.js",
+          "line": 48,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "request",
+          "source": "src/server/auth/request.ts",
+          "line": 6,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "decode",
+          "source": "node_modules/jose/dist/webapi/util/base64url.js",
+          "line": 4,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "validateClaimsSet",
+          "source": "node_modules/jose/dist/webapi/lib/jwt_claims_set.js",
+          "line": 85,
+          "samples": 1,
+          "category": "JWT claim validation/decoding"
+        },
+        {
+          "name": "_from",
+          "source": "node-internal:internal_buffer",
+          "line": 101,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "fetch",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "_send",
+          "source": "cloudflare-internal:d1-api",
+          "line": 201,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "_wrappedFetch",
+          "source": "cloudflare-internal:d1-api",
+          "line": 167,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "",
+          "source": "cloudflare-internal:d1-api",
+          "line": 122,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "_from",
+          "source": "node-internal:internal_buffer",
+          "line": 101,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "digest",
+          "source": "packages/storage/core.ts",
+          "line": 35,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "set",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "other runtime/application"
+        },
+        {
+          "name": "",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "other runtime/application"
+        }
+      ]
+    },
+    {
+      "operation": "30-existing-web",
+      "totalSamples": 18,
+      "idleSamples": 4,
+      "nonIdleSamples": 14,
+      "categories": {
+        "idle": 4,
+        "other runtime/application": 2,
+        "framework/request/runtime": 2,
+        "auth/session orchestration": 3,
+        "crypto/JWT": 3,
+        "D1 client/storage orchestration": 3,
+        "configuration": 1
+      },
+      "topSelf": [
+        {
+          "name": "(idle)",
+          "source": "",
+          "line": 0,
+          "samples": 4,
+          "category": "idle"
+        },
+        {
+          "name": "fetch",
+          "source": "",
+          "line": 0,
+          "samples": 2,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "l",
+          "source": "workers/api/index.ts",
+          "line": 26,
+          "samples": 1,
+          "category": "other runtime/application"
+        },
+        {
+          "name": "parseCookie",
+          "source": "node_modules/next/dist/compiled/@edge-runtime/cookies/index.js",
+          "line": 48,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "json",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "encode",
+          "source": "node_modules/jose/dist/webapi/lib/buffer_utils.js",
+          "line": 34,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "firebaseAccountRequest",
+          "source": "src/server/auth/firebase-token.ts",
+          "line": 67,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "json",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "Hmac",
+          "source": "node-internal:crypto_hash",
+          "line": 112,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "setAttributes",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "parsedAuthConfig",
+          "source": "src/server/auth/config.ts",
+          "line": 36,
+          "samples": 1,
+          "category": "configuration"
+        },
+        {
+          "name": "digest",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "json",
+          "source": "node_modules/next/src/server/web/spec-extension/response.ts",
+          "line": 109,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "other runtime/application"
+        }
+      ]
+    },
+    {
+      "operation": "31-existing-web",
+      "totalSamples": 17,
+      "idleSamples": 2,
+      "nonIdleSamples": 15,
+      "categories": {
+        "idle": 2,
+        "D1 client/storage orchestration": 6,
+        "framework/request/runtime": 2,
+        "configuration": 2,
+        "crypto/JWT": 2,
+        "auth/session orchestration": 2,
+        "other runtime/application": 1
+      },
+      "topSelf": [
+        {
+          "name": "(idle)",
+          "source": "",
+          "line": 0,
+          "samples": 2,
+          "category": "idle"
+        },
+        {
+          "name": "users",
+          "source": "packages/storage/multi-d1.ts",
+          "line": 88,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "getHostname",
+          "source": "node_modules/next/src/shared/lib/get-hostname.ts",
+          "line": 9,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "applicationEnvironment",
+          "source": "src/server/persistence/bindings.ts",
+          "line": 39,
+          "samples": 1,
+          "category": "configuration"
+        },
+        {
+          "name": "jwtVerify",
+          "source": "node_modules/jose/dist/webapi/jwt/verify.js",
+          "line": 4,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "",
+          "source": "src/server/auth/firebase-token.ts",
+          "line": 40,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "t._zod.parse",
+          "source": "node_modules/zod/v4/core/schemas.js",
+          "line": 953,
+          "samples": 1,
+          "category": "configuration"
+        },
+        {
+          "name": "setAttributes",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "toJson",
+          "source": "cloudflare-internal:d1-api",
+          "line": 616,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "text",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "Headers",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "fetch",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "getStore",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "digest",
+          "source": "packages/storage/core.ts",
+          "line": 35,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "constructor",
+          "source": "node_modules/next/src/server/web/spec-extension/response.ts",
+          "line": 43,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "other runtime/application"
+        }
+      ]
+    },
+    {
+      "operation": "32-existing-web",
+      "totalSamples": 19,
+      "idleSamples": 2,
+      "nonIdleSamples": 17,
+      "categories": {
+        "idle": 2,
+        "D1 client/storage orchestration": 8,
+        "framework/request/runtime": 1,
+        "auth/session orchestration": 2,
+        "crypto/JWT": 2,
+        "configuration": 1,
+        "unattributed-native/program": 1,
+        "other runtime/application": 2
+      },
+      "topSelf": [
+        {
+          "name": "(idle)",
+          "source": "",
+          "line": 0,
+          "samples": 2,
+          "category": "idle"
+        },
+        {
+          "name": "storage",
+          "source": "packages/storage/multi-d1.ts",
+          "line": 54,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "analyze",
+          "source": "node_modules/next/src/server/web/next-url.ts",
+          "line": 76,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "assertSameOrigin",
+          "source": "src/server/auth/http.ts",
+          "line": 6,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "snapshotJwk",
+          "source": "node_modules/jose/dist/webapi/lib/jwk_metadata.js",
+          "line": 1,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "firebaseAccountRequest",
+          "source": "src/server/auth/firebase-token.ts",
+          "line": 67,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "t._zod.parse",
+          "source": "node_modules/zod/v4/core/schemas.js",
+          "line": 2152,
+          "samples": 1,
+          "category": "configuration"
+        },
+        {
+          "name": "_send",
+          "source": "cloudflare-internal:d1-api",
+          "line": 201,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "",
+          "source": "cloudflare-internal:d1-api",
+          "line": 598,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "addD1MetaToSpan",
+          "source": "cloudflare-internal:d1-api",
+          "line": 632,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "(program)",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "unattributed-native/program"
+        },
+        {
+          "name": "fetch",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "toJson",
+          "source": "cloudflare-internal:d1-api",
+          "line": 616,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "update",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "fetch",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "text",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "next",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "other runtime/application"
+        },
+        {
+          "name": "formatLog",
+          "source": "node-internal:internal_inspect",
+          "line": 2381,
+          "samples": 1,
+          "category": "other runtime/application"
+        }
+      ]
+    },
+    {
+      "operation": "33-existing-web",
+      "totalSamples": 13,
+      "idleSamples": 3,
+      "nonIdleSamples": 10,
+      "categories": {
+        "idle": 3,
+        "framework/request/runtime": 1,
+        "other runtime/application": 2,
+        "auth/session orchestration": 1,
+        "crypto/JWT": 3,
+        "D1 client/storage orchestration": 3
+      },
+      "topSelf": [
+        {
+          "name": "(idle)",
+          "source": "",
+          "line": 0,
+          "samples": 3,
+          "category": "idle"
+        },
+        {
+          "name": "entries",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "r",
+          "source": "workers/api/index.ts",
+          "line": 77,
+          "samples": 1,
+          "category": "other runtime/application"
+        },
+        {
+          "name": "POST",
+          "source": "src/app/api/auth/firebase/session/route.ts",
+          "line": 15,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "verify",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "HmacHandle",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "_wrappedFetch",
+          "source": "cloudflare-internal:d1-api",
+          "line": 167,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "record",
+          "source": "packages/storage/instrumentation.ts",
+          "line": 33,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "getSecretKey",
+          "source": "node-internal:crypto_cipher",
+          "line": 38,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "_send",
+          "source": "cloudflare-internal:d1-api",
+          "line": 201,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "other runtime/application"
+        }
+      ]
+    },
+    {
+      "operation": "34-existing-web",
+      "totalSamples": 17,
+      "idleSamples": 4,
+      "nonIdleSamples": 13,
+      "categories": {
+        "idle": 4,
+        "other runtime/application": 3,
+        "framework/request/runtime": 2,
+        "auth/session orchestration": 2,
+        "crypto/JWT": 1,
+        "configuration": 1,
+        "D1 client/storage orchestration": 3,
+        "unattributed-native/program": 1
+      },
+      "topSelf": [
+        {
+          "name": "(idle)",
+          "source": "",
+          "line": 0,
+          "samples": 4,
+          "category": "idle"
+        },
+        {
+          "name": "",
+          "source": "",
+          "line": 0,
+          "samples": 2,
+          "category": "other runtime/application"
+        },
+        {
+          "name": "fetch",
+          "source": "workers/api/index.ts",
+          "line": 18,
+          "samples": 1,
+          "category": "other runtime/application"
+        },
+        {
+          "name": "analyze",
+          "source": "node_modules/next/src/server/web/next-url.ts",
+          "line": 76,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "POST",
+          "source": "src/app/api/auth/firebase/session/route.ts",
+          "line": 15,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "checkKeyType",
+          "source": "node_modules/jose/dist/webapi/lib/key.js",
+          "line": 26,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "fetch",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "s",
+          "source": "node_modules/zod/v4/core/schemas.js",
+          "line": 34,
+          "samples": 1,
+          "category": "configuration"
+        },
+        {
+          "name": "fetch",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "enterSpan",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "get",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "ReadableState",
+          "source": "node-internal:streams_readable",
+          "line": 260,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "(program)",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "unattributed-native/program"
+        }
+      ]
+    },
+    {
+      "operation": "35-existing-web",
+      "totalSamples": 45,
+      "idleSamples": 5,
+      "nonIdleSamples": 40,
+      "categories": {
+        "idle": 5,
+        "framework/request/runtime": 1,
+        "auth/session orchestration": 2,
+        "key retrieval/import/parse": 1,
+        "configuration": 1,
+        "D1 client/storage orchestration": 6,
+        "crypto/JWT": 1,
+        "gc": 20,
+        "unattributed-native/program": 6,
+        "other runtime/application": 2
+      },
+      "topSelf": [
+        {
+          "name": "(garbage collector)",
+          "source": "",
+          "line": 0,
+          "samples": 20,
+          "category": "gc"
+        },
+        {
+          "name": "(program)",
+          "source": "",
+          "line": 0,
+          "samples": 6,
+          "category": "unattributed-native/program"
+        },
+        {
+          "name": "(idle)",
+          "source": "",
+          "line": 0,
+          "samples": 5,
+          "category": "idle"
+        },
+        {
+          "name": "getHostname",
+          "source": "node_modules/next/src/shared/lib/get-hostname.ts",
+          "line": 9,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "assertSameOrigin",
+          "source": "src/server/auth/http.ts",
+          "line": 6,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "isUsableJWK",
+          "source": "node_modules/jose/dist/webapi/jwks/local.js",
+          "line": 6,
+          "samples": 1,
+          "category": "key retrieval/import/parse"
+        },
+        {
+          "name": "fetch",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "t._zod.parse",
+          "source": "node_modules/zod/v4/classic/schemas.js",
+          "line": 1161,
+          "samples": 1,
+          "category": "configuration"
+        },
+        {
+          "name": "addD1MetaToSpan",
+          "source": "cloudflare-internal:d1-api",
+          "line": 632,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "text",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "linkSocialIdentity",
+          "source": "packages/storage/auth.ts",
+          "line": 169,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "mapD1Result",
+          "source": "cloudflare-internal:d1-api",
+          "line": 602,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "update",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "setAttributes",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "",
+          "source": "cloudflare-internal:d1-api",
+          "line": 223,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "other runtime/application"
+        },
+        {
+          "name": "",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "other runtime/application"
+        }
+      ]
+    },
+    {
+      "operation": "36-existing-web",
+      "totalSamples": 19,
+      "idleSamples": 3,
+      "nonIdleSamples": 16,
+      "categories": {
+        "idle": 3,
+        "framework/request/runtime": 2,
+        "crypto/JWT": 2,
+        "auth/session orchestration": 1,
+        "configuration": 1,
+        "D1 client/storage orchestration": 8,
+        "other runtime/application": 2
+      },
+      "topSelf": [
+        {
+          "name": "(idle)",
+          "source": "",
+          "line": 0,
+          "samples": 3,
+          "category": "idle"
+        },
+        {
+          "name": "",
+          "source": "cloudflare-internal:d1-api",
+          "line": 464,
+          "samples": 2,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "constructor",
+          "source": "node_modules/next/src/server/web/spec-extension/request.ts",
+          "line": 22,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "Response",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "verify",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "fetch",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "t._zod.parse",
+          "source": "node_modules/zod/v4/core/schemas.js",
+          "line": 2152,
+          "samples": 1,
+          "category": "configuration"
+        },
+        {
+          "name": "fetch",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "other runtime/application"
+        },
+        {
+          "name": "all",
+          "source": "packages/storage/instrumentation.ts",
+          "line": 40,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "",
+          "source": "cloudflare-internal:d1-api",
+          "line": 122,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "",
+          "source": "cloudflare-internal:d1-api",
+          "line": 122,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "createSecretKey",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "e",
+          "source": "packages/storage/write-fence.ts",
+          "line": 81,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "firstIfArray",
+          "source": "cloudflare-internal:d1-api",
+          "line": 578,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "other runtime/application"
+        }
+      ]
+    },
+    {
+      "operation": "37-existing-web",
+      "totalSamples": 15,
+      "idleSamples": 1,
+      "nonIdleSamples": 14,
+      "categories": {
+        "idle": 1,
+        "framework/request/runtime": 3,
+        "other runtime/application": 2,
+        "crypto/JWT": 1,
+        "JWT claim validation/decoding": 1,
+        "unattributed-native/program": 1,
+        "configuration": 1,
+        "D1 client/storage orchestration": 4,
+        "auth/session orchestration": 1
+      },
+      "topSelf": [
+        {
+          "name": "(idle)",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "idle"
+        },
+        {
+          "name": "entries",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "",
+          "source": "workers/api/index.ts",
+          "line": 37,
+          "samples": 1,
+          "category": "other runtime/application"
+        },
+        {
+          "name": "parseJoseHeader",
+          "source": "node_modules/jose/dist/webapi/lib/helpers.js",
+          "line": 30,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "validateClaimsSet",
+          "source": "node_modules/jose/dist/webapi/lib/jwt_claims_set.js",
+          "line": 85,
+          "samples": 1,
+          "category": "JWT claim validation/decoding"
+        },
+        {
+          "name": "(program)",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "unattributed-native/program"
+        },
+        {
+          "name": "requireAuthConfig",
+          "source": "src/server/auth/config.ts",
+          "line": 92,
+          "samples": 1,
+          "category": "configuration"
+        },
+        {
+          "name": "fetch",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "fetch",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "text",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "_sendOrThrow",
+          "source": "cloudflare-internal:d1-api",
+          "line": 188,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "_from",
+          "source": "node-internal:internal_buffer",
+          "line": 101,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "",
+          "source": "src/server/auth/firebase-service.ts",
+          "line": 82,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "json",
+          "source": "node_modules/next/src/server/web/spec-extension/response.ts",
+          "line": 109,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "other runtime/application"
+        }
+      ]
+    },
+    {
+      "operation": "38-existing-web",
+      "totalSamples": 14,
+      "idleSamples": 2,
+      "nonIdleSamples": 12,
+      "categories": {
+        "idle": 2,
+        "framework/request/runtime": 3,
+        "auth/session orchestration": 1,
+        "crypto/JWT": 2,
+        "configuration": 1,
+        "D1 client/storage orchestration": 4,
+        "other runtime/application": 1
+      },
+      "topSelf": [
+        {
+          "name": "(idle)",
+          "source": "",
+          "line": 0,
+          "samples": 2,
+          "category": "idle"
+        },
+        {
+          "name": "Request",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "t._zod.parse",
+          "source": "node_modules/zod/v4/core/schemas.js",
+          "line": 953,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "verify",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "t._zod.parse",
+          "source": "node_modules/zod/v4/core/schemas.js",
+          "line": 953,
+          "samples": 1,
+          "category": "configuration"
+        },
+        {
+          "name": "fromArrayBuffer",
+          "source": "node-internal:internal_buffer",
+          "line": 165,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "addD1MetaToSpan",
+          "source": "cloudflare-internal:d1-api",
+          "line": 632,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "text",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "",
+          "source": "cloudflare-internal:d1-api",
+          "line": 180,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "secretKey",
+          "source": "src/server/auth/crypto.ts",
+          "line": 9,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "e",
+          "source": "packages/storage/write-fence.ts",
+          "line": 82,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "json",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "other runtime/application"
+        }
+      ]
+    },
+    {
+      "operation": "39-existing-web",
+      "totalSamples": 11,
+      "idleSamples": 1,
+      "nonIdleSamples": 10,
+      "categories": {
+        "idle": 1,
+        "framework/request/runtime": 1,
+        "unattributed-native/program": 1,
+        "configuration": 1,
+        "crypto/JWT": 2,
+        "D1 client/storage orchestration": 4,
+        "other runtime/application": 1
+      },
+      "topSelf": [
+        {
+          "name": "(idle)",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "idle"
+        },
+        {
+          "name": "constructor",
+          "source": "node_modules/next/src/server/web/spec-extension/request.ts",
+          "line": 22,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "(program)",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "unattributed-native/program"
+        },
+        {
+          "name": "firebaseConfiguration",
+          "source": "src/server/auth/firebase-config.ts",
+          "line": 8,
+          "samples": 1,
+          "category": "configuration"
+        },
+        {
+          "name": "verify",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "enterSpan",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "bind",
+          "source": "packages/storage/instrumentation.ts",
+          "line": 39,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "URL",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "newHandle",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "_send",
+          "source": "cloudflare-internal:d1-api",
+          "line": 201,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "other runtime/application"
+        }
+      ]
+    },
+    {
+      "operation": "40-existing-web",
+      "totalSamples": 17,
+      "idleSamples": 1,
+      "nonIdleSamples": 16,
+      "categories": {
+        "idle": 1,
+        "unattributed-native/program": 3,
+        "framework/request/runtime": 1,
+        "auth/session orchestration": 3,
+        "crypto/JWT": 2,
+        "configuration": 1,
+        "D1 client/storage orchestration": 5,
+        "other runtime/application": 1
+      },
+      "topSelf": [
+        {
+          "name": "(program)",
+          "source": "",
+          "line": 0,
+          "samples": 3,
+          "category": "unattributed-native/program"
+        },
+        {
+          "name": "_wrappedFetch",
+          "source": "cloudflare-internal:d1-api",
+          "line": 167,
+          "samples": 2,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "(idle)",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "idle"
+        },
+        {
+          "name": "detectDomainLocale",
+          "source": "node_modules/next/src/shared/lib/i18n/detect-domain-locale.ts",
+          "line": 3,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "checkRateLimit",
+          "source": "src/server/auth/rate-limit.ts",
+          "line": 4,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "decode",
+          "source": "node_modules/jose/dist/webapi/util/base64url.js",
+          "line": 4,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "fetch",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "t._zod.parse",
+          "source": "node_modules/zod/v4/core/schemas.js",
+          "line": 953,
+          "samples": 1,
+          "category": "configuration"
+        },
+        {
+          "name": "fetch",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "",
+          "source": "cloudflare-internal:d1-api",
+          "line": 464,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "HmacHandle",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "x",
+          "source": "packages/storage/core.ts",
+          "line": 38,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "row",
+          "source": "src/server/auth/postgres-repository.ts",
+          "line": 19,
+          "samples": 1,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "other runtime/application"
+        }
+      ]
+    },
+    {
+      "operation": "41-native",
+      "totalSamples": 23,
+      "idleSamples": 2,
+      "nonIdleSamples": 21,
+      "categories": {
+        "idle": 2,
+        "framework/request/runtime": 2,
+        "other runtime/application": 2,
+        "crypto/JWT": 5,
+        "JWT claim validation/decoding": 4,
+        "configuration": 1,
+        "D1 client/storage orchestration": 3,
+        "auth/session orchestration": 4
+      },
+      "topSelf": [
+        {
+          "name": "(idle)",
+          "source": "",
+          "line": 0,
+          "samples": 2,
+          "category": "idle"
+        },
+        {
+          "name": "exchangeFirebaseSession",
+          "source": "src/server/auth/firebase-service.ts",
+          "line": 57,
+          "samples": 2,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "",
+          "source": "src/server/auth/service.ts",
+          "line": 79,
+          "samples": 2,
+          "category": "auth/session orchestration"
+        },
+        {
+          "name": "secs",
+          "source": "node_modules/jose/dist/webapi/lib/jwt_claims_set.js",
+          "line": 18,
+          "samples": 2,
+          "category": "JWT claim validation/decoding"
+        },
+        {
+          "name": "constructor",
+          "source": "node_modules/next/src/server/web/spec-extension/request.ts",
+          "line": 22,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "",
+          "source": "workers/api/index.ts",
+          "line": 37,
+          "samples": 1,
+          "category": "other runtime/application"
+        },
+        {
+          "name": "decode",
+          "source": "node_modules/jose/dist/webapi/util/base64url.js",
+          "line": 4,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "validateClaimsSet",
+          "source": "node_modules/jose/dist/webapi/lib/jwt_claims_set.js",
+          "line": 85,
+          "samples": 1,
+          "category": "JWT claim validation/decoding"
+        },
+        {
+          "name": "t._zod.parse",
+          "source": "node_modules/zod/v4/classic/schemas.js",
+          "line": 1161,
+          "samples": 1,
+          "category": "configuration"
+        },
+        {
+          "name": "toJson",
+          "source": "cloudflare-internal:d1-api",
+          "line": 616,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "",
+          "source": "cloudflare-internal:d1-api",
+          "line": 180,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "bind",
+          "source": "packages/storage/instrumentation.ts",
+          "line": 39,
+          "samples": 1,
+          "category": "D1 client/storage orchestration"
+        },
+        {
+          "name": "newHandle",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "ur",
+          "source": "node_modules/jose/dist/webapi/jwt/sign.js",
+          "line": 6,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "numericDate",
+          "source": "node_modules/jose/dist/webapi/lib/jwt_claims_set.js",
+          "line": 53,
+          "samples": 1,
+          "category": "JWT claim validation/decoding"
+        },
+        {
+          "name": "serializeProtectedHeader",
+          "source": "node_modules/jose/dist/webapi/lib/jws_sign.js",
+          "line": 9,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "checkKeyType",
+          "source": "node_modules/jose/dist/webapi/lib/key.js",
+          "line": 26,
+          "samples": 1,
+          "category": "crypto/JWT"
+        },
+        {
+          "name": "Bpe",
+          "source": "node_modules/next/dist/compiled/@edge-runtime/cookies/index.js",
+          "line": 254,
+          "samples": 1,
+          "category": "framework/request/runtime"
+        },
+        {
+          "name": "",
+          "source": "",
+          "line": 0,
+          "samples": 1,
+          "category": "other runtime/application"
+        }
+      ]
+    }
+  ]
+}
