@@ -1,0 +1,20 @@
+{
+  "checkedAtUtc": "2026-10-20T21:03:19.495214+00:00",
+  "gitleaksVersion": "8.30.1",
+  "stagedFindings": 0,
+  "knownCredentialScan": {
+    "source": "All reachable HEAD blobs; exact byte matching against existing local private app/gateway/provider/session credentials and current Wrangler OAuth token",
+    "secretCount": 35,
+    "blobCount": 10143,
+    "stagedFileCount": 16,
+    "matches": [],
+    "passed": true
+  },
+  "newScreenshotsVisuallyReviewed": [
+    "render-live.png",
+    "browser-at-cpu-stop.png",
+    "render-suspended.png"
+  ],
+  "privateCredentialValuesPublished": false,
+  "scopeLimitation": "Pattern/exact-known-value scans and screenshot review do not guarantee absence of every unknown secret"
+}

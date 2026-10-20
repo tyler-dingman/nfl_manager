@@ -1,0 +1,33 @@
+Direct origin denied /: HTTP 403 CPU samples 0
+Direct origin denied /account: HTTP 403 CPU samples 0
+Direct origin denied /api/auth/me: HTTP 403 CPU samples 0
+Direct origin denied /_next/static/test.js: HTTP 403 CPU samples 0
+Forged signing key denied: HTTP 403 CPU samples 0
+Expired origin assertion denied: HTTP 403 CPU samples 0
+Anonymous edge denied /: HTTP 403 CPU samples 1
+Anonymous edge denied /account: HTTP 403 CPU samples 1
+Anonymous edge denied /api/auth/me: HTTP 403 CPU samples 1
+Anonymous edge denied /logos/nfl.png: HTTP 403 CPU samples 1
+Anonymous edge denied /__staging/transaction: HTTP 403 CPU samples 1
+Invalid staging credential denied: HTTP 401 CPU samples 1
+Valid staging credential accepted: HTTP 303 CPU samples 1
+Valid origin transport with signed-out identity: HTTP 401 CPU samples 2
+Replayed origin assertion denied: HTTP 403 CPU samples 2
+Runtime observer normal audience denied: HTTP 403 CPU samples 0
+Runtime observation before auth: HTTP 200 CPU samples 2
+Signed-out protected page redirect: HTTP 307 CPU samples 3
+Authorized login page: HTTP 200 CPU samples 3
+Product preflight anonymous denied: HTTP 403 CPU samples 1
+Product preflight direct origin denied: HTTP 403 CPU samples 0
+Product account login: HTTP 200 CPU samples 15
+Second isolated synthetic account: HTTP 200 CPU samples 4
+Deterministic synthetic AI Search: HTTP 200 CPU samples 4
+Cross-shard saved article KC: HTTP 201 CPU samples 8
+Cross-shard saved article BUF: HTTP 201 CPU samples 7
+Cross-shard saved article NFL: HTTP 201 CPU samples 13
+Saved synthetic bet: HTTP 201 CPU samples 27
+Saved article and bet readback: HTTP 200 CPU samples 6
+Cross-user saved content isolation: HTTP 200 CPU samples 5
+Existing gated staging Web exposure disable verified
+Front Office native durable creation: HTTP 503 CPU samples 11
+Hosted validation stopped: Workers Free CPU exceeded: api /__staging/transaction 58 ms > 10 ms

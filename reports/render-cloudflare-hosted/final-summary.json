@@ -1,0 +1,95 @@
+{
+  "decision": "NO-GO",
+  "stopReason": "Actual private native-D1 API gateway CPU 58 ms during Front Office creation exceeds Workers Free 10 ms; transaction returned HTTP 200/outcome ok, which does not qualify CPU compliance",
+  "cpu": {
+    "web": {
+      "samples": 318,
+      "minMs": 0,
+      "maxMs": 4
+    },
+    "api": {
+      "samples": 202,
+      "minMs": 0,
+      "maxMs": 58
+    }
+  },
+  "overLimitTraces": [
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Front Office native durable creation",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 58,
+      "wallTimeMs": 144,
+      "exceptions": []
+    }
+  ],
+  "httpStatusCountsAcrossRecordedOperations": {
+    "403": 34,
+    "404": 8,
+    "401": 7,
+    "303": 2,
+    "200": 75,
+    "307": 2,
+    "503": 3,
+    "201": 4
+  },
+  "quotaBefore": {
+    "checkedAtUtc": "2026-10-20T20:10:49.738Z",
+    "d1": {
+      "rowsRead": 66316,
+      "rowsWritten": 2844,
+      "readQueries": 1098,
+      "writeQueries": 1231
+    },
+    "workers": {
+      "requests": 401,
+      "errors": 7,
+      "subrequests": 243
+    }
+  },
+  "quotaAfter": {
+    "checkedAtUtc": "2026-10-20T21:00:05.178Z",
+    "d1": {
+      "rowsRead": 124819,
+      "rowsWritten": 7403,
+      "readQueries": 2231,
+      "writeQueries": 3682
+    },
+    "workers": {
+      "requests": 1755,
+      "errors": 7,
+      "subrequests": 1002
+    }
+  },
+  "quotaDelta": {
+    "d1": {
+      "rowsRead": 58503,
+      "rowsWritten": 4559,
+      "readQueries": 1133,
+      "writeQueries": 2451
+    },
+    "workers": {
+      "requests": 1354,
+      "errors": 0,
+      "subrequests": 759
+    }
+  },
+  "quotaHeadroomAtSnapshot": {
+    "workerRequests": 98245,
+    "d1RowsRead": 4875181,
+    "d1RowsWritten": 92597
+  },
+  "storageBytes": 5566464,
+  "stagingDatabaseCount": 10,
+  "renderState": "Suspended by you; Free; no card on file; auto-deploy off",
+  "renderDeployedCommit": "d12ecd5fac73ff560c492c06a57e67a4b55febfc",
+  "webCorrectionCommit": "fd62b6bc",
+  "apiVersion": "9ddd70d2-9728-4bc0-8914-fe328e3c002e",
+  "webVersion": "a0a9c3b5-8367-473c-8d6f-a6a1b4807b60",
+  "accountDeletion": "NOT RUN after CPU stop",
+  "hostedRecovery": "UNVERIFIED",
+  "nativeDeviceValidation": "UNVERIFIED"
+}

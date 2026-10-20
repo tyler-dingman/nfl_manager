@@ -1,0 +1,35 @@
+{
+  "checkedAtUtc": "2026-10-20T20:56:46.911Z",
+  "records": [
+    {
+      "role": "web",
+      "httpStatus": 200,
+      "success": true,
+      "remainingTails": 0
+    },
+    {
+      "role": "api",
+      "httpStatus": 200,
+      "success": true,
+      "remainingTails": 0
+    },
+    {
+      "role": "password",
+      "httpStatus": 200,
+      "success": true,
+      "remainingTails": 0
+    },
+    {
+      "role": "application",
+      "httpStatus": 200,
+      "success": true,
+      "remainingTails": 0
+    },
+    {
+      "role": "odds-processor",
+      "httpStatus": 200,
+      "success": true,
+      "remainingTails": 0
+    }
+  ]
+}

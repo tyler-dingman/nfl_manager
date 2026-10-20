@@ -1,0 +1,13 @@
+[
+  {
+    "role": "web",
+    "exitCode": 0,
+    "private": true,
+    "secretNames": [
+      "AUTH_JWT_SECRET",
+      "DD_NODE_ORIGIN_SECRET",
+      "DD_TRANSACTION_SECRET",
+      "STAGING_ACCESS_SECRET"
+    ]
+  }
+]

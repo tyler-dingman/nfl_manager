@@ -1,0 +1,2445 @@
+{
+  "checkedAtUtc": "2026-10-20T20:53:06.826Z",
+  "source": "Actual Cloudflare live-tail trace-v1 CPU milliseconds; HTTP latency and Node process CPU are separate measurements",
+  "operations": [
+    {
+      "label": "Direct origin denied /",
+      "path": "/",
+      "status": 403,
+      "expected": 403,
+      "pass": true,
+      "latencyMs": 155,
+      "cacheControl": "private, no-store",
+      "referrerPolicy": null,
+      "cpuSamples": []
+    },
+    {
+      "label": "Direct origin denied /account",
+      "path": "/account",
+      "status": 403,
+      "expected": 403,
+      "pass": true,
+      "latencyMs": 107,
+      "cacheControl": "private, no-store",
+      "referrerPolicy": null,
+      "cpuSamples": []
+    },
+    {
+      "label": "Direct origin denied /api/auth/me",
+      "path": "/api/auth/me",
+      "status": 403,
+      "expected": 403,
+      "pass": true,
+      "latencyMs": 85,
+      "cacheControl": "private, no-store",
+      "referrerPolicy": null,
+      "cpuSamples": []
+    },
+    {
+      "label": "Direct origin denied /_next/static/test.js",
+      "path": "/_next/static/test.js",
+      "status": 403,
+      "expected": 403,
+      "pass": true,
+      "latencyMs": 72,
+      "cacheControl": "private, no-store",
+      "referrerPolicy": null,
+      "cpuSamples": []
+    },
+    {
+      "label": "Forged signing key denied",
+      "path": "/api/auth/me",
+      "status": 403,
+      "expected": 403,
+      "pass": true,
+      "latencyMs": 83,
+      "cacheControl": "private, no-store",
+      "referrerPolicy": null,
+      "cpuSamples": []
+    },
+    {
+      "label": "Expired origin assertion denied",
+      "path": "/api/auth/me",
+      "status": 403,
+      "expected": 403,
+      "pass": true,
+      "latencyMs": 124,
+      "cacheControl": "private, no-store",
+      "referrerPolicy": null,
+      "cpuSamples": []
+    },
+    {
+      "label": "Anonymous edge denied /",
+      "path": "/",
+      "status": 403,
+      "expected": 403,
+      "pass": true,
+      "latencyMs": 299,
+      "cacheControl": "private, no-store",
+      "referrerPolicy": "same-origin",
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/",
+          "cpuTimeMs": 0,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Anonymous edge denied /account",
+      "path": "/account",
+      "status": 403,
+      "expected": 403,
+      "pass": true,
+      "latencyMs": 83,
+      "cacheControl": "private, no-store",
+      "referrerPolicy": "same-origin",
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/account",
+          "cpuTimeMs": 0,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Anonymous edge denied /api/auth/me",
+      "path": "/api/auth/me",
+      "status": 403,
+      "expected": 403,
+      "pass": true,
+      "latencyMs": 86,
+      "cacheControl": "private, no-store",
+      "referrerPolicy": "same-origin",
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/api/auth/me",
+          "cpuTimeMs": 0,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Anonymous edge denied /logos/nfl.png",
+      "path": "/logos/nfl.png",
+      "status": 403,
+      "expected": 403,
+      "pass": true,
+      "latencyMs": 71,
+      "cacheControl": "private, no-store",
+      "referrerPolicy": "same-origin",
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/logos/nfl.png",
+          "cpuTimeMs": 0,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Anonymous edge denied /__staging/transaction",
+      "path": "/__staging/transaction",
+      "status": 403,
+      "expected": 403,
+      "pass": true,
+      "latencyMs": 75,
+      "cacheControl": "private, no-store",
+      "referrerPolicy": null,
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 0,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Internal Worker private api",
+      "status": 404,
+      "pass": true
+    },
+    {
+      "label": "Internal Worker private password",
+      "status": 404,
+      "pass": true
+    },
+    {
+      "label": "Internal Worker private application",
+      "status": 404,
+      "pass": true
+    },
+    {
+      "label": "Internal Worker private odds-processor",
+      "status": 404,
+      "pass": true
+    },
+    {
+      "label": "Invalid staging credential denied",
+      "path": "/__staging/access",
+      "status": 401,
+      "expected": 401,
+      "pass": true,
+      "latencyMs": 301,
+      "cacheControl": "private, no-store",
+      "referrerPolicy": "same-origin",
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/__staging/access",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Valid staging credential accepted",
+      "path": "/__staging/access",
+      "status": 303,
+      "expected": 303,
+      "pass": true,
+      "latencyMs": 235,
+      "cacheControl": "private, no-store",
+      "referrerPolicy": "same-origin",
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/__staging/access",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Valid origin transport with signed-out identity",
+      "path": "/api/auth/me",
+      "status": 401,
+      "expected": 401,
+      "pass": true,
+      "latencyMs": 331,
+      "cacheControl": "private, no-store",
+      "referrerPolicy": null,
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 3,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 4,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Replayed origin assertion denied",
+      "path": "/api/auth/me",
+      "status": 403,
+      "expected": 403,
+      "pass": true,
+      "latencyMs": 177,
+      "cacheControl": "private, no-store",
+      "referrerPolicy": null,
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Runtime observer normal audience denied",
+      "path": "/__staging/runtime-observation",
+      "status": 403,
+      "expected": 403,
+      "pass": true,
+      "latencyMs": 107,
+      "cacheControl": "private, no-store",
+      "referrerPolicy": null,
+      "cpuSamples": []
+    },
+    {
+      "label": "Runtime observation before auth",
+      "path": "/__staging/runtime-observation",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 213,
+      "cacheControl": "private, no-store",
+      "referrerPolicy": null,
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        }
+      ],
+      "runtime": {
+        "rssBytes": 294690816,
+        "heapUsedBytes": 164509072,
+        "heapTotalBytes": 175931392,
+        "externalBytes": 5129632,
+        "processCpuUserUs": 8906329,
+        "processCpuSystemUs": 731852,
+        "uptimeSeconds": 1096.461968916,
+        "nodeVersion": "v22.23.3"
+      }
+    },
+    {
+      "label": "Signed-out protected page redirect",
+      "path": "/",
+      "status": 307,
+      "expected": 307,
+      "pass": true,
+      "latencyMs": 503,
+      "cacheControl": "private, no-store",
+      "referrerPolicy": null,
+      "cpuSamples": [
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Authorized login page",
+      "path": "/login",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 263,
+      "cacheControl": "private, no-store",
+      "referrerPolicy": null,
+      "cpuSamples": [
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/login",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Product preflight anonymous denied",
+      "path": "/api/user/saved-content",
+      "status": 403,
+      "expected": 403,
+      "pass": true,
+      "latencyMs": 88,
+      "cacheControl": "private, no-store",
+      "referrerPolicy": "same-origin",
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/api/user/saved-content",
+          "cpuTimeMs": 0,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Product preflight direct origin denied",
+      "path": "/account",
+      "status": 403,
+      "expected": 403,
+      "pass": true,
+      "latencyMs": 168,
+      "cacheControl": "private, no-store",
+      "referrerPolicy": null,
+      "cpuSamples": []
+    },
+    {
+      "label": "Product account login",
+      "path": "/api/auth/firebase/session",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 1173,
+      "cacheControl": "private, no-store",
+      "referrerPolicy": null,
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/auth/firebase/session",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Second isolated synthetic account",
+      "path": "/api/auth/firebase/session",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 1011,
+      "cacheControl": "private, no-store",
+      "referrerPolicy": null,
+      "cpuSamples": [
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/auth/firebase/session",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/login",
+          "cpuTimeMs": 0,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Deterministic synthetic AI Search",
+      "path": "/api/search",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 568,
+      "cacheControl": "private, no-store",
+      "referrerPolicy": null,
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/search",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/login",
+          "cpuTimeMs": 0,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Cross-shard saved article KC",
+      "path": "/api/user/saved-content",
+      "status": 201,
+      "expected": 201,
+      "pass": true,
+      "latencyMs": 1849,
+      "cacheControl": "private, no-store",
+      "referrerPolicy": null,
+      "cpuSamples": [
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/access",
+          "cpuTimeMs": 0,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/user/saved-content",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Cross-shard saved article BUF",
+      "path": "/api/user/saved-content",
+      "status": 201,
+      "expected": 201,
+      "pass": true,
+      "latencyMs": 1808,
+      "cacheControl": "private, no-store",
+      "referrerPolicy": null,
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/user/saved-content",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Cross-shard saved article NFL",
+      "path": "/api/user/saved-content",
+      "status": 201,
+      "expected": 201,
+      "pass": true,
+      "latencyMs": 1657,
+      "cacheControl": "private, no-store",
+      "referrerPolicy": null,
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 3,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/user/saved-content",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/access",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/login",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/images/favicon/site.webmanifest",
+          "cpuTimeMs": 0,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Saved synthetic bet",
+      "path": "/api/user/saved-content",
+      "status": 201,
+      "expected": 201,
+      "pass": true,
+      "latencyMs": 1698,
+      "cacheControl": "private, no-store",
+      "referrerPolicy": null,
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 4,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/_next/static/chunks/4909-60c88923efbb24ad.js",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 3,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 0,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 0,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 0,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 0,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 0,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/_next/static/chunks/6431-c80f8b935441ffba.js",
+          "cpuTimeMs": 0,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/images/favicon/site.webmanifest",
+          "cpuTimeMs": 0,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Saved article and bet readback",
+      "path": "/api/user/saved-content",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 889,
+      "cacheControl": "private, no-store",
+      "referrerPolicy": null,
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/user/saved-content",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Cross-user saved content isolation",
+      "path": "/api/user/saved-content",
+      "status": 200,
+      "expected": 200,
+      "pass": true,
+      "latencyMs": 841,
+      "cacheControl": "private, no-store",
+      "referrerPolicy": null,
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 2,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/user/saved-content",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    },
+    {
+      "label": "Front Office native durable creation",
+      "path": "/api/saves/create",
+      "status": 503,
+      "expected": 200,
+      "pass": false,
+      "latencyMs": 5239,
+      "cacheControl": "private, no-store",
+      "referrerPolicy": null,
+      "cpuSamples": [
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 58,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        },
+        {
+          "role": "api",
+          "path": "/__staging/transaction",
+          "cpuTimeMs": 9,
+          "outcome": "ok"
+        },
+        {
+          "role": "web",
+          "path": "/api/saves/create",
+          "cpuTimeMs": 1,
+          "outcome": "ok"
+        }
+      ]
+    }
+  ],
+  "traces": [
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/",
+      "operation": "Anonymous edge denied /",
+      "outcome": "ok",
+      "status": 403,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 0,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/account",
+      "operation": "Anonymous edge denied /account",
+      "outcome": "ok",
+      "status": 403,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 0,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/api/auth/me",
+      "operation": "Anonymous edge denied /api/auth/me",
+      "outcome": "ok",
+      "status": 403,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 0,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/logos/nfl.png",
+      "operation": "Anonymous edge denied /logos/nfl.png",
+      "outcome": "ok",
+      "status": 403,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 0,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Anonymous edge denied /__staging/transaction",
+      "outcome": "ok",
+      "status": 403,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 0,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "https://down-distance-rc3-staging-web.tdingman5.workers.dev",
+      "role": "web",
+      "path": "/__staging/access",
+      "operation": "Invalid staging credential denied",
+      "outcome": "ok",
+      "status": 401,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 221,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "https://down-distance-rc3-staging-web.tdingman5.workers.dev",
+      "role": "web",
+      "path": "/__staging/access",
+      "operation": "Valid staging credential accepted",
+      "outcome": "ok",
+      "status": 303,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 158,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Valid origin transport with signed-out identity",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 3,
+      "wallTimeMs": 102,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Valid origin transport with signed-out identity",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 4,
+      "wallTimeMs": 50,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Replayed origin assertion denied",
+      "outcome": "ok",
+      "status": 409,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 76,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Replayed origin assertion denied",
+      "outcome": "ok",
+      "status": 409,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 29,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Runtime observation before auth",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 103,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Runtime observation before auth",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 50,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Signed-out protected page redirect",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 47,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Signed-out protected page redirect",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 105,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "https://down-distance-rc3-staging-web.tdingman5.workers.dev",
+      "role": "web",
+      "path": "/",
+      "operation": "Signed-out protected page redirect",
+      "outcome": "ok",
+      "status": 307,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 284,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Authorized login page",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 46,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Authorized login page",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 95,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "https://down-distance-rc3-staging-web.tdingman5.workers.dev",
+      "role": "web",
+      "path": "/login",
+      "operation": "Authorized login page",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 176,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/api/user/saved-content",
+      "operation": "Product preflight anonymous denied",
+      "outcome": "ok",
+      "status": 403,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 0,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product account login",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 86,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product account login",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 43,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product account login",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 80,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product account login",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 33,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product account login",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 75,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product account login",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 28,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product account login",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 23,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product account login",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 77,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product account login",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 24,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product account login",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 71,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product account login",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 46,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product account login",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 95,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Product account login",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 81,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Product account login",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 28,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "https://down-distance-rc3-staging-web.tdingman5.workers.dev",
+      "role": "web",
+      "path": "/api/auth/firebase/session",
+      "operation": "Product account login",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 1015,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Second isolated synthetic account",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 26,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Second isolated synthetic account",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 75,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "https://down-distance-rc3-staging-web.tdingman5.workers.dev",
+      "role": "web",
+      "path": "/api/auth/firebase/session",
+      "operation": "Second isolated synthetic account",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 844,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/login",
+      "operation": "Second isolated synthetic account",
+      "outcome": "ok",
+      "status": 403,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 0,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Deterministic synthetic AI Search",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 94,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Deterministic synthetic AI Search",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 42,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "https://down-distance-rc3-staging-web.tdingman5.workers.dev",
+      "role": "web",
+      "path": "/api/search",
+      "operation": "Deterministic synthetic AI Search",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 494,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/login",
+      "operation": "Deterministic synthetic AI Search",
+      "outcome": "ok",
+      "status": 403,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 1,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Cross-shard saved article KC",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 46,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Cross-shard saved article KC",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 99,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Cross-shard saved article KC",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 26,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Cross-shard saved article KC",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 72,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/access",
+      "operation": "Cross-shard saved article KC",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 0,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Cross-shard saved article KC",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 79,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Cross-shard saved article KC",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 34,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "https://down-distance-rc3-staging-web.tdingman5.workers.dev",
+      "role": "web",
+      "path": "/api/user/saved-content",
+      "operation": "Cross-shard saved article KC",
+      "outcome": "ok",
+      "status": 201,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 1752,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Cross-shard saved article BUF",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 119,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Cross-shard saved article BUF",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 42,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Cross-shard saved article BUF",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 78,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Cross-shard saved article BUF",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 29,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Cross-shard saved article BUF",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 28,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Cross-shard saved article BUF",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 74,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "https://down-distance-rc3-staging-web.tdingman5.workers.dev",
+      "role": "web",
+      "path": "/api/user/saved-content",
+      "operation": "Cross-shard saved article BUF",
+      "outcome": "ok",
+      "status": 201,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 1722,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Cross-shard saved article NFL",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 91,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Cross-shard saved article NFL",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 43,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Cross-shard saved article NFL",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 67,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Cross-shard saved article NFL",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 22,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Cross-shard saved article NFL",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 94,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Cross-shard saved article NFL",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 3,
+      "wallTimeMs": 48,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "https://down-distance-rc3-staging-web.tdingman5.workers.dev",
+      "role": "web",
+      "path": "/api/user/saved-content",
+      "operation": "Cross-shard saved article NFL",
+      "outcome": "ok",
+      "status": 201,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 1583,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "https://down-distance-rc3-staging-web.tdingman5.workers.dev",
+      "role": "web",
+      "path": "/__staging/access",
+      "operation": "Cross-shard saved article NFL",
+      "outcome": "ok",
+      "status": 303,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 171,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/",
+      "operation": "Cross-shard saved article NFL",
+      "outcome": "ok",
+      "status": 307,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 153,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/login",
+      "operation": "Cross-shard saved article NFL",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 144,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Cross-shard saved article NFL",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 108,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/images/favicon/site.webmanifest",
+      "operation": "Cross-shard saved article NFL",
+      "outcome": "ok",
+      "status": 403,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 1,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Cross-shard saved article NFL",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 43,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Saved synthetic bet",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 4,
+      "wallTimeMs": 100,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Saved synthetic bet",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 48,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/_next/static/chunks/4909-60c88923efbb24ad.js",
+      "operation": "Saved synthetic bet",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 418,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Saved synthetic bet",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 107,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Saved synthetic bet",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 120,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Saved synthetic bet",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 123,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Saved synthetic bet",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 51,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Saved synthetic bet",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 123,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Saved synthetic bet",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 3,
+      "wallTimeMs": 50,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Saved synthetic bet",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 90,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Saved synthetic bet",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 52,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Saved synthetic bet",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 54,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Saved synthetic bet",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 40,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Saved synthetic bet",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 116,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Saved synthetic bet",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 124,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Saved synthetic bet",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 62,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Saved synthetic bet",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 72,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Saved synthetic bet",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 109,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Saved synthetic bet",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 118,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Saved synthetic bet",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 119,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Saved synthetic bet",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 51,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Saved synthetic bet",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 53,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Saved synthetic bet",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 52,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/_next/static/chunks/6431-c80f8b935441ffba.js",
+      "operation": "Saved synthetic bet",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 1009,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Saved synthetic bet",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 71,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Saved synthetic bet",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 24,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/images/favicon/site.webmanifest",
+      "operation": "Saved synthetic bet",
+      "outcome": "ok",
+      "status": 403,
+      "cpuTimeMs": 0,
+      "wallTimeMs": 0,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Saved article and bet readback",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 95,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Saved article and bet readback",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 44,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Saved article and bet readback",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 86,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Saved article and bet readback",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 26,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "https://down-distance-rc3-staging-web.tdingman5.workers.dev",
+      "role": "web",
+      "path": "/api/user/saved-content",
+      "operation": "Saved article and bet readback",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 778,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/",
+      "operation": "Saved article and bet readback",
+      "outcome": "ok",
+      "status": 403,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 2,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Cross-user saved content isolation",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 93,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Cross-user saved content isolation",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 2,
+      "wallTimeMs": 45,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Cross-user saved content isolation",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 72,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Cross-user saved content isolation",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 27,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "https://down-distance-rc3-staging-web.tdingman5.workers.dev",
+      "role": "web",
+      "path": "/api/user/saved-content",
+      "operation": "Cross-user saved content isolation",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 769,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Front Office native durable creation",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 96,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Front Office native durable creation",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 44,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Front Office native durable creation",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 74,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Front Office native durable creation",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 31,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Front Office native durable creation",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 58,
+      "wallTimeMs": 144,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Front Office native durable creation",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 189,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Front Office native durable creation",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 66,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Front Office native durable creation",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 22,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "web",
+      "path": "/__staging/transaction",
+      "operation": "Front Office native durable creation",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 102,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "[unavailable]",
+      "role": "api",
+      "path": "/__staging/transaction",
+      "operation": "Front Office native durable creation",
+      "outcome": "ok",
+      "status": 200,
+      "cpuTimeMs": 9,
+      "wallTimeMs": 57,
+      "exceptions": []
+    },
+    {
+      "requestOrigin": "https://down-distance-rc3-staging-web.tdingman5.workers.dev",
+      "role": "web",
+      "path": "/api/saves/create",
+      "operation": "Front Office native durable creation",
+      "outcome": "ok",
+      "status": 503,
+      "cpuTimeMs": 1,
+      "wallTimeMs": 5157,
+      "exceptions": []
+    }
+  ],
+  "stopReason": "Workers Free CPU exceeded: api /__staging/transaction 58 ms > 10 ms",
+  "thresholdMs": 10,
+  "passed": false
+}

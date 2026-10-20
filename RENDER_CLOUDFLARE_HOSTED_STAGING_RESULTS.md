@@ -1,71 +1,98 @@
 # Render + Cloudflare hosted staging results
 
-## Resumed preflight — deployment pending
+**NO-GO. The hybrid staging deployment succeeded, but a native-D1 API gateway invocation used 58 ms CPU during Front Office creation, exceeding the Workers Free 10 ms target. Testing stopped immediately. Cloudflare staging exposure is disabled and Render is suspended.** No billing, paid service, production deployment or new Cloudflare resource was activated.
 
-Owner approved repository access only for `tyler-dingman/nfl_manager` and isolated staging credentials only on existing Render service `srv-dbbsht6i0phs73e2otg0` (`nfl_manager`). The initial main-branch deployment was canceled before completion; auto-deploy is off. No production deployment is authorized.
+## Required results
 
-Render Free is verified in the dashboard; workspace Hobby has no card on file. Initial included usage was 0/750 instance-hours, 0/5 GB bandwidth and 0/500 build minutes. Firebase Spark and Cloudflare Workers Free were verified in their dashboards. Existing ten staging D1 IDs match the manifest; all five staging Workers are private with empty schedules. The unrelated scheduler is excluded.
-
-Local qualification: portable production Node build PASS; TypeScript PASS; two new Worker dry runs PASS; five security/native transaction tests PASS; 78 native-boundary integration assertions PASS. Actual hosted CPU, memory, authentication, SSR, product workflows and cold starts remain UNVERIFIED pending deployment. Prior account-access failure is superseded by this resumed preflight.
-
-Existing databases remain occupied; hosted recovery is UNVERIFIED. No database deletion, migration or new Cloudflare resource is permitted. Providers, ingestion, mail, push and Cron remain disabled. Controlled beta readiness: NO-GO until hosted qualification.
-
-Account-wide pretest usage: 66,316 D1 rows read, 2,844 written; evidence under `reports/render-cloudflare-hosted/`. Historic Worker CPU values are not new hybrid measurements.
-
-Branch: `staging/render-cloudflare-hosted-preflight`.
-Commit: identify this reviewed candidate with `git log -1 --format=%H -- scripts/render-staging/build.mjs`; final hosted report will record the deployed candidate explicitly.
-
-## Current stop: public repository publication approval
-
-Staging-only environment configuration was saved on the existing Free Render service without deploying. Auto-deploy remains off; the service still points to main and its initial deploy was canceled. No new Render service or Cloudflare resource was created by this resumed execution. No Cloudflare deployment/exposure toggle was performed.
-
-Automatic approval review rejected the combined local-commit/public-push action because the payload includes application changes, reports and account/deployment metadata, and existing staging authorization did not clearly authorize publishing this entire payload to the public repository. No push occurred. This is a publication authorization blocker, not a security-test failure. Local preparation and commits remain authorized.
-
-Exact next owner action: approve publishing this dedicated staging branch to public `tyler-dingman/nfl_manager`, including the reviewed source/tests/configuration and sanitized evidence. Public metadata includes staging Worker/service names, staging database/account UUIDs, Render service/workspace identifiers, quota totals, local test/build logs and dashboard screenshots. No private environment files, app/gateway secrets, account API token or production credential is included. Existing baseline history will also be made reachable by this branch; review the publication scope below before approval.
-
-Until that approval, hosted deployment, CPU/memory measurement and product validation are NOT RUN. Controlled beta remains NO-GO. Required final results: origin security local PASS/hosted UNVERIFIED; gateway local PASS/hosted UNVERIFIED; Firebase authentication and authenticated SSR local PASS/hosted UNVERIFIED; all-team routing/global feed/product workflows local PASS/hosted UNVERIFIED; hosted recovery UNVERIFIED; billing activation NONE.
-
-Publication scope review found 55 pre-existing local commits absent from locally recorded origin/main, affecting 2611 files, in addition to this resumed candidate. A branch push exposes that baseline history too. See [the complete proposed publication scope](reports/render-cloudflare-hosted/publication-scope.md). The new credential scan is limited to new evidence/configuration, not a historical credential audit. Do not describe this as a small isolated patch publication.
-
-## Final status at publication gate
-
-| Required result | Status |
+| Result | Measured status |
 | --- | --- |
-| Render service created | Existing owner-created `nfl_manager`, `srv-dbbsht6i0phs73e2otg0`; no additional service created |
-| Render Free verified | YES, Free instance / Hobby workspace; no card on file |
+| Render service created | Existing owner-created Free `nfl_manager`, `srv-dbbsht6i0phs73e2otg0`, reused; no second service |
+| Render Free verified | YES, Free Node service / Hobby workspace; no card on file, rechecked after suspension |
 | Billing activated | NONE |
-| Origin security | Local PASS; hosted UNVERIFIED; no reviewed app deployment |
-| Cloudflare gateway | Local PASS; hybrid deployment NOT RUN; five existing Workers freshly verified private with empty schedules |
-| Firebase authentication | Local PASS; hybrid hosted UNVERIFIED; existing Spark project unchanged |
-| Authenticated SSR | Local PASS; hybrid hosted UNVERIFIED |
-| All-team routing | Local PASS; hybrid hosted UNVERIFIED |
-| Global feed | Local PASS; hybrid hosted UNVERIFIED |
-| Cloudflare gateway CPU | UNMEASURED; no compliance claim |
-| Render memory | UNMEASURED |
-| Cold-start behavior | UNMEASURED |
-| D1 usage | Account preflight: 66,316 rows read / 2,844 written; storage approximately 5.55 MB. No hybrid application workload executed |
-| Product smoke tests | 78 local integration assertions PASS; hybrid hosted NOT RUN |
-| Hosted recovery | UNVERIFIED; ten occupied databases, no safe empty isolated restore targets |
-| Remaining blockers | Explicit public publication approval and historical secret audit; then actual deployment, security, CPU/memory, product and quota qualification |
+| Origin security | PASS sampled direct, missing, forged, expired and replay denial; strict origin/body/audience binding retained |
+| Cloudflare gateway | Native binding boundary deployed on existing Web/API Workers; internal Workers remain private. Local rollback/CAS/fence tests PASS; hosted rollback/concurrency testing UNVERIFIED |
+| Firebase authentication | Registration, identity exchange, repeated refresh, API session lookup, login/logout and revoked-session denial PASS in bounded samples. One separate fresh login failed closed during D1 revocation read; subsequent retest passed; transport cause unresolved. Full authentication reliability UNQUALIFIED |
+| Authenticated SSR | Homepage, Front Office, Parlay Lab, account and additional product HTML returned 200. Signed-out homepage redirected 307 to same-origin login, which returned 200. Full signed-in browser validation interrupted/unqualified |
+| All-team routing | PASS: 32/32 feeds contained their existing `rc3-qualification-TEAM` synthetic identities |
+| Global feed | PASS: shared NFL feed returned 200 with `rc3-qualification-NFL` |
+| Cloudflare gateway CPU | FAIL: Web 0–4 ms (318 samples); API 0–58 ms (202 samples). Actual Cloudflare live-tail CPU, not latency |
+| Render memory | Actual Node process RSS 300,945,408–312,217,600 bytes in initial auth snapshots (~287–298 MiB). Not a concurrency/capacity qualification |
+| Cold-start behavior | Initial deployment logs: Node start 15:34:13 CDT, listening 15:34:21, platform live 15:34:29 on October 20, 2026. Sleep/wake and restart persistence NOT RUN after CPU stop; deployment timing is not a sleep/wake measurement |
+| D1 usage | Snapshot 124,819 rows read, 7,403 written; 2,231 read queries / 3,682 write queries; 5,566,464 bytes across ten databases. Analytics may lag final traffic |
+| Product smoke tests | PARTIAL / FAIL overall. Cross-shard saved articles, saved bet readback, saved-content isolation, deterministic search and bounded Parlay routes passed. Front Office creation triggered CPU stop; Three & Out has no verified edition; Huddle API is intentionally disabled |
+| Hosted recovery | UNVERIFIED: ten occupied slots, no safe empty isolated restore capacity; no database deleted, overwritten or restored |
+| Remaining blockers | Native gateway CPU; unresolved intermittent D1-read failure; Three & Out edition availability; intentionally disabled Huddle; incomplete browser, Front Office, erasure, persistence and recovery qualification |
 | Controlled beta readiness | NO-GO |
-| Exact next owner action | Answer the publication-scope approval request; credentials approval alone does not authorize this broader public export |
+| Exact next owner action | Keep staging disabled. Review this 58 ms native-gateway trace and authorize focused local profiling of the Front Office transaction path before another hosted retest. Preserve native batch atomicity, write fences and identity security; inspect the interrupted synthetic command journal before retrying its mutation |
 | Branch | `staging/render-cloudflare-hosted-preflight` |
-| Commit | Local candidate `7efa896d`; final documentation commit identified by `git log -1 --format=%H -- RENDER_CLOUDFLARE_HOSTED_STAGING_RESULTS.md` |
+| Commit | Render deployed `d12ecd5fac73ff560c492c06a57e67a4b55febfc`; Web-only form correction `fd62b6bc`. Final report commit: `git log -1 --format=%H -- RENDER_CLOUDFLARE_HOSTED_STAGING_RESULTS.md` |
 
-Saved credentials are masked in Render's environment view; no secret appears in new repository evidence/configuration. The bulk editor briefly exposed staging values to the private tool transcript before saving; no raw editor snapshot was stored in the repository or published. Subsequent observations were redacted/masked. No production credential was used. This is not a full historical secret audit.
+## CPU failure and transaction integrity
 
-At stop: Render auto-deploy is off and its initial deployment remains canceled; no successful application deployment exists to suspend. All five Cloudflare staging Workers are private. No public staging exposure was enabled by this resumed run. Production DNS, Vercel and production data were untouched. No hosted results are inferred from local tests.
+[The final trace](reports/render-cloudflare-hosted/completion-validation.json) identifies **`down-distance-rc3-staging-api`, `/__staging/transaction`, during `POST /api/saves/create` (Front Office native durable creation)**. That invocation reported CPU **58 ms**, wall time **144 ms**, HTTP **200**, outcome **ok**, no exception. A successful response or platform burst allowance does not qualify it for the 10 ms Free budget. Another native invocation reached 9 ms; the workload lacks consistent headroom.
 
-## Publication approval and audit completed
+The safety monitor disabled the Web endpoint as soon as the over-limit trace arrived. The enclosing Front Office request returned 503 after 5,239 ms. Shutdown can interrupt later steps, so this does **not** prove the native batch rolled back or the entire application command failed before writing. Its workflow outcome is ambiguous; no automatic retry, destructive cleanup or recovery was attempted. Existing per-database native batches remain intact; no REST writes or non-atomic sequential substitute was introduced.
 
-Owner explicitly approved publication after secret audit. Full reachable history at `1897667c` (566 commits) was scanned with checksum-verified official Gitleaks v8.30.1 default rules, ignoring inline allow comments. All 94 findings were individually classified as non-secret checksums, deployment UUIDs, prose, explicit offline synthetic signing fixtures or public registered Firebase client configuration; zero unresolved findings. Exact-byte scanning of 10,117 reachable blobs found no matches for 18 locally known private credentials, including current staging app/origin/transaction secrets and Wrangler OAuth. New dashboard screenshots were visually reviewed: values/hooks masked; synthetic account screenshot has no credential. See `reports/render-cloudflare-hosted/secret-audit.json`. This does not guarantee absence of unknown credentials. No live credential testing or external audit upload occurred.
+The API Worker executes transport verification, command validation, bound native D1 operations and result serialization. It does not execute Firebase JWT verification or Argon2id. The exact division of 58 ms among gateway parsing/validation, native D1 driver work and result encoding was **not captured**. Do not assume a specific dominant component without profiling. Do not weaken authentication, split an atomic batch, raise paid CPU limits or introduce another provider as an unmeasured workaround.
 
-The publication authorization blocker is resolved. Deployment and hosted tests remain pending; the prior stop table records the state before this authorization and must not be interpreted as current denial to proceed.
+The initial auth phase independently captured 63 Web and 39 API samples, all 0–3 ms. This is evidence that the sampled Firebase exchange/session path improved over the prior 47/40 ms application Worker observations. It does not qualify the heavier Front Office path or total daily capacity. A user operation now creates multiple gateway invocations; per-invocation CPU is distinct from aggregate CPU/request amplification.
 
-## First hybrid hosted evidence and browser gate correction
+Node observation snapshots include numeric RSS/heap and cumulative `process.cpuUsage()`. Their CPU delta includes all process activity in the interval and is not Cloudflare CPU or Render billed CPU. Stage `elapsedMs` and HTTP latencies include I/O and are not CPU measurements.
 
-Render deployed `d12ecd5fac73ff560c492c06a57e67a4b55febfc` successfully on Free. Private API version `9ddd70d2-9728-4bc0-8914-fe328e3c002e` and Web version `6269efa3-4f12-4f14-9cb5-26f26561caa0` use the reviewed native-D1 boundary. The first authentication/security phase passed 40 bounded operations, capturing 63 Web and 39 API actual live-tail CPU events, each 0–3 ms with ok outcomes. Node RSS snapshots: 300,945,408 and 312,217,600 bytes. These are preliminary measurements, not full beta qualification.
+## Security and the browser form correction
 
-A later fresh login failed closed during D1 revocation lookup after signature/claims/provider verification passed. Read-only diagnosis found no revocation; the bounded retest passed after a propagation wait. Exact transport cause is unresolved. All 32 synthetic team feeds and global feed passed in the product retest, as did protected product page HTML and the edge logo asset. Three & Out returned its explicit missing-verified-edition 503; `/api/huddle` returned its intentionally disabled visual-concept 503. Do not call these live workflows qualified.
+Hosted denial checks passed for direct origin pages/assets/APIs, anonymous edge pages/assets/APIs, invalid gate credentials, forged/expired/replayed transport assertions and internal Worker URLs. No bypass was observed. Normal user requests cannot access the separate operator runtime-observation audience. Headers remain private/no-store, including origin static chunks.
 
-Chrome's staging form submitted `Origin: null` and received 403, captured in sanitized live-tail metadata. The gate sets `Referrer-Policy: no-referrer`, which makes ordinary form POSTs use a null Origin. [MDN policy behavior](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Referrer-Policy#effect_on_the_origin_header). The smallest correction changes only that staging response header to `same-origin`; strict same-origin POST verification still rejects null/untrusted origins. Regression coverage checks the response policy, rejects null/untrusted origins, and retains valid credential, replay, private gateway, rotation and native rollback tests. No CSRF bypass, acceptance of null Origin or client-controlled gateway command is introduced. Hosted browser retest remains pending.
+Chrome initially submitted the staging credential form with `Origin: null`; the strict CSRF gate rejected it with 403. `Referrer-Policy: no-referrer` causes this behavior for ordinary form POSTs. [MDN documentation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Referrer-Policy#effect_on_the_origin_header). The reviewed correction changes only this staging response policy to `same-origin`; null and untrusted origins still fail. Four focused local workerd/origin tests and a Web dry run passed before redeployment.
+
+After the correction, actual Chrome form submission sent the canonical staging Origin and received 303, then rendered the login page. Email sign-in controls loaded. The attempted application sign-in displayed an inability-to-establish-session message during the CPU shutdown; signed-in browser behavior is **UNQUALIFIED**, not PASS. No bypass was used to establish a browser cookie. Android/iOS were not built or device-validated; React Native screens were unchanged.
+
+## Bounded product results
+
+- PASS: all 32 synthetic team feeds, global NFL identities, authorized edge logo asset, homepage/Beat/Film Room/Three & Out/Huddle/Trivia/Front Office/Parlay/Trending Props/My Plays/account HTML responses. These HTML checks do not prove every interactive workflow.
+- PASS sampled: Firebase registration/exchange/refresh/session lookup/logout/revocation; invalid Firebase token rejection; saved articles spanning KC, BUF and NFL; synthetic saved bet; cross-user saved-content isolation; deterministic search. No live provider functionality is inferred from fixtures.
+- PASS bounded Parlay endpoint responses: events, props, movement and freshness, with external providers disabled; empty/fixture responses are not live sportsbook validation.
+- PARTIAL: Trivia daily endpoint/page returned 200; gameplay/progress and Move the Chains were not completed. `/game-day` rendering is not a Move the Chains qualification.
+- UNAVAILABLE: Three & Out API explicitly returned 503 because no verified edition was available. Huddle API explicitly returns 503 as an intentionally disabled visual concept; no new backend or provider was enabled.
+- FAIL / STOP: Front Office durable creation exceeded API CPU. Hosted idempotent replay, foreign-owner Front Office access, final account-deletion journal, restart/sleep persistence and the remaining dependent tests were not executed. Prior local passes are not hosted results.
+
+The earlier fresh-login 401 occurred after signature/claim/provider checks passed and during a failed D1 revocation lookup, before provisioning or session creation. Read-only diagnosis found no tombstone; one retest after a propagation wait passed. The transport cause remains unresolved. No auth decision was cached or bypassed to proceed. Failed attempts remain in the evidence.
+
+Synthetic accounts, saved content and possible interrupted Front Office records remain isolated in staging. Account-deletion testing was not reached; no account-erasure PASS is claimed. Preserve the independent erasure ledger and inspect command/journal state before any future cleanup or replay. No occupied database may be deleted to obtain recovery capacity.
+
+## Account, quotas and final shutdown
+
+Cloudflare Workers Free and Firebase Spark were verified in their dashboards during preflight. The ten D1 IDs matched `config/render-staging/databases.json`; existing five staging Workers were reused. The unrelated scheduler was not modified. Subscription API 403 is an API permission limitation; plan verification came from the dashboard, not an invented subscription response. D1 engine metadata containing `production` is not an application production binding.
+
+Actual account snapshots (not a full-day workload):
+
+| Metric | Before | Final snapshot | Delta |
+| --- | ---: | ---: | ---: |
+| D1 rows read | 66,316 | 124,819 | 58,503 |
+| D1 rows written | 2,844 | 7,403 | 4,559 |
+| D1 read queries | 1,098 | 2,231 | 1,133 |
+| D1 write queries | 1,231 | 3,682 | 2,451 |
+| Worker requests | 401 | 1,755 | 1,354 |
+| Worker platform errors | 7 | 7 | 0 |
+
+Snapshot time: `2026-10-20T21:00:05.178Z`. Analytics may lag; these are account-wide totals, not exclusively test traffic. Snapshot headroom: 98,245 Worker requests, 4,875,181 D1 rows read, 92,597 D1 rows written. No quota exhaustion occurred. No 25–50 DAU or full-day ingestion capacity claim is made.
+
+[Application stage metrics](reports/render-cloudflare-hosted/render-auth-stage-metrics.json) contain actual D1 call/statement/row counts for sampled API operations. Web replay claims use four statements and native batches are capped at 50 by code; those ceilings are not measured query counts for the 58 ms invocation. Exact per-invocation D1/query/result-byte attribution for that failure remains a profiling gap. HTTP denials and product 503 responses are distinct from platform exception/error counters.
+
+Render's final UI still shows Hobby, no card on file, 4/500 pipeline minutes, and rounded 0/750 hours and 0 MB/5 GB bandwidth. Rounded zero does not mean no runtime/traffic was consumed. Free external API/database traffic suspension restrictions remain a feasibility risk; no sustained workload was run. [Render Free limits](https://render.com/docs/free).
+
+Final readback: **all five staging Workers private, previews off, empty Cron schedules; zero active tail sessions on all five; Render suspended, auto-deploy off**. No public staging exposure is left enabled. Email, AI, push, sportsbook calls and ingestion remain disabled. Firebase identity calls were the only enabled external application identity integration. No production DNS, downdistance.com, Vercel, production account/data or billing setting was modified.
+
+## Local validation and publication
+
+Current local evidence: 78 native-boundary integration assertions PASS; initial five focused native/security tests PASS; four focused form-correction security tests PASS; TypeScript PASS; portable Node production build PASS; actual Render Linux build PASS; API/Web dry runs PASS and corrected Web dry run PASS. The first form regression run used an old fixture bundle and failed; rebuilding the local fixture produced four passes. An initial hosted harness import failed before application testing; staging was disabled, the import was locally verified, and an independent outer cleanup guard was added. No production or device build result is inferred.
+
+Owner approved public publication after audit. Official checksum-verified Gitleaks v8.30.1 scanned all 566 reachable commits at `1897667c`: 94 findings individually classified as checksums/UUIDs/prose/offline test fixtures/public registered Firebase client config, zero unresolved. Exact matching of 18 known private credentials against 10,117 reachable blobs found no matches. New staged source/evidence was separately scanned before publication. [Audit evidence](reports/render-cloudflare-hosted/secret-audit.json). Scanning cannot guarantee absence of every unknown credential.
+
+Private environment files and account tokens remain outside source control. The earlier bulk editor exposed staging values in the private tool transcript before masking; no raw editor screenshot or credential value was published. Subsequent UI observations were masked/redacted. No production secret was used.
+
+Runtime dependency advisories remain documented: critical shell-quote/tar paths originate in installed React Native/Expo tooling outside the Node start path; other advisories also remain. This is not a clean dependency audit or beta-readiness PASS. No broad dependency/native upgrade was attempted during the staging mission.
+
+Evidence index: [summary](reports/render-cloudflare-hosted/final-summary.json), [auth CPU](reports/render-cloudflare-hosted/hosted-validation.json), [32-team product phase](reports/render-cloudflare-hosted/product-validation.json), [CPU stop](reports/render-cloudflare-hosted/completion-validation.json), [final Workers](reports/render-cloudflare-hosted/workers-final.json), [final account](reports/render-cloudflare-hosted/cloudflare-account-final.json), [final quotas](reports/render-cloudflare-hosted/metrics-final.json), [telemetry cleanup](reports/render-cloudflare-hosted/telemetry-final.json), [suspended Render proof](reports/render-cloudflare-hosted/render-suspended.png).
+
+Final publication audit: zero Gitleaks findings in the staged delta; 35 known private credential/session values had no matches across 10,143 reachable blobs plus 16 staged files. New screenshots were visually reviewed with credentials masked. [Final audit receipt](reports/render-cloudflare-hosted/final-publication-audit.json). The receipt/report themselves contain only sanitized audit metadata.
