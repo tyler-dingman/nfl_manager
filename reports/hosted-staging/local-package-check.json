@@ -1,0 +1,38 @@
+{
+  "status": "PASS",
+  "scope": "local static review package only; not hosted verification or deployment approval",
+  "accountId": "6e8c301360ab628706dcf3acf55f0dbb",
+  "workers": [
+    "down-distance-rc3-staging-password",
+    "down-distance-rc3-staging-api",
+    "down-distance-rc3-staging-odds-processor",
+    "down-distance-rc3-staging-application",
+    "down-distance-rc3-staging-web"
+  ],
+  "databases": [
+    "dd-rc3-staging-1",
+    "dd-rc3-staging-2",
+    "dd-rc3-staging-3",
+    "dd-rc3-staging-4",
+    "dd-rc3-staging-5",
+    "dd-rc3-staging-6",
+    "dd-rc3-staging-7",
+    "dd-rc3-staging-8",
+    "dd-rc3-staging-9",
+    "dd-rc3-staging-10"
+  ],
+  "distinctD1Bindings": 10,
+  "cronTriggers": 0,
+  "r2Bindings": 0,
+  "postgresBindings": 0,
+  "publicWorkersDev": false,
+  "previewUrls": false,
+  "routesConfigured": false,
+  "assetsRunWorkerFirst": true,
+  "actualDatabaseIdsConfigured": false,
+  "approvedHostConfigured": false,
+  "testerAllowlistConfigured": false,
+  "remoteMutationsPerformed": false,
+  "deploymentApproved": false,
+  "existingSchedulerModified": false
+}

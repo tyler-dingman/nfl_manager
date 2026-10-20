@@ -1,0 +1,46 @@
+# LOCAL REVIEW ONLY: account safety and owner deployment approval are outstanding.
+account_id = "6e8c301360ab628706dcf3acf55f0dbb"
+name = "down-distance-rc3-staging-application"
+main = "../workers/application/index.ts"
+compatibility_date = "2026-10-18"
+compatibility_flags = ["nodejs_compat"]
+workers_dev = false
+preview_urls = false
+send_metrics = false
+[vars]
+APP_DATA_BACKEND = "d1"
+APP_OBJECT_BACKEND = "d1"
+INFRASTRUCTURE_COST_POLICY = "zero-cost"
+APP_CONTENT_ENABLED = "false"
+APP_BRIEFINGS_ENABLED = "false"
+APP_ODDS_ENABLED = "false"
+APP_ODDS_FETCH_ENABLED = "false"
+APP_ODDS_PROCESSING_ENABLED = "false"
+APP_MAIL_ENABLED = "false"
+APP_SOCIAL_NOTIFICATIONS_ENABLED = "false"
+APP_MAINTENANCE_ENABLED = "false"
+[triggers]
+crons = []
+[[d1_databases]]
+binding = "D1_USERS"
+database_name = "dd-rc3-staging-9"
+database_id = "00000000-0000-0000-0000-000000000009"
+migrations_dir = "../workers/multi-d1/migrations/users"
+remote = false
+
+[[d1_databases]]
+binding = "D1_SHARED"
+database_name = "dd-rc3-staging-10"
+database_id = "00000000-0000-0000-0000-000000000010"
+migrations_dir = "../workers/multi-d1/migrations/shared"
+remote = false
+
+[[services]]
+binding = "API_SERVICE"
+service = "down-distance-rc3-staging-api"
+[[services]]
+binding = "ODDS_PROCESSOR"
+service = "down-distance-rc3-staging-odds-processor"
+
+[alias]
+"@node-rs/argon2" = "../src/server/auth/argon-worker.ts"

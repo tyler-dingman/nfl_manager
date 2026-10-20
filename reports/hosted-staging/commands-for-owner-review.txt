@@ -1,0 +1,68 @@
+# REVIEW ONLY. NO REMOTE APPROVAL HAS BEEN GIVEN. DO NOT EXECUTE THIS FILE.
+# Phase 1 is BLOCKED: subscriptions API returned 403; Free plan and account usage unverified.
+# Reverify the selected account, quota usage, no-billing eligibility, and name conflicts before any approval.
+# All creation/deploy commands below require a separate explicit owner approval of this exact package.
+# Expected account: 6e8c301360ab628706dcf3acf55f0dbb
+# Keep the existing dnd-content-scheduler unchanged; do not deploy a scheduler.
+
+# AFTER OWNER APPROVAL ONLY: create these ten isolated synthetic staging databases.
+node node_modules/wrangler/bin/wrangler.js d1 create dd-rc3-staging-1 --config config/rc3-hosted.api.toml
+node node_modules/wrangler/bin/wrangler.js d1 create dd-rc3-staging-2 --config config/rc3-hosted.api.toml
+node node_modules/wrangler/bin/wrangler.js d1 create dd-rc3-staging-3 --config config/rc3-hosted.api.toml
+node node_modules/wrangler/bin/wrangler.js d1 create dd-rc3-staging-4 --config config/rc3-hosted.api.toml
+node node_modules/wrangler/bin/wrangler.js d1 create dd-rc3-staging-5 --config config/rc3-hosted.api.toml
+node node_modules/wrangler/bin/wrangler.js d1 create dd-rc3-staging-6 --config config/rc3-hosted.api.toml
+node node_modules/wrangler/bin/wrangler.js d1 create dd-rc3-staging-7 --config config/rc3-hosted.api.toml
+node node_modules/wrangler/bin/wrangler.js d1 create dd-rc3-staging-8 --config config/rc3-hosted.api.toml
+node node_modules/wrangler/bin/wrangler.js d1 create dd-rc3-staging-9 --config config/rc3-hosted.api.toml
+node node_modules/wrangler/bin/wrangler.js d1 create dd-rc3-staging-10 --config config/rc3-hosted.api.toml
+
+# STOP: record the ten RETURNED database IDs consistently in all five configs.
+# Reject synthetic IDs; never bind an existing production database.
+# Apply each role migration directory, including users/0008_account_erasure_completion.sql.
+node node_modules/wrangler/bin/wrangler.js d1 migrations apply D1_TEAM_1 --remote --config config/rc3-hosted.api.toml
+node node_modules/wrangler/bin/wrangler.js d1 migrations apply D1_TEAM_2 --remote --config config/rc3-hosted.api.toml
+node node_modules/wrangler/bin/wrangler.js d1 migrations apply D1_TEAM_3 --remote --config config/rc3-hosted.api.toml
+node node_modules/wrangler/bin/wrangler.js d1 migrations apply D1_TEAM_4 --remote --config config/rc3-hosted.api.toml
+node node_modules/wrangler/bin/wrangler.js d1 migrations apply D1_TEAM_5 --remote --config config/rc3-hosted.api.toml
+node node_modules/wrangler/bin/wrangler.js d1 migrations apply D1_TEAM_6 --remote --config config/rc3-hosted.api.toml
+node node_modules/wrangler/bin/wrangler.js d1 migrations apply D1_TEAM_7 --remote --config config/rc3-hosted.api.toml
+node node_modules/wrangler/bin/wrangler.js d1 migrations apply D1_TEAM_8 --remote --config config/rc3-hosted.api.toml
+node node_modules/wrangler/bin/wrangler.js d1 migrations apply D1_USERS --remote --config config/rc3-hosted.api.toml
+node node_modules/wrangler/bin/wrangler.js d1 migrations apply D1_SHARED --remote --config config/rc3-hosted.api.toml
+
+# Generate new staging-only secrets outside the repository. Never reuse production credentials.
+# Upload identical new AUTH_JWT_SECRET to API and Web. Do not supply provider/email/AI keys.
+
+# STOP: approve the staging-only hostname/zone and individual tester certificates.
+# Configure mTLS presentation on that hostname; set host and SHA-256 allowlist in Web.
+# Set staging-only AUTH_BASE_URL on API and Web. Keep every feature flag/cron disabled.
+# No routes are currently configured. Review the exact hostname route separately before attaching it.
+# Compile the approved config locally; this step is not deployment.
+DD_BUILD_WRANGLER_CONFIG=config/rc3-hosted.web.toml node scripts/build-split-worker.mjs
+
+# AFTER EXPLICIT DEPLOYMENT APPROVAL ONLY: internal Workers first, gated Web last.
+node node_modules/wrangler/bin/wrangler.js deploy --config config/rc3-hosted.password.toml
+node node_modules/wrangler/bin/wrangler.js deploy --config config/rc3-hosted.api.toml
+node node_modules/wrangler/bin/wrangler.js deploy --config config/rc3-hosted.odds-processor.toml
+node node_modules/wrangler/bin/wrangler.js deploy --config config/rc3-hosted.application.toml
+node node_modules/wrangler/bin/wrangler.js deploy --config config/rc3-hosted.web.toml
+
+# Upload fresh staging secrets only AFTER the route-free Workers exist; avoid implicit Worker creation.
+node node_modules/wrangler/bin/wrangler.js secret put AUTH_JWT_SECRET --config config/rc3-hosted.api.toml
+node node_modules/wrangler/bin/wrangler.js secret put APP_MAIL_ENCRYPTION_KEY --config config/rc3-hosted.api.toml
+node node_modules/wrangler/bin/wrangler.js secret put CONTENT_AUTOMATION_SECRET --config config/rc3-hosted.api.toml
+node node_modules/wrangler/bin/wrangler.js secret put APP_MAIL_JOB_SECRET --config config/rc3-hosted.api.toml
+node node_modules/wrangler/bin/wrangler.js secret put AUTH_JWT_SECRET --config config/rc3-hosted.web.toml
+node node_modules/wrangler/bin/wrangler.js secret put CONTENT_AUTOMATION_SECRET --config config/rc3-hosted.application.toml
+node node_modules/wrangler/bin/wrangler.js secret put APP_MAIL_JOB_SECRET --config config/rc3-hosted.application.toml
+
+# No public hostname/route creation command is approved or generated while its value is unknown.
+# After separately reviewed hostname attachment, verify anonymous/invalid/spoofed-header denial
+# on both assets and APIs before admitting approved synthetic testers.
+# Read actual per-Worker CPU and account-wide D1 analytics; local elapsed time is not CPU.
+# Recovery target approval is separate: ten new empty destinations cannot coexist with ten
+# occupied databases in a ten-slot Free account. Do not delete databases to make room.
+# Select a separately approved empty Free recovery account or explicitly review replacement
+# of synthetic staging databases after a verified backup and current independent erasure ledger.
+# No database deletion, R2 activation, billing change, ingestion, or cron command is generated.
