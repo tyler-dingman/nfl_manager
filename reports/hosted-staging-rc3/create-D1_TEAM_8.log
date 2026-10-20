@@ -9,4 +9,3 @@ To access your new D1 Database in your Worker, add the following snippet to your
 binding = "dd_rc3_staging_8"
 database_name = "dd-rc3-staging-8"
 database_id = "ddc482ad-d64f-4af3-b6ec-b6596fb3a5fd"
-

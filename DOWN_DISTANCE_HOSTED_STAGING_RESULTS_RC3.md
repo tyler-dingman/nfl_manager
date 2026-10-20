@@ -24,7 +24,7 @@
 | Native device validation | **UNVERIFIED**; no Android/iOS device build or validation in this mission |
 | Production readiness | **NO-GO** |
 | Branch | release/down-distance-rc3 |
-| Commit | Commit containing this report; retrieve with `git rev-parse HEAD`. Preparation baseline d6d3ff10; requested RC3 baseline 1dc29c82 |
+| Commit | Implementation/evidence commit **95019e9d**; report normalization follows in HEAD. Preparation baseline d6d3ff10; requested RC3 baseline 1dc29c82 |
 
 ## Account and resource safety
 
