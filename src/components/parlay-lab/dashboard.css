@@ -1039,15 +1039,7 @@
   color: var(--lab-muted);
   font-size: 12px;
 }
-.lab-nested-table .lab-expand-lines {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  margin-top: 8px;
-  font-size: 12px;
-  color: var(--lab-muted);
-  padding: 4px 0;
-}
+
 .lab-selection-odds small {
   display: block;
   color: var(--lab-muted);
@@ -1185,4 +1177,31 @@
   .lab-market-breadcrumb button {
     min-height: 44px;
   }
+}
+
+/* Primary prop/player values match the player-name typography. Scoped to
+   Parlay Lab so the global dense-table rule cannot enlarge these cells. */
+[data-parlay-dashboard] {
+  --player-table-font-size: 12px;
+  --player-table-font-weight: 700;
+  --player-table-line-height: 18px;
+  --player-table-font-family: ui-sans-serif, system-ui, sans-serif;
+}
+[data-parlay-dashboard] table {
+  font-size: var(--player-table-font-size) !important;
+}
+[data-parlay-dashboard] tbody,
+[data-parlay-dashboard] td,
+[data-parlay-dashboard] td :is(button, a, b, strong),
+[data-parlay-dashboard] .lab-group-player b {
+  font-family: var(--player-table-font-family);
+  font-size: var(--player-table-font-size);
+  font-weight: var(--player-table-font-weight);
+  line-height: var(--player-table-line-height);
+}
+/* Badges and secondary metadata retain their distinct visual hierarchy. */
+[data-parlay-dashboard] td .lab-score {
+  font-family: var(--font-front-office-barlow), sans-serif;
+  font-size: 20px;
+  line-height: 1;
 }

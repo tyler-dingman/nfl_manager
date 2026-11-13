@@ -1,4 +1,4 @@
-import { LAB_SCORE_CONFIG } from '../../../packages/parlay/lab-score-config';
+import { LAB_SCORE_CONFIG, LAB_SCORE_SCALE_NOTE } from '../../../packages/parlay/lab-score-config';
 import type { LabScoreV2 } from '@/server/historical-stats/lab-score-v2';
 // Display tiers, not probabilities. Legacy tiers remain during the shadow rollout.
 export const LAB_SCORE_TIERS = [
@@ -27,7 +27,8 @@ export const labScoreTier = (score: number, version?: string) =>
     (tier) => score >= tier.min,
   ) ?? LAB_SCORE_TIERS[3];
 export const LAB_SCORE_V2_EXPLANATION =
-  'Lab Score 2.0 combines projection edge (25%), recent performance (25%), matchup (20%), opportunity (15%), consistency (10%), and game environment (5%). Missing optional inputs are reweighted; evidence quality moderates confidence. Lab Score is not a win probability. Trending also evaluates offered odds and estimated betting value.';
+  'Model evidence combines projection edge (25%), recent performance (25%), matchup (20%), opportunity (15%), consistency (10%), and game environment (5%). Missing optional inputs are reweighted; evidence quality moderates confidence. Lab Score is not a win probability. Trending also evaluates offered odds and estimated betting value. ' +
+  LAB_SCORE_SCALE_NOTE;
 export const LAB_SCORE_EXPLANATION = LAB_SCORE_V2_EXPLANATION;
 type Trend = {
   projection?: LabScoreV2;

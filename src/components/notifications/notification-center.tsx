@@ -66,14 +66,20 @@ export default function NotificationCenter({ teamAbbr }: { teamAbbr?: string | n
   const [count, setCount] = useState(0);
   const [cursor, setCursor] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const refreshCount = useCallback(async () => {
     const params = new URLSearchParams();
     if (teamAbbr) params.set('team', teamAbbr);
-    const response = await fetch(`/api/user/notifications/unread-count?${params}`, {
-      cache: 'no-store',
-    });
-    if (response.ok) setCount(((await response.json()) as { count: number }).count);
+    try {
+      const response = await fetch(`/api/user/notifications/unread-count?${params}`, {
+        cache: 'no-store',
+      });
+      if (response.ok) setCount(((await response.json()) as { count: number }).count);
+    } catch {
+      // A background connection failure must not become an unhandled rejection.
+      // Keep the last known count; the next scheduled refresh can recover.
+    }
   }, [teamAbbr]);
   const load = useCallback(
     async (nextCursor?: string | null) => {
@@ -81,8 +87,10 @@ export default function NotificationCenter({ teamAbbr }: { teamAbbr?: string | n
       const params = new URLSearchParams({ limit: '20', filter });
       if (teamAbbr) params.set('team', teamAbbr);
       if (nextCursor) params.set('cursor', nextCursor);
-      const response = await fetch(`/api/user/notifications?${params}`, { cache: 'no-store' });
-      if (response.ok) {
+      setError('');
+      try {
+        const response = await fetch(`/api/user/notifications?${params}`, { cache: 'no-store' });
+        if (!response.ok) throw new Error('Notifications unavailable');
         const body = (await response.json()) as {
           notifications: InboxItem[];
           nextCursor: string | null;
@@ -94,8 +102,11 @@ export default function NotificationCenter({ teamAbbr }: { teamAbbr?: string | n
           nextCursor ? [...current, ...scopedNotifications] : scopedNotifications,
         );
         setCursor(body.nextCursor);
+      } catch {
+        setError('Unable to load notifications. Please try again.');
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     },
     [filter, teamAbbr],
   );
@@ -120,7 +131,7 @@ export default function NotificationCenter({ teamAbbr }: { teamAbbr?: string | n
       method: 'PATCH',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ action: 'seen' }),
-    });
+    }).catch(() => undefined);
     window.setTimeout(() => closeRef.current?.focus(), 0);
   }, [load, open, user]);
   useEffect(() => {
@@ -159,22 +170,34 @@ export default function NotificationCenter({ teamAbbr }: { teamAbbr?: string | n
   }, [open]);
 
   const markAllRead = async () => {
-    await fetch('/api/user/notifications', {
-      method: 'PATCH',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ action: 'read-all' }),
-    });
-    setItems((current) => current.map((item) => ({ ...item, readAt: new Date().toISOString() })));
-    setCount(0);
+    try {
+      const response = await fetch('/api/user/notifications', {
+        method: 'PATCH',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ action: 'read-all' }),
+      });
+      if (!response.ok) throw new Error('Unable to mark notifications read');
+      setItems((current) => current.map((item) => ({ ...item, readAt: new Date().toISOString() })));
+      setCount(0);
+      setError('');
+    } catch {
+      setError('Unable to mark notifications read. Please try again.');
+    }
   };
   const openItem = async (item: InboxItem) => {
     if (!item.readAt) {
-      await fetch('/api/user/notifications', {
-        method: 'PATCH',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ action: 'read', notificationId: item.id }),
-      });
-      setCount((current) => Math.max(0, current - 1));
+      try {
+        const response = await fetch('/api/user/notifications', {
+          method: 'PATCH',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ action: 'read', notificationId: item.id }),
+        });
+        if (!response.ok) throw new Error('Unable to mark notification read');
+        setCount((current) => Math.max(0, current - 1));
+      } catch {
+        setError('Unable to mark notification read. Please try again.');
+        return;
+      }
     }
     setOpen(false);
     router.push(item.deepLink || '/');
@@ -253,7 +276,15 @@ export default function NotificationCenter({ teamAbbr }: { teamAbbr?: string | n
               ))}
             </div>
             <div className="min-h-40 flex-1 overflow-y-auto" aria-live="polite">
-              {!loading && !items.length ? (
+              {error ? (
+                <div role="alert" className="px-6 py-4 text-sm text-slate-600">
+                  <p>{error}</p>
+                  <button onClick={() => void load()} className="mt-2 font-bold underline">
+                    Try again
+                  </button>
+                </div>
+              ) : null}
+              {!loading && !error && !items.length ? (
                 <div className="px-6 py-14 text-center">
                   <Bell className="mx-auto h-7 w-7 text-slate-300" />
                   <p className="mt-3 font-bold">You’re all caught up.</p>
@@ -312,9 +343,16 @@ export default function NotificationCenter({ teamAbbr }: { teamAbbr?: string | n
             {process.env.NODE_ENV !== 'production' ? (
               <button
                 onClick={async () => {
-                  await fetch('/api/user/notifications/dev-simulate', { method: 'POST' });
-                  await load();
-                  await refreshCount();
+                  try {
+                    const response = await fetch('/api/user/notifications/dev-simulate', {
+                      method: 'POST',
+                    });
+                    if (!response.ok) throw new Error('Simulation unavailable');
+                    await load();
+                    await refreshCount();
+                  } catch {
+                    setError('Unable to add test notifications. Please try again.');
+                  }
                 }}
                 className="border-t border-slate-200 px-5 py-3 text-xs font-bold text-slate-500 hover:bg-slate-50"
               >

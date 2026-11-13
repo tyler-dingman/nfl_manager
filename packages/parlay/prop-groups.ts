@@ -6,8 +6,8 @@ export type PropGroup = {
   selections: HomeMarket[];
   bestScore: number | null;
 };
-/** Input is already individually eligible and sorted; the first occurrence ranks each group.
- * A standard selection remains the lead even if an alternate gives the group its ranking. */
+/** Input is individually eligible and sorted. Keep main-line leads; callers sort
+ * groups by the visible primary rather than a hidden alternate score. */
 export function groupPropSelections(ranked: HomeMarket[]): PropGroup[] {
   const groups = new Map<string, HomeMarket[]>();
   for (const m of ranked) {

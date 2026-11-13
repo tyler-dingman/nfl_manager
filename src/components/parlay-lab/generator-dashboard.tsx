@@ -1,4 +1,5 @@
 'use client';
+import { requireCompleteGeneratorSnapshot } from '../../../packages/parlay/generator-snapshot';
 import { labScoreColor } from '../../../packages/parlay/lab-score-config';
 
 import { validateParlayBuild } from '../../../packages/parlay/validate-build';
@@ -113,7 +114,9 @@ export function GeneratorDashboard({
     ...new Map(eligible.map((m) => [`${m.eventId}:${m.normalizedKey || m.id}`, m])).values(),
   ];
   async function refresh() {
-    const response = await fetch('/api/parlay-lab/research?eventId=ALL', { cache: 'no-store' });
+    const response = await fetch('/api/parlay-lab/research?eventId=ALL&complete=true', {
+      cache: 'no-store',
+    });
     if (!response.ok) throw new Error('Current props could not be verified. Please try again.');
     const body = await response.json();
     if (!Array.isArray(body.markets))
@@ -124,9 +127,10 @@ export function GeneratorDashboard({
     const eventBody = await eventResponse.json();
     if (!Array.isArray(eventBody.events))
       throw new Error('The current game schedule is unavailable.');
-    setCurrent(body.markets);
+    const markets = requireCompleteGeneratorSnapshot<HomeMarket>(body);
+    setCurrent(markets);
     setCurrentEvents(eventBody.events);
-    return { markets: body.markets as HomeMarket[], events: eventBody.events as DashboardEvent[] };
+    return { markets, events: eventBody.events as DashboardEvent[] };
   }
   async function generate(
     text: string,

@@ -1,0 +1,144 @@
+{
+  "checkedAt": "2026-10-23T00:37:12.968Z",
+  "localOnly": true,
+  "pages": [
+    {
+      "direction": "desc",
+      "scale": {
+        "version": "slate-percentile-v1",
+        "population": 7250,
+        "topCount": 725
+      },
+      "top": [
+        {
+          "player": "Brock Purdy",
+          "score": 97
+        },
+        {
+          "player": "Zachariah Branch",
+          "score": 97
+        },
+        {
+          "player": "Malik Nabers",
+          "score": 97
+        },
+        {
+          "player": "Zachariah Branch",
+          "score": 97
+        },
+        {
+          "player": "Matthew Stafford",
+          "score": 97
+        },
+        {
+          "player": "Justin Jefferson",
+          "score": 96
+        },
+        {
+          "player": "John Metchie III",
+          "score": 96
+        },
+        {
+          "player": "Aaron Jones Sr.",
+          "score": 96
+        },
+        {
+          "player": "John Metchie III",
+          "score": 96
+        },
+        {
+          "player": "Aaron Jones Sr.",
+          "score": 96
+        },
+        {
+          "player": "Tetairoa McMillan",
+          "score": 96
+        },
+        {
+          "player": "Malik Willis",
+          "score": 96
+        }
+      ]
+    },
+    {
+      "direction": "asc",
+      "scale": {
+        "version": "slate-percentile-v1",
+        "population": 7250,
+        "topCount": 725
+      },
+      "top": [
+        {
+          "player": "Darnell Mooney",
+          "score": 2
+        },
+        {
+          "player": "Jordan Love",
+          "score": 2
+        },
+        {
+          "player": "Tyjae Spears",
+          "score": 2
+        },
+        {
+          "player": "Tim Patrick",
+          "score": 2
+        },
+        {
+          "player": "Darnell Mooney",
+          "score": 2
+        },
+        {
+          "player": "Rashid Shaheed",
+          "score": 2
+        },
+        {
+          "player": "Tylan Wallace",
+          "score": 3
+        },
+        {
+          "player": "Xavier Hutchinson",
+          "score": 3
+        },
+        {
+          "player": "Sean Tucker",
+          "score": 3
+        },
+        {
+          "player": "Noah Gray",
+          "score": 3
+        },
+        {
+          "player": "Dak Prescott",
+          "score": 3
+        },
+        {
+          "player": "Julius Chestnut",
+          "score": 4
+        }
+      ]
+    }
+  ],
+  "visibleSortingAcrossPages": true,
+  "detailScoreMatchesTable": true,
+  "detailScore": 97,
+  "scaleNote": "Relative slate ranking, not win probability",
+  "slate": {
+    "population": 7250,
+    "topDecilePicks": 725,
+    "topDecileShare": 0.1,
+    "highest": 97,
+    "lowest": 1,
+    "complete": true,
+    "bookDuplicatesExcluded": true,
+    "actualScoresMatchScale": true
+  },
+  "testsPassed": 93,
+  "runtimeTypecheckPassed": true,
+  "lintPassed": true,
+  "webBrowserVerified": true,
+  "nativeUsesSharedCatalog": true,
+  "nativeDeviceValidated": false,
+  "displayScoreIsWinProbability": false,
+  "screenshot": "artifacts/parlay-relative-score-sort.png"
+}

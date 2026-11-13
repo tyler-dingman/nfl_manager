@@ -4,10 +4,12 @@ const MARKET_NAMES: Record<string, string> = {
   RUSHING_YARDS: 'Rushing Yards',
   RECEIVING_YARDS: 'Receiving Yards',
   RECEPTIONS: 'Receptions',
+  PASSING_TD: 'Passing TDs',
   PASSING_TDS: 'Passing TDs',
   RUSHING_TDS: 'Rushing TDs',
   RECEIVING_TDS: 'Receiving TDs',
-  ANYTIME_TD: 'Touchdowns',
+  TOUCHDOWNS: 'Touchdowns Scored',
+  ANYTIME_TD: 'Touchdowns Scored',
   RUSH_RECEIVE_YARDS: 'Rushing / Receiving Yards',
   RUSHING_RECEIVING_YARDS: 'Rushing / Receiving Yards',
   PASSING_COMPLETIONS: 'Completions',
@@ -27,7 +29,8 @@ const unit = (statType: string, amount: number) => {
   if (statType === 'PASSING_TDS') return plural ? 'passing TDs' : 'passing TD';
   if (statType === 'RUSHING_TDS') return plural ? 'rushing TDs' : 'rushing TD';
   if (statType === 'RECEIVING_TDS') return plural ? 'receiving TDs' : 'receiving TD';
-  if (statType === 'ANYTIME_TD') return plural ? 'touchdowns' : 'touchdown';
+  if (statType === 'ANYTIME_TD' || statType === 'TOUCHDOWNS')
+    return plural ? 'touchdowns scored' : 'touchdown scored';
   if (statType === 'PASSING_COMPLETIONS') return plural ? 'completions' : 'completion';
   if (statType === 'INTERCEPTIONS') return plural ? 'interceptions' : 'interception';
   return marketDisplayName(statType).toLowerCase();
@@ -49,3 +52,12 @@ export const ladderDescriptionUnit = (statType: string) => {
   if (statType === 'RECEIVING_YARDS') return 'receiving-yard total';
   return `${marketDisplayName(statType).toLowerCase()} total`;
 };
+
+/** Shared by web/native research so quarterback passing and scoring markets stay distinct. */
+export function marketStatExplanation(statType: string) {
+  if (['PASSING_TD', 'PASSING_TDS'].includes(statType))
+    return 'Touchdown passes thrown by the quarterback.';
+  if (['TOUCHDOWNS', 'ANYTIME_TD'].includes(statType))
+    return 'Touchdowns scored by this player. Passing touchdowns do not count. Historical research uses rushing and receiving touchdowns.';
+  return null;
+}

@@ -1,7 +1,7 @@
 .shell {
   min-height: 100vh;
   background: var(--lab-bg, #00121b);
-  color: var(--lab-text, #f4f8fc);
+  color: #fff;
   font:
     1rem/1.5 ui-sans-serif,
     system-ui,
@@ -29,7 +29,7 @@
   display: flex;
   align-items: center;
   gap: 7px;
-  color: #168354;
+  color: #fff;
   font-size: 0.68rem;
   font-weight: 900;
   letter-spacing: 0.16em;
@@ -45,7 +45,7 @@
 }
 .header p {
   margin: 0;
-  color: #60758a;
+  color: #fff;
   font-size: 0.875rem;
 }
 .header > button,
@@ -57,7 +57,7 @@
   border-radius: 9px;
   background: var(--lab-panel, #031923);
   padding: 10px 14px;
-  color: var(--lab-text, #f4f8fc);
+  color: #fff;
   font-size: 0.72rem;
   font-weight: 900;
   text-decoration: none;
@@ -69,7 +69,7 @@
 }
 .message {
   margin: 14px 0 0;
-  color: #168354;
+  color: #fff;
   font-size: 0.75rem;
   font-weight: 800;
 }
@@ -89,7 +89,7 @@
   display: block;
 }
 .current small {
-  color: #e04420;
+  color: #fff;
   font-size: 0.64rem;
   font-weight: 900;
   letter-spacing: 0.12em;
@@ -103,9 +103,9 @@
   margin-top: 18px;
   border: 1px solid #9fd8bc;
   border-radius: 14px;
-  background: linear-gradient(110deg, #eaf8f1, #f8fcfa);
+  background: linear-gradient(110deg, #07392c, #031923);
   padding: 16px 18px;
-  color: #0d6943;
+  color: #fff;
 }
 .allTime small,
 .allTime strong {
@@ -119,12 +119,12 @@
   text-transform: uppercase;
 }
 .allTime strong {
-  color: var(--lab-text, #f4f8fc);
+  color: #fff;
   font-size: 1rem;
 }
 .allTime p {
   margin: 0;
-  color: #476b5a;
+  color: #fff;
   font-size: 0.7rem;
   text-align: right;
 }
@@ -145,21 +145,21 @@
   border-radius: 8px;
   background: var(--lab-panel, #031923);
   padding: 8px 12px;
-  color: var(--lab-muted, #9db4c6);
+  color: #fff;
   font-size: 0.7rem;
   font-weight: 900;
   cursor: pointer;
 }
 .toolbar button.active {
-  border-color: var(--lab-text, #f4f8fc);
-  background: var(--lab-text, #f4f8fc);
-  color: var(--lab-panel, #031923);
+  border-color: #fff;
+  background: #183b4c;
+  color: #fff;
 }
 .toolbar label {
   display: flex;
   align-items: center;
   gap: 7px;
-  color: #60758a;
+  color: #fff;
   font-size: 0.7rem;
   font-weight: 800;
 }
@@ -168,6 +168,7 @@
   border-radius: 8px;
   background: var(--lab-panel, #031923);
   padding: 8px;
+  color: #fff;
 }
 .grid {
   display: grid;
@@ -200,11 +201,11 @@
 }
 .card header small,
 .card li small {
-  color: #71869a;
+  color: #fff;
   font-size: 0.68rem;
 }
 .cardTitle > span {
-  color: var(--lab-muted, #9db4c6);
+  color: #fff;
   font-size: 0.76rem;
   font-weight: 750;
 }
@@ -248,26 +249,26 @@
 }
 .panel_hit {
   border-color: #a6ddc2;
-  background: #eaf8f1;
-  color: #126e48;
+  background: var(--lab-panel, #031923);
+  color: #fff;
 }
 .panel_missed {
   border-color: #efb9bd;
-  background: #fff0f0;
-  color: #a5262e;
+  background: var(--lab-panel, #031923);
+  color: #fff;
 }
 .panel_live {
   border-color: #f2cc93;
-  background: #fff7e8;
-  color: #9a520c;
+  background: var(--lab-panel, #031923);
+  color: #fff;
 }
 .panel_upcoming {
   background: var(--lab-panel, #031923);
-  color: #476178;
+  color: #fff;
 }
 .panel_void {
-  background: #f3eff6;
-  color: #665574;
+  background: var(--lab-panel, #031923);
+  color: #fff;
 }
 .summary {
   display: grid;
@@ -287,7 +288,7 @@
   display: block;
 }
 .summary small {
-  color: #6e8397;
+  color: #fff;
   font-size: 0.58rem;
   font-weight: 900;
   letter-spacing: 0.09em;
@@ -339,7 +340,7 @@
   height: 15px;
 }
 .card li span {
-  color: #405b73;
+  color: #fff;
   font-size: 0.78rem;
 }
 .result {
@@ -357,21 +358,21 @@
   margin-top: 3px;
 }
 .hit {
-  color: #14784d;
+  color: #fff;
 }
 .miss {
-  color: #b62f35;
+  color: #fff;
 }
 .live {
-  color: #a9580b;
+  color: #fff;
 }
 .push,
 .void,
 .unable_to_grade {
-  color: #685778;
+  color: #fff;
 }
 .upcoming {
-  color: var(--lab-muted, #9db4c6);
+  color: #fff;
 }
 .card footer {
   display: grid;
@@ -389,7 +390,7 @@
   border: 1px solid #d5dfe7;
   border-radius: 8px;
   background: var(--lab-panel, #031923);
-  color: var(--lab-text, #f4f8fc);
+  color: #fff;
   font-size: 0.62rem;
   font-weight: 900;
   text-decoration: none;
@@ -425,7 +426,7 @@
 }
 .empty p {
   margin: 0 0 18px;
-  color: #60758a;
+  color: #fff;
 }
 .empty a {
   border-radius: 9px;
@@ -437,7 +438,7 @@
 }
 .noMatches {
   margin-top: 28px;
-  color: #60758a;
+  color: #fff;
 }
 .spinning {
   animation: spin 0.8s linear infinite;
@@ -501,4 +502,16 @@
   }
 }
 
-.shell .header h1 { font-family: var(--font-front-office-barlow), sans-serif; font-style: italic; }
+.shell .header h1 {
+  font-family: var(--font-front-office-barlow), sans-serif;
+  font-style: italic;
+}
+
+.shell :global(.lab-tabs) button {
+  color: #fff;
+}
+.shell :global(.lab-tabs) button[aria-pressed='true'] {
+  background: #183b4c;
+  border-color: #fff;
+  color: #fff;
+}

@@ -29,8 +29,8 @@
   .identity {
     min-width: 0;
     align-self: center;
-    font-size: 16px;
-    font-weight: 800;
+    font-size: var(--player-table-font-size, 16px);
+    font-weight: var(--player-table-font-weight, 800);
     overflow-wrap: anywhere;
   }
   .identity > * {
@@ -77,8 +77,10 @@
     margin-bottom: 4px;
   }
   .fields dd {
+    font-family: var(--player-table-font-family, inherit);
+    line-height: var(--player-table-line-height, normal);
     margin: 0;
-    font-size: 13px;
+    font-size: var(--player-table-font-size, 13px);
     font-weight: 700;
     overflow-wrap: anywhere;
   }
@@ -98,7 +100,7 @@
   .direct {
     padding: 4px 8px;
     font-size: 12px;
-    font-weight: 800;
+    font-weight: var(--player-table-font-weight, 800);
   }
   .card button:focus-visible,
   .card a:focus-visible {
@@ -167,11 +169,21 @@
   .identity p:first-child,
   .identity strong,
   .identity b {
-    font-size: 16px;
+    font-size: var(--player-table-font-size, 16px);
   }
   .identityButton {
     width: 100%;
     min-height: 44px;
     text-align: left;
+  }
+}
+
+@media (max-width: 767px) {
+  .identity,
+  .fields dd :is(button, a, b, strong) {
+    font-family: var(--player-table-font-family, inherit);
+    font-size: var(--player-table-font-size, inherit);
+    font-weight: var(--player-table-font-weight, inherit);
+    line-height: var(--player-table-line-height, normal);
   }
 }

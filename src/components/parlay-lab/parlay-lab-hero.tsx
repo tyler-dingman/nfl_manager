@@ -1,13 +1,9 @@
 'use client';
 import { labScoreColor } from '../../../packages/parlay/lab-score-config';
 
-import { selectDiscoveryMarkets } from '../../../packages/parlay/discovery-selection';
-import {
-  DEFAULT_DISCOVERY,
-  type DiscoveryPreferences,
-} from '../../../packages/parlay/discovery-preferences';
+import { selectHeroProps } from '../../../packages/parlay/hero-selection';
+export { selectHeroProps } from '../../../packages/parlay/hero-selection';
 import { useDiscoveryPreferences } from './use-discovery-preferences';
-import { decimalOdds } from '../../../packages/parlay/betting-value';
 import { labScoreBand } from '../../../packages/parlay/lab-score-config';
 import { marketDisplayName } from '@/lib/parlay-lab/market-display';
 import { EditorialSectionHero } from '@/components/beat/editorial-section-hero';
@@ -18,52 +14,6 @@ import { LabStatsIcon, LabExperimentIcon } from './lab-icons';
 import { Globe } from 'lucide-react';
 import PlayerAvatar from './PlayerAvatar';
 import styles from './parlay-lab-hero.module.css';
-
-export function selectHeroProps(
-  markets: HomeMarket[],
-  teamAbbr: string,
-  events: { id: string; kickoffAt: string }[],
-  now = Date.now(),
-  preferences: DiscoveryPreferences = DEFAULT_DISCOVERY,
-) {
-  const upcoming = new Set(events.filter((e) => Date.parse(e.kickoffAt) > now).map((e) => e.id));
-  const unique = new Map<string, HomeMarket>();
-  for (const m of markets) {
-    const score = m.trend?.trendScore;
-    if (
-      !m.available ||
-      m.teamId !== teamAbbr ||
-      !m.playerId ||
-      !m.playerName ||
-      m.line == null ||
-      !Number.isFinite(m.line) ||
-      score == null ||
-      !Number.isFinite(score) ||
-      score < 0 ||
-      score > 100 ||
-      !m.eventId ||
-      !upcoming.has(m.eventId)
-    )
-      continue;
-    const key = `${m.eventId}:${m.normalizedKey}`;
-    const old = unique.get(key);
-    if (!old || (decimalOdds(m.odds) ?? 0) > (decimalOdds(old.odds) ?? 0)) unique.set(key, m);
-  }
-  const ranked = selectDiscoveryMarkets([...unique.values()], preferences);
-  const selected: HomeMarket[] = [];
-  const players = new Set<string>();
-  for (const m of ranked) {
-    if (players.has(m.playerId!)) continue;
-    selected.push(m);
-    players.add(m.playerId!);
-    if (selected.length === 3) break;
-  }
-  for (const m of ranked) {
-    if (selected.length === 3) break;
-    if (!selected.includes(m)) selected.push(m);
-  }
-  return selected;
-}
 
 export function ParlayLabHero({
   teamAbbr,
@@ -159,7 +109,8 @@ export function ParlayLabHero({
       </ol>
       {!props.length && (
         <p className={styles.empty}>
-          No scored player props are currently available for {team?.city ?? 'your team'}.
+          No {team?.city ?? 'team'} props currently meet the Lab Find requirements. Browse All Props
+          for scored research.
         </p>
       )}
       <p className={`${shared.meta} ${styles.disclaimer}`}>

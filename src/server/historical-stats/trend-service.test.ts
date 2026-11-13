@@ -103,3 +103,37 @@ test('normalizes current touchdown market names for historical research', () => 
   assert.equal(normalizeHistoricalStatType('RECEIVING_TD'), 'RECEIVING_TDS');
   assert.equal(normalizeHistoricalStatType('TOUCHDOWNS'), 'ANYTIME_TD');
 });
+
+test('quarterback passing touchdowns never become touchdowns scored in history or hit rates', () => {
+  const passing = normalizeHistoricalStatType('PASSING_TD')!;
+  const scoring = normalizeHistoricalStatType('TOUCHDOWNS')!;
+  const input = { playerId: 'p1', line: 1.5, side: 'OVER' as const };
+  const passes = calculatePlayerPropTrend(games, { ...input, statType: passing });
+  const scored = calculatePlayerPropTrend(games, { ...input, statType: scoring });
+  assert.equal(passes.last10.hits, 10);
+  assert.equal(scored.last10.hits, 0);
+  assert.ok(passes.gameLog.every((g) => g.statValue === 2));
+  assert.ok(scored.gameLog.every((g) => g.statValue === 0));
+});
+
+test('last ten uses the intervening season before older games regardless of input order', () => {
+  const rows = [2024, 2026, 2025].flatMap((season) =>
+    Array.from({ length: season === 2026 ? 6 : 10 }, (_, i) => ({
+      ...games[0],
+      gameId: `${season}-${i}`,
+      date: `${season}-10-${String(i + 1).padStart(2, '0')}`,
+      season,
+      week: i + 1,
+      passingTds: season === 2024 ? 0 : 2,
+    })),
+  );
+  const trend = calculatePlayerPropTrend(rows, {
+    playerId: 'p1',
+    statType: 'PASSING_TDS',
+    line: 1.5,
+    side: 'OVER',
+    projectionContext: { asOf: '2026-10-22T12:00:00Z' },
+  });
+  assert.equal(trend.last10.hits, 10);
+  assert.ok(trend.gameLog.every((g) => Number(g.date.slice(0, 4)) >= 2025));
+});

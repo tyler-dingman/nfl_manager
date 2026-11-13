@@ -1,3 +1,4 @@
+import { parlayTableText } from './parlay-table-typography';
 import { labScoreColor } from '../../../packages/parlay/lab-score-config';
 import { LabScoreHelp } from './lab-score-help';
 import { useEffect, useMemo, useState } from 'react';
@@ -134,7 +135,7 @@ export function ParlayPlayers({
             <Text style={s.copy}>
               {status?.text ?? `${p.games} games · ${p.observations} observations`}
             </Text>
-            <Text style={s.copy}>
+            <Text style={[s.copy, parlayTableText]}>
               Hit rate {p.hitRate == null ? '—' : `${Math.round(p.hitRate)}%`} · Recent{' '}
               {p.recentRate == null ? '—' : `${Math.round(p.recentRate)}%`}
             </Text>
@@ -154,7 +155,7 @@ export function ParlayPlayers({
 const s = StyleSheet.create({
   heading: { fontFamily: 'BarlowCondensed', fontSize: 30, color: 'white', marginVertical: 12 },
   copy: { fontSize: 13, lineHeight: 21, color: '#A8BAC4', marginVertical: 6 },
-  name: { color: 'white', fontWeight: '800', fontSize: 15 },
+  name: { ...parlayTableText, color: 'white' },
   input: {
     color: 'white',
     borderWidth: 1,

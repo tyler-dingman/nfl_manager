@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { parlayTableText } from './parlay-table-typography';
+import { useCallback, useEffect, useRef } from 'react';
 import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import type { HomeMarket } from '../../../packages/parlay/research';
 import type { PropGroup } from '../../../packages/parlay/prop-groups';
@@ -127,7 +128,6 @@ export function PropDiscoveryTable({
   slip,
   onOpen,
   onAdd,
-  accent,
 }: {
   groups: PropGroup[];
   events: { id: string; homeTeamId: string; awayTeamId: string }[];
@@ -136,13 +136,10 @@ export function PropDiscoveryTable({
   onAdd: (m: HomeMarket) => void;
   accent: string;
 }) {
-  const [expanded, setExpanded] = useState<Set<string>>(() => new Set());
   return (
     <View style={{ gap: 12 }}>
       {groups.map((group) => {
-        const open = expanded.has(group.key),
-          more = group.selections.length - 1,
-          primary = group.primary;
+        const primary = group.primary;
         const game = events.find((e) => e.id === primary.eventId);
         return (
           <View key={group.key} style={s.group}>
@@ -169,30 +166,14 @@ export function PropDiscoveryTable({
                 <Text style={s.text}>{propMarketLabel(primary)}</Text>
               </View>
             </Pressable>
-            {(open ? group.selections : [primary]).map((m, index) => {
+            {[primary].map((m) => {
               const score = catalogScore(m),
                 added = slip.some((leg) => leg.id === m.id && leg.sportsbook === m.sportsbook);
               const name = `${m.playerName} ${propMarketLabel(m)} ${propPick(m)} at ${sportsbookName(m.sportsbook)}`;
               return (
-                <View
-                  key={`${m.id}:${m.sportsbook}`}
-                  style={[
-                    s.selection,
-                    index > 0 && {
-                      marginLeft: 12,
-                      borderLeftWidth: 3,
-                      borderLeftColor: accent,
-                      backgroundColor: '#092532',
-                    },
-                  ]}
-                >
+                <View key={`${m.id}:${m.sportsbook}`} style={s.selection}>
                   {m.lineType === 'alternate' && (
-                    <Text style={s.muted}>
-                      {index ? '↳ ALT LINE' : 'ALT LINE · BEST AVAILABLE'}
-                    </Text>
-                  )}
-                  {index > 0 && m.lineType !== 'alternate' && (
-                    <Text style={s.muted}>↳ Additional standard line</Text>
+                    <Text style={s.muted}>ALT LINE · BEST AVAILABLE</Text>
                   )}
                   <View style={s.row}>
                     <Pressable
@@ -248,26 +229,6 @@ export function PropDiscoveryTable({
                 </View>
               );
             })}
-            {more > 0 && (
-              <Pressable
-                accessibilityRole="button"
-                accessibilityLabel={`${open ? 'Collapse' : 'Expand'} ${primary.playerName} ${propMarketLabel(primary)} lines`}
-                accessibilityState={{ expanded: open }}
-                onPress={() =>
-                  setExpanded((current) => {
-                    const next = new Set(current);
-                    if (next.has(group.key)) next.delete(group.key);
-                    else next.add(group.key);
-                    return next;
-                  })
-                }
-                style={{ padding: 14 }}
-              >
-                <Text style={s.text}>
-                  {open ? '▾' : '▸'} {more} more {more === 1 ? 'line' : 'lines'}
-                </Text>
-              </Pressable>
-            )}
           </View>
         );
       })}
@@ -286,10 +247,10 @@ const s = StyleSheet.create({
   selection: { padding: 14, borderTopColor: '#193e4d', borderTopWidth: 1, gap: 10 },
   row: { flexDirection: 'row', alignItems: 'center', gap: 8 },
   metric: { flex: 1, gap: 4 },
-  title: { fontWeight: '700', color: '#f4f8fc', fontSize: 16 },
-  text: { color: '#e2ebf0', fontSize: 12 },
+  title: { ...parlayTableText, color: '#f4f8fc' },
+  text: { ...parlayTableText, color: '#e2ebf0' },
   muted: { color: '#a8bac4', fontSize: 10 },
-  pick: { fontWeight: '700', color: '#f4f8fc', fontSize: 18 },
+  pick: { ...parlayTableText, color: '#f4f8fc' },
   add: {
     padding: 10,
     minWidth: 44,

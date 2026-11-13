@@ -1,6 +1,6 @@
 'use client';
-import { useEffect, useRef, useState } from 'react';
-import { Plus, ChevronDown, ChevronRight } from 'lucide-react';
+import { useEffect, useRef } from 'react';
+import { Plus, ChevronRight } from 'lucide-react';
 import type { HomeMarket, OddsEvent } from '../../../packages/parlay/research';
 import type { PropGroup } from '../../../packages/parlay/prop-groups';
 import { propPick } from '../../../packages/parlay/anytime-td';
@@ -117,14 +117,6 @@ export function PropDiscoveryTable({
   sort: SortState;
   onSort: (key: string) => void;
 }) {
-  const [expanded, setExpanded] = useState<Set<string>>(() => new Set());
-  const toggle = (key: string) =>
-    setExpanded((current) => {
-      const next = new Set(current);
-      if (next.has(key)) next.delete(key);
-      else next.add(key);
-      return next;
-    });
   return (
     <div className="lab-nested-table-wrap">
       <table className="lab-nested-table" aria-label="Player prop selections">
@@ -154,64 +146,38 @@ export function PropDiscoveryTable({
           </tr>
         </thead>
         {groups.map((group, index) => {
-          const open = expanded.has(group.key),
-            more = group.selections.length - 1;
           return (
             <tbody key={group.key} className="lab-prop-group" data-group={group.key}>
-              {(open ? group.selections : [group.primary]).map((m, i) => {
+              {[group.primary].map((m) => {
                 const game = events.find((e) => e.id === m.eventId),
                   score = catalogScore(m);
                 const name = `${m.playerName ?? 'Player'} ${propMarketLabel(m)} ${propPick(m)} at ${sportsbookName(m.sportsbook)}`;
                 return (
-                  <tr
-                    key={`${m.id}:${m.sportsbook}`}
-                    className={i ? 'lab-nested-line' : 'lab-primary-line'}
-                  >
+                  <tr key={`${m.id}:${m.sportsbook}`} className="lab-primary-line">
                     <td className="lab-group-rank" data-label="#">
-                      {i ? '↳' : (page - 1) * 12 + index + 1}
+                      {(page - 1) * 12 + index + 1}
                     </td>
                     <td className="lab-group-player">
-                      {i ? (
-                        <span className="lab-nested-caption">
-                          ↳ {m.lineType === 'alternate' ? 'Alternate' : 'Additional standard'} line
+                      <button className="lab-player" onClick={() => onOpen(m)}>
+                        <PlayerAvatar
+                          name={m.playerName}
+                          headshotUrl={m.headshotUrl}
+                          size={32}
+                          transparent
+                        />
+                        <span>
+                          <b>{m.playerName}</b>
+                          <small>
+                            {m.teamId} · {m.position}
+                          </small>
                         </span>
-                      ) : (
-                        <>
-                          <button className="lab-player" onClick={() => onOpen(m)}>
-                            <PlayerAvatar
-                              name={m.playerName}
-                              headshotUrl={m.headshotUrl}
-                              size={32}
-                              transparent
-                            />
-                            <span>
-                              <b>{m.playerName}</b>
-                              <small>
-                                {m.teamId} · {m.position}
-                              </small>
-                            </span>
-                          </button>
-                          {more > 0 && (
-                            <button
-                              className="lab-expand-lines"
-                              aria-expanded={open}
-                              aria-label={`${open ? 'Collapse' : 'Expand'} ${m.playerName} ${propMarketLabel(m)} lines`}
-                              onClick={() => toggle(group.key)}
-                            >
-                              {open ? <ChevronDown size={14} /> : <ChevronRight size={14} />} {more}{' '}
-                              more {more === 1 ? 'line' : 'lines'}
-                            </button>
-                          )}
-                        </>
-                      )}
+                      </button>
                     </td>
                     <td className="lab-group-market" data-label="Prop">
                       <button onClick={() => onOpen(m)}>
                         {propMarketLabel(m)}
                         {m.lineType === 'alternate' && (
-                          <small className="lab-alt-indicator">
-                            ALT LINE{i === 0 ? ' · BEST AVAILABLE' : ''}
-                          </small>
+                          <small className="lab-alt-indicator">ALT LINE · BEST AVAILABLE</small>
                         )}
                       </button>
                     </td>

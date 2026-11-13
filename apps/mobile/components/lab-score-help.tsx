@@ -71,7 +71,7 @@ export function LabScoreHelp() {
                 </View>
               ))}
               <Text style={{ color: '#a8c0cd', fontSize: 12, marginTop: 12 }}>
-                Research strength, not win probability. {LAB_SCORE_SCALE_NOTE}
+                Relative ranking, not win probability. {LAB_SCORE_SCALE_NOTE}
               </Text>
             </ScrollView>
           </View>

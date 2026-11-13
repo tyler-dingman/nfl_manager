@@ -315,3 +315,12 @@
     flex-direction: column;
   }
 }
+
+.tableRow,
+.tableRow strong,
+.tableRow b {
+  font-family: var(--player-table-font-family, ui-sans-serif, system-ui, sans-serif);
+  font-size: var(--player-table-font-size, 12px);
+  font-weight: var(--player-table-font-weight, 700);
+  line-height: var(--player-table-line-height, 18px);
+}

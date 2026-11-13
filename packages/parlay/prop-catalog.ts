@@ -132,7 +132,7 @@ export function queryPropCatalog(
         return catalogScore(m);
     }
   };
-  rows.sort((a, b) => {
+  const compare = (a: HomeMarket, b: HomeMarket) => {
     if (['name', 'player', 'prop'].includes(sort))
       return (
         (sort === 'prop'
@@ -150,8 +150,10 @@ export function queryPropCatalog(
       decimalOdds(b.odds)! - decimalOdds(a.odds)! ||
       a.id.localeCompare(b.id)
     );
-  });
-  const allGroups = groupPropSelections(rows);
+  };
+  rows.sort(compare);
+  // Groups retain their main-line lead; order by that visible row, not a hidden alternate.
+  const allGroups = groupPropSelections(rows).sort((a, b) => compare(a.primary, b.primary));
   const total = rows.length;
   const totalGroups = allGroups.length;
   const pages = Math.max(1, Math.ceil((grouped ? totalGroups : total) / 12));

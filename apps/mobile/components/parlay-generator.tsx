@@ -1,3 +1,5 @@
+import { requireCompleteGeneratorSnapshot } from '../../../packages/parlay/generator-snapshot';
+import { parlayTableText } from './parlay-table-typography';
 import { addSlipLeg } from '../../../packages/parlay/slip';
 import { useDiscoveryPreferences } from '../lib/parlay-discovery-preferences';
 import {
@@ -39,27 +41,29 @@ export function ParlayGenerator({
     [recent, setRecent] = useState<string[]>([]),
     [busy, setBusy] = useState(false),
     [notice, setNotice] = useState('');
-  async function generate(text: string, refine = false, rerun = false) {
+  async function generate(text: string, refine = false, rerun = false, override?: GeneratorRules) {
     if (busy || !discovery.ready || !text.trim()) return;
     setBusy(true);
     setNotice('');
     try {
       const [data, games] = await Promise.all([
-        getParlayMarkets('ALL', discoveryLineMode(discovery)),
+        getParlayMarkets('ALL', discoveryLineMode(discovery), true),
         getParlayEvents(),
       ]);
-      const next = parseGeneratorRequest(
-        text,
-        selectDiscoveryMarkets(data.markets, discovery),
-        teamId,
-        refine && rules ? rules : undefined,
-      );
+      const next =
+        override ??
+        parseGeneratorRequest(
+          text,
+          selectDiscoveryMarkets(requireCompleteGeneratorSnapshot(data), discovery),
+          teamId,
+          refine && rules ? rules : undefined,
+        );
       if (refine && /different players/i.test(text)) {
-        next.excludePlayers = legs.map((m) => m.playerName ?? '');
+        next.excludePlayers = legs.map((m) => m.playerId).filter((id): id is string => !!id);
         next.players = [];
       }
       const result = generateConstrainedParlay(
-        selectDiscoveryMarkets(data.markets, discovery),
+        selectDiscoveryMarkets(requireCompleteGeneratorSnapshot(data), discovery),
         games.events,
         next,
         rerun ? legs.map((m) => m.id) : [],
@@ -80,12 +84,12 @@ export function ParlayGenerator({
     setBusy(true);
     try {
       const [data, games] = await Promise.all([
-        getParlayMarkets('ALL', discoveryLineMode(discovery)),
+        getParlayMarkets('ALL', discoveryLineMode(discovery), true),
         getParlayEvents(),
       ]);
       const valid = validateParlayBuild(
         legs,
-        selectDiscoveryMarkets(data.markets, discovery),
+        selectDiscoveryMarkets(requireCompleteGeneratorSnapshot(data), discovery),
         games.events,
         rules?.minScore ?? 0,
       ).every(Boolean);
@@ -255,12 +259,19 @@ export function ParlayGenerator({
         </Text>
       )}
       {rules && <Text style={s.copy}>{describeGeneratorRules(rules)}</Text>}
+      {rules &&
+        !legs.length &&
+        rules.teams.length > 0 &&
+        button('Expand to all games', () => {
+          const expanded = { ...rules, teams: [], sameGame: false, today: false, issues: [] };
+          void generate(describeGeneratorRules(expanded), false, false, expanded);
+        })}
       {legs.map((m, i) => (
         <Pressable key={`${m.id}:${m.sportsbook}`} onPress={() => onOpen(m)} style={s.leg}>
-          <Text style={s.heading}>
+          <Text style={[s.copy, parlayTableText]}>
             {i + 1}. {m.playerName}
           </Text>
-          <Text style={s.copy}>
+          <Text style={[s.copy, parlayTableText]}>
             {m.side} {m.line} · {m.marketType.replaceAll('_', ' ')} · {m.odds}
           </Text>
           <Text style={s.eyebrow}>

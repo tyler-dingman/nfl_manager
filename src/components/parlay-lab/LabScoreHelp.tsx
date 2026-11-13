@@ -40,7 +40,7 @@ function Guide({ close }: { close: () => void }) {
             </div>
           ))}
         </dl>
-        <p>Research strength, not win probability. {LAB_SCORE_SCALE_NOTE}</p>
+        <p>Relative ranking, not win probability. {LAB_SCORE_SCALE_NOTE}</p>
       </section>
     </div>,
     document.body,

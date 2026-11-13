@@ -106,3 +106,44 @@ test('target odds break equal-quality ties using existing combined-odds math', (
   const result = generateConstrainedParlay(pool, games, rules);
   assert.ok(result.legs.some((m) => m.odds === -300));
 });
+
+test('team props blocked by evidence explain the cause without claiming no props exist', () => {
+  const pool = candidates.map((m) => ({
+    ...m,
+    teamId: 'KC',
+    trend: {
+      ...m.trend!,
+      scoreVersion: 'v2',
+      projection: {
+        projection: 60,
+        recommendation: 'OVER',
+        modelScore: 85,
+        estimatedProbability: 0.7,
+        dataQuality: { reliability: 0.8, freshness: 1, currentRoleKnown: false },
+      },
+    },
+  })) as GeneratorCandidate[];
+  const rules = parseGeneratorRequest('Build a 3 leg parlay around my team', pool, 'KC');
+  const result = generateConstrainedParlay(pool, games, rules);
+  assert.equal(result.legs.length, 0);
+  assert.match(result.message, /Saved props exist for KC/);
+  assert.match(result.message, /Current-role evidence is incomplete/);
+  assert.match(result.message, /Expand to all games/);
+  assert.doesNotMatch(result.message, /Only 0/);
+  const restored = pool.map((m) => ({
+    ...m,
+    trend: {
+      ...m.trend!,
+      projection: {
+        ...m.trend!.projection!,
+        dataQuality: { ...m.trend!.projection!.dataQuality!, currentRoleKnown: true },
+      },
+    },
+  }));
+  assert.equal(generateConstrainedParlay(restored, games, rules).legs.length, 3);
+});
+test('team evidence failure never substitutes eligible players from other teams', () => {
+  const pool = candidates.map((m) => ({ ...m, teamId: 'BUF' }));
+  const rules = parseGeneratorRequest('Build a 3 leg parlay around my team', pool, 'KC');
+  assert.equal(generateConstrainedParlay(pool, games, rules).legs.length, 0);
+});

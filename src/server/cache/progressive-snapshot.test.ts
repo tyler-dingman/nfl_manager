@@ -58,3 +58,24 @@ test('refresh keeps complete results; hard expiry permits progress and failure i
   await tick();
   await assert.rejects(read(), /offline/);
 });
+
+test('complete-slate readers wait for the final cohort while catalog readers see progress', async () => {
+  let finish!: (value: number) => void;
+  const read = progressiveSnapshot<number>(async (publish) => {
+    publish(1);
+    return new Promise((resolve) => {
+      finish = resolve;
+    });
+  });
+  assert.equal(await read(), 1);
+  let settled = false;
+  const complete = read({ complete: true }).then((value) => {
+    settled = true;
+    return value;
+  });
+  await tick();
+  assert.equal(settled, false);
+  finish(3);
+  assert.equal(await complete, 3);
+  assert.equal(await read(), 3);
+});

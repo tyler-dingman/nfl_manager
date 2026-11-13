@@ -142,6 +142,9 @@ async function queryLocalEventMarkets(
       const { rawProviderMetadata, ...market } = row;
       return {
         ...market,
+        // PostgreSQL numeric values arrive as strings; the public market contract
+        // and detail selection matching require actual numeric thresholds.
+        line: row.line == null ? null : Number(row.line),
         ...classifyStoredLine({
           sportsbook: String(row.sportsbook),
           line: row.line,

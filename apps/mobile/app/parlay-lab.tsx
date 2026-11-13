@@ -1,3 +1,4 @@
+import { parlayTableText } from '../components/parlay-table-typography';
 import type { CatalogProgress } from '../../../packages/parlay/prop-catalog';
 import { usePropMarketNavigation } from '../lib/prop-market-navigation';
 import { PropDiscoveryTable, PropMarketNavigation } from '../components/prop-discovery-table';
@@ -663,7 +664,9 @@ export default function ParlayLab() {
                   <View style={s.row}>
                     {m.headshotUrl && <Image source={{ uri: m.headshotUrl }} style={s.avatar} />}
                     <View style={{ flex: 1 }}>
-                      <Text style={s.title}>{m.playerName ?? m.teamId ?? 'Team market'}</Text>
+                      <Text style={[s.title, parlayTableText]}>
+                        {m.playerName ?? m.teamId ?? 'Team market'}
+                      </Text>
                       <Text style={s.muted}>
                         {m.teamId} · {isAnytimeTD(m) ? 'Anytime TD' : label(m.marketType)}
                       </Text>
@@ -726,8 +729,7 @@ export default function ParlayLab() {
                               label === 'LAB SCORE'
                                 ? labScoreColor(value === '—' ? null : m.trend?.trendScore)
                                 : '#E2EBF0',
-                            fontSize: 12,
-                            fontWeight: '700',
+                            ...parlayTableText,
                             marginTop: 4,
                           }}
                         >

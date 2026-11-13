@@ -1,0 +1,109 @@
+{
+  "source": "Read-only local site Parlay Lab catalog API; complete=true; Stafford alternate selections included",
+  "recordedDate": "2026-10-23",
+  "picks": [
+    {
+      "playerName": "John Metchie III",
+      "teamId": "CAR",
+      "position": "WR",
+      "marketType": "RECEIVING_YARDS",
+      "line": 11.5,
+      "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4567096.png",
+      "score": 97,
+      "projection": 28.4,
+      "last10": {
+        "games": 10,
+        "hits": 8,
+        "hitRate": 80
+      },
+      "reasons": [
+        "8/10 recent games cleared the selected side; recent workload receives more weight.",
+        "Current availability/depth evidence is incomplete.",
+        "Opportunity-based projection is 16.9 above the line."
+      ]
+    },
+    {
+      "playerName": "Malik Nabers",
+      "teamId": "NYG",
+      "position": "WR",
+      "marketType": "RECEPTIONS",
+      "line": 5.5,
+      "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4595348.png",
+      "score": 97,
+      "projection": 10,
+      "last10": {
+        "games": 10,
+        "hits": 5,
+        "hitRate": 50
+      },
+      "reasons": [
+        "5/10 recent games cleared the selected side; recent workload receives more weight.",
+        "Expected targets increased; different-role history receives less weight.",
+        "Current availability/depth evidence is incomplete.",
+        "Opportunity-based projection is 4.5 above the line."
+      ]
+    },
+    {
+      "playerName": "Matthew Stafford",
+      "teamId": "LAR",
+      "position": "QB",
+      "marketType": "PASSING_YARDS",
+      "line": 224.5,
+      "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/12483.png",
+      "score": 97,
+      "projection": 346.1,
+      "last10": {
+        "games": 10,
+        "hits": 8,
+        "hitRate": 80
+      },
+      "reasons": [
+        "8/10 recent games cleared the selected side; recent workload receives more weight.",
+        "Expected passingAttempts increased; different-role history receives less weight.",
+        "Current availability/depth evidence is incomplete.",
+        "Role or latest usage information is stale."
+      ]
+    },
+    {
+      "playerName": "Zachariah Branch",
+      "teamId": "ATL",
+      "position": "WR",
+      "marketType": "RECEIVING_YARDS",
+      "line": 5.5,
+      "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4870612.png",
+      "score": 96,
+      "projection": 11.6,
+      "last10": {
+        "games": 6,
+        "hits": 5,
+        "hitRate": 83.3
+      },
+      "reasons": [
+        "5/6 recent games cleared the selected side; recent workload receives more weight.",
+        "Expected targets increased; different-role history receives less weight.",
+        "Current availability/depth evidence is incomplete.",
+        "Role or latest usage information is stale."
+      ]
+    },
+    {
+      "playerName": "C.J. Stroud",
+      "teamId": "HOU",
+      "position": "QB",
+      "marketType": "RUSHING_YARDS",
+      "line": 9.5,
+      "headshotUrl": "https://a.espncdn.com/i/headshots/nfl/players/full/4432577.png",
+      "score": 96,
+      "projection": 17.9,
+      "last10": {
+        "games": 10,
+        "hits": 5,
+        "hitRate": 50
+      },
+      "reasons": [
+        "5/10 recent games cleared the selected side; recent workload receives more weight.",
+        "Current availability/depth evidence is incomplete.",
+        "Opportunity-based projection is 8.4 above the line."
+      ]
+    }
+  ]
+}

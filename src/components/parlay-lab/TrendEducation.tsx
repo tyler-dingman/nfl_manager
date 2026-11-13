@@ -69,7 +69,7 @@ export function TrendHelp({ compact = false }: { compact?: boolean }) {
         </button>
         {compact && (
           <span id={tooltipId} role="tooltip" className={styles.tooltip}>
-            <b>Lab Score (0–100)</b>
+            <b>Lab Score (1–97)</b>
             <br />
             History, line context, sample quality and side-aware matchup, usage and game context.{' '}
             <strong>Not hit probability or betting value.</strong>
@@ -80,7 +80,7 @@ export function TrendHelp({ compact = false }: { compact?: boolean }) {
       </span>
       {open && (
         <Explanation
-          title={compact ? 'Lab Score (0–100)' : 'What makes a prop trend?'}
+          title={compact ? 'Lab Score (1–97)' : 'What makes a prop trend?'}
           close={() => setOpen(false)}
         >
           <p>
@@ -94,7 +94,7 @@ export function TrendHelp({ compact = false }: { compact?: boolean }) {
             threshold for the same prop. Both can be researched. “Unverified” means stored metadata
             cannot establish the line type; price alone is never used to guess.
           </p>
-          <h3>Lab Score (0–100)</h3>
+          <h3>Lab Score (1–97)</h3>
           <p>{LAB_SCORE_EXPLANATION}</p>
           <strong className={styles.warning}>
             Lab Score is not the probability that the bet will hit.

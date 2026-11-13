@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { listLocalOddsEvents } from '@/server/odds/repository';
-import { getTrendingProps } from '@/server/historical-stats/trending-props-service';
+import { getCatalogEventResearch } from '@/server/odds/prop-catalog';
 
 export const dynamic = 'force-dynamic';
 export async function GET() {
@@ -11,13 +11,7 @@ export async function GET() {
     for (let i = 0; i < events.length; i += 3) {
       const batch = await Promise.all(
         events.slice(i, i + 3).map(async (e) => {
-          const rows = await getTrendingProps(
-            e.id,
-            { [e.homeTeamId]: e.awayTeamId, [e.awayTeamId]: e.homeTeamId },
-            e.season,
-            { homeTeamId: e.homeTeamId, awayTeamId: e.awayTeamId },
-            'alternate',
-          );
+          const rows = await getCatalogEventResearch(e.id, 'alternate');
           return rows
             .filter((m) => m.lineType === 'alternate' && m.mainLine != null && m.side === 'OVER')
             .map((m) => ({ ...m, eventId: e.id }));

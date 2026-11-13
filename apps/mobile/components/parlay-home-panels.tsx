@@ -1,6 +1,6 @@
 import { labScoreColor } from '../../../packages/parlay/lab-score-config';
 import { useDiscoveryPreferences } from '../lib/parlay-discovery-preferences';
-import { selectDiscoveryMarkets } from '../../../packages/parlay/discovery-selection';
+import { selectHeroProps } from '../../../packages/parlay/hero-selection';
 import { LAB_SCORE_CONFIG, labScoreBand } from '../../../packages/parlay/lab-score-config';
 import { Image as ExpoImage } from 'expo-image';
 import { teamLogoAssets } from '../lib/team-logo-assets';
@@ -28,15 +28,9 @@ export function ParlayHomeHero({
 }) {
   const { heroPrimaryAccent: red, heroBrightAccent: gold } = getEditorialHeroTheme(teamId);
   const team = TEAM_LIST.find((t) => t.abbr === teamId);
-  const upcoming = new Set(
-    events.filter((e) => Date.parse(e.kickoffAt) > Date.now()).map((e) => e.id),
-  );
   const discovery = useDiscoveryPreferences();
   const picks = discovery.ready
-    ? selectDiscoveryMarkets(
-        markets.filter((m) => m.teamId === teamId && m.eventId && upcoming.has(m.eventId)),
-        discovery,
-      ).slice(0, 3)
+    ? selectHeroProps(markets, teamId, events, Date.now(), discovery)
     : [];
   return (
     <View style={s.panel}>
@@ -125,7 +119,8 @@ export function ParlayHomeHero({
         ))}
         {!picks.length && (
           <Text style={s.copy}>
-            No scored player props are currently available for {team?.city ?? teamId}.
+            No {team?.city ?? teamId} props currently meet the Lab Find requirements. Browse All
+            Props for scored research.
           </Text>
         )}
         <Text style={[s.small, { letterSpacing: 1, marginTop: 24, fontSize: 8 }]}>

@@ -183,13 +183,12 @@ export function generateConstrainedParlay<T extends GeneratorCandidate>(
       .filter((g) => !g.marketsLocked && Date.parse(g.kickoffAt) > Date.now())
       .map((g) => [g.id, g]),
   );
-  const eligible = candidates.filter((m) => {
+  const matching = candidates.filter((m) => {
     const game = m.eventId ? available.get(m.eventId) : undefined;
     const td = /touchdown|\btd|_td/i.test(`${m.marketType} ${m.statId}`);
     const score = m.trend?.trendScore;
     return (
       m.available &&
-      (m.trend?.scoreVersion !== 'v2' || isTrendingEligible(m)) &&
       game &&
       m.period === 'game' &&
       m.playerName &&
@@ -219,6 +218,7 @@ export function generateConstrainedParlay<T extends GeneratorCandidate>(
       (!rules.conservative || m.trend!.last10.games >= 5)
     );
   });
+  const eligible = matching.filter((m) => m.trend?.scoreVersion !== 'v2' || isTrendingEligible(m));
   const rank = (m: T) => bettingOpportunityRank(m);
   const dedup = new Map<string, T>();
   for (const m of eligible.sort((a, b) => rank(b) - rank(a))) {
@@ -227,6 +227,28 @@ export function generateConstrainedParlay<T extends GeneratorCandidate>(
   }
   const pool = [...dedup.values()];
   const players = new Set(pool.map((m) => m.playerId)).size;
+  if (players === 0 && matching.length > 0) {
+    const missingRole = [
+      ...new Set(
+        matching
+          .filter(
+            (m) =>
+              m.trend?.scoreVersion === 'v2' && !m.trend.projection?.dataQuality?.currentRoleKnown,
+          )
+          .map((m) => m.playerName),
+      ),
+    ];
+    const scope = rules.teams.length ? ` for ${rules.teams.join(', ')}` : '';
+    return {
+      legs: [] as T[],
+      message:
+        `Saved props exist${scope}, but none pass the generator's evidence and value checks.` +
+        (missingRole.length
+          ? ` Current-role evidence is incomplete for ${missingRole.slice(0, 3).join(', ')}${missingRole.length > 3 ? ' and other players' : ''}.`
+          : '') +
+        ` Refresh the supporting research${rules.teams.length ? ' or choose “Expand to all games”' : ''}. A high Lab Score alone does not establish eligibility.`,
+    };
+  }
   if (players < rules.legs)
     return {
       legs: [] as T[],

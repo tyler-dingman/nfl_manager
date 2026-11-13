@@ -45,10 +45,11 @@ export function progressiveSnapshot<T>(
       });
     void running.catch(() => {});
   }
-  return async () => {
+  return async (options?: { complete?: boolean }) => {
     if (current?.complete && now() - current.at >= maxAgeMs) current = undefined;
     if (failure && !current && now() < retryAt) throw failure;
     if (!running && (!current || now() - current.at >= freshMs) && now() >= retryAt) start();
+    if (options?.complete && running) return running;
     if (current) return current.value;
     return first!;
   };

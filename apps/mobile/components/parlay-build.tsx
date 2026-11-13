@@ -150,7 +150,7 @@ const s = StyleSheet.create({
   },
   heading: { color: 'white', fontFamily: 'BarlowCondensed', fontSize: 28, marginBottom: 12 },
   title: { color: 'white', fontWeight: '800', fontSize: 15, marginTop: 8 },
-  copy: { color: '#A8BAC4', fontSize: 13, lineHeight: 21, marginVertical: 6 },
+  copy: { color: '#FFFFFF', fontSize: 13, lineHeight: 21, marginVertical: 6 },
   input: {
     color: 'white',
     padding: 14,

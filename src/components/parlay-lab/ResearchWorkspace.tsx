@@ -24,7 +24,7 @@ import Image from 'next/image';
 
 import { TEAM_LIST } from '@/data/teams';
 import { useDialogFocus } from '@/hooks/use-dialog-focus';
-import { marketDisplayName } from '@/lib/parlay-lab/market-display';
+import { marketDisplayName, marketStatExplanation } from '@/lib/parlay-lab/market-display';
 import { sportsbookName } from '@/server/odds/sportsbooks';
 import PlayerAvatar from './PlayerAvatar';
 import type { HomeMarket, ResearchDetail } from './ParlayLabHome';
@@ -185,6 +185,9 @@ export default function ResearchWorkspace({
                   : `${market.side} ${market.line ?? '—'}`}
               </span>
             </p>
+            {marketStatExplanation(data?.market.statType ?? market.marketType) && (
+              <p>{marketStatExplanation(data?.market.statType ?? market.marketType)}</p>
+            )}
             <LineBadge passive lineType={market.lineType} mainLine={market.mainLine} />
             <div className={styles.prices}>
               {(['FANDUEL', 'DRAFTKINGS'] as const).map((book) => (

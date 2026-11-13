@@ -100,14 +100,29 @@ type Unmatched = {
   possible_matches: string;
 };
 
+/** nflverse schedules use round codes; player statistics use POST for all rounds. */
+export function normalizeScheduleSeasonType(value: string) {
+  if (value === 'REG') return 'REG';
+  if (['POST', 'WC', 'DIV', 'CON', 'SB'].includes(value)) return 'POST';
+  return null;
+}
+
 export async function importNflverseHistory(options: Options) {
   const seasons = new Set(options.seasons),
-    gamesRaw = parseCsv(await download(process.env.NFLVERSE_GAMES_URL ?? GAMES_URL)).filter(
-      (r) =>
-        seasons.has(Number(r.season)) &&
-        ['REG', 'POST'].includes(r.game_type) &&
-        (!options.week || Number(r.week) === options.week),
-    );
+    gamesRaw = parseCsv(await download(process.env.NFLVERSE_GAMES_URL ?? GAMES_URL))
+      .map(
+        (row) =>
+          ({ ...row, game_type: normalizeScheduleSeasonType(row.game_type) ?? '' }) as Record<
+            string,
+            string
+          >,
+      )
+      .filter(
+        (r) =>
+          seasons.has(Number(r.season)) &&
+          ['REG', 'POST'].includes(r.game_type) &&
+          (!options.week || Number(r.week) === options.week),
+      );
   const playerSources = process.env.NFLVERSE_PLAYER_STATS_URL
     ? [process.env.NFLVERSE_PLAYER_STATS_URL]
     : [...seasons].map(PLAYER_STATS_URL);

@@ -1,0 +1,169 @@
+{
+  "checkedAt": "2026-10-23T00:19:14.528Z",
+  "localOnly": true,
+  "causes": [
+    "Missing 2025 player history",
+    "Partial 2024 player history",
+    "Schedule playoff round codes silently excluded",
+    "Ambiguous scoring-versus-passing touchdown label"
+  ],
+  "source": "Official nflverse schedule and weekly statistics; existing SportsGameOdds market metadata",
+  "jordanLove2026": {
+    "passing_touchdowns": 11,
+    "touchdowns_scored": 1,
+    "games": 6
+  },
+  "coverage": [
+    {
+      "season": 2024,
+      "season_type": "POST",
+      "player_rows": 853,
+      "games": 13
+    },
+    {
+      "season": 2024,
+      "season_type": "REG",
+      "player_rows": 18130,
+      "games": 272
+    },
+    {
+      "season": 2025,
+      "season_type": "POST",
+      "player_rows": 882,
+      "games": 13
+    },
+    {
+      "season": 2025,
+      "season_type": "REG",
+      "player_rows": 18540,
+      "games": 272
+    },
+    {
+      "season": 2026,
+      "season_type": "REG",
+      "player_rows": 6488,
+      "games": 93
+    }
+  ],
+  "research": [
+    {
+      "marketType": "PASSING_TD",
+      "resolvedStat": "PASSING_TDS",
+      "last10": {
+        "games": 10,
+        "hits": 7,
+        "hitRate": 70
+      },
+      "currentSeason": {
+        "games": 6,
+        "hits": 5,
+        "hitRate": 83.3
+      },
+      "score": 72,
+      "games": [
+        {
+          "date": "2025-12-07",
+          "value": 3
+        },
+        {
+          "date": "2025-12-14",
+          "value": 1
+        },
+        {
+          "date": "2025-12-20",
+          "value": 0
+        },
+        {
+          "date": "2026-01-10",
+          "value": 4
+        },
+        {
+          "date": "2026-09-13",
+          "value": 2
+        },
+        {
+          "date": "2026-09-20",
+          "value": 2
+        },
+        {
+          "date": "2026-09-24",
+          "value": 2
+        },
+        {
+          "date": "2026-10-04",
+          "value": 2
+        },
+        {
+          "date": "2026-10-11",
+          "value": 2
+        },
+        {
+          "date": "2026-10-18",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "marketType": "TOUCHDOWNS",
+      "resolvedStat": "ANYTIME_TD",
+      "last10": {
+        "games": 10,
+        "hits": 0,
+        "hitRate": 0
+      },
+      "currentSeason": {
+        "games": 6,
+        "hits": 0,
+        "hitRate": 0
+      },
+      "score": 20,
+      "games": [
+        {
+          "date": "2025-12-07",
+          "value": 0
+        },
+        {
+          "date": "2025-12-14",
+          "value": 0
+        },
+        {
+          "date": "2025-12-20",
+          "value": 0
+        },
+        {
+          "date": "2026-01-10",
+          "value": 0
+        },
+        {
+          "date": "2026-09-13",
+          "value": 0
+        },
+        {
+          "date": "2026-09-20",
+          "value": 0
+        },
+        {
+          "date": "2026-09-24",
+          "value": 0
+        },
+        {
+          "date": "2026-10-04",
+          "value": 0
+        },
+        {
+          "date": "2026-10-11",
+          "value": 0
+        },
+        {
+          "date": "2026-10-18",
+          "value": 1
+        }
+      ]
+    }
+  ],
+  "apiMatchesRawHistory": true,
+  "playoffCoverageVerified": true,
+  "regressionTestsPassed": 60,
+  "weightsOrEligibilityChanged": false,
+  "nativeDeviceValidated": false
+}

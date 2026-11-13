@@ -61,16 +61,26 @@ export const LAB_SCORE_CONFIG = {
     {
       min: 95,
       label: 'EXCEPTIONAL',
-      range: '95–99',
-      description: 'Exceptional statistical support.',
+      range: '95–97',
+      description: 'Highest relative ranks in the supported slate.',
     },
-    { min: 90, label: 'VERY HIGH', range: '90–94', description: 'Very strong opportunity.' },
-    { min: 85, label: 'HIGH', range: '85–89', description: 'High modeled confidence.' },
-    { min: 80, label: 'STRONG', range: '80–84', description: 'Multiple favorable indicators.' },
-    { min: 70, label: 'FAVORABLE', range: '70–79', description: 'Positive but imperfect support.' },
-    { min: 60, label: 'NEUTRAL', range: '60–69', description: 'Mixed indicators.' },
-    { min: 50, label: 'WEAK', range: '50–59', description: 'Limited statistical support.' },
-    { min: 0, label: 'POOR', range: '0–49', description: 'Unfavorable or insufficient evidence.' },
+    {
+      min: 90,
+      label: 'VERY HIGH',
+      range: '90–94',
+      description: 'Top-decile relative ranks in the supported slate.',
+    },
+    { min: 85, label: 'HIGH', range: '85–89', description: 'Upper relative ranks.' },
+    { min: 80, label: 'STRONG', range: '80–84', description: 'Above-average relative ranks.' },
+    { min: 70, label: 'FAVORABLE', range: '70–79', description: 'Higher-middle relative ranks.' },
+    { min: 60, label: 'NEUTRAL', range: '60–69', description: 'Middle relative ranks.' },
+    { min: 50, label: 'WEAK', range: '50–59', description: 'Lower-middle relative ranks.' },
+    {
+      min: 0,
+      label: 'POOR',
+      range: '0–49',
+      description: 'Lower relative ranks; missing evidence remains unrated.',
+    },
   ],
 } as const;
 export const labScoreBand = (score: number) =>
@@ -93,4 +103,5 @@ export function displayLabScore(modelScore: number, hasEvidence = true) {
   return Math.min(99, Math.round(modelScore) + LAB_SCORE_CONFIG.displayOffset);
 }
 
-export const LAB_SCORE_SCALE_NOTE = `The display scale adds ${LAB_SCORE_CONFIG.displayOffset} points to evidence-backed model scores, capped at 99. Projections and estimated hit probabilities are unchanged.`;
+export const LAB_SCORE_SCALE_NOTE =
+  'Scores rank distinct supported picks across the upcoming slate before filters. The top 10% (rounded up) span 90–97; the rest span 1–89. Ties use stable pick identity. Duplicate sportsbook prices do not count as extra picks. Rankings can change with the slate. Projections, probabilities and evidence-based eligibility are unchanged.';

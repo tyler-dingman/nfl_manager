@@ -24,7 +24,8 @@ const getResearch = createResearchRequestCache(
 export const getParlayMarkets = (
   eventId = 'ALL',
   lineMode: 'standard' | 'alternate' | 'all' = 'standard',
+  complete = false,
 ) =>
   getResearch(
-    `/api/parlay-lab/research?eventId=${encodeURIComponent(eventId)}&lineMode=${lineMode}`,
+    `/api/parlay-lab/research?eventId=${encodeURIComponent(eventId)}&lineMode=${lineMode}${complete ? '&complete=true' : ''}`,
   );

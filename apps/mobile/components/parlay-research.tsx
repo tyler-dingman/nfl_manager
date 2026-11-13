@@ -1,3 +1,7 @@
+import {
+  marketDisplayName,
+  marketStatExplanation,
+} from '../../../src/lib/parlay-lab/market-display';
 import { isAnytimeTD, propPick, researchThreshold } from '../../../packages/parlay/anytime-td';
 import { useEffect, useState } from 'react';
 import {
@@ -140,8 +144,11 @@ export function ParlayResearch({
             {market.lineType === 'alternate' ? 'ALT LINE · ' : ''}
             {isAnytimeTD(market)
               ? `Anytime TD — ${propPick(market)}`
-              : `${market.marketType.replaceAll('_', ' ')} · ${market.side} ${market.line}`}
+              : `${marketDisplayName(market.marketType)} · ${market.side} ${market.line}`}
           </Text>
+          {marketStatExplanation(market.marketType) && (
+            <Text style={s.copy}>{marketStatExplanation(market.marketType)}</Text>
+          )}
         </View>
         {market.headshotUrl && <Image source={{ uri: market.headshotUrl }} style={s.portrait} />}
       </View>
@@ -202,7 +209,7 @@ export function ParlayResearch({
               <ProjectionDetails
                 projection={data.summary.projection}
                 active={data.summary.scoreVersion === 'v2'}
-                stat={market.marketType.replace(/_/g, ' ')}
+                stat={marketDisplayName(market.marketType)}
                 position={market.position ?? data.player?.position}
               >
                 <OverviewTiles

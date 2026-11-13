@@ -42,7 +42,7 @@ const market = (
   }) as HomeMarket;
 const query = (rows: HomeMarket[], q = '') =>
   queryPropCatalog(rows, events, new URLSearchParams('grouped=true&altLines=true&' + q));
-test('group ranking follows highest eligible score but standard remains primary', () => {
+test('group sorting follows visible main-line scores, never a hidden alternate', () => {
   const rows = [
     market('a-main', 'A', 75),
     market('a-alt', 'A', 95, 'alternate'),
@@ -51,11 +51,11 @@ test('group ranking follows highest eligible score but standard remains primary'
   const result = query(rows);
   assert.deepEqual(
     result.groups.map((g) => g.primary.id),
-    ['a-main', 'b-main'],
+    ['b-main', 'a-main'],
   );
-  assert.equal(result.groups[0].bestScore, 95);
+  assert.equal(result.groups[1].bestScore, 95);
   assert.deepEqual(
-    result.groups[0].selections.map((m) => m.id),
+    result.groups[1].selections.map((m) => m.id),
     ['a-main', 'a-alt'],
   );
   assert.equal(result.total, 3);
@@ -123,4 +123,22 @@ test('facets contain only offered markets, matching navigation on both views', (
   );
   assert.equal(query(rows, 'category=RECEIVING&market=RECEPTIONS').total, 1);
   assert.equal(query(rows, 'category=TOUCHDOWN&market=ANYTIME_TD').markets[0].side, 'YES');
+});
+
+test('visible group scores sort correctly in both directions across page boundaries', () => {
+  const rows = Array.from({ length: 25 }, (_, i) => [
+    market(`m${i}`, `P${i}`, 50 + i),
+    market(`a${i}`, `P${i}`, 99 - i, 'alternate'),
+  ]).flat();
+  for (const [q, direction] of [
+    ['sort=score', -1],
+    ['sort=score-low', 1],
+    ['sort=score&direction=asc', 1],
+  ] as const) {
+    const groups = [1, 2, 3].flatMap((page) => query(rows, `${q}&page=${page}`).groups);
+    assert.equal(groups.length, 25);
+    const scores = groups.map((g) => g.primary.trend!.trendScore);
+    assert.ok(scores.slice(1).every((n, i) => (direction < 0 ? n <= scores[i] : n >= scores[i])));
+    assert.equal(new Set(groups.map((g) => g.key)).size, 25);
+  }
 });

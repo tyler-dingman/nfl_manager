@@ -1,4 +1,4 @@
-import { getCatalogResearch } from '@/server/odds/prop-catalog';
+import { getCatalogResearch, getCatalogEventResearch } from '@/server/odds/prop-catalog';
 import { researchSide, researchThreshold } from '../../../../../packages/parlay/anytime-td';
 import { NextRequest, NextResponse } from 'next/server';
 import { researchSeasonStats } from '@/server/historical-stats/research-season-stats';
@@ -31,10 +31,7 @@ import { calculatePlayerEnvironmentTrends } from '@/server/historical-stats/play
 import { calculatePlayerConsistency } from '@/server/historical-stats/player-consistency-service';
 import { calculatePlayerUsageTrend } from '@/server/historical-stats/player-usage-trend-service';
 import { calculatePlayerVenueTrends } from '@/server/historical-stats/player-venue-trend-service';
-import {
-  getTrendingProps,
-  supportsFullGameResearch,
-} from '@/server/historical-stats/trending-props-service';
+import { supportsFullGameResearch } from '@/server/historical-stats/trending-props-service';
 import { buildUpcomingMatchup } from '@/server/historical-stats/upcoming-matchup-service';
 import { buildVenueInsight } from '@/server/historical-stats/venue-insight-service';
 import { venueContextForHomeTeam } from '@/server/historical-stats/venue-environment-service';
@@ -83,7 +80,13 @@ export async function GET(request: NextRequest) {
     );
   const eventId = request.nextUrl.searchParams.get('eventId');
   if (!eventId) return NextResponse.json({ error: 'eventId is required' }, { status: 400 });
-  if (eventId === 'ALL') return NextResponse.json(await getCatalogResearch(discoveryMode));
+  if (eventId === 'ALL')
+    return NextResponse.json(
+      await getCatalogResearch(
+        discoveryMode,
+        request.nextUrl.searchParams.get('complete') === 'true',
+      ),
+    );
   const events = (await listLocalOddsEvents()) as unknown as Array<{
     id: string;
     homeTeamId: string;
@@ -108,12 +111,10 @@ export async function GET(request: NextRequest) {
     side = researchSide(storedSide) === 'UNDER' ? ('UNDER' as const) : ('OVER' as const);
   if (!playerId || !marketType || !Number.isFinite(line))
     return NextResponse.json({
-      markets: (await getTrendingProps(eventId, opponents, event.season, event, discoveryMode)).map(
-        (market) => ({
-          ...market,
-          eventId,
-        }),
-      ),
+      markets: (await getCatalogEventResearch(eventId, discoveryMode)).map((market) => ({
+        ...market,
+        eventId,
+      })),
     });
   const statType = normalizeHistoricalStatType(marketType);
   if (!statType)
@@ -245,6 +246,15 @@ export async function GET(request: NextRequest) {
     summary.researchScore.matchup.alignment === 'conflicts'
       ? `${opponentId}'s ${summary.researchScore.matchup.metric?.toLowerCase()} context works against the selected ${side.toLowerCase()}. ${summary.researchScore.matchup.contextualOnly ? 'This is broad yardage context, not a forecast of usage or role.' : 'This is context, not a prediction.'}`
       : summary.researchScore.matchup.label + '.';
+  // Apply the same complete-slate display rank as table/home/native. Model
+  // evidence, hit rates, probabilities and discovery eligibility stay unchanged.
+  const ranked = selected
+    ? (await getCatalogEventResearch(eventId)).find(
+        (m) => m.id === selected.id && m.sportsbook === selected.sportsbook,
+      )
+    : undefined;
+  summary.trendScore = ranked?.trend?.trendScore ?? 0;
+  summary.projection = { ...summary.projection, score: summary.trendScore };
   // Single score for the table, modal hero, and legacy match-score field.
   const labMatchScore = summary.trendScore;
   return NextResponse.json({

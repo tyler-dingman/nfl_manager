@@ -1,5 +1,6 @@
 import { progressiveSnapshot } from '@/server/cache/progressive-snapshot';
 import { isAnytimeTD } from '../../../packages/parlay/anytime-td';
+import { applyRelativePropScores } from '../../../packages/parlay/relative-score';
 import { queryPropCatalog } from '../../../packages/parlay/prop-catalog';
 import { getLocalEventMarkets, listLocalOddsEvents } from './repository';
 import { getTrendingProps } from '@/server/historical-stats/trending-props-service';
@@ -11,6 +12,8 @@ import type { HomeMarket, OddsEvent } from '../../../packages/parlay/research';
  */
 type Snapshot = {
   markets: HomeMarket[];
+  rawMarkets: HomeMarket[];
+  scoreScale: { version: string; population: number; topCount: number };
   events: OddsEvent[];
   progress: { complete: boolean; loadedEvents: number; totalEvents: number };
   pages: Map<string, string>;
@@ -23,11 +26,12 @@ const getPropCatalog = progressiveSnapshot<Snapshot>(async (publish) => {
   const markets: HomeMarket[] = [];
   let loadedEvents = 0;
   const snapshot = (complete: boolean): Snapshot => ({
-    markets: [...markets],
+    ...applyRelativePropScores([...markets]),
+    rawMarkets: [...markets],
     events,
     progress: { complete, loadedEvents, totalEvents: events.length },
     pages: new Map(),
-    activeKey: '',
+    activeKey: events.map((e) => e.id).join('|'),
   });
   const players = new Map(NFL_LEAGUE_DATA.players.map((p) => [p.id, p]));
   for (let start = 0; start < events.length; start += start === 0 ? 1 : 3) {
@@ -67,9 +71,9 @@ const getPropCatalog = progressiveSnapshot<Snapshot>(async (publish) => {
   return snapshot(true);
 });
 
-/** Cache serialized pages, not copies of the full enriched catalog. Private snapshot ownership. */
-export async function getPropCatalogResponse(query: URLSearchParams) {
-  const snapshot = await getPropCatalog();
+/** Re-rank once when kickoff changes the active slate, shared by all surfaces. */
+async function activeCatalog(complete = false) {
+  const snapshot = await getPropCatalog({ complete });
   // A game crossing kickoff must disappear even while the snapshot refreshes.
   const activeKey = snapshot.events
     .filter((e) => !e.marketsLocked && Date.parse(e.kickoffAt) > Date.now())
@@ -78,7 +82,18 @@ export async function getPropCatalogResponse(query: URLSearchParams) {
   if (snapshot.activeKey !== activeKey) {
     snapshot.pages.clear();
     snapshot.activeKey = activeKey;
+    const active = new Set(activeKey.split('|'));
+    Object.assign(
+      snapshot,
+      applyRelativePropScores(snapshot.rawMarkets.filter((m) => active.has(m.eventId ?? ''))),
+    );
   }
+  return snapshot;
+}
+
+/** Cache serialized pages, not copies of the full enriched catalog. */
+export async function getPropCatalogResponse(query: URLSearchParams) {
+  const snapshot = await activeCatalog();
   const normalized = new URLSearchParams(query);
   normalized.sort();
   const key = normalized.toString();
@@ -87,6 +102,7 @@ export async function getPropCatalogResponse(query: URLSearchParams) {
   const body = JSON.stringify({
     ...queryPropCatalog(snapshot.markets, snapshot.events, query),
     progress: snapshot.progress,
+    scoreScale: snapshot.scoreScale,
   });
   if (snapshot.pages.size >= 32) snapshot.pages.delete(snapshot.pages.keys().next().value!);
   snapshot.pages.set(key, body);
@@ -94,8 +110,11 @@ export async function getPropCatalogResponse(query: URLSearchParams) {
 }
 
 /** Home discovery shares the same build instead of rescoring every game separately. */
-export async function getCatalogResearch(lineMode: 'standard' | 'alternate' | 'all') {
-  const snapshot = await getPropCatalog();
+export async function getCatalogResearch(
+  lineMode: 'standard' | 'alternate' | 'all',
+  complete = false,
+) {
+  const snapshot = await activeCatalog(complete);
   const active = new Set(
     snapshot.events
       .filter((e) => !e.marketsLocked && Date.parse(e.kickoffAt) > Date.now())
@@ -103,6 +122,7 @@ export async function getCatalogResearch(lineMode: 'standard' | 'alternate' | 'a
   );
   return {
     progress: snapshot.progress,
+    scoreScale: snapshot.scoreScale,
     markets: snapshot.markets.filter(
       (m) =>
         active.has(m.eventId ?? '') &&
@@ -113,4 +133,21 @@ export async function getCatalogResearch(lineMode: 'standard' | 'alternate' | 'a
         (lineMode !== 'alternate' || (m.odds != null && m.odds >= -1000)),
     ),
   };
+}
+
+/** Detail and per-game views use the same complete slate scale as the catalog. */
+export async function getCatalogEventResearch(
+  eventId: string,
+  mode: 'standard' | 'alternate' | 'all' = 'all',
+) {
+  const snapshot = await activeCatalog(true);
+  return snapshot.markets.filter(
+    (m) =>
+      m.eventId === eventId &&
+      m.researchStatus &&
+      (mode === 'all' ||
+        (mode === 'standard' && isAnytimeTD(m)) ||
+        m.lineType === (mode === 'standard' ? 'main' : 'alternate')) &&
+      (mode !== 'alternate' || (m.odds != null && m.odds >= -1000)),
+  );
 }

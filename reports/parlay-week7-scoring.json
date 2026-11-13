@@ -1,0 +1,429 @@
+{
+  "generatedAt": "2026-10-23T00:39:59.417Z",
+  "source": "Existing local scoring services and Parlay Lab APIs; no odds provider calls",
+  "season": 2026,
+  "week": 7,
+  "games": [
+    {
+      "game": "PIT @ NO",
+      "eventId": "1080366b-6690-43b0-b597-5879da352a9d",
+      "offersEvaluated": 1635,
+      "scoredOffers": 1612,
+      "unscoredOffers": 23,
+      "knownRoleOffers": 281,
+      "highestScore": 97
+    },
+    {
+      "game": "SF @ ATL",
+      "eventId": "ce76e20a-dd42-4356-bfbe-7f07687c44ac",
+      "offersEvaluated": 1301,
+      "scoredOffers": 1283,
+      "unscoredOffers": 18,
+      "knownRoleOffers": 613,
+      "highestScore": 97
+    },
+    {
+      "game": "CLE @ TEN",
+      "eventId": "ecec0479-3d8b-435b-8de2-a35cc0676dab",
+      "offersEvaluated": 1064,
+      "scoredOffers": 1057,
+      "unscoredOffers": 7,
+      "knownRoleOffers": 169,
+      "highestScore": 97
+    },
+    {
+      "game": "NYG @ HOU",
+      "eventId": "0c1b8821-cdbe-45eb-bec7-8c1fc9826adf",
+      "offersEvaluated": 1221,
+      "scoredOffers": 1212,
+      "unscoredOffers": 9,
+      "knownRoleOffers": 210,
+      "highestScore": 97
+    },
+    {
+      "game": "TB @ CAR",
+      "eventId": "f12c925a-77f7-498c-8781-d6bcacb49e14",
+      "offersEvaluated": 1487,
+      "scoredOffers": 1483,
+      "unscoredOffers": 4,
+      "knownRoleOffers": 434,
+      "highestScore": 97
+    },
+    {
+      "game": "CIN @ BAL",
+      "eventId": "37e94c38-e980-4f75-83eb-18dba3387cfe",
+      "offersEvaluated": 949,
+      "scoredOffers": 925,
+      "unscoredOffers": 24,
+      "knownRoleOffers": 26,
+      "highestScore": 97
+    },
+    {
+      "game": "MIA @ NYJ",
+      "eventId": "5704305e-dc7a-4ab0-8fe5-d37d8bef61ed",
+      "offersEvaluated": 1127,
+      "scoredOffers": 1095,
+      "unscoredOffers": 32,
+      "knownRoleOffers": 372,
+      "highestScore": 97
+    },
+    {
+      "game": "IND @ MIN",
+      "eventId": "911e838e-ff73-4809-8cac-b77130854d45",
+      "offersEvaluated": 1225,
+      "scoredOffers": 1195,
+      "unscoredOffers": 30,
+      "knownRoleOffers": 360,
+      "highestScore": 97
+    },
+    {
+      "game": "DEN @ ARI",
+      "eventId": "ab75713c-88e9-4cca-ac6f-fc2e00393e62",
+      "offersEvaluated": 1622,
+      "scoredOffers": 1605,
+      "unscoredOffers": 17,
+      "knownRoleOffers": 219,
+      "highestScore": 97
+    },
+    {
+      "game": "LAR @ LV",
+      "eventId": "18b44bc4-6201-41e3-ac61-a66bd3b8133d",
+      "offersEvaluated": 1220,
+      "scoredOffers": 1209,
+      "unscoredOffers": 11,
+      "knownRoleOffers": 135,
+      "highestScore": 97
+    },
+    {
+      "game": "GB @ DET",
+      "eventId": "653f2d4d-aa45-4e13-a4ab-260065096a8b",
+      "offersEvaluated": 1652,
+      "scoredOffers": 1638,
+      "unscoredOffers": 14,
+      "knownRoleOffers": 637,
+      "highestScore": 97
+    },
+    {
+      "game": "KC @ SEA",
+      "eventId": "f2bf37f9-08af-436a-a37c-f0acc4c98420",
+      "offersEvaluated": 1046,
+      "scoredOffers": 1023,
+      "unscoredOffers": 23,
+      "knownRoleOffers": 264,
+      "highestScore": 97
+    },
+    {
+      "game": "DAL @ PHI",
+      "eventId": "2812bb65-062c-41b1-8842-c8836d6b68e4",
+      "offersEvaluated": 1266,
+      "scoredOffers": 1263,
+      "unscoredOffers": 3,
+      "knownRoleOffers": 368,
+      "highestScore": 97
+    }
+  ],
+  "top20": [
+    {
+      "player": "Aaron Rodgers",
+      "market": "PASSING_RUSHING_YARDS",
+      "side": "OVER",
+      "line": 169.5,
+      "book": "DRAFTKINGS",
+      "odds": -850,
+      "score": 97,
+      "currentRoleKnown": false,
+      "game": "PIT @ NO"
+    },
+    {
+      "player": "Aaron Rodgers",
+      "market": "PASSING_RUSHING_YARDS",
+      "side": "OVER",
+      "line": 174.5,
+      "book": "FANDUEL",
+      "odds": -500,
+      "score": 97,
+      "currentRoleKnown": false,
+      "game": "PIT @ NO"
+    },
+    {
+      "player": "Aaron Rodgers",
+      "market": "PASSING_RUSHING_YARDS",
+      "side": "OVER",
+      "line": 179.5,
+      "book": "DRAFTKINGS",
+      "odds": -594,
+      "score": 97,
+      "currentRoleKnown": false,
+      "game": "PIT @ NO"
+    },
+    {
+      "player": "Aaron Rodgers",
+      "market": "PASSING_RUSHING_YARDS",
+      "side": "OVER",
+      "line": 189.5,
+      "book": "DRAFTKINGS",
+      "odds": -430,
+      "score": 97,
+      "currentRoleKnown": false,
+      "game": "PIT @ NO"
+    },
+    {
+      "player": "Aaron Rodgers",
+      "market": "PASSING_YARDS",
+      "side": "OVER",
+      "line": 149.5,
+      "book": "FANDUEL",
+      "odds": -1000,
+      "score": 97,
+      "currentRoleKnown": false,
+      "game": "PIT @ NO"
+    },
+    {
+      "player": "Aaron Rodgers",
+      "market": "PASSING_YARDS",
+      "side": "OVER",
+      "line": 159.5,
+      "book": "DRAFTKINGS",
+      "odds": -1000,
+      "score": 97,
+      "currentRoleKnown": false,
+      "game": "PIT @ NO"
+    },
+    {
+      "player": "Devaughn Vele",
+      "market": "RECEIVING_YARDS",
+      "side": "OVER",
+      "line": 14.5,
+      "book": "DRAFTKINGS",
+      "odds": -870,
+      "score": 97,
+      "currentRoleKnown": false,
+      "game": "PIT @ NO"
+    },
+    {
+      "player": "Devaughn Vele",
+      "market": "RECEIVING_YARDS",
+      "side": "OVER",
+      "line": 19.5,
+      "book": "CAESARS",
+      "odds": -590,
+      "score": 97,
+      "currentRoleKnown": false,
+      "game": "PIT @ NO"
+    },
+    {
+      "player": "Devaughn Vele",
+      "market": "RECEIVING_YARDS",
+      "side": "OVER",
+      "line": 24.5,
+      "book": "BETMGM",
+      "odds": -500,
+      "score": 97,
+      "currentRoleKnown": false,
+      "game": "PIT @ NO"
+    },
+    {
+      "player": "DK Metcalf",
+      "market": "RECEPTIONS",
+      "side": "OVER",
+      "line": 2.5,
+      "book": "CAESARS",
+      "odds": -950,
+      "score": 97,
+      "currentRoleKnown": false,
+      "game": "PIT @ NO"
+    },
+    {
+      "player": "DK Metcalf",
+      "market": "RECEPTIONS",
+      "side": "OVER",
+      "line": 3.5,
+      "book": "CAESARS",
+      "odds": -310,
+      "score": 97,
+      "currentRoleKnown": false,
+      "game": "PIT @ NO"
+    },
+    {
+      "player": "Jaylen Warren",
+      "market": "RUSHING_YARDS",
+      "side": "OVER",
+      "line": 29.5,
+      "book": "CAESARS",
+      "odds": -1000,
+      "score": 97,
+      "currentRoleKnown": false,
+      "game": "PIT @ NO"
+    },
+    {
+      "player": "Brock Purdy",
+      "market": "PASSING_YARDS",
+      "side": "OVER",
+      "line": 174.5,
+      "book": "FANDUEL",
+      "odds": -580,
+      "score": 97,
+      "currentRoleKnown": true,
+      "game": "SF @ ATL"
+    },
+    {
+      "player": "Zachariah Branch",
+      "market": "RECEIVING_YARDS",
+      "side": "OVER",
+      "line": 4.5,
+      "book": "FANDUEL",
+      "odds": -122,
+      "score": 97,
+      "currentRoleKnown": true,
+      "game": "SF @ ATL"
+    },
+    {
+      "player": "Zachariah Branch",
+      "market": "RECEIVING_YARDS",
+      "side": "OVER",
+      "line": 5.5,
+      "book": "CAESARS",
+      "odds": -113,
+      "score": 97,
+      "currentRoleKnown": true,
+      "game": "SF @ ATL"
+    },
+    {
+      "player": "Christian McCaffrey",
+      "market": "RECEIVING_YARDS",
+      "side": "OVER",
+      "line": 14.5,
+      "book": "DRAFTKINGS",
+      "odds": -1000,
+      "score": 97,
+      "currentRoleKnown": true,
+      "game": "SF @ ATL"
+    },
+    {
+      "player": "Christian McCaffrey",
+      "market": "RECEIVING_YARDS",
+      "side": "OVER",
+      "line": 19.5,
+      "book": "CAESARS",
+      "odds": -625,
+      "score": 97,
+      "currentRoleKnown": true,
+      "game": "SF @ ATL"
+    },
+    {
+      "player": "Zachariah Branch",
+      "market": "RECEPTIONS",
+      "side": "OVER",
+      "line": 0.5,
+      "book": "FANDUEL",
+      "odds": -270,
+      "score": 97,
+      "currentRoleKnown": true,
+      "game": "SF @ ATL"
+    },
+    {
+      "player": "Christian McCaffrey",
+      "market": "RECEPTIONS",
+      "side": "OVER",
+      "line": 2.5,
+      "book": "CAESARS",
+      "odds": -1250,
+      "score": 97,
+      "currentRoleKnown": true,
+      "game": "SF @ ATL"
+    },
+    {
+      "player": "Christian McCaffrey",
+      "market": "RECEPTIONS",
+      "side": "OVER",
+      "line": 3.5,
+      "book": "CAESARS",
+      "odds": -440,
+      "score": 97,
+      "currentRoleKnown": true,
+      "game": "SF @ ATL"
+    }
+  ],
+  "pages": {
+    "props": {
+      "progress": {
+        "complete": true,
+        "loadedEvents": 13,
+        "totalEvents": 13
+      },
+      "stats": {
+        "props": 9561,
+        "players": 341,
+        "games": 13,
+        "highestScore": 97
+      },
+      "total": 2607,
+      "topScores": [
+        {
+          "player": "Brock Purdy",
+          "score": 97
+        },
+        {
+          "player": "Brock Purdy",
+          "score": 10
+        },
+        {
+          "player": "Zachariah Branch",
+          "score": 97
+        },
+        {
+          "player": "Zachariah Branch",
+          "score": 6
+        },
+        {
+          "player": "Malik Nabers",
+          "score": 97
+        },
+        {
+          "player": "Malik Nabers",
+          "score": 11
+        }
+      ]
+    },
+    "trends": {
+      "progress": {
+        "complete": true,
+        "loadedEvents": 13,
+        "totalEvents": 13
+      },
+      "stats": {
+        "props": 9561,
+        "players": 341,
+        "games": 13,
+        "highestScore": 97
+      },
+      "total": 43,
+      "topScores": [
+        {
+          "player": "Brock Purdy",
+          "score": 97
+        },
+        {
+          "player": "Zachariah Branch",
+          "score": 97
+        },
+        {
+          "player": "Zachariah Branch",
+          "score": 97
+        },
+        {
+          "player": "Zachariah Branch",
+          "score": 85
+        },
+        {
+          "player": "Justin Jefferson",
+          "score": 96
+        },
+        {
+          "player": "Malik Willis",
+          "score": 96
+        }
+      ]
+    }
+  }
+}
